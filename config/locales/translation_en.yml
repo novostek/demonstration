@@ -1,0 +1,29 @@
+en:
+  breadcrumb:
+    show: "View"
+
+  placeholder:
+    search: "Search ..."
+
+  button:
+    back: "Back"
+    all: "View all"
+    save: "Save"
+    see_more: "See More"
+
+  false: "No"
+  true: "Yes"
+  created_at: "Created At"
+  finished_at: "Ended At"
+  start_time: "Starts At"
+
+  year: "year"
+  years: "years"
+  month: "month"
+  months: "months"
+  day: "day"
+  days: "days"
+  minute: "minute"
+  minutes: "minutes"
+  second: "second"
+  seconds: "seconds"

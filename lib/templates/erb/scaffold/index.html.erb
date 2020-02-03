@@ -1,0 +1,53 @@
+<section class="invoice-list-wrapper section">
+  <!-- create invoice button-->
+  <!-- Options and filter dropdown button-->
+  <div class="invoice-filter-action mr-3">
+    <div class="row">
+      <div class="col s9 m11">
+        <%%= search_form_for @q, url: request.env['PATH_INFO'] do |f|  %>
+          <%%= f.search_field :<%= attributes.first.name if attributes.present? %>_cont, placeholder: t('placeholder.search'), class: "search-ransack" %>
+        <%% end %>
+      </div>
+      <div class="col s3 m1">
+        <%%= link_to new_<%= singular_table_name %>_path, class:"btn-floating mb-1 waves-effect waves-light rigth" do %>
+          <i class="material-icons">add</i>
+        <%% end %>
+      </div>
+    </div>
+  </div>
+  <p></p>
+  <!-- create invoice button-->
+  <div class="responsive-table">
+    <style>td{padding: 15px}</style>
+    <table class="table invoice-data-table white border-radius-4 pt-1">
+      <thead>
+        <tr>
+<% attributes.reject(&:password_digest?).each do |attribute| -%>
+          <th><%%= t('activerecord.attributes.<%= model_resource_name %>.<%= attribute.name %>') %></th>
+<% end -%>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        <%% @<%= plural_table_name %>.each do |<%= singular_table_name %>| %>
+        <tr>
+<% attributes.reject(&:password_digest?).each do |attribute| -%>
+            <td><%%= <%= singular_table_name %>.<%= attribute.name %> %></td>
+<% end -%>
+          <td>
+            <div class="invoice-action right-align">
+              <%%= link_to <%= model_resource_name %>, class: "invoice-action-view mr-4" do %>
+                <i class="material-icons">remove_red_eye</i>
+              <%% end %>
+              <%%= link_to edit_<%= singular_route_name %>_path(<%= singular_table_name %>) , class: "invoice-action-edit mr-4" do %>
+                <i class="material-icons">edit</i>
+              <%% end %>
+            </div>
+          </td>
+        </tr>
+        <%% end %>
+      </tbody>
+    </table>
+  </div>
+  <%%= paginate(@<%= plural_table_name %>)  %>
+</section>

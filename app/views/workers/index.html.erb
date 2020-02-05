@@ -1,0 +1,77 @@
+<div class="content-wrapper-before gradient-45deg-indigo-purple"></div>
+			<div class="breadcrumbs-dark pb-0 pt-4" id="breadcrumbs-wrapper">
+				<!-- Search for small screen-->
+				<div class="container">
+					<div class="row">
+						<div class="col s10 m6 l6">
+							<h5 class="breadcrumbs-title mt-0 mb-0"><span><%= t('activerecord.models.workers') %></span></h5>
+							<ol class="breadcrumbs mb-0">
+								<li class="breadcrumb-item"><a href="/"><%= t('home') %></a>
+								</li>
+								<li class="breadcrumb-item"><a href="#"><%= t('activerecord.models.workers') %></a>
+								</li>
+								<li class="breadcrumb-item active"><%= t('breadcrumb.list') %>
+								</li>
+							</ol>
+						</div>
+						<div class="col s2 m6 l6"><a class="btn waves-effect waves-light breadcrumbs-btn right border-round" href="new_worker_path"><i class="material-icons hide-on-med-and-up">add</i><span class="hide-on-small-only"><%= t "add"  %> <%= t('activerecord.models.workers') %></span></a>
+						</div>
+					</div>
+				</div>
+			</div>
+<section class="invoice-list-wrapper section">
+  <!-- create invoice button-->
+  <!-- Options and filter dropdown button-->
+  <div class="invoice-filter-action mr-3">
+    <div class="row">
+    <%= search_form_for @q, url: request.env['PATH_INFO'] do |f|  %>
+      <div class="col s9 m11">
+          <%= f.search_field :name_cont, placeholder: t('placeholder.search'), class: "search-ransack" %>     
+      </div>
+      <div class="col s3 m1">
+        <button type="submit" class="btn-floating mb-1 waves-effect waves-light rigth">
+          <i class="material-icons">search</i>
+        </button>
+
+      </div>
+    <% end %>
+    </div>
+  </div>
+  <p></p>
+  <!-- create invoice button-->
+  <div class="responsive-table">
+    <style>td{padding: 15px}</style>
+    <table class="table invoice-data-table white border-radius-4 pt-1">
+      <thead>
+        <tr>
+          <th><%= t('activerecord.attributes.worker.name') %></th>
+          <th><%= t('activerecord.attributes.worker.photo') %></th>
+          <th><%= t('activerecord.attributes.worker.document_id') %></th>
+          <th><%= t('activerecord.attributes.worker.categories') %></th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @workers.each do |worker| %>
+        <tr>
+            <td><%= worker.name %></td>
+            <td><%= worker.photo %></td>
+            <td><%= worker.document_id %></td>
+            <td><%= worker.categories %></td>
+          <td>
+            <div class="invoice-action right-align">
+              <%= link_to worker, class: "invoice-action-view mr-4" do %>
+                <i class="material-icons">remove_red_eye</i>
+              <% end %>
+              <%= link_to edit_worker_path(worker) , class: "invoice-action-edit mr-4" do %>
+                <i class="material-icons">edit</i>
+              <% end %>
+            </div>
+          </td>
+        </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+  <%= paginate(@workers)  %>
+</section>

@@ -1,6 +1,8 @@
 en:
   breadcrumb:
     show: "View"
+    list: "List"
+    edit: "Edit"
 
   placeholder:
     search: "Search ..."
@@ -10,6 +12,7 @@ en:
     all: "View all"
     save: "Save"
     see_more: "See More"
+    add: "Add"
 
   false: "No"
   true: "Yes"

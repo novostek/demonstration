@@ -30,3 +30,10 @@ en:
   minutes: "minutes"
   second: "second"
   seconds: "seconds"
+
+
+  #atributes
+  name: "Name"
+  description: "Description"
+  color: "Color"
+  namespace: "Namespace"

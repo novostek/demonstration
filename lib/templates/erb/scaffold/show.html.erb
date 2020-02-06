@@ -27,7 +27,7 @@
 	
 <% attributes.reject(&:password_digest?).each do |attribute| -%>
   <p>
-    <strong><%= attribute.human_name %>:</strong>
+    <strong><%%= t('activerecord.attributes.<%= model_resource_name %>.<%= attribute.name %>') %>:</strong>
     <%%= @<%= singular_table_name %>.<%= attribute.name %> %>
   </p>
 

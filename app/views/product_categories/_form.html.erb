@@ -1,0 +1,49 @@
+<%= form_for(product_category) do |f| %>
+  <% if product_category.errors.any? %>
+    <div id="error_explanation" class="card-panel red white-text">
+      <h5><%= t('errors.template.header')  %>:</h5>
+
+      <ul>
+      <% product_category.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+<div class="card-panel">
+  
+  <div class="input-field">
+
+    <%= f.label t :name %>
+    <%= f.text_field :name %>
+    
+  </div>
+
+  <div class="input-field">
+
+    <%= f.label :description %>
+    <%= f.text_area :description, class:"materialize-textarea" %>
+    
+  </div>
+
+
+  <div id="colorpicker"></div>
+  <div class="input-field">
+
+    <%= f.label :color %>
+    <%= f.text_field :color %>
+    
+  </div>
+
+  <div class="input-field">
+
+    <%= f.label :namespace %>
+    <%= f.text_field :namespace %>
+    
+  </div>
+
+</div>
+  <div class="actions">
+    <%= f.submit t('button.save'), class:"btn" %>
+  </div>
+<% end %>

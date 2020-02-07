@@ -1,0 +1,8 @@
+en:
+  activerecord:
+    models:
+      supplier: "Suppliers"
+    attributes:
+      supplier:
+        name: "Name"
+        description: "Description"

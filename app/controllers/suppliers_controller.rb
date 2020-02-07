@@ -25,7 +25,7 @@ class SuppliersController < ApplicationController
     @supplier = Supplier.new(supplier_params)
 
     if @supplier.save
-      redirect_to @supplier, notice: 'Supplier foi criado com sucesso'
+      redirect_to @supplier, notice: 'Supplier was successfully created'
     else
       render :new
     end
@@ -34,7 +34,7 @@ class SuppliersController < ApplicationController
   # PATCH/PUT /suppliers/1
   def update
     if @supplier.update(supplier_params)
-      redirect_to @supplier, notice: 'Supplier foi atualizado com sucesso.'
+      redirect_to @supplier, notice: 'Supplier was successfully updated.'
     else
       render :edit
     end
@@ -43,7 +43,7 @@ class SuppliersController < ApplicationController
   # DELETE /suppliers/1
   def destroy
     @supplier.destroy
-    redirect_to suppliers_url, notice: 'Supplier foi apagado com sucesso.'
+    redirect_to suppliers_url, notice: 'Supplier was successfully deleted.'
   end
 
   private

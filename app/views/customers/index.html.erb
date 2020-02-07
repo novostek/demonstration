@@ -27,7 +27,7 @@
     <div class="row">
     <%= search_form_for @q, url: request.env['PATH_INFO'] do |f|  %>
       <div class="col s9 m11">
-          <%= f.search_field :name_cont, placeholder: t('placeholder.search'), class: "search-ransack" %>     
+          <%= f.search_field :name_or_document_id_or_code_cont, placeholder: t('placeholder.search'), class: "search-ransack" %>
       </div>
       <div class="col s3 m1">
 				<button type="submit" class="btn-floating mb-1 waves-effect waves-light rigth">

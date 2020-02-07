@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  resources :products
+  resources :document_files
   resources :product_categories
   resources :customers
   resources :workers

@@ -1,3 +1,16 @@
+# == Schema Information
+#
+# Table name: workers
+#
+#  id          :bigint           not null, primary key
+#  categories  :string
+#  name        :string
+#  photo       :text
+#  created_at  :datetime         not null
+#  updated_at  :datetime         not null
+#  document_id :string
+#
+
 # Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
 one:

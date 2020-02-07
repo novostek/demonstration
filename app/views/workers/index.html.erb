@@ -14,7 +14,7 @@
 								</li>
 							</ol>
 						</div>
-						<div class="col s2 m6 l6"><a class="btn waves-effect waves-light breadcrumbs-btn right border-round" href="new_worker_path"><i class="material-icons hide-on-med-and-up">add</i><span class="hide-on-small-only"><%= t "add"  %> <%= t('activerecord.models.workers') %></span></a>
+						<div class="col s2 m6 l6"><a class="btn waves-effect waves-light breadcrumbs-btn right border-round" href="<%= new_worker_path %>"><i class="material-icons hide-on-med-and-up">add</i><span class="hide-on-small-only"><%= t "add"  %> <%= t('activerecord.models.workers') %></span></a>
 						</div>
 					</div>
 				</div>
@@ -44,8 +44,9 @@
     <table class="table invoice-data-table white border-radius-4 pt-1">
       <thead>
         <tr>
-          <th><%= t('activerecord.attributes.worker.name') %></th>
           <th><%= t('activerecord.attributes.worker.photo') %></th>
+          <th><%= t('activerecord.attributes.worker.name') %></th>
+
           <th><%= t('activerecord.attributes.worker.document_id') %></th>
           <th><%= t('activerecord.attributes.worker.categories') %></th>
           <th></th>
@@ -54,10 +55,16 @@
       <tbody>
         <% @workers.each do |worker| %>
         <tr>
+          <td>
+            <!--<span class="avatar-contact avatar-online">-->
+              <img class="circle" src="<%= worker.photo.present? ? worker.photo.url : "" %>" alt="avatar">
+            <!--</span>-->
+            <%#= worker.photo %>
+          </td>
             <td><%= worker.name %></td>
-            <td><%= worker.photo %></td>
+
             <td><%= worker.document_id %></td>
-            <td><%= worker.categories %></td>
+            <td><%= worker.categories_text %></td>
           <td>
             <div class="invoice-action right-align">
               <%= link_to worker, class: "invoice-action-view mr-4" do %>

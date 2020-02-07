@@ -1,0 +1,11 @@
+en:
+  activerecord:
+    models:
+      calculation_formulas: "Calculation Formula"
+    attributes:
+      calculation_formula:
+        name: "Nameeee"
+        formula: "Formula"
+        description: "Description"
+        tax: "Tax"
+        namespace: "Namespace"

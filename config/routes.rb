@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :calculation_formulas
   resources :contacts
   resources :notes
   resources :suppliers

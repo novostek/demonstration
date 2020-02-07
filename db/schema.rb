@@ -10,10 +10,20 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_02_05_025046) do
+ActiveRecord::Schema.define(version: 2020_02_07_011903) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "contacts", force: :cascade do |t|
+    t.string "category"
+    t.string "title"
+    t.json "value"
+    t.string "origin"
+    t.integer "origin_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
 
   create_table "customers", force: :cascade do |t|
     t.string "name"
@@ -26,9 +36,35 @@ ActiveRecord::Schema.define(version: 2020_02_05_025046) do
     t.datetime "updated_at", precision: 6, null: false
   end
 
+  create_table "notes", force: :cascade do |t|
+    t.string "title", null: false
+    t.text "text", null: false
+    t.boolean "private"
+    t.string "origin", null: false
+    t.integer "origin_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "product_categories", force: :cascade do |t|
+    t.string "name"
+    t.text "description"
+    t.string "color"
+    t.string "namespace"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
   create_table "settings", force: :cascade do |t|
     t.string "namespace"
     t.json "value"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "suppliers", force: :cascade do |t|
+    t.string "name", null: false
+    t.text "description"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end

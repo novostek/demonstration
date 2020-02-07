@@ -1,4 +1,8 @@
 Rails.application.routes.draw do
+  resources :contacts
+  resources :notes
+  resources :suppliers
+  resources :product_categories
   resources :customers
   resources :workers
   resources :settings

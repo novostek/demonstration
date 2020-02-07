@@ -1,0 +1,54 @@
+<div class="breadcrumbs-dark pb-0 pt-4" id="breadcrumbs-wrapper">
+  <!-- Search for small screen-->
+  <div class="container">
+    <div class="row">
+      <div class="col s10 m6 l6">
+        <h5 class="breadcrumbs-title mt-0 mb-0"><span><%= t('activerecord.models.note') %></span></h5>
+        <ol class="breadcrumbs mb-0">
+          <li class="breadcrumb-item"><a href="/"><%= t('home') %></a>
+          </li>
+          <li class="breadcrumb-item"><a href="#"><%= t('activerecord.models.note') %></a>
+          </li>
+          <li class="breadcrumb-item active"><%= t('breadcrumb.show') %>
+          </li>
+        </ol>
+      </div>
+      <div class="col s2 m6 l6">
+        <%= link_to t('button.all'), notes_path, class:"btn waves-effect waves-light breadcrumbs-btn right" %>
+        <%= link_to edit_note_path(@note) , class: "btn-flat waves-effect waves-light breadcrumbs-btn right" do %>
+          <i class="material-icons">edit</i>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="card-panel">
+	
+  <p>
+    <strong>Title:</strong>
+    <%= @note.title %>
+  </p>
+
+  <p>
+    <strong>Text:</strong>
+    <%= @note.text %>
+  </p>
+
+  <p>
+    <strong>Private:</strong>
+    <%= @note.private %>
+  </p>
+
+  <p>
+    <strong>Origin:</strong>
+    <%= @note.origin %>
+  </p>
+
+  <p>
+    <strong>Origin:</strong>
+    <%= @note.origin_id %>
+  </p>
+
+</div>
+

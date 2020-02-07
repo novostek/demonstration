@@ -26,7 +26,7 @@
     <%- if attribute.reference? -%>
     <%%= f.collection_select :<%= attribute.column_name %>, <%= attribute.name.camelize %>.all, :id, :name, prompt: true  %>
     <% else %>
-    <%%= f.label :<%= attribute.column_name %> %>
+    <%%= f.label t :<%= attribute.column_name %> %>
     <%%= f.<%= attribute.field_type %> :<%= attribute.column_name %> %>
     <% end %>
 <% end -%>

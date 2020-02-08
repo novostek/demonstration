@@ -13,6 +13,7 @@ en:
     save: "Save"
     see_more: "See More"
     add: "Add"
+    delete: "Delete"
 
   false: "No"
   true: "Yes"
@@ -38,3 +39,4 @@ en:
   color: "Color"
   namespace: "Namespace"
   notes: "Notes"
+  documents: "Documents"

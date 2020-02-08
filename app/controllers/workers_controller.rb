@@ -54,6 +54,7 @@ class WorkersController < ApplicationController
 
     # Only allow a trusted parameter "white list" through.
     def worker_params
-      params.require(:worker).permit(:name, :photo, :document_id, :categories)
+      params.require(:worker).permit(:name, :photo, :document_id, :categories, notes_attributes:[:id,:origin,:origin_id,:private,:text,:title,:_destroy],
+                                     document_files_attributes:[:id,:title,:file,:origin, :origin_id,:esign,:esign_data,:photo,:photo_date,:photo_description,:_destroy])
     end
 end

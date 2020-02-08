@@ -13,4 +13,8 @@
 #
 
 class Contact < ApplicationRecord
+
+  extend Enumerize
+
+  enumerize :category, in: [:phone, :address, :email], predicates: true
 end

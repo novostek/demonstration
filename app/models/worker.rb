@@ -19,4 +19,13 @@ class Worker < ApplicationRecord
   extend Enumerize
 
   enumerize :categories, in: [:employee, :contractor]
+
+  has_many :notes, -> { where origin: :Worker }, primary_key: :id, foreign_key: :origin_id
+  has_many :contacts, -> { where origin: :Worker }, primary_key: :id, foreign_key: :origin_id
+  has_many :document_files, -> { where origin: :Worker }, primary_key: :id, foreign_key: :origin_id
+
+  accepts_nested_attributes_for :notes, allow_destroy: true
+  accepts_nested_attributes_for :contacts, allow_destroy: true
+  accepts_nested_attributes_for :document_files, allow_destroy: true
+
 end

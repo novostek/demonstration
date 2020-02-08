@@ -1,6 +1,10 @@
 Rails.application.routes.draw do
   resources :products
   resources :document_files
+  resources :calculation_formulas
+  resources :contacts
+  resources :notes
+  resources :suppliers
   resources :product_categories
   resources :customers
   resources :workers

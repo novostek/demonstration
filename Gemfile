@@ -66,3 +66,5 @@ gem 'carrierwave', '~> 2.0'
 gem "fog-aws"
 
 gem 'enumerize'
+
+gem "cocoon"

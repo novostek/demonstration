@@ -1,0 +1,29 @@
+# == Schema Information
+#
+# Table name: calculation_formulas
+#
+#  id          :bigint           not null, primary key
+#  description :string
+#  formula     :string
+#  name        :string
+#  namespace   :string
+#  tax         :boolean
+#  created_at  :datetime         not null
+#  updated_at  :datetime         not null
+#
+
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  name: MyString
+  formula: MyString
+  description: MyString
+  taz: false
+  namespace: MyString
+
+two:
+  name: MyString
+  formula: MyString
+  description: MyString
+  taz: false
+  namespace: MyString

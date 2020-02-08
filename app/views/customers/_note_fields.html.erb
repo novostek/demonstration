@@ -1,0 +1,21 @@
+<div class="row nested-fields">
+  <div class="field col l4 s12">
+    <%= f.label :title %>
+
+
+  </div>
+
+  <% if !f.object.new_record?  %>
+      <div class="input col s12 l3">
+        <%= f.label :data_inicio, "Data início" %> <br>
+        <%= f.object.data_inicio %>
+      </div>
+  <% end %>
+
+
+  <div class="col s12 l2">
+    <%= link_to_remove_association raw('<i class="material-icons left">remove_circle</i> '), f, class: "btn waves-effect waves-light red left white-text" if f.object.new_record? %>
+  </div>
+
+</div>
+

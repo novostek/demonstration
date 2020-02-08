@@ -14,6 +14,11 @@
 #
 
 class Customer < ApplicationRecord
+
+  has_many :notes, -> { where origin: :Customer }, primary_key: :id, foreign_key: :origin_id
+
+  accepts_nested_attributes_for :notes, allow_destroy: true
+
   extend Enumerize
 
   enumerize :category, in: [:company, :person]

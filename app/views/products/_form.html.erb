@@ -15,14 +15,14 @@
   <div class="input-field">
 
     <%= f.label  :name %>
-    <%= f.text_field :name %>
+    <%= f.text_field :name, required: true %>
     
   </div>
 
   <div class="input-field">
 
     <%= f.label  :uuid %>
-    <%= f.text_field :uuid %>
+    <%= f.text_field :uuid, required: true %>
     
   </div>
 
@@ -37,6 +37,18 @@
     <%= f.select :product_category_id, @categories, {prompt: true}  %>
     <%= f.label  :product_category_id %>
     
+  </div>
+
+  <div class="input-field">
+    <%= f.select :supplier_id, @suppliers, {prompt: true}  %>
+    <%= f.label  :supplier_id %>
+
+  </div>
+
+  <div class="input-field">
+    <%= f.select :calculation_formula_id, @formulas, {prompt: true} %>
+    <%= f.label  :calculation_formula_id %>
+
   </div>
 
   <div class="input-field">

@@ -52,6 +52,8 @@ class ProductsController < ApplicationController
     #Método que carrega os objetos de seleção
     def set_combos
       @categories = ProductCategory.to_select
+      @formulas = CalculationFormula.to_select
+      @suppliers = Supplier.to_select
     end
     # Use callbacks to share common setup or constraints between actions.
     def set_product
@@ -60,6 +62,6 @@ class ProductsController < ApplicationController
 
     # Only allow a trusted parameter "white list" through.
     def product_params
-      params.require(:product).permit(:name, :uuid, :details, :product_category_id, :customer_price, :cost_price, :area_covered, :tax, :bpm_purchase)
+      params.require(:product).permit(:calculation_formula_id,:supplier_id,:name, :uuid, :details, :product_category_id, :customer_price, :cost_price, :area_covered, :tax, :bpm_purchase)
     end
 end

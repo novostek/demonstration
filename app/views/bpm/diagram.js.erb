@@ -1,0 +1,50 @@
+$("#menu_task").children("li").removeClass("active");
+$("#menu_task").children("li").removeClass("white-text");
+$("#diagram").addClass("active");
+$("#diagram").addClass("white-text");
+$('#process_card').html('<div id="canvas" style="min-height: 300px"></div>')
+var diagramUrl = '<%= @url %>';
+// viewer instance
+var bpmnViewer = new BpmnJS({
+    container: '#canvas'
+});
+/**
+ * Open diagram in our viewer instance.
+ *
+ * @param {String} bpmnXML diagram to display
+ */
+function openDiagram(bpmnXML) {
+    // import diagram
+    bpmnViewer.importXML(bpmnXML, function(err) {
+        if (err) {
+            return console.error('could not import BPMN 2.0 diagram', err);
+        }
+        // access viewer components
+        var canvas = bpmnViewer.get('canvas');
+        var overlays = bpmnViewer.get('overlays');
+        // zoom to fit full viewport
+        canvas.zoom('fit-viewport');
+        // attach an overlay to a node
+        var elementRegistry = bpmnViewer.get('elementRegistry');
+    <% if @tasks.present? %>
+        var shape = elementRegistry.get('<%= @tasks.first[:activityId] %>');
+
+        var $overlayHtml =
+            $('<div class="highlight-overlay">')
+                .css({
+                    width: shape.width + 10,
+                    height: shape.height + 10
+                });
+
+        overlays.add('<%= @tasks.first[:activityId] %>', {
+            position: {
+                top: -5,
+                left: -5
+            },
+            html: $overlayHtml
+        });
+    <% end %>
+    });
+}
+// load external diagram file via AJAX and open it
+$.get(diagramUrl, openDiagram, 'text');

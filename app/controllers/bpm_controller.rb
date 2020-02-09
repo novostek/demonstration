@@ -123,6 +123,10 @@ class BpmController < ApplicationController
     end
   end
 
+  def callback
+    binding.pry
+  end
+
   private
   def get_my_tasks
     @tasks = BpmApi.call(

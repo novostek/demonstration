@@ -1,4 +1,12 @@
 Rails.application.routes.draw do
+  get 'bpmn_editor/list'
+  get 'bpmn_editor/editor'
+  get 'bpmn_editor/deploy'
+  resources :calculation_formulas
+  resources :contacts
+  resources :notes
+  resources :suppliers
+  resources :product_categories
   resources :customers
   resources :workers
   resources :settings
@@ -16,6 +24,7 @@ Rails.application.routes.draw do
   get 'bpm/process_activity/:id' => "bpm#process_activity", as: :bpm_process_activity
   get 'bpm/comments/:id' => "bpm#comments", as: :bpm_comments
   get 'bpm/diagram/:id' => "bpm#diagram", as: :bpm_diagram
+  get 'bpm/callback/:id' => "bpm#callback", as: :bpm_callback
   post 'bpm/start' => "bpm#create_instance", as: :create_instance
   post 'bpm/complete_task' => "bpm#fix_task", as: :bpm_fix_task
 

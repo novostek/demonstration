@@ -1,0 +1,15 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  category: 
+  title: MyString
+  value: 
+  origin: MyString
+  origin_id: 1
+
+two:
+  category: 
+  title: MyString
+  value: 
+  origin: MyString
+  origin_id: 1

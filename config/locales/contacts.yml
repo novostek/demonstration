@@ -1,0 +1,11 @@
+en:
+  activerecord:
+    models:
+      contact: "Contacts"
+    attributes:
+      contact:
+        category: "Category"
+        title: "Title"
+        value: "Value"
+        origin: "Origin"
+        origin_id: "Origin ID"

@@ -1,18 +1,23 @@
 class BpmApi
 
   #Define BPM URL provider
-  def self.provider
-    'http://localhost:8080/engine-rest/'
+  def self.provider(user=nil, password=nil)
+    "http://#{user || credentials[:user] }:#{password || credentials[:password]}@localhost:8080/engine-rest/"
+  end
+
+  #Define default credentials
+  def self.credentials
+    {user: "demo", password: "demo"}
   end
 
   #Method to return defaults api's calls
-  def self.call(endereco, method=:get, params={})
+  def self.call(endereco, method=:get, params={}, credentials={user: nil, password:nil})
     if method == :get
       params_url  = URI.unescape(params.to_param)
-      endereco = provider + endereco +"?"+ params_url
+      endereco = provider(credentials[:user], credentials[:password]) + endereco +"?"+ params_url
       call = RestClient.send(method, endereco)
     else
-      endereco = provider + endereco
+      endereco = provider(credentials[:user], credentials[:password]) + endereco
       call = RestClient.send(method, endereco, params.to_json, content_type: :json)
     end
     if call.code == 204
@@ -77,13 +82,15 @@ class BpmApi
     variables_f = []
     variables.map do |variable|
       field = fields[:form]["#{variable[:name]}"]
-      name = field[:name]
-      category =  field[:properties].present? ? field[:properties][:category] || "string" : "string"
-      link = ""
-      if category == "reference"
-        link = "/#{name.delete('Reference').tableize}/#{variable[:value]}"
+      if field.present?
+        name = field[:name]
+        category =  field[:properties].present? ? field[:properties][:category] || "string" : "string"
+        link = ""
+        if category == "reference"
+          link = "/#{name.delete('Reference').tableize}/#{variable[:value]}"
+        end
+        variables_f << {name: name, category: category, value: variable[:value], key: variable[:name], link: link}
       end
-      variables_f << {name: name, category: category, value: variable[:value], key: variable[:name], link: link}
     end
     variables_f
   end

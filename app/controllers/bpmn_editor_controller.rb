@@ -23,6 +23,7 @@ class BpmnEditorController < ApplicationController
           :headers => {:content_type => 'multipart/form-data', :accept => 'application/json'},
           :payload => {multipart: true, file: File.new(filename, 'rb') }
       )
+      File.delete(filename) if File.exist?(filename)
       render js: "alert('Deployed!')"
     rescue
       render js: "alert('Error, try again later')"

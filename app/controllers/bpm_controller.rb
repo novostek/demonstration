@@ -2,6 +2,7 @@ class BpmController < ApplicationController
   before_action :get_my_tasks, only:[:tasks, :assignee_tasks]
   before_action :get_task, only:[:task, :complete_task, :task_information, :fix_task]
   before_action :set_bpm_user
+  before_action :cors_set_access_control_headers, only: [:diagram]
   def start_process
     @form_fields = BpmApi.get_form(params[:process])
   end
@@ -89,9 +90,14 @@ class BpmController < ApplicationController
   end
 
   def diagram
+    if params[:key].present?
+      @url = "process-definition/#{params[:key]}/#{params[:id]}/xml"
+    else
+      @url = "process-definition/#{params[:id]}/xml"
+    end
     respond_to do |format|
       format.xml {
-        @diagram = BpmApi.call("process-definition/#{params[:id]}/xml",)
+        @diagram = BpmApi.call(@url)
         render json: @diagram[:bpmn20Xml]
       }
       format.js{
@@ -142,5 +148,11 @@ class BpmController < ApplicationController
 
   def set_bpm_user
     @bpm_user = "lucascunha" #current_user.bpm_username
+  end
+  def cors_set_access_control_headers
+    headers['Access-Control-Allow-Origin'] = '*'
+    headers['Access-Control-Allow-Methods'] = 'POST, PUT, DELETE, GET, PATCH, OPTIONS'
+    headers['Access-Control-Request-Method'] = '*'
+    headers['Access-Control-Allow-Headers'] = 'Origin, X-Requested-With, Content-Type, Accept, Authorization'
   end
 end

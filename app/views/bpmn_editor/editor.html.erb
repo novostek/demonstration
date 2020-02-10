@@ -1,2 +1,105 @@
-<h1>BpmnEditor#editor</h1>
-<p>Find me in app/views/bpmn_editor/editor.html.erb</p>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Woffice BPMN Editor</title>
+  <link rel="apple-touch-icon" href="/materialize/images/favicon/apple-touch-icon-152x152.png">
+  <link rel="shortcut icon" type="image/x-icon" href="/materialize/images/favicon/favicon-32x32.png">
+  <link rel="stylesheet" type="text/css" href="/materialize/css/themes/vertical-modern-menu-template/materialize.css">
+  <link rel="stylesheet" type="text/css" href="/materialize/css/themes/vertical-modern-menu-template/style.css">
+  <link rel="stylesheet" type="text/css" href="/materialize/css/custom/custom.css">
+  <link rel="stylesheet" href="/editorjs/dist/css/diagram-js.css" />
+  <link rel="stylesheet" href="/editorjs/dist/vendor/bpmn-font/css/bpmn-embedded.css" />
+  <link rel="stylesheet" href="/editorjs/dist/css/app.css" />
+  <style>
+    ul.bpp-properties-tabs-links{
+      margin: 0px !important;
+    }
+    .content.with-diagram .properties-panel-parent {
+      background-color: #f9f9f9;
+      display: block;
+    }
+    select{
+      display: block !important;
+    }
+    .djs-palette {
+      left: 70px !important;
+    }
+
+    #btns{
+      padding-left: 50px;
+    }
+      .with-diagram{
+        background: white;
+      }
+
+      .btn-save{
+        color: white !important;
+        background-color: #0a6aa1 !important;
+        opacity: 1 !important;
+
+      }
+  </style>
+
+</head>
+<body class="vertical-layout vertical-menu-collapsible page-header-dark vertical-modern-menu preload-transitions 2-columns   menu-collapse" data-open="click" data-menu="vertical-modern-menu" data-col="2-columns">
+<%= render 'layouts/navside' %>
+  <div class="content with-diagram" id="js-drop-zone">
+    <input type="hidden" id="url" value="<%= @url %>">
+    <input type="hidden" id="url_deploy" value="/bpmn_editor/deploy">
+    <div class="message intro">
+      <div class="note">
+        <h2 class="center">Woffice BPMN Editor</h2>
+        Drop BPMN diagram from your desktop or <a id="js-create-diagram" href>edit current diagram</a> to get started.
+      </div>
+    </div>
+
+    <div class="message error">
+      <div class="note">
+        <p>Ooops, we could not display the BPMN 2.0 diagram.</p>
+
+        <div class="details">
+          <span>Import Error Details</span>
+          <pre></pre>
+        </div>
+      </div>
+    </div>
+
+    <div class="canvas" id="js-canvas"></div>
+    <div class="properties-panel-parent" id="js-properties-panel"></div>
+  </div>
+  <ul class="buttons" id="btns">
+    <li>
+      download
+    </li>
+    <li>
+      <a id="js-download-diagram" href title="download BPMN diagram">
+        BPMN diagram
+      </a>
+    </li>
+    <li>
+      <a id="js-download-svg" href title="download as SVG image">
+        SVG image
+      </a>
+    </li>
+    <li>
+      <a id="saveXml" class="btn-save">
+        Deploy to Production
+      </a>
+    </li>
+  </ul>
+
+
+<script src="/editorjs/dist/index.js"></script>
+<script src="/materialize/js/vendors.min.js"></script>
+<script src="/materialize/js/plugins.js"></script>
+<script src="/materialize/js/search.js"></script>
+<script src="/materialize/js/custom/custom-script.js"></script>
+<script type="text/javascript" charset="utf-8">
+  setTimeout(
+      function(){
+
+      },300
+  )
+</script>
+</body>
+</html>

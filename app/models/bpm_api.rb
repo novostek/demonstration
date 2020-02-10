@@ -1,4 +1,4 @@
-class BpmApi
+module BpmApi
 
   #Define BPM URL provider
   def self.provider(user=nil, password=nil)

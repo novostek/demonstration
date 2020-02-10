@@ -1,7 +1,4 @@
 Rails.application.routes.draw do
-  get 'bpmn_editor/list'
-  get 'bpmn_editor/editor'
-  get 'bpmn_editor/deploy'
   resources :calculation_formulas
   resources :contacts
   resources :notes
@@ -12,7 +9,7 @@ Rails.application.routes.draw do
   resources :settings
 
   #BPM routes
-  get 'bpm/start/:process' => "bpm#start_process"
+  get 'bpm/start/:process' => "bpm#start_process", as: :bpm_start_process
   get 'bpm/tasks' => "bpm#tasks", as: :bpm_tasks
   get 'bpm/assignee_tasks' => "bpm#assignee_tasks", as: :bpm_assignee_tasks
   get 'bpm/assignee_group_tasks' => "bpm#assignee_group_tasks", as: :bpm_assignee_group_tasks
@@ -24,9 +21,15 @@ Rails.application.routes.draw do
   get 'bpm/process_activity/:id' => "bpm#process_activity", as: :bpm_process_activity
   get 'bpm/comments/:id' => "bpm#comments", as: :bpm_comments
   get 'bpm/diagram/:id' => "bpm#diagram", as: :bpm_diagram
+  get 'bpm/diagram/:key/:id' => "bpm#diagram", as: :bpm_diagram_with_key
   get 'bpm/callback/:id' => "bpm#callback", as: :bpm_callback
   post 'bpm/start' => "bpm#create_instance", as: :create_instance
   post 'bpm/complete_task' => "bpm#fix_task", as: :bpm_fix_task
 
+
+  #Bpmn Editor
+  post 'bpmn_editor/deploy' => "bpmn_editor#deploy", as: :bpmn_editor_deploy
+  get 'bpmn_editor/' => "bpmn_editor#list", as: :bpmn_editor_list
+  get 'bpmn_editor/process/:id' => "bpmn_editor#editor", as: :bpmn_editor
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
 end

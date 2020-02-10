@@ -1,0 +1,84 @@
+<div class="breadcrumbs-dark pb-0 pt-4" id="breadcrumbs-wrapper">
+  <!-- Search for small screen-->
+  <div class="container">
+    <div class="row">
+      <div class="col s10 m6 l6">
+        <h5 class="breadcrumbs-title mt-0 mb-0"><span><%= t('activerecord.models.product') %></span></h5>
+        <ol class="breadcrumbs mb-0">
+          <li class="breadcrumb-item"><a href="/"><%= t('home') %></a>
+          </li>
+          <li class="breadcrumb-item"><a href="#"><%= t('activerecord.models.product') %></a>
+          </li>
+          <li class="breadcrumb-item active"><%= t('breadcrumb.show') %>
+          </li>
+        </ol>
+      </div>
+      <div class="col s2 m6 l6">
+        <%= link_to t('button.all'), products_path, class:"btn waves-effect waves-light breadcrumbs-btn right" %>
+        <%= link_to edit_product_path(@product) , class: "btn-flat waves-effect waves-light breadcrumbs-btn right" do %>
+          <i class="material-icons">edit</i>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="card-panel">
+	
+  <p>
+    <strong><%= t('activerecord.attributes.product.name') %>:</strong>
+    <%= @product.name %>
+  </p>
+
+  <p>
+    <strong><%= t('activerecord.attributes.product.uuid') %>:</strong>
+    <%= @product.uuid %>
+  </p>
+
+  <p>
+    <strong><%= t('activerecord.attributes.product.details') %>:</strong>
+    <%= @product.details %>
+  </p>
+
+  <p>
+    <strong><%= t('activerecord.attributes.product.product_category') %>:</strong>
+    <%= @product.product_category %>
+  </p>
+
+  <p>
+    <strong><%= t('activerecord.attributes.product.supplier_id') %>:</strong>
+    <%= @product.supplier %>
+  </p>
+
+  <p>
+    <strong><%= t('activerecord.attributes.product.calculation_formula_id') %>:</strong>
+    <%= @product.calculation_formula %>
+  </p>
+
+  <p>
+    <strong><%= t('activerecord.attributes.product.customer_price') %>:</strong>
+    <%= @product.customer_price %>
+  </p>
+
+  <p>
+    <strong><%= t('activerecord.attributes.product.cost_price') %>:</strong>
+    <%= @product.cost_price %>
+  </p>
+
+  <p>
+    <strong><%= t('activerecord.attributes.product.area_covered') %>:</strong>
+    <%= @product.area_covered %>
+  </p>
+
+  <p>
+    <strong><%= t('activerecord.attributes.product.tax') %>:</strong>
+    <%= @product.tax %>
+  </p>
+
+  <p>
+    <strong><%= t('activerecord.attributes.product.bpm_purchase') %>:</strong>
+    <%= @product.bpm_purchase %>
+  </p>
+
+</div>
+

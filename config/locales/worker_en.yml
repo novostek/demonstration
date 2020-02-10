@@ -1,0 +1,13 @@
+en:
+  activerecord:
+    attributes:
+      worker:
+        name: "Name"
+        photo: "Photo"
+        document_id: "DocumentID"
+        categories: "Category"
+  enumerize:
+    worker:
+      categories:
+        employee: "Employee"
+        contractor: "Contractor"

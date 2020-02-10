@@ -26,24 +26,78 @@
 <div class="card-panel">
 	
   <p>
-    <strong>Name:</strong>
+    <strong><%= t("activerecord.attributes.worker.name") %>:</strong>
     <%= @worker.name %>
   </p>
 
   <p>
-    <strong>Photo:</strong>
-    <%= @worker.photo %>
+    <strong><%= t("activerecord.attributes.worker.photo") %>:</strong>
+    <% if @worker.photo.present? %>
+        <img src="<%= @worker.photo.url %>" alt="">
+    <% end %>
+    
   </p>
 
   <p>
-    <strong>Document:</strong>
+    <strong><%= t("activerecord.attributes.worker.document_id") %>:</strong>
     <%= @worker.document_id %>
   </p>
 
   <p>
-    <strong>Categories:</strong>
+    <strong><%= t("activerecord.attributes.worker.categories") %>:</strong>
     <%= @worker.categories %>
   </p>
+
+  <div class="card">
+    <div class="card-content">
+      <span class="card-title"><%= t :notes %></span>
+      <table>
+        <thead>
+        <tr>
+          <th><%= t "activerecord.attributes.note.title" %></th>
+          <th><%= t "activerecord.attributes.note.text" %></th>
+        </tr>
+        </thead>
+        <tbody>
+        <% @worker.notes.each do |note| %>
+            <tr>
+              <td><%= note.title %></td>
+              <td><%= note.text %></td>
+            </tr>
+        <% end %>
+        </tbody>
+      </table>
+
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-content">
+      <span class="card-title"><%= t :documents %></span>
+      <table>
+        <thead>
+        <tr>
+          <th><%= t "activerecord.attributes.document_file.title.title" %></th>
+          <th><%= t "activerecord.attributes.document_file.file" %></th>
+        </tr>
+        </thead>
+        <tbody>
+        <% @worker.document_files.each do |doc| %>
+            <tr>
+              <td><%= doc.title %></td>
+              <td>
+                <%= link_to  doc.file.url, target:"_blank" do  %>
+                    <i class="material-icons">remove_red_eye</i>
+                <% end  if doc.file.present? %>
+              </td>
+            </tr>
+        <% end %>
+        </tbody>
+      </table>
+
+    </div>
+  </div>
+
 
 </div>
 

@@ -1,0 +1,15 @@
+en:
+  activerecord:
+    attributes:
+      product:
+        name: "Name"
+        uuid: "UUID"
+        product_category_id: "Category"
+        customer_price: "Customer Price"
+        cost_price: "Cost Price"
+        area_covered: "Area Covered"
+        tax: "Tax"
+        bpm_purchase: "BPM Purchase"
+        supplier_id: "Supplier"
+        calculation_formula_id: "Calculation Formula"
+

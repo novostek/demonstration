@@ -1,0 +1,16 @@
+en:
+  activerecord:
+    attributes:
+      customer:
+        name: "Name"
+        since: "Since"
+        document_id: "DocumentID"
+        category: "Category"
+        code: "Code"
+        birthdate: "BirthDate"
+  enumerize:
+    customer:
+      category:
+        company: "Company"
+        person: "Person"
+

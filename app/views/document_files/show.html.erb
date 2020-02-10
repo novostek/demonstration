@@ -1,0 +1,74 @@
+<div class="breadcrumbs-dark pb-0 pt-4" id="breadcrumbs-wrapper">
+  <!-- Search for small screen-->
+  <div class="container">
+    <div class="row">
+      <div class="col s10 m6 l6">
+        <h5 class="breadcrumbs-title mt-0 mb-0"><span><%= t('activerecord.models.document_file') %></span></h5>
+        <ol class="breadcrumbs mb-0">
+          <li class="breadcrumb-item"><a href="/"><%= t('home') %></a>
+          </li>
+          <li class="breadcrumb-item"><a href="#"><%= t('activerecord.models.document_file') %></a>
+          </li>
+          <li class="breadcrumb-item active"><%= t('breadcrumb.show') %>
+          </li>
+        </ol>
+      </div>
+      <div class="col s2 m6 l6">
+        <%= link_to t('button.all'), document_files_path, class:"btn waves-effect waves-light breadcrumbs-btn right" %>
+        <%= link_to edit_document_file_path(@document_file) , class: "btn-flat waves-effect waves-light breadcrumbs-btn right" do %>
+          <i class="material-icons">edit</i>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="card-panel">
+	
+  <p>
+    <strong><%= t('activerecord.attributes.document_file.title') %>:</strong>
+    <%= @document_file.title %>
+  </p>
+
+  <p>
+    <strong><%= t('activerecord.attributes.document_file.file') %>:</strong>
+    <%= link_to "Download", @document_file.file.url, {target:"_blank"} %>
+  </p>
+
+  <p>
+    <strong><%= t('activerecord.attributes.document_file.origin') %>:</strong>
+    <%= @document_file.origin %>
+  </p>
+
+  <p>
+    <strong><%= t('activerecord.attributes.document_file.origin_id') %>:</strong>
+    <%= @document_file.origin_id %>
+  </p>
+
+  <p>
+    <strong><%= t('activerecord.attributes.document_file.esign') %>:</strong>
+    <%= @document_file.esign %>
+  </p>
+
+  <p>
+    <strong><%= t('activerecord.attributes.document_file.esign_data') %>:</strong>
+    <%= @document_file.esign_data %>
+  </p>
+
+  <p>
+    <strong><%= t('activerecord.attributes.document_file.photo') %>:</strong>
+    <%= @document_file.photo %>
+  </p>
+
+  <p>
+    <strong><%= t('activerecord.attributes.document_file.photo_date') %>:</strong>
+    <%= @document_file.photo_date %>
+  </p>
+
+  <p>
+    <strong><%= t('activerecord.attributes.document_file.photo_description') %>:</strong>
+    <%= @document_file.photo_description %>
+  </p>
+
+</div>
+

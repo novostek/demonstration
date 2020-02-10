@@ -1,0 +1,29 @@
+<div class="row nested-fields">
+
+  <div class="input-field col l4 s12">
+    <%= f.label :title %>
+    <%= f.text_field :title, required:true %>
+  </div>
+
+  <div class="col s12 l6">
+    <div class="file-field input-field">
+      <div class="btn">
+        <span><%= f.label  :file %></span>
+        <%= f.file_field :file %>
+        <%= f.hidden_field :file_cache %>
+      </div>
+      <div class="file-path-wrapper">
+        <input class="file-path validate" type="text">
+      </div>
+    </div>
+  </div>
+
+
+  <div class="col s12 l2">
+    <%= link_to_remove_association  f, class: "btn waves-effect waves-light red left white-text" do %>
+        <i class="material-icons left">remove_circle</i> <%= t "button.delete" %>
+    <% end %>
+  </div>
+
+</div>
+

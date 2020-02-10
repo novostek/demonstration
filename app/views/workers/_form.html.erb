@@ -15,15 +15,19 @@
   <div class="input-field">
 
     <%= f.label :name %>
-    <%= f.text_field :name %>
+    <%= f.text_field :name, required: true %>
     
   </div>
 
-  <div class="input-field">
-
-    <%= f.label :photo %>
-    <%= f.text_area :photo %>
-    
+  <div class="file-field input-field">
+    <div class="btn">
+      <span><%= f.label  :photo %></span>
+      <%= f.file_field :photo %>
+      <%= f.hidden_field :photo_cache %>
+    </div>
+    <div class="file-path-wrapper">
+      <input class="file-path validate" type="text">
+    </div>
   </div>
 
   <div class="input-field">
@@ -35,9 +39,35 @@
 
   <div class="input-field">
 
+
+    <%= f.select :categories, Worker.categories.options, {required: true, prompt: true} %>
     <%= f.label :categories %>
-    <%= f.text_field :categories %>
-    
+  </div>
+
+  <div class="card">
+    <div class="card-content">
+      <span class="card-title"><%= t :notes %></span>
+      <%= f.fields_for :notes do |note| %>
+          <%= render 'note_fields', f: note %>
+      <% end %>
+
+    </div>
+    <div class="card-action">
+      <%= link_to_add_association raw('<i class="material-icons left">add_circle</i>'), f, :notes, class: "btn  waves-light  left white-text" %>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-content">
+      <span class="card-title"><%= t :documents %></span>
+      <%= f.fields_for :document_files do |docs| %>
+          <%= render 'document_file_fields', f: docs %>
+      <% end %>
+
+    </div>
+    <div class="card-action">
+      <%= link_to_add_association raw('<i class="material-icons left">add_circle</i>'), f, :document_files, class: "btn  waves-light  left white-text" %>
+    </div>
   </div>
 
 </div>

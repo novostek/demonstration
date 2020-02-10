@@ -9,3 +9,9 @@ en:
         value: "Value"
         origin: "Origin"
         origin_id: "Origin ID"
+  enumerize:
+    contact:
+      category:
+        phone: "Phone"
+        email: "E-mail"
+        address: "Address"

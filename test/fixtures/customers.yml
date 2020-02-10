@@ -1,3 +1,18 @@
+# == Schema Information
+#
+# Table name: customers
+#
+#  id          :bigint           not null, primary key
+#  birthdate   :date
+#  category    :string
+#  code        :string
+#  name        :string
+#  since       :date
+#  created_at  :datetime         not null
+#  updated_at  :datetime         not null
+#  document_id :string
+#
+
 # Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
 one:

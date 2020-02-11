@@ -23,7 +23,7 @@ class WorkersController < ApplicationController
   # POST /workers
   def create
     @worker = Worker.new(worker_params)
-
+    @worker.value = params[:value]
     if @worker.save
       redirect_to @worker, notice: 'Worker foi criado com sucesso'
     else
@@ -33,6 +33,12 @@ class WorkersController < ApplicationController
 
   # PATCH/PUT /workers/1
   def update
+
+    # if params[:value].present?
+    #   value = JSON.parse(params[:value].to_json)
+    #   params[:worker][:contacts_attributes][:value] = value
+    # end
+    binding.pry
     if @worker.update(worker_params)
       redirect_to @worker, notice: 'Worker foi atualizado com sucesso.'
     else
@@ -55,6 +61,7 @@ class WorkersController < ApplicationController
     # Only allow a trusted parameter "white list" through.
     def worker_params
       params.require(:worker).permit(:name, :photo, :document_id, :categories, notes_attributes:[:id,:origin,:origin_id,:private,:text,:title,:_destroy],
-                                     document_files_attributes:[:id,:title,:file,:origin, :origin_id,:esign,:esign_data,:photo,:photo_date,:photo_description,:_destroy])
+                                     document_files_attributes:[:id,:title,:file,:origin, :origin_id,:esign,:esign_data,:photo,:photo_date,:photo_description,:_destroy],
+      contacts_attributes:[:id, :category,:origin, :origin_id,:title,:data,:_destroy])
     end
 end

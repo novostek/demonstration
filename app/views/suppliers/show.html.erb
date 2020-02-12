@@ -35,5 +35,80 @@
     <%= @supplier.description %>
   </p>
 
+  <div class="card">
+    <div class="card-content">
+      <span class="card-title"><%= t :notes %></span>
+      <table>
+        <thead>
+        <tr>
+          <th><%= t "activerecord.attributes.note.title" %></th>
+          <th><%= t "activerecord.attributes.note.text" %></th>
+        </tr>
+        </thead>
+        <tbody>
+        <% @supplier.notes.each do |note| %>
+            <tr>
+              <td><%= note.title %></td>
+              <td><%= note.text %></td>
+            </tr>
+        <% end %>
+        </tbody>
+      </table>
+
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-content">
+      <span class="card-title"><%= t :documents %></span>
+      <table>
+        <thead>
+        <tr>
+          <th><%= t "activerecord.attributes.document_file.title.title" %></th>
+          <th><%= t "activerecord.attributes.document_file.file" %></th>
+        </tr>
+        </thead>
+        <tbody>
+        <% @supplier.document_files.each do |doc| %>
+            <tr>
+              <td><%= doc.title %></td>
+              <td>
+                <%= link_to  doc.file.url, target:"_blank" do  %>
+                    <i class="material-icons">remove_red_eye</i>
+                <% end  if doc.file.present? %>
+              </td>
+            </tr>
+        <% end %>
+        </tbody>
+      </table>
+
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-content">
+      <span class="card-title"><%= t :contacts %></span>
+      <table>
+        <thead>
+        <tr>
+          <th><%= t "activerecord.attributes.contact.title" %></th>
+          <th><%= t "activerecord.attributes.contact.category" %></th>
+        </tr>
+        </thead>
+        <tbody>
+        <% @supplier.contacts.each do |doc| %>
+            <tr>
+              <td><%= doc.title %></td>
+              <td>
+                <%= doc.category_text %>
+              </td>
+            </tr>
+        <% end %>
+        </tbody>
+      </table>
+
+    </div>
+  </div>
+
 </div>
 

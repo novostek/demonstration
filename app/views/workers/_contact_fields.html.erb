@@ -6,14 +6,14 @@
   </div>
   <div class="input-field col l6 s12">
 
-    <%= f.select :category, Contact.category.options , {prompt: true}, {id:"category_#{f.index}_",onchange:"category_change('_#{f.index}_')" } %>
+    <%= f.select :category, Contact.category.options , {prompt: true}, {id:"category_#{f.index}_","data-id":"_#{f.index}_", class:"category", onchange:"category_change('_#{f.index}_')" } %>
     <%= f.label :category %>
   </div>
 
 
-  <div class="hide col s12" id="address_div">
+  <div class="hide col s12" id="address_div_<%= f.index %>_">
 
-    <%= f.fields_for :data do |field| %>
+    <%= f.fields_for :data, OpenStruct.new(f.object.data) do |field| %>
         <div class="input-field">
           <%= field.label :address %>
           <%= field.text_field :address %>
@@ -40,40 +40,30 @@
         </div>
     <% end %>
 
-        <!--<div class="input-field">-->
-          <!--<%= f.label :address %>-->
-          <!--<%= text_field_tag "contacts_attributes[#{f.index}][value][address]" %>-->
-        <!--</div>-->
-        <!--<div class="input-field">-->
-          <!--<%= f.label :zipcode %>-->
-          <!--<%= text_field_tag "contacts_attributes[#{f.index}][value][zipcode]" %>-->
-        <!--</div>-->
-        <!--<div class="input-field">-->
-          <!--<%= f.label :city %>-->
-          <!--<%= text_field_tag "contacts_attributes[#{f.index}][value][city]" %>-->
-        <!--</div>-->
-        <!--<div class="input-field">-->
-          <!--<%= f.label :state %>-->
-          <!--<%= text_field_tag "contacts_attributes[#{f.index}][value][state]" %>-->
-        <!--</div>-->
-        <!--<div class="input-field">-->
-          <!--<%= f.label :lat %>-->
-          <!--<%= text_field_tag "contacts_attributes[#{f.index}][value][lat]" %>-->
-        <!--</div>-->
-        <!--<div class="input-field">-->
-          <!--<%= f.label :lng %>-->
-          <!--<%= text_field_tag "contacts_attributes[#{f.index}][value][lng]" %>-->
-        <!--</div>-->
-
-
   </div>
 
-  <div class="hide col s12" id="phone_div">
-    telefone
+  <div class="hide col s12" id="phone_div_<%= f.index %>_">
+    <%= f.fields_for :data, OpenStruct.new(f.object.data) do |field| %>
+        <div class="input-field">
+          <%= field.label :ddd %>
+          <%= field.text_field :ddd %>
+        </div>
+        <div class="input-field">
+          <%= field.label :phone %>
+          <%= field.text_field :phone%>
+        </div>
+
+    <% end %>
   </div>
 
-  <div class="hide col s12" id="email_div">
-    email
+  <div class="hide col s12" id="email_div_<%= f.index %>_">
+    <%= f.fields_for :data, OpenStruct.new(f.object.data) do |field| %>
+        <div class="input-field">
+          <%= field.label :email %>
+          <%= field.text_field :email%>
+        </div>
+
+    <% end %>
   </div>
 
 
@@ -88,29 +78,56 @@
 
 <%= content_for :scripts do %>
     <script type="text/javascript" charset="utf-8">
+
+        $(document).ready(function(){
+            if($(".category").val() == "address")
+            {
+                var dataid = $(".category").attr("data-id");
+
+                $("#address_div"+dataid).removeClass("hide");
+            }
+            if($(".category").val() == "email")
+            {
+                var dataid = $(".category").attr("data-id");
+
+                $("#email_div"+dataid).removeClass("hide");
+            }
+            if($(".category").val() == "phone")
+            {
+                var dataid = $(".category").attr("data-id");
+
+                $("#phone_div"+dataid).removeClass("hide");
+            }
+
+
+        });
+
         function category_change(index)
         {
+            console.log("index - ",index);
             var category = $("#category"+index).val();
             if(category == "address")
             {
-                $("#address_div").removeClass("hide");
-                $("#phone_div").addClass("hide");
-                $("#email_div").addClass("hide");
+                $("#address_div"+index).removeClass("hide");
+                $("#phone_div"+index).addClass("hide");
+                $("#email_div"+index).addClass("hide");
             }
             if(category == "phone")
             {
-                $("#address_div").addClass("hide");
-                $("#phone_div").removeClass("hide");
-                $("#email_div").addClass("hide");
+                $("#address_div"+index).addClass("hide");
+                $("#phone_div"+index).removeClass("hide");
+                $("#email_div"+index).addClass("hide");
             }
             if(category == "email")
             {
-                $("#address_div").addClass("hide");
-                $("#phone_div").addClass("hide");
-                $("#email_div").removeClass("hide");
+                $("#address_div"+index).addClass("hide");
+                $("#phone_div"+index).addClass("hide");
+                $("#email_div"+index).removeClass("hide");
             }
 
         }
+
+
     </script>
 <% end %>
 

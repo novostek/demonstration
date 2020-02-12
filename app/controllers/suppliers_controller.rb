@@ -56,6 +56,6 @@ class SuppliersController < ApplicationController
     def supplier_params
       params.require(:supplier).permit(:name, :description, notes_attributes:[:id,:origin,:origin_id,:private,:text,:title,:_destroy],
                                        document_files_attributes:[:id,:title,:file,:origin, :origin_id,:esign,:esign_data,:photo,:photo_date,:photo_description,:_destroy],
-                                       contacts_attributes:[:id, :category,:origin, :origin_id,:title,:value,:_destroy])
+                                       contacts_attributes:[:id, :category,:origin, :origin_id,:title,{data:[:address,:zipcode,:zipcode,:state,:lat,:lng,:city,:email, :ddd,:phone]},:_destroy])
     end
 end

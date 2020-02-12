@@ -85,6 +85,19 @@
     </div>
   </div>
 
+  <div class="card">
+    <div class="card-content">
+      <span class="card-title"><%= t :contacts %></span>
+      <%= f.fields_for :contacts do |docs| %>
+          <%= render 'contact_fields', f: docs %>
+      <% end %>
+
+    </div>
+    <div class="card-action">
+      <%= link_to_add_association raw('<i class="material-icons left">add_circle</i>'), f, :contacts, class: "btn  waves-light  left white-text" %>
+    </div>
+  </div>
+
 </div>
   <div class="actions">
     <%= f.submit t('button.save'), class:"btn" %>

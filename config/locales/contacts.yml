@@ -15,3 +15,13 @@ en:
         phone: "Phone"
         email: "E-mail"
         address: "Address"
+  json_data:
+    address: "Address"
+    zipcode: "ZipCode"
+    state: "State"
+    city: "City"
+    lat: "Latitude"
+    lng: "Longitude"
+    email: "E-mail"
+    ddd: "DDD"
+    phone: "Phone"

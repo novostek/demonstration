@@ -14,6 +14,7 @@ en:
     see_more: "See More"
     add: "Add"
     delete: "Delete"
+    new: "New"
 
   false: "No"
   true: "Yes"

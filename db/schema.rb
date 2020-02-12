@@ -45,6 +45,7 @@ ActiveRecord::Schema.define(version: 2020_02_11_232752) do
     t.date "birthdate"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.string "bpm_instance"
   end
 
   create_table "document_files", force: :cascade do |t|

@@ -11,7 +11,7 @@
   </div>
 
 
-  <div class="hide col s12" id="address_div_<%= f.index %>_">
+  <div class="<%= f.object.category == "address" ? "" : "hide"  %> col s12" id="address_div_<%= f.index %>_">
 
     <%= f.fields_for :data, OpenStruct.new(f.object.data) do |field| %>
         <div class="input-field">
@@ -42,7 +42,7 @@
 
   </div>
 
-  <div class="hide col s12" id="phone_div_<%= f.index %>_">
+  <div class="<%= f.object.category == "phone" ? "" : "hide"  %> col s12" id="phone_div_<%= f.index %>_">
     <%= f.fields_for :data, OpenStruct.new(f.object.data) do |field| %>
         <div class="input-field">
           <%= field.label :ddd %>
@@ -56,7 +56,7 @@
     <% end %>
   </div>
 
-  <div class="hide col s12" id="email_div_<%= f.index %>_">
+  <div class="<%= f.object.category == "email" ? "" : "hide"  %> col s12" id="email_div_<%= f.index %>_">
     <%= f.fields_for :data, OpenStruct.new(f.object.data) do |field| %>
         <div class="input-field">
           <%= field.label :email %>
@@ -68,7 +68,7 @@
 
 
 
-  <div class="col s12 l2">
+  <div class="col s12 l3">
     <%= link_to_remove_association  f, class: "btn waves-effect waves-light red left white-text" do %>
         <i class="material-icons left">remove_circle</i> <%= t "button.delete" %>
     <% end %>
@@ -79,28 +79,6 @@
 <%= content_for :scripts do %>
     <script type="text/javascript" charset="utf-8">
 
-        $(document).ready(function(){
-            if($(".category").val() == "address")
-            {
-                var dataid = $(".category").attr("data-id");
-
-                $("#address_div"+dataid).removeClass("hide");
-            }
-            if($(".category").val() == "email")
-            {
-                var dataid = $(".category").attr("data-id");
-
-                $("#email_div"+dataid).removeClass("hide");
-            }
-            if($(".category").val() == "phone")
-            {
-                var dataid = $(".category").attr("data-id");
-
-                $("#phone_div"+dataid).removeClass("hide");
-            }
-
-
-        });
 
         function category_change(index)
         {

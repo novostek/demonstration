@@ -53,7 +53,9 @@
 
     </div>
     <div class="card-action">
-      <%= link_to_add_association raw('<i class="material-icons left">add_circle</i>'), f, :notes, class: "btn  waves-light  left white-text" %>
+      <%= link_to_add_association  f, :notes, class: "btn  waves-light  left white-text" do %>
+        <i class="material-icons left">add_circle</i><%= t "button.new" %> <%= t :notes %>
+        <% end %>
     </div>
   </div>
 
@@ -66,7 +68,9 @@
 
     </div>
     <div class="card-action">
-      <%= link_to_add_association raw('<i class="material-icons left">add_circle</i>'), f, :document_files, class: "btn  waves-light  left white-text" %>
+      <%= link_to_add_association  f, :document_files, class: "btn  waves-light  left white-text" do %>
+        <i class="material-icons left">add_circle</i><%= t "button.new" %> <%= t :documents %>
+      <% end %>
     </div>
   </div>
 
@@ -75,11 +79,14 @@
       <span class="card-title"><%= t :contacts %></span>
       <%= f.fields_for :contacts do |docs| %>
           <%= render 'contact_fields', f: docs %>
+
       <% end %>
 
     </div>
     <div class="card-action">
-      <%= link_to_add_association raw('<i class="material-icons left">add_circle</i>'), f, :contacts, class: "btn  waves-light  left white-text" %>
+      <%= link_to_add_association  f, :contacts, class: "btn  waves-light  left white-text" do %>
+      <i class="material-icons left">add_circle</i> <%= t "button.new" %> <%= t :contacts %>
+      <% end %>
     </div>
   </div>
 

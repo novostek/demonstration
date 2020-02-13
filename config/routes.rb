@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :profiles
   resources :products
   resources :document_files
   resources :calculation_formulas

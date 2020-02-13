@@ -94,11 +94,10 @@
             console.log(place);
 
             $("#fulladdress").val(place.formatted_address);
-            $("#fulladdress").trigger("click");
+
             $("#lat").val(place.geometry.location.lat());
             $("#lng").val(place.geometry.location.lng());
-            $("#lat").trigger("click");
-            $("#lng").trigger("click");
+
             $("label").addClass("active");
             for (var i in place.address_components) {
                 var component = place.address_components[i];

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_02_13_035313) do
+ActiveRecord::Schema.define(version: 2020_02_13_213618) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -45,7 +45,6 @@ ActiveRecord::Schema.define(version: 2020_02_13_035313) do
     t.date "birthdate"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.string "bpm_instance"
   end
 
   create_table "document_files", force: :cascade do |t|
@@ -60,6 +59,17 @@ ActiveRecord::Schema.define(version: 2020_02_13_035313) do
     t.text "photo_description"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "menus", force: :cascade do |t|
+    t.boolean "active"
+    t.string "icon"
+    t.string "name"
+    t.string "url"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.string "ancestry"
+    t.index ["ancestry"], name: "index_menus_on_ancestry"
   end
 
   create_table "notes", force: :cascade do |t|
@@ -100,6 +110,24 @@ ActiveRecord::Schema.define(version: 2020_02_13_035313) do
     t.index ["supplier_id"], name: "index_products_on_supplier_id"
   end
 
+  create_table "profile_menus", force: :cascade do |t|
+    t.bigint "menu_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.bigint "profile_id", null: false
+    t.index ["menu_id"], name: "index_profile_menus_on_menu_id"
+    t.index ["profile_id"], name: "index_profile_menus_on_profile_id"
+  end
+
+  create_table "profile_users", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.bigint "profile_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["profile_id"], name: "index_profile_users_on_profile_id"
+    t.index ["user_id"], name: "index_profile_users_on_user_id"
+  end
+
   create_table "profiles", force: :cascade do |t|
     t.string "name"
     t.string "description"
@@ -123,6 +151,19 @@ ActiveRecord::Schema.define(version: 2020_02_13_035313) do
     t.datetime "updated_at", precision: 6, null: false
   end
 
+  create_table "users", force: :cascade do |t|
+    t.string "email", default: "", null: false
+    t.string "encrypted_password", default: "", null: false
+    t.string "reset_password_token"
+    t.datetime "reset_password_sent_at"
+    t.datetime "remember_created_at"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.string "name"
+    t.index ["email"], name: "index_users_on_email", unique: true
+    t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
+  end
+
   create_table "workers", force: :cascade do |t|
     t.string "name"
     t.text "photo"
@@ -135,4 +176,8 @@ ActiveRecord::Schema.define(version: 2020_02_13_035313) do
   add_foreign_key "products", "calculation_formulas"
   add_foreign_key "products", "product_categories"
   add_foreign_key "products", "suppliers"
+  add_foreign_key "profile_menus", "menus"
+  add_foreign_key "profile_menus", "profiles"
+  add_foreign_key "profile_users", "profiles"
+  add_foreign_key "profile_users", "users"
 end

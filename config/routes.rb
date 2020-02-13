@@ -1,4 +1,7 @@
 Rails.application.routes.draw do
+  devise_for :users
+  resources :users
+  resources :menus
   resources :profiles
   resources :products
   resources :document_files

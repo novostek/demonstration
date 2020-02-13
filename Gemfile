@@ -71,3 +71,7 @@ gem "fog-aws"
 gem 'enumerize'
 
 gem "cocoon"
+
+#https://github.com/stefankroes/ancestry
+gem 'ancestry'
+

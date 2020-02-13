@@ -1,5 +1,52 @@
 class CustomersController < ApplicationController
-  before_action :set_customer, only: [:show, :edit, :update, :destroy]
+  before_action :set_customer, only: [:show, :edit, :update, :destroy,:new_note,:new_document,:new_contact]
+
+  #Método que insere uma nota
+  def new_note
+    note = Note.new
+    note.title = params[:title]
+    note.text = params[:text]
+    note.origin = "Customer"
+    note.origin_id = @customer.id
+    if note.save
+      redirect_to @customer, notice: "#{t 'note_create'}"
+    else
+      redirect_to @customer, alert: "error"
+    end
+
+
+  end
+
+  #método que insere um novo documento
+  def new_document
+    doc = DocumentFile.new
+    doc.title = params[:title]
+    doc.file = params[:file]
+    doc.origin = "Customer"
+    doc.origin_id = @customer.id
+    if doc.save
+      redirect_to @customer, notice: "#{t 'doc_create'}"
+    else
+      redirect_to @customer, alert: "error"
+    end
+
+  end
+
+  #Método que cria um novo contato
+  def new_contact
+    contact = Contact.new
+    contact.title = params[:title]
+    contact.category = params[:category]
+    contact.data = params[:data]
+    contact.origin = "Customer"
+    contact.origin_id = @customer.id
+    if contact.save
+      redirect_to @customer, notice: "#{t 'contact_create'}"
+    else
+      redirect_to @customer, alert: "error"
+    end
+
+  end
 
   # GET /customers
   def index
@@ -55,6 +102,7 @@ class CustomersController < ApplicationController
     # Only allow a trusted parameter "white list" through.
     def customer_params
       params.require(:customer).permit(:name, :category, :document_id, :since, :code, :birthdate, notes_attributes:[:id,:origin,:origin_id,:private,:text,:title,:_destroy],
-      document_files_attributes:[:id,:title,:file,:origin, :origin_id,:esign,:esign_data,:photo,:photo_date,:photo_description,:_destroy])
+                                       document_files_attributes:[:id,:title,:file,:origin, :origin_id,:esign,:esign_data,:photo,:photo_date,:photo_description,:_destroy],
+                                       contacts_attributes:[:id, :category,:origin, :origin_id,:title,{data:[:address,:zipcode,:zipcode,:state,:lat,:lng,:city,:email, :ddd,:phone]},:_destroy])
     end
 end

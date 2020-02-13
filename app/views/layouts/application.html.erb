@@ -93,8 +93,8 @@
 <script src="/materialize/js/custom/custom-script.js"></script>
 <!-- END THEME  JS-->
 <!-- BEGIN PAGE LEVEL JS-->
-<script src="/materialize/js/scripts/app-todo.js"></script>
-<script src="/materialize/js/scripts/app-email.js"></script>
+<!--<script src="/materialize/js/scripts/app-todo.js"></script>-->
+<!--<script src="/materialize/js/scripts/app-email.js"></script>-->
 <script src="/materialize/vendors/sweetalert/sweetalert.min.js"></script>
 <script src="/materialize/js/scripts/extra-components-sweetalert.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.js"></script>
@@ -104,6 +104,19 @@
 <!-- cocoon não está funcionando com o rails 6 por isso importar o JS -->
 <script src="/js/cocoon.js"></script>
 
+<script type="text/javascript" charset="utf-8">
+  $(document).ready(function(){
+     $("select").formSelect();
+      $('.modal').modal();
+      $('tabs').tabs();
+  }).on('cocoon:after-insert', function () {
+
+      $('select').formSelect();
+      $("select").focusin();
+      $('.modal').modal();
+  });
+  ;
+</script>
 
 
 <!-- END PAGE LEVEL JS-->

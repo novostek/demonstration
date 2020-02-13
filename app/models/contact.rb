@@ -4,6 +4,7 @@
 #
 #  id         :bigint           not null, primary key
 #  category   :string
+#  data       :json
 #  origin     :string
 #  title      :string
 #  value      :json

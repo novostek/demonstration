@@ -1,5 +1,5 @@
 class WorkersController < ApplicationController
-  before_action :set_worker, only: [:show, :edit, :update, :destroy]
+  before_action :set_worker, only: [:show, :edit, :update, :destroy,:new_note,:new_document,:new_contact]
 
   # GET /workers
   def index
@@ -20,6 +20,53 @@ class WorkersController < ApplicationController
   def edit
   end
 
+  #Método que insere uma nota
+  def new_note
+    note = Note.new
+    note.title = params[:title]
+    note.text = params[:text]
+    note.origin = "Worker"
+    note.origin_id = @worker.id
+    if note.save
+      redirect_to @worker, notice: "#{t 'note_create'}"
+    else
+      redirect_to @worker, alert: "error"
+    end
+
+
+  end
+
+  #método que insere um novo documento
+  def new_document
+    doc = DocumentFile.new
+    doc.title = params[:title]
+    doc.file = params[:file]
+    doc.origin = "Worker"
+    doc.origin_id = @worker.id
+    if doc.save
+      redirect_to @worker, notice: "#{t 'doc_create'}"
+    else
+      redirect_to @worker, alert: "error"
+    end
+
+  end
+
+  #Método que cria um novo contato
+  def new_contact
+    contact = Contact.new
+    contact.title = params[:title]
+    contact.category = params[:category]
+    contact.data = params[:data]
+    contact.origin = "Worker"
+    contact.origin_id = @worker.id
+    if contact.save
+      redirect_to @worker, notice: "#{t 'contact_create'}"
+    else
+      redirect_to @worker, alert: "error"
+    end
+
+  end
+
   # POST /workers
   def create
     @worker = Worker.new(worker_params)
@@ -33,6 +80,12 @@ class WorkersController < ApplicationController
 
   # PATCH/PUT /workers/1
   def update
+
+    # if params[:value].present?
+    #   value = JSON.parse(params[:value].to_json)
+    #   params[:worker][:contacts_attributes][:value] = value
+    # end
+    #binding.pry
     if @worker.update(worker_params)
       redirect_to @worker, notice: 'Worker foi atualizado com sucesso.'
     else
@@ -54,7 +107,11 @@ class WorkersController < ApplicationController
 
     # Only allow a trusted parameter "white list" through.
     def worker_params
-      params.require(:worker).permit(:name, :photo, :document_id, :categories, notes_attributes:[:id,:origin,:origin_id,:private,:text,:title,:_destroy],
-                                     document_files_attributes:[:id,:title,:file,:origin, :origin_id,:esign,:esign_data,:photo,:photo_date,:photo_description,:_destroy])
+      params.require(:worker).permit(:name, :photo, :document_id, :categories,
+                                     notes_attributes:[:id,:origin,:origin_id,:private,:text,:title,:_destroy],
+                                     document_files_attributes:[:id,:title,:file,:origin, :origin_id,:esign,:esign_data,:photo,:photo_date,:photo_description,:_destroy],
+                                     contacts_attributes:[:id, :category,:origin, :origin_id,:title,{data:[:address,:zipcode,:zipcode,:state,:lat,:lng,:city,:email, :ddd,:phone]},:_destroy])
     end
+
+  #[:address,:zipcode,:zipcode,:state,:lat,:lng]
 end

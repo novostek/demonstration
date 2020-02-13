@@ -36,8 +36,9 @@ class ProfilesController < ApplicationController
 
   # PATCH/PUT /profiles/1
   def update
-    @profile.name = params[:profile][:nome]
-    @profile.description = params[:profile][:descricao]
+
+    @profile.name = params[:profile][:name]
+    @profile.description = params[:profile][:description]
     @profile.permissions = params[:permissoes]
     if @profile.save
       redirect_to @profile, notice: 'Profile foi atualizado com sucesso.'
@@ -57,8 +58,14 @@ class ProfilesController < ApplicationController
     #Método que carrega todos os controllers da aplicaçAo
     def set_combos
       #Rails.application.eager_load! #rails 5
-      Zeitwerk::Loader.eager_load_all #rails 6
-      @controllers = ApplicationController.subclasses.map{|a| {controller: a, metodos: a.action_methods}}
+      #Zeitwerk::Loader.eager_load_all #rails 6
+      #@controllers = ApplicationController.subclasses.map{|a| {controller: a, metodos: a.action_methods} if !["DeviseController"].include? a.to_s  }
+      # ApplicationController.subclasses.map{|a| {controller: a, metodos: a.action_methods}}
+      contrl = [CustomersController, CalculationFormulasController, ContactsController, DocumentFilesController, NotesController, ProductCategoriesController, ProductsController, SettingsController, SuppliersController,
+                WorkersController]
+
+      @controllers = contrl.map{|a| {controller: a, metodos: a.action_methods} }
+
     end
 
 

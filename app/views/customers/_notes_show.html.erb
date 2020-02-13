@@ -1,0 +1,16 @@
+<table>
+  <thead>
+  <tr>
+    <th><%= t "activerecord.attributes.note.title" %></th>
+    <th><%= t "activerecord.attributes.note.text" %></th>
+  </tr>
+  </thead>
+  <tbody>
+  <% notes.each do |note| %>
+      <tr>
+        <td><%= note.title %></td>
+        <td><%= note.text %></td>
+      </tr>
+  <% end %>
+  </tbody>
+</table>

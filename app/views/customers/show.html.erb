@@ -1,3 +1,8 @@
+<style>
+  .pac-container {
+    z-index: 1051 !important;
+  }
+</style>
 <div class="breadcrumbs-dark pb-0 pt-4" id="breadcrumbs-wrapper">
   <!-- Search for small screen-->
   <div class="container">
@@ -25,155 +30,108 @@
 
 <div class="card-panel">
 
-  <p>
-    <strong>Name:</strong>
-    <%= @customer.name %>
-  </p>
-
-  <p>
-    <strong>Category:</strong>
-    <%= @customer.category %>
-  </p>
-
-  <p>
-    <strong>Document:</strong>
-    <%= @customer.document_id %>
-  </p>
-
-  <p>
-    <strong>Since:</strong>
-    <%= @customer.since %>
-  </p>
-
-  <p>
-    <strong>Code:</strong>
-    <%= @customer.code %>
-  </p>
-
-  <p>
-    <strong>Birthdate:</strong>
-    <%= @customer.birthdate %>
-  </p>
-
-  <div class="card">
-    <div class="card-content">
-      <span class="card-title"><%= t :notes %></span>
-      <table>
-        <thead>
-        <tr>
-          <th><%= t "activerecord.attributes.note.title" %></th>
-          <th><%= t "activerecord.attributes.note.text" %></th>
-        </tr>
-        </thead>
-        <tbody>
-        <% @customer.notes.each do |note| %>
-            <tr>
-              <td><%= note.title %></td>
-              <td><%= note.text %></td>
-            </tr>
-        <% end %>
-        </tbody>
-      </table>
-
+  <div class="row">
+    <div class="col s12">
+      <ul class="tabs">
+        <li class="tab col m3"><a href="#test1" class="active"><%= t :customer %></a></li>
+        <li class="tab col m3"><a  href="#test2"><%= t :notes %></a></li>
+        <li class="tab col sm"><a href="#test3"><%= t :documents %></a></li>
+        <li class="tab col m3"><a href="#test4"><%= t :contacts %></a></li>
+      </ul>
     </div>
-  </div>
+    <div id="test1" class="col s12">
+      <p>
+        <strong>Name:</strong>
+        <%= @customer.name %>
+      </p>
 
-  <div class="card">
-    <div class="card-content">
-      <span class="card-title"><%= t :documents %></span>
-      <table>
-        <thead>
-        <tr>
-          <th><%= t "activerecord.attributes.document_file.title.title" %></th>
-          <th><%= t "activerecord.attributes.document_file.file" %></th>
-        </tr>
-        </thead>
-        <tbody>
-        <% @customer.document_files.each do |doc| %>
-            <tr>
-              <td><%= doc.title %></td>
-              <td>
-                <%= link_to  doc.file.url, target:"_blank" do  %>
-                    <i class="material-icons">remove_red_eye</i>
-                <% end  if doc.file.present? %>
-              </td>
-            </tr>
-        <% end %>
-        </tbody>
-      </table>
+      <p>
+        <strong>Category:</strong>
+        <%= @customer.category %>
+      </p>
 
+      <p>
+        <strong>Document:</strong>
+        <%= @customer.document_id %>
+      </p>
+
+      <p>
+        <strong>Since:</strong>
+        <%= @customer.since %>
+      </p>
+
+      <p>
+        <strong>Code:</strong>
+        <%= @customer.code %>
+      </p>
+
+      <p>
+        <strong>Birthdate:</strong>
+        <%= @customer.birthdate %>
+      </p>
     </div>
-  </div>
+    <div id="test2" class="col s12">
+      <%= render "customers/notes_show", notes: @customer.notes %>
 
-  <div class="card">
-    <div class="card-content">
-      <span class="card-title"><%= t :contacts %></span>
+      <br>
+      <!-- Modal Trigger -->
+      <a class="waves-effect waves-light btn modal-trigger" href="#modal_note"><%= t "button.new" %> <%= t "notes" %></a>
+      <!-- Modal Structure -->
+      <div id="modal_note" class="modal modal-fixed-footer">
+        <%= form_with url: new_note_customer_path(@customer),method: :get, local: true do |f| %>
+            <div class="modal-content">
+              <h4><%= t "button.new" %> <%= t "notes" %></h4>
+              <%= render "customers/notes_form", f: f %>
 
-      <div class="row">
-        <% @customer.contacts.each do |doc| %>
-            <div class="col s12 m4">
-              <div class="card-panel">
-                <table class="striped">
-                  <thead>
-                  <tbody>
-                  <tr>
-                    <td><%= t "#{'activerecord.attributes.contact.category'}:" %></td>
-                    <td><%= doc.category_text %></td>
-                  </tr>
-                  <tr>
-                    <td><%= t "#{'activerecord.attributes.contact.title'}:" %></td>
-                    <td><%= doc.title %></td>
-                  </tr>
-                  <% if doc.category.address? %>
-                      <tr>
-                        <td><%= t "#{'json_data.address'}:" %></td>
-                        <td><%= doc.data["address"] %></td>
-                      </tr>
-                      <tr>
-                        <td><%= t "#{'json_data.city'}:" %></td>
-                        <td><%= doc.data["city"] %></td>
-                      </tr>
-                      <tr>
-                        <td><%= t "#{'json_data.state'}:" %></td>
-                        <td><%= doc.data["state"] %></td>
-                      </tr>
-                      <tr>
-                        <td><%= t "#{'json_data.zipcode'}:" %></td>
-                        <td><%= doc.data["zipcode"] %></td>
-                      </tr>
-                      <tr>
-                        <td><%= t "#{'json_data.lat'}:" %></td>
-                        <td><%= doc.data["lat"] %></td>
-                      </tr>
-                      <tr>
-                        <td><%= t "#{'json_data.lng'}:" %></td>
-                        <td><%= doc.data["lng"] %></td>
-                      </tr>
-                  <% end %>
-                  <% if doc.category.phone? %>
-                    <tr>
-                      <td><%= t "#{'json_data.ddd'}:" %></td>
-                      <td><%= doc.data["ddd"] %></td>
-                    </tr>
-                      <tr>
-                        <td><%= t "#{'json_data.phone'}:" %></td>
-                        <td><%= doc.data["phone"] %></td>
-                      </tr>
-                  <% end %>
-                  <% if doc.category.email? %>
-                      <tr>
-                        <td><%= t "#{'json_data.email'}:" %></td>
-                        <td><%= doc.data["email"] %></td>
-                      </tr>
-
-                  <% end %>
-                  </tbody>
-                </table>
-              </div>
             </div>
-        <% end %>
+            <div class="modal-footer">
+              <%= f.submit t "button.save", class:"modal-action modal-close waves-effect waves-green btn-flat" %>
+              <!--<a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat ">Agree</a>-->
+            </div>
+        <% end  %>
       </div>
+    </div>
+    <div id="test3" class="col s12">
+      <%= render "customers/documents_show", document_files: @customer.document_files %>
 
+      <br>
+      <!-- Modal Trigger -->
+      <a class="waves-effect waves-light btn modal-trigger" href="#modal_doc"><%= t "button.new" %> <%= t "documents" %></a>
+      <!-- Modal Structure -->
+      <div id="modal_doc" class="modal modal-fixed-footer">
+        <%= form_with url: new_document_customer_path(@customer), local: true do |f| %>
+            <div class="modal-content">
+              <h4><%= t "button.new" %> <%= t "documents" %></h4>
+              <%= render "customers/document_file_fields", f: f %>
+
+            </div>
+            <div class="modal-footer">
+              <%= f.submit t "button.save", class:"modal-action modal-close waves-effect waves-green btn" %>
+              <!--<a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat ">Agree</a>-->
+            </div>
+        <% end  %>
+      </div>
+    </div>
+    <div id="test4" class="col s12">
+      <%= render "customers/contacts_show", contacts: @customer.contacts %>
+
+      <br>
+      <!-- Modal Trigger -->
+      <a class="waves-effect waves-light btn modal-trigger" href="#modal_contact"><%= t "button.new" %> <%= t "contacts" %></a>
+      <!-- Modal Structure -->
+      <div id="modal_contact" class="modal modal-fixed-footer">
+        <%= form_with url: new_contact_customer_path(@customer),method: :get, local: true do |f| %>
+            <div class="modal-content">
+              <h4><%= t "button.new" %> <%= t "contacts" %></h4>
+              <%= render "customers/contact_fields", f: f %>
+
+            </div>
+            <div class="modal-footer">
+              <%= f.submit t "button.save", class:"modal-action modal-close waves-effect waves-green btn" %>
+              <!--<a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat ">Agree</a>-->
+            </div>
+        <% end  %>
+      </div>
 
     </div>
   </div>

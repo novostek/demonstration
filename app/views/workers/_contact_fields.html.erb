@@ -15,28 +15,32 @@
 
     <%= f.fields_for :data, OpenStruct.new(f.object.data) do |field| %>
         <div class="input-field">
+          <label for="">Search</label>
+          <input type="text" id="autocomplete_address_<%= f.index %>_">
+        </div>
+        <div class="input-field">
           <%= field.label :address %>
-          <%= field.text_field :address %>
+          <%= field.text_field :address, id: "fulladdress_#{f.index}_" %>
         </div>
         <div class="input-field">
           <%= field.label :zipcode %>
-          <%= field.text_field :zipcode%>
+          <%= field.text_field :zipcode, id: "postal_code_#{f.index}_"%>
         </div>
         <div class="input-field">
           <%= field.label :city %>
-          <%= field.text_field :city %>
+          <%= field.text_field :city, id:"locality_#{f.index}_" %>
         </div>
         <div class="input-field">
           <%= field.label :state %>
-          <%= field.text_field :state %>
+          <%= field.text_field :state , id:"administrative_area_level_1_#{f.index}_"%>
         </div>
         <div class="input-field">
           <%= field.label :lat %>
-          <%= field.text_field :lat %>
+          <%= field.text_field :lat, id:"lat_#{f.index}_" %>
         </div>
         <div class="input-field">
           <%= field.label :lng %>
-          <%= field.text_field  :lng %>
+          <%= field.text_field  :lng, id:"lng_#{f.index}_" %>
         </div>
     <% end %>
 
@@ -79,13 +83,45 @@
 <%= content_for :scripts do %>
     <script type="text/javascript" charset="utf-8">
 
+      var ids;
+      function initializeAutocomplete(id) {
+          ids = id;
+
+          var element = document.getElementById(id);
+          if (element) {
+              var autocomplete = new google.maps.places.Autocomplete(element, { types: ['geocode'], componentRestrictions: {country: 'us'} });
+              google.maps.event.addListener(autocomplete, 'place_changed', onPlaceChanged);
+          }
+      }
+
+      function onPlaceChanged() {
+          var place = this.getPlace();
+          console.log(place);
+
+          for (var i in place.address_components) {
+              var component = place.address_components[i];
+              console.log("componente - ",component);
+              for (var j in component.types) {  // Some types are ["country", "political"]
+                  var type_element = document.getElementById(component.types[j]);
+                  if (type_element) {
+                      type_element.value = component.long_name;
+                  }
+              }
+          }
+      }
+
+        $(document).ready(function(){
+            initializeAutocomplete('autocomplete_address_<%= f.index %>_');
+        });
+
 
         function category_change(index)
         {
-            console.log("index - ",index);
+
             var category = $("#category"+index).val();
             if(category == "address")
             {
+                initializeAutocomplete("autocomplete_address"+index);
                 $("#address_div"+index).removeClass("hide");
                 $("#phone_div"+index).addClass("hide");
                 $("#email_div"+index).addClass("hide");

@@ -13,7 +13,7 @@ en:
     contact:
       category:
         phone: "Phone"
-        email: "E-mail"
+        email: "Email"
         address: "Address"
   json_data:
     address: "Address"
@@ -22,6 +22,6 @@ en:
     city: "City"
     lat: "Latitude"
     lng: "Longitude"
-    email: "E-mail"
+    email: "Email"
     ddd: "DDD"
     phone: "Phone"

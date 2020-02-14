@@ -1,0 +1,71 @@
+<li class="collection-item todo-items">
+  <div class="list-left">
+  </div>
+  <div class="list-content">
+    <div class="list-title-area">
+      <div class="list-title"><%= t("bpm.task_id") %></div>
+    </div>
+    <div class=""><%= task[:task][:id] %></div>
+  </div>
+</li>
+
+<li class="collection-item todo-items">
+  <div class="list-left">
+  </div>
+  <div class="list-content">
+    <div class="list-title-area">
+      <div class="list-title"><%= t("bpm.assignee") %></div>
+    </div>
+    <div class="">
+      <%= task[:task][:assignee] || "--" %>
+    </div>
+  </div>
+</li>
+<li class="collection-item todo-items">
+  <div class="list-left">
+  </div>
+  <div class="list-content">
+    <div class="list-title-area">
+      <div class="list-title"><%= t("bpm.suspended") %></div>
+    </div>
+    <div class="">
+      <%= t(task[:task][:suspended]) %>
+    </div>
+  </div>
+</li>
+<li class="collection-item todo-items">
+  <div class="list-left">
+  </div>
+  <div class="list-content">
+    <div class="list-title-area">
+      <div class="list-title"><%= t("created_at") %></div>
+    </div>
+    <div class="">
+      <%= camunda_time(task[:task][:created]) %>
+    </div>
+  </div>
+</li>
+<li class="collection-item todo-items">
+  <div class="list-left">
+  </div>
+  <div class="list-content">
+    <div class="list-title-area">
+      <div class="list-title"><%= t("bpm.due") %></div>
+    </div>
+    <div class="">
+      <%= camunda_time(task[:task][:due]) || "--" %>
+    </div>
+  </div>
+</li>
+<li class="collection-item todo-items">
+  <div class="list-left">
+  </div>
+  <div class="list-content">
+    <div class="list-title-area">
+      <div class="list-title"><%= t("bpm.follow_up") %></div>
+    </div>
+    <div class="">
+      <%= camunda_time(task[:task][:followUp]) || "--"%>
+    </div>
+  </div>
+</li>

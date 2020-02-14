@@ -1,0 +1,5 @@
+$("#menu_task").children("li").removeClass("active");
+$("#menu_task").children("li").removeClass("white-text");
+$('#process_card').html('<%= escape_javascript(render partial: "bpm/tasks", locals: {tasks: @tasks}) %>')
+$("#<%= @tab_name %>").addClass("active");
+$("#<%= @tab_name %>").addClass("white-text");

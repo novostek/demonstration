@@ -1,0 +1,12 @@
+<h4 class="white-text"><%= t("bpm.start_process") %></h4>
+<div class="card-panel">
+  <%= form_tag(create_instance_url) do %>
+    <%= hidden_field_tag :process, params[:process] %>
+    <%= fields_for :variables do |f|%>
+      <% @form_fields.each do |field| %>
+        <%= camunda_input(field, f) %>
+      <% end %>
+    <% end %>
+    <%= submit_tag t('button.save'), class: "btn"%>
+  <% end %>
+</div>

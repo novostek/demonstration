@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>bpmn-js modeler demo</title>
+
+  <link rel="stylesheet" href="css/diagram-js.css" />
+  <link rel="stylesheet" href="vendor/bpmn-font/css/bpmn-embedded.css" />
+  <link rel="stylesheet" href="css/app.css" />
+
+  <style>
+    .djs-minimap {
+      position: absolute;
+      bottom: 50px;
+      left: 20px;
+      overflow: hidden;
+      background-color: rgba(255, 255, 255, 0.9);
+      border: solid 1px #CCC;
+      border-radius: 2px;
+      box-sizing: border-box;
+      user-select: none;
+      -moz-user-select: none;
+      -ms-user-select: none;
+      -webkit-user-select: none;
+    }
+
+    .djs-minimap:not(.open) {
+      overflow: hidden;
+    }
+
+    .djs-minimap .map {
+      display: none;
+    }
+
+    .djs-minimap.open .map {
+      display: block;
+    }
+
+    .djs-minimap .map {
+      width: 320px;
+      height: 180px;
+    }
+
+    .djs-minimap:not(.open) .toggle {
+      width: 46px;
+      height: 46px;
+      line-height: 46px;
+      text-align: center;
+    }
+
+    .djs-minimap:not(.open) .toggle:before {
+      content: 'Map';
+    }
+
+    .djs-minimap.open .toggle {
+      position: absolute;
+      right: 0;
+      padding: 6px;
+      z-index: 1;
+    }
+
+    .djs-minimap.open .toggle:before {
+      content: 'Close';
+    }
+
+    .djs-minimap .map {
+      cursor: crosshair;
+    }
+
+    .djs-minimap .viewport {
+      /* fill: rgba(255, 116, 0, 0.25); */
+      fill: none;
+      stroke: none;
+    }
+
+    .djs-minimap .viewport-dom {
+      position: absolute;
+      border: solid 2px orange;
+      border-radius: 2px;
+      box-sizing: border-box;
+      cursor: move;
+    }
+
+    .djs-minimap:not(.open) .viewport-dom {
+      display: none;
+    }
+
+    .djs-minimap.open .overlay {
+      position: absolute;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      background: rgba(255, 255, 255, 0.2);
+      pointer-events: none;
+    }
+
+    .djs-minimap .cursor-crosshair {
+      cursor: crosshair;
+    }
+
+    .djs-minimap .cursor-move {
+      cursor: move;
+    }
+  </style>
+</head>
+<body>
+  <div class="content with-diagram" id="js-drop-zone">
+    <input type="hidden" id="url" value="http://localhost:3000/bpm/diagram/NovoLead:14:caafdf50-29be-11ea-9ca1-6432a8a3921f.xml">
+    <div class="message intro">
+      <div class="note">
+        Drop BPMN diagram from your desktop or <a id="js-create-diagram" href>create from current diagram</a> to get started.
+      </div>
+    </div>
+
+    <div class="message error">
+      <div class="note">
+        <p>Ooops, we could not display the BPMN 2.0 diagram.</p>
+
+        <div class="details">
+          <span>Import Error Details</span>
+          <pre></pre>
+        </div>
+      </div>
+    </div>
+
+    <div class="canvas" id="js-canvas"></div>
+    <div class="properties-panel-parent" id="js-properties-panel"></div>
+  </div>
+
+  <ul class="buttons">
+    <li>
+      download
+    </li>
+    <li>
+      <a id="js-download-diagram" href title="download BPMN diagram">
+        BPMN diagram
+      </a>
+    </li>
+    <li>
+      <a id="js-download-svg" href title="download as SVG image">
+        SVG image
+      </a>
+    </li>
+  </ul>
+
+  <script src="index.js"></script>
+</html>

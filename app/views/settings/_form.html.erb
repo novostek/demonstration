@@ -22,7 +22,7 @@
   <div class="input-field">
 
     <%= f.label :value %>
-    <%= f.text_area :value %>
+    <%= f.text_area :value, value: JSON.pretty_generate(setting.value) %>
     
   </div>
 

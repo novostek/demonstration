@@ -1,0 +1,27 @@
+<div class="card-content pt-0">
+  <div class="card-header display-flex pb-2">
+    <h3 class="card-title"><%= task[:task][:name] %></h3>
+    <div class="close close-icon" onclick="close_task();">
+      <i class="material-icons">close</i>
+    </div>
+  </div>
+  <div class="divider"></div>
+  <!-- form start -->
+  <ul class="collection">
+    <% task[:variables].each do |variable| %>
+      <%= camunda_li_variable(variable) %>
+    <% end %>
+  </ul>
+  <div class="select-action">
+    <!-- Dropdown Trigger -->
+    <div class="collection">
+      <%= link_to t('breadcrumb.show'), bpm_task_path(id: task[:task][:id]), class: "collection-item" %>
+      <% if task[:task][:assignee].blank? %>
+        <a href="<%= bpm_assignee_path(id: task[:task][:id], instance: :claim) %>" class="collection-item"><%= t("bpm.claim") %></a>
+      <% elsif task[:task][:assignee] == @bpm_user  %>
+        <a href="<%= bpm_complete_task_path(id: params[:id]) %>" class="collection-item"><%= t("bpm.complete") %></a>
+        <a href="<%= bpm_assignee_path(id: task[:task][:id], instance: :unclaim) %>" class="collection-item"><%= t("bpm.unclaim") %></a>
+      <% end %>
+    </div>
+  </div>
+</div>

@@ -1,5 +1,6 @@
 class Setting < ApplicationRecord
   validates :namespace, uniqueness: true, presence: true
+  before_validation :format_value
 
   def to_s
     self.namespace
@@ -11,5 +12,11 @@ class Setting < ApplicationRecord
       return s.value['value']
     end
     ''
+  end
+
+  def format_value
+    if self.value.class == String
+      self.value = JSON.parse(self.value)
+    end
   end
 end

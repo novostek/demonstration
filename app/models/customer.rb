@@ -14,7 +14,6 @@
 #
 
 class Customer < ApplicationRecord
-<<<<<<< HEAD
 
   has_many :notes, -> { where origin: :Customer }, primary_key: :id, foreign_key: :origin_id
   has_many :contacts, -> { where origin: :Customer }, primary_key: :id, foreign_key: :origin_id
@@ -39,7 +38,5 @@ class Customer < ApplicationRecord
       self.code = self.name.parameterize
     end
   end
-=======
-  include TesteR
->>>>>>> master
+
 end

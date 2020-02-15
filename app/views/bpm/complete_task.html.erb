@@ -1,0 +1,15 @@
+<h4 class="white-text"><%= t("bpm.complete") %></h4>
+<div class="card-panel">
+  <%= form_tag(bpm_fix_task_path) do %>
+    <%= hidden_field_tag :id, params[:id] %>
+    <%= fields_for :variables do |f|%>
+      <% @form_fields.each do |field| %>
+        <%= camunda_input(field, f) %>
+      <% end %>
+    <% end %>
+    <% if @form_fields.blank? %>
+      <h5 class="red-text"><%= t('bpm.complete_alert_blank') %></h5>
+    <% end %>
+    <%= submit_tag t('button.save'), class: "btn"%>
+  <% end %>
+</div>

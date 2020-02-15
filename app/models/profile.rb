@@ -13,6 +13,12 @@
 
 class Profile < ApplicationRecord
 
+  has_many :profile_menus
+  has_many :profile_users
+  has_many :users, through: :profile_users
+
+  validates :name, presence: true
+
   before_create :set_status
   #has_many :perfil_menus
   #has_many :perfil_users

@@ -1,0 +1,5 @@
+$("#menu_task").children("li").removeClass("active");
+$("#menu_task").children("li").removeClass("white-text");
+$('#process_card').html('<%= escape_javascript(render partial: "bpm/task_information", locals: {task: @task}) %>')
+$("#task_information").addClass("active");
+$("#task_information").addClass("white-text");

@@ -1,0 +1,30 @@
+<% data.each do |activity| %>
+  <li class="collection-item todo-items">
+    <div class="list-left">
+    </div>
+    <div class="list-content">
+      <div class="list-title-area">
+        <div class="list-title"><%= activity[:activityName] || t('bpm.unnamed_task')%></div>
+        <span class="badge grey lighten-2"><i class="purple-text material-icons small-icons mr-2">
+                                                                person </i><%= activity[:assignee] || "Wood Office" %></span>
+      </div>
+      <div class="">
+        <div class="row">
+          <div class="col s12 m6">
+            <p>
+              <b><%= t('start_time') %>:</b> <br>
+              <%= camunda_time(activity[:startTime]) %>
+            </p>
+          </div>
+          <div class="col s12 m6">
+            <p>
+              <b><%= t('finished_at') %>:</b> <br>
+              <%= camunda_time(activity[:endTime]) %>
+            </p>
+          </div>
+        </div>
+      </div>
+      <%= t("bpm.task_duration") %> :  <%= duration_word(activity[:durationInMillis]) %>
+    </div>
+  </li>
+<% end %>

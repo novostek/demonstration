@@ -1,0 +1,77 @@
+<style>
+  .list-content {
+    width: 100% !important;
+  }
+</style>
+<div class="sidebar-left sidebar-fixed">
+  <div class="sidebar">
+    <div class="sidebar-content">
+      <div class="sidebar-header">
+        <div class="sidebar-details">
+          <h5 class="m-0 sidebar-title"><i class="material-icons app-header-icon text-top">assignment_late</i> <%= t("bpm.pending_tasks") %></h5>
+          <div class="row valign-wrapper mt-10 pt-2 animate fadeLeft">
+            <div class="col s12">
+              <p class="m-0 subtitle font-weight-700"><%# current_user.email %></p>
+              <p class="m-0 text-muted"><%# current_user.username %></p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div id="sidebar-list" class="sidebar-menu list-group position-relative animate fadeLeft ps ps--active-y">
+        <div class="sidebar-list-padding app-sidebar" id="todo-sidenav">
+          <ul class="todo-list display-grid" id="menu_task">
+            <li class="active white-text" id="assignee" onclick="$.get('<%= bpm_assignee_tasks_path(format: :js) %>')">
+              <a>
+                <i class="material-icons mr-2"> assignment_ind </i> <%= t("bpm.assignee_me") %>
+              </a>
+            </li>
+            <li id="group" onclick="$.get('<%= bpm_assignee_group_tasks_path(format: :js) %>')">
+              <a>
+                <i class="material-icons mr-2"> group </i> <%= t("bpm.assignee_group") %>
+              </a>
+            </li>
+          </ul>
+        </div>
+        <div class="ps__rail-x" style="left: 0px; bottom: 0px;"><div class="ps__thumb-x" tabindex="0" style="left: 0px; width: 0px;"></div></div><div class="ps__rail-y" style="top: 0px; height: 312px; right: 0px;"><div class="ps__thumb-y" tabindex="0" style="top: 0px; height: 175px;"></div></div></div>
+      <a href="#" data-target="todo-sidenav" class="sidenav-trigger hide-on-large-only"><i class="material-icons">menu</i></a>
+    </div>
+  </div>
+</div>
+<div class="app-todo">
+  <div class="content-area content-right">
+    <div class="hide-on-small-and-down" style="height: 57px;">&nbsp;</div>
+    <div class="app-wrapper">
+      <div class="card card card-default scrollspy border-radius-6 fixed-width">
+        <div class="card-content p-0 pb-2">
+          <div class="todo-header">
+            <div class="header-checkbox">
+
+            </div>
+            <div class="list-content"></div>
+          </div>
+          <ul class="collection todo-collection ps ps--active-y" style="max-height: 287px;" id="process_card">
+            <%= render partial: 'tasks', locals: {tasks: @tasks }%>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<%= content_for :sidenav do %>
+  <div class="email-compose-sidebar">
+    <div class="card" id="taskside">
+    </div>
+  </div><!-- START RIGHT SIDEBAR NAV -->
+<% end %>
+
+<%= content_for :scripts do %>
+  <script type="text/javascript" charset="utf-8">
+    function close_task() {
+        $(".email-overlay").removeClass("show");
+        $(".email-compose-sidebar").removeClass("show");
+    }
+  </script>
+<% end %>
+

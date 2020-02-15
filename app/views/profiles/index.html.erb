@@ -46,7 +46,6 @@
         <tr>
           <th><%= t('activerecord.attributes.profile.name') %></th>
           <th><%= t('activerecord.attributes.profile.description') %></th>
-          <th><%= t('activerecord.attributes.profile.permissions') %></th>
           <th><%= t('activerecord.attributes.profile.status') %></th>
           <th></th>
         </tr>
@@ -56,8 +55,8 @@
         <tr>
             <td><%= profile.name %></td>
             <td><%= profile.description %></td>
-            <td><%= profile.permissions %></td>
-            <td><%= profile.status %></td>
+
+            <td><%= t profile.status %></td>
           <td>
             <div class="invoice-action right-align">
               <%= link_to profile, class: "invoice-action-view mr-4" do %>

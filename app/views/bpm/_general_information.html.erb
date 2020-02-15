@@ -1,0 +1,38 @@
+<li class="collection-item todo-items">
+  <div class="list-left">
+  </div>
+  <div class="list-content">
+    <div class="list-title-area">
+      <div class="list-title"><%= t("bpm.process_id") %></div>
+    </div>
+    <div class=""><%= data[:general][:id] %></div>
+  </div>
+</li>
+
+<li class="collection-item todo-items">
+  <div class="list-left">
+  </div>
+  <div class="list-content">
+    <div class="list-title-area">
+      <div class="list-title">Status</div>
+    </div>
+    <div class="">
+      <%= t("bpm.ended_#{data[:general][:ended]}") %>
+    </div>
+  </div>
+</li>
+<li class="collection-item todo-items">
+  <div class="list-left">
+  </div>
+  <div class="list-content">
+    <div class="list-title-area">
+      <div class="list-title"><%= t("bpm.suspended") %></div>
+    </div>
+    <div class="">
+      <%= t(data[:general][:suspended]) %>
+    </div>
+  </div>
+</li>
+<% data[:variables].each do |variable| %>
+  <%= camunda_li_variable(variable) %>
+<% end %>

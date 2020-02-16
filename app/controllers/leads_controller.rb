@@ -14,6 +14,7 @@ class LeadsController < ApplicationController
   # GET /leads/new
   def new
     @lead = Lead.new
+    @customer = Customer.new
   end
 
   # GET /leads/1/edit
@@ -25,7 +26,11 @@ class LeadsController < ApplicationController
     @lead = Lead.new(lead_params)
 
     if @lead.save
-      redirect_to @lead, notice: 'Lead foi criado com sucesso'
+      if params[:button] == "save_n_lead"
+        render :new
+      else
+        redirect_to @lead, notice: 'Lead foi criado com sucesso'
+      end
     else
       render :new
     end

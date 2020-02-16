@@ -10,59 +10,73 @@
       </ul>
     </div>
   <% end %>
-<div class="section">
-  <div class="card">
-    <div class="card-content">
-      <div class="row">
-        <div class="input-field col s12 m4">
-          <%= f.text_field :phone, 
-              autocomplete: 'off', 
-              class: 'autocomplete autocomplete-phone', 
-              onkeyup: "search_by_phone($(this).val())" %>
-          <%= f.label  :phone, id: 'lead_phone_label' %>
-        </div>
+  <div class="section">
+    <div class="card">
+      <div class="card-content">
+        <div class="row">
+          <div class="input-field col s12 m4">
+            <%= f.text_field :phone, 
+                autocomplete: 'off', 
+                class: 'autocomplete autocomplete-phone', 
+                onkeyup: "search_by_phone($(this).val())" %>
+            <%= f.label  :phone, id: 'lead_phone_label' %>
+          </div>
 
-        <div class="input-field col s12 m4">
-          <%= f.text_field :customer, 
-              autocomplete: 'off', 
-              class: 'autocomplete autocomplete-customer', 
-              onkeyup: "search_by_name($(this).val())" %>
-          <%= f.hidden_field :customer_id %>
-          <%= f.label  :customer, id: 'lead_customer_label' %>
+          <div class="input-field col s12 m4">
+            <%= f.text_field :customer, 
+                autocomplete: 'off', 
+                class: 'autocomplete autocomplete-customer', 
+                onkeyup: "search_by_name($(this).val())" %>
+            <%= f.hidden_field :customer_id %>
+            <%= f.label  :customer, id: 'lead_customer_label' %>
+          </div>
+          <div class="col s12 m3 display-flex pt-2 justify-content-end">
+            <!-- Mo dal Trigger -->
+            <a class="btn waves-effect indigo waves-light left modal-trigger" href="#customer-add-modal"><i class="material-icons hide-on-med-and-up">add</i><span class="hide-on-small-only">New customer</span></a>
+          </div>
         </div>
-      </div>
-      <div class="row other-fields" style="display: none;">									
-        <div class="input-field col s12 m8">
-          <%= f.text_field :description, autocomplete: 'off' %>
-          <%= f.label  :description %>
-        </div>
-        <div class="input-field col s6 m4">
-          <%= f.text_field :via, autocomplete: 'off', class: 'autocomplete autocomplete-via' %>
-          <%= f.label  :via %>
-        </div>
-        <div class="input-field col s6 m4">
-          <%= f.date_field :date, class: 'validate datepicker' %>
-          <%= f.label  :date %>
-        </div>
-        <div class="col s12 m4">
-          <div class="input-field">
+        <div class="row other-fields" style="display: none;">									
+          <div class="input-field col s12 m8">
+            <%= f.text_field :description, autocomplete: 'off' %>
+            <%= f.label  :description %>
+          </div>
+          <div class="input-field col s6 m4">
+            <%= f.text_field :via, autocomplete: 'off', class: 'autocomplete autocomplete-via' %>
+            <%= f.label  :via %>
+          </div>
+          <div class="input-field col s6 m4">
+            <%= f.date_field :date, class: 'validate datepicker' %>
+            <%= f.label  :date %>
+          </div>
+          <div class="col s12 m4">
+            <div class="input-field">
 
-            <%= f.select :status, ['new'] %>
-            <%= f.label  :status %>
+              <%= f.select :status, ['new'] %>
+              <%= f.label  :status %>
+            </div>
           </div>
         </div>
       </div>
     </div>
   </div>
-</div>
 
-
-</div>
-  <div class="save-buttons col s12 pb-2" style='display: block;'>
-    <a class="btn indigo waves-effect waves-light breadcrumbs-btn right ml-1" href="estimate-add.html"><i class="material-icons hide-on-med-and-up">arrow_forward</i><span class="hide-on-small-only">Save & Estimate</span></a>
-    <%= f.submit t('actions.leads.save_lead'), class:"btn" %>
+  <div class="save-buttons col s12 pb-2" style='display: none;'>
+    <%= f.button :submit, :value => "save_n_lead", class:"btn indigo waves-effect waves-light breadcrumbs-btn right ml-1" do %>
+      <i class="material-icons hide-on-med-and-up">arrow_forward</i><span class="hide-on-small-only"><%= t('actions.leads.save_n_estimate') %></span>
+    <% end %>
+    <%= f.button :submit, :value => "save", class:"btn waves-effect waves-light breadcrumbs-btn right" do %>
+      <i class="material-icons hide-on-med-and-up">save</i><span class="hide-on-small-only"><%= t('actions.leads.save_lead') %></span>
+    <% end %>
+    <%# <a class="btn indigo waves-effect waves-light breadcrumbs-btn right ml-1" href="estimate-add.html"><i class="material-icons hide-on-med-and-up">arrow_forward</i><span class="hide-on-small-only">Save & Estimate</span></a> %>
+    <%# <a class="btn waves-effect waves-light breadcrumbs-btn right" href="lead-add.html"><i class="material-icons hide-on-med-and-up">save</i><span class="hide-on-small-only">Save lead</span></a> %>
   </div>
 <% end %>
+
+<div id="customer-add-modal" class="modal modal-fixed-footer">
+		<div class="modal-content">
+			<h4>New customer</h4>
+			<%= render 'customer_form', customer: @customer %>
+</div>
 
 <% content_for :scripts do %>
   <script>

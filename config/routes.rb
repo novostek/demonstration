@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :leads
   devise_for :users
   resources :users
   resources :menus
@@ -21,6 +22,10 @@ Rails.application.routes.draw do
       get "new_note"
       post "new_document"
       get "new_contact"
+    end
+
+    collection do
+      get "search_by_phone/:phone", to: "customers#search_by_phone"
     end
   end
   resources :workers do

@@ -1,0 +1,16 @@
+en:
+  activerecord:
+    models:
+      leads: "Leads"
+    attributes:
+      leads:
+        customer: "Customer"
+        phone: "Phone"
+        via: "Via"
+        description: "Description"
+        status: "Status"
+        date: "Date"
+  actions:
+    leads:
+      save_lead: "Save Lead"
+      save_n_estimate: "Save & Estimate"

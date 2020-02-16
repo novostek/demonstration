@@ -1,0 +1,162 @@
+<%= form_for(lead) do |f| %>
+  <% if lead.errors.any? %>
+    <div id="error_explanation" class="card-panel red white-text">
+      <h5><%= t('errors.template.header')  %>:</h5>
+
+      <ul>
+      <% lead.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+<div class="section">
+  <div class="card">
+    <div class="card-content">
+      <div class="row">
+        <div class="input-field col s12 m4">
+          <%= f.text_field :phone, 
+              autocomplete: 'off', 
+              class: 'autocomplete autocomplete-phone', 
+              onkeyup: "search_by_phone($(this).val())" %>
+          <%= f.label  :phone, id: 'lead_phone_label' %>
+        </div>
+
+        <div class="input-field col s12 m4">
+          <%= f.text_field :customer, 
+              autocomplete: 'off', 
+              class: 'autocomplete autocomplete-customer', 
+              onkeyup: "search_by_name($(this).val())" %>
+          <%= f.hidden_field :customer_id %>
+          <%= f.label  :customer, id: 'lead_customer_label' %>
+        </div>
+      </div>
+      <div class="row other-fields" style="display: none;">									
+        <div class="input-field col s12 m8">
+          <%= f.text_field :description, autocomplete: 'off' %>
+          <%= f.label  :description %>
+        </div>
+        <div class="input-field col s6 m4">
+          <%= f.text_field :via, autocomplete: 'off', class: 'autocomplete autocomplete-via' %>
+          <%= f.label  :via %>
+        </div>
+        <div class="input-field col s6 m4">
+          <%= f.date_field :date, class: 'validate datepicker' %>
+          <%= f.label  :date %>
+        </div>
+        <div class="col s12 m4">
+          <div class="input-field">
+
+            <%= f.select :status, ['new'] %>
+            <%= f.label  :status %>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+</div>
+  <div class="save-buttons col s12 pb-2" style='display: block;'>
+    <a class="btn indigo waves-effect waves-light breadcrumbs-btn right ml-1" href="estimate-add.html"><i class="material-icons hide-on-med-and-up">arrow_forward</i><span class="hide-on-small-only">Save & Estimate</span></a>
+    <%= f.submit t('actions.leads.save_lead'), class:"btn" %>
+  </div>
+<% end %>
+
+<% content_for :scripts do %>
+  <script>
+    const insert_value_to_field = (field_id, value) => {
+      $(`#${field_id}`).val(value)
+      $(`#${field_id}_label`).addClass("active")
+    }
+
+    const headers = new Headers({
+      "Content-Type": "application/json",
+      "Accept": "application/json"
+    })
+    const fetchConfig = {
+      headers
+    }
+
+    search_by_name = (value, completed = false) => {
+      fetch(`/customers?q%5Bname_cont%5D=${value}`, fetchConfig)
+      .then((res) => res.json())
+      .then((result) => {
+        if(completed){
+          $("#lead_customer_id").val(result[0].id)
+          insert_value_to_field('lead_phone', result[0].contacts[0].data.phone)
+        }
+        // console.log(data)
+        if(Array.isArray(result) && result.length > 0){
+          let customerList = {}
+          result.map((element, index) => {
+            customerList[element.name] = null
+          })
+          var customer_autocomplete = document.getElementById("lead_customer");
+          var customer_instance = M.Autocomplete.getInstance(customer_autocomplete);
+          customer_instance.updateData(customerList)
+        }
+      })
+
+    }
+
+    search_by_phone = (value, completed = false) => {
+      value &&
+      fetch(`/customers/search_by_phone/${value}`, fetchConfig)
+      .then((res) => res.json())
+      .then((result) => {
+        if(completed) 
+          insert_value_to_field('lead_customer', result[0].name)
+        if(Array.isArray(result) && result.length > 0){
+          let phoneList = {}
+          result.map((element, index) => {
+            element.contacts.map((contact) => phoneList[contact.data.phone] = null)
+          })
+          var phone_autocomplete = document.getElementById("lead_phone");
+          var phone_instance = M.Autocomplete.getInstance(phone_autocomplete);
+          phone_instance.updateData(phoneList)
+        }
+      })
+      .catch((error) => console.log(error))      
+    }
+  </script>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const lead_phone = document.getElementById('lead_phone');
+      const phone_options = {
+        data: {},
+        limit: 3,
+        minLength: 3,
+        onAutocomplete: (res) => search_by_phone(res, true)
+      }
+      M.Autocomplete.init(lead_phone, phone_options);
+
+      const lead_customer = document.getElementById('lead_customer');
+      const customer_options = {
+        data: {},
+        limit: 3,
+        minLength: 3,
+        onAutocomplete: (res) => search_by_name(res, true)
+      }
+      M.Autocomplete.init(lead_customer, customer_options);
+    });
+		$(document).ready(function(){
+			$('.modal').modal({
+				opacity: .8
+			});
+			$(".autocomplete").on("change", function(){
+				$(".other-fields, .save-buttons").fadeIn();
+			});
+
+			$('input.autocomplete.autocomplete-via').autocomplete({
+				data: {
+					"Phone": null,
+					"Email (e-mail)": null,
+					"Store": null
+				},
+			});
+		});
+	</script>
+<% end %>

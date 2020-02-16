@@ -93,6 +93,11 @@ class CustomersController < ApplicationController
     redirect_to customers_url, notice: 'Customer foi apagado com sucesso.'
   end
 
+  def search_by_phone
+    @customers = Customer.search_by_phone(params[:phone])
+    render json: @customers
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_customer

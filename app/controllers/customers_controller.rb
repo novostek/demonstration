@@ -72,7 +72,9 @@ class CustomersController < ApplicationController
     @customer = Customer.new(customer_params)
 
     if @customer.save
-      redirect_to @customer, notice: 'Customer foi criado com sucesso'
+      if params[:button] != "remote_save"
+        redirect_to @customer, notice: 'Customer foi criado com sucesso'
+      end
     else
       render :new
     end
@@ -91,6 +93,11 @@ class CustomersController < ApplicationController
   def destroy
     @customer.destroy
     redirect_to customers_url, notice: 'Customer foi apagado com sucesso.'
+  end
+
+  def search_by_phone
+    @customers = Customer.search_by_phone(params[:phone])
+    render json: @customers
   end
 
   private

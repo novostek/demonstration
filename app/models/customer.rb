@@ -2,15 +2,16 @@
 #
 # Table name: customers
 #
-#  id          :bigint           not null, primary key
-#  birthdate   :date
-#  category    :string
-#  code        :string
-#  name        :string
-#  since       :date
-#  created_at  :datetime         not null
-#  updated_at  :datetime         not null
-#  document_id :string
+#  id           :bigint           not null, primary key
+#  birthdate    :date
+#  bpm_instance :string
+#  category     :string
+#  code         :string
+#  name         :string
+#  since        :date
+#  created_at   :datetime         not null
+#  updated_at   :datetime         not null
+#  document_id  :string
 #
 
 class Customer < ApplicationRecord
@@ -38,5 +39,16 @@ class Customer < ApplicationRecord
       self.code = self.name.parameterize
     end
   end
+
+  def self.search_by_phone phone
+    @customers = Customer.joins(:contacts).where("contacts.data->>'phone' LIKE ? AND contacts.category = 'phone'", "#{phone}%")
+  end
+
+  def as_json(options = {})
+    s = super(options)
+    s[:contacts] = self.contacts
+    s
+  end
+
 
 end

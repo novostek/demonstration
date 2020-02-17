@@ -1,0 +1,99 @@
+<script src="https://unpkg.com/bpmn-js@6.1.1/dist/bpmn-navigated-viewer.development.js"></script>
+<style>
+  html, body, #canvas {
+    height: 300px;
+    padding: 0;
+    margin: 0;
+  }
+</style>
+<style>
+  .list-content {
+    width: 100% !important;
+  }
+</style>
+<div class="sidebar-left sidebar-fixed">
+  <div class="sidebar">
+    <div class="sidebar-content">
+      <div class="sidebar-header">
+        <div class="sidebar-details">
+          <h5 class="m-0 sidebar-title"><i class="material-icons app-header-icon text-top">swap_calls</i> <%= t("bpm.view_process") %></h5>
+          <div class="row valign-wrapper mt-10 pt-2 animate fadeLeft">
+            <div class="col s12">
+              <p class="m-0 subtitle font-weight-700"><%= t("bpm.process_id") %>:</p>
+              <p class="m-0 text-muted"><%= params[:id] %></p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div id="sidebar-list" class="sidebar-menu list-group position-relative animate fadeLeft ps ps--active-y">
+        <div class="sidebar-list-padding app-sidebar" id="todo-sidenav">
+          <ul class="todo-list display-grid" id="menu_task">
+            <li class="active white-text" id="general" onclick="$.get('<%= process_path(id: params[:id], format: :js) %>')">
+              <a>
+                <i class="material-icons mr-2"> view_headline </i> <%= t("bpm.general") %>
+              </a>
+            </li>
+            <li id="history" onclick="$.get('<%= bpm_process_activity_path(id: params[:id], format: :js) %>')">
+              <a>
+                <i class="material-icons mr-2"> history </i> <%= t('bpm.history') %>
+              </a>
+            </li>
+            <li id="diagram" onclick="$.get('<%= bpm_diagram_path(id: @data[:general][:processDefinitionId], instance: params[:id], format: :js) %>')">
+              <a>
+                <i class="material-icons mr-2"> map </i> <%= t('bpm.diagram') %>
+              </a>
+            </li>
+            <li id="comments" onclick="swal('to do!')">
+              <a>
+                <i class="material-icons mr-2"> comment </i> <%= t('bpm.comments') %>
+              </a>
+            </li>
+          </ul>
+        </div>
+        <div class="ps__rail-x" style="left: 0px; bottom: 0px;"><div class="ps__thumb-x" tabindex="0" style="left: 0px; width: 0px;"></div></div><div class="ps__rail-y" style="top: 0px; height: 312px; right: 0px;"><div class="ps__thumb-y" tabindex="0" style="top: 0px; height: 175px;"></div></div></div>
+      <a href="#" data-target="todo-sidenav" class="sidenav-trigger hide-on-large-only"><i class="material-icons">menu</i></a>
+    </div>
+  </div>
+</div>
+<div class="app-todo">
+  <div class="content-area content-right">
+    <div class="hide-on-small-and-down" style="height: 57px;">&nbsp;</div>
+    <div class="app-wrapper">
+      <div class="card card card-default scrollspy border-radius-6 fixed-width">
+        <div class="card-content p-0 pb-2">
+          <div class="todo-header">
+            <div class="header-checkbox">
+
+            </div>
+            <div class="list-content"></div>
+            <div class="todo-action">
+              <span class="sort-task">
+                <%= link_to '#' do %>
+                  <i class="material-icons grey-text">note_add</i>
+                <% end %>
+              </span>
+              <div class="select-action">
+                <!-- Dropdown Trigger -->
+                <a class="dropdown-trigger grey-text" href="#" data-target="dropdown1">
+                  <i class="material-icons">more_vert</i>
+                </a><ul id="dropdown1" class="dropdown-content" tabindex="0">
+                <li tabindex="0"><a href="#!">All</a></li>
+                <li tabindex="0"><a href="#!">Read</a></li>
+                <li tabindex="0"><a href="#!">Unread</a></li>
+                <li tabindex="0"><a href="#!">Starred</a></li>
+                <li tabindex="0"><a href="#!">Unstarred</a></li>
+              </ul>
+                <!-- Dropdown Structure -->
+
+              </div>
+            </div>
+          </div>
+          <ul class="collection todo-collection ps ps--active-y" style="max-height: 287px;" id="process_card">
+            <%= render partial: 'general_information', locals: {data: @data }%>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+

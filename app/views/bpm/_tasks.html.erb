@@ -1,0 +1,46 @@
+<% tasks.each do |task| %>
+  <li class="collection-item todo-items" onclick="$.get('<%= bpm_task_path(id: task[:id], format: :js) %>')">
+    <div class="list-left">
+    </div>
+    <div class="list-content">
+      <div class="list-title-area">
+        <div class="list-title"><%= task[:name] || t('bpm.unnamed_task')%></div>
+        <span class="badge grey lighten-2"><i class="purple-text material-icons small-icons mr-2">
+                                                                person </i><%= task[:assignee] || t("bpm.not_assignee") %></span>
+      </div>
+      <div class="">
+        <div class="row">
+          <div class="col s12 m6">
+            <p>
+              <b><%= t('start_time') %>:</b> <br>
+              <%= camunda_time(task[:created]) %>
+            </p>
+          </div>
+          <div class="col s12 m6">
+            <p>
+              <b><%= t('bpm.due') %>:</b> <br>
+              <%= camunda_time(task[:due]) %>
+            </p>
+          </div>
+          <div class="col s12 m6">
+            <p>
+              <b><%= t('bpm.follou_up') %>:</b> <br>
+              <%= camunda_time(task[:followUp]) %>
+            </p>
+          </div>
+          <div class="col s12 m6">
+            <p>
+              <b><%= t('bpm.delegation_state') %>:</b> <br>
+              <%= camunda_time(task[:delegationState]) %>
+            </p>
+          </div>
+        </div>
+      </div>
+      <p><%= task[:description] %></p>
+    </div>
+  </li>
+<% end %>
+
+<% if tasks.blank? %>
+  <h4 class="center">No Results</h4>
+<% end %>

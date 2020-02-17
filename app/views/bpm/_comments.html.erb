@@ -1,0 +1,18 @@
+<% comments.each do |comment| %>
+  <li class="collection-item todo-items">
+    <div class="list-left">
+    </div>
+    <div class="list-content">
+      <div class="list-title-area">
+        <div class="list-title"><%= comment.created_at %></div>
+        <span class="badge grey lighten-2"><i class="purple-text material-icons small-icons mr-2">
+                                                                person </i><%= comment.user.email %></span>
+      </div>
+      <div class="">
+        <p>
+          <%= comment.comment %>
+        </p>
+      </div>
+    </div>
+  </li>
+<% end %>

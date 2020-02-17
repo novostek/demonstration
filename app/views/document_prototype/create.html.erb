@@ -1,2 +1,22 @@
-<h1>DocumentPrototype#creat</h1>
-<p>Find me in app/views/document_prototype/creat.html.erb</p>
+<%= content_for :body_class do "menu-collapse" end %>
+<div class="breadcrumbs-dark pb-0 pt-4" id="breadcrumbs-wrapper">
+  <!-- Search for small screen-->
+  <div class="container">
+    <div class="row">
+      <div class="col s10 m6 l6">
+        <h5 class="breadcrumbs-title mt-0 mb-0"><span>New Template</span></h5>
+        <ol class="breadcrumbs mb-0">
+          <li class="breadcrumb-item"><a href="/"><%= t('home') %></a>
+          </li>
+          <li class="breadcrumb-item"><a href="#">Documents Template</a>
+          </li>
+          <li class="breadcrumb-item active"> New
+          </li>
+        </ol>
+      </div>
+      <div class="col s2 m6 l6">
+        <%= link_to t('button.all'), contacts_path, class:"btn waves-effect waves-light breadcrumbs-btn right" %>
+      </div>
+    </div>
+  </div>
+</div>

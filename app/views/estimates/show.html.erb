@@ -1,0 +1,114 @@
+<div class="breadcrumbs-dark pb-0 pt-4" id="breadcrumbs-wrapper">
+  <!-- Search for small screen-->
+  <div class="container">
+    <div class="row">
+      <div class="col s10 m6 l6">
+        <h5 class="breadcrumbs-title mt-0 mb-0"><span><%= t('activerecord.models.estimate') %></span></h5>
+        <ol class="breadcrumbs mb-0">
+          <li class="breadcrumb-item"><a href="/"><%= t('home') %></a>
+          </li>
+          <li class="breadcrumb-item"><a href="#"><%= t('activerecord.models.estimate') %></a>
+          </li>
+          <li class="breadcrumb-item active"><%= t('breadcrumb.show') %>
+          </li>
+        </ol>
+      </div>
+      <div class="col s2 m6 l6">
+        <%= link_to t('button.all'), estimates_path, class:"btn waves-effect waves-light breadcrumbs-btn right" %>
+        <%= link_to edit_estimate_path(@estimate) , class: "btn-flat waves-effect waves-light breadcrumbs-btn right" do %>
+          <i class="material-icons">edit</i>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="card-panel">
+	
+  <p>
+    <strong><%= t('activerecord.attributes.estimate.code') %>:</strong>
+    <%= @estimate.code %>
+  </p>
+
+  <p>
+    <strong><%= t('activerecord.attributes.estimate.title') %>:</strong>
+    <%= @estimate.title %>
+  </p>
+
+  <p>
+    <strong><%= t('activerecord.attributes.estimate.worker') %>:</strong>
+    <%= @estimate.worker %>
+  </p>
+
+  <p>
+    <strong><%= t('activerecord.attributes.estimate.status') %>:</strong>
+    <%= @estimate.status %>
+  </p>
+
+  <p>
+    <strong><%= t('activerecord.attributes.estimate.description') %>:</strong>
+    <%= @estimate.description %>
+  </p>
+
+  <p>
+    <strong><%= t('activerecord.attributes.estimate.location') %>:</strong>
+    <%= @estimate.location %>
+  </p>
+
+  <p>
+    <strong><%= t('activerecord.attributes.estimate.latitude') %>:</strong>
+    <%= @estimate.latitude %>
+  </p>
+
+  <p>
+    <strong><%= t('activerecord.attributes.estimate.longitude') %>:</strong>
+    <%= @estimate.longitude %>
+  </p>
+
+  <p>
+    <strong><%= t('activerecord.attributes.estimate.category') %>:</strong>
+    <%= @estimate.category %>
+  </p>
+
+  <p>
+    <strong><%= t('activerecord.attributes.estimate.order') %>:</strong>
+    <%= @estimate.order %>
+  </p>
+
+  <p>
+    <strong><%= t('activerecord.attributes.estimate.price') %>:</strong>
+    <%= @estimate.price %>
+  </p>
+
+  <p>
+    <strong><%= t('activerecord.attributes.estimate.tax') %>:</strong>
+    <%= @estimate.tax %>
+  </p>
+
+  <p>
+    <strong><%= t('activerecord.attributes.estimate.tax_calculation') %>:</strong>
+    <%= @estimate.tax_calculation %>
+  </p>
+
+  <p>
+    <strong><%= t('activerecord.attributes.estimate.lead') %>:</strong>
+    <%= @estimate.lead %>
+  </p>
+
+  <p>
+    <strong><%= t('activerecord.attributes.estimate.bpmn_instance') %>:</strong>
+    <%= @estimate.bpmn_instance %>
+  </p>
+
+  <p>
+    <strong><%= t('activerecord.attributes.estimate.current') %>:</strong>
+    <%= @estimate.current %>
+  </p>
+
+  <p>
+    <strong><%= t('activerecord.attributes.estimate.total') %>:</strong>
+    <%= @estimate.total %>
+  </p>
+
+</div>
+

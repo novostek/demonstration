@@ -1,0 +1,54 @@
+<%= form_for(order) do |f| %>
+  <% if order.errors.any? %>
+    <div id="error_explanation" class="card-panel red white-text">
+      <h5><%= t('errors.template.header')  %>:</h5>
+
+      <ul>
+      <% order.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+<div class="card-panel">
+  
+  <div class="input-field">
+
+    <%= f.label  :code %>
+    <%= f.text_field :code %>
+    
+  </div>
+
+  <div class="input-field">
+
+    <%= f.label  :status %>
+    <%= f.text_field :status %>
+    
+  </div>
+
+  <div class="input-field">
+
+    <%= f.label  :bpmn_instance %>
+    <%= f.text_field :bpmn_instance %>
+    
+  </div>
+
+  <div class="input-field">
+
+    <%= f.label  :start_at %>
+    <%= f.datetime_select :start_at %>
+    
+  </div>
+
+  <div class="input-field">
+
+    <%= f.label  :end_at %>
+    <%= f.datetime_select :end_at %>
+    
+  </div>
+
+</div>
+  <div class="actions">
+    <%= f.submit t('button.save'), class:"btn" %>
+  </div>
+<% end %>

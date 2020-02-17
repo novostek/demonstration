@@ -3,7 +3,7 @@ class CreateEstimates < ActiveRecord::Migration[6.0]
     create_table :estimates do |t|
       t.string :code, null: false
       t.string :title, null: false
-      t.references :sales_person, foreign_key: { to_table: :worker }
+      t.references :sales_person, foreign_key: { to_table: :workers }
       t.string :status, null: false
       t.text :description, null: false
       t.string :location, null: false
@@ -13,7 +13,7 @@ class CreateEstimates < ActiveRecord::Migration[6.0]
       t.references :order, foreign_key: true
       t.decimal :price
       t.decimal :tax
-      t.references :tax_calculation, foreign_key: { to_table: :calculation_formula }
+      t.references :tax_calculation, foreign_key: { to_table: :calculation_formulas }
       t.references :lead, foreign_key: true
       t.string :bpmn_instance
       t.boolean :current

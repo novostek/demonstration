@@ -1,0 +1,2 @@
+module DocumentPrototypeHelper
+end

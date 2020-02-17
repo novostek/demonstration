@@ -1,0 +1,88 @@
+<%= form_for(document_file) do |f| %>
+  <% if document_file.errors.any? %>
+    <div id="error_explanation" class="card-panel red white-text">
+      <h5><%= t('errors.template.header')  %>:</h5>
+
+      <ul>
+      <% document_file.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+<div class="card-panel">
+  
+  <div class="input-field">
+
+    <%= f.label  :title %>
+    <%= f.text_field :title, required: true %>
+    
+  </div>
+
+  <div class="file-field input-field">
+    <div class="btn">
+      <span><%= f.label  :file %></span>
+      <%= f.file_field :file %>
+      <%= f.hidden_field :file_cache %>
+    </div>
+    <div class="file-path-wrapper">
+      <input class="file-path validate" type="text">
+    </div>
+  </div>
+
+
+
+  <div class="input-field">
+
+    <%= f.label  :origin %>
+    <%= f.text_field :origin, required: true %>
+    
+  </div>
+
+  <div class="input-field">
+
+    <%= f.label  :origin_id %>
+    <%= f.number_field :origin_id, required: true %>
+    
+  </div>
+
+  <div class="input-field">
+
+    <%= f.label  :esign %>
+    <%= f.check_box :esign %>
+    
+  </div>
+
+  <div class="input-field">
+
+    <%= f.label  :esign_data %>
+    <%= f.text_field :esign_data %>
+    
+  </div>
+
+  <div class="input-field">
+
+    <%= f.label  :photo %>
+    <%= f.text_field :photo %>
+    
+  </div>
+
+  <div class="input-field">
+
+    <%= f.label  :photo_date %>
+    <%= f.date_field :photo_date %>
+    
+  </div>
+
+  <div class="input-field">
+
+    <%= f.label  :photo_description %>
+    <%= f.text_area :photo_description, class:"materialize-textarea" %>
+    
+  </div>
+
+</div>
+  <div class="actions">
+    <%= f.submit t('button.save'), class:"btn" %>
+  </div>
+<% end %>

@@ -13,6 +13,8 @@ en:
     save: "Save"
     see_more: "See More"
     add: "Add"
+    delete: "Delete"
+    new: "New"
 
   false: "No"
   true: "Yes"
@@ -30,3 +32,13 @@ en:
   minutes: "minutes"
   second: "second"
   seconds: "seconds"
+
+
+  #atributes
+  name: "Name"
+  description: "Description"
+  color: "Color"
+  namespace: "Namespace"
+  notes: "Notes"
+  documents: "Documents"
+  contacts: "Contact"

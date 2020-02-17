@@ -1,0 +1,13 @@
+en:
+  activerecord:
+    attributes:
+      document_file:
+        title: "Title"
+        file: "File"
+        origin: "Origin"
+        origin_id: "Origin ID"
+        esign: "E-Sign"
+        esign_data: "E-Sign Data"
+        photo: "Photo"
+        photo_date: "Photo Date"
+        photo_description: "Photo Description"

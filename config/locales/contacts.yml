@@ -9,3 +9,19 @@ en:
         value: "Value"
         origin: "Origin"
         origin_id: "Origin ID"
+  enumerize:
+    contact:
+      category:
+        phone: "Phone"
+        email: "Email"
+        address: "Address"
+  json_data:
+    address: "Address"
+    zipcode: "ZipCode"
+    state: "State"
+    city: "City"
+    lat: "Latitude"
+    lng: "Longitude"
+    email: "Email"
+    ddd: "DDD"
+    phone: "Phone"

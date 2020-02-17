@@ -41,6 +41,10 @@ group :development do
   # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
   gem 'spring'
   gem 'spring-watcher-listen', '~> 2.0.0'
+  gem 'annotate'
+  gem 'pry-rails'
+  gem 'pry-remote'
+  gem 'pry-byebug'
 end
 
 group :test do
@@ -60,4 +64,15 @@ gem 'devise'
 gem 'cancancan'
 gem 'rest-client'
 gem 'dentaku'
+
+#upload de arquivos
+gem 'carrierwave', '~> 2.0'
+gem "fog-aws"
+
+gem 'enumerize'
+
+gem "cocoon"
+
+#https://github.com/stefankroes/ancestry
+gem 'ancestry'
 gem 'camunda-workflow'

@@ -1,0 +1,10 @@
+en:
+  activerecord:
+    attributes:
+      menu:
+        name: "Name"
+        url: "Url"
+        active: "Active"
+        icon: "Icon"
+  menu_pai: "Father Menu"
+  profiles: "Profiles"

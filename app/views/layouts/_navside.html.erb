@@ -2,6 +2,21 @@
   <div class="brand-sidebar">
     <h1 class="logo-wrapper"><a class="brand-logo darken-1" href="/"><img class="hide-on-med-and-down" src="/materialize/images/logo/materialize-logo-color.png" alt="materialize logo" /><img class="show-on-medium-and-down hide-on-med-and-up" src="/materialize/images/logo/materialize-logo.png" alt="materialize logo" /><span class="logo-text hide-on-med-and-down"><%= @company_name %></span></a><a class="navbar-toggler" href="#"><i class="material-icons">radio_button_checked</i></a></h1>
   </div>
-  <ul class="sidenav sidenav-collapsible leftside-navigation collapsible sidenav-fixed menu-shadow" id="slide-out" data-menu="menu-navigation" data-collapsible="menu-accordion"></ul>
+  <ul class="sidenav sidenav-collapsible leftside-navigation collapsible sidenav-fixed menu-shadow" id="slide-out" data-menu="menu-navigation" data-collapsible="menu-accordion">
+    <ul id="slide-out" class="side-nav fixed leftside-navigation">
+      <li class="no-padding">
+        <ul class="collapsible" data-collapsible="accordion">
+
+
+
+          <% current_user.menus.where(active: true).distinct.roots.map{|a| a.subtree.where(id: current_user.menu_ids).arrange_serializable}.each do |m| %>
+              <%= render partial: "layouts/menu_tree",  locals: {m: m[0]}, cached: true %>
+          <% end if current_user.present?  %>
+
+        </ul>
+      </li>
+    </ul>
+
+  </ul>
   <div class="navigation-background"></div><a class="sidenav-trigger btn-sidenav-toggle btn-floating btn-medium waves-effect waves-light hide-on-large-only" href="#" data-target="slide-out"><i class="material-icons">menu</i></a>
 </aside>

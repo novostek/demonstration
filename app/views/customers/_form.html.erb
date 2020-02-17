@@ -15,14 +15,15 @@
   <div class="input-field">
 
     <%= f.label :name %>
-    <%= f.text_field :name %>
+    <%= f.text_field :name, required: true %>
     
   </div>
 
   <div class="input-field">
 
+
+    <%= f.select :category, Customer.category.options, {prompt: true} %>
     <%= f.label :category %>
-    <%= f.text_field :category %>
     
   </div>
 
@@ -35,8 +36,9 @@
 
   <div class="input-field">
 
+
+    <%= f.date_field :since %>
     <%= f.label :since %>
-    <%= f.date_select :since %>
     
   </div>
 
@@ -49,10 +51,13 @@
 
   <div class="input-field">
 
+
+    <%= f.date_field :birthdate %>
     <%= f.label :birthdate %>
-    <%= f.date_select :birthdate %>
     
   </div>
+
+
 
 </div>
   <div class="actions">

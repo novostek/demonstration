@@ -1,0 +1,41 @@
+# == Schema Information
+#
+# Table name: document_files
+#
+#  id                :bigint           not null, primary key
+#  esign             :boolean
+#  esign_data        :json
+#  file              :text
+#  origin            :string
+#  photo             :string
+#  photo_date        :date
+#  photo_description :text
+#  title             :string
+#  created_at        :datetime         not null
+#  updated_at        :datetime         not null
+#  origin_id         :integer
+#
+
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  title: MyString
+  file: MyText
+  origin: MyString
+  origin_id: 1
+  esign: false
+  esign_data: 
+  photo: MyString
+  photo_date: 2020-02-06
+  photo_description: MyText
+
+two:
+  title: MyString
+  file: MyText
+  origin: MyString
+  origin_id: 1
+  esign: false
+  esign_data: 
+  photo: MyString
+  photo_date: 2020-02-06
+  photo_description: MyText

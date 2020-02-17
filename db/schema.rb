@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_02_13_213618) do
+ActiveRecord::Schema.define(version: 2020_02_15_211810) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -60,6 +60,18 @@ ActiveRecord::Schema.define(version: 2020_02_13_213618) do
     t.text "photo_description"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "leads", force: :cascade do |t|
+    t.bigint "customer_id", null: false
+    t.string "via"
+    t.text "description"
+    t.string "status"
+    t.datetime "date"
+    t.string "phone"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["customer_id"], name: "index_leads_on_customer_id"
   end
 
   create_table "menus", force: :cascade do |t|
@@ -174,6 +186,7 @@ ActiveRecord::Schema.define(version: 2020_02_13_213618) do
     t.datetime "updated_at", precision: 6, null: false
   end
 
+  add_foreign_key "leads", "customers"
   add_foreign_key "products", "calculation_formulas"
   add_foreign_key "products", "product_categories"
   add_foreign_key "products", "suppliers"

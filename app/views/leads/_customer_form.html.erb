@@ -1,0 +1,49 @@
+<%= form_for(customer, authenticity_token: true, remote: true) do |f| %>
+  <% if customer.errors.any? %>
+    <div id="error_explanation" class="card-panel red white-text">
+      <h5><%= t('errors.template.header')  %>:</h5>
+
+      <ul>
+      <% customer.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+  <div class="row">
+    <div class="input-field col s12">
+      <%= f.label :name %>
+      <%= f.text_field :name, required: true %>
+    </div>
+  </div>
+  
+  <div class="row">
+    <div class="col s6">
+      <div class="input-field">
+        <%= f.select :category, Customer.category.options, {prompt: true} %>
+        <%= f.label :category %>
+      </div>
+    </div>
+    <div class="input-field col s6">
+      <%= f.label :document_id %>
+      <%= f.text_field :document_id %>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="input-field col s6">
+      <%= f.date_field :since %>
+      <%= f.label :since %>
+    </div>
+    <div class="input-field col s6">
+      <%= f.date_field :birthdate %>
+      <%= f.label :birthdate %>
+    </div>
+  </div>
+  </div>
+  <div class="modal-footer">
+    <%= f.button :submit, :value => "remote_save", class:"modal-action modal-close waves-effect waves-green btn-flat" do %>
+      <i class="material-icons left">save</i><%= t('buttons.customer.save') %>
+    <% end %>
+  </div>
+<% end %>

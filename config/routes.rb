@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
   resources :estimates
+  resources :orders
   resources :leads
   devise_for :users
   resources :users

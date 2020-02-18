@@ -76,3 +76,5 @@ gem "cocoon"
 #https://github.com/stefankroes/ancestry
 gem 'ancestry'
 gem 'camunda-workflow'
+
+gem 'sendgrid-ruby'

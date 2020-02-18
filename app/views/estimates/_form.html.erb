@@ -10,123 +10,65 @@
       </ul>
     </div>
   <% end %>
-<div class="card-panel">
-  
-  <div class="input-field">
+<div class="section">
+  <%= render 'leads/lead_detail' %>
 
-    <%= f.label  :code %>
-    <%= f.text_field :code %>
-    
+  <div class="card">
+    <div class="card-content">
+      <ul class="stepper horizontal stepper-head-only">
+        <li class="step active">
+          <div class="step-title waves-effect">Step 1</div>
+        </li>
+        <li class="step">
+          <div class="step-title waves-effect">Schedule</div>
+        </li>
+        <li class="step">
+          <div class="step-title waves-effect">Measurements</div>
+        </li>
+        <li class="step">
+          <div class="step-title waves-effect">Products</div>
+        </li>
+      </ul>
+      <div class="row">
+        <form action="" method="get" accept-charset="utf-8">
+
+          <div class="input-field col s12 m3">
+            <input placeholder="" id="code" type="text" value="123098" class="validate" disabled="true">
+            <label for="code">Code</label>
+          </div>
+
+          <div class="input-field col s12 m9">
+            <input placeholder="" id="title" type="text" class="validate" autofocus>
+            <label for="title">Title</label>
+          </div>
+          <div class="input-field col s12 m4">
+            <i class="material-icons prefix">location_on</i>
+            <input placeholder="" id="title" type="text" class="autocomplete autocomplete-location">
+            <label for="location">Location</label>
+          </div>
+          <div class="input-field col s12 m8">
+            <textarea name="description" class="materialize-textarea"></textarea>
+            <label for="via">Description</label>
+          </div>
+          
+          <div class="col s12 m4">
+            <div class="input-field">
+              <select class="select2 browser-default">
+                <option value="square" disabled selected>Choose</option>
+                <option value="square">Tim Robbinson</option>
+                <option value="rectangle">Marta Francis</option>
+                <option value="rombo">Mark Adams</option>
+              </select>
+              <label for="">Sales Person</label>
+            </div>
+          </div>
+
+        </div>
+      </form>
+    </div>
   </div>
-
-  <div class="input-field">
-
-    <%= f.label  :title %>
-    <%= f.text_field :title %>
-    
+  <div class="col s12 pb-2 pr-0 pl-0">
+    <a class="btn indigo waves-effect waves-light breadcrumbs-btn right ml-1" href="estimate-schedule.html">Next: Schedule <i class="material-icons right">arrow_forward</i></a>
   </div>
-
-  <div class="input-field">
-    <%= f.collection_select :worker_id, Worker.all, :id, :name, prompt: true  %>
-    
-  </div>
-
-  <div class="input-field">
-
-    <%= f.label  :status %>
-    <%= f.text_field :status %>
-    
-  </div>
-
-  <div class="input-field">
-
-    <%= f.label  :description %>
-    <%= f.text_area :description %>
-    
-  </div>
-
-  <div class="input-field">
-
-    <%= f.label  :location %>
-    <%= f.text_field :location %>
-    
-  </div>
-
-  <div class="input-field">
-
-    <%= f.label  :latitude %>
-    <%= f.text_field :latitude %>
-    
-  </div>
-
-  <div class="input-field">
-
-    <%= f.label  :longitude %>
-    <%= f.text_field :longitude %>
-    
-  </div>
-
-  <div class="input-field">
-
-    <%= f.label  :category %>
-    <%= f.text_field :category %>
-    
-  </div>
-
-  <div class="input-field">
-    <%= f.collection_select :order_id, Order.all, :id, :name, prompt: true  %>
-    
-  </div>
-
-  <div class="input-field">
-
-    <%= f.label  :price %>
-    <%= f.text_field :price %>
-    
-  </div>
-
-  <div class="input-field">
-
-    <%= f.label  :tax %>
-    <%= f.text_field :tax %>
-    
-  </div>
-
-  <div class="input-field">
-
-    <%= f.label  :tax_calculation %>
-    <%= f.text_field :tax_calculation %>
-    
-  </div>
-
-  <div class="input-field">
-    <%= f.collection_select :lead_id, Lead.all, :id, :name, prompt: true  %>
-    
-  </div>
-
-  <div class="input-field">
-
-    <%= f.label  :bpmn_instance %>
-    <%= f.text_field :bpmn_instance %>
-    
-  </div>
-
-  <div class="input-field">
-
-    <%= f.label  :current %>
-    <%= f.check_box :current %>
-    
-  </div>
-
-  <div class="input-field">
-
-    <%= f.label  :total %>
-    <%= f.text_field :total %>
-    
-  </div>
-
 </div>
-  <div class="actions">
-    <%= f.submit t('button.save'), class:"btn" %>
-  </div>
 <% end %>

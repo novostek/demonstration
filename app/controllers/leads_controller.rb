@@ -15,6 +15,8 @@ class LeadsController < ApplicationController
   def new
     @lead = Lead.new
     @customer = Customer.new
+
+    return [@lead, @customer]
   end
 
   # GET /leads/1/edit

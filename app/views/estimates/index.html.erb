@@ -27,7 +27,7 @@
     <div class="row">
     <%= search_form_for @q, url: request.env['PATH_INFO'] do |f|  %>
       <div class="col s9 m11">
-          <%= f.search_field :code_cont, placeholder: t('placeholder.search'), class: "search-ransack" %>     
+          <%= f.search_field :title_cont, placeholder: t('placeholder.search'), class: "search-ransack" %>     
       </div>
       <div class="col s3 m1">
 				<button type="submit" class="btn-floating mb-1 waves-effect waves-light rigth">
@@ -44,46 +44,37 @@
     <table class="table invoice-data-table white border-radius-4 pt-1">
       <thead>
         <tr>
-          <th><%= t('activerecord.attributes.estimate.code') %></th>
+          <th>#</th>
+          <th><%= t('activerecord.attributes.estimate.customer') %></th>
           <th><%= t('activerecord.attributes.estimate.title') %></th>
-          <th><%= t('activerecord.attributes.estimate.worker') %></th>
-          <th><%= t('activerecord.attributes.estimate.status') %></th>
-          <th><%= t('activerecord.attributes.estimate.description') %></th>
+          <th><%= t('activerecord.attributes.estimate.created_at') %></th>
           <th><%= t('activerecord.attributes.estimate.location') %></th>
-          <th><%= t('activerecord.attributes.estimate.latitude') %></th>
-          <th><%= t('activerecord.attributes.estimate.longitude') %></th>
           <th><%= t('activerecord.attributes.estimate.category') %></th>
-          <th><%= t('activerecord.attributes.estimate.order') %></th>
           <th><%= t('activerecord.attributes.estimate.price') %></th>
-          <th><%= t('activerecord.attributes.estimate.tax') %></th>
-          <th><%= t('activerecord.attributes.estimate.tax_calculation') %></th>
-          <th><%= t('activerecord.attributes.estimate.lead') %></th>
-          <th><%= t('activerecord.attributes.estimate.bpmn_instance') %></th>
-          <th><%= t('activerecord.attributes.estimate.current') %></th>
-          <th><%= t('activerecord.attributes.estimate.total') %></th>
-          <th></th>
+          <th><%= t('activerecord.attributes.estimate.status') %></th>
+          <th><%= t('activerecord.attributes.estimate.sales_person') %></th>
         </tr>
       </thead>
       <tbody>
         <% @estimates.each do |estimate| %>
         <tr>
-            <td><%= estimate.code %></td>
+            <td><%= estimate.customer.name %></td>
             <td><%= estimate.title %></td>
-            <td><%= estimate.worker %></td>
-            <td><%= estimate.status %></td>
-            <td><%= estimate.description %></td>
+            <td><%= estimate.created_at %></td>
             <td><%= estimate.location %></td>
-            <td><%= estimate.latitude %></td>
-            <td><%= estimate.longitude %></td>
             <td><%= estimate.category %></td>
-            <td><%= estimate.order %></td>
             <td><%= estimate.price %></td>
-            <td><%= estimate.tax %></td>
-            <td><%= estimate.tax_calculation %></td>
-            <td><%= estimate.lead %></td>
-            <td><%= estimate.bpmn_instance %></td>
-            <td><%= estimate.current %></td>
-            <td><%= estimate.total %></td>
+            <td>
+              <span class="chip lighten-5">
+                <%= estimate.status %>
+              </span>
+            </td>
+            <td>
+              <a href="#">
+                <img src="https://i.pravatar.cc/300" alt="Sales Person">
+                <%= estimate.sales_person.name %>
+              </a>
+            </td>
           <td>
             <div class="invoice-action right-align">
               <%= link_to estimate, class: "invoice-action-view mr-4" do %>

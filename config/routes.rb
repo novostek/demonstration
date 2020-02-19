@@ -1,5 +1,14 @@
 Rails.application.routes.draw do
-  resources :estimates
+  resources :estimates do
+    member do
+      get "schedule"
+      get "measurements"
+      get "products"
+    end
+    collection do
+      get "new/:lead_id", to: "estimates#new"
+    end
+  end
   resources :orders
   resources :leads
   devise_for :users

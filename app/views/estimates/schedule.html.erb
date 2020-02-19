@@ -1,0 +1,95 @@
+<div class="breadcrumbs-dark pb-0 pt-4" id="breadcrumbs-wrapper">
+	<!-- Search for small screen-->
+	<div class="container">
+		<div class="row">
+			<div class="col s10 m6 l6">
+				<h5 class="breadcrumbs-title mt-0 mb-0"><span><%= t('activerecord.models.estimate') %></span></h5>
+				<ol class="breadcrumbs mb-0">
+					<li class="breadcrumb-item"><a href="/"><%= t('home') %></a>
+					</li>
+					<li class="breadcrumb-item"><a href="#"><%= t('activerecord.models.estimate') %></a>
+					</li>
+					<li class="breadcrumb-item active"><%= t('breadcrumb.new') %>
+					</li>
+				</ol>
+			</div>
+			<div class="col s2 m6 l6">
+				<%= link_to t('button.all'), estimates_path, class:"btn waves-effect waves-light breadcrumbs-btn right" %>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="col s12">
+  <div class="container">
+    <div class="section">
+      <div class="card-panel">
+        <div class="row">
+          <div class="col s5">
+            <h6>Estime title</h6>
+            <span>Estimate description that could be a little longer.</span>
+          </div>
+          <div class="col s5">
+            <span style="width: 100%" class="left">Customer: <a href="customer-view.html">John Smith</a></span>
+            <span style="width: 100%" class="left">Location: Paris, France</span>
+            <span style="width: 100%" class="left">Category 1</span>
+          </div>
+          <div class="col s2">
+            <span class="chip lighten-5 green green-text right mr-0">Status 1</span>
+            <span style="width: 100%" class="right right-align">2020-02-02</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-content">
+        <ul class="stepper horizontal stepper-head-only">
+          <li class="step">
+            <div class="step-title waves-effect">Step 1</div>
+          </li>
+          <li class="step active">
+            <div class="step-title waves-effect">Schedule</div>
+          </li>
+          <li class="step">
+            <div class="step-title waves-effect">Measurements</div>
+          </li>
+          <li class="step">
+            <div class="step-title waves-effect">Products</div>
+          </li>
+        </ul>
+        <div class="row">
+          <div class="col m3 s12">
+            <div id='external-events'>
+              <h5>Workers</h5>
+              <div class="fc-events-container mb-5">
+                <div class='fc-event' data-color='#009688'>
+                  <img src="https://randomuser.me/api/portraits/men/75.jpg" class="circle responsive-img" style="width: 30px;" />
+                All Day Event</div>
+                <div class='fc-event' data-color='#4CAF50'><img src="https://randomuser.me/api/portraits/men/76.jpg" class="circle responsive-img" style="width: 30px;" />Long Event</div>
+                <div class='fc-event' data-color='#00bcd4'><img src="https://randomuser.me/api/portraits/men/78.jpg" class="circle responsive-img" style="width: 30px;" />Meeting</div>
+                <p>
+                  <label>
+                    <input type="checkbox" id="drop-remove" />
+                    <span>Remove After Drop</span>
+                  </label>
+                </p>
+              </div>
+            </div>
+          </div>
+          <div class="col m9 s12">
+            <div id='fc-external-drag'></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col s12 pb-2 pr-0 pl-0">
+      <a class="btn grey lighten-5 grey-text waves-effect waves-light breadcrumbs-btn left save" href="estimate-add.html"><i class="material-icons left">arrow_back</i> Back</a>
+      <a class="btn waves-effect waves-light indigo breadcrumbs-btn right save-estimate" href="estimate-measurements.html">Next: Measurements <i class="material-icons right">arrow_forward</i></a>
+
+    </div>
+  </div>
+</div>
+
+<%= content_for :scripts do %>
+  <%= javascript_pack_tag 'estimate/schedule', 'data-turbolinks-track': 'reload' %>
+<% end %>

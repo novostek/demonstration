@@ -1,0 +1,23 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  order: one
+  worker: one
+  title: MyString
+  description: MyText
+  start_at: 2020-02-19 13:01:54
+  end_at: 2020-02-19 13:01:54
+  category: MyString
+  color: MyString
+  bpmn_instance: MyString
+
+two:
+  order: two
+  worker: two
+  title: MyString
+  description: MyText
+  start_at: 2020-02-19 13:01:54
+  end_at: 2020-02-19 13:01:54
+  category: MyString
+  color: MyString
+  bpmn_instance: MyString

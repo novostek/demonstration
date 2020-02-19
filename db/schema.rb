@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_02_17_225855) do
+ActiveRecord::Schema.define(version: 2020_02_19_160154) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -186,6 +186,22 @@ ActiveRecord::Schema.define(version: 2020_02_17_225855) do
     t.json "permissions"
   end
 
+  create_table "schedules", force: :cascade do |t|
+    t.bigint "worker_id", null: false
+    t.string "title"
+    t.text "description"
+    t.datetime "start_at"
+    t.datetime "end_at"
+    t.string "category"
+    t.string "color"
+    t.string "origin"
+    t.integer "origin_id"
+    t.string "bpmn_instance"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["worker_id"], name: "index_schedules_on_worker_id"
+  end
+
   create_table "settings", force: :cascade do |t|
     t.string "namespace"
     t.json "value"
@@ -234,4 +250,5 @@ ActiveRecord::Schema.define(version: 2020_02_17_225855) do
   add_foreign_key "profile_menus", "profiles"
   add_foreign_key "profile_users", "profiles"
   add_foreign_key "profile_users", "users"
+  add_foreign_key "schedules", "workers"
 end

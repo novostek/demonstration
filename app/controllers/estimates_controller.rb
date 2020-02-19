@@ -47,9 +47,29 @@ class EstimatesController < ApplicationController
     @estimate.destroy
     redirect_to estimates_url, notice: 'Estimate foi apagado com sucesso.'
   end
-
+  
   def schedule
     render :schedule
+  end
+
+  def create_schedule
+    schedule_obj = {
+      :title => params[:title],
+      :category => params[:category],
+      :description => params[:description],
+      :start_at => params[:start_at],
+      :end_at => params[:end_at],
+      :color => params[:color],
+      :worker_id => params[:worker_id],
+      :origin => params[:origin],
+      :origin_id => params[:origin_id]
+    }
+
+    Schedule.new_schedule(schedule_obj)
+  end
+
+  def measurements
+    render :measurements
   end
 
   private

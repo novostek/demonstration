@@ -42,4 +42,6 @@ class Estimate < ApplicationRecord
   belongs_to :worker
   belongs_to :order
   belongs_to :lead
+
+  has_many :schedules, -> { where origin: :Schedule }, primary_key: :id, foreign_key: :origin_id
 end

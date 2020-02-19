@@ -60,3 +60,6 @@
     }
 }
 
+.fc-sun, .fc-sat { 
+    border-color: black;  
+    background-color: #f1f1f1; }

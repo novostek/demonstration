@@ -22,6 +22,11 @@ Rails.application.routes.draw do
       post "new_document"
       get "new_contact"
     end
+    collection do
+      get "teste_pagamento"
+      post "process_payment"
+      get "checkout"
+    end
   end
   resources :workers do
     member do

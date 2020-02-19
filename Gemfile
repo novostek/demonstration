@@ -78,3 +78,10 @@ gem 'ancestry'
 gem 'camunda-workflow'
 
 gem 'sendgrid-ruby'
+
+#financeiro
+gem "plutus"
+
+
+#pagamentos https://github.com/square/square-ruby-sdk
+gem 'square.rb'

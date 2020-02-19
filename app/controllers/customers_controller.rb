@@ -1,5 +1,7 @@
 class CustomersController < ApplicationController
   before_action :set_customer, only: [:show, :edit, :update, :destroy,:new_note,:new_document,:new_contact]
+  #skip_before_action :authenticate_user!, only: [:process_payment]
+
 
   #Método que insere uma nota
   def new_note
@@ -15,6 +17,21 @@ class CustomersController < ApplicationController
     end
 
 
+  end
+
+  def checkout
+    checkout_status, checkout_data = SquareApi.create_checkout
+    if checkout_status
+      redirect_to checkout_data[:checkout][:checkout_page_url]
+    else
+      redirect_to process_payment_customers_path
+    end
+
+  end
+
+  def process_payment
+    #binding.pry
+    SquareApi.create_payment(params[:nonce],1000)
   end
 
   #método que insere um novo documento

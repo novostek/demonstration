@@ -5,7 +5,7 @@ import timeGridPlugin from '@fullcalendar/timegrid';
 import $ from 'jquery'
 
 document.addEventListener('DOMContentLoaded', function() {
-	var calendarEl = document.getElementById('calendar');
+	var calendarEl = document.getElementById('fc-external-drag');
 	var containerEl = document.getElementById('external-events');
 	var checkbox = document.getElementById('drop-remove');
 	
@@ -43,18 +43,19 @@ document.addEventListener('DOMContentLoaded', function() {
     defaultView: 'timeGridWeek',
     events: [],
     drop: function (info) {
-      // is the "remove after drop" checkbox checked?
+			// is the "remove after drop" checkbox checked?
+			console.log(info)
       if (checkbox.checked) {
         // if so, remove the element from the "Draggable Events" list
         info.draggedEl.parentNode.removeChild(info.draggedEl);
       }
-    }
+		},
+		eventResize: (info) => console.log(info),
+		eventDrop: ({view}) => console.log(view),
   });
 
 	calendar.render();
 	
-	
-  
 })
 
 // $(document).ready(function () {

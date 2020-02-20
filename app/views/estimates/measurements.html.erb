@@ -95,7 +95,11 @@
 						</div>
 							<div class="col s12 pb-2 pr-0 pl-0">
 								<a class="btn grey lighten-5 grey-text waves-effect waves-light breadcrumbs-btn left save" href="estimate-schedule.html"><i class="material-icons left">arrow_back</i> Back</a>
-								<a class="btn indigo waves-effect waves-light breadcrumbs-btn right ml-1" href="estimate-products.html">Next: Products <i class="material-icons right">arrow_forward</i></a>
+								<%= link_to products_estimate_path(id: '2'),
+									class: "btn indigo waves-effect waves-light breadcrumbs-btn right ml-1" do %>
+									Next: Products
+									<i class="material-icons right">arrow_forward</i>
+								<% end %>
 							</div>
 
 

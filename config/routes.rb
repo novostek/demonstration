@@ -6,7 +6,7 @@ Rails.application.routes.draw do
       get "products"
     end
     collection do
-      get "new/:lead_id", to: "estimates#new"
+      get "step_one/:lead_id", to: "estimates#step_one", as: :step_one
     end
   end
   resources :orders

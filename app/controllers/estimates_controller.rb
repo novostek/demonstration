@@ -14,8 +14,6 @@ class EstimatesController < ApplicationController
   # GET /estimates/new
   def new
     @estimate = Estimate.new
-
-    render :step_1
   end
 
   # GET /estimates/1/edit
@@ -47,6 +45,12 @@ class EstimatesController < ApplicationController
     @estimate.destroy
     redirect_to estimates_url, notice: 'Estimate foi apagado com sucesso.'
   end
+
+  def step_one
+    @estimate = Estimate.new
+
+    render :step_1
+  end
   
   def schedule
     render :schedule
@@ -70,6 +74,10 @@ class EstimatesController < ApplicationController
 
   def measurements
     render :measurements
+  end
+
+  def products
+    render :products
   end
 
   private

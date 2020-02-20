@@ -1,6 +1,6 @@
 class EstimatesController < ApplicationController
   before_action :set_estimate, only: [:show, :edit, :update, :destroy]
-
+  before_action :set_combos, only: [:step_one]
   # GET /estimates
   def index
     @q = Estimate.all.ransack(params[:q])
@@ -47,8 +47,15 @@ class EstimatesController < ApplicationController
   end
 
   def step_one
+    last_estimate = Estimate.last
     @estimate = Estimate.new
-
+    
+    if last_estimate.present?
+      @estimate.code = last_estimate[:code].to_i + 1
+    else
+      @estimate.code = "#{Time.now.strftime('%Y')}000000".to_i + 1
+    end
+    @lead = Lead.find(params[:lead_id])
     render :step_1
   end
   
@@ -81,6 +88,11 @@ class EstimatesController < ApplicationController
   end
 
   private
+    #Método que carrega os objetos de seleção
+    def set_combos
+      @workers = Worker.to_select
+    end
+
     # Use callbacks to share common setup or constraints between actions.
     def set_estimate
       @estimate = Estimate.find(params[:id])

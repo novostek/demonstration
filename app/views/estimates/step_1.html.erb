@@ -24,7 +24,7 @@
 </div>
 
 <div class="section">
-  <%= render 'leads/lead_detail' %>
+  <%= render 'leads/lead_detail', lead: @lead %>
 
   <div class="card">
     <div class="card-content">
@@ -43,41 +43,37 @@
         </li>
       </ul>
       <div class="row">
-        <form action="" method="get" accept-charset="utf-8">
-
+        <%= form_for(@estimate) do |f| %>
           <div class="input-field col s12 m3">
-            <input placeholder="" id="code" type="text" value="123098" class="validate" disabled="true">
-            <label for="code">Code</label>
+            <%= f.text_field :code, class: "validade", disabled: 'true' %>
+            <%= f.label  :code %>
           </div>
 
           <div class="input-field col s12 m9">
-            <input placeholder="" id="title" type="text" class="validate" autofocus>
-            <label for="title">Title</label>
+            <%= f.text_field :title, class: "validade", autofocus: 'true' %>
+            <%= f.label  :title %>
           </div>
           <div class="input-field col s12 m4">
             <i class="material-icons prefix">location_on</i>
-            <input placeholder="" id="title" type="text" class="autocomplete autocomplete-location">
-            <label for="location">Location</label>
+            <%= f.text_field :location, class: "autocomplete autocomplete-location" %>
+            <%= f.label  :location %>
+
+            <%= f.hidden_field :latitude %>
+            <%= f.hidden_field :longitude %>
           </div>
           <div class="input-field col s12 m8">
-            <textarea name="description" class="materialize-textarea"></textarea>
-            <label for="via">Description</label>
+            <%= f.text_field :description, class: "validade" %>
+            <%= f.label  :description %>
           </div>
           
           <div class="col s12 m4">
             <div class="input-field">
-              <select class="select2 browser-default">
-                <option value="square" disabled selected>Choose</option>
-                <option value="square">Tim Robbinson</option>
-                <option value="rectangle">Marta Francis</option>
-                <option value="rombo">Mark Adams</option>
-              </select>
-              <label for="">Sales Person</label>
+              <%= f.select :sales_person_id, @workers, {prompt: true}  %>
+              <%= f.label  :sales_person_id %>
             </div>
           </div>
-
+          <% end %>
         </div>
-      </form>
     </div>
   </div>
   <div class="col s12 pb-2 pr-0 pl-0">
@@ -89,3 +85,4 @@
   </div>
 </div>
 <%= javascript_pack_tag 'materialize-stepper', 'data-turbolinks-track': 'reload' %>
+<%= javascript_pack_tag 'estimate/step_one', 'data-turbolinks-track': 'reload' %>

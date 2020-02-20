@@ -45,7 +45,7 @@
             <%= f.label  :via %>
           </div>
           <div class="input-field col s6 m4">
-            <%= f.date_field :date, class: 'validate datepicker' %>
+            <%= f.date_field :date, value: Time.now.strftime('%Y-%m-%d'), class: 'validate datepicker' %>
             <%= f.label  :date %>
           </div>
           <div class="col s12 m4">

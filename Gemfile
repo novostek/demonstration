@@ -45,6 +45,7 @@ group :development do
   gem 'pry-rails'
   gem 'pry-remote'
   gem 'pry-byebug'
+  gem 'seed_dump'
 end
 
 group :test do

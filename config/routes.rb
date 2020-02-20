@@ -7,6 +7,7 @@ Rails.application.routes.draw do
     end
     collection do
       get "step_one/:lead_id", to: "estimates#step_one", as: :step_one
+      post "create_step_one/:lead_id", to: "estimates#create_step_one", as: :create_step_one
     end
   end
   resources :orders

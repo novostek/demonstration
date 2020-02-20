@@ -58,6 +58,25 @@ class EstimatesController < ApplicationController
     @lead = Lead.find(params[:lead_id])
     render :step_1
   end
+
+  def create_step_one
+    estimate = Estimate.create_or_find_by(code: params[:code])
+    estimate.code = params[:code]
+    estimate.title = params[:title]
+    estimate.description = params[:description]
+    estimate.location = params[:location]
+    estimate.latitude = params[:latitude]
+    estimate.longitude = params[:longitude]
+    estimate.sales_person_id = params[:sales_person_id]
+    estimate.lead_id = params[:lead_id]
+    estimate.status = 'new'
+    estimate.total = 0.0
+    estimate.category = 'test'
+
+    if estimate.save
+      redirect_to step_one_estimates_path(estimate.id)
+    end
+  end
   
   def schedule
     render :schedule

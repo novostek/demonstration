@@ -39,9 +39,9 @@
 #
 
 class Estimate < ApplicationRecord
-  belongs_to :worker
-  belongs_to :order
-  belongs_to :lead
+  belongs_to :worker, optional: true
+  belongs_to :order, optional: true
+  belongs_to :lead, optional: true
 
   has_many :schedules, -> { where origin: :Schedule }, primary_key: :id, foreign_key: :origin_id
 end

@@ -68,7 +68,7 @@ class SendGridMail
     template_data = {}
     data = Setting.get_value(send_from)
     template_data["subject"] = subject
-    binding.pry
+    # binding.pry
     #monta o template data de acordo com os objetos passados em objects caso exista no json de setting
     objects.each do |o|
       data["objects"].each do |ob|
@@ -77,6 +77,13 @@ class SendGridMail
             template_data["#{field['sendgridkey']}"] = o.send(field["field"])
           end
         end
+      end
+    end
+
+
+    objects.each do |o|
+      o.attributes.keys.each do |key|
+        template_data["#{o.class.name.downcase}_#{key}"] = o.send(key)
       end
     end
 

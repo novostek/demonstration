@@ -40,4 +40,9 @@ class Customer < ApplicationRecord
     end
   end
 
+
+  def nome_categoria
+    "#{self.name} - #{self.category}"
+  end
+
 end

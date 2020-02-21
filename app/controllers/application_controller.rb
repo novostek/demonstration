@@ -1,4 +1,5 @@
 class ApplicationController < ActionController::Base
+  protect_from_forgery unless: -> { request.format.json? }
   before_action :cache_globals_settings
   before_action :authenticate_user!, except: [:process_payment, :create_step_one, :create_schedule, :delete_schedule]
 

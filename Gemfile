@@ -82,8 +82,8 @@ gem 'sendgrid-ruby'
 
 #financeiro
 gem "plutus", git: "https://github.com/mbulat/plutus.git"
-gem 'jquery-rails', '~> 4.3', '>= 4.3.3'
-gem 'rails-ujs', '~> 0.1.0'
+# gem 'jquery-rails', '~> 4.3', '>= 4.3.3'
+# gem 'rails-ujs', '~> 0.1.0'
 
 
 #pagamentos https://github.com/square/square-ruby-sdk

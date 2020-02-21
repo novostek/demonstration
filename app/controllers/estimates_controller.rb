@@ -114,6 +114,8 @@ class EstimatesController < ApplicationController
   end
 
   def measurements
+    @estimate = Estimate.find(params[:id])
+
     render :measurements
   end
 

@@ -72,7 +72,7 @@
     <div class="col s12 pb-2 pr-0 pl-0">
       <a class="btn grey lighten-5 grey-text waves-effect waves-light breadcrumbs-btn left save" href="estimate-add.html"><i class="material-icons left">arrow_back</i> Back</a>
       
-      <%= link_to measurements_estimate_path(id: '2'),
+      <%= link_to measurements_estimate_path(id: @estimate.id),
         class: "btn indigo waves-effect waves-light breadcrumbs-btn right ml-1" do %>
         Next: Measurements
       <i class="material-icons right">arrow_forward</i>

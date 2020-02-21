@@ -19,6 +19,7 @@ class Customer < ApplicationRecord
   has_many :notes, -> { where origin: :Customer }, primary_key: :id, foreign_key: :origin_id
   has_many :contacts, -> { where origin: :Customer }, primary_key: :id, foreign_key: :origin_id
   has_many :document_files, -> { where origin: :Customer }, primary_key: :id, foreign_key: :origin_id
+  has_many :leads
 
   accepts_nested_attributes_for :notes, allow_destroy: true
   accepts_nested_attributes_for :contacts, allow_destroy: true

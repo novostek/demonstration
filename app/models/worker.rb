@@ -28,4 +28,11 @@ class Worker < ApplicationRecord
   accepts_nested_attributes_for :contacts, allow_destroy: true
   accepts_nested_attributes_for :document_files, allow_destroy: true
 
+  def to_s
+    self.name
+  end
+
+  def self.to_select
+    all.map{|a| [a.name,a.id]}
+  end
 end

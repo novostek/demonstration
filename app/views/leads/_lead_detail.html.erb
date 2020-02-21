@@ -1,0 +1,17 @@
+<div class="card-panel">
+  <div class="row">
+    <div class="col s4 m5">
+      <h6>Lead #<%= lead.id %></h6>
+      <span>Customer: <%= lead.customer.name %></span>
+    </div>
+    <div class="col s4 m5">
+      <span style="width: 100%" class="left"><%= lead.phone %></span>
+      <span style="width: 100%" class="left"><%= lead.via %></span>
+      <span style="width: 100%" class="left"><%= lead.description %></span>
+    </div>
+    <div class="col s4 m2">
+      <span class="chip lighten-5 green green-text right mr-0"><%= lead.status %></span>
+      <span style="width: 100%" class="right right-align"><%= lead.date.strftime("%d/%m/%Y") %></span>
+    </div>
+  </div>
+</div>

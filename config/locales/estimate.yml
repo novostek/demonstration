@@ -1,0 +1,11 @@
+en:
+  activerecord:
+    models:
+      estimates: "Estimates"
+    attributes:
+      estimates:
+        name: "Name"
+        formula: "Formula"
+        description: "Description"
+        tax: "Tax"
+        namespace: "Namespace"

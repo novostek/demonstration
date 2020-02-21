@@ -45,7 +45,7 @@
             <%= f.label  :via %>
           </div>
           <div class="input-field col s6 m4">
-            <%= f.date_field :date, class: 'validate datepicker' %>
+            <%= f.date_field :date, value: Time.now.strftime('%Y-%m-%d'), class: 'validate datepicker' %>
             <%= f.label  :date %>
           </div>
           <div class="col s12 m4">
@@ -120,8 +120,10 @@
       fetch(`/customers/search_by_phone/${value}`, fetchConfig)
       .then((res) => res.json())
       .then((result) => {
-        if(completed) 
+        if(completed){
+          $("#lead_customer_id").val(result[0].id)
           insert_value_to_field('lead_customer', result[0].name)
+        }
         if(Array.isArray(result) && result.length > 0){
           let phoneList = {}
           result.map((element, index) => {

@@ -1,4 +1,19 @@
 Rails.application.routes.draw do
+  resources :measurements
+  resources :measurement_areas
+  resources :estimates do
+    member do
+      get "schedule"
+      get "measurements"
+      get "products"
+    end
+    collection do
+      get "step_one/:lead_id", to: "estimates#step_one", as: :step_one
+      post "create_step_one/:lead_id", to: "estimates#create_step_one", as: :create_step_one
+      post ":estimate_id/schedule/new", to: "estimates#create_schedule"
+      delete ":estimate_id/schedule/:schedule_id/delete", to: "estimates#delete_schedule"
+    end
+  end
   resources :orders
   resources :leads
   devise_for :users

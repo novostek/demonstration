@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_02_17_225855) do
+ActiveRecord::Schema.define(version: 2020_02_19_160154) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -60,6 +60,32 @@ ActiveRecord::Schema.define(version: 2020_02_17_225855) do
     t.text "photo_description"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "estimates", force: :cascade do |t|
+    t.string "code", null: false
+    t.string "title", null: false
+    t.bigint "sales_person_id"
+    t.string "status", null: false
+    t.text "description", null: false
+    t.string "location", null: false
+    t.decimal "latitude", null: false
+    t.decimal "longitude", null: false
+    t.string "category", null: false
+    t.bigint "order_id"
+    t.decimal "price"
+    t.decimal "tax"
+    t.bigint "tax_calculation_id"
+    t.bigint "lead_id"
+    t.string "bpmn_instance"
+    t.boolean "current"
+    t.decimal "total", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["lead_id"], name: "index_estimates_on_lead_id"
+    t.index ["order_id"], name: "index_estimates_on_order_id"
+    t.index ["sales_person_id"], name: "index_estimates_on_sales_person_id"
+    t.index ["tax_calculation_id"], name: "index_estimates_on_tax_calculation_id"
   end
 
   create_table "leads", force: :cascade do |t|
@@ -160,6 +186,22 @@ ActiveRecord::Schema.define(version: 2020_02_17_225855) do
     t.json "permissions"
   end
 
+  create_table "schedules", force: :cascade do |t|
+    t.bigint "worker_id", null: false
+    t.string "title"
+    t.text "description"
+    t.datetime "start_at"
+    t.datetime "end_at"
+    t.string "category"
+    t.string "color"
+    t.string "origin"
+    t.integer "origin_id"
+    t.string "bpmn_instance"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["worker_id"], name: "index_schedules_on_worker_id"
+  end
+
   create_table "settings", force: :cascade do |t|
     t.string "namespace"
     t.json "value"
@@ -196,6 +238,10 @@ ActiveRecord::Schema.define(version: 2020_02_17_225855) do
     t.datetime "updated_at", precision: 6, null: false
   end
 
+  add_foreign_key "estimates", "calculation_formulas", column: "tax_calculation_id"
+  add_foreign_key "estimates", "leads"
+  add_foreign_key "estimates", "orders"
+  add_foreign_key "estimates", "workers", column: "sales_person_id"
   add_foreign_key "leads", "customers"
   add_foreign_key "products", "calculation_formulas"
   add_foreign_key "products", "product_categories"
@@ -204,4 +250,5 @@ ActiveRecord::Schema.define(version: 2020_02_17_225855) do
   add_foreign_key "profile_menus", "profiles"
   add_foreign_key "profile_users", "profiles"
   add_foreign_key "profile_users", "users"
+  add_foreign_key "schedules", "workers"
 end

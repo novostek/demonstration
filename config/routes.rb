@@ -12,6 +12,7 @@ Rails.application.routes.draw do
     end
   end
 
+  resources :leads
   devise_for :users
   resources :users
   resources :menus
@@ -39,7 +40,9 @@ Rails.application.routes.draw do
       get "teste_pagamento"
       post "process_payment"
       get "checkout"
+      get "search_by_phone/:phone", to: "customers#search_by_phone"
     end
+
   end
   resources :workers do
     member do

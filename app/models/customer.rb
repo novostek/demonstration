@@ -45,4 +45,15 @@ class Customer < ApplicationRecord
     "#{self.name} - #{self.category}"
   end
 
+  def self.search_by_phone phone
+    @customers = Customer.joins(:contacts).where("contacts.data->>'phone' LIKE ? AND contacts.category = 'phone'", "#{phone}%")
+  end
+
+  def as_json(options = {})
+    s = super(options)
+    s[:contacts] = self.contacts
+    s
+  end
+
+
 end

@@ -62,6 +62,18 @@ ActiveRecord::Schema.define(version: 2020_02_19_112436) do
     t.datetime "updated_at", precision: 6, null: false
   end
 
+  create_table "leads", force: :cascade do |t|
+    t.bigint "customer_id", null: false
+    t.string "via"
+    t.text "description"
+    t.string "status"
+    t.datetime "date"
+    t.string "phone"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["customer_id"], name: "index_leads_on_customer_id"
+  end
+
   create_table "menus", force: :cascade do |t|
     t.boolean "active"
     t.string "icon"
@@ -204,6 +216,7 @@ ActiveRecord::Schema.define(version: 2020_02_19_112436) do
     t.datetime "updated_at", precision: 6, null: false
   end
 
+  add_foreign_key "leads", "customers"
   add_foreign_key "products", "calculation_formulas"
   add_foreign_key "products", "product_categories"
   add_foreign_key "products", "suppliers"

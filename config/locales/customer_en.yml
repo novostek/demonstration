@@ -13,4 +13,7 @@ en:
       category:
         company: "Company"
         person: "Person"
+  buttons:
+    customer:
+      save: "Save"
 

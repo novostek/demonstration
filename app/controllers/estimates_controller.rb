@@ -1,6 +1,7 @@
 class EstimatesController < ApplicationController
   before_action :set_estimate, only: [:show, :edit, :update, :destroy]
   before_action :set_combos, only: [:step_one]
+  skip_forgery_protection
   # GET /estimates
   def index
     @q = Estimate.all.ransack(params[:q])
@@ -60,7 +61,7 @@ class EstimatesController < ApplicationController
   end
 
   def create_step_one
-    estimate = Estimate.create_or_find_by(code: params[:code])
+    estimate = Estimate.new
     estimate.code = params[:code]
     estimate.title = params[:title]
     estimate.description = params[:description]
@@ -74,15 +75,20 @@ class EstimatesController < ApplicationController
     estimate.category = 'test'
 
     if estimate.save
-      redirect_to step_one_estimates_path(estimate.id)
+      redirect_to schedule_estimate_path(estimate.id)
     end
   end
   
   def schedule
+    @estimate = Estimate.find(params[:id])
+    @workers = Worker.all
+    @schedules = @estimate.schedules
     render :schedule
   end
 
   def create_schedule
+    estimate = Estimate.find(params[:estimate_id])
+
     schedule_obj = {
       :title => params[:title],
       :category => params[:category],
@@ -91,11 +97,17 @@ class EstimatesController < ApplicationController
       :end_at => params[:end_at],
       :color => params[:color],
       :worker_id => params[:worker_id],
-      :origin => params[:origin],
-      :origin_id => params[:origin_id]
+      :origin => "Estimate",
+      :origin_id => estimate.id
     }
 
-    Schedule.new_schedule(schedule_obj)
+    schedule = Schedule.new_schedule(schedule_obj)
+
+    render json: schedule
+  end
+
+  def delete_schedule
+    schedule = Schedule.find_by(worke)
   end
 
   def measurements

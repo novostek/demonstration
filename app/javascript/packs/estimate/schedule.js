@@ -4,6 +4,25 @@ import dayGridPlugin from '@fullcalendar/daygrid';
 import timeGridPlugin from '@fullcalendar/timegrid';
 import $ from 'jquery'
 
+function saveSchedule(data){
+	const headers = new Headers({
+		"Content-Type": "application/json",
+		"Accept": "application/json"
+	})
+
+	const fetchConfig = {
+		headers,
+		method: "POST",
+		body: JSON.stringify(data)
+	}
+
+	console.log(data)
+	fetch(`/estimates/${window.estimate.id}/schedule/new`, fetchConfig)
+	.then(data => data.json())
+	.then(result => console.log(result))
+	.catch(error => console.error(error))
+}
+
 document.addEventListener('DOMContentLoaded', function() {
 	var calendarEl = document.getElementById('fc-external-drag');
 	var containerEl = document.getElementById('external-events');
@@ -22,14 +41,22 @@ document.addEventListener('DOMContentLoaded', function() {
 	new Draggable(containerEl, {
   	itemSelector: '.fc-event',
   	eventData: function (eventEl) {
-  		return {
+  		return { 
+				id: eventEl.id,
 				title: eventEl.innerText,
 				color: colorData
   		};
   	}
 	});
 	
-
+	const events = window.schedules.map(schedule => ({
+		id: schedule.worker_id,
+		title: schedule.title,
+		start: schedule.start_at,
+		color: schedule.color,
+		end: schedule.end_at
+	}))
+	
   var calendar = new Calendar(calendarEl, {
   	header: {
   		left: 'prev,next today',
@@ -41,17 +68,54 @@ document.addEventListener('DOMContentLoaded', function() {
     droppable: true, // this allows things to be dropped onto the calendar
     defaultDate: new Date(),
 		defaultView: 'timeGridWeek',
-    events: [],
-    drop: function (info) {
-			// is the "remove after drop" checkbox checked?
-			console.log(info)
+		eventClick: (info) => {
+			info.event.remove()
+		},
+    events,
+    drop: function ({draggedEl, date, ...element}) {
+			const { estimate } = window
+
+			const data = {
+				title: draggedEl.innerText,
+				category: estimate.category,
+				description: estimate.description,
+				worker_id: draggedEl.id,
+				color: draggedEl.getAttribute("data-color"),
+				start_at: date,
+				end_at: null,
+			}
+
+			saveSchedule(data)
+
       if (checkbox.checked) {
         // if so, remove the element from the "Draggable Events" list
         info.draggedEl.parentNode.removeChild(info.draggedEl);
       }
 		},
-		eventResize: (info) => console.log(info),
-		eventDrop: ({view}) => console.log(view),
+		eventResize: ({event}) => {
+			const data = {
+				title: event.title,
+				category: estimate.category,
+				description: estimate.description,
+				worker_id: event.id,
+				start_at: event.start,
+				end_at: event.end,
+			}
+
+			saveSchedule(data)
+		},
+		eventDrop: ({event}) => {
+			const data = {
+				title: event.title,
+				category: estimate.category,
+				description: estimate.description,
+				worker_id: event.id,
+				start_at: event.start,
+				end_at: event.end,
+			}
+
+			saveSchedule(data)
+		},
   });
 
 	calendar.render();

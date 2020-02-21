@@ -30,7 +30,7 @@ class Schedule < ApplicationRecord
 
   def self.new_schedule object
     begin
-      schedule = self.new
+      schedule = self.find_or_create_by(origin_id: object[:origin_id], worker_id: object[:worker_id])
       schedule.title = object[:title]
       schedule.category = object[:category]
       schedule.description = object[:description]
@@ -44,7 +44,12 @@ class Schedule < ApplicationRecord
       schedule.save
     rescue StandardError => e
       return {
-        :error => e.message
+        :error => e.message,
+        :trace => e.inspect
+      }
+    else
+      return {
+        :schedule => schedule
       }
     end
   end

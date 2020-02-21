@@ -8,6 +8,7 @@ Rails.application.routes.draw do
     collection do
       get "step_one/:lead_id", to: "estimates#step_one", as: :step_one
       post "create_step_one/:lead_id", to: "estimates#create_step_one", as: :create_step_one
+      post ":estimate_id/schedule/new", to: "estimates#create_schedule"
     end
   end
   resources :orders

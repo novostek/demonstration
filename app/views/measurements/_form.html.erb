@@ -1,0 +1,45 @@
+<%= form_for(measurement) do |f| %>
+  <% if measurement.errors.any? %>
+    <div id="error_explanation" class="card-panel red white-text">
+      <h5><%= t('errors.template.header')  %>:</h5>
+
+      <ul>
+      <% measurement.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+<div class="card-panel">
+  
+  <div class="input-field">
+    <%= f.collection_select :measurement_area_id, MeasurementArea.all, :id, :name, prompt: true  %>
+    
+  </div>
+
+  <div class="input-field">
+
+    <%= f.label  :width %>
+    <%= f.text_field :width %>
+    
+  </div>
+
+  <div class="input-field">
+
+    <%= f.label  :height %>
+    <%= f.text_field :height %>
+    
+  </div>
+
+  <div class="input-field">
+
+    <%= f.label  :length %>
+    <%= f.text_field :length %>
+    
+  </div>
+
+</div>
+  <div class="actions">
+    <%= f.submit t('button.save'), class:"btn" %>
+  </div>
+<% end %>

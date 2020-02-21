@@ -32,4 +32,8 @@ module ApplicationHelper
       Time.rfc3339(value)
     end
   end
+
+  def plutus_accounts(account)
+    account.remove("Plutus::")
+  end
 end

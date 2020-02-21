@@ -83,7 +83,7 @@ ActiveRecord::Schema.define(version: 2020_02_19_112436) do
     t.datetime "updated_at", precision: 6, null: false
   end
 
-  create_table "plutus_accounts", id: :serial, force: :cascade do |t|
+  create_table "accounts", id: :serial, force: :cascade do |t|
     t.string "name"
     t.string "type"
     t.boolean "contra", default: false

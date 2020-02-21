@@ -1,4 +1,17 @@
 Rails.application.routes.draw do
+
+  #mount Plutus::Engine => "/plutus", :as => "plutus"
+  #
+
+  resources :accounts do
+    collection do
+      get "new_entry"
+      post "create_entry"
+      get "entries"
+      get "balance"
+    end
+  end
+
   devise_for :users
   resources :users
   resources :menus

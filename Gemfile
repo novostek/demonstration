@@ -42,7 +42,7 @@ group :development do
   gem 'spring'
   gem 'spring-watcher-listen', '~> 2.0.0'
   gem 'annotate'
-  gem 'pry-rails'
+
   gem 'pry-remote'
   gem 'pry-byebug'
   gem 'seed_dump'
@@ -81,7 +81,9 @@ gem 'camunda-workflow'
 gem 'sendgrid-ruby'
 
 #financeiro
-gem "plutus"
+gem "plutus", git: "https://github.com/mbulat/plutus.git"
+gem 'jquery-rails', '~> 4.3', '>= 4.3.3'
+gem 'rails-ujs', '~> 0.1.0'
 
 
 #pagamentos https://github.com/square/square-ruby-sdk

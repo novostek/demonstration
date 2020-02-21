@@ -80,12 +80,17 @@ class SendGridMail
       end
     end
 
-
     objects.each do |o|
-      o.attributes.keys.each do |key|
-        template_data["#{o.class.name.downcase}_#{key}"] = o.send(key)
-      end
+
+      template_data["#{o.class.name.downcase}"] = o.attributes
+
     end
+
+    # objects.each do |o|
+    #   o.attributes.keys.each do |key|
+    #     template_data["#{o.class.name.downcase}_#{key}"] = o.send(key)
+    #   end
+    # end
 
     mail = Mail.new
     mail.from = Email.new(email: 'gabrielvash@gmail.com')

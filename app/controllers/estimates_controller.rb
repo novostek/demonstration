@@ -1,7 +1,7 @@
 class EstimatesController < ApplicationController
   before_action :set_estimate, only: [:show, :edit, :update, :destroy]
   before_action :set_combos, only: [:step_one]
-  skip_forgery_protection
+  # skip_forgery_protection
   # GET /estimates
   def index
     @q = Estimate.all.ransack(params[:q])

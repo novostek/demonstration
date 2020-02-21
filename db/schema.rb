@@ -121,7 +121,6 @@ ActiveRecord::Schema.define(version: 2020_02_19_112436) do
     t.datetime "updated_at", precision: 6, null: false
   end
 
-<<<<<<< HEAD
   create_table "accounts", id: :serial, force: :cascade do |t|
     t.string "name"
     t.string "type"
@@ -150,7 +149,6 @@ ActiveRecord::Schema.define(version: 2020_02_19_112436) do
     t.datetime "updated_at"
     t.index ["commercial_document_id", "commercial_document_type"], name: "index_entries_on_commercial_doc"
     t.index ["date"], name: "index_plutus_entries_on_date"
-=======
   create_table "orders", force: :cascade do |t|
     t.string "code"
     t.string "status"
@@ -159,7 +157,6 @@ ActiveRecord::Schema.define(version: 2020_02_19_112436) do
     t.datetime "end_at"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
->>>>>>> joaovictor
   end
 
   create_table "product_categories", force: :cascade do |t|

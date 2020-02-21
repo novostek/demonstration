@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :measurements
   resources :measurement_areas
   resources :estimates do
     member do

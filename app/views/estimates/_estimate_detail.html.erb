@@ -1,0 +1,19 @@
+<div class="section">
+  <div class="card-panel">
+    <div class="row">
+      <div class="col s5">
+        <h6><%= @estimate.title %></h6>
+        <span><%= @estimate.description %></span>
+      </div>
+      <div class="col s5">
+        <span style="width: 100%" class="left">Customer: <a href="customer-view.html"><%= @estimate.lead.customer.name %></a></span>
+        <span style="width: 100%" class="left">Location: <%= @estimate.location %></span>
+        <span style="width: 100%" class="left"><%= @estimate.category %></span>
+      </div>
+      <div class="col s2">
+        <span class="chip lighten-5 green green-text right mr-0"><%= @estimate.status %></span>
+        <span style="width: 100%" class="right right-align"><%= @estimate.created_at.strftime("%m/%d/%Y") %></span>
+      </div>
+    </div>
+  </div>
+</div>

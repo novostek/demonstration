@@ -4,7 +4,7 @@ import dayGridPlugin from '@fullcalendar/daygrid';
 import timeGridPlugin from '@fullcalendar/timegrid';
 import $ from 'jquery'
 
-function saveSchedule(data){
+function saveSchedule(data, event = undefined){
 	const headers = new Headers({
 		"Content-Type": "application/json",
 		"Accept": "application/json"
@@ -15,9 +15,26 @@ function saveSchedule(data){
 		method: "POST",
 		body: JSON.stringify(data)
 	}
+	return fetch(`/estimates/${window.estimate.id}/schedule/new`, fetchConfig)
+	.then(data => data.json())
+	.then(res => res)
+	.catch(error => console.error(error))
 
-	console.log(data)
-	fetch(`/estimates/${window.estimate.id}/schedule/new`, fetchConfig)
+}
+
+function deleteSchedule({estimate_id, schedule_id, ...data}){
+	const headers = new Headers({
+		"Content-Type": "application/json",
+		"Accept": "application/json"
+	})
+
+	const fetchConfig = {
+		headers,
+		method: "DELETE",
+		body: JSON.stringify(data)
+	}
+
+	fetch(`/estimates/${estimate_id}/schedule/${schedule_id}/delete`, fetchConfig)
 	.then(data => data.json())
 	.then(result => console.log(result))
 	.catch(error => console.error(error))
@@ -51,6 +68,9 @@ document.addEventListener('DOMContentLoaded', function() {
 	
 	const events = window.schedules.map(schedule => ({
 		id: schedule.worker_id,
+		extendedProps: {
+			schedule_id: schedule.id
+		},
 		title: schedule.title,
 		start: schedule.start_at,
 		color: schedule.color,
@@ -69,24 +89,31 @@ document.addEventListener('DOMContentLoaded', function() {
     defaultDate: new Date(),
 		defaultView: 'timeGridWeek',
 		eventClick: (info) => {
+			const data = {
+				estimate_id: estimate.id,
+				origin: 'Estimate',
+				schedule_id: info.event.extendedProps.schedule_id,
+				worker_id: info.event.id
+			}
+			deleteSchedule(data)
 			info.event.remove()
 		},
     events,
-    drop: function ({draggedEl, date, ...element}) {
+    eventReceive: function ({event,...info}) {
 			const { estimate } = window
 
 			const data = {
-				title: draggedEl.innerText,
+				title: event.title,
 				category: estimate.category,
 				description: estimate.description,
-				worker_id: draggedEl.id,
-				color: draggedEl.getAttribute("data-color"),
-				start_at: date,
-				end_at: null,
+				worker_id: event.id,
+				color: event.backgroundColor,
+				start_at: event.start,
+				end_at: event.end,
 			}
 
-			saveSchedule(data)
-
+			saveSchedule(data).then(({schedule}) => event.setExtendedProp('schedule_id', schedule.id))
+			console.log(event)
       if (checkbox.checked) {
         // if so, remove the element from the "Draggable Events" list
         info.draggedEl.parentNode.removeChild(info.draggedEl);
@@ -95,6 +122,8 @@ document.addEventListener('DOMContentLoaded', function() {
 		eventResize: ({event}) => {
 			const data = {
 				title: event.title,
+				color: event.backgroundColor,
+				schedule_id: event.extendedProps.schedule_id,
 				category: estimate.category,
 				description: estimate.description,
 				worker_id: event.id,
@@ -107,6 +136,8 @@ document.addEventListener('DOMContentLoaded', function() {
 		eventDrop: ({event}) => {
 			const data = {
 				title: event.title,
+				color: event.backgroundColor,
+				schedule_id: event.extendedProps.schedule_id,
 				category: estimate.category,
 				description: estimate.description,
 				worker_id: event.id,

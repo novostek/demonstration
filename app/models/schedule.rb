@@ -30,7 +30,7 @@ class Schedule < ApplicationRecord
 
   def self.new_schedule object
     begin
-      schedule = self.find_or_create_by(origin_id: object[:origin_id], worker_id: object[:worker_id])
+      schedule = self.find_or_create_by(origin_id: object[:origin_id], worker_id: object[:worker_id], id: object[:schedule_id])
       schedule.title = object[:title]
       schedule.category = object[:category]
       schedule.description = object[:description]

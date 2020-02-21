@@ -91,6 +91,7 @@ class EstimatesController < ApplicationController
 
     schedule_obj = {
       :title => params[:title],
+      :schedule_id => params[:schedule_id],
       :category => params[:category],
       :description => params[:description],
       :start_at => params[:start_at],
@@ -107,7 +108,9 @@ class EstimatesController < ApplicationController
   end
 
   def delete_schedule
-    schedule = Schedule.find_by(worke)
+    schedule = Schedule.find_by(origin: params[:origin], origin_id: params[:estimate_id], worker_id: params[:worker_id])
+
+    schedule.destroy
   end
 
   def measurements

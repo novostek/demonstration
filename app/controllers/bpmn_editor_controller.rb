@@ -1,5 +1,5 @@
 class BpmnEditorController < ApplicationController
-  skip_before_action :verify_authenticity_token
+  # skip_before_action :verify_authenticity_token
 
   def list
     @list = BpmApi.call("process-definition", :get, {latestVersion: true})

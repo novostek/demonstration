@@ -48,33 +48,27 @@ class EstimatesController < ApplicationController
   end
 
   def step_one
-    last_estimate = Estimate.last
-    @estimate = Estimate.new
+    @estimate = Estimate.find_or_initialize_by(lead_id: params[:lead_id])
     
-    if last_estimate.present?
-      @estimate.code = last_estimate[:code].to_i + 1
-    else
-      @estimate.code = "#{Time.now.strftime('%Y')}000000".to_i + 1
-    end
     @lead = Lead.find(params[:lead_id])
     render :step_1
   end
 
   def create_step_one
-    estimate = Estimate.new
-    estimate.code = params[:code]
-    estimate.title = params[:title]
-    estimate.description = params[:description]
-    estimate.location = params[:location]
-    estimate.latitude = params[:latitude]
-    estimate.longitude = params[:longitude]
-    estimate.sales_person_id = params[:sales_person_id]
+    estimate = Estimate.find_or_initialize_by(lead_id: params[:lead_id])
+    estimate.code = params[:estimate][:code]
+    estimate.title = params[:estimate][:title]
+    estimate.description = params[:estimate][:description]
+    estimate.location = params[:estimate][:location]
+    estimate.latitude = params[:estimate][:latitude]
+    estimate.longitude = params[:estimate][:longitude]
+    estimate.sales_person_id = params[:estimate][:sales_person_id]
     estimate.lead_id = params[:lead_id]
     estimate.status = 'new'
     estimate.total = 0.0
     estimate.category = 'test'
 
-    if estimate.save
+    if estimate.save()
       redirect_to schedule_estimate_path(estimate.id)
     end
   end
@@ -112,13 +106,7 @@ class EstimatesController < ApplicationController
 
     schedule.destroy
   end
-
-  def measurements
-    @estimate = Estimate.find(params[:id])
-
-    render :measurements
-  end
-
+  
   def products
     render :products
   end

@@ -39,9 +39,22 @@
 #
 
 class Estimate < ApplicationRecord
+  after_initialize :initialize_code, if: :new_record?
+
   belongs_to :worker, optional: true
   belongs_to :order, optional: true
   belongs_to :lead, optional: true
 
+  has_many :measurement_areas
+
   has_many :schedules, -> { where origin: :Estimate }, primary_key: :id, foreign_key: :origin_id
+
+  def initialize_code
+    last_estimate = Estimate.last
+    if last_estimate.present?
+      self.code = last_estimate[:code].to_i + 1
+    else
+      self.code = "#{Time.now.strftime('%Y')}000000".to_i + 1
+    end
+  end
 end

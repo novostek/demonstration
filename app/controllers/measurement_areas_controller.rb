@@ -46,6 +46,17 @@ class MeasurementAreasController < ApplicationController
     redirect_to measurement_areas_url, notice: 'Measurement area foi apagado com sucesso.'
   end
 
+  def measurements
+    @estimate = Estimate.find(params[:id])
+    @measurement_area = MeasurementArea.find_or_initialize_by(estimate_id: params[:id])
+    render :measurements_areas
+  end
+
+  def create_measurements
+    measurements = params
+    1 + 1
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_measurement_area
@@ -54,6 +65,6 @@ class MeasurementAreasController < ApplicationController
 
     # Only allow a trusted parameter "white list" through.
     def measurement_area_params
-      params.require(:measurement_area).permit(:estimate_id, :name, :description)
+      params.require(:measurement_area).permit(:estimate_id, :name, :description, measurement_attributes: [:id, :length, :width, :height, :_destroy])
     end
 end

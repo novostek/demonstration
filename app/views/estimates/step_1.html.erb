@@ -42,47 +42,7 @@
           <div class="step-title waves-effect">Products</div>
         </li>
       </ul>
-      <div class="row">
-        <%= form_with url: create_step_one_estimates_path(@lead.id)  do |f| %>
-          <div class="input-field col s12 m3">
-            <%= f.text_field :code, value: @estimate.code, class: "validade", readonly: 'true' %>
-            <%= f.label  :code %>
-          </div>
-
-          <div class="input-field col s12 m9">
-            <%= f.text_field :title, class: "validade", autofocus: 'true' %>
-            <%= f.label  :title %>
-          </div>
-          <div class="input-field col s12 m4">
-            <i class="material-icons prefix">location_on</i>
-            <%= f.text_field :location, class: "autocomplete autocomplete-location" %>
-            <%= f.label  :location %>
-
-            <%= f.hidden_field :latitude %>
-            <%= f.hidden_field :longitude %>
-          </div>
-          <div class="input-field col s12 m8">
-            <%= f.text_field :description, class: "validade" %>
-            <%= f.label  :description %>
-          </div>
-          
-          <div class="col s12 m4">
-            <div class="input-field">
-              <%= f.select :sales_person_id, @workers, {prompt: true}  %>
-              <%= f.label  :sales_person_id %>
-            </div>
-          </div>
-          
-        </div>
-    </div>
-  </div>
-  <div class="col s12 pb-2 pr-0 pl-0">
-    <%= f.button :submit, class:"btn indigo waves-effect waves-light breadcrumbs-btn right ml-1" do %>
-      Next: Schedule
-      <i class="material-icons right">arrow_forward</i>
-    <% end %>
-  </div>
-  <% end %>
+      <%= render 'step_one_form', estimate: @estimate %>
 </div>
 
 <%= javascript_pack_tag 'materialize-stepper', 'data-turbolinks-track': 'reload' %>

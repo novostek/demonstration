@@ -17,3 +17,5 @@ require('@fullcalendar/timegrid/main.css')
 //
 // const images = require.context('../images', true)
 // const imagePath = (name) => images(name, true)
+// require("./nested-forms/addFields");
+// require("./nested-forms/removeFields");

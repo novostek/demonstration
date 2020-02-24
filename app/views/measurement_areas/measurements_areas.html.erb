@@ -1,0 +1,70 @@
+<div class="row">
+			<div class="content-wrapper-before gradient-45deg-indigo-purple"></div>
+			<div class="breadcrumbs-dark pb-0 pt-4" id="breadcrumbs-wrapper">
+				<!-- Search for small screen-->
+				<div class="container">
+					<div class="row">
+						<div class="col s10 m6 l6">
+							<h5 class="breadcrumbs-title mt-0 mb-0">Estimate Measurements</h5>
+							<ol class="breadcrumbs mb-0">
+								<li class="breadcrumb-item"><a href="index.html">Home</a>
+								</li>
+								<li class="breadcrumb-item"><a href="#">Estimates</a>
+								</li>
+								<li class="breadcrumb-item"><a href="#">New</a>
+								</li>
+								<li class="breadcrumb-item active">Measurements
+								</li>
+							</ol>
+						</div>
+						<!-- <div class="col s2 m6 l6"><a class="btn waves-effect waves-light breadcrumbs-btn right" href="lead-add.html"><i class="material-icons hide-on-med-and-up">add</i><span class="hide-on-small-only">New Estimate</span></a> -->
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col s12">
+				<div class="container">
+					<%= render 'estimates/estimate_detail' %>
+						<div class="card">
+							<div class="card-content">
+								<ul class="stepper horizontal stepper-head-only">
+									<li class="step">
+										<div class="step-title waves-effect">Step 1</div>
+									</li>
+									<li class="step ">
+										<div class="step-title waves-effect">Schedule</div>
+									</li>
+									<li class="step active">
+										<div class="step-title waves-effect">Measurements</div>
+									</li>
+									<li class="step">
+										<div class="step-title waves-effect">Products</div>
+									</li>
+								</ul>
+								<div class="m-area-list row pl-1 pr-1">
+									<%= form_with model: @estimate, url: create_measurements_estimates_path do |form| %>
+											<%= form.fields_for :measurement_areas do |measurement_area_form| %>
+												<%= render 'measurement_areas/measurement_area_fields', f: measurement_area_form %>
+											<% end %>
+											<%= link_to_add_association form, :measurement_areas, class: 'btn btn-add-area' do %>
+												<i class="material-icons left">add</i> Add area
+											<% end %>
+										<%# <div class="row mt-1">
+											<a href="#" class="btn btn-add-area"><i class="material-icons left">add</i> Add area</a>
+										</div> %>
+									<% end %>
+								</div>
+							</div>
+						</div>
+						<div class="col s12 pb-2 pr-0 pl-0">
+							<a class="btn grey lighten-5 grey-text waves-effect waves-light breadcrumbs-btn left save" href="estimate-schedule.html"><i class="material-icons left">arrow_back</i> Back</a>
+							<%= link_to products_estimate_path(id: '2'),
+								class: "btn indigo waves-effect waves-light breadcrumbs-btn right ml-1" do %>
+								Next: Products
+								<i class="material-icons right">arrow_forward</i>
+							<% end %>
+						</div>
+				</div>
+				</div>
+		</div>

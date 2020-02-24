@@ -64,7 +64,7 @@
             <td><%= lead.phone %></td>
           <td>
             <div class="invoice-action right-align">
-              <%= link_to lead, class: "invoice-action-view mr-4" do %>
+              <%= link_to step_one_estimates_path(lead.id), class: "invoice-action-view mr-4" do %>
                 <i class="material-icons">remove_red_eye</i>
               <% end %>
               <%= link_to edit_lead_path(lead) , class: "invoice-action-edit mr-4" do %>

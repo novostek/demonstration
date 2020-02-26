@@ -44,11 +44,9 @@
 
       <div class="row">
         <div class="input-field" id="orgaos">
+
+          <%= f.select :profile_ids, options_for_select(@profiles, @menu.profiles.pluck(:id)),{},{ multiple: true} %>
           <%= f.label :profile_ids, "#{t 'profiles'}" %>
-          <%= f.select :profile_ids,
-                       options_for_select(@profiles, menu.profile_menus),
-                       {:selected => @menu.profiles},
-                       {class: '', multiple: "multiple"} %>
         </div>
       </div>
 

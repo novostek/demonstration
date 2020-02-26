@@ -4,7 +4,7 @@ class MenusController < ApplicationController
 
   # GET /menus
   def index
-    @q = Menu.all.ransack(params[:q])
+    @q = Menu.roots.ransack(params[:q])
     @menus = @q.result.page(params[:page])
   end
 

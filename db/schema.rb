@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_02_19_112436) do
+ActiveRecord::Schema.define(version: 2020_02_21_173916) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -100,6 +100,25 @@ ActiveRecord::Schema.define(version: 2020_02_19_112436) do
     t.index ["customer_id"], name: "index_leads_on_customer_id"
   end
 
+  create_table "measurement_areas", force: :cascade do |t|
+    t.bigint "estimate_id", null: false
+    t.string "name"
+    t.text "description"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["estimate_id"], name: "index_measurement_areas_on_estimate_id"
+  end
+
+  create_table "measurements", force: :cascade do |t|
+    t.bigint "measurement_area_id", null: false
+    t.decimal "width"
+    t.decimal "height"
+    t.decimal "length"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["measurement_area_id"], name: "index_measurements_on_measurement_area_id"
+  end
+
   create_table "menus", force: :cascade do |t|
     t.boolean "active"
     t.string "icon"
@@ -121,7 +140,17 @@ ActiveRecord::Schema.define(version: 2020_02_19_112436) do
     t.datetime "updated_at", precision: 6, null: false
   end
 
-  create_table "accounts", id: :serial, force: :cascade do |t|
+  create_table "orders", force: :cascade do |t|
+    t.string "code"
+    t.string "status"
+    t.string "bpmn_instance"
+    t.datetime "start_at"
+    t.datetime "end_at"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "plutus_accounts", id: :serial, force: :cascade do |t|
     t.string "name"
     t.string "type"
     t.boolean "contra", default: false
@@ -149,14 +178,6 @@ ActiveRecord::Schema.define(version: 2020_02_19_112436) do
     t.datetime "updated_at"
     t.index ["commercial_document_id", "commercial_document_type"], name: "index_entries_on_commercial_doc"
     t.index ["date"], name: "index_plutus_entries_on_date"
-  create_table "orders", force: :cascade do |t|
-    t.string "code"
-    t.string "status"
-    t.string "bpmn_instance"
-    t.datetime "start_at"
-    t.datetime "end_at"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
   end
 
   create_table "product_categories", force: :cascade do |t|
@@ -271,6 +292,8 @@ ActiveRecord::Schema.define(version: 2020_02_19_112436) do
   add_foreign_key "estimates", "orders"
   add_foreign_key "estimates", "workers", column: "sales_person_id"
   add_foreign_key "leads", "customers"
+  add_foreign_key "measurement_areas", "estimates"
+  add_foreign_key "measurements", "measurement_areas"
   add_foreign_key "products", "calculation_formulas"
   add_foreign_key "products", "product_categories"
   add_foreign_key "products", "suppliers"

@@ -33,6 +33,8 @@ en:
   second: "second"
   seconds: "seconds"
 
+  will_delete: "Are you sure?"
+
 
   #atributes
   name: "Name"

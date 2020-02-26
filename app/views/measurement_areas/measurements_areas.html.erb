@@ -42,7 +42,7 @@
 										<div class="step-title waves-effect">Products</div>
 									</li>
 								</ul>
-								<div class="m-area-list row pl-1 pr-1">
+								<div class="m-area-list row pl-1 pr-1 measurement_areas">
 									<%= form_with model: @estimate, url: create_measurements_estimates_path do |form| %>
 											<%= form.fields_for :measurement_areas do |measurement_area_form| %>
 												<%= render 'measurement_areas/measurement_area_fields', f: measurement_area_form %>

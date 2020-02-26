@@ -1,5 +1,4 @@
 <div class="row m-area pt-1 mt-2 nested-fields">
-  <%= f.hidden_field :_destroy %>
   <a href="#" class="btn-close-area"><i class="material-icons">close</i></a>
   <div class="m-area--info">
     <div class="input-field col s12 m6 l3">
@@ -11,19 +10,21 @@
       <%= f.label  :description %>
     </div>
   </div>
-    <div class="m-area--measures">
+  <div class="m-area--measures measurements">
+    <%= f.fields_for :measurements do |m| %>
       <div class="input-field col s12 m4 l2">
-        <%= f.text_field :length, class: "validade" %>
-        <%= f.label  :length %>
+        <%= m.text_field :length, class: "validade" %>
+        <%= m.label  :length %>
       </div>
       <div class="input-field col s12 m4 l2">
-        <%= f.text_field :width, class: "validade" %>
-        <%= f.label  :width %>
+        <%= m.text_field :width, class: "validade" %>
+        <%= m.label  :width %>
       </div>
       <div class="input-field col s12 m4 l2">
-        <%= f.text_field :height, class: "validade" %>
-        <%= f.label  :height %>
+        <%= m.text_field :height, class: "validade" %>
+        <%= m.label  :height %>
       </div>
-    </div>
+    <% end %>
+  </div>
   
 </div>

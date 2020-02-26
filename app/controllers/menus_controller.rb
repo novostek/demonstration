@@ -68,6 +68,6 @@ class MenusController < ApplicationController
 
     # Only allow a trusted parameter "white list" through.
     def menu_params
-      params.require(:menu).permit(:active, :icon, :name, :url, profile_ids:[])
+      params.require(:menu).permit(:active, :icon, :name, :url, :position, profile_ids:[])
     end
 end

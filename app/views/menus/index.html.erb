@@ -51,6 +51,7 @@
           <th><%= t "menu_pai" %></th>
           <th><%= t('profiles') %></th>
           <th><%= t('activerecord.attributes.menu.active') %></th>
+          <th><%= t('activerecord.attributes.menu.position') %></th>
           <th></th>
         </tr>
       </thead>
@@ -64,6 +65,7 @@
           <td><%= menu.parent %></td>
           <td><%= menu.profiles.join(",") %></td>
           <td><%= t menu.active %></td>
+          <td><%= menu.position %></td>
           <td>
             <div class="invoice-action right-align">
               <%= link_to new_menu_path(pai: menu.id), class: "invoice-action-view mr-4" do %>

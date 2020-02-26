@@ -7,6 +7,7 @@
 #  ancestry   :string
 #  icon       :string
 #  name       :string
+#  position   :integer
 #  url        :string
 #  created_at :datetime         not null
 #  updated_at :datetime         not null

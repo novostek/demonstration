@@ -42,29 +42,31 @@
 										<div class="step-title waves-effect">Products</div>
 									</li>
 								</ul>
-								<div class="m-area-list row pl-1 pr-1 measurement_areas">
-									<%= form_with model: @estimate, url: create_measurements_estimates_path do |form| %>
-											<%= form.fields_for :measurement_areas do |measurement_area_form| %>
-												<%= render 'measurement_areas/measurement_area_fields', f: measurement_area_form %>
-											<% end %>
+									<%= form_for @estimate, url: create_measurements_estimates_path, method: :post do |form| %>
+										<div class="row pl-1 pr-1 measurement_areas">
+												<%= form.fields_for :measurement_areas do |measurement_area_form| %>
+													<%= render 'measurement_areas/measurement_area_fields', f: measurement_area_form %>
+												<% end %>
+											<%# <div class="row mt-1">
+												<a href="#" class="btn btn-add-area"><i class="material-icons left">add</i> Add area</a>
+											</div> %>
+										</div>
+										<div class="row mt-1">
 											<%= link_to_add_association form, :measurement_areas, class: 'btn btn-add-area' do %>
 												<i class="material-icons left">add</i> Add area
 											<% end %>
-										<%# <div class="row mt-1">
-											<a href="#" class="btn btn-add-area"><i class="material-icons left">add</i> Add area</a>
-										</div> %>
-									<% end %>
-								</div>
+										</div>
+									
 							</div>
 						</div>
 						<div class="col s12 pb-2 pr-0 pl-0">
 							<a class="btn grey lighten-5 grey-text waves-effect waves-light breadcrumbs-btn left save" href="estimate-schedule.html"><i class="material-icons left">arrow_back</i> Back</a>
-							<%= link_to products_estimate_path(id: '2'),
-								class: "btn indigo waves-effect waves-light breadcrumbs-btn right ml-1" do %>
+							<%= form.button :submit, class:"btn indigo waves-effect waves-light breadcrumbs-btn right ml-1" do %>
 								Next: Products
 								<i class="material-icons right">arrow_forward</i>
 							<% end %>
 						</div>
+						<% end %>
 				</div>
 				</div>
 		</div>

@@ -19,7 +19,7 @@
 #
 class MeasurementArea < ApplicationRecord
   belongs_to :estimate
-  has_one :measurement, inverse_of: :measurement_area, dependent: :destroy
+  has_many :measurements, inverse_of: :measurement_area, dependent: :destroy
 
-  accepts_nested_attributes_for :measurement, reject_if: :all_blank, allow_destroy: true
+  accepts_nested_attributes_for :measurements, reject_if: :all_blank, allow_destroy: true
 end

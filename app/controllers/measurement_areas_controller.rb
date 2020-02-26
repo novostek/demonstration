@@ -49,13 +49,12 @@ class MeasurementAreasController < ApplicationController
   def measurements
     @estimate = Estimate.find(params[:id])
     # @estimate.measurement_areas.build
-    # @measurement_areas = @estimate.measurement_areas.build
+    @estimate.measurement_areas.build
     render :measurements_areas
   end
 
   def create_measurements
-    measurements = params
-    1 + 1
+    
   end
 
   private
@@ -66,6 +65,6 @@ class MeasurementAreasController < ApplicationController
 
     # Only allow a trusted parameter "white list" through.
     def measurement_area_params
-      params.require(:measurement_area).permit(:estimate_id, :name, :description, measurements: [:id, :length, :width, :height, :_destroy])
+      params.require(:measurement_area).permit(:estimate_id, :name, :description, measurements_attributes: [:id, :length, :width, :height, :_destroy])
     end
 end

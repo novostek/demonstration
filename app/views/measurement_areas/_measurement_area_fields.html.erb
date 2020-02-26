@@ -1,5 +1,8 @@
 <div class="row m-area pt-1 mt-2 nested-fields">
-  <a href="#" class="btn-close-area"><i class="material-icons">close</i></a>
+  <%# <a href="#" class="btn-close-area"><i class="material-icons">close</i></a> %>
+  <%= link_to_remove_association f, class: "btn-close-area" do %>
+    <i class="material-icons">close</i>
+  <% end %>
   <div class="m-area--info">
     <div class="input-field col s12 m6 l3">
       <%= f.text_field :name, class: "validade", autofocus: 'true' %>
@@ -11,7 +14,7 @@
     </div>
   </div>
   <div class="m-area--measures measurements">
-    <%= f.fields_for :measurements do |m| %>
+    <%= f.fields_for :measurement do |m| %>
       <div class="input-field col s12 m4 l2">
         <%= m.text_field :length, class: "validade" %>
         <%= m.label  :length %>

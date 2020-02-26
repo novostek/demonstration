@@ -47,6 +47,8 @@ class Estimate < ApplicationRecord
 
   has_many :measurement_areas
 
+  accepts_nested_attributes_for :measurement_areas, reject_if: :all_blank, allow_destroy: true
+
   has_many :schedules, -> { where origin: :Estimate }, primary_key: :id, foreign_key: :origin_id
 
   def initialize_code

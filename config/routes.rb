@@ -1,7 +1,11 @@
 Rails.application.routes.draw do
 
+  resources :transaction_categories
   #mount Plutus::Engine => "/plutus", :as => "plutus"
   #
+
+  devise_for :users
+  resources :users
 
   resources :accounts do
     collection do
@@ -29,8 +33,7 @@ Rails.application.routes.draw do
   end
   resources :orders
   resources :leads
-  devise_for :users
-  resources :users
+
   resources :menus
   resources :profiles
   resources :products

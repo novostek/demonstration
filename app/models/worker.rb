@@ -3,12 +3,13 @@
 # Table name: workers
 #
 #  id          :bigint           not null, primary key
+#  categories  :string
 #  name        :string
 #  photo       :text
-#  document_id :string
-#  categories  :string
+#  time_value  :decimal(, )
 #  created_at  :datetime         not null
 #  updated_at  :datetime         not null
+#  document_id :string
 #
 
 class Worker < ApplicationRecord

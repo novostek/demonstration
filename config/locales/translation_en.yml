@@ -34,6 +34,8 @@ en:
   seconds: "seconds"
 
   will_delete: "Are you sure?"
+  remember: "Remember Me"
+  signin: "Sign in"
 
 
   #atributes

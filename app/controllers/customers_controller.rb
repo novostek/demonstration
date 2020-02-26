@@ -39,6 +39,7 @@ class CustomersController < ApplicationController
     doc = DocumentFile.new
     doc.title = params[:title]
     doc.file = params[:file]
+    doc.description = params[:description]
     doc.origin = "Customer"
     doc.origin_id = @customer.id
     if doc.save
@@ -126,7 +127,7 @@ class CustomersController < ApplicationController
     # Only allow a trusted parameter "white list" through.
     def customer_params
       params.require(:customer).permit(:name, :category, :document_id, :since, :code, :birthdate, notes_attributes:[:id,:origin,:origin_id,:private,:text,:title,:_destroy],
-                                       document_files_attributes:[:id,:title,:file,:origin, :origin_id,:esign,:esign_data,:photo,:photo_date,:photo_description,:_destroy],
+                                       document_files_attributes:[:description,:id,:title,:file,:origin, :origin_id,:esign,:esign_data,:photo,:photo_date,:photo_description,:_destroy],
                                        contacts_attributes:[:id, :category,:origin, :origin_id,:title,{data:[:address,:zipcode,:zipcode,:state,:lat,:lng,:city,:email, :ddd,:phone]},:_destroy])
     end
 end

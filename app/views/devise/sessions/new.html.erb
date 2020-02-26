@@ -1,26 +1,69 @@
-<h2>Log in</h2>
+<div id="login-page" class="row">
+  <div class="col s12 m6 l4 z-depth-4 card-panel border-radius-6 login-card bg-opacity-8">
 
-<%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
-  <div class="field">
-    <%= f.label :email %><br />
-    <%= f.email_field :email, autofocus: true, autocomplete: "email" %>
-  </div>
-
-  <div class="field">
-    <%= f.label :password %><br />
-    <%= f.password_field :password, autocomplete: "current-password" %>
-  </div>
-
-  <% if devise_mapping.rememberable? %>
-    <div class="field">
-      <%= f.check_box :remember_me %>
-      <%= f.label :remember_me %>
+    <div class="row">
+      <div class="input-field col s12">
+        <h5 class="ml-4"><%= t :signin %></h5>
+      </div>
     </div>
-  <% end %>
+    <%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
+        <div class="row margin">
+          <div class="input-field col s12">
+            <i class="material-icons prefix pt-2">person_outline</i>
+            <!--<input id="username" type="text">-->
+            <!--<label for="username" class="center-align">Username</label>-->
 
-  <div class="actions">
-    <%= f.submit "Log in" %>
-  </div>
-<% end %>
+            <%= f.email_field :email, autofocus: true, autocomplete: "email" %>
+            <%= f.label :email %>
+          </div>
+        </div>
+        <div class="row margin">
+          <div class="input-field col s12">
+            <i class="material-icons prefix pt-2">lock_outline</i>
+            <!--<input id="password" type="password">-->
+            <!--<label for="password">Password</label>-->
+
+            <%= f.password_field :password, autocomplete: "current-password" %>
+            <%= f.label :password %>
+          </div>
+        </div>
+
+
+        <div class="row">
+          <div class="input-field col s12">
+            <%= f.submit "Login", class:"btn waves-effect waves-light border-round gradient-45deg-purple-deep-orange col s12"  %>
+            <!--<a href="index.html" class="btn waves-effect waves-light border-round gradient-45deg-purple-deep-orange col s12">Login</a>-->
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col s12 m12 l12 ml-2 mt-1">
+
+
+            <% if devise_mapping.rememberable? %>
+                <p>
+                  <label>
+                    <input type="checkbox" name="user[remember_me]" id="user_rememeber_me"/>
+                    <span><%= t :remember %></span>
+                  </label>
+                </p>
+                </div>
+            <% end %>
+
+
+            </div>
+        </div>
+
+    <% end %>
+
+
+
+
+
+    </div>
+</div>
+
+
+
 
 <%= render "devise/shared/links" %>

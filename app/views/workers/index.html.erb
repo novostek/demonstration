@@ -49,6 +49,7 @@
 
           <th><%= t('activerecord.attributes.worker.document_id') %></th>
           <th><%= t('activerecord.attributes.worker.categories') %></th>
+          <th><%= t('activerecord.attributes.worker.time_value') %></th>
           <th></th>
         </tr>
       </thead>
@@ -65,6 +66,7 @@
 
             <td><%= worker.document_id %></td>
             <td><%= worker.categories_text %></td>
+            <td><%= worker.time_value %></td>
           <td>
             <div class="invoice-action right-align">
               <%= link_to worker, class: "invoice-action-view mr-4" do %>

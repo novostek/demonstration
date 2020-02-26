@@ -1,0 +1,8 @@
+en:
+  activerecord:
+    attributes:
+      transaction_category:
+        name: "Name"
+        color: "Color"
+        namespace: "Namespace"
+        description: "Description"

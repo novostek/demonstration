@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_02_26_154009) do
+ActiveRecord::Schema.define(version: 2020_02_26_234109) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -55,11 +55,9 @@ ActiveRecord::Schema.define(version: 2020_02_26_154009) do
     t.integer "origin_id"
     t.boolean "esign"
     t.json "esign_data"
-    t.string "photo"
-    t.date "photo_date"
-    t.text "photo_description"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.text "description"
   end
 
   create_table "estimates", force: :cascade do |t|
@@ -204,6 +202,7 @@ ActiveRecord::Schema.define(version: 2020_02_26_154009) do
     t.datetime "updated_at", precision: 6, null: false
     t.bigint "supplier_id", null: false
     t.bigint "calculation_formula_id", null: false
+    t.text "photo"
     t.index ["calculation_formula_id"], name: "index_products_on_calculation_formula_id"
     t.index ["product_category_id"], name: "index_products_on_product_category_id"
     t.index ["supplier_id"], name: "index_products_on_supplier_id"
@@ -266,6 +265,15 @@ ActiveRecord::Schema.define(version: 2020_02_26_154009) do
     t.datetime "updated_at", precision: 6, null: false
   end
 
+  create_table "transaction_categories", force: :cascade do |t|
+    t.string "name"
+    t.text "description"
+    t.string "color"
+    t.string "namespace"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
   create_table "users", force: :cascade do |t|
     t.string "email", default: "", null: false
     t.string "encrypted_password", default: "", null: false
@@ -286,6 +294,7 @@ ActiveRecord::Schema.define(version: 2020_02_26_154009) do
     t.string "categories"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.decimal "time_value"
   end
 
   add_foreign_key "estimates", "calculation_formulas", column: "tax_calculation_id"

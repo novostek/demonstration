@@ -24,6 +24,11 @@
 </div>
 
 <div class="card-panel">
+  <p>
+    <% if @product.photo.present? %>
+        <img src="<%= @product.photo.url %>" alt="">
+    <% end %>
+  </p>
 	
   <p>
     <strong><%= t('activerecord.attributes.product.name') %>:</strong>

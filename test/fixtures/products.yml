@@ -9,6 +9,7 @@
 #  customer_price         :decimal(, )
 #  details                :text
 #  name                   :string
+#  photo                  :text
 #  tax                    :boolean
 #  uuid                   :string
 #  created_at             :datetime         not null

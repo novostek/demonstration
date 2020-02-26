@@ -1,20 +1,18 @@
 # == Schema Information
 #
-# Table name: workers
+# Table name: transaction_categories
 #
 #  id          :bigint           not null, primary key
-#  categories  :string
+#  color       :string
+#  description :text
 #  name        :string
-#  photo       :text
-#  time_value  :decimal(, )
+#  namespace   :string
 #  created_at  :datetime         not null
 #  updated_at  :datetime         not null
-#  document_id :string
 #
-
 require 'test_helper'
 
-class WorkerTest < ActiveSupport::TestCase
+class TransactionCategoryTest < ActiveSupport::TestCase
   # test "the truth" do
   #   assert true
   # end

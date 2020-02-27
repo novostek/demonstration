@@ -42,7 +42,7 @@
 										<div class="step-title waves-effect">Products</div>
 									</li>
 								</ul>
-									<%= form_for @estimate, url: estimate_path, method: :patch do |form| %>
+									<%= form_for @estimate, local: true, url: estimate_path, method: :patch do |form| %>
 										<div class="row pl-1 pr-1 measurement_areas">
 												<%= form.fields_for :measurement_areas do |measurement_area_form| %>
 													<%= render 'measurement_area_fields', f: measurement_area_form %>
@@ -57,7 +57,8 @@
 							</div>
 						</div>
 						<div class="col s12 pb-2 pr-0 pl-0">
-							<%= link_to schedule_estimate_path(@estimate.id), class:"btn grey lighten-5 grey-text waves-effect waves-light breadcrumbs-btn left save" do %>
+							<%= link_to schedule_estimate_path(@estimate.id), target: '_self',
+								class:"btn grey lighten-5 grey-text waves-effect waves-light breadcrumbs-btn left save" do %>
 								Back <i class="material-icons left">arrow_back</i>
 							<% end %>
 							<%= form.button :submit, class:"btn indigo waves-effect waves-light breadcrumbs-btn right ml-1" do %>

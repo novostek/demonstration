@@ -1,5 +1,5 @@
 <div class="row">
-  <%= form_with scope: :estimate, url: create_step_one_estimates_path(@lead.id)  do |f| %>
+  
     <div class="input-field col s12 m3">
       <%= f.text_field :code, value: @estimate.code, class: "validade", readonly: 'true' %>
       <%= f.label  :code %>
@@ -29,13 +29,4 @@
       </div>
     </div>
     
-  </div>
 </div>
-</div>
-<div class="col s12 pb-2 pr-0 pl-0">
-<%= f.button :submit, class:"btn indigo waves-effect waves-light breadcrumbs-btn right ml-1" do %>
-Next: Schedule
-<i class="material-icons right">arrow_forward</i>
-<% end %>
-</div>
-<% end %>

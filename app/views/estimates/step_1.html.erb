@@ -42,7 +42,17 @@
           <div class="step-title waves-effect">Products</div>
         </li>
       </ul>
-      <%= render 'step_one_form', estimate: @estimate %>
+      <%= form_with local: true, scope: :estimate, url: create_step_one_estimates_path(@lead.id)  do |f| %>
+        <%= render 'step_one_form', estimate: @estimate, f: f %>
+        <div class="col s12 pb-2 pr-0 pl-0 mt-5">
+          <%= f.button :submit, class:"btn indigo waves-effect waves-light breadcrumbs-btn right ml-1", target: '_self' do %>
+            Next: Schedule
+            <i class="material-icons right">arrow_forward</i>
+          <% end %>
+        </div>
+      <% end %>
+    </div>
+  </div>
 </div>
 
 <%= javascript_pack_tag 'materialize-stepper', 'data-turbolinks-track': 'reload' %>

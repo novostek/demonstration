@@ -45,9 +45,11 @@ class Estimate < ApplicationRecord
   belongs_to :order, optional: true
   belongs_to :lead, optional: true
 
-  has_many :measurement_areas
+  has_many :measurements, through: :measurement_areas
+  has_many :measurement_areas, dependent: :destroy
 
   accepts_nested_attributes_for :measurement_areas, reject_if: :all_blank, allow_destroy: true
+  accepts_nested_attributes_for :measurements, reject_if: :all_blank, allow_destroy: true
 
   has_many :schedules, -> { where origin: :Estimate }, primary_key: :id, foreign_key: :origin_id
 

@@ -48,7 +48,6 @@ class MeasurementAreasController < ApplicationController
 
   def measurements
     @estimate = Estimate.find(params[:id])
-    # @estimate.measurement_areas.build
     @estimate.measurement_areas.build
     render :measurements_areas
   end

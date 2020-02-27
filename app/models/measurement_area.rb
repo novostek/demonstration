@@ -18,7 +18,7 @@
 #  fk_rails_...  (estimate_id => estimates.id)
 #
 class MeasurementArea < ApplicationRecord
-  belongs_to :estimate
+  belongs_to :estimate, optional: true
   has_many :measurements, inverse_of: :measurement_area, dependent: :destroy
 
   accepts_nested_attributes_for :measurements, reject_if: :all_blank, allow_destroy: true

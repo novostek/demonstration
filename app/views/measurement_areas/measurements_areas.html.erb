@@ -45,14 +45,11 @@
 									<%= form_for @estimate, url: create_measurements_estimates_path, method: :post do |form| %>
 										<div class="row pl-1 pr-1 measurement_areas">
 												<%= form.fields_for :measurement_areas do |measurement_area_form| %>
-													<%= render 'measurement_areas/measurement_area_fields', f: measurement_area_form %>
+													<%= render 'measurement_area_fields', f: measurement_area_form %>
 												<% end %>
-											<%# <div class="row mt-1">
-												<a href="#" class="btn btn-add-area"><i class="material-icons left">add</i> Add area</a>
-											</div> %>
 										</div>
 										<div class="row mt-1">
-											<%= link_to_add_association form, :measurement_areas, class: 'btn btn-add-area' do %>
+											<%= link_to_add_association form, :measurement_areas, class: 'btn btn-add-area', partial: 'measurements/form' do %>
 												<i class="material-icons left">add</i> Add area
 											<% end %>
 										</div>

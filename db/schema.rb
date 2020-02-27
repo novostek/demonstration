@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_02_26_234109) do
+ActiveRecord::Schema.define(version: 2020_02_26_235503) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -155,7 +155,9 @@ ActiveRecord::Schema.define(version: 2020_02_26_234109) do
     t.boolean "contra", default: false
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.bigint "transaction_category_id", null: false
     t.index ["name", "type"], name: "index_plutus_accounts_on_name_and_type"
+    t.index ["transaction_category_id"], name: "index_plutus_accounts_on_transaction_category_id"
   end
 
   create_table "plutus_amounts", id: :serial, force: :cascade do |t|
@@ -304,6 +306,7 @@ ActiveRecord::Schema.define(version: 2020_02_26_234109) do
   add_foreign_key "leads", "customers"
   add_foreign_key "measurement_areas", "estimates"
   add_foreign_key "measurements", "measurement_areas"
+  add_foreign_key "plutus_accounts", "transaction_categories"
   add_foreign_key "products", "calculation_formulas"
   add_foreign_key "products", "product_categories"
   add_foreign_key "products", "suppliers"

@@ -56,7 +56,7 @@ class SquareApi
     body[:pre_populate_shipping_address][:country] = 'US'
     body[:pre_populate_shipping_address][:first_name] = 'Jane'
     body[:pre_populate_shipping_address][:last_name] = 'Doe'
-    body[:redirect_url] = 'https://woodoffice.herokuapp.com/customers/order-confirm'
+    body[:redirect_url] = 'https://woodoffice.herokuapp.com/square_api/callback'
 
 
 
@@ -79,6 +79,7 @@ class SquareApi
             :amount => value,
             :currency => 'USD'
         },
+        :reference_id => '123456',
         :idempotency_key => SecureRandom.uuid
     }
 

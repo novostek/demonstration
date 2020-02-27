@@ -1,11 +1,18 @@
 Rails.application.routes.draw do
 
+  resources :signatures
   resources :transaction_categories
   #mount Plutus::Engine => "/plutus", :as => "plutus"
   #
 
   devise_for :users
   resources :users
+
+  resources :square_api do
+    collection do
+      get "callback"
+    end
+  end
 
   resources :accounts do
     collection do

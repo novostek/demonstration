@@ -31,7 +31,8 @@ class CustomersController < ApplicationController
 
   def process_payment
     #binding.pry
-    SquareApi.create_payment(params[:nonce],1000)
+    result = SquareApi.create_payment(params[:nonce],1000)
+    binding.pry
   end
 
   #método que insere um novo documento

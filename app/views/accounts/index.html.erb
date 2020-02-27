@@ -47,29 +47,32 @@
         <th><%= t('activerecord.attributes.worker.name') %></th>
 
         <th><%= "Type" %></th>
-        <!--          <th><%#= t('activerecord.attributes.worker.categories') %></th>-->
+        <th><%= t('activerecord.attributes.account.transaction_category_id') %></th>
         <th></th>
       </tr>
       </thead>
       <tbody>
       <% @accounts.each do |account| %>
-        <tr>
+          <tr>
 
-          <td><%= account.name %></td>
+            <td><%= account.name %></td>
 
-          <td><%= plutus_accounts(account.type) %></td>
-
-          <td>
-            <div class="invoice-action right-align">
-              <%#= link_to worker, class: "invoice-action-view mr-4" do %>
-              <!--                <i class="material-icons">remove_red_eye</i>-->
-              <%# end %>
-              <%#= link_to edit_worker_path(worker) , class: "invoice-action-edit mr-4" do %>
-              <!--                <i class="material-icons">edit</i>-->
-              <%# end %>
-            </div>
-          </td>
-        </tr>
+            <td><%= plutus_accounts(account.type) %></td>
+            <td><%= TransactionCategory.find(account.transaction_category_id)%></td>
+            <td>
+              <div class="invoice-action right-align">
+                <%#= link_to account, class: "invoice-action-view mr-4" do %>
+                    <!--<i class="material-icons">remove_red_eye</i>-->
+                <%# end %>
+                <%#= link_to edit_account_path(account) , class: "invoice-action-edit mr-4" do %>
+                                <!--<i class="material-icons">edit</i>-->
+                <%# end %>
+                <%#= link_to account, method: :delete,data: { confirm: "#{t :will_delete}" } ,target:"_self", class: "invoice-action-edit mr-4" do %>
+                    <!--<i class="material-icons">delete</i>-->
+                <%# end %>
+              </div>
+            </td>
+          </tr>
       <% end %>
       </tbody>
     </table>

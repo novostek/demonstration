@@ -1,5 +1,6 @@
 class AccountsController  < ApplicationController
-
+  before_action :set_combos, only: [:new, :edit, :update, :create]
+  before_action :set_account, only: [:show, :edit, :update, :destroy]
 
   def index
     @accounts = Plutus::Account.all
@@ -7,6 +8,14 @@ class AccountsController  < ApplicationController
 
   def new
     @account = Plutus::Account.new
+  end
+
+  def show
+    
+  end
+
+  def edit
+    
   end
 
   def balance
@@ -69,7 +78,7 @@ class AccountsController  < ApplicationController
   def update
 
     if @account.update(account_params)
-      redirect_to @account, notice: 'Product foi atualizado com sucesso.'
+      redirect_to @account, notice: 'Account was sucessful updated.'
     else
       render :edit
     end
@@ -77,16 +86,24 @@ class AccountsController  < ApplicationController
 
   # DELETE /profiles/1
   def destroy
-    @profile.destroy
-    redirect_to profiles_url, notice: 'Profile foi apagado com sucesso.'
+    @account.destroy
+    redirect_to accounts_path, notice: 'Account was sucessful deleted.'
   end
 
   private
 
+  def set_account
+    @account = Plutus::Account.find(params[:id])
+  end
+
+  def set_combos
+    @categories = TransactionCategory.to_select
+  end
+
 
   # Only allow a trusted parameter "white list" through.
   def account_params
-    params.require(:account).permit(:name, :type)
+    params.require(:account).permit(:name, :type, :transaction_category_id)
   end
 
 end

@@ -24,6 +24,11 @@
     <%= f.label :type %>
   </div>
 
+  <div class="input-field">
+    <%= f.select :transaction_category_id, @categories, {required: true} %>
+    <%= f.label :transaction_category_id %>
+  </div>
+
 
 
 </div>

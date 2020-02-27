@@ -11,6 +11,8 @@ en:
         category: "Category"
         code: "Code"
         birthdate: "BirthDate"
+        transaction_category_id: "Category"
+        type: "Type"
       entry:
         description: "Description"
         date: "Date"

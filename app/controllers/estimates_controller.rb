@@ -108,6 +108,8 @@ class EstimatesController < ApplicationController
   end
   
   def products
+    @estimate = Estimate.find(params[:id])
+
     render :products
   end
 

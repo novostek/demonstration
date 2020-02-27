@@ -26,24 +26,7 @@
 <div class="row">
   <div class="col s12">
     <div class="container">
-      <div class="section">
-        <div class="card-panel">
-          <div class="row">
-            <div class="col s5">
-              <h6>Estime title</h6>
-              <span>Estimate description that could be a little longer.</span>
-            </div>
-            <div class="col s5">
-              <span style="width: 100%" class="left">Customer: <a href="customer-view.html">John Smith</a></span>
-              <span style="width: 100%" class="left">Location: Paris, France</span>
-              <span style="width: 100%" class="left">Category 1</span>
-            </div>
-            <div class="col s2">
-              <span class="chip lighten-5 green green-text right mr-0">Status 1</span>
-              <span style="width: 100%" class="right right-align">2020-02-02</span>
-            </div>
-          </div>
-        </div>
+      <%= render 'estimate_detail', estimate: @estimate %>
         <div class="card">
           <div class="card-content">
             <ul class="stepper horizontal stepper-head-only">
@@ -67,18 +50,9 @@
                 <a href="#" class="btn-close-product-area"><i class="material-icons">close</i></a>
                 <div class="areas-available col s12">
                   <span>Areas:</span>
-                  <div class="chip">Bedroom</div>
-                  <div class="chip">Living room</div>
-                  <div class="chip">Closet</div>
-                  <div class="chip">Bedroom</div>
-                  <div class="chip">Living room</div>
-                  <div class="chip">Closet</div>
-                  <div class="chip">Bedroom</div>
-                  <div class="chip">Living room</div>
-                  <div class="chip">Closet</div>
-                  <div class="chip">Bedroomr</div>
-                  <div class="chip">Living room</div>
-                  <div class="chip">Closet</div>
+                  <% @estimate.measurement_areas.each do |area| %>
+                    <div class="chip" id="area_<%= area.id %>"><%= area.name %></div>
+                  <% end %>
                   <a href="#" class="select-all-areas">Select all</a>
                 </div>
                 <div class="products-list">
@@ -161,9 +135,9 @@
           <a class="btn grey lighten-5 grey-text waves-effect waves-light breadcrumbs-btn left save" href="estimate-measurements.html"><i class="material-icons left">arrow_back</i> Back</a>
           <a class="btn indigo waves-effect waves-light breadcrumbs-btn right ml-1" href="estimate-view.html"><i class="material-icons left">save</i> Save</a>
         </div>
-
-
-      </div>
     </div>
   </div>
 </div>
+<%= content_for :scripts do %>
+  <%= javascript_pack_tag 'estimate/products', 'data-turbolinks-track': 'true' %>
+<% end %>

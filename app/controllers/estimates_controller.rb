@@ -35,7 +35,7 @@ class EstimatesController < ApplicationController
   # PATCH/PUT /estimates/1
   def update
     if @estimate.update(estimate_params)
-      redirect_to @estimate, notice: 'Estimate foi atualizado com sucesso.'
+      redirect_to products_estimate_path(@estimate.id), notice: 'Estimate foi atualizado com sucesso.'
     else
       render :edit
     end
@@ -124,6 +124,15 @@ class EstimatesController < ApplicationController
 
     # Only allow a trusted parameter "white list" through.
     def estimate_params
-      params.require(:estimate).permit(:code, :title, :worker_id, :status, :description, :location, :latitude, :longitude, :category, :order_id, :price, :tax, :tax_calculation, :lead_id, :bpmn_instance, :current, :total)
+      params.require(:estimate).permit(
+          :code, :title, :worker_id, :status, :description, :location, 
+          :latitude, :longitude, :category, :order_id, :price, :tax, 
+          :tax_calculation, :lead_id, :bpmn_instance, :current, :total,
+          measurement_areas_attributes: [
+            :id, :estimate_id, :name, :description, :_destroy,
+            measurements_attributes: [
+              :id, :length, :width, :height, :_destroy
+            ]
+          ])
     end
 end

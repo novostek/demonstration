@@ -42,14 +42,14 @@
 										<div class="step-title waves-effect">Products</div>
 									</li>
 								</ul>
-									<%= form_for @estimate, url: create_measurements_estimates_path, method: :post do |form| %>
+									<%= form_for @estimate, url: estimate_path, method: :patch do |form| %>
 										<div class="row pl-1 pr-1 measurement_areas">
 												<%= form.fields_for :measurement_areas do |measurement_area_form| %>
 													<%= render 'measurement_area_fields', f: measurement_area_form %>
 												<% end %>
 										</div>
 										<div class="row mt-1">
-											<%= link_to_add_association form, :measurement_areas, class: 'btn btn-add-area', partial: 'measurements/form' do %>
+											<%= link_to_add_association form, :measurement_areas, class: 'btn btn-add-area' do %>
 												<i class="material-icons left">add</i> Add area
 											<% end %>
 										</div>
@@ -57,7 +57,9 @@
 							</div>
 						</div>
 						<div class="col s12 pb-2 pr-0 pl-0">
-							<a class="btn grey lighten-5 grey-text waves-effect waves-light breadcrumbs-btn left save" href="estimate-schedule.html"><i class="material-icons left">arrow_back</i> Back</a>
+							<%= link_to schedule_estimate_path(@estimate.id), class:"btn grey lighten-5 grey-text waves-effect waves-light breadcrumbs-btn left save" do %>
+								Back <i class="material-icons left">arrow_back</i>
+							<% end %>
 							<%= form.button :submit, class:"btn indigo waves-effect waves-light breadcrumbs-btn right ml-1" do %>
 								Next: Products
 								<i class="material-icons right">arrow_forward</i>

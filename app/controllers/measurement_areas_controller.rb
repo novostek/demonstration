@@ -53,7 +53,8 @@ class MeasurementAreasController < ApplicationController
   end
 
   def create_measurements
-    
+    measures = params
+    1+1
   end
 
   private

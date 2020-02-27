@@ -13,5 +13,7 @@
       <%= f.label  :description %>
     </div>
   </div>
-  <%= render 'measurements/form', f: f %>
+  <%= f.fields_for :measurements, f.object.new_record? ? f.object.measurements.build : f.object.measurements do |measures| %>
+    <%= render 'measurement_fields', m: measures %>
+  <% end %>
 </div>

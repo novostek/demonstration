@@ -1,5 +1,5 @@
-<%= f.fields_for :measurements do |m| %>
-  <div class="m-area--measures">
+
+  <div class="m-area--measures nested-fields">
     <div class="input-field col s12 m4 l2">
       <%= m.text_field :length, class: "validade" %>
       <%= m.label  :length %>
@@ -13,4 +13,3 @@
       <%= m.label  :height %>
     </div>
   </div>
-<% end %>

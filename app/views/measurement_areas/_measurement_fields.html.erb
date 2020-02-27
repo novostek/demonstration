@@ -1,0 +1,15 @@
+
+  <div class="m-area--measures nested-fields">
+    <div class="input-field col s12 m4 l2">
+      <%= m.text_field :length, class: "validade", value: (m.object.length or '0.0') %>
+      <%= m.label  :length %>
+    </div>
+    <div class="input-field col s12 m4 l2">
+      <%= m.text_field :width, class: "validade", value: (m.object.width or '0.0') %>
+      <%= m.label  :width %>
+    </div>
+    <div class="input-field col s12 m4 l2">
+      <%= m.text_field :height, class: "validade", value: (m.object.height or '0.0') %>
+      <%= m.label  :height %>
+    </div>
+  </div>

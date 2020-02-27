@@ -1,5 +1,7 @@
 Rails.application.routes.draw do
 
+  resources :product_estimates
+  resources :measurement_proposals
   #mount Plutus::Engine => "/plutus", :as => "plutus"
   #
 

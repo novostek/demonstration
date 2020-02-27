@@ -1,0 +1,2 @@
+class MeasurementProposal < ApplicationRecord
+end

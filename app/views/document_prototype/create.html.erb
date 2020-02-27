@@ -1,22 +1,140 @@
 <%= content_for :body_class do "menu-collapse" end %>
-<div class="breadcrumbs-dark pb-0 pt-4" id="breadcrumbs-wrapper">
-  <!-- Search for small screen-->
-  <div class="container">
-    <div class="row">
-      <div class="col s10 m6 l6">
-        <h5 class="breadcrumbs-title mt-0 mb-0"><span>New Template</span></h5>
-        <ol class="breadcrumbs mb-0">
-          <li class="breadcrumb-item"><a href="/"><%= t('home') %></a>
-          </li>
-          <li class="breadcrumb-item"><a href="#">Documents Template</a>
-          </li>
-          <li class="breadcrumb-item active"> New
-          </li>
-        </ol>
-      </div>
-      <div class="col s2 m6 l6">
-        <%= link_to t('button.all'), contacts_path, class:"btn waves-effect waves-light breadcrumbs-btn right" %>
+<%= content_for :head_content do %>
+  <link href='https://cdn.jsdelivr.net/npm/froala-editor@3.1.0/css/froala_editor.pkgd.min.css' rel='stylesheet' type='text/css' />
+<% end %>
+<div class="row">
+  <div class="col s12 m3">
+    <ul class="collapsible collapsible-accordion">
+      <li>
+        <div class="collapsible-header" tabindex="0"><i class="material-icons">mic_none</i> Estimate/Order</div>
+        <div class="collapsible-body white">
+
+          <div class="chip drag-text"  draggable="true" data-value="w%{estimate.number}" >
+            <i class="material-icons chip-icon">open_with</i>
+            Number
+          </div>
+          <div class="chip drag-text"  draggable="true" data-value="w%{estimate.value}" >
+            <i class="material-icons chip-icon">open_with</i>
+            Value
+          </div>
+          <div class="chip drag-text" draggable="true" data-value="w%{estimate.value_with_tax}">
+            <i class="material-icons chip-icon">open_with</i>
+            Value With Tax
+          </div>
+          <div class="chip drag-text" draggable="true" data-value="w%{estimate.value_with_tax}">
+            <i class="material-icons chip-icon">open_with</i>
+            Tax
+          </div>
+          <div class="chip drag-text" draggable="true" data-value="w%{estimate.value_with_tax}">
+            <i class="material-icons chip-icon">open_with</i>
+            Start Date
+          </div>
+          <div class="chip drag-text" draggable="true" data-value="w%{estimate.value_with_tax}">
+            <i class="material-icons chip-icon">open_with</i>
+            End Date
+          </div>
+        </div>
+      </li>
+      <li>
+        <div class="collapsible-header" tabindex="0"><i class="material-icons">mic_none</i> Customer</div>
+        <div class="collapsible-body white">
+          <div class="chip drag-text"  draggable="true" data-value="w%{estimate.number}" >
+            <i class="material-icons chip-icon">open_with</i>
+            Name
+          </div>
+          <div class="chip drag-text" draggable="true" data-value="w%{estimate.value_with_tax}">
+            <i class="material-icons chip-icon">open_with</i>
+            First Name
+          </div>
+          <div class="chip drag-text" draggable="true" data-value="w%{estimate.value_with_tax}">
+            <i class="material-icons chip-icon">open_with</i>
+            Last Name
+          </div>
+        </div>
+      </li>
+      <li>
+        <div class="collapsible-header" tabindex="0"><i class="material-icons">mic_none</i> Partials</div>
+        <div class="collapsible-body white">
+          <div class="chip drag-text"  draggable="true" data-value="w%{estimate.number}" >
+            <i class="material-icons chip-icon">open_with</i>
+            Proposal
+          </div>
+          <div class="chip drag-text" draggable="true" data-value="w%{estimate.value_with_tax}">
+            <i class="material-icons chip-icon">open_with</i>
+            Areas
+          </div>
+          <div class="chip drag-text" draggable="true" data-value="w%{estimate.value_with_tax}">
+            <i class="material-icons chip-icon">open_with</i>
+            Payments
+          </div>
+        </div>
+      </li>
+      <li>
+        <div class="collapsible-header" tabindex="0"><i class="material-icons">mic_none</i> Customized Fields</div>
+        <div class="collapsible-body white">
+        </div>
+      </li>
+    </ul>
+  </div>
+  <div class="col s12 m9">
+    <div class="card-panel">
+      <div id="froala-editor">
+        <h3>Click here to edit the content</h3>
+        <p>Drag the image above or the text block to insert them in the editor.</p>
       </div>
     </div>
   </div>
 </div>
+<%= content_for :scripts do %>
+  <script type='text/javascript' src='https://cdn.jsdelivr.net/npm/froala-editor@3.1.0/js/froala_editor.pkgd.min.js'></script>
+  <script>
+      var dragCallback = function (e) {
+          e.dataTransfer.setData('Text', this.dataset.value);
+      };
+
+      // For Firefox to work.
+      $('.drag-text').each(function () {
+          this.addEventListener('dragstart', dragCallback);
+      });
+
+      new FroalaEditor('div#froala-editor', {
+          events: {
+              initialized: function () {
+                  var editor = this;
+
+                  editor.events.on('drop', function (dropEvent) {
+                      // Focus at the current posisiton.
+                      editor.markers.insertAtPoint(dropEvent.originalEvent);
+                      var $marker = editor.$el.find('.fr-marker');
+                      $marker.replaceWith(FroalaEditor.MARKERS);
+                      editor.selection.restore();
+
+                      // Save into undo stack the current position.
+                      if (!editor.undo.canDo()) editor.undo.saveStep();
+
+                      // Insert HTML.
+                      editor.html.insert(dropEvent.originalEvent.dataTransfer.getData('Text') );
+
+                      // Save into undo stack the changes.
+                      editor.undo.saveStep();
+
+                      // Stop event propagation.
+                      dropEvent.preventDefault();
+                      dropEvent.stopPropagation();
+
+                      // Firefox show cursor.
+                      if (editor.core.hasFocus() && editor.browser.mozilla) {
+                          editor.events.disableBlur();
+                          setTimeout(function () {
+                              editor.$el.blur().focus();
+                              editor.events.enableBlur();
+                          }, 0);
+                      }
+
+                      return false;
+                  }, true);
+              }
+          }
+      })
+  </script>
+<% end %>

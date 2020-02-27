@@ -120,10 +120,13 @@ module BpmApi
       name = field.attr('label')
       key = field.attr('id')
       value= field.attr('defaultValue')
+      properties_f = {}
       properties = field.children.xpath('./camunda:property').map do |property|
+        properties_f[:"#{property.attr('id')}"] = property.attr('value')
         {"#{property.attr('id')}": property.attr('value')}
       end
-      {name: name, key: key, value: value, properties: properties}
+      category = properties_f[:type] || "string"
+      {name: name, key: key, value: value, category: category,  properties: properties, properties_f: properties_f}
     end
     fields
   end

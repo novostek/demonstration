@@ -94,4 +94,8 @@ Rails.application.routes.draw do
   get 'bpmn_editor/' => "bpmn_editor#list", as: :bpmn_editor_list
   get 'bpmn_editor/process/:id' => "bpmn_editor#editor", as: :bpmn_editor
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
+
+  get 'document_prototype/create'
+  get 'document_prototype/deliver'
+  get 'document_prototype/sign'
 end

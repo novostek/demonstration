@@ -1,9 +1,9 @@
 module ApplicationHelper
   def camunda_input(data, form)
     begin
-      render partial: "bpm_fields/#{data[:category]}_field", locals: {form: form, key: data[:key], name: data[:name], mask: data[:mask], value: data[:value]}
+      render partial: "bpm_fields/#{data[:category]}_field", locals: {form: form, data: data}
     rescue
-      render partial: "bpm_fields/string_field", locals: {form: form, key: data[:key], name: data[:name], mask: {}, value: data[:value]}
+      render partial: "bpm_fields/string_field", locals: {form: form, data: data}
     end
   end
 

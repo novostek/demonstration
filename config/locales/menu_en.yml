@@ -6,5 +6,6 @@ en:
         url: "Url"
         active: "Active"
         icon: "Icon"
+        position: "Position"
   menu_pai: "Father Menu"
   profiles: "Profiles"

@@ -6,6 +6,7 @@ en:
         photo: "Photo"
         document_id: "DocumentID"
         categories: "Category"
+        time_value: "Hour cost"
   enumerize:
     worker:
       categories:

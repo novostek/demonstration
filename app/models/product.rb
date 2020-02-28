@@ -9,6 +9,7 @@
 #  customer_price         :decimal(, )
 #  details                :text
 #  name                   :string
+#  photo                  :text
 #  tax                    :boolean
 #  uuid                   :string
 #  created_at             :datetime         not null
@@ -31,6 +32,7 @@
 #
 
 class Product < ApplicationRecord
+  mount_uploader :photo, DocumentFileUploader
   belongs_to :product_category, optional: true
   belongs_to :calculation_formula, optional: true
   belongs_to :supplier, optional: true

@@ -9,7 +9,7 @@
 
 
 
-          <% current_user.menus.where(active: true).distinct.roots.map{|a| a.subtree.where(id: current_user.menu_ids).arrange_serializable}.each do |m| %>
+          <% current_user.menus.where(active: true).order(position: :asc).distinct.roots.map{|a| a.subtree.where(id: current_user.menu_ids).arrange_serializable}.each do |m| %>
               <%= render partial: "layouts/menu_tree",  locals: {m: m[0]}, cached: true %>
           <% end if current_user.present?  %>
 

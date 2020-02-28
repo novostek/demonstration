@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_02_19_112436) do
+ActiveRecord::Schema.define(version: 2020_02_27_222050) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -55,11 +55,9 @@ ActiveRecord::Schema.define(version: 2020_02_19_112436) do
     t.integer "origin_id"
     t.boolean "esign"
     t.json "esign_data"
-    t.string "photo"
-    t.date "photo_date"
-    t.text "photo_description"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.text "description"
   end
 
   create_table "estimates", force: :cascade do |t|
@@ -100,6 +98,25 @@ ActiveRecord::Schema.define(version: 2020_02_19_112436) do
     t.index ["customer_id"], name: "index_leads_on_customer_id"
   end
 
+  create_table "measurement_areas", force: :cascade do |t|
+    t.bigint "estimate_id", null: false
+    t.string "name"
+    t.text "description"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["estimate_id"], name: "index_measurement_areas_on_estimate_id"
+  end
+
+  create_table "measurements", force: :cascade do |t|
+    t.bigint "measurement_area_id", null: false
+    t.decimal "width"
+    t.decimal "height"
+    t.decimal "length"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["measurement_area_id"], name: "index_measurements_on_measurement_area_id"
+  end
+
   create_table "menus", force: :cascade do |t|
     t.boolean "active"
     t.string "icon"
@@ -108,6 +125,7 @@ ActiveRecord::Schema.define(version: 2020_02_19_112436) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.string "ancestry"
+    t.integer "position"
     t.index ["ancestry"], name: "index_menus_on_ancestry"
   end
 
@@ -121,13 +139,25 @@ ActiveRecord::Schema.define(version: 2020_02_19_112436) do
     t.datetime "updated_at", precision: 6, null: false
   end
 
-  create_table "accounts", id: :serial, force: :cascade do |t|
+  create_table "orders", force: :cascade do |t|
+    t.string "code"
+    t.string "status"
+    t.string "bpmn_instance"
+    t.datetime "start_at"
+    t.datetime "end_at"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "plutus_accounts", id: :serial, force: :cascade do |t|
     t.string "name"
     t.string "type"
     t.boolean "contra", default: false
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.bigint "transaction_category_id", null: false
     t.index ["name", "type"], name: "index_plutus_accounts_on_name_and_type"
+    t.index ["transaction_category_id"], name: "index_plutus_accounts_on_transaction_category_id"
   end
 
   create_table "plutus_amounts", id: :serial, force: :cascade do |t|
@@ -149,14 +179,6 @@ ActiveRecord::Schema.define(version: 2020_02_19_112436) do
     t.datetime "updated_at"
     t.index ["commercial_document_id", "commercial_document_type"], name: "index_entries_on_commercial_doc"
     t.index ["date"], name: "index_plutus_entries_on_date"
-  create_table "orders", force: :cascade do |t|
-    t.string "code"
-    t.string "status"
-    t.string "bpmn_instance"
-    t.datetime "start_at"
-    t.datetime "end_at"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
   end
 
   create_table "product_categories", force: :cascade do |t|
@@ -182,6 +204,7 @@ ActiveRecord::Schema.define(version: 2020_02_19_112436) do
     t.datetime "updated_at", precision: 6, null: false
     t.bigint "supplier_id", null: false
     t.bigint "calculation_formula_id", null: false
+    t.text "photo"
     t.index ["calculation_formula_id"], name: "index_products_on_calculation_formula_id"
     t.index ["product_category_id"], name: "index_products_on_product_category_id"
     t.index ["supplier_id"], name: "index_products_on_supplier_id"
@@ -237,9 +260,26 @@ ActiveRecord::Schema.define(version: 2020_02_19_112436) do
     t.datetime "updated_at", precision: 6, null: false
   end
 
+  create_table "signatures", force: :cascade do |t|
+    t.string "origin"
+    t.integer "origin_id"
+    t.text "file"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
   create_table "suppliers", force: :cascade do |t|
     t.string "name", null: false
     t.text "description"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "transaction_categories", force: :cascade do |t|
+    t.string "name"
+    t.text "description"
+    t.string "color"
+    t.string "namespace"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end
@@ -264,6 +304,7 @@ ActiveRecord::Schema.define(version: 2020_02_19_112436) do
     t.string "categories"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.decimal "time_value"
   end
 
   add_foreign_key "estimates", "calculation_formulas", column: "tax_calculation_id"
@@ -271,6 +312,9 @@ ActiveRecord::Schema.define(version: 2020_02_19_112436) do
   add_foreign_key "estimates", "orders"
   add_foreign_key "estimates", "workers", column: "sales_person_id"
   add_foreign_key "leads", "customers"
+  add_foreign_key "measurement_areas", "estimates"
+  add_foreign_key "measurements", "measurement_areas"
+  add_foreign_key "plutus_accounts", "transaction_categories"
   add_foreign_key "products", "calculation_formulas"
   add_foreign_key "products", "product_categories"
   add_foreign_key "products", "suppliers"

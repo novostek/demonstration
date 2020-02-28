@@ -6,6 +6,7 @@
 #  categories  :string
 #  name        :string
 #  photo       :text
+#  time_value  :decimal(, )
 #  created_at  :datetime         not null
 #  updated_at  :datetime         not null
 #  document_id :string

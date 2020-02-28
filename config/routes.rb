@@ -1,7 +1,21 @@
 Rails.application.routes.draw do
 
+  resources :signatures
+  resources :transaction_categories
   #mount Plutus::Engine => "/plutus", :as => "plutus"
   #
+
+  devise_for :users
+  resources :users
+
+  resources :square_api do
+    collection do
+      get "callback"
+      get "teste_pagamento"
+      post "process_payment"
+      get "checkout"
+    end
+  end
 
   resources :accounts do
     collection do
@@ -29,8 +43,7 @@ Rails.application.routes.draw do
   end
   resources :orders
   resources :leads
-  devise_for :users
-  resources :users
+
   resources :menus
   resources :profiles
   resources :products
@@ -53,9 +66,7 @@ Rails.application.routes.draw do
       get "new_contact"
     end
     collection do
-      get "teste_pagamento"
-      post "process_payment"
-      get "checkout"
+
       get "search_by_phone/:phone", to: "customers#search_by_phone"
     end
 

@@ -2,18 +2,16 @@
 #
 # Table name: document_files
 #
-#  id                :bigint           not null, primary key
-#  esign             :boolean
-#  esign_data        :json
-#  file              :text
-#  origin            :string
-#  photo             :string
-#  photo_date        :date
-#  photo_description :text
-#  title             :string
-#  created_at        :datetime         not null
-#  updated_at        :datetime         not null
-#  origin_id         :integer
+#  id          :bigint           not null, primary key
+#  description :text
+#  esign       :boolean
+#  esign_data  :json
+#  file        :text
+#  origin      :string
+#  title       :string
+#  created_at  :datetime         not null
+#  updated_at  :datetime         not null
+#  origin_id   :integer
 #
 
 # Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html

@@ -69,6 +69,7 @@ gem 'dentaku'
 #upload de arquivos
 gem 'carrierwave', '~> 2.0'
 gem "fog-aws"
+gem 'carrierwave-base64'
 
 gem 'enumerize'
 

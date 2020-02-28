@@ -51,6 +51,7 @@
           <th><%= t "menu_pai" %></th>
           <th><%= t('profiles') %></th>
           <th><%= t('activerecord.attributes.menu.active') %></th>
+          <th><%= t('activerecord.attributes.menu.position') %></th>
           <th></th>
         </tr>
       </thead>
@@ -64,6 +65,7 @@
           <td><%= menu.parent %></td>
           <td><%= menu.profiles.join(",") %></td>
           <td><%= t menu.active %></td>
+          <td><%= menu.position %></td>
           <td>
             <div class="invoice-action right-align">
               <%= link_to new_menu_path(pai: menu.id), class: "invoice-action-view mr-4" do %>
@@ -75,9 +77,40 @@
               <%= link_to edit_menu_path(menu) , class: "invoice-action-edit mr-4" do %>
                 <i class="material-icons">edit</i>
               <% end %>
+              <%= link_to menu, method: :delete,data: { confirm: "#{t :will_delete}" } ,target:"_self", class: "invoice-action-edit mr-4" do %>
+                  <i class="material-icons">delete</i>
+              <% end %>
             </div>
           </td>
         </tr>
+          <% menu.children.order(position: :asc).each do |m| %>
+          <tr>
+
+            <td><i class="material-icons left"><%= m.icon %></i></td>
+            <td><%= m.name %></td>
+            <td><%= m.url %></td>
+            <td><%= m.parent %></td>
+            <td><%= m.profiles.join(",") %></td>
+            <td><%= t m.active %></td>
+            <td><%= m.position %></td>
+            <td>
+              <div class="invoice-action right-align">
+                <%= link_to new_menu_path(pai: m.id), class: "invoice-action-view mr-4" do %>
+                  <i class="material-icons">playlist_add</i>
+                <% end %>
+                <%= link_to m, class: "invoice-action-view mr-4" do %>
+                  <i class="material-icons">remove_red_eye</i>
+                <% end %>
+                <%= link_to edit_menu_path(m) , class: "invoice-action-edit mr-4" do %>
+                  <i class="material-icons">edit</i>
+                <% end %>
+                <%= link_to m, method: :delete,data: { confirm: "#{t :will_delete}" } ,target:"_self", class: "invoice-action-edit mr-4" do %>
+                  <i class="material-icons">delete</i>
+                <% end %>
+              </div>
+            </td>
+          </tr>
+          <% end %>
         <% end %>
       </tbody>
     </table>

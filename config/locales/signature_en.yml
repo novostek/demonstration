@@ -1,0 +1,10 @@
+en:
+  activerecord:
+    models:
+      signature: "Signature"
+    attributes:
+      signature:
+        origin: "Origin"
+        origin_id: "Origin ID"
+        file: "File"
+  clear: "Clear"

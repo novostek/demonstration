@@ -64,6 +64,10 @@
         <strong><%= t("activerecord.attributes.worker.categories") %>:</strong>
         <%= @worker.categories %>
       </p>
+      <p>
+        <strong><%= t("activerecord.attributes.worker.time_value") %>:</strong>
+        <%= @worker.time_value %>
+      </p>
     </div>
     <div id="test2" class="col s12">
       <%= render "customers/notes_show", notes: @worker.notes %>

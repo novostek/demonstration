@@ -20,8 +20,11 @@
 class MeasurementArea < ApplicationRecord
   belongs_to :estimate, optional: true
   has_many :measurements, inverse_of: :measurement_area, dependent: :destroy
+  has_many :area_proposal
+  has_many :measurement_proposals, through: :area_proposal
 
   accepts_nested_attributes_for :measurements, reject_if: :reject_measurements, allow_destroy: true
+  accepts_nested_attributes_for :measurement_proposals, reject_if: :all_blank, allow_destroy: true
 
   def reject_measurements attributes
     attributes['length'].blank? && attributes['width'].blank? && attributes['height'].blank?

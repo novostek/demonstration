@@ -109,6 +109,8 @@ class EstimatesController < ApplicationController
   
   def products
     @estimate = Estimate.find(params[:id])
+    @measurement_areas = @estimate.measurement_areas.build
+    @measurement_areas.measurement_proposals.build
 
     render :products
   end

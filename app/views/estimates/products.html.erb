@@ -44,66 +44,30 @@
               </li>
             </ul>
 
-            <div class="row products-area-list pl-1 pr-1">
-
-              <div class="product-area">
-                <a href="#" class="btn-close-product-area"><i class="material-icons">close</i></a>
-                <div class="areas-available col s12">
-                  <span>Areas:</span>
-                  <% @estimate.measurement_areas.each do |area| %>
-                    <div class="chip" id="area_<%= area.id %>"><%= area.name %></div>
+            <%= form_for @measurement_areas do |ma_form| %>
+                <div class="row products-area-list pl-1 pr-1" id="measurement_proposals">
+                  <%= ma_form.fields_for :measurement_proposals, class: 'product_estimates' do |mp_form| %>
+                    <%= render 'measurement_proposal_fields', f: mp_form %>
+                    
                   <% end %>
-                  <a href="#" class="select-all-areas">Select all</a>
-                </div>
-                <div class="products-list">
-                  <div class="product">
-                    <div class="row pl-1 pr-1 products-search">
-                      
-                    </div>
-
-
-                  </div>
-                  <div class="product new-product">
-                    <div class="row pl-1 pr-1 products-search">
-                      <div class="row">
-                        <div class="col s6 m4">
-                          <div class="input-field mt-0 mb-0 products-search-field-box">
-                            <a href="#add-product-modal" class="btn-add-product modal-trigger tooltipped" data-tooltip="New product"><i class="material-icons">add</i></a>
-                            <input placeholder="" id="title" type="text" class="autocomplete autocomplete-products mt-1">
-                          </div>
-                        </div>
-                        <div class="col s6 m2 calc-fields">
-                          <input placeholder="" id="qty" type="text" class="product-value qty" value="">
-                        </div>
-                        <div class="col s6 m2 calc-fields">
-                          <input placeholder="" id="title" type="text" class="product-value price" value="">
-                        </div>
-                        <div class="col s6 m2 calc-fields">
-                          <input placeholder="" id="title" type="text" class="product-value discount" value="">
-                        </div>
-                        <div class="col s6 m2 calc-fields">
-                          <input placeholder="" id="total_1" type="text" class="product-value total" disabled value="">
-                          <a href="#" class="btn-remove-product"><i class="material-icons">delete</i></a>
-                        </div>
-                      </div>
-                    </div>
+                  <div class="row mt-1">
+                    <%= link_to_add_association ma_form, :measurement_proposals, class: 'btn btn-add-area' do %>
+                      <i class="material-icons left">add</i> Add area
+                    <% end %>
                   </div>
                 </div>
-                <div class="products-suggestions hide">
-                  <h6 class="suggestions-title">Suggestions</h6>
-                  <a href="#" data-price="56.9" data-qty="3">Product with a big name</a>
-                  <a href="#" data-price="23.1" data-qty="1">Product Y</a>
-                  <a href="#" data-price="23.1" data-qty="1">Product Y2</a>
-                  <a href="#" data-price="23.1" data-qty="1">Product Y3</a>
-                  <a href="#" data-price="23.1" data-qty="1">Product Y5</a>
-                </div>
+              <% end %>
+            </div>
+            
+            <div class="products-suggestions hide">
+                <h6 class="suggestions-title">Suggestions</h6>
+                <a href="#" data-price="56.9" data-qty="3">Product with a big name</a>
+                <a href="#" data-price="23.1" data-qty="1">Product Y</a>
+                <a href="#" data-price="23.1" data-qty="1">Product Y2</a>
+                <a href="#" data-price="23.1" data-qty="1">Product Y3</a>
+                <a href="#" data-price="23.1" data-qty="1">Product Y5</a>
               </div>
-
             </div>
-            <div class="row mt-1 pl-1">
-              <a href="#" class="btn btn-add-product-area"><i class="material-icons left">add</i> Add area</a>
-            </div>
-          </div>
 
         </div>
         <div class="col s12 pb-2 pr-0 pl-0" style="position: relative; z-index: -1">

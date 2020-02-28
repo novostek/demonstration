@@ -26,24 +26,7 @@
 <div class="row">
   <div class="col s12">
     <div class="container">
-      <div class="section">
-        <div class="card-panel">
-          <div class="row">
-            <div class="col s5">
-              <h6>Estime title</h6>
-              <span>Estimate description that could be a little longer.</span>
-            </div>
-            <div class="col s5">
-              <span style="width: 100%" class="left">Customer: <a href="customer-view.html">John Smith</a></span>
-              <span style="width: 100%" class="left">Location: Paris, France</span>
-              <span style="width: 100%" class="left">Category 1</span>
-            </div>
-            <div class="col s2">
-              <span class="chip lighten-5 green green-text right mr-0">Status 1</span>
-              <span style="width: 100%" class="right right-align">2020-02-02</span>
-            </div>
-          </div>
-        </div>
+      <%= render 'estimate_detail', estimate: @estimate %>
         <div class="card">
           <div class="card-content">
             <ul class="stepper horizontal stepper-head-only">
@@ -61,109 +44,39 @@
               </li>
             </ul>
 
-            <div class="row products-area-list pl-1 pr-1">
-
-              <div class="product-area">
-                <a href="#" class="btn-close-product-area"><i class="material-icons">close</i></a>
-                <div class="areas-available col s12">
-                  <span>Areas:</span>
-                  <div class="chip">Bedroom</div>
-                  <div class="chip">Living room</div>
-                  <div class="chip">Closet</div>
-                  <div class="chip">Bedroom</div>
-                  <div class="chip">Living room</div>
-                  <div class="chip">Closet</div>
-                  <div class="chip">Bedroom</div>
-                  <div class="chip">Living room</div>
-                  <div class="chip">Closet</div>
-                  <div class="chip">Bedroomr</div>
-                  <div class="chip">Living room</div>
-                  <div class="chip">Closet</div>
-                  <a href="#" class="select-all-areas">Select all</a>
-                </div>
-                <div class="products-list">
-                  <div class="product">
-                    <div class="row pl-1 pr-1 products-search">
-
-                      <div class="row">
-                        <div class="col s6 m4">
-                          <span class="left width-100 pt-1">Product</span>
-                          <div class="input-field mt-0 mb-0 products-search-field-box">
-                            <a href="#add-product-modal" class="btn-add-product modal-trigger tooltipped" data-tooltip="New product"><i class="material-icons">add</i></a>
-                            <input placeholder="" id="title" type="text" class="autocomplete autocomplete-products mt-1">
-                          </div>
-                        </div>
-                        <div class="col s6 m2 calc-fields">
-                          <span class="left width-100 pt-1">Qty.</span>
-                          <input placeholder="" id="title" type="text" class="product-value qty" value="">
-                        </div>
-                        <div class="col s6 m2 calc-fields">
-                          <span class="left width-100 pt-1">Price Un.</span>
-                          <input placeholder="" id="title" type="text" class="product-value price" value="">
-                        </div>
-                        <div class="col s6 m2 calc-fields">
-                          <span class="left width-100 pt-1">Discount</span>
-                          <input placeholder="" id="title" type="text" class="product-value discount" value="">
-                        </div>
-                        <div class="col s6 m2 calc-fields">
-                          <span class="left  width-100 pt-1">Total</span>
-                          <input placeholder="" id="total_1" type="text" class="product-value total" disabled value="">
-                        </div>
-                      </div>
-                    </div>
-
-
-                  </div>
-                  <div class="product new-product">
-                    <div class="row pl-1 pr-1 products-search">
-                      <div class="row">
-                        <div class="col s6 m4">
-                          <div class="input-field mt-0 mb-0 products-search-field-box">
-                            <a href="#add-product-modal" class="btn-add-product modal-trigger tooltipped" data-tooltip="New product"><i class="material-icons">add</i></a>
-                            <input placeholder="" id="title" type="text" class="autocomplete autocomplete-products mt-1">
-                          </div>
-                        </div>
-                        <div class="col s6 m2 calc-fields">
-                          <input placeholder="" id="qty" type="text" class="product-value qty" value="">
-                        </div>
-                        <div class="col s6 m2 calc-fields">
-                          <input placeholder="" id="title" type="text" class="product-value price" value="">
-                        </div>
-                        <div class="col s6 m2 calc-fields">
-                          <input placeholder="" id="title" type="text" class="product-value discount" value="">
-                        </div>
-                        <div class="col s6 m2 calc-fields">
-                          <input placeholder="" id="total_1" type="text" class="product-value total" disabled value="">
-                          <a href="#" class="btn-remove-product"><i class="material-icons">delete</i></a>
-                        </div>
-                      </div>
-                    </div>
+            <%= form_for @measurement_areas do |ma_form| %>
+                <div class="row products-area-list pl-1 pr-1" id="measurement_proposals">
+                  <%= ma_form.fields_for :measurement_proposals, class: 'product_estimates' do |mp_form| %>
+                    <%= render 'measurement_proposal_fields', f: mp_form %>
+                    
+                  <% end %>
+                  <div class="row mt-1">
+                    <%= link_to_add_association ma_form, :measurement_proposals, class: 'btn btn-add-area' do %>
+                      <i class="material-icons left">add</i> Add area
+                    <% end %>
                   </div>
                 </div>
-                <div class="products-suggestions hide">
-                  <h6 class="suggestions-title">Suggestions</h6>
-                  <a href="#" data-price="56.9" data-qty="3">Product with a big name</a>
-                  <a href="#" data-price="23.1" data-qty="1">Product Y</a>
-                  <a href="#" data-price="23.1" data-qty="1">Product Y2</a>
-                  <a href="#" data-price="23.1" data-qty="1">Product Y3</a>
-                  <a href="#" data-price="23.1" data-qty="1">Product Y5</a>
-                </div>
+              <% end %>
+            </div>
+            
+            <div class="products-suggestions hide">
+                <h6 class="suggestions-title">Suggestions</h6>
+                <a href="#" data-price="56.9" data-qty="3">Product with a big name</a>
+                <a href="#" data-price="23.1" data-qty="1">Product Y</a>
+                <a href="#" data-price="23.1" data-qty="1">Product Y2</a>
+                <a href="#" data-price="23.1" data-qty="1">Product Y3</a>
+                <a href="#" data-price="23.1" data-qty="1">Product Y5</a>
               </div>
-
             </div>
-            <div class="row mt-1 pl-1">
-              <a href="#" class="btn btn-add-product-area"><i class="material-icons left">add</i> Add area</a>
-            </div>
-          </div>
 
         </div>
         <div class="col s12 pb-2 pr-0 pl-0" style="position: relative; z-index: -1">
           <a class="btn grey lighten-5 grey-text waves-effect waves-light breadcrumbs-btn left save" href="estimate-measurements.html"><i class="material-icons left">arrow_back</i> Back</a>
           <a class="btn indigo waves-effect waves-light breadcrumbs-btn right ml-1" href="estimate-view.html"><i class="material-icons left">save</i> Save</a>
         </div>
-
-
-      </div>
     </div>
   </div>
 </div>
+<%= content_for :scripts do %>
+  <%= javascript_pack_tag 'estimate/products', 'data-turbolinks-track': 'true' %>
+<% end %>

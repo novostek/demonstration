@@ -35,7 +35,7 @@ class EstimatesController < ApplicationController
   # PATCH/PUT /estimates/1
   def update
     if @estimate.update(estimate_params)
-      redirect_to @estimate, notice: 'Estimate foi atualizado com sucesso.'
+      redirect_to products_estimate_path(@estimate.id), notice: 'Estimate foi atualizado com sucesso.'
     else
       render :edit
     end
@@ -48,33 +48,27 @@ class EstimatesController < ApplicationController
   end
 
   def step_one
-    last_estimate = Estimate.last
-    @estimate = Estimate.new
+    @estimate = Estimate.find_or_initialize_by(lead_id: params[:lead_id])
     
-    if last_estimate.present?
-      @estimate.code = last_estimate[:code].to_i + 1
-    else
-      @estimate.code = "#{Time.now.strftime('%Y')}000000".to_i + 1
-    end
     @lead = Lead.find(params[:lead_id])
     render :step_1
   end
 
   def create_step_one
-    estimate = Estimate.new
-    estimate.code = params[:code]
-    estimate.title = params[:title]
-    estimate.description = params[:description]
-    estimate.location = params[:location]
-    estimate.latitude = params[:latitude]
-    estimate.longitude = params[:longitude]
-    estimate.sales_person_id = params[:sales_person_id]
+    estimate = Estimate.find_or_initialize_by(lead_id: params[:lead_id])
+    estimate.code = params[:estimate][:code]
+    estimate.title = params[:estimate][:title]
+    estimate.description = params[:estimate][:description]
+    estimate.location = params[:estimate][:location]
+    estimate.latitude = params[:estimate][:latitude]
+    estimate.longitude = params[:estimate][:longitude]
+    estimate.sales_person_id = params[:estimate][:sales_person_id]
     estimate.lead_id = params[:lead_id]
     estimate.status = 'new'
     estimate.total = 0.0
     estimate.category = 'test'
 
-    if estimate.save
+    if estimate.save()
       redirect_to schedule_estimate_path(estimate.id)
     end
   end
@@ -112,14 +106,12 @@ class EstimatesController < ApplicationController
 
     schedule.destroy
   end
-
-  def measurements
-    @estimate = Estimate.find(params[:id])
-
-    render :measurements
-  end
-
+  
   def products
+    @estimate = Estimate.find(params[:id])
+    @measurement_areas = @estimate.measurement_areas.build
+    @measurement_areas.measurement_proposals.build
+
     render :products
   end
 
@@ -136,6 +128,15 @@ class EstimatesController < ApplicationController
 
     # Only allow a trusted parameter "white list" through.
     def estimate_params
-      params.require(:estimate).permit(:code, :title, :worker_id, :status, :description, :location, :latitude, :longitude, :category, :order_id, :price, :tax, :tax_calculation, :lead_id, :bpmn_instance, :current, :total)
+      params.require(:estimate).permit(
+          :code, :title, :worker_id, :status, :description, :location, 
+          :latitude, :longitude, :category, :order_id, :price, :tax, 
+          :tax_calculation, :lead_id, :bpmn_instance, :current, :total,
+          measurement_areas_attributes: [
+            :id, :estimate_id, :name, :description, :_destroy,
+            measurements_attributes: [
+              :id, :length, :width, :height, :_destroy
+            ]
+          ])
     end
 end

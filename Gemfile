@@ -89,3 +89,5 @@ gem "plutus", git: "https://github.com/mbulat/plutus.git"
 
 #pagamentos https://github.com/square/square-ruby-sdk
 gem 'square.rb'
+
+gem 'faker'

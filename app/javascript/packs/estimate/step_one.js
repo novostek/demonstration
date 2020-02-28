@@ -15,8 +15,8 @@ function onPlaceChanged() {
 
   // $("#fulladdress").val(place.formatted_address);
 
-  $("#latitude").val(place.geometry.location.lat());
-  $("#longitude").val(place.geometry.location.lng());
+  $("#estimate_latitude").val(place.geometry.location.lat());
+  $("#estimate_longitude").val(place.geometry.location.lng());
 
   $("label").addClass("active");
   for (var i in place.address_components) {
@@ -32,5 +32,5 @@ function onPlaceChanged() {
 }
 
 $(document).ready(function(){
-  initializeAutocomplete('location');
+  initializeAutocomplete('estimate_location');
 });

@@ -1,0 +1,33 @@
+<div class="product nested-fields">
+  <div class="row pl-1 pr-1 products-search">
+    <div class="row">
+      <div class="col s6 m4">
+        <span class="left width-100 pt-1">Product</span>
+        <div class="input-field mt-0 mb-0 products-search-field-box">
+          <a href="#add-product-modal" class="btn-add-product modal-trigger tooltipped" data-tooltip="New product"><i class="material-icons">add</i></a>
+          <input placeholder="" autocomplete="off" id="title" type="text" class="autocomplete autocomplete-products mt-1">
+        </div>
+      </div>
+      <div class="col s6 m2 calc-fields">
+        <%#= f.span :quantity, "Qty.", class: "left width-100 pt-1" %>
+        <span class="left width-100 pt-1">Qty.</span>
+        <%= f.text_field :quantity, class: "product-value qty" %>
+      </div>
+      <div class="col s6 m2 calc-fields">
+        <%#= f.label :unitary_value, "Price un.", class: "left width-100 pt-1" %>
+        <span class="left width-100 pt-1">Prince un.</span>
+        <%= f.text_field :unitary_value, class: "product-value price" %>
+      </div>
+      <div class="col s6 m2 calc-fields">
+        <%#= f.label :discount, "Discount", class: "left width-100 pt-1" %>
+        <span class="left width-100 pt-1">Discount</span>
+        <%= f.text_field :discount, class: "product-value discount" %>
+      </div>
+      <div class="col s6 m2 calc-fields">
+        <%#= f.label :value, "Total", class: "left width-100 pt-1" %>
+        <span class="left width-100 pt-1">Total</span>
+        <%= f.text_field :value, class: "product-value total" %>
+      </div>
+    </div>
+  </div>
+</div>

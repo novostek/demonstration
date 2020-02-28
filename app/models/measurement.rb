@@ -19,5 +19,5 @@
 #  fk_rails_...  (measurement_area_id => measurement_areas.id)
 #
 class Measurement < ApplicationRecord
-  belongs_to :measurement_area
+  belongs_to :measurement_area, optional: true
 end

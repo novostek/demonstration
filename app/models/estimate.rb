@@ -39,9 +39,30 @@
 #
 
 class Estimate < ApplicationRecord
+  after_initialize :initialize_code, if: :new_record?
+
   belongs_to :worker, optional: true
   belongs_to :order, optional: true
   belongs_to :lead, optional: true
 
+  has_many :measurement_areas, dependent: :destroy
+  # has_one :measurement, through: :measurement_areas
+
+  accepts_nested_attributes_for :measurement_areas, reject_if: :reject_measurement_areas, allow_destroy: true
+  # accepts_nested_attributes_for :measurement, reject_if: :all_blank, allow_destroy: true
+
   has_many :schedules, -> { where origin: :Estimate }, primary_key: :id, foreign_key: :origin_id
+
+  def reject_measurement_areas attributes
+    attributes['name'].blank? && attributes['description'].blank?
+  end
+
+  def initialize_code
+    last_estimate = Estimate.last
+    if last_estimate.present?
+      self.code = last_estimate[:code].to_i + 1
+    else
+      self.code = "#{Time.now.strftime('%Y')}000000".to_i + 1
+    end
+  end
 end

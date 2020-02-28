@@ -2,6 +2,8 @@ Rails.application.routes.draw do
 
   resources :signatures
   resources :transaction_categories
+  resources :product_estimates
+  resources :measurement_proposals
   #mount Plutus::Engine => "/plutus", :as => "plutus"
   #
 
@@ -31,10 +33,11 @@ Rails.application.routes.draw do
   resources :estimates do
     member do
       get "schedule"
-      get "measurements"
       get "products"
     end
     collection do
+      get ":id/measurements", to: "measurement_areas#measurements", as: :measurement_view
+      post ":id/measurements", to: "measurement_areas#create_measurements", as: :create_measurements
       get "step_one/:lead_id", to: "estimates#step_one", as: :step_one
       post "create_step_one/:lead_id", to: "estimates#create_step_one", as: :create_step_one
       post ":estimate_id/schedule/new", to: "estimates#create_schedule"

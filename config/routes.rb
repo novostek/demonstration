@@ -11,6 +11,9 @@ Rails.application.routes.draw do
   resources :square_api do
     collection do
       get "callback"
+      get "teste_pagamento"
+      post "process_payment"
+      get "checkout"
     end
   end
 
@@ -63,9 +66,7 @@ Rails.application.routes.draw do
       get "new_contact"
     end
     collection do
-      get "teste_pagamento"
-      post "process_payment"
-      get "checkout"
+
       get "search_by_phone/:phone", to: "customers#search_by_phone"
     end
 

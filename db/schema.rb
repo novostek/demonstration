@@ -10,10 +10,19 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_02_21_173916) do
+ActiveRecord::Schema.define(version: 2020_02_27_233859) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "area_proposals", force: :cascade do |t|
+    t.bigint "measurement_area_id", null: false
+    t.bigint "measurement_proposal_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["measurement_area_id"], name: "index_area_proposals_on_measurement_area_id"
+    t.index ["measurement_proposal_id"], name: "index_area_proposals_on_measurement_proposal_id"
+  end
 
   create_table "calculation_formulas", force: :cascade do |t|
     t.string "name"
@@ -107,6 +116,12 @@ ActiveRecord::Schema.define(version: 2020_02_21_173916) do
     t.index ["estimate_id"], name: "index_measurement_areas_on_estimate_id"
   end
 
+  create_table "measurement_proposals", force: :cascade do |t|
+    t.text "notes"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
   create_table "measurements", force: :cascade do |t|
     t.bigint "measurement_area_id", null: false
     t.decimal "width"
@@ -188,6 +203,22 @@ ActiveRecord::Schema.define(version: 2020_02_21_173916) do
     t.string "namespace"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "product_estimates", force: :cascade do |t|
+    t.bigint "product_id", null: false
+    t.string "custom_title"
+    t.text "notes"
+    t.decimal "unitary_value"
+    t.decimal "quantity"
+    t.decimal "discount"
+    t.decimal "value"
+    t.boolean "tax"
+    t.bigint "measurement_proposal_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["measurement_proposal_id"], name: "index_product_estimates_on_measurement_proposal_id"
+    t.index ["product_id"], name: "index_product_estimates_on_product_id"
   end
 
   create_table "products", force: :cascade do |t|
@@ -307,6 +338,8 @@ ActiveRecord::Schema.define(version: 2020_02_21_173916) do
     t.decimal "time_value"
   end
 
+  add_foreign_key "area_proposals", "measurement_areas"
+  add_foreign_key "area_proposals", "measurement_proposals"
   add_foreign_key "estimates", "calculation_formulas", column: "tax_calculation_id"
   add_foreign_key "estimates", "leads"
   add_foreign_key "estimates", "orders"
@@ -315,6 +348,8 @@ ActiveRecord::Schema.define(version: 2020_02_21_173916) do
   add_foreign_key "measurement_areas", "estimates"
   add_foreign_key "measurements", "measurement_areas"
   add_foreign_key "plutus_accounts", "transaction_categories"
+  add_foreign_key "product_estimates", "measurement_proposals"
+  add_foreign_key "product_estimates", "products"
   add_foreign_key "products", "calculation_formulas"
   add_foreign_key "products", "product_categories"
   add_foreign_key "products", "suppliers"

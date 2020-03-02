@@ -8,7 +8,7 @@
           </a>
           <div class="collapsible-body" >
             <ul class="collapsible" data-collapsible="accordion">
-              <% m["children"].sort_by{|a| a["position"]}.each do |mm| %>
+              <% m["children"].sort_by{|a| a["position"] || 0 }.each do |mm| %>
                   <%= render partial: "layouts/menu_tree", locals: {m: mm},cached: true %>
               <% end %>
             </ul>

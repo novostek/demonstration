@@ -16,7 +16,7 @@
     <%= f.fields_for :data do |field| %>
         <div class="input-field">
           <label for="">Search</label>
-          <input type="text" id="autocomplete_address">
+          <input type="text" id="autocomplete_address" autocomplete="off" >
         </div>
         <div class="input-field">
           <%= field.label :address %>
@@ -48,10 +48,10 @@
 
   <div class="hide col s12" id="phone_div">
     <%= f.fields_for :data do |field| %>
-        <div class="input-field">
-          <%= field.label :ddd %>
-          <%= field.text_field :ddd %>
-        </div>
+<!--        <div class="input-field">-->
+          <%#= field.label :ddd %>
+          <%#= field.text_field :ddd %>
+<!--        </div>-->
         <div class="input-field">
           <%= field.label :phone %>
           <%= field.text_field :phone%>

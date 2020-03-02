@@ -36,7 +36,7 @@ en:
   will_delete: "Are you sure?"
   remember: "Remember Me"
   signin: "Sign in"
-
+  is_required: "is required"
 
   #atributes
   name: "Name"
@@ -46,3 +46,7 @@ en:
   notes: "Notes"
   documents: "Documents"
   contacts: "Contact"
+
+  errors:
+    # format to use in full error messages.
+    format: "%{attribute} %{message} "

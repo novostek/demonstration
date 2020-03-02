@@ -1,5 +1,7 @@
 en:
   activerecord:
+    models:
+      worker: "Worker"
     attributes:
       worker:
         name: "Name"

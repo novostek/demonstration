@@ -63,7 +63,7 @@ class WorkersController < ApplicationController
     if contact.save
       redirect_to @worker, notice: "#{t 'contact_create'}"
     else
-      redirect_to @worker, alert: "error"
+      redirect_to @worker, alert: "#{contact.errors.full_messages.to_sentence}"
     end
 
   end

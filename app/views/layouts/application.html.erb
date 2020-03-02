@@ -104,6 +104,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.js"></script>
 <script data-turbolinks-eval="false" type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAuo1c-9BiXODXuM5L3n26CRdukjlnlUpU&libraries=places"></script>
 <script src="/js/farbtastic/farbtastic.js"></script>
+<script src="/materialize/js/scripts/advance-ui-toasts.min.js"></script>
 
 <!-- cocoon não está funcionando com o rails 6 por isso importar o JS -->
 <script src="/js/cocoon.js"></script>
@@ -124,7 +125,7 @@
   });
 </script>
 
-
+<%= toastr_flash %>
 <!-- END PAGE LEVEL JS-->
 <%= yield :scripts %>
 <!-- END PAGE LEVEL JS-->

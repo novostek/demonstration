@@ -37,6 +37,16 @@ module ApplicationHelper
     account.remove("Plutus::")
   end
 
+  def toastr_flash
+    flash.each_with_object([]) do |(type, message), flash_messages|
+
+      type = 'success' if type == 'notice'
+      type = 'error' if type == 'alert'
+      text = "<script>M.toast({html: '#{message}'});</script>"
+      flash_messages << text.html_safe if message
+    end.join("\n").html_safe
+  end
+
   def link_to_add_fields(name, f, association)
     new_object = f.object.send(association).klass.new
     id = new_object.object_id

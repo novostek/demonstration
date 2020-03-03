@@ -17,14 +17,20 @@
             </li>
           </ol>
         </div>
+        <div id="react-component"></div>
       <!-- <div class="col s2 m6 l6"><a class="btn waves-effect waves-light breadcrumbs-btn right" href="lead-add.html"><i class="material-icons hide-on-med-and-up">add</i><span class="hide-on-small-only">New Estimate</span></a> -->
       </div>
     </div>
   </div>
 </div>
 
-<%= javascript_pack_tag 'hello_react' %>
-
-<%= content_for :scripts do %>
-  <%= javascript_pack_tag 'estimate/products', 'data-turbolinks-track': 'true' %>
+<%= content_tag :div,
+  id: "estimate_data",
+  data: @estimate.to_json do %>
 <% end %>
+
+<%= javascript_pack_tag 'estimate/ProductComponent/index.js' %>
+
+<!--<%= content_for :scripts do %>
+  <%= javascript_pack_tag 'estimate/products', 'data-turbolinks-track': 'true' %>
+<% end %>-->

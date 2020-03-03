@@ -108,9 +108,25 @@ class EstimatesController < ApplicationController
   end
   
   def products
-    @estimate = Estimate.find(params[:id])
-    @measurement_areas = @estimate.measurement_areas.build
-    @measurement_areas.measurement_proposals.build
+    estimate = Estimate.includes(:lead).find(params[:id])
+    # @measurement_areas = @estimate.measurement_areas.build
+    # @measurement_areas.measurement_proposals.build
+    # @estimate = @estimate.in
+
+    @estimate = {
+      :estimate => {
+        :data => estimate,
+        :lead => {
+          :data => estimate.lead,
+          :customer => {
+            :data => estimate.lead.customer
+          }
+        },
+        :measurement_areas => {
+          :data => estimate.measurement_areas
+        }
+      }
+    }
 
     render :products
   end

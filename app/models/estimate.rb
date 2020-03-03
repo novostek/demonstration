@@ -46,7 +46,7 @@ class Estimate < ApplicationRecord
   belongs_to :lead, optional: true
 
   has_many :measurement_areas, dependent: :destroy
-  # has_one :measurement, through: :measurement_areas
+  # has_many :measurement, through: :measurement_areas
 
   accepts_nested_attributes_for :measurement_areas, reject_if: :reject_measurement_areas, allow_destroy: true
   # accepts_nested_attributes_for :measurement, reject_if: :all_blank, allow_destroy: true

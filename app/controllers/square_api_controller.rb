@@ -1,7 +1,7 @@
 class SquareApiController < ApplicationController
 
   def callback
-    render json: {teste: "testendo"}
+    render json: {teste: "testendo", params: params}
   end
 
   def checkout

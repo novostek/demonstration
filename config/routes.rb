@@ -1,5 +1,7 @@
 Rails.application.routes.draw do
 
+  resources :transactions
+  resources :transaction_accounts
   resources :signatures
   resources :transaction_categories
   resources :product_estimates

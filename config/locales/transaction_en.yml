@@ -1,0 +1,14 @@
+en:
+  activerecord:
+    models:
+      transaction: "Transaction"
+      transactions: "Transactions"
+    attributes:
+      transaction_account:
+        bpm_instance: "BPM Instance"
+        category: "Category"
+        due: "Due"
+        effective: "Effective"
+        origin: "Origin"
+        value: "Value"
+        order_id: "Order"

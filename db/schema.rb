@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_02_27_233859) do
+ActiveRecord::Schema.define(version: 2020_03_03_212437) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -306,6 +306,15 @@ ActiveRecord::Schema.define(version: 2020_02_27_233859) do
     t.datetime "updated_at", precision: 6, null: false
   end
 
+  create_table "transaction_accounts", force: :cascade do |t|
+    t.string "name"
+    t.text "description"
+    t.string "color"
+    t.string "namespace"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
   create_table "transaction_categories", force: :cascade do |t|
     t.string "name"
     t.text "description"
@@ -313,6 +322,23 @@ ActiveRecord::Schema.define(version: 2020_02_27_233859) do
     t.string "namespace"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "transactions", force: :cascade do |t|
+    t.string "category"
+    t.bigint "transaction_category_id", null: false
+    t.bigint "transaction_account_id", null: false
+    t.bigint "order_id"
+    t.string "origin"
+    t.date "due"
+    t.datetime "effective"
+    t.decimal "value"
+    t.string "bpm_instance"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["order_id"], name: "index_transactions_on_order_id"
+    t.index ["transaction_account_id"], name: "index_transactions_on_transaction_account_id"
+    t.index ["transaction_category_id"], name: "index_transactions_on_transaction_category_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -358,4 +384,7 @@ ActiveRecord::Schema.define(version: 2020_02_27_233859) do
   add_foreign_key "profile_users", "profiles"
   add_foreign_key "profile_users", "users"
   add_foreign_key "schedules", "workers"
+  add_foreign_key "transactions", "orders"
+  add_foreign_key "transactions", "transaction_accounts"
+  add_foreign_key "transactions", "transaction_categories"
 end

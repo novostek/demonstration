@@ -30,3 +30,4 @@ class Supplier < ApplicationRecord
     all.map{|a| [a.name,a.id]}
   end
 end
+

@@ -1,0 +1,64 @@
+<%= form_for(transaction) do |f| %>
+  <% if transaction.errors.any? %>
+    <div id="error_explanation" class="card-panel red white-text">
+      <h5><%= t('errors.template.header')  %>:</h5>
+
+      <ul>
+      <% transaction.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+<div class="card-panel">
+  
+  <div class="input-field">
+
+    <%= f.label  :category %>
+    <%= f.text_field :category %>
+    
+  </div>
+
+  <div class="input-field">
+    <%= f.select :transaction_category_id, @categories,{ prompt: true}  %>
+    
+  </div>
+
+  <div class="input-field">
+    <%= f.select :transaction_account_id, @accounts, {prompt: true}  %>
+    
+  </div>
+
+  <div class="input-field">
+
+    <%= f.label  :origin %>
+    <%= f.text_field :origin %>
+    
+  </div>
+
+  <div class="input-field">
+
+
+    <%= f.date_field :due %>
+    <%= f.label  :due %>
+  </div>
+
+  <div class="input">
+    <%= f.label  :effective %>
+    <%= f.datetime_field :effective %>
+
+  </div>
+
+  <div class="input-field">
+
+    <%= f.label  :value %>
+    <%= f.text_field :value %>
+    
+  </div>
+
+
+</div>
+  <div class="actions">
+    <%= f.submit t('button.save'), class:"btn" %>
+  </div>
+<% end %>

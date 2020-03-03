@@ -10,6 +10,12 @@ Rails.application.routes.draw do
   devise_for :users
   resources :users
 
+  resources :schedules do
+    collection do
+      get "redirect_schedule"
+    end
+  end
+
   resources :square_api do
     collection do
       get "callback"

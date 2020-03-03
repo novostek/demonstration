@@ -6,7 +6,7 @@ en:
 
   placeholder:
     search: "Search ..."
-
+  add:  "Add"
   button:
     back: "Back"
     all: "View all"

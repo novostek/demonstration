@@ -2,6 +2,7 @@ en:
   activerecord:
     models:
       leads: "Leads"
+      lead: "Lead"
     attributes:
       leads:
         customer: "Customer"

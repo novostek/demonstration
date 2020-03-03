@@ -1,5 +1,8 @@
 en:
   activerecord:
+    models:
+      product: "Product"
+      product_category: "Product Category"
     attributes:
       product:
         name: "Name"

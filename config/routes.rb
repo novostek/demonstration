@@ -118,4 +118,6 @@ Rails.application.routes.draw do
   get 'document_prototype/create'
   get 'document_prototype/deliver'
   get 'document_prototype/sign'
+
+  root "customers#index"
 end

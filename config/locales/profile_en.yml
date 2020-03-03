@@ -1,8 +1,8 @@
 en:
   activerecord:
     models:
-      menu: "Menu"
-      menus: "Menus"
+      profile: "Profile"
+      profiles: "Profiles"
     attributes:
       menu:
         name: "Name"

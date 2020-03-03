@@ -44,7 +44,6 @@
     <table class="table invoice-data-table white border-radius-4 pt-1">
       <thead>
         <tr>
-          <th><%= t('activerecord.attributes.worker.photo') %></th>
           <th><%= t('activerecord.attributes.worker.name') %></th>
 
           <th><%= t('activerecord.attributes.worker.document_id') %></th>
@@ -57,12 +56,17 @@
         <% @workers.each do |worker| %>
         <tr>
           <td>
+
+						<div class="chip">
+							<img class="circle" src="<%= worker.photo.present? ? worker.photo.url : "/materialize/images/avatar/avatar-1.png" %>" alt="avatar">
+							<%= worker.name %>
+						</div>
+
             <!--<span class="avatar-contact avatar-online">-->
-              <img class="circle" src="<%= worker.photo.present? ? worker.photo.url : "" %>" alt="avatar">
+
             <!--</span>-->
             <%#= worker.photo %>
           </td>
-            <td><%= worker.name %></td>
 
             <td><%= worker.document_id %></td>
             <td><%= worker.categories_text %></td>

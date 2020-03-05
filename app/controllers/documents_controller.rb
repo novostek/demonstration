@@ -11,9 +11,29 @@ class DocumentsController < ApplicationController
   def show
   end
 
+  def preview
+    @estimate = Estimate.find(params[:estimate])
+    @document = Document.find(params[:document])
+
+    assign = "{% assign estimate = #{@estimate}  %}"
+
+    @data = @document.data
+
+    #assign << @data
+
+    @template = Liquid::Template.parse(@data)
+
+    # @data.gsub! "w%{", "<%= @"
+    # @data.gsub! "}%w", "%>"
+    #binding.pry
+    # @estimate.attributes.each do |a|
+    #   @data.gsub! "w%{estimate.#{a[0]}}%w", a[1].to_s
+    # end
+  end
+
   #Método que salva os dados do froala
   def save_data
-    binding.pry
+    #binding.pry
     document = Document.find(params[:document])
     document.data = params[:data]
     document.save

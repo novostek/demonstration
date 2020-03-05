@@ -9,27 +9,27 @@
         <div class="collapsible-header" tabindex="0"><i class="material-icons">mic_none</i> Estimate/Order</div>
         <div class="collapsible-body white">
 
-          <div class="chip drag-text"  draggable="true" data-value="w%{estimate.number}" >
+          <div class="chip drag-text"  draggable="true" data-value="w%{estimate.code}%w" >
             <i class="material-icons chip-icon">open_with</i>
-            Number
+            Estimate Code
           </div>
-          <div class="chip drag-text"  draggable="true" data-value="w%{estimate.value}" >
+          <div class="chip drag-text"  draggable="true" data-value="w%{estimate.price}%w" >
             <i class="material-icons chip-icon">open_with</i>
-            Value
+            Estimate Price
           </div>
-          <div class="chip drag-text" draggable="true" data-value="w%{estimate.value_with_tax}">
+          <div class="chip drag-text" draggable="true" data-value="w%{estimate.title}%w">
             <i class="material-icons chip-icon">open_with</i>
-            Value With Tax
+            Estimate Title
           </div>
-          <div class="chip drag-text" draggable="true" data-value="w%{estimate.value_with_tax}">
+          <div class="chip drag-text" draggable="true" data-value="w%{estimate.total}%w">
             <i class="material-icons chip-icon">open_with</i>
-            Tax
+            Estimate Total
           </div>
-          <div class="chip drag-text" draggable="true" data-value="w%{estimate.value_with_tax}">
+          <div class="chip drag-text" draggable="true" data-value="w%{estimate.value_with_tax}%w">
             <i class="material-icons chip-icon">open_with</i>
             Start Date
           </div>
-          <div class="chip drag-text" draggable="true" data-value="w%{estimate.value_with_tax}">
+          <div class="chip drag-text" draggable="true" data-value="w%{estimate.value_with_tax}%w">
             <i class="material-icons chip-icon">open_with</i>
             End Date
           </div>
@@ -55,18 +55,15 @@
       <li>
         <div class="collapsible-header" tabindex="0"><i class="material-icons">mic_none</i> Partials</div>
         <div class="collapsible-body white">
-          <div class="chip drag-text"  draggable="true" data-value="w%{estimate.number}" >
+          <div class="chip drag-text"  draggable="true" data-value="p%{measurements}" >
             <i class="material-icons chip-icon">open_with</i>
-            Proposal
+            Measurements
           </div>
-          <div class="chip drag-text" draggable="true" data-value="w%{estimate.value_with_tax}">
+          <div class="chip drag-text" draggable="true" data-value="p%{products}">
             <i class="material-icons chip-icon">open_with</i>
-            Areas
+            Products
           </div>
-          <div class="chip drag-text" draggable="true" data-value="w%{estimate.value_with_tax}">
-            <i class="material-icons chip-icon">open_with</i>
-            Payments
-          </div>
+
         </div>
       </li>
       <li>
@@ -83,7 +80,7 @@
         <h3>Click here to edit the content</h3>
         <p>Drag the image above or the text block to insert them in the editor.</p>
         <% else %>
-          <%= document.data %>
+          <%= document.data.html_safe %>
         <% end %>
       </div>
     </div>
@@ -121,7 +118,7 @@
               initialized: function () {
                   var editor = this;
 
-                  editor.html.set("<%= document.data.html_safe? %>");
+                  //editor.html.set("<%= document.data %>");
 
                   editor.events.on('drop', function (dropEvent) {
                       // Focus at the current posisiton.

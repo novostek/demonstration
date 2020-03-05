@@ -187,6 +187,7 @@ GEM
       activerecord
       kaminari-core (= 1.2.0)
     kaminari-core (1.2.0)
+    liquid (4.0.3)
     listen (3.1.5)
       rb-fsevent (~> 0.9, >= 0.9.4)
       rb-inotify (~> 0.9, >= 0.9.7)
@@ -381,6 +382,7 @@ DEPENDENCIES
   i18n_generators
   jbuilder (~> 2.7)
   kaminari
+  liquid
   listen (>= 3.0.5, < 3.2)
   pg (>= 0.18, < 2.0)
   plutus!

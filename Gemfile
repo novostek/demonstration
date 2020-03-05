@@ -91,3 +91,5 @@ gem "plutus", git: "https://github.com/mbulat/plutus.git"
 gem 'square.rb'
 
 gem 'faker'
+
+gem 'liquid'

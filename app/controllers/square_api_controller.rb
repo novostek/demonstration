@@ -2,6 +2,18 @@ class SquareApiController < ApplicationController
 
   def callback
     render json: {teste: "testendo", params: params}
+    result, square_transaction = SquareApi.get_transaction(params[:transactionId])
+    if result
+      #binding.pry
+      transaction = Transaction.new
+      transaction.category = "Square"
+      transaction.due =  square_transaction.transaction[:created_at].to_date
+      transaction.effective = square_transaction.transaction[:tenders].first[:created_at]
+      transaction.value = square_transaction.transaction[:tenders].first[:amount_money][:amount] / 100.00
+      transaction.square_data = square_transaction.transaction
+      transaction.save
+
+    end
   end
 
   def checkout

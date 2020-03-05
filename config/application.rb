@@ -22,5 +22,7 @@ module Woffice
     Time::DATE_FORMATS[:default] = "%m/%d/%Y %I:%M %p"
     Date::DATE_FORMATS[:default] = "%m/%d/%Y"
 
+    #libera acesso as hosts
+    config.hosts.clear
   end
 end

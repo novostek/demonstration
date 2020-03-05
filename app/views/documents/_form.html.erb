@@ -1,0 +1,65 @@
+<%= form_for(document) do |f| %>
+  <% if document.errors.any? %>
+    <div id="error_explanation" class="card-panel red white-text">
+      <h5><%= t('errors.template.header')  %>:</h5>
+
+      <ul>
+      <% document.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+<div class="card-panel">
+  
+  <div class="input-field">
+
+    <%= f.label  :name %>
+    <%= f.text_field :name %>
+    
+  </div>
+
+  <div class="input-field">
+
+    <%= f.label  :description %>
+    <%= f.text_area :description, class:"materialize-textarea" %>
+    
+  </div>
+
+  <div class="input-field">
+
+
+    <%= f.select :doc_type, Document.type.options, {prompt: true},{onchange: "type_select()"} %>
+    <%= f.label  :doc_type %>
+  </div>
+
+
+  <div class="input-field hide" id="subtype">
+
+
+    <%= f.select :sub_type, Document.sub_type.options,{prompt: true} %>
+    <%= f.label  :sub_type %>
+  </div>
+
+</div>
+  <div class="actions">
+    <%= f.submit t('button.save'), class:"btn" %>
+  </div>
+<% end %>
+
+<%= content_for :scripts do %>
+  <script type="text/javascript" charset="utf-8">
+      function type_select()
+      {
+          if ($("#document_doc_type").val() == "estimate")
+          {
+              $("#subtype").removeClass("hide");
+          }
+          else
+          {
+              $("#subtype").addClass("hide");
+              $("#document_subtype").val("");
+          }
+      }
+  </script>
+<% end %>

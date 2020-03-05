@@ -60,8 +60,8 @@
         <% @transactions.each do |transaction| %>
         <tr>
             <td><%= transaction.category %></td>
-            <td><div class="chip white-text" style="background-color:<%= transaction.transaction_category.color %>"><%= transaction.transaction_category %></div></td>
-            <td><div class="chip white-text" style="background-color:<%= transaction.transaction_account.color %>"><%= transaction.transaction_account %></div></td>
+            <td><div class="chip white-text" style="background-color:<%= transaction.transaction_category.color if transaction.transaction_category.present? %>"><%= transaction.transaction_category %></div></td>
+            <td><div class="chip white-text" style="background-color:<%= transaction.transaction_account.color if transaction.transaction_account.present? %>"><%= transaction.transaction_account %></div></td>
             <td><%= transaction.order %></td>
             <td><%= transaction.origin %></td>
             <td><%= transaction.due %></td>

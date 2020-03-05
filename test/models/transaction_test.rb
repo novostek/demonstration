@@ -8,12 +8,13 @@
 #  due                     :date
 #  effective               :datetime
 #  origin                  :string
+#  square_data             :json
 #  value                   :decimal(, )
 #  created_at              :datetime         not null
 #  updated_at              :datetime         not null
 #  order_id                :bigint
-#  transaction_account_id  :bigint           not null
-#  transaction_category_id :bigint           not null
+#  transaction_account_id  :bigint
+#  transaction_category_id :bigint
 #
 # Indexes
 #

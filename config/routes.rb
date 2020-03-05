@@ -1,5 +1,10 @@
 Rails.application.routes.draw do
 
+  resources :documents do
+    collection do
+      post "save_data"
+    end
+  end
   resources :transactions
   resources :transaction_accounts
   resources :signatures

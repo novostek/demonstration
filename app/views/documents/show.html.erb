@@ -1,0 +1,51 @@
+<div class="breadcrumbs-dark pb-0 pt-4" id="breadcrumbs-wrapper">
+  <!-- Search for small screen-->
+  <div class="container">
+    <div class="row">
+      <div class="col s10 m6 l6">
+        <h5 class="breadcrumbs-title mt-0 mb-0"><span><%= t('activerecord.models.document') %></span></h5>
+        <ol class="breadcrumbs mb-0">
+          <li class="breadcrumb-item"><a href="/"><%= t('home') %></a>
+          </li>
+          <li class="breadcrumb-item"><a href="#"><%= t('activerecord.models.document') %></a>
+          </li>
+          <li class="breadcrumb-item active"><%= t('breadcrumb.show') %>
+          </li>
+        </ol>
+      </div>
+      <div class="col s2 m6 l6">
+        <%= link_to t('button.all'), documents_path, class:"btn waves-effect waves-light breadcrumbs-btn right" %>
+        <%= link_to edit_document_path(@document) , class: "btn-flat waves-effect waves-light breadcrumbs-btn right" do %>
+          <i class="material-icons">edit</i>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="card-panel">
+	
+  <p>
+    <strong><%= t('activerecord.attributes.document.name') %>:</strong>
+    <%= @document.name %>
+  </p>
+
+  <p>
+    <strong><%= t('activerecord.attributes.document.description') %>:</strong>
+    <%= @document.description %>
+  </p>
+
+  <p>
+    <strong><%= t('activerecord.attributes.document.doc_type') %>:</strong>
+    <%= @document.doc_type_text %>
+  </p>
+
+  <p>
+    <strong><%= t('activerecord.attributes.document.sub_type') %>:</strong>
+    <%= @document.sub_type_text %>
+  </p>
+
+</div>
+
+<%= render "create", document: @document %>
+

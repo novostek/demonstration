@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_03_03_212437) do
+ActiveRecord::Schema.define(version: 2020_03_04_235429) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -67,6 +67,16 @@ ActiveRecord::Schema.define(version: 2020_03_03_212437) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.text "description"
+  end
+
+  create_table "documents", force: :cascade do |t|
+    t.string "name"
+    t.text "description"
+    t.text "data"
+    t.string "sub_type"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.string "doc_type"
   end
 
   create_table "estimates", force: :cascade do |t|
@@ -326,8 +336,8 @@ ActiveRecord::Schema.define(version: 2020_03_03_212437) do
 
   create_table "transactions", force: :cascade do |t|
     t.string "category"
-    t.bigint "transaction_category_id", null: false
-    t.bigint "transaction_account_id", null: false
+    t.bigint "transaction_category_id"
+    t.bigint "transaction_account_id"
     t.bigint "order_id"
     t.string "origin"
     t.date "due"
@@ -336,6 +346,7 @@ ActiveRecord::Schema.define(version: 2020_03_03_212437) do
     t.string "bpm_instance"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.json "square_data"
     t.index ["order_id"], name: "index_transactions_on_order_id"
     t.index ["transaction_account_id"], name: "index_transactions_on_transaction_account_id"
     t.index ["transaction_category_id"], name: "index_transactions_on_transaction_category_id"

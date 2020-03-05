@@ -32,12 +32,12 @@
 
   <p>
     <strong><%= t('activerecord.attributes.transaction.transaction_category') %>:</strong>
-    <%= @transaction.transaction_category %>
+  <div class="chip white-text" style="background-color:<%= @transaction.transaction_category.color if @transaction.transaction_category.present? %>"><%= @transaction.transaction_category %></div>
   </p>
 
   <p>
     <strong><%= t('activerecord.attributes.transaction.transaction_account') %>:</strong>
-    <%= @transaction.transaction_account %>
+  <div class="chip white-text" style="background-color:<%= @transaction.transaction_account.color if @transaction.transaction_account.present? %>"><%= @transaction.transaction_account %></div>
   </p>
 
   <p>

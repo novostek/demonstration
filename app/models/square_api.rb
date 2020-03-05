@@ -9,6 +9,23 @@ class SquareApi
     Setting.get_value("square_app_id")
   end
 
+  def self.get_transaction(transaction_id)
+    client = SquareApi.client
+
+    transactions_api = client.transactions
+    location_id = SquareApi.locations.first[:id]
+
+    result = transactions_api.retrieve_transaction(location_id: location_id, transaction_id: transaction_id)
+
+    if result.success?
+      return true, result.data
+    elsif result.error?
+      return false, result.errors
+    end
+
+
+  end
+
   def self.create_checkout
     client = SquareApi.client
 
@@ -56,7 +73,7 @@ class SquareApi
     body[:pre_populate_shipping_address][:country] = 'US'
     body[:pre_populate_shipping_address][:first_name] = 'Jane'
     body[:pre_populate_shipping_address][:last_name] = 'Doe'
-    body[:redirect_url] = 'https://woodoffice.herokuapp.com/square_api/callback'
+    body[:redirect_url] = 'http://a098fcf9.ngrok.io/square_api/callback'
 
 
 

@@ -1,0 +1,23 @@
+en:
+  activerecord:
+    models:
+      document: "Document"
+      documents: "Documents"
+    attributes:
+      document:
+        name: "Name"
+        description: "Description"
+        data: "Body"
+        doc_type: "Type"
+        sub_type: "SubType"
+  enumerize:
+    document:
+      doc_type:
+        estimate: "Estimate/Order"
+        custom: "Custom"
+      sub_type:
+        approval: "Approval"
+        conclusion: "Conclusion"
+        other: "Other"
+
+

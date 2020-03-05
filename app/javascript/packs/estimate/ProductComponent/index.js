@@ -1,14 +1,24 @@
-import React, { useState } from 'react'
+import React, { useState, useRef } from 'react'
 import ReactDOM from 'react-dom'
+import { useForm } from "react-hook-form";
+import * as yup from "yup";
 import EstimateDetail from '../EstimateDetail'
 
+const schema = {
+  requiredDecimal: {required:true, pattern: /^\d+(\.\d{1,2})?$/ }
+}
+
 const ProductComponent = () => {
+  let submitBtnRef = useRef()
+
+  const { register, handleSubmit, errors } = useForm({mode: "onBlur", reValidateMode: "onSubmit"})
+
   const node = document.getElementById('estimate_data')
   const { estimate } = JSON.parse(node.getAttribute('data'))
 
   const [productEstimate, setProductEstimate] = useState([
     {
-      areas: estimate.measurement_areas.data,
+      areas: [],
       products: [
         {
           id: 0,
@@ -25,7 +35,7 @@ const ProductComponent = () => {
 
   const addArea = () => {
     const area_product = {
-      areas: estimate.measurement_areas.data,
+      areas: [],
       products: [
         {
           id: 0,
@@ -56,8 +66,36 @@ const ProductComponent = () => {
   }
 
   const removeProduct = (maIndex, key) => {
-    // productEstimate[maIndex].products.filter(product => product.key !== key)
-    setProductEstimate(productEstimate => [...productEstimate.slice(0, maIndex), { ...productEstimate[maIndex], products: {...productEstimate[maIndex].products.filter(product => product.key !== key)} }])
+    setProductEstimate(productEstimate => [
+      ...productEstimate.slice(0, maIndex), 
+      { ...productEstimate[maIndex], products: [...productEstimate[maIndex].products.filter(product => product.key !== key)]}])
+  }
+
+  const selectArea = (maIndex, area_id, insert) => {
+    insert 
+    ?
+    setProductEstimate(productEstimate => {
+      const copy = [...productEstimate]
+      copy[maIndex].areas.push(area_id)
+      return copy
+    })
+    // setProductEstimate(productEstimate => [...productEstimate.slice(0, maIndex), { ...productEstimate[maIndex], areas: [...productEstimate[maIndex].areas, area_id]}])
+    :
+    setProductEstimate(productEstimate => {
+      const copy = [...productEstimate]
+      copy[maIndex].areas = copy[maIndex].areas.filter(area => area !== area_id)
+      return copy
+    })
+    // setProductEstimate(productEstimate => [...productEstimate.slice(0, maIndex), { ...productEstimate[maIndex], areas: [...productEstimate[maIndex].areas.filter(area => area !== area_id)] }])
+  }
+
+  const remoteSubmit = () => {
+    console.log('remote')
+    submitBtnRef.current.click()
+  }
+
+  const onSubmit = data => {
+    console.log('DATA', data)
   }
 
   console.log(productEstimate)
@@ -83,7 +121,6 @@ const ProductComponent = () => {
                   <div className="step-title waves-effect">Products</div>
                 </li>
               </ul>
-
               {
                 productEstimate.map((pe, index) => (
                   <div className="row products-area-list pl-1 pr-1" id="measurement_proposals" key={index}>
@@ -92,13 +129,16 @@ const ProductComponent = () => {
                       <div className="areas-available col s12">
                         <span>Areas:</span>
                         {
-                          pe.areas.map(ma => (
-                            <div className="chip" key={ma.id}>{ma.name}</div>
+                          estimate.measurement_areas.data.map((ma, maIndex) => (
+                            <div className={`chip ${productEstimate[index].areas.includes(ma.id) ? 'selected' : ''}`} key={Math.random()} onClick={() => !productEstimate[index].areas.includes(ma.id) ? selectArea(index, ma.id, true) : selectArea(index, ma.id, false)}>
+                              {ma.name}
+                            </div>
                           ))
                         }
                         <a href="#" className="select-all-areas">Select all</a>
                       </div>
                       <div className="products-list">
+                        <form onSubmit={handleSubmit(onSubmit)}>
                         {
                           pe.products.map((product, peIndex) => (
                             <div className="product" key={peIndex}>
@@ -112,27 +152,25 @@ const ProductComponent = () => {
                                     </div>
                                   </div>
                                   <div className="col s6 m2 calc-fields">
-                                    {/* <%#= f.span :quantity, "Qty.", class: "left width-100 pt-1" %> */}
                                     <span className="left width-100 pt-1">Qty.</span>
-                                    <input type="text" name="quantity" id="quantity" className="product-value qty" />
+                                    <input type="text" name={`products[${peIndex}].qty`} ref={register(schema.requiredDecimal)} className="product-value qty" />
+                                    {errors.qty && <span>{errors.qty.message}</span>}
                                   </div>
                                   <div className="col s6 m2 calc-fields">
                                     <span className="left width-100 pt-1">Prince un.</span>
-                                    <input type="text" name="price" id="price" className="product-value price" />
-                                    {/* <%= f.text_field :unitary_value, class: "product-value price" %> */}
+                                    <input type="text" name={`products[${peIndex}].price`} ref={register(schema.requiredDecimal)} className="product-value price" />
+                                    {errors.price && <span>{errors.price.message}</span>}
                                   </div>
                                   <div className="col s6 m2 calc-fields">
-                                    {/* <%#= f.label :discount, "Discount", class: "left width-100 pt-1" %> */}
                                     <span className="left width-100 pt-1">Discount</span>
-                                    <input type="text" name="discount" id="discount" className="product-value discount" />
-                                    {/* <%= f.text_field :discount, class: "product-value discount" %> */}
+                                    <input type="text" name={`products[${peIndex}].discount`} ref={register(schema.requiredDecimal)} className="product-value discount" />
+                                    {errors.discount && <span>{errors.discount.message}</span>}
                                   </div>
                                   <div className="col s6 m2 calc-fields">
-                                    {/* <%#= f.label :value, "Total", class: "left width-100 pt-1" %> */}
                                     <span className="left width-100 pt-1">Total</span>
-                                    <input type="text" name="total" id="total" className="product-value total" />
-                                    <a onClick={() => removeProduct(index, product.key)} className="btn-remove-product"><i className="material-icons">delete</i></a>
-                                    {/* <%= f.text_field :value, class: "product-value total" %> */}
+                                    <input type="text" name={`products[${peIndex}].total`} ref={register(schema.requiredDecimal)} className="product-value total" />
+                                    <a onClick={() => removeProduct(index, product.key)} style={{cursor: 'pointer'}} className="btn-remove-product"><i className="material-icons">delete</i></a>
+                                    {errors.total && <span>{errors.total.message}</span>}
                                   </div>
                                 </div>
                               </div>
@@ -140,12 +178,13 @@ const ProductComponent = () => {
                             </div>
                           ))
                         }
+                        <button type="submit" style={{display: 'none'}} ref={submitBtnRef}></button>
+                        </form>
                       </div>
                     </div>
                   </div>
                 ))
               }
-
               <div className="row mt-1">
                 <a onClick={addArea} className="btn btn-add-product-area"><i className="material-icons left">add</i> Add area</a>
               </div>
@@ -161,11 +200,11 @@ const ProductComponent = () => {
             </div>
 
           </div>
-          <div className="col s12 pb-2 pr-0 pl-0" style={{ position: 'relative', zIndex: -1 }}>
-            <a className="btn grey lighten-5 grey-text waves-effect waves-light breadcrumbs-btn left save" href="estimate-measurements.html"><i className="material-icons left">arrow_back</i> Back</a>
-            <a className="btn indigo waves-effect waves-light breadcrumbs-btn right ml-1" href="estimate-view.html"><i className="material-icons left">save</i> Save</a>
-          </div>
         </div>
+      </div>
+      <div className="col s12 pb-2 pr-0 pl-0" style={{ position: 'relative', zIndex: 1 }}>
+        <a className="btn grey lighten-5 grey-text waves-effect waves-light breadcrumbs-btn left save" href="estimate-measurements.html"><i className="material-icons left">arrow_back</i> Back</a>
+        <a className="btn indigo waves-effect waves-light breadcrumbs-btn right ml-1" onClick={() => remoteSubmit()}><i className="material-icons left">save</i> Save</a>
       </div>
     </div>
   )

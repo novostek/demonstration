@@ -196,12 +196,11 @@ const ProductComponent = () => {
                                   </div>
                                 </div>
                               </div>
-                              <div onClick={() => addProduct(index)} className="product new-product">
-                                <span>teste</span>
-                              </div>
                             </div>
                           ))
                         }
+                        <a onClick={() => addProduct(index)} style={{height: '30px'}} className="product new-product">
+                        </a>
                         <button type="submit" style={{display: 'none'}} ref={submitBtnRef}></button>
                         </form>
                       </div>

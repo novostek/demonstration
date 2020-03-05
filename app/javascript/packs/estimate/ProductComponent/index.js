@@ -62,13 +62,25 @@ const ProductComponent = () => {
       total: 0.0
     }
     // console.log(productEstimate[index])
-    setProductEstimate(productEstimate => [...productEstimate.slice(0, index), { ...productEstimate[index], products: [...productEstimate[index].products, product] }, ...productEstimate.slice(index + 1)])
+    // setProductEstimate(productEstimate => [...productEstimate.slice(0, index), { ...productEstimate[index], products: [...productEstimate[index].products, product] }, ...productEstimate.slice(index + 1)])
+    setProductEstimate(productEstimate => {
+      const copy = [...productEstimate]
+      copy[index].products.push(product)
+      return copy
+    })
   }
 
   const removeProduct = (maIndex, key) => {
-    setProductEstimate(productEstimate => [
-      ...productEstimate.slice(0, maIndex), 
-      { ...productEstimate[maIndex], products: [...productEstimate[maIndex].products.filter(product => product.key !== key)]}])
+    setProductEstimate(productEstimate => {
+      const copy = [...productEstimate]
+      copy[maIndex].products = copy[maIndex].products.filter(product => product.key !== key)
+      console.log(copy[maIndex].products, key)
+
+      return copy
+    })
+    // setProductEstimate(productEstimate => [
+    //   ...productEstimate.slice(0, maIndex), 
+    //   { ...productEstimate[maIndex], products: [...productEstimate[maIndex].products.filter(product => product.key !== key)]}])
   }
 
   const selectArea = (maIndex, area_id, insert) => {
@@ -95,7 +107,15 @@ const ProductComponent = () => {
   }
 
   const onSubmit = data => {
-    console.log('DATA', data)
+    // console.log(data)
+    setProductEstimate(productEstimate => {
+      const copy = [...productEstimate]
+      copy.map((ma, index) => {
+        ma.products.map((pe, peIndex) => data.products[index])
+        // copy[index].products[index] = data.products[index]
+      })
+      return copy
+    })
   }
 
   console.log(productEstimate)
@@ -139,6 +159,7 @@ const ProductComponent = () => {
                       </div>
                       <div className="products-list">
                         <form onSubmit={handleSubmit(onSubmit)}>
+                          <input type="hidden" ref={register} name={`measurement_area[${index}]`} value={index}/>
                         {
                           pe.products.map((product, peIndex) => (
                             <div className="product" key={peIndex}>
@@ -153,28 +174,30 @@ const ProductComponent = () => {
                                   </div>
                                   <div className="col s6 m2 calc-fields">
                                     <span className="left width-100 pt-1">Qty.</span>
-                                    <input type="text" name={`products[${peIndex}].qty`} ref={register(schema.requiredDecimal)} className="product-value qty" />
+                                    <input type="text" name={`products[${index}].qty`} ref={register(schema.requiredDecimal)} className="product-value qty" />
                                     {errors.qty && <span>{errors.qty.message}</span>}
                                   </div>
                                   <div className="col s6 m2 calc-fields">
                                     <span className="left width-100 pt-1">Prince un.</span>
-                                    <input type="text" name={`products[${peIndex}].price`} ref={register(schema.requiredDecimal)} className="product-value price" />
+                                    <input type="text" name={`products[${index}].price`} ref={register(schema.requiredDecimal)} className="product-value price" />
                                     {errors.price && <span>{errors.price.message}</span>}
                                   </div>
                                   <div className="col s6 m2 calc-fields">
                                     <span className="left width-100 pt-1">Discount</span>
-                                    <input type="text" name={`products[${peIndex}].discount`} ref={register(schema.requiredDecimal)} className="product-value discount" />
+                                    <input type="text" name={`products[${index}].discount`} ref={register(schema.requiredDecimal)} className="product-value discount" />
                                     {errors.discount && <span>{errors.discount.message}</span>}
                                   </div>
                                   <div className="col s6 m2 calc-fields">
                                     <span className="left width-100 pt-1">Total</span>
-                                    <input type="text" name={`products[${peIndex}].total`} ref={register(schema.requiredDecimal)} className="product-value total" />
+                                    <input type="text" name={`products[${index}].total`} ref={register(schema.requiredDecimal)} className="product-value total" />
                                     <a onClick={() => removeProduct(index, product.key)} style={{cursor: 'pointer'}} className="btn-remove-product"><i className="material-icons">delete</i></a>
                                     {errors.total && <span>{errors.total.message}</span>}
                                   </div>
                                 </div>
                               </div>
-                              <div onClick={() => addProduct(index)} className="product new-product"></div>
+                              <div onClick={() => addProduct(index)} className="product new-product">
+                                <span>teste</span>
+                              </div>
                             </div>
                           ))
                         }

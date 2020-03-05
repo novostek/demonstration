@@ -169,7 +169,8 @@ const ProductComponent = () => {
                                     <span className="left width-100 pt-1">Product</span>
                                     <div className="input-field mt-0 mb-0 products-search-field-box">
                                       <a href="#" className="btn-add-product tooltipped" data-tooltip="New product"><i className="material-icons">add</i></a>
-                                      <input placeholder="" autoComplete="off" id="title" type="text" className="autocomplete autocomplete-products mt-1" />
+                                      <input name="product_list" ref={register} autoComplete="off" type="text" className="autocomplete autocomplete-products mt-1" />
+                                      <input name={`products[${index}].product_id`} ref={register} autoComplete="off" type="hidden"/>
                                     </div>
                                   </div>
                                   <div className="col s6 m2 calc-fields">

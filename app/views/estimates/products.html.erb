@@ -30,6 +30,26 @@
 
 <%= javascript_pack_tag 'estimate/ProductComponent/index.js' %>
 
-<!--<%= content_for :scripts do %>
-  <%= javascript_pack_tag 'estimate/products', 'data-turbolinks-track': 'true' %>
-<% end %>-->
+<%= content_for :scripts do %>
+  <script>
+    $(document).ready(function(){
+      
+
+      function runAutocomplete(){
+        $('input.autocomplete.autocomplete-products').autocomplete({
+          data: {
+            "Product X": null,
+            "Product Y": null,
+            "Product a": null,
+            "Product b": null,
+            "Product c": null,
+            "Product d": null,
+            "Product Z": null
+
+          }
+        });
+      }
+      runAutocomplete();
+    })
+  </script>
+<% end %>

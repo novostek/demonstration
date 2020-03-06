@@ -60,8 +60,9 @@ class DocumentsController < ApplicationController
     @template = Liquid::Template.parse(@data)
 
     if params[:custom_send].present?
+      emails = ["gabrielvash@gmail.com"]
       begin
-        DocumentMailer.with(pdf: @template.render('estimate' => @estimate.attributes, 'measurements' => JSON.parse(@estimate.measurement_areas.to_json), 'customer' => @estimate.customer.attributes, 'custom' => @params, 'signature' => JSON.parse(@estimate.signatures.last.to_json)   )).send_document.deliver_now
+        DocumentMailer.with(emails: emails, pdf: @template.render('estimate' => @estimate.attributes, 'measurements' => JSON.parse(@estimate.measurement_areas.to_json), 'customer' => @estimate.customer.attributes, 'custom' => @params, 'signature' => JSON.parse(@estimate.signatures.last.to_json)   )).send_document.deliver_now
       rescue
 
       end

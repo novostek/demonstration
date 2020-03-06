@@ -13,7 +13,7 @@ class CustomersController < ApplicationController
     if note.save
       redirect_to @customer, notice: "#{t 'note_create'}"
     else
-      redirect_to @customer, alert: "error"
+      redirect_to @customer, alert: "#{note.errors.full_messages.to_sentence}"
     end
 
 
@@ -32,7 +32,7 @@ class CustomersController < ApplicationController
     if doc.save
       redirect_to @customer, notice: "#{t 'doc_create'}"
     else
-      redirect_to @customer, alert: "error"
+      redirect_to @customer, alert: "#{doc.errors.full_messages.to_sentence}"
     end
 
   end
@@ -48,7 +48,7 @@ class CustomersController < ApplicationController
     if contact.save
       redirect_to @customer, notice: "#{t 'contact_create'}"
     else
-      redirect_to @customer, alert: "error"
+      redirect_to @customer, alert: "#{contact.errors.full_messages.to_sentence}"
     end
 
   end

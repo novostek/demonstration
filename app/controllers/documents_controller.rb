@@ -24,7 +24,10 @@ class DocumentsController < ApplicationController
     @customs = []
     @params = {}
 
-    @estimate = Estimate.find(params[:estimate])
+    if params[:estimate].present?
+      @estimate = Estimate.find(params[:estimate])
+    end
+
     @document = Document.find(params[:document])
 
     @data = @document.data
@@ -41,15 +44,40 @@ class DocumentsController < ApplicationController
      params[:customs].each do |p|
        @params["#{p[0]}"] = "#{p[1]}"
      end
-     
+
     end
 
 
     if has_custom_field
-      redirect_to send_customs_documents_path(estimate: params[:estimate], document: params[:document], customs: @customs)
+      if params[:estimate].present?
+        redirect_to send_customs_documents_path(estimate: params[:estimate], document: params[:document], customs: @customs)
+      else
+        redirect_to send_customs_documents_path(document: params[:document], customs: @customs)
+      end
+
     end
 
     @template = Liquid::Template.parse(@data)
+
+    begin
+      DocumentMailer.with(pdf: @template.render('estimate' => @estimate.attributes, 'measurements' => JSON.parse(@estimate.measurement_areas.to_json), 'customer' => @estimate.customer.attributes, 'custom' => @params, 'signature' => JSON.parse(@estimate.signatures.last.to_json)   )).send_document.deliver_now
+    rescue
+
+    end
+
+    respond_to do |format|
+      format.html
+      format.pdf do
+        render pdf: "#{@document.name}",
+               page_size: 'A4',
+               template: "documents/preview.html.erb",
+               layout: "pdf.html",
+               orientation: "Portrait",
+               lowquality: true,
+               zoom: 1,
+               dpi: 75
+      end
+    end
 
   end
 

@@ -46,6 +46,7 @@ class Estimate < ApplicationRecord
   belongs_to :lead, optional: true
   has_one :customer, through: :lead
 
+  has_many :signatures, -> { where origin: :Estimate }, primary_key: :id, foreign_key: :origin_id
   has_many :measurement_areas, dependent: :destroy
   # has_one :measurement, through: :measurement_areas
 

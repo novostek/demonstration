@@ -1,6 +1,8 @@
 <div class="card-panel">
-  <%= form_with url: preview_documents_path, method: :get, local: true do |f| %>
-    <%= f.hidden_field :estimate, value: @estimate %>
+  <%= form_with url: preview_documents_path(format: :pdf), method: :get, local: true do |f| %>
+    <% if @estimate.present? %>
+      <%= f.hidden_field :estimate, value: @estimate %>
+    <% end %>
     <%= f.hidden_field :document, value: @document %>
     <%= f.hidden_field :custom_send, value: true %>
 

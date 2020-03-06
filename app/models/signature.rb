@@ -11,4 +11,10 @@
 #
 class Signature < ApplicationRecord
   mount_base64_uploader :file, DocumentFileUploader
+
+  def as_json(options = {})
+    s = super(options)
+    s[:link] = self.file.url
+    s
+  end
 end

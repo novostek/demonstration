@@ -9,12 +9,10 @@ const schema = {
   requiredDecimal: { required: true, pattern: /^\d+(\.\d{1,2})?$/ }
 }
 
-
-
 const ProductComponent = () => {
   let submitBtnRef = useRef()
 
-  const [index, setIndex] = useState({
+  const [maProductListIndex, setMaProductListIndex] = useState({
     maIndex: 0,
     productIndex: 0
   })
@@ -32,11 +30,13 @@ const ProductComponent = () => {
       data,
       limit: 5,
       onAutocomplete: (val) => {
-        console.log(index)
         setProductEstimate(productEstimate => {
           const copy = [...productEstimate]
           const id = products.filter(p => p.name === val)[0].id
-          copy[index.maIndex].products[index.productIndex].id = id
+          copy[maProductListIndex.maIndex].products[maProductListIndex.productIndex].product_id = id
+          // {`measurement[${index}].products[${peIndex}].product_id`}
+          document.getElementsByName(`measurement[${maProductListIndex.maIndex}].products[${maProductListIndex.productIndex}].product_id`)[0].setAttribute('value', id)
+
           return copy
         })
       }
@@ -56,9 +56,8 @@ const ProductComponent = () => {
       areas: [],
       products: [
         {
-          id: 0,
           key: new Date().getTime(),
-          product_id: '',
+          product_id: 0,
           qty: 0,
           price: 0.0,
           discount: 0.0,
@@ -73,9 +72,8 @@ const ProductComponent = () => {
       areas: [],
       products: [
         {
-          id: 0,
           key: new Date().getTime(),
-          product_id: '',
+          product_id: 0,
           qty: 0,
           price: 0.0,
           discount: 0.0,
@@ -88,7 +86,6 @@ const ProductComponent = () => {
 
   const addProduct = (index) => {
     const product = {
-      id: 0,
       key: new Date().getTime(),
       product_id: '',
       qty: 0,
@@ -142,14 +139,29 @@ const ProductComponent = () => {
   }
 
   const onSubmit = data => {
-    // console.log(data)
+    console.log(data)
     setProductEstimate(productEstimate => {
       const copy = [...productEstimate]
-      copy.map((ma, index) => {
-        ma.products.map((pe, peIndex) => data.products[index])
+      return copy.map((ma, index) => {
+        const maCopy = { ...ma }
+        maCopy.products = ma.products.map((pe, peIndex) => {
+          // const productCopy = { ...pe }
+          // const { product_id, qty, price, discount, total } = data.measurement[index].products[peIndex]
+          // productCopy.product_id = product_id
+          // productCopy.qty = qty
+          // productCopy.price = price
+          // productCopy.discount = discount
+          // productCopy.total = total
+          // console.log("PRODUCT COPY", productCopy)
+
+          // return productCopy
+          return { ...pe, ...data.measurement[index].products[peIndex] }
+        })
+        console.log("MA COPY", maCopy)
+        return maCopy
         // copy[index].products[index] = data.products[index]
       })
-      return copy
+      console.log("COPY", copy)
     })
   }
 
@@ -190,7 +202,7 @@ const ProductComponent = () => {
                             </div>
                           ))
                         }
-                        <a href="#" className="select-all-areas">Select all</a>
+                        {/* <a href="#" className="select-all-areas">Select all</a> */}
                       </div>
                       <div className="products-list">
                         <form onSubmit={handleSubmit(onSubmit)}>
@@ -207,31 +219,31 @@ const ProductComponent = () => {
                                         <input
                                           name="product_list"
                                           ref={register}
-                                          onClick={() => setIndex(prev => {
+                                          onClick={() => setMaProductListIndex(prev => {
                                             return { ...prev, maIndex: index, productIndex: peIndex }
                                           })}
                                           autoComplete="off" type="text" className="autocomplete autocomplete-products mt-1" />
-                                        <input name={`products[${index}].product_id`} ref={register} autoComplete="off" type="hidden" />
+                                        <input name={`measurement[${index}].products[${peIndex}].product_id`} ref={register} autoComplete="off" type="hidden" />
                                       </div>
                                     </div>
                                     <div className="col s6 m2 calc-fields">
                                       <span className="left width-100 pt-1">Qty.</span>
-                                      <input type="text" name={`products[${index}].qty`} ref={register(schema.requiredDecimal)} className="product-value qty" />
+                                      <input type="text" name={`measurement[${index}].products[${peIndex}].qty`} ref={register(schema.requiredDecimal)} className="product-value qty" />
                                       {errors.qty && <span>{errors.qty.message}</span>}
                                     </div>
                                     <div className="col s6 m2 calc-fields">
                                       <span className="left width-100 pt-1">Prince un.</span>
-                                      <input type="text" name={`products[${index}].price`} ref={register(schema.requiredDecimal)} className="product-value price" />
+                                      <input type="text" name={`measurement[${index}].products[${peIndex}].price`} ref={register(schema.requiredDecimal)} className="product-value price" />
                                       {errors.price && <span>{errors.price.message}</span>}
                                     </div>
                                     <div className="col s6 m2 calc-fields">
                                       <span className="left width-100 pt-1">Discount</span>
-                                      <input type="text" name={`products[${index}].discount`} ref={register(schema.requiredDecimal)} className="product-value discount" />
+                                      <input type="text" name={`measurement[${index}].products[${peIndex}].discount`} ref={register(schema.requiredDecimal)} className="product-value discount" />
                                       {errors.discount && <span>{errors.discount.message}</span>}
                                     </div>
                                     <div className="col s6 m2 calc-fields">
                                       <span className="left width-100 pt-1">Total</span>
-                                      <input type="text" name={`products[${index}].total`} ref={register(schema.requiredDecimal)} className="product-value total" />
+                                      <input type="text" name={`measurement[${index}].products[${peIndex}].total`} ref={register(schema.requiredDecimal)} className="product-value total" />
                                       <a onClick={() => removeProduct(index, product.key)} style={{ cursor: 'pointer' }} className="btn-remove-product"><i className="material-icons">delete</i></a>
                                       {errors.total && <span>{errors.total.message}</span>}
                                     </div>

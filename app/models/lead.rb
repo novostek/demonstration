@@ -23,4 +23,10 @@
 
 class Lead < ApplicationRecord
   belongs_to :customer
+
+  def as_json(options = {})
+    s = super(options)
+    s[:customer] = self.customer
+    s
+  end
 end

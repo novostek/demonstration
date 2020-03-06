@@ -57,6 +57,8 @@ Rails.application.routes.draw do
       post "create_step_one/:lead_id", to: "estimates#create_step_one", as: :create_step_one
       post ":estimate_id/schedule/new", to: "estimates#create_schedule"
       delete ":estimate_id/schedule/:schedule_id/delete", to: "estimates#delete_schedule"
+      post "/product_estimate", to: "estimates#create_products_estimates"
+      get ":estimate_id/view", to: "estimates#view_estimate"
     end
   end
   resources :orders
@@ -66,7 +68,11 @@ Rails.application.routes.draw do
   resources :profiles
   resources :products
   resources :document_files
-  resources :calculation_formulas
+  resources :calculation_formulas do
+    collection do
+      get "lxw/product/:product_id" => "calculation_formulas#calculate_product_qty_lw"
+    end
+  end
   resources :contacts
   resources :notes
   resources :suppliers do

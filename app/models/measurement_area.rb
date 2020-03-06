@@ -25,6 +25,7 @@ class MeasurementArea < ApplicationRecord
 
   accepts_nested_attributes_for :measurements, reject_if: :reject_measurements, allow_destroy: true
   accepts_nested_attributes_for :measurement_proposals, reject_if: :all_blank, allow_destroy: true
+  accepts_nested_attributes_for :area_proposal, reject_if: :all_blank, allow_destroy: true
 
   def reject_measurements attributes
     attributes['length'].blank? && attributes['width'].blank? && attributes['height'].blank?

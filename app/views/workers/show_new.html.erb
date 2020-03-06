@@ -1,0 +1,388 @@
+
+
+<div class="breadcrumbs-dark pb-0 pt-4" id="breadcrumbs-wrapper">
+  <!-- Search for small screen-->
+  <div class="container">
+    <div class="row">
+      <div class="col s10 m6 l6">
+        <h5 class="breadcrumbs-title mt-0 mb-0"><span><%= @worker %></span></h5>
+        <ol class="breadcrumbs mb-0">
+          <li class="breadcrumb-item"><a href="/"><%= t('home') %></a>
+          </li>
+          <li class="breadcrumb-item"><a href="#"><%= t('activerecord.models.worker') %></a>
+          </li>
+          <li class="breadcrumb-item active"><%= t('breadcrumb.show') %>
+          </li>
+        </ol>
+      </div>
+      <div class="col s2 m6 l6">
+        <%= link_to t('button.all'), workers_path, class:"btn waves-effect waves-light breadcrumbs-btn right" %>
+        <%= link_to edit_worker_path(@worker) , class: "btn-flat waves-effect waves-light breadcrumbs-btn right" do %>
+          <i class="material-icons">edit</i>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!--<div class="col s12">-->
+<!--  <div class="container">-->
+    <div class="row">
+      <div class="col s12 l9 pl-0 pr-0">
+
+        <div class="col s12 pl-1">
+          <div class="card-panel pb-0">
+            <div class="row">
+              <div class="col s12 m2 pr-0"><span class="avatar-status avatar-online avatar-md width-70"><img src="<%= @worker.photo.present? ? @worker.photo.url : '/materialize/images/avatar/avatar-1.png' %>" alt="avatar" /></span>
+              </div>
+              <div class="col s12 m6 pl-0"><span class="left width-100"><span class="font-weight-600 black-text"><%= t("activerecord.attributes.worker.document_id") %>:</span><%= @worker.document_id %></span>
+                <span class="left width-100"><span class="font-weight-600 black-text"><%= t("activerecord.attributes.worker.categories") %>:</span><%= @worker.categories %></span>
+                <span class="left width-100"><span class="font-weight-600 black-text"><%= t("activerecord.attributes.worker.time_value") %>:</span> <%= @worker.time_value %></span>
+              </div>
+
+            </div>
+          </div>
+          <!-- Contacts -->
+
+          <div class="row contacts-row">
+            <div class="contacts-wrapper">
+              <div class="contacts-type-box">
+                <div class="contact-type--info">
+                  <div class="contact-icon">
+                    <i class="material-icons green-text">phone</i>
+                  </div>
+                  <h6>Phone</h6>
+                </div>
+                <div class="contacts-list">
+                  <div class="contact">
+                    <div class="contact-info">
+                      <span class="contact-title">Title Phone</span>
+                      <span class="contact-description">6457-8237</span>
+                    </div>
+                  </div>
+                  <div class="contact">
+                    <div class="contact-info">
+                      <span class="contact-title">Title Phone</span>
+                      <span class="contact-description">6457-8237</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="contacts-type-box">
+                <div class="contact-type--info">
+                  <div class="contact-icon">
+                    <i class="material-icons orange-text">place</i>
+                  </div>
+                  <h6>Address</h6>
+                </div>
+                <div class="contacts-list">
+                  <div class="contact">
+                    <div class="contact-info">
+                      <span class="contact-title"><a href="#maps">Title</a></span>
+                      <span class="contact-description">Manhattan, New York, NY,
+                                                            USA</span>
+                    </div>
+                    <a href="#" class="btn-more-info tooltipped"
+                       data-tooltip="More info"><i class="material-icons">place</i></a>
+
+                    <div class="more-info">
+                      <a href="#" class="btn-less-info"><i
+                        class="material-icons">close</i></a>
+                      <div class="map">
+                        <img src="http://maps.google.com/maps/api/staticmap?center=40.7830603,-73.9712488&zoom=10&size=300x80&scale=2&maptype=road&key=AIzaSyBUW7c4JukYkKfxTr_bxMN3vn2FvtXAaBQ"
+                             alt="">
+                      </div>
+                      <span><strong class="font-weight-600">City:</strong> New
+                                                            York</span><br>
+                      <span><strong class="font-weight-600">State:</strong>
+                                                            NY</span><br>
+                      <span><strong class="font-weight-600">State:</strong> NY</span>
+                      <a href="#"
+                         class="btn-navigate btn btn-flat btn-small btn-width blue white-text"><i
+                        class="material-icons">navigation</i></a>
+                    </div>
+                  </div>
+
+                  <div class="contact">
+                    <div class="contact-info">
+                      <span class="contact-title"><a href="#maps">Title</a></span>
+                      <span class="contact-description">oter city</span>
+                    </div>
+                    <a href="#" class="btn-more-info tooltipped"
+                       data-tooltip="More info"><i class="material-icons">place</i></a>
+
+                    <div class="more-info">
+                      <a href="#" class="btn-less-info"><i
+                        class="material-icons">close</i></a>
+                      <div class="map">
+                        <img src="http://maps.google.com/maps/api/staticmap?center=39.7830603,-71.9712488&zoom=10&size=300x80&scale=2&maptype=road&key=AIzaSyBUW7c4JukYkKfxTr_bxMN3vn2FvtXAaBQ"
+                             alt="">
+                      </div>
+                      <span><strong class="font-weight-600">City:</strong> New
+                                                            York</span><br>
+                      <span><strong class="font-weight-600">State:</strong>
+                                                            NY</span><br>
+                      <span><strong class="font-weight-600">State:</strong> NY</span>
+                      <a href="#"
+                         class="btn-navigate btn btn-flat btn-small btn-width blue white-text"><i
+                        class="material-icons">navigation</i></a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="contacts-type-box">
+                <div class="contact-type--info">
+                  <div class="contact-icon">
+                    <i class="material-icons red-text">mail</i>
+                  </div>
+                  <h6>Mail</h6>
+                </div>
+                <div class="contacts-list">
+                  <div class="contact">
+                    <div class="contact-info">
+                      <span class="contact-title">Title email</span>
+                      <span class="contact-description"><a
+                        href="mailto:test@test.com">test@test.com</a></span>
+                    </div>
+                  </div>
+                  <div class="contact">
+                    <div class="contact-info">
+                      <span class="contact-title">Title email</span>
+                      <span class="contact-description"><a
+                        href="mailto:test@test.com">test@test.com</a></span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- End Contacts -->
+
+          <div class="card-panel customer-estimates">
+            <!-- Estimate list -->
+            <div class="row">
+              <div class="col s12 pt-0 pb-0 pl-0 pr-0">
+                <div class="col s12">
+                  <div id='fc-external-drag'></div>
+                </div>
+              </div>
+            </div>
+
+            <!--  End products area -->
+          </div>
+        </div>
+      </div>
+      <div class="col s12 l3 pl-0 pr-0">
+        <div class="col s12 card-width">
+          <div class="card row black-text padding-4 mt-3">
+            <a class="sidenav-trigger" href="#" data-target="slide-out-right">
+              <div class="col s5 m5">
+                <i
+                  class="material-icons background-round grey lighten-4 mt-5 mb-5 green-text">description</i>
+                <!-- <p>Orders</p> -->
+              </div>
+              <div class="col s7 m7 right-align">
+                <h5 class="mb-0 black-text">6</h5>
+                <p class="no-margin black-text">Documents</p>
+                <!-- <p>6,00,00</p> -->
+              </div>
+            </a>
+          </div>
+
+          <div class="card row black-text padding-4 mt-3">
+            <a class="sidenav-trigger" href="#" data-target="slide-out-right">
+              <div class="col s5 m5">
+                <i
+                  class="material-icons background-round grey lighten-4 mt-5 mb-5 amber-text">note</i>
+                <!-- <p>Orders</p> -->
+              </div>
+              <div class="col s7 m7 right-align">
+                <h5 class="mb-0 black-text">6</h5>
+                <p class="no-margin black-text">Notes</p>
+                <!-- <p>6,00,00</p> -->
+              </div>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+<!--  </div>-->
+<!--</div>-->
+
+<%= content_for :sidenav do %>
+  <aside id="right-sidebar-nav">
+    <div id="slide-out-right" class="slide-out-right-sidenav sidenav rightside-navigation">
+      <div class="row">
+        <div class="slide-out-right-title">
+          <div class="col s12 pl-3">
+            <h5>Notes</h5>
+          </div>
+        </div>
+      </div>
+      <div class="slide-out-right-body row pl-3 pr-3">
+        <div class="note">
+          <a href="#" class="btn-delete-note">
+            <i class="material-icons">delete</i>
+          </a>
+          <h6 class="note-title">Note tile</h6>
+          <p class="note-content">Note content and it can be long or not, let's just see what it looks like
+            when this length of text is put.</p>
+        </div>
+
+        <div class="note">
+          <a href="#" class="btn-delete-note">
+            <i class="material-icons">delete</i>
+          </a>
+          <h6 class="note-title">Note tile</h6>
+          <p class="note-content">Note content and it can be long or not, let's just see what it looks like
+            when this length of text is put.</p>
+        </div>
+
+        <!-- Exemple document -->
+        <div class="col s12 pl-3">
+          <h5>Documents</h5>
+        </div>
+        <a href="#"><span class="chip grey lighten-3 green-text truncate">Document_aas.pdf</span></a>
+        <a href="#"><span class="chip grey lighten-3 green-text truncate">Document_aas.pdf</span></a>
+        <a href="#"><span class="chip grey lighten-3 green-text truncate">Document_aas.pdf</span></a>
+      </div>
+    </div>
+
+    <ul id="slide-out-chat" class="sidenav slide-out-right-sidenav-chat">
+      <li class="center-align pt-2 pb-2 sidenav-close chat-head">
+        <a href="#!"><i class="material-icons mr-0">chevron_left</i>Elizabeth Elliott</a>
+      </li>
+      <li class="chat-body">
+        <ul class="collection">
+          <li class="collection-item display-flex avatar pl-5 pb-0" data-target="slide-out-chat">
+                        <span class="avatar-status avatar-online avatar-50"><img
+                          src="../../../app-assets/images/avatar/avatar-7.png" alt="avatar" />
+                        </span>
+            <div class="user-content speech-bubble">
+              <p class="medium-small">hello!</p>
+            </div>
+          </li>
+          <li class="collection-item display-flex avatar justify-content-end pl-5 pb-0"
+              data-target="slide-out-chat">
+            <div class="user-content speech-bubble-right">
+              <p class="medium-small">How can we help? We're here for you!</p>
+            </div>
+          </li>
+          <li class="collection-item display-flex avatar pl-5 pb-0" data-target="slide-out-chat">
+                        <span class="avatar-status avatar-online avatar-50"><img
+                          src="../../../app-assets/images/avatar/avatar-7.png" alt="avatar" />
+                        </span>
+            <div class="user-content speech-bubble">
+              <p class="medium-small">I am looking for the best admin template.?</p>
+            </div>
+          </li>
+          <li class="collection-item display-flex avatar justify-content-end pl-5 pb-0"
+              data-target="slide-out-chat">
+            <div class="user-content speech-bubble-right">
+              <p class="medium-small">Materialize admin is the responsive materializecss admin template.
+              </p>
+            </div>
+          </li>
+
+          <li class="collection-item display-grid width-100 center-align">
+            <p>8:20 a.m.</p>
+          </li>
+
+          <li class="collection-item display-flex avatar pl-5 pb-0" data-target="slide-out-chat">
+                        <span class="avatar-status avatar-online avatar-50"><img
+                          src="../../../app-assets/images/avatar/avatar-7.png" alt="avatar" />
+                        </span>
+            <div class="user-content speech-bubble">
+              <p class="medium-small">Ohh! very nice</p>
+            </div>
+          </li>
+          <li class="collection-item display-flex avatar justify-content-end pl-5 pb-0"
+              data-target="slide-out-chat">
+            <div class="user-content speech-bubble-right">
+              <p class="medium-small">Thank you.</p>
+            </div>
+          </li>
+          <li class="collection-item display-flex avatar pl-5 pb-0" data-target="slide-out-chat">
+                        <span class="avatar-status avatar-online avatar-50"><img
+                          src="../../../app-assets/images/avatar/avatar-7.png" alt="avatar" />
+                        </span>
+            <div class="user-content speech-bubble">
+              <p class="medium-small">How can I purchase it?</p>
+            </div>
+          </li>
+
+          <li class="collection-item display-grid width-100 center-align">
+            <p>9:00 a.m.</p>
+          </li>
+
+          <li class="collection-item display-flex avatar justify-content-end pl-5 pb-0"
+              data-target="slide-out-chat">
+            <div class="user-content speech-bubble-right">
+              <p class="medium-small">From ThemeForest.</p>
+            </div>
+          </li>
+          <li class="collection-item display-flex avatar justify-content-end pl-5 pb-0"
+              data-target="slide-out-chat">
+            <div class="user-content speech-bubble-right">
+              <p class="medium-small">Only $24</p>
+            </div>
+          </li>
+          <li class="collection-item display-flex avatar pl-5 pb-0" data-target="slide-out-chat">
+                        <span class="avatar-status avatar-online avatar-50"><img
+                          src="../../../app-assets/images/avatar/avatar-7.png" alt="avatar" />
+                        </span>
+            <div class="user-content speech-bubble">
+              <p class="medium-small">Ohh! Thank you.</p>
+            </div>
+          </li>
+          <li class="collection-item display-flex avatar pl-5 pb-0" data-target="slide-out-chat">
+                        <span class="avatar-status avatar-online avatar-50"><img
+                          src="../../../app-assets/images/avatar/avatar-7.png" alt="avatar" />
+                        </span>
+            <div class="user-content speech-bubble">
+              <p class="medium-small">I will purchase it for sure.</p>
+            </div>
+          </li>
+          <li class="collection-item display-flex avatar justify-content-end pl-5 pb-0"
+              data-target="slide-out-chat">
+            <div class="user-content speech-bubble-right">
+              <p class="medium-small">Great, Feel free to get in touch on</p>
+            </div>
+          </li>
+          <li class="collection-item display-flex avatar justify-content-end pl-5 pb-0"
+              data-target="slide-out-chat">
+            <div class="user-content speech-bubble-right">
+              <p class="medium-small">https://pixinvent.ticksy.com/</p>
+            </div>
+          </li>
+        </ul>
+      </li>
+      <li class="center-align chat-footer">
+        <form class="col s12" onsubmit="slideOutChat()" action="javascript:void(0);">
+          <div class="input-field">
+            <input id="icon_prefix" type="text" class="search" />
+            <label for="icon_prefix">Type here..</label>
+            <a onclick="slideOutChat()"><i class="material-icons prefix">send</i></a>
+          </div>
+        </form>
+      </li>
+    </ul>
+  </aside>
+<% end %>
+
+
+<%= content_for :scripts do %>
+  <!--  <script src="/materialize/vendors/fullcalendar/lib/moment.min.js"></script>-->
+  <!--  <script src="/materialize/vendors/fullcalendar/js/fullcalendar.min.js"></script>-->
+  <!--  <script src="/materialize/vendors/fullcalendar/daygrid/daygrid.min.js"></script>-->
+  <!--  <script src="/materialize/vendors/fullcalendar/timegrid/timegrid.min.js"></script>-->
+  <!--  <script src="/materialize/vendors/fullcalendar/interaction/interaction.min.js"></script>-->
+  <%#= javascript_pack_tag 'estimate/schedule_global', 'data-turbolinks-track': 'true', 'defer': true %>
+
+<% end %>
+<%= javascript_tag do %>
+  var schedules = <%= raw(@worker.schedules.to_json) %>
+<% end %>
+<%= content_for :scripts do %>
+  <%= javascript_pack_tag 'estimate/schedule_global', 'data-turbolinks-track': 'true', 'defer': true %>
+<% end %>

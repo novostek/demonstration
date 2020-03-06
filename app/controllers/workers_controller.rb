@@ -9,6 +9,9 @@ class WorkersController < ApplicationController
 
   # GET /workers/1
   def show
+    if params[:layout].present?
+      render :show_new
+    end
   end
 
   # GET /workers/new
@@ -30,7 +33,7 @@ class WorkersController < ApplicationController
     if note.save
       redirect_to @worker, notice: "#{t 'note_create'}"
     else
-      redirect_to @worker, alert: "error"
+      redirect_to @worker, alert: "#{note.errors.full_messages.to_sentence}"
     end
 
 
@@ -47,7 +50,7 @@ class WorkersController < ApplicationController
     if doc.save
       redirect_to @worker, notice: "#{t 'doc_create'}"
     else
-      redirect_to @worker, alert: "error"
+      redirect_to @worker, alert: "#{doc.errors.full_messages.to_sentence}"
     end
 
   end

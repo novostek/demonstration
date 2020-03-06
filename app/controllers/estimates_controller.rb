@@ -133,6 +133,9 @@ class EstimatesController < ApplicationController
     render :products
   end
 
+  def create_products_estimates
+  end
+
   private
     #Método que carrega os objetos de seleção
     def set_combos

@@ -20,4 +20,14 @@
 #
 class Measurement < ApplicationRecord
   belongs_to :measurement_area, optional: true
+
+  def self.square_meter areas_ids
+    square_meter = 0
+    measurements = self.where(measurement_area_id: areas_ids)
+    measurements.each do |m|
+      square_meter = square_meter + (m.length * m.width)
+    end
+
+    return square_meter.to_f
+  end
 end

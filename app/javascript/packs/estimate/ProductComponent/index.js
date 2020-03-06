@@ -37,6 +37,15 @@ const ProductComponent = () => {
           // {`measurement[${index}].products[${peIndex}].product_id`}
           document.getElementsByName(`measurement[${maProductListIndex.maIndex}].products[${maProductListIndex.productIndex}].product_id`)[0].setAttribute('value', id)
 
+          if (productEstimate[maProductListIndex.maIndex].areas.length > 0)
+            calculateProductLW(productEstimate[maProductListIndex.maIndex].areas, id)
+              .then(result => {
+                // const peCopy = [...prodEst]
+                copy[maProductListIndex.maIndex].products[maProductListIndex.productIndex].qty = result.qty
+                copy[maProductListIndex.maIndex].products[maProductListIndex.productIndex].total = result.total
+                setValue('measurement[maProductListIndex.maIndex].product[maProductListIndex.productIndex]', { qty: result.qty })
+              })
+
           return copy
         })
       }
@@ -46,7 +55,7 @@ const ProductComponent = () => {
     M.Autocomplete.init(elems, options)
   })
 
-  const { register, handleSubmit, errors } = useForm({ mode: "onBlur", reValidateMode: "onSubmit" })
+  const { register, handleSubmit, setValue, errors } = useForm({ mode: "onBlur", reValidateMode: "onSubmit" })
 
   const node = document.getElementById('estimate_data')
   const { estimate } = JSON.parse(node.getAttribute('data'))
@@ -66,6 +75,11 @@ const ProductComponent = () => {
       ]
     }
   ])
+
+  const calculateProductLW = (areas_ids, product_id) => {
+    return fetch(`/calculation_formulas/lxw/${areas_ids}/product/${product_id}`)
+      .then(data => data.json())
+  }
 
   const addArea = () => {
     const area_product = {
@@ -228,7 +242,9 @@ const ProductComponent = () => {
                                     </div>
                                     <div className="col s6 m2 calc-fields">
                                       <span className="left width-100 pt-1">Qty.</span>
-                                      <input type="text" name={`measurement[${index}].products[${peIndex}].qty`} ref={register(schema.requiredDecimal)} className="product-value qty" />
+                                      <input
+                                        type="text"
+                                        name={`measurement[${index}].products[${peIndex}].qty`} ref={register(schema.requiredDecimal)} className="product-value qty" />
                                       {errors.qty && <span>{errors.qty.message}</span>}
                                     </div>
                                     <div className="col s6 m2 calc-fields">

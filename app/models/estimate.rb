@@ -48,7 +48,7 @@ class Estimate < ApplicationRecord
 
   has_many :signatures, -> { where origin: :Estimate }, primary_key: :id, foreign_key: :origin_id
   has_many :measurement_areas, dependent: :destroy
-  # has_one :measurement, through: :measurement_areas
+  # has_many :measurement, through: :measurement_areas
 
   accepts_nested_attributes_for :measurement_areas, reject_if: :reject_measurement_areas, allow_destroy: true
   # accepts_nested_attributes_for :measurement, reject_if: :all_blank, allow_destroy: true
@@ -58,6 +58,14 @@ class Estimate < ApplicationRecord
   def reject_measurement_areas attributes
     attributes['name'].blank? && attributes['description'].blank?
   end
+
+  def as_json(options = {})
+    s = super(options)
+    s[:measurement_areas] = self.measurement_areas
+    # s[:measurement_proposals] = self.measurement_areas.measurement_proposals
+    s
+  end
+
 
   def initialize_code
     last_estimate = Estimate.last

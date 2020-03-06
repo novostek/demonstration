@@ -59,10 +59,12 @@ class DocumentsController < ApplicationController
 
     @template = Liquid::Template.parse(@data)
 
-    begin
-      DocumentMailer.with(pdf: @template.render('estimate' => @estimate.attributes, 'measurements' => JSON.parse(@estimate.measurement_areas.to_json), 'customer' => @estimate.customer.attributes, 'custom' => @params, 'signature' => JSON.parse(@estimate.signatures.last.to_json)   )).send_document.deliver_now
-    rescue
+    if params[:custom_send].present?
+      begin
+        DocumentMailer.with(pdf: @template.render('estimate' => @estimate.attributes, 'measurements' => JSON.parse(@estimate.measurement_areas.to_json), 'customer' => @estimate.customer.attributes, 'custom' => @params, 'signature' => JSON.parse(@estimate.signatures.last.to_json)   )).send_document.deliver_now
+      rescue
 
+      end
     end
 
     respond_to do |format|

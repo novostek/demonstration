@@ -128,6 +128,8 @@ class EstimatesController < ApplicationController
       }
     }
 
+    @products = Product.all.select(:id, :name)
+
     render :products
   end
 

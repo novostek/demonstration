@@ -25,31 +25,31 @@
 
 <%= content_tag :div,
   id: "estimate_data",
-  data: @estimate.to_json do %>
+  data: @estimate.to_json,
+  products: @products.to_json do %>
 <% end %>
 
 <%= javascript_pack_tag 'estimate/ProductComponent/index.js' %>
 
 <%= content_for :scripts do %>
   <script>
-    $(document).ready(function(){
+    // $(document).ready(function(){
       
 
-      function runAutocomplete(){
-        $('input.autocomplete.autocomplete-products').autocomplete({
-          data: {
-            "Product X": null,
-            "Product Y": null,
-            "Product a": null,
-            "Product b": null,
-            "Product c": null,
-            "Product d": null,
-            "Product Z": null
-
-          }
-        });
-      }
-      runAutocomplete();
-    })
+    //   function runAutocomplete(){
+    //     const
+    //     data = {}
+    //     products.map(product => {
+    //       data[product.name] = null
+    //     })
+    //     $('input.autocomplete.autocomplete-products').autocomplete({
+    //       data,
+    //       onAutocomplete: (val) => {
+    //         console.log(this)
+    //       }
+    //     });
+    //   }
+    //   runAutocomplete();
+    // })
   </script>
 <% end %>

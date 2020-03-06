@@ -1,17 +1,52 @@
-import React, { useState, useRef } from 'react'
+import React, { useState, useRef, useEffect } from 'react'
 import ReactDOM from 'react-dom'
 import { useForm } from "react-hook-form";
+import M from 'materialize-css'
 import * as yup from "yup";
 import EstimateDetail from '../EstimateDetail'
 
 const schema = {
-  requiredDecimal: {required:true, pattern: /^\d+(\.\d{1,2})?$/ }
+  requiredDecimal: { required: true, pattern: /^\d+(\.\d{1,2})?$/ }
 }
+
+
 
 const ProductComponent = () => {
   let submitBtnRef = useRef()
 
-  const { register, handleSubmit, errors } = useForm({mode: "onBlur", reValidateMode: "onSubmit"})
+  const [index, setIndex] = useState({
+    maIndex: 0,
+    productIndex: 0
+  })
+
+  useEffect(() => {
+
+    const node = document.getElementById('estimate_data')
+    const products = JSON.parse(node.getAttribute('products'))
+
+    const data = {}
+
+    products.map(product => data[product.name] = null)
+
+    const options = {
+      data,
+      limit: 5,
+      onAutocomplete: (val) => {
+        console.log(index)
+        setProductEstimate(productEstimate => {
+          const copy = [...productEstimate]
+          const id = products.filter(p => p.name === val)[0].id
+          copy[index.maIndex].products[index.productIndex].id = id
+          return copy
+        })
+      }
+    }
+
+    const elems = document.querySelectorAll('input.autocomplete.autocomplete-products')
+    M.Autocomplete.init(elems, options)
+  })
+
+  const { register, handleSubmit, errors } = useForm({ mode: "onBlur", reValidateMode: "onSubmit" })
 
   const node = document.getElementById('estimate_data')
   const { estimate } = JSON.parse(node.getAttribute('data'))
@@ -84,20 +119,20 @@ const ProductComponent = () => {
   }
 
   const selectArea = (maIndex, area_id, insert) => {
-    insert 
-    ?
-    setProductEstimate(productEstimate => {
-      const copy = [...productEstimate]
-      copy[maIndex].areas.push(area_id)
-      return copy
-    })
-    // setProductEstimate(productEstimate => [...productEstimate.slice(0, maIndex), { ...productEstimate[maIndex], areas: [...productEstimate[maIndex].areas, area_id]}])
-    :
-    setProductEstimate(productEstimate => {
-      const copy = [...productEstimate]
-      copy[maIndex].areas = copy[maIndex].areas.filter(area => area !== area_id)
-      return copy
-    })
+    insert
+      ?
+      setProductEstimate(productEstimate => {
+        const copy = [...productEstimate]
+        copy[maIndex].areas.push(area_id)
+        return copy
+      })
+      // setProductEstimate(productEstimate => [...productEstimate.slice(0, maIndex), { ...productEstimate[maIndex], areas: [...productEstimate[maIndex].areas, area_id]}])
+      :
+      setProductEstimate(productEstimate => {
+        const copy = [...productEstimate]
+        copy[maIndex].areas = copy[maIndex].areas.filter(area => area !== area_id)
+        return copy
+      })
     // setProductEstimate(productEstimate => [...productEstimate.slice(0, maIndex), { ...productEstimate[maIndex], areas: [...productEstimate[maIndex].areas.filter(area => area !== area_id)] }])
   }
 
@@ -159,49 +194,55 @@ const ProductComponent = () => {
                       </div>
                       <div className="products-list">
                         <form onSubmit={handleSubmit(onSubmit)}>
-                          <input type="hidden" ref={register} name={`measurement_area[${index}]`} value={index}/>
-                        {
-                          pe.products.map((product, peIndex) => (
-                            <div className="product" key={peIndex}>
-                              <div className="row pl-1 pr-1 products-search">
-                                <div className="row">
-                                  <div className="col s6 m4">
-                                    <span className="left width-100 pt-1">Product</span>
-                                    <div className="input-field mt-0 mb-0 products-search-field-box">
-                                      <a href="#" className="btn-add-product tooltipped" data-tooltip="New product"><i className="material-icons">add</i></a>
-                                      <input name="product_list" ref={register} autoComplete="off" type="text" className="autocomplete autocomplete-products mt-1" />
-                                      <input name={`products[${index}].product_id`} ref={register} autoComplete="off" type="hidden"/>
+                          <input type="hidden" ref={register} name={`measurement_area[${index}]`} value={index} />
+                          {
+                            pe.products.map((product, peIndex) => (
+                              <div className="product" key={peIndex}>
+                                <div className="row pl-1 pr-1 products-search">
+                                  <div className="row">
+                                    <div className="col s6 m4">
+                                      <span className="left width-100 pt-1">Product</span>
+                                      <div className="input-field mt-0 mb-0 products-search-field-box">
+                                        <a href="#" className="btn-add-product tooltipped" data-tooltip="New product"><i className="material-icons">add</i></a>
+                                        <input
+                                          name="product_list"
+                                          ref={register}
+                                          onClick={() => setIndex(prev => {
+                                            return { ...prev, maIndex: index, productIndex: peIndex }
+                                          })}
+                                          autoComplete="off" type="text" className="autocomplete autocomplete-products mt-1" />
+                                        <input name={`products[${index}].product_id`} ref={register} autoComplete="off" type="hidden" />
+                                      </div>
                                     </div>
-                                  </div>
-                                  <div className="col s6 m2 calc-fields">
-                                    <span className="left width-100 pt-1">Qty.</span>
-                                    <input type="text" name={`products[${index}].qty`} ref={register(schema.requiredDecimal)} className="product-value qty" />
-                                    {errors.qty && <span>{errors.qty.message}</span>}
-                                  </div>
-                                  <div className="col s6 m2 calc-fields">
-                                    <span className="left width-100 pt-1">Prince un.</span>
-                                    <input type="text" name={`products[${index}].price`} ref={register(schema.requiredDecimal)} className="product-value price" />
-                                    {errors.price && <span>{errors.price.message}</span>}
-                                  </div>
-                                  <div className="col s6 m2 calc-fields">
-                                    <span className="left width-100 pt-1">Discount</span>
-                                    <input type="text" name={`products[${index}].discount`} ref={register(schema.requiredDecimal)} className="product-value discount" />
-                                    {errors.discount && <span>{errors.discount.message}</span>}
-                                  </div>
-                                  <div className="col s6 m2 calc-fields">
-                                    <span className="left width-100 pt-1">Total</span>
-                                    <input type="text" name={`products[${index}].total`} ref={register(schema.requiredDecimal)} className="product-value total" />
-                                    <a onClick={() => removeProduct(index, product.key)} style={{cursor: 'pointer'}} className="btn-remove-product"><i className="material-icons">delete</i></a>
-                                    {errors.total && <span>{errors.total.message}</span>}
+                                    <div className="col s6 m2 calc-fields">
+                                      <span className="left width-100 pt-1">Qty.</span>
+                                      <input type="text" name={`products[${index}].qty`} ref={register(schema.requiredDecimal)} className="product-value qty" />
+                                      {errors.qty && <span>{errors.qty.message}</span>}
+                                    </div>
+                                    <div className="col s6 m2 calc-fields">
+                                      <span className="left width-100 pt-1">Prince un.</span>
+                                      <input type="text" name={`products[${index}].price`} ref={register(schema.requiredDecimal)} className="product-value price" />
+                                      {errors.price && <span>{errors.price.message}</span>}
+                                    </div>
+                                    <div className="col s6 m2 calc-fields">
+                                      <span className="left width-100 pt-1">Discount</span>
+                                      <input type="text" name={`products[${index}].discount`} ref={register(schema.requiredDecimal)} className="product-value discount" />
+                                      {errors.discount && <span>{errors.discount.message}</span>}
+                                    </div>
+                                    <div className="col s6 m2 calc-fields">
+                                      <span className="left width-100 pt-1">Total</span>
+                                      <input type="text" name={`products[${index}].total`} ref={register(schema.requiredDecimal)} className="product-value total" />
+                                      <a onClick={() => removeProduct(index, product.key)} style={{ cursor: 'pointer' }} className="btn-remove-product"><i className="material-icons">delete</i></a>
+                                      {errors.total && <span>{errors.total.message}</span>}
+                                    </div>
                                   </div>
                                 </div>
                               </div>
-                            </div>
-                          ))
-                        }
-                        <a onClick={() => addProduct(index)} style={{height: '30px'}} className="product new-product">
-                        </a>
-                        <button type="submit" style={{display: 'none'}} ref={submitBtnRef}></button>
+                            ))
+                          }
+                          <a onClick={() => addProduct(index)} style={{ height: '30px' }} className="product new-product">
+                          </a>
+                          <button type="submit" style={{ display: 'none' }} ref={submitBtnRef}></button>
                         </form>
                       </div>
                     </div>

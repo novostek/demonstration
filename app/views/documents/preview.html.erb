@@ -1,4 +1,4 @@
 <div class="card-panel">
 
-<%== @template.render('estimate' => @estimate.attributes) %>
+<%== @template.render('estimate' => @estimate.attributes, 'measurements' => JSON.parse(@estimate.measurement_areas.to_json), 'customer' => @estimate.customer.attributes, 'custom' => @params   ) %>
 </div>

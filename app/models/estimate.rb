@@ -44,6 +44,7 @@ class Estimate < ApplicationRecord
   belongs_to :worker, optional: true
   belongs_to :order, optional: true
   belongs_to :lead, optional: true
+  has_one :customer, through: :lead
 
   has_many :measurement_areas, dependent: :destroy
   # has_one :measurement, through: :measurement_areas

@@ -38,28 +38,38 @@
       <li>
         <div class="collapsible-header" tabindex="0"><i class="material-icons">mic_none</i> Customer</div>
         <div class="collapsible-body white">
-          <div class="chip drag-text"  draggable="true" data-value="w%{estimate.number}" >
+          <div class="chip drag-text"  draggable="true" data-value="{{customer.name}}" >
             <i class="material-icons chip-icon">open_with</i>
             Name
           </div>
-          <div class="chip drag-text" draggable="true" data-value="w%{estimate.value_with_tax}">
+          <div class="chip drag-text" draggable="true" data-value="{{customer.name | split: ' ' | first }}">
             <i class="material-icons chip-icon">open_with</i>
             First Name
           </div>
-          <div class="chip drag-text" draggable="true" data-value="w%{estimate.value_with_tax}">
+          <div class="chip drag-text" draggable="true" data-value="{{customer.name | split: ' ' | last }}">
             <i class="material-icons chip-icon">open_with</i>
             Last Name
+          </div>
+          <div class="chip drag-text" draggable="true" data-value="{{customer.since }}">
+            <i class="material-icons chip-icon">open_with</i>
+            Since
+          </div>
+          <div class="chip drag-text" draggable="true" data-value="{{customer.code }}">
+            <i class="material-icons chip-icon">open_with</i>
+            Code
           </div>
         </div>
       </li>
       <li>
         <div class="collapsible-header" tabindex="0"><i class="material-icons">mic_none</i> Partials</div>
         <div class="collapsible-body white">
-          <div class="chip drag-text"  draggable="true" data-value="p%{measurements}" >
+          <div class="chip drag-text"  draggable="true" data-value="{% for measurement in measurements %} {{measurement.name}} {{measurement.description}} {{measurement.height}} {{measurement.length}}
+{{measurement.width}} {% endfor %}" >
             <i class="material-icons chip-icon">open_with</i>
             Measurements
           </div>
-          <div class="chip drag-text" draggable="true" data-value="p%{products}">
+          <div class="chip drag-text" draggable="true" data-value="{% for product in products %} {{product.name}} {{product.discount}} {{product.quantity}} {{product.tax}}
+{{product.unitary_value}} {{product.value}} {% endfor %}">
             <i class="material-icons chip-icon">open_with</i>
             Products
           </div>
@@ -69,6 +79,12 @@
       <li>
         <div class="collapsible-header" tabindex="0"><i class="material-icons">mic_none</i> Customized Fields</div>
         <div class="collapsible-body white">
+            <% @document.document_custom_fields.each do |d| %>
+            <div class="chip drag-text"  draggable="true" data-value="{{custom.<%= d.name %>}}" >
+              <i class="material-icons chip-icon">open_with</i>
+              <%= d.name %>
+            </div>
+            <% end  %>
         </div>
       </li>
     </ul>
@@ -118,7 +134,7 @@
               initialized: function () {
                   var editor = this;
 
-                  //editor.html.set("<%= document.data %>");
+
 
                   editor.events.on('drop', function (dropEvent) {
                       // Focus at the current posisiton.

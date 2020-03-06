@@ -4,6 +4,7 @@ Rails.application.routes.draw do
     collection do
       post "save_data"
       get "preview"
+      get "send_customs"
     end
   end
   resources :transactions

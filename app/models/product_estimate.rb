@@ -28,4 +28,11 @@
 class ProductEstimate < ApplicationRecord
   belongs_to :product
   belongs_to :measurement_proposal
+
+
+  def as_json(options = {})
+    s = super(options)
+    s[:name] = self.product.name
+    s
+  end
 end

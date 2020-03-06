@@ -11,24 +11,46 @@ class DocumentsController < ApplicationController
   def show
   end
 
+  def send_customs
+    @estimate = params[:estimate]
+    @document = params[:document]
+    @customs = params[:customs]
+
+  end
+
   def preview
+
+    has_custom_field = false
+    @customs = []
+    @params = {}
+
     @estimate = Estimate.find(params[:estimate])
     @document = Document.find(params[:document])
 
-    assign = "{% assign estimate = #{@estimate}  %}"
-
     @data = @document.data
 
-    #assign << @data
+    #faz a verificação dos customs caso não estejam preenchidos
+    if !params[:custom_send].present?
+      @document.document_custom_fields.each do |d|
+        if @data.scan(/(?=#{"{{custom.#{d.name}}"})/).count > 0
+          has_custom_field = true
+          @customs << "#{d.name}"
+        end
+      end
+    else
+     params[:customs].each do |p|
+       @params["#{p[0]}"] = "#{p[1]}"
+     end
+     
+    end
+
+
+    if has_custom_field
+      redirect_to send_customs_documents_path(estimate: params[:estimate], document: params[:document], customs: @customs)
+    end
 
     @template = Liquid::Template.parse(@data)
 
-    # @data.gsub! "w%{", "<%= @"
-    # @data.gsub! "}%w", "%>"
-    #binding.pry
-    # @estimate.attributes.each do |a|
-    #   @data.gsub! "w%{estimate.#{a[0]}}%w", a[1].to_s
-    # end
   end
 
   #Método que salva os dados do froala
@@ -83,6 +105,6 @@ class DocumentsController < ApplicationController
 
     # Only allow a trusted parameter "white list" through.
     def document_params
-      params.require(:document).permit(:name, :description, :data, :doc_type, :sub_type)
+      params.require(:document).permit(:name, :description, :data, :doc_type, :sub_type,document_custom_fields_attributes:[:id, :document_id,:name,:_destroy])
     end
 end

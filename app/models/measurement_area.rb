@@ -29,4 +29,12 @@ class MeasurementArea < ApplicationRecord
   def reject_measurements attributes
     attributes['length'].blank? && attributes['width'].blank? && attributes['height'].blank?
   end
+
+  def as_json(options = {})
+    s = super(options)
+    s[:height] = self.measurements.last.height
+    s[:length] = self.measurements.last.length
+    s[:width] = self.measurements.last.width
+    s
+  end
 end

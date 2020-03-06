@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_03_04_235429) do
+ActiveRecord::Schema.define(version: 2020_03_06_135831) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -57,6 +57,14 @@ ActiveRecord::Schema.define(version: 2020_03_04_235429) do
     t.string "bpm_instance"
   end
 
+  create_table "document_custom_fields", force: :cascade do |t|
+    t.string "name"
+    t.bigint "document_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["document_id"], name: "index_document_custom_fields_on_document_id"
+  end
+
   create_table "document_files", force: :cascade do |t|
     t.string "title"
     t.text "file"
@@ -77,6 +85,7 @@ ActiveRecord::Schema.define(version: 2020_03_04_235429) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.string "doc_type"
+    t.json "custom_fields"
   end
 
   create_table "estimates", force: :cascade do |t|
@@ -377,6 +386,7 @@ ActiveRecord::Schema.define(version: 2020_03_04_235429) do
 
   add_foreign_key "area_proposals", "measurement_areas"
   add_foreign_key "area_proposals", "measurement_proposals"
+  add_foreign_key "document_custom_fields", "documents"
   add_foreign_key "estimates", "calculation_formulas", column: "tax_calculation_id"
   add_foreign_key "estimates", "leads"
   add_foreign_key "estimates", "orders"

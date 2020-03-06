@@ -44,9 +44,9 @@ const ProductComponent = () => {
 
     const autoCompleteProductData = {}
 
-    setProductEstimate(productEstimate => {
+    // setProductEstimate(productEstimate => {
       
-    })
+    // })
 
     estimate.measurement_proposals.map((mp, mpIndex) => {
       

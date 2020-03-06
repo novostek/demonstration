@@ -16,18 +16,44 @@ const ProductComponent = () => {
     maIndex: 0,
     productIndex: 0
   })
+  const { register, handleSubmit, setValue, errors } = useForm({ mode: "onBlur", reValidateMode: "onSubmit" })
+
+  const node = document.getElementById('estimate_data')
+  const estimate = JSON.parse(node.getAttribute('data'))
+
+  const [productEstimate, setProductEstimate] = useState([
+    {
+      areas: [],
+      products: [
+        {
+          key: new Date().getTime(),
+          product_id: 0,
+          qty: 0,
+          price: 0.0,
+          discount: 0.0,
+          total: 0.0
+        }
+      ]
+    }
+  ])
 
   useEffect(() => {
 
     const node = document.getElementById('estimate_data')
     const products = JSON.parse(node.getAttribute('products'))
 
-    const data = {}
+    const autoCompleteProductData = {}
 
-    products.map(product => data[product.name] = null)
+    // estimate.measurement_areas.map(ma => {
+    //   if(ma.measurement_proposals.length > 0){
+
+    //   }
+    // })
+    console.log("ESTIMATE", estimate)
+    products.map(product => autoCompleteProductData[product.name] = null)
 
     const options = {
-      data,
+      data: autoCompleteProductData,
       limit: 5,
       onAutocomplete: (val) => {
         setProductEstimate(productEstimate => {
@@ -58,29 +84,6 @@ const ProductComponent = () => {
     const elems = document.querySelectorAll('input.autocomplete.autocomplete-products')
     M.Autocomplete.init(elems, options)
   })
-
-  const { register, handleSubmit, setValue, errors } = useForm({ mode: "onBlur", reValidateMode: "onSubmit" })
-
-  const node = document.getElementById('estimate_data')
-  const { estimate } = JSON.parse(node.getAttribute('data'))
-
-  console.log(estimate)
-
-  const [productEstimate, setProductEstimate] = useState([
-    {
-      areas: [],
-      products: [
-        {
-          key: new Date().getTime(),
-          product_id: 0,
-          qty: 0,
-          price: 0.0,
-          discount: 0.0,
-          total: 0.0
-        }
-      ]
-    }
-  ])
 
   const calculateProductLW = (areas_ids, product_id) => {
     return fetch(`/calculation_formulas/lxw/product/${product_id}?areas_ids=[${areas_ids}]`)
@@ -219,7 +222,7 @@ const ProductComponent = () => {
                       <div className="areas-available col s12">
                         <span>Areas:</span>
                         {
-                          estimate.measurement_areas.data.map((ma, maIndex) => (
+                          estimate.measurement_areas.map((ma, maIndex) => (
                             <div className={`chip ${productEstimate[index].areas.includes(ma.id) ? 'selected' : ''}`} key={Math.random()} onClick={() => !productEstimate[index].areas.includes(ma.id) ? selectArea(index, ma.id, true) : selectArea(index, ma.id, false)}>
                               {ma.name}
                             </div>

@@ -110,43 +110,45 @@ class EstimatesController < ApplicationController
   def products
     estimate = Estimate.includes(:lead).find(params[:id])
 
-    measurement_areas = estimate.measurement_areas
+    # measurement_areas = estimate.measurement_areas
     
-    measurement_proposals = []
+    # measurement_proposals = []
 
-    measurement_areas.each do |ma|
-      measurement_proposals.push(ma.measurement_proposals) if ma.measurement_proposals.length > 0
-    end
+    # measurement_areas.each do |ma|
+    #   measurement_proposals.push(ma.measurement_proposals) if ma.measurement_proposals.length > 0
+    # end
 
-    product_estimates = []
+    # product_estimates = []
 
-    measurement_proposals.each do |proposal|
-      proposal.each do |mp|
-        product_estimates.push(mp.product_estimates)
-      end
-    end
+    # measurement_proposals.each do |proposal|
+    #   proposal.each do |mp|
+    #     product_estimates.push(mp.product_estimates)
+    #   end
+    # end
 
-    @estimate = {
-      :estimate => {
-        :data => estimate,
-        :lead => {
-          :data => estimate.lead,
-          :customer => {
-            :data => estimate.lead.customer
-          }
-        },
-        :measurement_areas => {
-          :data => estimate.measurement_areas,
-          :measurement_proposal => {
-            :data => measurement_proposals,
-            :product_estimates => {
-              :data => product_estimates
-            }
-          }
-        }
-      }
-    }
+    # @estimate = {
+    #   :estimate => {
+    #     :data => estimate,
+    #     :lead => {
+    #       :data => estimate.lead,
+    #       :customer => {
+    #         :data => estimate.lead.customer
+    #       }
+    #     },
+    #     :measurement_areas => {
+    #       :data => estimate.measurement_areas,
+    #       :measurement_proposal => {
+    #         :data => measurement_proposals,
+    #         :product_estimates => {
+    #           :data => product_estimates
+    #         }
+    #       }
+    #     }
+    #   }
+    # }
 
+
+    @estimate = estimate
     @products = Product.all
 
     render :products

@@ -120,6 +120,7 @@
       fetch(`/customers/search_by_phone/${value}`, fetchConfig)
       .then((res) => res.json())
       .then((result) => {
+        
         if(completed){
           $("#lead_customer_id").val(result[0].id)
           insert_value_to_field('lead_customer', result[0].name)
@@ -127,6 +128,8 @@
         if(Array.isArray(result) && result.length > 0){
           let phoneList = {}
           result.map((element, index) => {
+            console.log("CONTACT", element.contacts)
+            // phoneList[element.contacts.data.phone] = null
             element.contacts.map((contact) => phoneList[contact.data.phone] = null)
           })
           var phone_autocomplete = document.getElementById("lead_phone");

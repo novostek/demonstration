@@ -44,11 +44,13 @@ const ProductComponent = () => {
 
     const autoCompleteProductData = {}
 
-    // estimate.measurement_areas.map(ma => {
-    //   if(ma.measurement_proposals.length > 0){
+    setProductEstimate(productEstimate => {
+      
+    })
 
-    //   }
-    // })
+    estimate.measurement_proposals.map((mp, mpIndex) => {
+      
+    })
     console.log("ESTIMATE", estimate)
     products.map(product => autoCompleteProductData[product.name] = null)
 

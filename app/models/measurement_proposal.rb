@@ -17,6 +17,7 @@ class MeasurementProposal < ApplicationRecord
   def as_json(options = {})
     s = super(options)
     s[:product_estimates] = self.product_estimates
+    s[:measurement_area] = self.measurement_area
     s
   end
 end

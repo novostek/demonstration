@@ -57,6 +57,14 @@ class Estimate < ApplicationRecord
     attributes['name'].blank? && attributes['description'].blank?
   end
 
+  def as_json(options = {})
+    s = super(options)
+    s[:measurement_areas] = self.measurement_areas
+    # s[:measurement_proposals] = self.measurement_areas.measurement_proposals
+    s
+  end
+
+
   def initialize_code
     last_estimate = Estimate.last
     if last_estimate.present?

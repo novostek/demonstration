@@ -48,13 +48,14 @@ class CalculationFormulasController < ApplicationController
 
   def calculate_product_qty_lw
     calculator = Dentaku::Calculator.new
-    area = Measurement.square_meter(params[:areas_ids])
+    area = Measurement.square_meter(JSON.parse params[:areas_ids])
     product = Product.find(params[:product_id])
     formula = product.calculation_formula
     qty = calculator.evaluate(formula.formula, area: area, area_covered: product.area_covered).to_f
     render json: {
       qty: qty,
-      total: product.customer_price * qty
+      total: product.customer_price * qty,
+      price: product.customer_price
     }
   end
 

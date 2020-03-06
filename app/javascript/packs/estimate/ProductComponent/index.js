@@ -36,14 +36,18 @@ const ProductComponent = () => {
           copy[maProductListIndex.maIndex].products[maProductListIndex.productIndex].product_id = id
           // {`measurement[${index}].products[${peIndex}].product_id`}
           document.getElementsByName(`measurement[${maProductListIndex.maIndex}].products[${maProductListIndex.productIndex}].product_id`)[0].setAttribute('value', id)
-
+          console.log(productEstimate[maProductListIndex.maIndex].areas)
           if (productEstimate[maProductListIndex.maIndex].areas.length > 0)
             calculateProductLW(productEstimate[maProductListIndex.maIndex].areas, id)
               .then(result => {
                 // const peCopy = [...prodEst]
+                console.log(result)
                 copy[maProductListIndex.maIndex].products[maProductListIndex.productIndex].qty = result.qty
                 copy[maProductListIndex.maIndex].products[maProductListIndex.productIndex].total = result.total
-                setValue('measurement[maProductListIndex.maIndex].product[maProductListIndex.productIndex]', { qty: result.qty })
+                copy[maProductListIndex.maIndex].products[maProductListIndex.productIndex].price = result.customer_price
+                setValue(`measurement[${maProductListIndex.maIndex}].products[${maProductListIndex.productIndex}]`, { qty: result.qty })
+                setValue(`measurement[${maProductListIndex.maIndex}].products[${maProductListIndex.productIndex}]`, { price: result.price })
+                setValue(`measurement[${maProductListIndex.maIndex}].products[${maProductListIndex.productIndex}]`, { total: result.total })
               })
 
           return copy
@@ -59,6 +63,8 @@ const ProductComponent = () => {
 
   const node = document.getElementById('estimate_data')
   const { estimate } = JSON.parse(node.getAttribute('data'))
+
+  console.log(estimate)
 
   const [productEstimate, setProductEstimate] = useState([
     {
@@ -77,7 +83,7 @@ const ProductComponent = () => {
   ])
 
   const calculateProductLW = (areas_ids, product_id) => {
-    return fetch(`/calculation_formulas/lxw/${areas_ids}/product/${product_id}`)
+    return fetch(`/calculation_formulas/lxw/product/${product_id}?areas_ids=[${areas_ids}]`)
       .then(data => data.json())
   }
 
@@ -152,31 +158,34 @@ const ProductComponent = () => {
     submitBtnRef.current.click()
   }
 
+  const create_product_estimate = () => {
+    const headers = new Headers()
+    headers.append("Content-Type", "application/json")
+    console.log('create')
+    const data = {productEstimate}
+    const init = {
+      method: 'POST',
+      headers,
+      body: JSON.stringify(data)
+    }
+    return fetch('/estimates/product_estimate', init)
+      .then(data => data.json())
+  }
+
   const onSubmit = data => {
-    console.log(data)
     setProductEstimate(productEstimate => {
       const copy = [...productEstimate]
       return copy.map((ma, index) => {
         const maCopy = { ...ma }
         maCopy.products = ma.products.map((pe, peIndex) => {
-          // const productCopy = { ...pe }
-          // const { product_id, qty, price, discount, total } = data.measurement[index].products[peIndex]
-          // productCopy.product_id = product_id
-          // productCopy.qty = qty
-          // productCopy.price = price
-          // productCopy.discount = discount
-          // productCopy.total = total
-          // console.log("PRODUCT COPY", productCopy)
-
-          // return productCopy
           return { ...pe, ...data.measurement[index].products[peIndex] }
         })
-        console.log("MA COPY", maCopy)
         return maCopy
-        // copy[index].products[index] = data.products[index]
       })
-      console.log("COPY", copy)
     })
+
+    create_product_estimate()
+      .then(() => window.location = `${estimate.id}/view`)
   }
 
   console.log(productEstimate)
@@ -229,7 +238,7 @@ const ProductComponent = () => {
                                     <div className="col s6 m4">
                                       <span className="left width-100 pt-1">Product</span>
                                       <div className="input-field mt-0 mb-0 products-search-field-box">
-                                        <a href="#" className="btn-add-product tooltipped" data-tooltip="New product"><i className="material-icons">add</i></a>
+                                        {/* <a href="#" className="btn-add-product tooltipped" data-tooltip="New product"><i className="material-icons">add</i></a> */}
                                         <input
                                           name="product_list"
                                           ref={register}
@@ -244,12 +253,17 @@ const ProductComponent = () => {
                                       <span className="left width-100 pt-1">Qty.</span>
                                       <input
                                         type="text"
-                                        name={`measurement[${index}].products[${peIndex}].qty`} ref={register(schema.requiredDecimal)} className="product-value qty" />
+                                        name={`measurement[${index}].products[${peIndex}].qty`} 
+                                        ref={register(schema.requiredDecimal)} className="product-value qty" />
                                       {errors.qty && <span>{errors.qty.message}</span>}
                                     </div>
                                     <div className="col s6 m2 calc-fields">
                                       <span className="left width-100 pt-1">Prince un.</span>
-                                      <input type="text" name={`measurement[${index}].products[${peIndex}].price`} ref={register(schema.requiredDecimal)} className="product-value price" />
+                                      <input 
+                                        type="text"
+                                        name={`measurement[${index}].products[${peIndex}].price`} 
+                                        ref={register(schema.requiredDecimal)} 
+                                        className="product-value price" />
                                       {errors.price && <span>{errors.price.message}</span>}
                                     </div>
                                     <div className="col s6 m2 calc-fields">

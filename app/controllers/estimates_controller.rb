@@ -109,9 +109,22 @@ class EstimatesController < ApplicationController
   
   def products
     estimate = Estimate.includes(:lead).find(params[:id])
-    # @measurement_areas = @estimate.measurement_areas.build
-    # @measurement_areas.measurement_proposals.build
-    # @estimate = @estimate.in
+
+    measurement_areas = estimate.measurement_areas
+    
+    measurement_proposals = []
+
+    measurement_areas.each do |ma|
+      measurement_proposals.push(ma.measurement_proposals) if ma.measurement_proposals.length > 0
+    end
+
+    product_estimates = []
+
+    measurement_proposals.each do |proposal|
+      proposal.each do |mp|
+        product_estimates.push(mp.product_estimates)
+      end
+    end
 
     @estimate = {
       :estimate => {
@@ -123,17 +136,54 @@ class EstimatesController < ApplicationController
           }
         },
         :measurement_areas => {
-          :data => estimate.measurement_areas
+          :data => estimate.measurement_areas,
+          :measurement_proposal => {
+            :data => measurement_proposals,
+            :product_estimates => {
+              :data => product_estimates
+            }
+          }
         }
       }
     }
 
-    @products = Product.all.select(:id, :name)
+    @products = Product.all
 
     render :products
   end
 
   def create_products_estimates
+    #tem areas e produtos
+    product_estimate = params[:productEstimate]
+    begin
+      product_estimate.each do |pe|
+        mp = MeasurementProposal.create()
+        pe["areas"].each do |area|
+          AreaProposal.create_or_find_by(measurement_area_id: area, measurement_proposal_id: mp.id)
+        end
+        pe["products"].each do |product|
+          ProductEstimate.create_or_find_by(
+            product_id: product["product_id"],
+            quantity: product["qty"],
+            unitary_value: product["price"],
+            discount: product["discount"],
+            tax: 0,
+            value: product["total"],
+            measurement_proposal_id: mp.id
+          )
+        end
+      end
+    rescue
+      render json: {status: :internal_server_error}
+    else
+      render json: {status: :ok}
+    end
+  end
+
+  def view_estimate
+    @estimate = Estimate.find(params[:estimate_id])
+
+    render :estimate_view
   end
 
   private

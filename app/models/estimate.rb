@@ -75,6 +75,9 @@ class Estimate < ApplicationRecord
     s
   end
 
+  def sales_person
+    Worker.find(self.sales_person_id)
+  end
 
   def initialize_code
     last_estimate = Estimate.last

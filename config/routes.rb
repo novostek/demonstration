@@ -90,7 +90,7 @@ Rails.application.routes.draw do
       get "new_contact"
     end
     collection do
-
+      get "search_customers"
       get "search_by_phone/:phone", to: "customers#search_by_phone"
     end
 
@@ -134,5 +134,5 @@ Rails.application.routes.draw do
   get 'document_prototype/deliver'
   get 'document_prototype/sign'
 
-  root "customers#index"
+  root "customers#home"
 end

@@ -25,7 +25,7 @@ class SignaturesController < ApplicationController
 
     @signature = Signature.new(signature_params)
     @signature.file = params[:signature][:file]
-    @signature.file.recreate_versions!
+    #@signature.file.recreate_versions!
 
     if @signature.save
       redirect_to @signature, notice: 'Signature foi criado com sucesso'

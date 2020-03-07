@@ -43,7 +43,7 @@ class NotesController < ApplicationController
   # DELETE /notes/1
   def destroy
     @note.destroy
-    redirect_to notes_url, notice: 'Note foi apagado com sucesso.'
+    redirect_to "/#{@note.origin.pluralize.downcase}/#{@note.origin_id}", notice: 'Note was successful destroyed.'
   end
 
   private

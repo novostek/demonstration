@@ -3,7 +3,12 @@
     <nav class="navbar-main navbar-color nav-collapsible sideNav-lock navbar-dark gradient-45deg-indigo-purple no-shadow">
       <div class="nav-wrapper">
         <div class="header-search-wrapper hide-on-med-and-down"><i class="material-icons">search</i>
-          <input class="header-search-input z-depth-2" type="text" name="Search" placeholder="Find a Customer" data-search="template-list">
+          <%= form_with url: customers_path, method: :get,local: true do |f|  %>
+            <%= f.fields_for :q do |ff| %>
+              <%= ff.text_field :name_or_document_id_or_code_cont, placeholder: t('find_customer'), class: "header-search-input z-depth-2"  %>
+            <% end %>
+          <% end %>
+<!--          <input class="header-search-input z-depth-2" type="text" name="Search" placeholder="Find a Customer" data-search="template-list">-->
           <ul class="search-list collection display-none"></ul>
         </div>
         <ul class="navbar-list right">

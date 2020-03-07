@@ -27,185 +27,122 @@
 
 <!--<div class="col s12">-->
 <!--  <div class="container">-->
-    <div class="row">
-      <div class="col s12 l9 pl-0 pr-0">
+<div class="row">
+  <div class="col s12 l9 pl-0 pr-0">
 
-        <div class="col s12 pl-1">
-          <div class="card-panel pb-0">
-            <div class="row">
-              <div class="col s12 m2 pr-0"><span class="avatar-status avatar-online avatar-md width-70"><img src="<%= @worker.photo.present? ? @worker.photo.url : '/materialize/images/avatar/avatar-1.png' %>" alt="avatar" /></span>
-              </div>
-              <div class="col s12 m6 pl-0"><span class="left width-100"><span class="font-weight-600 black-text"><%= t("activerecord.attributes.worker.document_id") %>:</span><%= @worker.document_id %></span>
-                <span class="left width-100"><span class="font-weight-600 black-text"><%= t("activerecord.attributes.worker.categories") %>:</span><%= @worker.categories %></span>
-                <span class="left width-100"><span class="font-weight-600 black-text"><%= t("activerecord.attributes.worker.time_value") %>:</span> <%= @worker.time_value %></span>
-              </div>
-
-            </div>
+    <div class="col s12 pl-1">
+      <div class="card-panel pb-0">
+        <div class="row">
+          <div class="col s12 m2 pr-0"><span class="avatar-status avatar-online avatar-md width-70"><img src="<%= @worker.photo.present? ? @worker.photo.url : '/materialize/images/avatar/avatar-1.png' %>" alt="avatar" /></span>
           </div>
-          <!-- Contacts -->
-
-          <div class="row contacts-row">
-            <div class="contacts-wrapper">
-              <div class="contacts-type-box">
-                <div class="contact-type--info">
-                  <div class="contact-icon">
-                    <i class="material-icons green-text">phone</i>
-                  </div>
-                  <h6>Phone</h6>
-                </div>
-                <div class="contacts-list">
-                  <div class="contact">
-                    <div class="contact-info">
-                      <span class="contact-title">Title Phone</span>
-                      <span class="contact-description">6457-8237</span>
-                    </div>
-                  </div>
-                  <div class="contact">
-                    <div class="contact-info">
-                      <span class="contact-title">Title Phone</span>
-                      <span class="contact-description">6457-8237</span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div class="contacts-type-box">
-                <div class="contact-type--info">
-                  <div class="contact-icon">
-                    <i class="material-icons orange-text">place</i>
-                  </div>
-                  <h6>Address</h6>
-                </div>
-                <div class="contacts-list">
-                  <div class="contact">
-                    <div class="contact-info">
-                      <span class="contact-title"><a href="#maps">Title</a></span>
-                      <span class="contact-description">Manhattan, New York, NY,
-                                                            USA</span>
-                    </div>
-                    <a href="#" class="btn-more-info tooltipped"
-                       data-tooltip="More info"><i class="material-icons">place</i></a>
-
-                    <div class="more-info">
-                      <a href="#" class="btn-less-info"><i
-                        class="material-icons">close</i></a>
-                      <div class="map">
-                        <img src="http://maps.google.com/maps/api/staticmap?center=40.7830603,-73.9712488&zoom=10&size=300x80&scale=2&maptype=road&key=AIzaSyBUW7c4JukYkKfxTr_bxMN3vn2FvtXAaBQ"
-                             alt="">
-                      </div>
-                      <span><strong class="font-weight-600">City:</strong> New
-                                                            York</span><br>
-                      <span><strong class="font-weight-600">State:</strong>
-                                                            NY</span><br>
-                      <span><strong class="font-weight-600">State:</strong> NY</span>
-                      <a href="#"
-                         class="btn-navigate btn btn-flat btn-small btn-width blue white-text"><i
-                        class="material-icons">navigation</i></a>
-                    </div>
-                  </div>
-
-                  <div class="contact">
-                    <div class="contact-info">
-                      <span class="contact-title"><a href="#maps">Title</a></span>
-                      <span class="contact-description">oter city</span>
-                    </div>
-                    <a href="#" class="btn-more-info tooltipped"
-                       data-tooltip="More info"><i class="material-icons">place</i></a>
-
-                    <div class="more-info">
-                      <a href="#" class="btn-less-info"><i
-                        class="material-icons">close</i></a>
-                      <div class="map">
-                        <img src="http://maps.google.com/maps/api/staticmap?center=39.7830603,-71.9712488&zoom=10&size=300x80&scale=2&maptype=road&key=AIzaSyBUW7c4JukYkKfxTr_bxMN3vn2FvtXAaBQ"
-                             alt="">
-                      </div>
-                      <span><strong class="font-weight-600">City:</strong> New
-                                                            York</span><br>
-                      <span><strong class="font-weight-600">State:</strong>
-                                                            NY</span><br>
-                      <span><strong class="font-weight-600">State:</strong> NY</span>
-                      <a href="#"
-                         class="btn-navigate btn btn-flat btn-small btn-width blue white-text"><i
-                        class="material-icons">navigation</i></a>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div class="contacts-type-box">
-                <div class="contact-type--info">
-                  <div class="contact-icon">
-                    <i class="material-icons red-text">mail</i>
-                  </div>
-                  <h6>Mail</h6>
-                </div>
-                <div class="contacts-list">
-                  <div class="contact">
-                    <div class="contact-info">
-                      <span class="contact-title">Title email</span>
-                      <span class="contact-description"><a
-                        href="mailto:test@test.com">test@test.com</a></span>
-                    </div>
-                  </div>
-                  <div class="contact">
-                    <div class="contact-info">
-                      <span class="contact-title">Title email</span>
-                      <span class="contact-description"><a
-                        href="mailto:test@test.com">test@test.com</a></span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
+          <div class="col s12 m6 pl-0"><span class="left width-100"><span class="font-weight-600 black-text"><%= t("activerecord.attributes.worker.document_id") %>:</span><%= @worker.document_id %></span>
+            <span class="left width-100"><span class="font-weight-600 black-text"><%= t("activerecord.attributes.worker.categories") %>:</span><%= @worker.categories %></span>
+            <span class="left width-100"><span class="font-weight-600 black-text"><%= t("activerecord.attributes.worker.time_value") %>:</span> <%= @worker.time_value %></span>
           </div>
-          <!-- End Contacts -->
 
-          <div class="card-panel customer-estimates">
-            <!-- Estimate list -->
-            <div class="row">
-              <div class="col s12 pt-0 pb-0 pl-0 pr-0">
-                <div class="col s12">
-                  <div id='fc-external-drag'></div>
-                </div>
-              </div>
-            </div>
-
-            <!--  End products area -->
-          </div>
         </div>
       </div>
-      <div class="col s12 l3 pl-0 pr-0">
-        <div class="col s12 card-width">
-          <div class="card row black-text padding-4 mt-3">
-            <a class="sidenav-trigger" href="#" data-target="slide-out-right">
-              <div class="col s5 m5">
-                <i
-                  class="material-icons background-round grey lighten-4 mt-5 mb-5 green-text">description</i>
-                <!-- <p>Orders</p> -->
-              </div>
-              <div class="col s7 m7 right-align">
-                <h5 class="mb-0 black-text">6</h5>
-                <p class="no-margin black-text">Documents</p>
-                <!-- <p>6,00,00</p> -->
-              </div>
-            </a>
-          </div>
+      <!-- Contacts -->
 
-          <div class="card row black-text padding-4 mt-3">
-            <a class="sidenav-trigger" href="#" data-target="slide-out-right">
-              <div class="col s5 m5">
-                <i
-                  class="material-icons background-round grey lighten-4 mt-5 mb-5 amber-text">note</i>
-                <!-- <p>Orders</p> -->
+      <div class="row contacts-row">
+        <div class="contacts-wrapper">
+          <% @worker.contacts.group_by(&:category).map do |category, contatos| %>
+            <div class="contacts-type-box">
+              <div class="contact-type--info">
+                <div class="contact-icon">
+                  <% if category == :phone %>
+                    <i class="material-icons green-text">phone</i>
+                  <% elsif category == :address %>
+                    <i class="material-icons orange-text">place</i>
+                  <% else %>
+                    <i class="material-icons red-text">mail</i>
+                  <% end %>
+                </div>
+                <h6><%= category %></h6>
               </div>
-              <div class="col s7 m7 right-align">
-                <h5 class="mb-0 black-text">6</h5>
-                <p class="no-margin black-text">Notes</p>
-                <!-- <p>6,00,00</p> -->
+              <div class="contacts-list">
+                <% contatos.each do |doc| %>
+                  <div class="contact">
+                    <div class="contact-info">
+                      <span class="contact-title"><%= doc.title %></span>
+                      <% if category == :phone %>
+                        <span class="contact-description"><%= doc.data["phone"] %></span>
+                      <% elsif category == :address %>
+                        <span class="contact-description"><%= doc.data["address"] %></span>
+                      <% else %>
+                         <span class="contact-description"><a href="mailto:<%= doc.data["email"] %>"><%= doc.data["email"] %></a></span>
+                      <% end %>
+                    </div>
+                    <% if category == :address %>
+                      <a href="#" class="btn-more-info tooltipped" data-tooltip="More info"><i class="material-icons">place</i></a>
+                      <div class="more-info">
+                        <a href="#" class="btn-less-info"><i
+                          class="material-icons">close</i></a>
+                        <div class="map">
+                          <img src="http://maps.google.com/maps/api/staticmap?center=<%= doc.data['lat'] %>,<%= doc.data['lng'] %>&zoom=10&size=800x400&scale=2&maptype=road&markers=color:blue%7Clabel:S%7C<%= doc.data['lat'] %>,<%= doc.data['lng'] %>&key=AIzaSyBUW7c4JukYkKfxTr_bxMN3vn2FvtXAaBQ" alt="">
+                        </div>
+                        <span><strong class="font-weight-600">City:</strong> <%= doc.data["city"] %></span><br>
+                        <span><strong class="font-weight-600">State:</strong><%= doc.data["state"] %></span><br>
+                        <a href="#" class="btn-navigate btn btn-flat btn-small btn-width blue white-text"><i class="material-icons">navigation</i></a>
+                      </div>
+                    <% end %>
+                  </div>
+                <% end %>
               </div>
-            </a>
+            </div>
+          <% end %>
+        </div>
+      </div>
+      <!-- End Contacts -->
+
+      <div class="card-panel customer-estimates">
+        <!-- Estimate list -->
+        <div class="row">
+          <div class="col s12 pt-0 pb-0 pl-0 pr-0">
+            <div class="col s12">
+              <div id='fc-external-drag'></div>
+            </div>
           </div>
         </div>
+
+        <!--  End products area -->
       </div>
     </div>
+  </div>
+  <div class="col s12 l3 pl-0 pr-0">
+    <div class="col s12 card-width">
+      <div class="card row black-text padding-4 mt-3">
+        <a class="sidenav-trigger" href="#" data-target="slide-out-right">
+          <div class="col s5 m5">
+            <i
+              class="material-icons background-round grey lighten-4 mt-5 mb-5 green-text">description</i>
+            <!-- <p>Orders</p> -->
+          </div>
+          <div class="col s7 m7 right-align">
+            <h5 class="mb-0 black-text"><%= @worker.document_files.count %></h5>
+            <p class="no-margin black-text">Documents</p>
+            <!-- <p>6,00,00</p> -->
+          </div>
+        </a>
+      </div>
+
+      <div class="card row black-text padding-4 mt-3">
+        <a class="sidenav-trigger" href="#" data-target="slide-out-right">
+          <div class="col s5 m5">
+            <i
+              class="material-icons background-round grey lighten-4 mt-5 mb-5 amber-text">note</i>
+            <!-- <p>Orders</p> -->
+          </div>
+          <div class="col s7 m7 right-align">
+            <h5 class="mb-0 black-text"><%= @worker.notes.count %></h5>
+            <p class="no-margin black-text">Notes</p>
+            <!-- <p>6,00,00</p> -->
+          </div>
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
 <!--  </div>-->
 <!--</div>-->
 
@@ -214,37 +151,35 @@
     <div id="slide-out-right" class="slide-out-right-sidenav sidenav rightside-navigation">
       <div class="row">
         <div class="slide-out-right-title">
-          <div class="col s12 pl-3">
+          <div class="col s10 pl-3">
             <h5>Notes</h5>
+          </div>
+          <div class="col s22">
+            <i class="material-icons "><a href="#" target="_self" class="sidenav-close">clear</a></i>
           </div>
         </div>
       </div>
       <div class="slide-out-right-body row pl-3 pr-3">
-        <div class="note">
-          <a href="#" class="btn-delete-note">
-            <i class="material-icons">delete</i>
-          </a>
-          <h6 class="note-title">Note tile</h6>
-          <p class="note-content">Note content and it can be long or not, let's just see what it looks like
-            when this length of text is put.</p>
-        </div>
-
-        <div class="note">
-          <a href="#" class="btn-delete-note">
-            <i class="material-icons">delete</i>
-          </a>
-          <h6 class="note-title">Note tile</h6>
-          <p class="note-content">Note content and it can be long or not, let's just see what it looks like
-            when this length of text is put.</p>
-        </div>
+        <% @worker.notes.each do |note| %>
+          <div class="note">
+            <%= link_to note, method: :delete, class:"btn-delete-note" do %>
+              <i class="material-icons">delete</i>
+            <% end %>
+            <h6 class="note-title"><%= note.title %></h6>
+            <p class="note-content"><%= note.text %></p>
+          </div>
+        <% end %>
 
         <!-- Exemple document -->
         <div class="col s12 pl-3">
           <h5>Documents</h5>
         </div>
-        <a href="#"><span class="chip grey lighten-3 green-text truncate">Document_aas.pdf</span></a>
-        <a href="#"><span class="chip grey lighten-3 green-text truncate">Document_aas.pdf</span></a>
-        <a href="#"><span class="chip grey lighten-3 green-text truncate">Document_aas.pdf</span></a>
+        <% @worker.document_files.each do |doc| %>
+          <%= link_to doc.file.url, target:"_blank" do %>
+            <span class="chip grey lighten-3 green-text truncate"><%= doc.title %></span>
+          <% end if doc.file.present?  %>
+        <% end %>
+
       </div>
     </div>
 

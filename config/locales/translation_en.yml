@@ -15,6 +15,7 @@ en:
     add: "Add"
     delete: "Delete"
     new: "New"
+    edit: "Edit"
 
   false: "No"
   true: "Yes"

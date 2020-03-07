@@ -48,7 +48,9 @@ class Estimate < ApplicationRecord
 
   has_many :signatures, -> { where origin: :Estimate }, primary_key: :id, foreign_key: :origin_id
   has_many :measurement_areas, dependent: :destroy
+  has_many :measurements, through: :measurement_areas
   has_many :measurement_proposals, through: :measurement_areas
+  has_many :product_estimates, through: :measurement_proposals
   # has_many :measurement, through: :measurement_areas
 
   accepts_nested_attributes_for :measurement_areas, reject_if: :reject_measurement_areas, allow_destroy: true
@@ -58,6 +60,10 @@ class Estimate < ApplicationRecord
 
   def reject_measurement_areas attributes
     attributes['name'].blank? && attributes['description'].blank?
+  end
+
+  def get_total_value
+    self.product_estimates.sum(:value) - self.product_estimates.sum(:discount).to_f + self.tax.to_f
   end
 
   def as_json(options = {})

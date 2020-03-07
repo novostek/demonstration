@@ -241,7 +241,7 @@ const ProductComponent = () => {
     })
 
     create_product_estimate()
-      .then(() => window.location = `/estimate/${estimate.id}/view`)
+      .then(() => window.location = `/estimates/${estimate.id}/view`)
   }
 
   console.log(productEstimate)

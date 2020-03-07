@@ -1,14 +1,11 @@
-<style>
-  .pac-container {
-    z-index: 1051 !important;
-  }
-</style>
+
+
 <div class="breadcrumbs-dark pb-0 pt-4" id="breadcrumbs-wrapper">
   <!-- Search for small screen-->
   <div class="container">
     <div class="row">
       <div class="col s10 m6 l6">
-        <h5 class="breadcrumbs-title mt-0 mb-0"><span><%= t('activerecord.models.customer') %></span></h5>
+        <h5 class="breadcrumbs-title mt-0 mb-0"><span><%= @customer %></span></h5>
         <ol class="breadcrumbs mb-0">
           <li class="breadcrumb-item"><a href="/"><%= t('home') %></a>
           </li>
@@ -21,120 +18,394 @@
       <div class="col s2 m6 l6">
         <%= link_to t('button.all'), customers_path, class:"btn waves-effect waves-light breadcrumbs-btn right" %>
         <%= link_to edit_customer_path(@customer) , class: "btn-flat waves-effect waves-light breadcrumbs-btn right" do %>
-            <i class="material-icons">edit</i>
+          <i class="material-icons">edit</i>
         <% end %>
       </div>
     </div>
   </div>
 </div>
 
-<div class="card-panel">
+<!--<div class="col s12">-->
+<!--  <div class="container">-->
+<div class="row">
+  <div class="col s12 l9 pl-0 pr-0">
 
-  <div class="row">
-    <div class="col s12">
-      <ul class="tabs">
-        <li class="tab col m3"><a href="#test1" class="active"><%= t :customer %></a></li>
-        <li class="tab col m3"><a  href="#test2"><%= t :notes %></a></li>
-        <li class="tab col sm"><a href="#test3"><%= t :documents %></a></li>
-        <li class="tab col m3"><a href="#test4"><%= t :contacts %></a></li>
-      </ul>
-    </div>
-    <div id="test1" class="col s12">
-      <p>
-        <strong>Name:</strong>
-        <%= @customer.name %>
-      </p>
-
-      <p>
-        <strong>Category:</strong>
-        <%= @customer.category %>
-      </p>
-
-      <p>
-        <strong>Document:</strong>
-        <%= @customer.document_id %>
-      </p>
-
-      <p>
-        <strong>Since:</strong>
-        <%= @customer.since %>
-      </p>
-
-      <p>
-        <strong>Code:</strong>
-        <%= @customer.code %>
-      </p>
-
-      <p>
-        <strong>Birthdate:</strong>
-        <%= @customer.birthdate %>
-      </p>
-    </div>
-    <div id="test2" class="col s12">
-      <%= render "customers/notes_show", notes: @customer.notes %>
-
-      <br>
-      <!-- Modal Trigger -->
-      <a class="waves-effect waves-light btn modal-trigger" href="#modal_note"><%= t "button.new" %> <%= t "notes" %></a>
-      <!-- Modal Structure -->
-      <div id="modal_note" class="modal modal-fixed-footer">
-        <%= form_with url: new_note_customer_path(@customer),method: :get, local: true do |f| %>
-            <div class="modal-content">
-              <h4><%= t "button.new" %> <%= t "notes" %></h4>
-              <%= render "customers/notes_form", f: f %>
-
-            </div>
-            <div class="modal-footer">
-              <%= f.submit t "button.save", class:"modal-action modal-close waves-effect waves-green btn-flat" %>
-              <!--<a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat ">Agree</a>-->
-            </div>
-        <% end  %>
+    <div class="col s12 pl-1">
+      <div class="card-panel pb-0">
+        <div class="row">
+          <div class="col s12 m8">
+            <span class="left width-100"><span class="font-weight-600 black-text"><%= t("activerecord.attributes.customer.document_id") %>: </span><%= @customer.document_id %></span>
+            <% if @customer.person? %>
+              <span class="left width-100"><span class="font-weight-600 black-text"><%= t("activerecord.attributes.customer.birthdate") %>: </span><%= @customer.birthdate %></span>
+            <% end %>
+            <span class="left width-100"><span class="font-weight-600 black-text"><%= t("activerecord.attributes.customer.code") %>: </span><%= @customer.code %></span>
+            <span class="left width-100"><span class="font-weight-600 black-text"><%= t("activerecord.attributes.customer.category") %>: </span><%= @customer.category_text %></span>
+          </div>
+          <div class="col s12 m4">
+            <span class="left width-100"><span class="display-inline chip grey lighten-5 grey-text right"><%= t("activerecord.attributes.customer.since") %>: <%= @customer.since %></span>
+          </div>
+        </div>
       </div>
-    </div>
-    <div id="test3" class="col s12">
-      <%= render "customers/documents_show", document_files: @customer.document_files %>
+      <!-- Contacts -->
 
-      <br>
-      <!-- Modal Trigger -->
-      <a class="waves-effect waves-light btn modal-trigger" href="#modal_doc"><%= t "button.new" %> <%= t "documents" %></a>
-      <!-- Modal Structure -->
-      <div id="modal_doc" class="modal modal-fixed-footer">
-        <%= form_with url: new_document_customer_path(@customer), local: true do |f| %>
-            <div class="modal-content">
-              <h4><%= t "button.new" %> <%= t "documents" %></h4>
-              <%= render "customers/document_file_fields", f: f %>
-
+      <div class="row contacts-row">
+        <div class="contacts-wrapper">
+          <% @customer.contacts.group_by(&:category).map do |category, contatos| %>
+            <div class="contacts-type-box">
+              <div class="contact-type--info">
+                <div class="contact-icon">
+                  <% if category == :phone %>
+                    <i class="material-icons green-text">phone</i>
+                  <% elsif category == :address %>
+                    <i class="material-icons orange-text">place</i>
+                  <% else %>
+                    <i class="material-icons red-text">mail</i>
+                  <% end %>
+                </div>
+                <h6><%= category %></h6>
+              </div>
+              <div class="contacts-list">
+                <% contatos.each do |doc| %>
+                  <div class="contact">
+                    <div class="contact-info">
+                      <span class="contact-title"><%= doc.title %></span>
+                      <% if category == :phone %>
+                        <span class="contact-description"><%= doc.data["phone"] %></span>
+                      <% elsif category == :address %>
+                        <span class="contact-description"><%= doc.data["address"] %></span>
+                      <% else %>
+                         <span class="contact-description"><a href="mailto:<%= doc.data["email"] %>"><%= doc.data["email"] %></a></span>
+                      <% end %>
+                    </div>
+                    <% if category == :address %>
+                      <a href="#" class="btn-more-info tooltipped" data-tooltip="More info"><i class="material-icons">place</i></a>
+                      <div class="more-info">
+                        <a href="#" class="btn-less-info"><i
+                          class="material-icons">close</i></a>
+                        <div class="map">
+                          <img src="http://maps.google.com/maps/api/staticmap?center=<%= doc.data['lat'] %>,<%= doc.data['lng'] %>&zoom=10&size=300x80&scale=2&maptype=road&markers=color:blue%7Clabel:S%7C<%= doc.data['lat'] %>,<%= doc.data['lng'] %>&key=AIzaSyBUW7c4JukYkKfxTr_bxMN3vn2FvtXAaBQ" alt="">
+                        </div>
+                        <span><strong class="font-weight-600">City:</strong> <%= doc.data["city"] %></span><br>
+                        <span><strong class="font-weight-600">State:</strong><%= doc.data["state"] %></span><br>
+                        <a href="#" class="btn-navigate btn btn-flat btn-small btn-width blue white-text"><i class="material-icons">navigation</i></a>
+                      </div>
+                    <% end %>
+                  </div>
+                <% end %>
+              </div>
             </div>
-            <div class="modal-footer">
-              <%= f.submit t "button.save", class:"modal-action modal-close waves-effect waves-green btn" %>
-              <!--<a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat ">Agree</a>-->
-            </div>
-        <% end  %>
+          <% end %>
+        </div>
       </div>
-    </div>
-    <div id="test4" class="col s12">
-      <%= render "customers/contacts_show", contacts: @customer.contacts %>
+      <!-- End Contacts -->
 
-      <br>
-      <!-- Modal Trigger -->
-      <a class="waves-effect waves-light btn modal-trigger" href="#modal_contact"><%= t "button.new" %> <%= t "contacts" %></a>
-      <!-- Modal Structure -->
-      <div id="modal_contact" class="modal modal-fixed-footer">
-        <%= form_with url: new_contact_customer_path(@customer),method: :get, local: true do |f| %>
-            <div class="modal-content">
-              <h4><%= t "button.new" %> <%= t "contacts" %></h4>
-              <%= render "customers/contact_fields", f: f %>
+      <div class="card-panel customer-estimates">
+        <!-- Estimate list -->
+        <div class="row">
+          <div class="col s12 pt-0 pb-0 pl-0 pr-0">
+            <table class="striped responsive-table">
+              <thead>
+              <tr>
+                <th>Estimate</th>
+                <th>Est. price</th>
+                <th>Order</th>
+                <th>Paid</th>
+                <th>Receivable</th>
+                <th>Overdue</th>
+              </tr>
+              </thead>
+              <tbody>
+              <tr>
+                <td><a href='estimate-view.html'>#123</a></td>
+                <td>$100.00</td>
+                <td><a href="order-view.html">#4765</a></td>
+                <td>$90.00</td>
+                <td>$30.00</td>
+                <td>$25.00</td>
+              </tr>
+              <tr>
+                <td><a href='estimate-view.html'>#123</a></td>
+                <td>$100.00</td>
+                <td>-</td>
+                <td>-</td>
+                <td>$100.00</td>
+                <td>$25.00</td>
+              </tr>
+              <tr>
+                <td><a href='estimate-view.html'>#123</a></td>
+                <td>$100.00</td>
+                <td><a href="order-view.html">#4765</a></td>
+                <td>-</td>
+                <td>$100.00</td>
+                <td>$25.00</td>
+              </tr>
+              <tr>
+                <td><a href='estimate-view.html'>#123</a></td>
+                <td>$100.00</td>
+                <td>-</td>
+                <td>-</td>
+                <td>$100.00</td>
+                <td>$25.00</td>
+              </tr>
+              <tr>
+                <td><a href='estimate-view.html'>#123</a></td>
+                <td>$100.00</td>
+                <td><a href="order-view.html">#4765</a></td>
+                <td>$90.00</td>
+                <td>$30.00</td>
+                <td>$25.00</td>
+              </tr>
+              <tr>
+                <td><a href='estimate-view.html'>#123</a></td>
+                <td>$100.00</td>
+                <td>-</td>
+                <td>-</td>
+                <td>$100.00</td>
+                <td>$25.00</td>
+              </tr>
+              <tr>
+                <td><a href='estimate-view.html'>#123</a></td>
+                <td>$100.00</td>
+                <td><a href="order-view.html">#4765</a></td>
+                <td>$90.00</td>
+                <td>$30.00</td>
+                <td>$25.00</td>
+              </tr>
+              <tr>
+                <td><a href='estimate-view.html'>#123</a></td>
+                <td>$100.00</td>
+                <td>-</td>
+                <td>-</td>
+                <td>$100.00</td>
+                <td>$25.00</td>
+              </tr>
+              <tr>
+                <td><a href='estimate-view.html'>#123</a></td>
+                <td>$100.00</td>
+                <td><a href="order-view.html">#4765</a></td>
+                <td>$90.00</td>
+                <td>$30.00</td>
+                <td>$25.00</td>
+              </tr>
+              <tr>
+                <td><a href='estimate-view.html'>#123</a></td>
+                <td>$100.00</td>
+                <td>-</td>
+                <td>-</td>
+                <td>$100.00</td>
+                <td>$25.00</td>
+              </tr>
+              <tr>
+                <td><a href='estimate-view.html'>#123</a></td>
+                <td>$100.00</td>
+                <td><a href="order-view.html">#4765</a></td>
+                <td>$90.00</td>
+                <td>$30.00</td>
+                <td>$25.00</td>
+              </tr>
+              <tr>
+                <td><a href='estimate-view.html'>#123</a></td>
+                <td>$100.00</td>
+                <td>-</td>
+                <td>-</td>
+                <td>$100.00</td>
+                <td>$25.00</td>
+              </tr>
+              <tr>
+                <td><a href='estimate-view.html'>#123</a></td>
+                <td>$100.00</td>
+                <td><a href="order-view.html">#4765</a></td>
+                <td>$90.00</td>
+                <td>$30.00</td>
+                <td>$25.00</td>
+              </tr>
+              <tr>
+                <td><a href='estimate-view.html'>#123</a></td>
+                <td>$100.00</td>
+                <td>-</td>
+                <td>-</td>
+                <td>$100.00</td>
+                <td>$25.00</td>
+              </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
 
-            </div>
-            <div class="modal-footer">
-              <%= f.submit t "button.save", class:"modal-action modal-close waves-effect waves-green btn" %>
-              <!--<a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat ">Agree</a>-->
-            </div>
-        <% end  %>
+        <!--  End products area -->
       </div>
-
     </div>
   </div>
+  <div class="col s12 l3 pl-0 pr-0">
+    <div class="col s12 card-width">
+      <div class="card row black-text padding-4 mt-3">
+        <a class="sidenav-trigger" href="#" data-target="slide-out-right">
+          <div class="col s5 m5">
+            <i
+              class="material-icons background-round grey lighten-4 mt-5 mb-5 green-text">description</i>
+            <!-- <p>Orders</p> -->
+          </div>
+          <div class="col s7 m7 right-align">
+            <h5 class="mb-0 black-text"><%= @customer.document_files.count %></h5>
+            <p class="no-margin black-text">Documents</p>
+            <!-- <p>6,00,00</p> -->
+          </div>
+        </a>
+      </div>
 
+      <div class="card row black-text padding-4 mt-3">
+        <a class="sidenav-trigger" href="#" data-target="slide-out-right">
+          <div class="col s5 m5">
+            <i
+              class="material-icons background-round grey lighten-4 mt-5 mb-5 amber-text">note</i>
+            <!-- <p>Orders</p> -->
+          </div>
+          <div class="col s7 m7 right-align">
+            <h5 class="mb-0 black-text"><%= @customer.notes.count %></h5>
+            <p class="no-margin black-text">Notes</p>
+            <!-- <p>6,00,00</p> -->
+          </div>
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+<!--  </div>-->
+<!--</div>-->
+
+<%= content_for :sidenav do %>
+  <aside id="right-sidebar-nav">
+    <div id="slide-out-right" class="slide-out-right-sidenav sidenav rightside-navigation">
+      <div class="row">
+        <div class="slide-out-right-title">
+          <div class="col s10 pl-3">
+            <h5>Notes</h5>
+          </div>
+          <div class="col s22">
+            <i class="material-icons "><a href="#" target="_self" class="sidenav-close">clear</a></i>
+          </div>
+        </div>
+      </div>
+      <div class="slide-out-right-body row pl-3 pr-3">
+        <% @customer.notes.each do |note| %>
+          <div class="note">
+            <%= link_to note, method: :delete, class:"btn-delete-note" do %>
+              <i class="material-icons">delete</i>
+            <% end %>
+            <h6 class="note-title"><%= note.title %></h6>
+            <p class="note-content"><%= note.text %></p>
+          </div>
+        <% end %>
+
+        <!-- Exemple document -->
+        <div class="col s12 pl-3">
+          <h5>Documents</h5>
+        </div>
+        <% @customer.document_files.each do |doc| %>
+          <%= link_to doc.file.url, target:"_blank" do %>
+            <span class="chip grey lighten-3 green-text truncate"><%= doc.title %></span>
+          <% end if doc.file.present?  %>
+        <% end %>
+
+      </div>
+    </div>
+
+
+  </aside>
+<% end %>
+
+<%= render "layouts/add_button" %>
+
+<div id="modal_note" class="modal modal-fixed-footer">
+  <%= form_with url: new_note_customer_path(@customer),method: :get, local: true do |f| %>
+    <div class="modal-content">
+      <h4><%= t "button.new" %> <%= t "notes" %></h4>
+      <%= render "customers/notes_form", f: f %>
+
+    </div>
+    <div class="modal-footer">
+      <%= f.submit t "button.save", class:"modal-action modal-close waves-effect waves-green btn-flat" %>
+      <!--<a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat ">Agree</a>-->
+    </div>
+  <% end  %>
 </div>
 
+<div id="modal_doc" class="modal modal-fixed-footer">
+  <%= form_with url: new_document_customer_path(@customer), local: true do |f| %>
+    <div class="modal-content">
+      <h4><%= t "button.new" %> <%= t "documents" %></h4>
+      <%= render "customers/document_file_fields", f: f %>
+
+    </div>
+    <div class="modal-footer">
+      <%= f.submit t "button.save", class:"modal-action modal-close waves-effect waves-green btn" %>
+      <!--<a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat ">Agree</a>-->
+    </div>
+  <% end  %>
+</div>
+
+<div id="modal_contact" class="modal modal-fixed-footer">
+  <%= form_with url: new_contact_customer_path(@customer),method: :get, local: true do |f| %>
+    <div class="modal-content">
+      <h4><%= t "button.new" %> <%= t "contacts" %></h4>
+      <%= render "customers/contact_fields", f: f %>
+
+    </div>
+    <div class="modal-footer">
+      <%= f.submit t "button.save", class:"modal-action modal-close waves-effect waves-green btn" %>
+      <!--<a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat ">Agree</a>-->
+    </div>
+  <% end  %>
+</div>
+
+
+<%= content_for :scripts do %>
+  <!--  <script src="/materialize/vendors/fullcalendar/lib/moment.min.js"></script>-->
+  <!--  <script src="/materialize/vendors/fullcalendar/js/fullcalendar.min.js"></script>-->
+  <!--  <script src="/materialize/vendors/fullcalendar/daygrid/daygrid.min.js"></script>-->
+  <!--  <script src="/materialize/vendors/fullcalendar/timegrid/timegrid.min.js"></script>-->
+  <!--  <script src="/materialize/vendors/fullcalendar/interaction/interaction.min.js"></script>-->
+  <%#= javascript_pack_tag 'estimate/schedule_global', 'data-turbolinks-track': 'true', 'defer': true %>
+
+<% end %>
+
+<%= content_for :scripts do %>
+
+
+
+  <script>
+      $(document).ready(function () {
+
+          $('.chips').chips();
+
+          $('.modal').modal({
+              opacity: .8
+          });
+
+          $("a.btn-more-info").on("click", function (e) {
+              e.preventDefault();
+              // console.log($(this).parent().find(".more-info").offset().top);
+              // console.log($(".contacts-wrapper").offset().top);
+              // console.log($(this).parent().find(".more-info").position().top);
+              // var tp = (($(this).parent().find(".more-info").offset().top - $(".contacts-wrapper").offset().top))*-1;
+              $(".contacts-list").toggleClass("active");
+              // $(this).parent().find(".more-info").css("top", tp);
+              $(this).parent().find(".more-info").height($(".contacts-wrapper").height());
+              $(this).parent().find(".more-info").toggleClass("active");
+              $(this).parent().toggleClass("active");
+
+          });
+
+          $("a.btn-less-info").on("click", function (e) {
+              e.preventDefault();
+              $(this).parent().toggleClass("active");
+              $(this).parent().parent().toggleClass("active");
+              $(".contacts-list").toggleClass("active");
+          });
+
+          // $(document).on('click', '.modal-action.btn-send', function () {
+          //
+          // })
+      });
+  </script>
+<% end %>

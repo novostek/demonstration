@@ -31,14 +31,15 @@
   <div class="col s12 l9 pl-0 pr-0">
 
     <div class="col s12 pl-1">
-      <div class="card-panel pb-0">
+      <div class="card-panel  pb-0">
         <div class="row">
-          <div class="col s12 m2 pr-0"><span class="avatar-status avatar-online avatar-md width-70"><img src="/materialize/images/avatar/unnamed.png" alt="avatar" /></span></div>
-          <div class="col s12 m6 pl-0"><span class="left width-100">
-            <span class="font-weight-600 black-text"><%= t("activerecord.attributes.supplier.name") %>:</span><%= @supplier %></span>
-            <span class="left width-100"><span class="font-weight-600 black-text"><%= t("activerecord.attributes.supplier.description") %>:</span><%= @supplier.description %></span>
-
-          </div>
+            <div class="col s12 m8">
+              <span class="left width-100"><span class="font-weight-600 black-text"><%= t 'activerecord.attributes.supplier.name' %>: </span><%= @supplier.name %></span>
+              <span class="left width-100"><span class="font-weight-600 black-text"><%= t 'activerecord.attributes.supplier.description' %>: </span><%= @supplier.description %></span>
+            </div>
+            <div class="col s12 m4">
+              <!--              <span class="left width-100"><span class="display-inline chip grey lighten-5 grey-text right">Since:02/18/2020</span></span>-->
+            </div>
         </div>
       </div>
       <!-- Contacts -->
@@ -69,7 +70,7 @@
                       <% elsif category == :address %>
                         <span class="contact-description"><%= doc.data["address"] %></span>
                       <% else %>
-                         <span class="contact-description"><a href="mailto:<%= doc.data["email"] %>"><%= doc.data["email"] %></a></span>
+                        <span class="contact-description"><a href="mailto:<%= doc.data["email"] %>"><%= doc.data["email"] %></a></span>
                       <% end %>
                     </div>
                     <% if category == :address %>
@@ -95,17 +96,16 @@
       <!-- End Contacts -->
 
       <div class="card-panel customer-estimates">
-        <!-- Estimate list -->
         <div class="row">
           <div class="col s12 pt-0 pb-0 pl-0 pr-0">
             <div class="col s12">
-              <div id='fc-external-drag'></div>
+
             </div>
           </div>
         </div>
-
-        <!--  End products area -->
       </div>
+
+
     </div>
   </div>
   <div class="col s12 l3 pl-0 pr-0">
@@ -233,8 +233,6 @@
 
 <%= content_for :scripts do %>
 
-
-
   <script>
       $(document).ready(function () {
 
@@ -265,9 +263,7 @@
               $(".contacts-list").toggleClass("active");
           });
 
-          // $(document).on('click', '.modal-action.btn-send', function () {
-          //
-          // })
+
       });
   </script>
 <% end %>

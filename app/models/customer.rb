@@ -27,12 +27,15 @@ class Customer < ApplicationRecord
 
   extend Enumerize
 
-  enumerize :category, in: [:company, :person]
+  enumerize :category, in: [:company, :person],predicates: true
 
   validates :name, :category, presence: true
 
   before_save :set_code
 
+  def to_s
+    self.name
+  end
 
   #Método que seta o code caso seja vazio
   def set_code

@@ -14,11 +14,11 @@
   <div class="hide col s12" id="address_div">
 
     <%= f.fields_for :data do |field| %>
-        <div class="input-field">
-          <label for="">Search</label>
-          <input type="text" id="autocomplete_address" autocomplete="off" >
+        <div class="input active">
+          <label for="" >Search</label>
+          <input type="text" id="autocomplete_address">
         </div>
-        <div class="input-field">
+        <div class="input-field" style="display: none">
           <%= field.label :address %>
           <%= field.text_field :address, id: "fulladdress" %>
         </div>
@@ -80,7 +80,7 @@
 
         function initializeAutocomplete(id) {
 
-
+            console.log("autocomplete google");
             var element = document.getElementById(id);
             if (element) {
                 var autocomplete = new google.maps.places.Autocomplete(element, { types: ['geocode'], componentRestrictions: {country: 'us'} });
@@ -112,6 +112,7 @@
         }
 
         $(document).ready(function(){
+            //console.log("autocomplete google");
             initializeAutocomplete('autocomplete_address');
         });
 

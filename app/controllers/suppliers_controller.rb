@@ -57,6 +57,9 @@ class SuppliersController < ApplicationController
 
   # GET /suppliers/1
   def show
+    if params[:layout].present?
+      render :show_old
+    end
   end
 
   # GET /suppliers/new

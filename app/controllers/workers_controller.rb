@@ -10,7 +10,7 @@ class WorkersController < ApplicationController
   # GET /workers/1
   def show
     if params[:layout].present?
-      render :show_new
+      render :show_old
     end
   end
 

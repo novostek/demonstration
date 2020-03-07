@@ -32,6 +32,7 @@
   <link rel="stylesheet" type="text/css" href="/materialize/vendors/sweetalert/sweetalert.css">
   <link href="/js/farbtastic/farbtastic.css" rel="stylesheet" type="text/css">
   <link href="/css/worker.css" rel="stylesheet" type="text/css">
+  <link href="/css/search_google.css" rel="stylesheet" type="text/css">
   <%= stylesheet_link_tag 'main-process' %>
   <%= stylesheet_link_tag 'materialize-stepper.min' %>
   <%= stylesheet_pack_tag 'application' %>
@@ -44,8 +45,8 @@
   <%= csrf_meta_tags %>
   <%= csp_meta_tag %>
 
-  <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
-  <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
+  <%= stylesheet_link_tag 'application', media: 'all' %> <!-- , 'data-turbolinks-track': 'reload' -->
+  <%= javascript_pack_tag 'application' %> <!-- , 'data-turbolinks-track': 'reload' -->
   <%= yield :head_content %>
 </head>
 <!-- END: Head-->

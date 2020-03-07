@@ -3,8 +3,8 @@ import $ from 'jquery';
 function initializeAutocomplete(id) {
   var element = document.getElementById(id);
   if (element) {
-      var autocomplete = new google.maps.places.Autocomplete(element, { types: ['geocode'], componentRestrictions: {country: 'us'} });
-      google.maps.event.addListener(autocomplete, 'place_changed', onPlaceChanged);
+    var autocomplete = new google.maps.places.Autocomplete(element, { types: ['geocode'], componentRestrictions: { country: 'us' } });
+    google.maps.event.addListener(autocomplete, 'place_changed', onPlaceChanged);
   }
 }
 
@@ -18,19 +18,19 @@ function onPlaceChanged() {
   $("#estimate_latitude").val(place.geometry.location.lat());
   $("#estimate_longitude").val(place.geometry.location.lng());
 
-  $("label").addClass("active");
+  // $("label").addClass("active");
   for (var i in place.address_components) {
-      var component = place.address_components[i];
+    var component = place.address_components[i];
 
-      for (var j in component.types) {  // Some types are ["country", "political"]
-          var type_element = document.getElementById(component.types[j]);
-          if (type_element) {
-              type_element.value = component.long_name;
-          }
+    for (var j in component.types) {  // Some types are ["country", "political"]
+      var type_element = document.getElementById(component.types[j]);
+      if (type_element) {
+        type_element.value = component.long_name;
       }
+    }
   }
 }
 
-$(document).ready(function(){
+$(document).ready(function () {
   initializeAutocomplete('estimate_location');
 });

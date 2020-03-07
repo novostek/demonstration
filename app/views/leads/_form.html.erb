@@ -17,7 +17,7 @@
           <div class="input-field col s12 m4">
             <%= f.text_field :phone, 
                 autocomplete: 'off', 
-                class: 'autocomplete autocomplete-phone', 
+                class: 'autocomplete autocomplete-phone phone', 
                 onkeyup: "search_by_phone($(this).val())" %>
             <%= f.label  :phone, id: 'lead_phone_label' %>
           </div>
@@ -116,6 +116,7 @@
     }
 
     search_by_phone = (value, completed = false) => {
+      console.log(value)
       value &&
       fetch(`/customers/search_by_phone/${value}`, fetchConfig)
       .then((res) => res.json())
@@ -147,7 +148,7 @@
       const phone_options = {
         data: {},
         limit: 3,
-        minLength: 3,
+        minLength: 2,
         onAutocomplete: (res) => search_by_phone(res, true)
       }
       M.Autocomplete.init(lead_phone, phone_options);
@@ -155,8 +156,8 @@
       const lead_customer = document.getElementById('lead_customer');
       const customer_options = {
         data: {},
-        limit: 3,
-        minLength: 3,
+        limit: 5,
+        minLength: 2,
         onAutocomplete: (res) => search_by_name(res, true)
       }
       M.Autocomplete.init(lead_customer, customer_options);

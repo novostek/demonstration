@@ -16,7 +16,8 @@ class Order < ApplicationRecord
   has_many :estimates
   before_create :set_code
 
-  
+  has_many :schedules, -> { where origin: :Order }, primary_key: :id, foreign_key: :origin_id
+
   def to_s
     self.code
   end

@@ -1,0 +1,241 @@
+<div class="row">
+  <div class="content-wrapper-before gradient-45deg-indigo-purple"></div>
+  <div class="breadcrumbs-dark pb-0 pt-4" id="breadcrumbs-wrapper">
+    <div class="container">
+      <div class="row">
+        <div class="col s10 m6 l6">
+          <h5 class="breadcrumbs-title mt-0 mb-0">Estimate #<%= @estimate.code %></h5>
+
+        </div>
+        <div class="col s2 m6 l6">
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="row mt-1">
+  <div class="col s12 l12 pl-0 pr-0">
+    <div class="col s12">
+      <div class="card-panel">
+        <div class="row">
+          <div class="col s12 m5">
+            <span class="left width-100"><span class="font-weight-600 black-text">Created at:</span> <%= @estimate.created_at %></span>
+            <span class="left width-100"><span class="font-weight-600 black-text">Location:</span> <%= @estimate.location %></span>
+            <span class="left width-100"><span class="font-weight-600 black-text">Category:</span> <%= @estimate.category %></span>
+          </div>
+          <div class="col s12 m5">
+            <span class="left width-100"><span class="font-weight-600 black-text">Price:</span> $ <%= @estimate.product_estimates.sum(:value).to_f %></span>
+            <span class="left width-100"><span class="font-weight-600 black-text">Tax:</span> $ <%= @estimate.tax %></span>
+          </div>
+          <div class="col s12 m2">
+            <span class=" users-view-status display-inline chip green lighten-5 green-text right"><%= @estimate.status %></span>
+          </div>
+
+          <div class="col s12 mt-1">
+            <span><%= @estimate.description %></span>
+          </div>
+
+
+        </div>
+      </div>
+      <!-- Areas -->
+      <ul class="collapsible">
+        <li>
+          <div class="collapsible-header" tabindex="0"><i class="material-icons">select_all</i>Areas</div>
+          <div class="collapsible-body grey lighten-4 pl-2 pr-2 pt-2 pb-2">
+            <div class="row">
+              <% @estimate.measurement_areas.each do |ma| %>
+                <div class="col s12 l6">
+                  <div class="card-panel pt-3 pb-3">
+                    <div class="row center-align">
+                      <h6
+                        class="col s12 pl-0 pt-0 mt-0 font-weight-600 display-flex align-items-center justify-content-center">
+                        <i class="material-icons left">event_seat</i>
+                        <%= ma.name %>
+                      </h6>
+                      <%# <div class="row mb-2">
+															<div class="col s12">
+																Open kitchen included
+															</div>
+														</div> %>
+                      <div class="col s4">
+                        <!-- length -->
+                        <i class="material-icons left width-100">straighten</i><%= ma.measurements[0].length %>
+                      </div>
+                      <div class="col s4">
+                        <!-- width -->
+                        <i class="material-icons left width-100" style="transform: rotate(-45deg)">straighten</i><%= ma.measurements[0].width %>
+                      </div>
+                      <div class="col s4">
+                        <!-- height -->
+                        <i class="material-icons left width-100" style="transform: rotate(-90deg)">straighten</i><%= ma.measurements[0].height %>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              <% end %>
+            </div>
+          </div>
+        </li>
+      </ul>
+
+
+      <div class="card-panel">
+        <!-- Procuts and area -->
+        <% @estimate.measurement_proposals.each do |mp| %>
+          <div class="row">
+            <div class="col s12">
+              <div class="row pl-2 pr-2">
+                <span class="mr-1">Selected areas:</span>
+                <% mp.measurement_area.each do |ma| %>
+                  <div class="chip blue white-text"><%= ma.name %></div>
+                <% end %>
+              </div>
+              <table class="striped responsive-table">
+                <thead>
+                <tr>
+                  <th>Product</th>
+                  <th>Qty</th>
+                  <th>Price Unity</th>
+                  <th>Discount</th>
+                  <th class="right-align">Subtotal</th>
+                </tr>
+                </thead>
+                <tbody>
+                <% mp.product_estimates.each do |pe| %>
+                  <tr>
+                    <td><%= pe.product.name %></td>
+                    <td><%= pe.quantity %></td>
+                    <td><%= pe.unitary_value %></td>
+                    <td><%= pe.discount %></td>
+                    <td class=" right-align">$<%= pe.value %></td>
+                  </tr>
+                <% end %>
+                <tr class="white">
+                  <td class="right-align" colspan="100"><strong>Subtotal area:</strong><br>$<%= mp.product_estimates.sum(:value) %></td>
+                </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <div class="divider mb-3 mt-3"></div>
+        <% end %>
+
+        <div class="row">
+          <div class="col m5 s12">
+            <!-- <p>Thanks for your business.</p> -->
+          </div>
+          <div class="col xl4 m7 s12 offset-xl3">
+            <ul>
+              <li class="display-flex justify-content-between">
+                <span class="invoice-subtotal-title">Subtotal</span>
+                <h6 class="mt-0">$<%= @estimate.product_estimates.sum(:value).to_f %></h6>
+              </li>
+              <li class="display-flex justify-content-between">
+                <span class="invoice-subtotal-title">Discount</span>
+                <h6 class="mt-0">$ <%= @estimate.product_estimates.sum(:discount).to_f %></h6>
+              </li>
+              <li class="display-flex justify-content-between">
+                <span class="invoice-subtotal-title">Tax</span>
+                <h6 class="mt-0">$ <%= @estimate.tax.to_f %></h6>
+              </li>
+              <li class="divider mt-2 mb-2"></li>
+              <li class="display-flex justify-content-between">
+                <span class="invoice-subtotal-title">Estimate Total</span>
+                <h6 class="mt-0">$ <%= @estimate.get_total_value %></h6>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <!--  End products area -->
+      </div>
+
+      <div class="card-panel">
+        <h4>Signature</h4>
+        <div class="row">
+          <% if !@estimate.signatures.last.present? %>
+            <%= form_for(@signature) do |f| %>
+
+                <%= f.hidden_field :sign, value: true %>
+                <%= f.hidden_field :origin %>
+                <%= f.hidden_field :origin_id %>
+
+              <input type="hidden" id="signature_file" value="" name="signature[file]">
+              <canvas id="signature-pad" class="signature-pad" width=800 height=200 style="border:1px solid #000000;"></canvas>
+              <br>
+              <button id="clear" class="btn" type="button" ><%= t :clear %></button>
+              <%= f.submit "sign", class:"btn green" %>
+            <% end %>
+          <% else %>
+            <img src="<%= @estimate.signatures.last.file.url %>" alt="">
+          <% end %>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+</div>
+
+
+
+
+<%= content_for :scripts do %>
+  <script>
+      $(document).ready(function(){
+
+          $('.chips').chips();
+
+          $('.modal').modal({
+              opacity: .8
+          });
+
+          $(document).on('click', '.modal-action.btn-send', function(){
+
+          })
+      });
+  </script>
+<% end %>
+
+<%= content_for :scripts do %>
+  <script src="https://cdn.jsdelivr.net/npm/signature_pad@2.3.2/dist/signature_pad.min.js"></script>
+
+  <script type="text/javascript" charset="utf-8">
+      var canvas = document.getElementById('signature-pad');
+
+
+
+      window.onresize = resizeCanvas;
+      resizeCanvas();
+
+      var signaturePad = new SignaturePad(canvas, {
+          backgroundColor: 'rgb(255, 255, 255)', // necessary for saving image as JPEG; can be removed is only saving as PNG or SVG
+          onEnd: function(){
+              var data = this.toDataURL();
+              $("#signature_file").val(data);
+          }
+      });
+
+      // function endDraw()
+      // {
+      //     var data = signaturePad.toDataURL('image/png');
+      //     $("#signature_file").val(data);
+      // }
+
+      function resizeCanvas() {
+          // When zoomed out to less than 100%, for some very strange reason,
+          // some browsers report devicePixelRatio as less than 1
+          // and only part of the canvas is cleared then.
+          var ratio =  Math.max(window.devicePixelRatio || 1, 1);
+          canvas.width = canvas.offsetWidth * ratio;
+          canvas.height = canvas.offsetHeight * ratio;
+          canvas.getContext("2d").scale(ratio, ratio);
+      }
+
+      document.getElementById('clear').addEventListener('click', function () {
+          signaturePad.clear();
+          $("#signature_file").val("");
+      });
+  </script>
+<% end %>

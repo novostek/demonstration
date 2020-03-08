@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_03_08_035656) do
+ActiveRecord::Schema.define(version: 2020_03_08_173947) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -241,6 +241,20 @@ ActiveRecord::Schema.define(version: 2020_03_08_035656) do
     t.index ["product_id"], name: "index_product_estimates_on_product_id"
   end
 
+  create_table "product_purchases", force: :cascade do |t|
+    t.bigint "product_id"
+    t.bigint "purchase_id", null: false
+    t.decimal "unity_value"
+    t.decimal "quantity"
+    t.decimal "value"
+    t.string "status"
+    t.string "custom_title"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["product_id"], name: "index_product_purchases_on_product_id"
+    t.index ["purchase_id"], name: "index_product_purchases_on_purchase_id"
+  end
+
   create_table "products", force: :cascade do |t|
     t.string "name"
     t.string "uuid"
@@ -286,6 +300,18 @@ ActiveRecord::Schema.define(version: 2020_03_08_035656) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.json "permissions"
+  end
+
+  create_table "purchases", force: :cascade do |t|
+    t.bigint "order_id", null: false
+    t.bigint "supplier_id"
+    t.decimal "value"
+    t.string "status"
+    t.string "bpm_instance"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["order_id"], name: "index_purchases_on_order_id"
+    t.index ["supplier_id"], name: "index_purchases_on_supplier_id"
   end
 
   create_table "schedules", force: :cascade do |t|
@@ -398,6 +424,8 @@ ActiveRecord::Schema.define(version: 2020_03_08_035656) do
   add_foreign_key "plutus_accounts", "transaction_categories"
   add_foreign_key "product_estimates", "measurement_proposals"
   add_foreign_key "product_estimates", "products"
+  add_foreign_key "product_purchases", "products"
+  add_foreign_key "product_purchases", "purchases"
   add_foreign_key "products", "calculation_formulas"
   add_foreign_key "products", "product_categories"
   add_foreign_key "products", "suppliers"
@@ -405,6 +433,8 @@ ActiveRecord::Schema.define(version: 2020_03_08_035656) do
   add_foreign_key "profile_menus", "profiles"
   add_foreign_key "profile_users", "profiles"
   add_foreign_key "profile_users", "users"
+  add_foreign_key "purchases", "orders"
+  add_foreign_key "purchases", "suppliers"
   add_foreign_key "schedules", "workers"
   add_foreign_key "transactions", "orders"
   add_foreign_key "transactions", "transaction_accounts"

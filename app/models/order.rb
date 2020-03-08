@@ -14,8 +14,15 @@
 
 class Order < ApplicationRecord
   has_many :estimates
+  before_create :set_code
 
+  
   def to_s
     self.code
+  end
+
+
+  def set_code
+    self.code = "#{Time.now.strftime('%Y')}000000".to_i + 1
   end
 end

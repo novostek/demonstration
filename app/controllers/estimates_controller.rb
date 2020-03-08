@@ -1,5 +1,5 @@
 class EstimatesController < ApplicationController
-  before_action :set_estimate, only: [:show, :edit, :update, :destroy,:send_mail]
+  before_action :set_estimate, only: [:show, :edit, :update, :destroy,:send_mail,:estimate_signature]
   before_action :set_combos, only: [:step_one]
   # skip_forgery_protection
   # GET /estimates
@@ -11,9 +11,44 @@ class EstimatesController < ApplicationController
   # GET /estimates/1
   def show
   end
+  
+  def estimate_signature
+    #verifica se foi assinado para criar a order
+    if params[:sign].present?
+      if !@estimate.order.present?
+        order = Order.new
+        if order.save
+          @estimate.update(order_id: order.id)
+
+          #cria os purchases
+          @estimate.product_estimates.each do |p|
+            #verifica se o produto pertence ao catalogo
+            if p.product.present?
+              #begin
+                purchase = Purchase.find_or_create_by(order_id: order.id, supplier_id: p.product.supplier.id)
+                ProductPurchase.create(product: p.product, purchase: purchase, unity_value: p.unitary_value, quantity: p.quantity, value: p.value, custom_title: p.custom_title)
+              # rescue
+              #end
+
+            else #custom products
+              purchase = Purchase.find_or_create_by(order_id: order.id, supplier_id: nil)
+              ProductPurchase.create(purchase: purchase, unity_value: p.unitary_value, quantity: p.quantity, value: p.value, custom_title: p.custom_title)
+            end
+
+          end
+        end
+      end
+    end
+    @signature = Signature.new
+    @signature.origin = "Estimate"
+    @signature.origin_id = @estimate.id
+    render layout: "clean"
+  end
 
   def send_mail
-    binding.pry
+    @estimate.link = "http://localhost:3000/estimates/#{@estimate.id}/estimate_signature"
+    SendGridMail.send_mail(params[:template],[@estimate,@estimate.customer],params[:subject],params[:emails])
+    redirect_to "/estimates/#{@estimate.id}/view", notice: "Mail Sent"
   end
 
   # GET /estimates/new

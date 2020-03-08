@@ -28,7 +28,12 @@ class SignaturesController < ApplicationController
     #@signature.file.recreate_versions!
 
     if @signature.save
-      redirect_to @signature, notice: 'Signature foi criado com sucesso'
+      if params[:signature][:sign].present?
+        redirect_to "/estimates/#{@signature.origin_id}/estimate_signature?sign=true", notice: 'Signature was successful'
+      else
+        redirect_to @signature, notice: 'Signature foi criado com sucesso'
+      end
+
     else
       render :new
     end

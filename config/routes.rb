@@ -1,5 +1,7 @@
 Rails.application.routes.draw do
 
+  resources :product_purchases
+  resources :purchases
   resources :documents do
     collection do
       post "save_data"
@@ -50,6 +52,7 @@ Rails.application.routes.draw do
       get "schedule"
       get "products"
       get "send_mail"
+      get "estimate_signature"
     end
     collection do
       get ":id/measurements", to: "measurement_areas#measurements", as: :measurement_view

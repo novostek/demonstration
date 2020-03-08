@@ -87,8 +87,9 @@ class CustomersController < ApplicationController
     @customer = Customer.new(customer_params)
 
     if @customer.save
-      if params[:button] != "remote_save"
-        render json: @customer
+      respond_to do |format|
+        format.html { redirect_to @customer, notice: 'Customer was succesfully created.' }
+        format.json { render json: @customer }
       end
     else
       render :new
@@ -98,7 +99,7 @@ class CustomersController < ApplicationController
   # PATCH/PUT /customers/1
   def update
     if @customer.update(customer_params)
-      redirect_to @customer, notice: 'Customer foi atualizado com sucesso.'
+      redirect_to @customer, notice: 'Customer was succesfully updated.'
     else
       render :edit
     end
@@ -107,7 +108,7 @@ class CustomersController < ApplicationController
   # DELETE /customers/1
   def destroy
     @customer.destroy
-    redirect_to customers_url, notice: 'Customer foi apagado com sucesso.'
+    redirect_to customers_url, notice: 'Customer was succesfully deleted.'
   end
 
   def search_by_phone

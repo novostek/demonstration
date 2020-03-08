@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_03_08_180130) do
+ActiveRecord::Schema.define(version: 2020_03_08_192534) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -383,7 +383,12 @@ ActiveRecord::Schema.define(version: 2020_03_08_180130) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.json "square_data"
+    t.bigint "purchase_id"
+    t.integer "origin_id"
+    t.string "payment_method"
+    t.string "email"
     t.index ["order_id"], name: "index_transactions_on_order_id"
+    t.index ["purchase_id"], name: "index_transactions_on_purchase_id"
     t.index ["transaction_account_id"], name: "index_transactions_on_transaction_account_id"
     t.index ["transaction_category_id"], name: "index_transactions_on_transaction_category_id"
   end
@@ -438,6 +443,7 @@ ActiveRecord::Schema.define(version: 2020_03_08_180130) do
   add_foreign_key "purchases", "suppliers"
   add_foreign_key "schedules", "workers"
   add_foreign_key "transactions", "orders"
+  add_foreign_key "transactions", "purchases"
   add_foreign_key "transactions", "transaction_accounts"
   add_foreign_key "transactions", "transaction_categories"
 end

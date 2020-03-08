@@ -65,7 +65,16 @@ Rails.application.routes.draw do
       get ":estimate_id/view", to: "estimates#view_estimate"
     end
   end
-  resources :orders
+  resources :orders do
+    member do
+      get "schedule"
+      post "create_schedule"
+      get "payments"
+    end
+    collection do
+      delete ":order_id/schedule/:schedule_id/delete", to: "orders#delete_schedule"
+    end
+  end
   resources :leads
 
   resources :menus

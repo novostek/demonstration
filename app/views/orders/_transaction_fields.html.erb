@@ -1,0 +1,23 @@
+<div class="row deposit nested-fields">
+  <div class="card-panel z-depth-0 border-radius-4">
+    <%= link_to_remove_association f, class: "btn-close-deposit" do %>
+      <i class="material-icons">close</i>
+    <% end %>
+    <div class="row">
+      <div class="input-field col s12 m4">
+        <%= f.text_field :value, class: "validade" %>
+        <%= f.label  :value %>
+      </div>
+      <div class="input-field col s12 m4">
+        <%= f.select :payment_method, Transaction.payment_method.options %>
+        <%= f.label :payment_method %>
+      </div>
+      <div class="input-field col s12 m4">
+        <i class="material-icons prefix">today</i>
+        <%= f.text_field :due, class: "deposit-due datepicker" %>
+        <%= f.label  :due %>
+      </div>
+
+    </div>
+  </div>
+</div>

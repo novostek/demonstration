@@ -7,9 +7,15 @@ en:
       transaction_account:
         bpm_instance: "BPM Instance"
         category: "Category"
-        due: "Due"
+        due: "Payment due"
         effective: "Effective"
         origin: "Origin"
         value: "Value"
         order_id: "Order"
+  enumerize:
+    transaction:
+      payment_method:
+        cash: "Cash"
+        square_credit: "Square (credit)"
+        square_installments: "Square (installments)"
 

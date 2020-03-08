@@ -46,7 +46,12 @@ class EstimatesController < ApplicationController
   end
 
   def send_mail
-    @estimate.link = "http://localhost:3000/estimates/#{@estimate.id}/estimate_signature"
+    if !Rails.env.production?
+      @estimate.link = "http://localhost:3000/estimates/#{@estimate.id}/estimate_signature"
+    else
+      @estimate.link = "http://woodoffice.herokuapp.com/estimates/#{@estimate.id}/estimate_signature"
+    end
+
     SendGridMail.send_mail(params[:template],[@estimate,@estimate.customer],params[:subject],params[:emails])
     redirect_to "/estimates/#{@estimate.id}/view", notice: "Mail Sent"
   end

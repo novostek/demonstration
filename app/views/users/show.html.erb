@@ -39,6 +39,43 @@
     <strong><%= t('profiles') %>:</strong>
     <%= @user.profiles.join(",") %>
   </p>
+  <p>
+    <strong><%= t('activerecord.attributes.user.active') %>:</strong>
+    <%= t @user.active %>
+  </p>
+
+  <a class="btn waves-effect waves-light modal-trigger  border-round " href="#modal-mail"><i class="material-icons hide-on-med-and-up ">send</i><span class="hide-on-small-only"><%= t "change_password" %></span></a>
+
+
+
+
+  <div id="modal-mail" class="modal">
+    <%= form_with model: @user, local: true do |f| %>
+      <div class="modal-content">
+        <h4><%= t "change_password" %></h4>
+        <div class="row">
+
+          <div class="input-field">
+            <%= f.label :password %>
+            <%= f.password_field :password %>
+
+          </div>
+
+          <div class="input-field">
+            <%= f.label :password_confirmation %>
+            <%= f.password_field :password_confirmation %>
+          </div>
+
+        </div>
+      </div>
+      <div class="modal-footer">
+        <%= f.button :submit,  class:"modal-action modal-close waves-effect waves-green btn-flat btn-send", target:"_self" do %>
+          <i class="material-icons left">send</i> Save
+        <% end %>
+        <!--		<a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat btn-send"> <i class="material-icons left">send</i> Send</a>-->
+      </div>
+    <% end %>
+  </div>
 	
 </div>
 

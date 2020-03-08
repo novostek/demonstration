@@ -3,6 +3,7 @@
 # Table name: users
 #
 #  id                     :bigint           not null, primary key
+#  active                 :boolean
 #  email                  :string           default(""), not null
 #  encrypted_password     :string           default(""), not null
 #  name                   :string
@@ -28,5 +29,15 @@ class User < ApplicationRecord
   has_many :profiles, through: :profile_users
   has_many :profile_menus, through: :profiles
   has_many :menus, through: :profile_menus
+
+  #Métdo que retorna o stats do usuario
+  def usuario_ativo?
+    self.active
+  end
+
+  #Método que verifica se o usuário está ativo
+  def active_for_authentication?
+    super && usuario_ativo?
+  end
 
 end

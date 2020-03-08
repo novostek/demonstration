@@ -9,3 +9,6 @@ en:
         password: "Password"
         password_confirmation: "Password confirmation"
         profiles: "Profiles"
+        active: "Active"
+
+  change_password: "Change Password"

@@ -1,5 +1,5 @@
 class EstimatesController < ApplicationController
-  before_action :set_estimate, only: [:show, :edit, :update, :destroy]
+  before_action :set_estimate, only: [:show, :edit, :update, :destroy,:send_mail]
   before_action :set_combos, only: [:step_one]
   # skip_forgery_protection
   # GET /estimates
@@ -10,6 +10,10 @@ class EstimatesController < ApplicationController
 
   # GET /estimates/1
   def show
+  end
+
+  def send_mail
+    binding.pry
   end
 
   # GET /estimates/new
@@ -146,6 +150,18 @@ class EstimatesController < ApplicationController
 
   def view_estimate
     @estimate = Estimate.find(params[:estimate_id])
+
+    begin
+      @email_customer = @estimate.customer.contacts.where(category: :email).first.data["email"]
+    rescue
+      @email_customer = ""
+    end
+
+    begin
+      @templates = SendGridMail.get_templates["templates"].map{|a| [a["name"],a["id"]]}
+    rescue
+      @templates = []
+    end
 
     render :estimate_view
   end

@@ -49,6 +49,7 @@ Rails.application.routes.draw do
     member do
       get "schedule"
       get "products"
+      get "send_mail"
     end
     collection do
       get ":id/measurements", to: "measurement_areas#measurements", as: :measurement_view

@@ -9,6 +9,7 @@
 #  current            :boolean
 #  description        :text             not null
 #  latitude           :decimal(, )      not null
+#  link               :text
 #  location           :string           not null
 #  longitude          :decimal(, )      not null
 #  price              :decimal(, )

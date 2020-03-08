@@ -6,7 +6,12 @@ class SchedulesController < ApplicationController
 
   def redirect_schedule
     if params[:origin].present? and !params[:origin].blank?
-      redirect_to "/#{params[:origin].pluralize.downcase}/#{params[:origin_id]}"
+      if params[:origin] == "Estimate"
+        redirect_to "/#{params[:origin].pluralize.downcase}/#{params[:origin_id]}/view"
+      else
+        redirect_to "/#{params[:origin].pluralize.downcase}/#{params[:origin_id]}"
+      end
+
     else
       redirect_to schedules_path
     end

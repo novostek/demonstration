@@ -1,5 +1,5 @@
 class OrdersController < ApplicationController
-  before_action :set_order, only: [:show, :edit, :update, :destroy, :schedule, :create_schedule]
+  before_action :set_order, only: [:show, :edit, :update, :destroy, :schedule, :create_schedule, :payments]
 
   # GET /orders
   def index
@@ -49,6 +49,7 @@ class OrdersController < ApplicationController
   def schedule
     @schedules = @order.schedules
     @workers = Worker.all
+    @estimate = @order.get_current_estimate
 
     render :order_schedules
   end
@@ -73,7 +74,9 @@ class OrdersController < ApplicationController
   end
 
   def payments
-    
+    @estimate = @order.get_current_estimate
+
+    render :order_payments
   end
 
   def delete_schedule
@@ -90,6 +93,10 @@ class OrdersController < ApplicationController
 
     # Only allow a trusted parameter "white list" through.
     def order_params
-      params.require(:order).permit(:code, :status, :bpmn_instance, :start_at, :end_at)
+      params.require(:order).permit(
+        :code, :status, :bpmn_instance, :start_at, :end_at,
+        transactions_attributes: [
+          :id, :origin, :origin_id, :value, :payment_method, :due, :_destroy
+        ])
     end
 end

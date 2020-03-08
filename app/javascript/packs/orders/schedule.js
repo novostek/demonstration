@@ -34,7 +34,7 @@ function deleteSchedule({ order_id, schedule_id, ...data }) {
 		body: JSON.stringify(data)
 	}
 
-	fetch(`/order/${order_id}/schedule/${schedule_id}/delete`, fetchConfig)
+	fetch(`/orders/${order_id}/schedule/${schedule_id}/delete`, fetchConfig)
 		.then(data => data.json())
 		.then(result => console.log(result))
 		.catch(error => console.error(error))

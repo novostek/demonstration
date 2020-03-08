@@ -69,6 +69,7 @@ Rails.application.routes.draw do
     member do
       get "schedule"
       post "create_schedule"
+      get "payments"
     end
     collection do
       delete ":order_id/schedule/:schedule_id/delete", to: "orders#delete_schedule"

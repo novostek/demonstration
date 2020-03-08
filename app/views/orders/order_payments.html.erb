@@ -1,0 +1,40 @@
+<div class="section">
+  <%= render 'estimates/estimate_detail' %>
+  <div class="card">
+    <div class="card-content">
+      <ul class="stepper horizontal stepper-head-only">
+        <li class="step">
+          <div class="step-title waves-effect">Schedule</div>
+        </li>
+        <li class="step active">
+          <div class="step-title waves-effect">Deposit</div>
+        </li>
+        <li class="step">
+          <div class="step-title waves-effect">Products purchase</div>
+        </li>
+      </ul>
+      <div class="deposit-list" id="transactions">
+        <%= form_for @order, local: true, url: order_path, method: :post do |form| %>
+          <%= form.fields_for :transactions do |transaction_form| %>
+            <%= render 'transaction_fields', f: transaction_form %>
+          <% end %>
+          <div class="row mt-1">
+            <%= link_to_add_association form, :transactions, class: "btn btn-add-deposit" do %>
+              <i class="material-icons left">add</i> Add deposit
+            <% end %>
+          </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="col s12 pr-0 pl-0 pb-2">
+    <a class="btn grey lighten-5 grey-text waves-effect waves-light breadcrumbs-btn left save" href="order-schedule.html"><i class="material-icons left">arrow_back</i> Back</a>
+    <%= form.button :submit, class:"btn indigo waves-effect waves-light breadcrumbs-btn right ml-1" do %>
+      Next: Products purchase
+      <i class="material-icons right">arrow_forward</i>
+    <% end %>
+  </div>
+  <% end %>
+
+
+</div>

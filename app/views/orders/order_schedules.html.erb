@@ -1,5 +1,28 @@
+<div class="content-wrapper-before gradient-45deg-indigo-purple"></div>
+<div class="breadcrumbs-dark pb-0 pt-4" id="breadcrumbs-wrapper">
+  <!-- Search for small screen-->
+  <div class="container">
+    <div class="row">
+      <div class="col s10 m6 l6">
+        <h5 class="breadcrumbs-title mt-0 mb-0">Eschedule Order</h5>
+        <ol class="breadcrumbs mb-0">
+          <li class="breadcrumb-item"><a href="index.html">Home</a>
+          </li>
+          <li class="breadcrumb-item"><a href="#">Order</a>
+          </li>
+          <li class="breadcrumb-item active">Eschedule
+          </li>
+        </ol>
+      </div>
+      <div class="col s2 m6 l6">
+        <!-- <a class="btn waves-effect waves-light breadcrumbs-btn right border-round" href="estimate-add.html"><i class="material-icons hide-on-med-and-up">add</i><span class="hide-on-small-only">Add estimate</span></a> -->
+      </div>
+    </div>
+  </div>
+</div>
 <div class="section">
-    <div class="card-panel">
+  <%= render 'estimates/estimate_detail' %>
+    <%# <div class="card-panel">
       <div class="row">
         <div class="col s5">
           <h6>Estime title</h6>
@@ -16,7 +39,7 @@
           
         </div>
       </div>
-    </div>
+    </div> %>
   </div>
   <div class="card">
     <div class="card-content">
@@ -25,7 +48,7 @@
           <div class="step-title waves-effect">Schedule</div>
         </li>
         <li class="step">
-          <div class="step-title waves-effect">Deposit</div>
+          <div class="step-title waves-effect">Payment</div>
         </li>
         <li class="step">
           <div class="step-title waves-effect">Products purchase</div>
@@ -60,7 +83,9 @@
   </div>
   <div class="col s12 pb-2 pl-0 pr-0">
     <a class="btn grey lighten-5 grey-text waves-effect waves-light breadcrumbs-btn left save" href="estimate-view.html"><i class="material-icons left">arrow_back</i> Back</a>
-    <a class="btn waves-effect waves-light indigo breadcrumbs-btn right save-estimate" href="order-deposit.html">Next: Deposit <i class="material-icons right">arrow_forward</i></a>
+    <%= link_to payments_order_path(@order), class: "btn waves-effect waves-light indigo breadcrumbs-btn right save-estimate" do %>
+      Next: Deposit <i class="material-icons right">arrow_forward</i>
+    <% end %>
   </div>
 </div>
 

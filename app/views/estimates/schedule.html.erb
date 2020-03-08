@@ -50,7 +50,7 @@
                 <% @workers.each do |worker| %>
                   <div class='fc-event' id="<%= worker.id %>" data-color='<%= @schedules.find_by(worker_id: worker.id, origin_id: @estimate.id).present? ? @schedules.find_by(worker_id: worker.id, origin_id: @estimate.id).color : "##{SecureRandom.hex(3)}" %>'>
                     <% if worker.photo.present? %>
-                      <img src="<%= worker.photo %>%" class="circle responsive-img" style="width: 30px;" />
+                      <img src="<%= worker.photo %>" class="circle responsive-img" style="width: 30px;" />
                     <% end %>
                   <%= worker.name %></div>
                 <% end %>

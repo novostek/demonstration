@@ -88,7 +88,7 @@ class CustomersController < ApplicationController
 
     if @customer.save
       if params[:button] != "remote_save"
-        redirect_to @customer, notice: 'Customer foi criado com sucesso'
+        render json: @customer
       end
     else
       render :new

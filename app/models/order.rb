@@ -14,4 +14,8 @@
 
 class Order < ApplicationRecord
   has_many :estimates
+
+  def to_s
+    self.code
+  end
 end

@@ -115,118 +115,16 @@
               </tr>
               </thead>
               <tbody>
-              <tr>
-                <td><a href='estimate-view.html'>#123</a></td>
-                <td>$100.00</td>
-                <td><a href="order-view.html">#4765</a></td>
-                <td>$90.00</td>
-                <td>$30.00</td>
-                <td>$25.00</td>
-              </tr>
-              <tr>
-                <td><a href='estimate-view.html'>#123</a></td>
-                <td>$100.00</td>
-                <td>-</td>
-                <td>-</td>
-                <td>$100.00</td>
-                <td>$25.00</td>
-              </tr>
-              <tr>
-                <td><a href='estimate-view.html'>#123</a></td>
-                <td>$100.00</td>
-                <td><a href="order-view.html">#4765</a></td>
-                <td>-</td>
-                <td>$100.00</td>
-                <td>$25.00</td>
-              </tr>
-              <tr>
-                <td><a href='estimate-view.html'>#123</a></td>
-                <td>$100.00</td>
-                <td>-</td>
-                <td>-</td>
-                <td>$100.00</td>
-                <td>$25.00</td>
-              </tr>
-              <tr>
-                <td><a href='estimate-view.html'>#123</a></td>
-                <td>$100.00</td>
-                <td><a href="order-view.html">#4765</a></td>
-                <td>$90.00</td>
-                <td>$30.00</td>
-                <td>$25.00</td>
-              </tr>
-              <tr>
-                <td><a href='estimate-view.html'>#123</a></td>
-                <td>$100.00</td>
-                <td>-</td>
-                <td>-</td>
-                <td>$100.00</td>
-                <td>$25.00</td>
-              </tr>
-              <tr>
-                <td><a href='estimate-view.html'>#123</a></td>
-                <td>$100.00</td>
-                <td><a href="order-view.html">#4765</a></td>
-                <td>$90.00</td>
-                <td>$30.00</td>
-                <td>$25.00</td>
-              </tr>
-              <tr>
-                <td><a href='estimate-view.html'>#123</a></td>
-                <td>$100.00</td>
-                <td>-</td>
-                <td>-</td>
-                <td>$100.00</td>
-                <td>$25.00</td>
-              </tr>
-              <tr>
-                <td><a href='estimate-view.html'>#123</a></td>
-                <td>$100.00</td>
-                <td><a href="order-view.html">#4765</a></td>
-                <td>$90.00</td>
-                <td>$30.00</td>
-                <td>$25.00</td>
-              </tr>
-              <tr>
-                <td><a href='estimate-view.html'>#123</a></td>
-                <td>$100.00</td>
-                <td>-</td>
-                <td>-</td>
-                <td>$100.00</td>
-                <td>$25.00</td>
-              </tr>
-              <tr>
-                <td><a href='estimate-view.html'>#123</a></td>
-                <td>$100.00</td>
-                <td><a href="order-view.html">#4765</a></td>
-                <td>$90.00</td>
-                <td>$30.00</td>
-                <td>$25.00</td>
-              </tr>
-              <tr>
-                <td><a href='estimate-view.html'>#123</a></td>
-                <td>$100.00</td>
-                <td>-</td>
-                <td>-</td>
-                <td>$100.00</td>
-                <td>$25.00</td>
-              </tr>
-              <tr>
-                <td><a href='estimate-view.html'>#123</a></td>
-                <td>$100.00</td>
-                <td><a href="order-view.html">#4765</a></td>
-                <td>$90.00</td>
-                <td>$30.00</td>
-                <td>$25.00</td>
-              </tr>
-              <tr>
-                <td><a href='estimate-view.html'>#123</a></td>
-                <td>$100.00</td>
-                <td>-</td>
-                <td>-</td>
-                <td>$100.00</td>
-                <td>$25.00</td>
-              </tr>
+              <% @customer.estimates.each do |e| %>
+                <tr>
+                  <td><%= link_to "##{e.code}", e %></td>
+                    <td><%= number_to_currency(e.product_estimates.sum(:value).to_f) %></td>
+                  <td><%= link_to "##{e.order}", e.order if e.order.present? %></td>
+                  <td>$90.00</td>
+                  <td>$30.00</td>
+                  <td>$25.00</td>
+                </tr>
+              <% end %>
               </tbody>
             </table>
           </div>

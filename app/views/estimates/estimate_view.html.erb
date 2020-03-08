@@ -1,320 +1,243 @@
-<div class="col s12">
-			<div class="container">
+<div class="row">
+  <div class="content-wrapper-before gradient-45deg-indigo-purple"></div>
+  <div class="breadcrumbs-dark pb-0 pt-4" id="breadcrumbs-wrapper">
+    <div class="container">
+      <div class="row">
+        <div class="col s10 m6 l6">
+          <h5 class="breadcrumbs-title mt-0 mb-0">Estimate #<%= @estimate.code %></h5>
+          <ol class="breadcrumbs mb-0">
+            <li class="breadcrumb-item"><a href="index.html">Home</a>
+            </li>
+            <li class="breadcrumb-item"><a href="#">Estimates</a>
+            </li>
+            <li class="breadcrumb-item"><a href="#">View</a>
+            </li>
+          </ol>
+        </div>
+				<div class="col s2 m6 l6">
+						<a class="btn waves-effect waves-light breadcrumbs-btn right border-round" href="order-schedule.html"><i class="material-icons hide-on-med-and-up">attach_money</i><span class="hide-on-small-only">Order</span></a>
+						<a class="btn waves-effect waves-light modal-trigger breadcrumbs-btn right mr-2 indigo border-round btn-send-email" href="#modal-mail"><i class="material-icons hide-on-med-and-up ">send</i><span class="hide-on-small-only">Send email</span></a>
+						<%= link_to step_one_estimates_path(@estimate.lead.id),  class: "btn waves-effect waves-light breadcrumbs-btn right mr-2 pink lighten-4 pink-text border-round" do %>
+							<i class="material-icons hide-on-med-and-up ">edit</i><span class="hide-on-small-only"><%= t "button.edit" %></span>
+						<% end %>	
+					</a>
+				</div>
+      </div>
+    </div>
+  </div>
+</div>
+		<div class="row mt-1">
+			<div class="col s12 l9 pl-0 pr-0">
+				<div class="col s12">
+					<div class="card-panel">
+						<div class="row">
+							<div class="col s12 m5">
+								<span class="left width-100"><span class="font-weight-600 black-text">Created at:</span> <%= @estimate.created_at %></span>
+								<span class="left width-100"><span class="font-weight-600 black-text">Location:</span> <%= @estimate.location %></span>
+								<span class="left width-100"><span class="font-weight-600 black-text">Category:</span> <%= @estimate.category %></span>
+							</div>
+							<div class="col s12 m5">
+								<span class="left width-100"><span class="font-weight-600 black-text">Price:</span> $ <%= @estimate.product_estimates.sum(:value).to_f %></span>
+								<span class="left width-100"><span class="font-weight-600 black-text">Tax:</span> $ <%= @estimate.tax %></span>
+							</div>
+							<div class="col s12 m2">
+								<span class=" users-view-status display-inline chip green lighten-5 green-text right"><%= @estimate.status %></span>
+							</div>
 
-				
-				<div class="row mt-1">
+							<div class="col s12 mt-1">
+								<span><%= @estimate.description %></span>
+							</div>
 
 
-
-					<div class="col s12 l9 pl-0 pr-0">
-
-						<div class="col s12">
-							<div class="card-panel">
-								<div class="row">
-
-									<div class="col s12 m5">
-										<span class="left width-100"><span class="font-weight-600 black-text">Created at:</span> 2020-02-02</span>
-										<span class="left width-100"><span class="font-weight-600 black-text">Location:</span> Paris, France</span>
-										<span class="left width-100"><span class="font-weight-600 black-text">Category:</span> Category 1</span>
-									</div>
-									<div class="col s12 m5">
-										<span class="left width-100"><span class="font-weight-600 black-text">Price:</span> $ 293.85</span>
-										<span class="left width-100"><span class="font-weight-600 black-text">Tax:</span> $ 29.38</span>
-									</div>
-									<div class="col s12 m2">
-										<span class=" users-view-status display-inline chip green lighten-5 green-text right">Active</span>
-									</div>
-
-									<div class="col s12 mt-1">
-										<span>Estimate description that could be a little longer.</span>
-									</div>
-
-
-								</div>
-								</div>
-								<!-- Areas -->
-								<ul class="collapsible">
-									<li>
-										<div class="collapsible-header" tabindex="0"><i class="material-icons">select_all</i>Areas</div>
-										<div class="collapsible-body grey lighten-4 pl-2 pr-2 pt-2 pb-2">
-											<div class="row">
-												<div class="col s12 l6">
-													<div class="card-panel pt-3 pb-3">
-														<div class="row center-align">
-															<h6 class="col s12 pl-0 pt-0 mt-0 font-weight-600 display-flex align-items-center justify-content-center"><i class="material-icons left">event_seat</i>Living room</h6>
-															<div class="row mb-2">
-																<div class="col s12">
-																	Open kitchen included
-																</div>
+						</div>
+						</div>
+						<!-- Areas -->
+						<ul class="collapsible">
+							<li>
+								<div class="collapsible-header" tabindex="0"><i class="material-icons">select_all</i>Areas</div>
+								<div class="collapsible-body grey lighten-4 pl-2 pr-2 pt-2 pb-2">
+									<div class="row">
+										<% @estimate.measurement_areas.each do |ma| %>
+											<div class="col s12 l6">
+												<div class="card-panel pt-3 pb-3">
+													<div class="row center-align">
+														<h6 
+															class="col s12 pl-0 pt-0 mt-0 font-weight-600 display-flex align-items-center justify-content-center">
+															<i class="material-icons left">event_seat</i>
+																<%= ma.name %>
+															</h6>
+														<%# <div class="row mb-2">
+															<div class="col s12">
+																Open kitchen included
 															</div>
-															<div class="col s4">
-																<!-- length -->
-																<i class="material-icons left width-100">straighten</i>5.0m
-															</div>
-															<div class="col s4">
-																<!-- width -->
-																<i class="material-icons left width-100" style="transform: rotate(-45deg)">straighten</i>3.32m
-															</div>
-															<div class="col s4">
-																<!-- height -->
-																<i class="material-icons left width-100" style="transform: rotate(-90deg)">straighten</i>1m
-															</div>
+														</div> %>
+														<div class="col s4">
+															<!-- length -->
+															<i class="material-icons left width-100">straighten</i><%= ma.measurements[0].length %>
 														</div>
-													</div>
-												</div>
-												<div class="col s12 l6">
-													<div class="card-panel pt-3 pb-3">
-														<div class="row center-align">
-															<h6 class="col s12 pl-0 pt-0 mt-0 font-weight-600 display-flex align-items-center justify-content-center"><i class="material-icons left">event_seat</i>Living room</h6>
-															<div class="row mb-2">
-																<div class="col s12">
-																	Open kitchen included
-																</div>
-															</div>
-															<div class="col s4">
-																<!-- length -->
-																<i class="material-icons left width-100">straighten</i>5.0m
-															</div>
-															<div class="col s4">
-																<!-- width -->
-																<i class="material-icons left width-100" style="transform: rotate(-45deg)">straighten</i>3.32m
-															</div>
-															<div class="col s4">
-																<!-- height -->
-																<i class="material-icons left width-100" style="transform: rotate(-90deg)">straighten</i>1m
-															</div>
+														<div class="col s4">
+															<!-- width -->
+															<i class="material-icons left width-100" style="transform: rotate(-45deg)">straighten</i><%= ma.measurements[0].width %>
 														</div>
-													</div>
-												</div>
-												<div class="col s12 l6">
-													<div class="card-panel pt-3 pb-3">
-														<div class="row center-align">
-															<h6 class="col s12 pl-0 pt-0 mt-0 font-weight-600 display-flex align-items-center justify-content-center"><i class="material-icons left">event_seat</i>Bedroom</h6>
-															<div class="row mb-2">
-																<div class="col s12">
-																	Well, I guess I should write something here
-																</div>
-															</div>
-															<div class="col s4">
-																<!-- length -->
-																<i class="material-icons left width-100">straighten</i>5.0m
-															</div>
-															<div class="col s4">
-																<!-- width -->
-																<i class="material-icons left width-100" style="transform: rotate(-45deg)">straighten</i>3.32m
-															</div>
-															<div class="col s4">
-																<!-- height -->
-																<i class="material-icons left width-100" style="transform: rotate(-90deg)">straighten</i>1m
-															</div>
+														<div class="col s4">
+															<!-- height -->
+															<i class="material-icons left width-100" style="transform: rotate(-90deg)">straighten</i><%= ma.measurements[0].height %>
 														</div>
 													</div>
 												</div>
 											</div>
-										</div>
+										<% end %>
+									</div>
+								</div>
+							</li>
+						</ul>
+
+
+						<div class="card-panel">
+						<!-- Procuts and area -->
+						<% @estimate.measurement_proposals.each do |mp| %>
+							<div class="row">
+								<div class="col s12">
+									<div class="row pl-2 pr-2">
+										<span class="mr-1">Selected areas:</span>
+										<% mp.measurement_area.each do |ma| %>
+											<div class="chip blue white-text"><%= ma.name %></div>
+										<% end %>
+									</div>
+									<table class="striped responsive-table">
+										<thead>
+											<tr>
+												<th>Product</th>
+												<th>Qty</th>
+												<th>Price Unity</th>
+												<th>Discount</th>
+												<th class="right-align">Subtotal</th>
+											</tr>
+										</thead>
+										<tbody>
+											<% mp.product_estimates.each do |pe| %>
+												<tr>
+													<td><%= pe.product.name %></td>
+													<td><%= pe.quantity %></td>
+													<td><%= pe.unitary_value %></td>
+													<td><%= pe.discount %></td>
+													<td class=" right-align">$<%= pe.value %></td>
+												</tr>
+											<% end %>
+											<tr class="white">
+												<td class="right-align" colspan="100"><strong>Subtotal area:</strong><br>$<%= mp.product_estimates.sum(:value) %></td>
+											</tr>
+										</tbody>
+									</table>	
+								</div>
+							</div>
+							<div class="divider mb-3 mt-3"></div>
+						<% end %>
+						
+						<div class="row">
+							<div class="col m5 s12">
+								<!-- <p>Thanks for your business.</p> -->
+							</div>
+							<div class="col xl4 m7 s12 offset-xl3">
+								<ul>
+									<li class="display-flex justify-content-between">
+										<span class="invoice-subtotal-title">Subtotal</span>
+										<h6 class="mt-0">$<%= @estimate.product_estimates.sum(:value).to_f %></h6>
+									</li>
+									<li class="display-flex justify-content-between">
+										<span class="invoice-subtotal-title">Discount</span>
+										<h6 class="mt-0">$ <%= @estimate.product_estimates.sum(:discount).to_f %></h6>
+									</li>
+									<li class="display-flex justify-content-between">
+										<span class="invoice-subtotal-title">Tax</span>
+										<h6 class="mt-0">$ <%= @estimate.tax.to_f %></h6>
+									</li>
+									<li class="divider mt-2 mb-2"></li>
+									<li class="display-flex justify-content-between">
+										<span class="invoice-subtotal-title">Estimate Total</span>
+										<h6 class="mt-0">$ <%= @estimate.get_total_value %></h6>
 									</li>
 								</ul>
-
-
-								<div class="card-panel">
-								<!-- Procuts and area -->
-								<div class="row">
-									<div class="col s12">
-										<div class="row pl-2 pr-2">
-											<span class="mr-1">Selected areas:</span>
-											<div class="chip blue white-text">Living room</div>
-											<div class="chip blue white-text">bedroom</div>
-										</div>
-										<table class="striped responsive-table">
-											<thead>
-												<tr>
-													<th>Product</th>
-													<th>Qty</th>
-													<th>Price Unity</th>
-													<th>Discount</th>
-													<th class="right-align">Subtotal</th>
-												</tr>
-											</thead>
-											<tbody>
-												<tr>
-													<td>Product 1</td>
-													<td>2</td>
-													<td>$10.00</td>
-													<td>0</td>
-													<td class=" right-align">$20.00</td>
-												</tr>
-												<tr>
-													<td>Product 2</td>
-													<td>1</td>
-													<td>$15.00</td>
-													<td>0</td>
-													<td class=" right-align">$15.00</td>
-												</tr>
-												<tr class="white">
-													<td class="right-align" colspan="100"><strong>Subtotal area:</strong><br>$80.00</td>
-												</tr>
-											</tbody>
-										</table>	
-									</div>
-								</div>
-								<div class="divider mb-3 mt-3"></div>
-								<div class="row">
-									<div class="col s12">
-										<div class="row pl-2 pr-2">
-											<span class="mr-1">Selected areas:</span>
-											<div class="chip blue white-text">Living room</div>
-											<div class="chip blue white-text">bedroom</div>
-										</div>
-										<table class="striped responsive-table">
-											<thead>
-												<tr>
-													<th>Product</th>
-													<th>Qty</th>
-													<th>Price Unity</th>
-													<th>Discount</th>
-													<th class="right-align">Subtotal</th>
-												</tr>
-											</thead>
-											<tbody>
-												<tr>
-													<td>Product 1</td>
-													<td>2</td>
-													<td>$10.00</td>
-													<td>0</td>
-													<td class=" right-align">$20.00</td>
-												</tr>
-												<tr>
-													<td>Product 2</td>
-													<td>1</td>
-													<td>$15.00</td>
-													<td>0</td>
-													<td class=" right-align">$15.00</td>
-												</tr>
-												<tr>
-													<td>Product 3</td>
-													<td>3</td>
-													<td>$15.00</td>
-													<td>0</td>
-													<td class=" right-align">$45.00</td>
-												</tr>
-												<tr>
-													<td class="right-align" colspan="100"><strong>Subtotal area:</strong><br>$80.00</td>
-												</tr>
-											</tbody>
-										</table>	
-										<div class="divider mb-3 mt-3"></div>
-									</div>
-								</div>
-								<div class="row">
-									<div class="col m5 s12">
-										<!-- <p>Thanks for your business.</p> -->
-									</div>
-									<div class="col xl4 m7 s12 offset-xl3">
-										<ul>
-											<li class="display-flex justify-content-between">
-												<span class="invoice-subtotal-title">Subtotal</span>
-												<h6 class="mt-0">$160.00</h6>
-											</li>
-											<li class="display-flex justify-content-between">
-												<span class="invoice-subtotal-title">Discount</span>
-												<h6 class="mt-0">$ 0</h6>
-											</li>
-											<li class="display-flex justify-content-between">
-												<span class="invoice-subtotal-title">Tax</span>
-												<h6 class="mt-0">10%</h6>
-											</li>
-											<li class="divider mt-2 mb-2"></li>
-											<li class="display-flex justify-content-between">
-												<span class="invoice-subtotal-title">Estimate Total</span>
-												<h6 class="mt-0">$ 176.00</h6>
-											</li>
-										</ul>
-									</div>
-								</div>
-								<!--  End products area -->
 							</div>
 						</div>
+						<!--  End products area -->
 					</div>
-					<div class="col s12 l3 pl-0 pr-0">
-						<div class="row">
-							<div class="col s12 card-width">
-								<div class="card-panel pt-2 pl-4 pr-4">
+				</div>
+			</div>
+			<div class="col s12 l3 pl-0 pr-0">
+				<div class="row">
+					<div class="col s12 card-width">
+						<div class="card-panel pt-2 pl-4 pr-4">
 
-									<h6 class="row mb-4 pl-4 pr-4">Schedule</h6>
-									<div class="estimate-schedule-list">
-										<div class="row border-radius-5 cyan lighten-5 mb-3">
-											<div class="col s3 pr-0 mt-2">
-												<img src="app-assets/images/avatar/avatar-15.png" alt="users view avatar" class="circle avatar-md avatar-status left tooltipped" data-tooltip="Worker name">
-											</div>
-											<div class="col s9 pl-0">
-												<p class="mt-2 mb-2"><a class="black-text" href="#"><strong>Schedule:</strong> 2020-01-03<br>09:00 am</a></p>
-											</div>
+							<h6 class="row mb-4 pl-4 pr-4">Schedule</h6>
+							<div class="estimate-schedule-list">
+								<% @estimate.schedules.each do |schedule| %>
+									<div class="row border-radius-5 cyan lighten-5 mb-3">
+										<div class="col s3 pr-0 mt-2">
+											<img src="<%= schedule.worker.photo.url ? schedule.worker.photo.url : "https://i.pravatar.cc/50"  %>" alt="users view avatar" class="circle avatar-md avatar-status left tooltipped" data-tooltip="<%= schedule.worker.name %>">
 										</div>
-										<div class="row border-radius-5 cyan lighten-5 mb-3">
-											<div class="col s3 pr-0 mt-2">
-												<img src="app-assets/images/avatar/avatar-15.png" alt="users view avatar" class="circle avatar-md avatar-status left tooltipped" data-tooltip="Worker name">
-											</div>
-											<div class="col s9 pl-0">
-												<p class="mt-2 mb-2"><a class="black-text" href="#"><strong>Schedule:</strong> 2020-01-03<br>09:00 am</a></p>
-											</div>
-										</div>
-										<div class="row border-radius-5 cyan lighten-5 mb-3">
-											<div class="col s3 pr-0 mt-2">
-												<img src="app-assets/images/avatar/avatar-15.png" alt="users view avatar" class="circle avatar-md avatar-status left tooltipped" data-tooltip="Worker name">
-											</div>
-											<div class="col s9 pl-0">
-												<p class="mt-2 mb-2"><a class="black-text" href="#"><strong>Schedule:</strong> 2020-01-03<br>09:00 am</a></p>
-											</div>
+										<div class="col s9 pl-0">
+											<p class="mt-2 mb-2"><a class="black-text" href="#"><strong>Schedule:</strong> <%= schedule.start_at.strftime("%m/%d/%Y") %><br><%= schedule.start_at.strftime("%I:%M") %></a></p>
 										</div>
 									</div>
-								</div>
-							</div>
-						</div>
-						<div class="col s12 card-width">
-							<div class="card row black-text padding-4 mt-3">
-								<a href="#">
-									<div class="col s5 m5">
-										<i class="material-icons background-round mt-5 mb-5 green-text">description</i>
-										<!-- <p>Orders</p> -->
-									</div>
-									<div class="col s7 m7 right-align">
-										<h5 class="mb-0 black-text">6</h5>
-										<p class="no-margin black-text">Documents</p>
-										<!-- <p>6,00,00</p> -->
-									</div>
-								</a>
-							</div>
-						</div>
-						
-						<div class="col s12 l6 card-width pl-2">
-							<div class="card mt-4">
-								<a href="#">
-									<div class="card-content center-align">
-										<i class="material-icons amber-text small-ico-bg mb-5">note</i>
-										<h4 class="m-0"><b>3</b></h4>
-										<p class="black-text">Notes</p>
-									</div>
-								</a>
-							</div>
-						</div>
-						<div class="col s12 l6 card-width pr-2">
-							<div class="card mt-4">
-								<a href="#">
-									<div class="card-content pr-2 pl-2 center-align">
-										<i class="material-icons blue-text small-ico-bg mb-5">settings</i>
-										<h4 class="m-0"><b>2</b></h4>
-										<p class="black-text">Processes</p>
-									</div>
-								</a>
+								<% end %>
 							</div>
 						</div>
 					</div>
 				</div>
-
+				<div class="col s12 card-width">
+					<div class="card row black-text padding-4 mt-3">
+						<a href="#">
+							<div class="col s5 m5">
+								<i class="material-icons background-round mt-5 mb-5 green-text">description</i>
+								<!-- <p>Orders</p> -->
+							</div>
+							<div class="col s7 m7 right-align">
+								<h5 class="mb-0 black-text">6</h5>
+								<p class="no-margin black-text">Documents</p>
+								<!-- <p>6,00,00</p> -->
+							</div>
+						</a>
+					</div>
+				</div>
+				
+				<div class="col s12 l6 card-width pl-2">
+					<div class="card mt-4">
+						<a href="#">
+							<div class="card-content center-align">
+								<i class="material-icons amber-text small-ico-bg mb-5">note</i>
+								<h4 class="m-0"><b>3</b></h4>
+								<p class="black-text">Notes</p>
+							</div>
+						</a>
+					</div>
+				</div>
+				<div class="col s12 l6 card-width pr-2">
+					<div class="card mt-4">
+						<a href="#">
+							<div class="card-content pr-2 pl-2 center-align">
+								<i class="material-icons blue-text small-ico-bg mb-5">settings</i>
+								<h4 class="m-0"><b>2</b></h4>
+								<p class="black-text">Processes</p>
+							</div>
+						</a>
+					</div>
+				</div>
 			</div>
-
-
-
-
-
 		</div>
+<%= content_for :scripts do %>
+	<script>
+		$(document).ready(function(){
+
+			$('.chips').chips();
+
+			$('.modal').modal({
+				opacity: .8
+			});
+
+			$(document).on('click', '.modal-action.btn-send', function(){
+
+			})
+		});
+	</script>
+<% end %>

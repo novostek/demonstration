@@ -122,7 +122,12 @@
       $('.modal').modal();
   });
   $(document).ready(function(){
-      $('.datepicker').datepicker();
+      $('.datepicker').datepicker({
+        format: 'dd/mm/yyyy'
+      });
+  });
+  $(document).ready(function(){
+    $('.phone').mask('(000) 000-0000');
   });
 </script>
 

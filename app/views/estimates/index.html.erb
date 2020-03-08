@@ -39,56 +39,48 @@
   </div>
   <p></p>
   <!-- create invoice button-->
-  <div class="responsive-table">
-    <style>td{padding: 15px}</style>
-    <table class="table invoice-data-table white border-radius-4 pt-1">
-      <thead>
-        <tr>
-          <th>#</th>
-          <th><%= t('activerecord.attributes.estimate.customer') %></th>
-          <th><%= t('activerecord.attributes.estimate.title') %></th>
-          <th><%= t('activerecord.attributes.estimate.created_at') %></th>
-          <th><%= t('activerecord.attributes.estimate.location') %></th>
-          <th><%= t('activerecord.attributes.estimate.category') %></th>
-          <th><%= t('activerecord.attributes.estimate.price') %></th>
-          <th><%= t('activerecord.attributes.estimate.status') %></th>
-          <th><%= t('activerecord.attributes.estimate.sales_person') %></th>
-        </tr>
-      </thead>
-      <tbody>
-        <% @estimates.each do |estimate| %>
-        <tr>
-            <td><%= estimate.customer.name %></td>
-            <td><%= estimate.title %></td>
-            <td><%= estimate.created_at %></td>
-            <td><%= estimate.location %></td>
-            <td><%= estimate.category %></td>
-            <td><%= estimate.price %></td>
-            <td>
-              <span class="chip lighten-5">
-                <%= estimate.status %>
-              </span>
-            </td>
-            <td>
-              <a href="#">
-                <img src="https://i.pravatar.cc/300" alt="Sales Person">
-                <%= estimate.sales_person.name %>
-              </a>
-            </td>
-          <td>
-            <div class="invoice-action right-align">
-              <%= link_to estimate, class: "invoice-action-view mr-4" do %>
-                <i class="material-icons">remove_red_eye</i>
-              <% end %>
-              <%= link_to edit_estimate_path(estimate) , class: "invoice-action-edit mr-4" do %>
-                <i class="material-icons">edit</i>
-              <% end %>
-            </div>
-          </td>
-        </tr>
-        <% end %>
-      </tbody>
-    </table>
-  </div>
+  <div class="card">
+    <div class="card-content">
+      <table class="responsive-table">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Customer</th>
+            <th>Title</th>
+            <th>Date</th>
+            <th>Location</th>
+            <th>Category</th>
+            <th>Price</th>
+            <th>Status</th>
+            <th>Sales person</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% @estimates.each do |estimate| %>
+            <tr>
+              <td><%= link_to estimate.code, step_one_estimates_path(estimate.lead.id) %></td>
+              <td><%= link_to estimate.customer.name, customer_path(estimate.customer) %></td>
+              <td><%= estimate.title %></td>
+              <td><%= estimate.created_at.strftime("%m/%d/%Y") %></td>
+              
+              <td><%= estimate.location %></td>
+              <td><%= estimate.category %></td>
+              <td><%= estimate.product_estimates.sum(:value) %></td>
+              <td><span class="chip lighten-5 green green-text"><%= estimate.status %></span></td>
+              
+              <td>
+                <%= link_to worker_path(estimate.sales_person) do %>
+
+                <div class="chip">
+                  <img src="<%= estimate.sales_person.photo.url ? estimate.sales_person.photo.url : "https://i.pravatar.cc/50"  %>" alt="Contact Person">
+                  <%= estimate.sales_person.name.strip %>
+                </div></a>
+                <% end %>
+              </td>
+            </tr>
+          <% end %>
+          </table>
+        </div>
+      </div>
   <%= paginate(@estimates)  %>
 </section>

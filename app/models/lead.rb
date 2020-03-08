@@ -23,6 +23,7 @@
 
 class Lead < ApplicationRecord
   belongs_to :customer
+  has_one :estimate
 
   def as_json(options = {})
     s = super(options)

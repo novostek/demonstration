@@ -27,15 +27,71 @@ const ProductComponent = () => {
       products: [
         {
           key: new Date().getTime(),
+          name: '',
           product_id: 0,
           qty: 0,
-          price: 0.0,
-          discount: 0.0,
-          total: 0.0
+          price: 0,
+          discount: 0,
+          total: 0
         }
       ]
     }
   ])
+
+  useEffect(() => {
+    let indexHelper = 0
+
+    console.log("effect")
+    const inicialLoad = async () => {
+      if (estimate.measurement_proposals.length > 0) {
+        productEstimate[0].products.shift()
+        await Promise.all(
+          estimate.measurement_proposals.map((mp, mpIndex) => {
+            setProductEstimate(productEstimate => {
+              const copy = [...productEstimate]
+              console.log(mp.id, indexHelper)
+              if (mp.id !== indexHelper) {
+                copy.push({ areas: [], products: [] })
+                mp.measurement_area.map(area => copy[mpIndex].areas.push(area.id))
+                if (mp.id !== indexHelper) {
+                  mp.product_estimates.map((pe, peIndex) => {
+                    copy[mpIndex].products.push({
+                      key: new Date().getTime(),
+                      name: pe.name,
+                      product_id: pe.product_id,
+                      qty: pe.quantity,
+                      price: pe.unitary_value,
+                      discount: pe.discount,
+                      total: pe.value
+                    })
+                  })
+                }
+
+                indexHelper = mp.id
+              } else {
+                console.log("igual", mpIndex - 1)
+                mp.product_estimates.map((pe, peIndex) => {
+                  copy[mpIndex - 1].products.push({
+                    key: new Date().getTime(),
+                    name: pe.name,
+                    product_id: pe.product_id,
+                    qty: pe.quantity,
+                    price: pe.unitary_value,
+                    discount: pe.discount,
+                    total: pe.value
+                  })
+                })
+                // console.log(copy[])
+              }
+              return copy
+            })
+          })
+        )
+      }
+    }
+    inicialLoad()
+    console.log("productEstimate", productEstimate)
+  }, [])
 
   useEffect(() => {
 
@@ -44,13 +100,6 @@ const ProductComponent = () => {
 
     const autoCompleteProductData = {}
 
-    // setProductEstimate(productEstimate => {
-      
-    // })
-
-    estimate.measurement_proposals.map((mp, mpIndex) => {
-      
-    })
     console.log("ESTIMATE", estimate)
     products.map(product => autoCompleteProductData[product.name] = null)
 
@@ -98,6 +147,7 @@ const ProductComponent = () => {
       products: [
         {
           key: new Date().getTime(),
+          name: '',
           product_id: 0,
           qty: 0,
           price: 0.0,
@@ -112,11 +162,12 @@ const ProductComponent = () => {
   const addProduct = (index) => {
     const product = {
       key: new Date().getTime(),
+      name: '',
       product_id: '',
       qty: 0,
-      price: 0.0,
-      discount: 0.0,
-      total: 0.0
+      price: 0,
+      discount: 0,
+      total: 0
     }
     // console.log(productEstimate[index])
     // setProductEstimate(productEstimate => [...productEstimate.slice(0, index), { ...productEstimate[index], products: [...productEstimate[index].products, product] }, ...productEstimate.slice(index + 1)])
@@ -167,7 +218,7 @@ const ProductComponent = () => {
     const headers = new Headers()
     headers.append("Content-Type", "application/json")
     console.log('create')
-    const data = {productEstimate}
+    const data = { productEstimate }
     const init = {
       method: 'POST',
       headers,
@@ -190,7 +241,7 @@ const ProductComponent = () => {
     })
 
     create_product_estimate()
-      .then(() => window.location = `${estimate.id}/view`)
+      .then(() => window.location = `/estimates/${estimate.id}/view`)
   }
 
   console.log(productEstimate)
@@ -247,38 +298,55 @@ const ProductComponent = () => {
                                         <input
                                           name="product_list"
                                           ref={register}
+                                          defaultValue={productEstimate[index].products[peIndex].name}
                                           onClick={() => setMaProductListIndex(prev => {
                                             return { ...prev, maIndex: index, productIndex: peIndex }
                                           })}
                                           autoComplete="off" type="text" className="autocomplete autocomplete-products mt-1" />
-                                        <input name={`measurement[${index}].products[${peIndex}].product_id`} ref={register} autoComplete="off" type="hidden" />
+                                        <input
+                                          defaultValue={productEstimate[index].products[peIndex].product_id}
+                                          name={`measurement[${index}].products[${peIndex}].product_id`}
+                                          ref={register}
+                                          autoComplete="off"
+                                          type="hidden" />
                                       </div>
                                     </div>
                                     <div className="col s6 m2 calc-fields">
                                       <span className="left width-100 pt-1">Qty.</span>
                                       <input
                                         type="text"
-                                        name={`measurement[${index}].products[${peIndex}].qty`} 
+                                        name={`measurement[${index}].products[${peIndex}].qty`}
+                                        defaultValue={productEstimate[index].products[peIndex].qty}
                                         ref={register(schema.requiredDecimal)} className="product-value qty" />
                                       {errors.qty && <span>{errors.qty.message}</span>}
                                     </div>
                                     <div className="col s6 m2 calc-fields">
                                       <span className="left width-100 pt-1">Prince un.</span>
-                                      <input 
+                                      <input
                                         type="text"
-                                        name={`measurement[${index}].products[${peIndex}].price`} 
-                                        ref={register(schema.requiredDecimal)} 
+                                        name={`measurement[${index}].products[${peIndex}].price`}
+                                        ref={register(schema.requiredDecimal)}
+                                        defaultValue={productEstimate[index].products[peIndex].price}
                                         className="product-value price" />
                                       {errors.price && <span>{errors.price.message}</span>}
                                     </div>
                                     <div className="col s6 m2 calc-fields">
                                       <span className="left width-100 pt-1">Discount</span>
-                                      <input type="text" name={`measurement[${index}].products[${peIndex}].discount`} ref={register(schema.requiredDecimal)} className="product-value discount" />
+                                      <input type="text"
+                                        name={`measurement[${index}].products[${peIndex}].discount`}
+                                        defaultValue={productEstimate[index].products[peIndex].discount}
+                                        ref={register(schema.requiredDecimal)}
+                                        className="product-value discount" />
                                       {errors.discount && <span>{errors.discount.message}</span>}
                                     </div>
                                     <div className="col s6 m2 calc-fields">
                                       <span className="left width-100 pt-1">Total</span>
-                                      <input type="text" name={`measurement[${index}].products[${peIndex}].total`} ref={register(schema.requiredDecimal)} className="product-value total" />
+                                      <input
+                                        type="text"
+                                        name={`measurement[${index}].products[${peIndex}].total`}
+                                        defaultValue={productEstimate[index].products[peIndex].total}
+                                        ref={register(schema.requiredDecimal)}
+                                        className="product-value total" />
                                       <a onClick={() => removeProduct(index, product.key)} style={{ cursor: 'pointer' }} className="btn-remove-product"><i className="material-icons">delete</i></a>
                                       {errors.total && <span>{errors.total.message}</span>}
                                     </div>

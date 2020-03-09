@@ -60,3 +60,35 @@
 .footer{
     z-index: 100;
 }
+
+.deposit {
+    position: relative;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    border-radius: 4px;
+    margin-top: 10px;
+  }
+  
+  .deposit .btn-close-deposit {
+    color: #999;
+    position: absolute;
+    cursor: pointer;
+    top: 5px;
+    right: 5px;
+    height: 30px;
+    width: 30px;
+    border-radius: 50%;
+    -webkit-box-pack: center;
+        -ms-flex-pack: center;
+            justify-content: center;
+    display: -webkit-inline-box;
+    display: -ms-inline-flexbox;
+    display: inline-flex;
+    -webkit-box-align: center;
+        -ms-flex-align: center;
+            align-items: center;
+    z-index: 1;
+  }
+  
+  .deposit .btn-close-deposit:hover {
+    background: #e0e0e0;
+  }

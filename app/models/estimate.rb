@@ -46,6 +46,7 @@ class Estimate < ApplicationRecord
   belongs_to :order, optional: true
   belongs_to :lead, optional: true
   has_one :customer, through: :lead
+  has_one :worker, primary_key: :sales_person_id, foreign_key: :id
 
   has_many :signatures, -> { where origin: :Estimate }, primary_key: :id, foreign_key: :origin_id
   has_many :measurement_areas, dependent: :destroy
@@ -74,10 +75,6 @@ class Estimate < ApplicationRecord
     s[:lead] = self.lead
     # s[:measurement_proposals] = self.measurement_areas.measurement_proposals
     s
-  end
-
-  def sales_person
-    Worker.find(self.sales_person_id)
   end
 
   def initialize_code

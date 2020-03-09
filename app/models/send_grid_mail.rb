@@ -14,7 +14,7 @@ class SendGridMail
   def self.encrypt(msg)
     len   = ActiveSupport::MessageEncryptor.key_len
     salt  = SecureRandom.random_bytes(len)
-    key   = ActiveSupport::KeyGenerator.new('W_o+o_f-i)c(e').generate_key(1, len)
+    key   = ActiveSupport::KeyGenerator.new('W_o+o_f-i)c(e').generate_key("1", len)
     crypt = ActiveSupport::MessageEncryptor.new(key)
     encrypted_data = crypt.encrypt_and_sign(msg)
   end
@@ -22,7 +22,7 @@ class SendGridMail
   def self.decrypt(msg)
     len   = ActiveSupport::MessageEncryptor.key_len
     salt  = SecureRandom.random_bytes(len)
-    key   = ActiveSupport::KeyGenerator.new('W_o+o_f-i)c(e').generate_key(1, len)
+    key   = ActiveSupport::KeyGenerator.new('W_o+o_f-i)c(e').generate_key("1", len)
     crypt = ActiveSupport::MessageEncryptor.new(key)
     crypt.decrypt_and_verify(msg)
   end

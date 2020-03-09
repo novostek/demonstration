@@ -64,7 +64,7 @@ class DocumentsController < ApplicationController
 
     else
 
-      @template = Liquid::Template.parse(@data)
+      @template = Liquid::Template.parse(ERB.new(@data).result(binding))
 
       if params[:send_mail].present? and params[:send_mail] == "true"
         emails = params[:emails]

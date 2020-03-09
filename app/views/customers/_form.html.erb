@@ -52,7 +52,7 @@
   <div class="input-field hide" id="birthdate">
 
 
-    <%= f.date_field :birthdate %>
+    <%= f.date_field :birthdate %> <!-- , class:"datepicker" -->
     <%= f.label :birthdate %>
     
   </div>
@@ -67,6 +67,9 @@
 
 <%= content_for :scripts do %>
   <script type="text/javascript" charset="utf-8">
+    $(document).ready(function(){
+        type_select();
+    });
       function type_select()
       {
           if ($("#customer_category").val() == "person")

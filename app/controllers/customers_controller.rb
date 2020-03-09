@@ -94,7 +94,7 @@ class CustomersController < ApplicationController
       render :new
     end
   end
-
+  #woffice_2020
   # PATCH/PUT /customers/1
   def update
     if @customer.update(customer_params)

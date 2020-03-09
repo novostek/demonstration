@@ -1,8 +1,44 @@
 <div class="card-panel">
 
   <% if @estimate.present? %>
-    <%== @template.render('estimate' => @estimate.attributes, 'measurements' => JSON.parse(@estimate.measurement_areas.to_json), 'customer' => @estimate.customer.attributes, 'custom' => @params, 'signature' => JSON.parse(@estimate.signatures.last.to_json)   ) %>
+    <%== @mail = @template.render('estimate' => @estimate.attributes, 'measurements' => JSON.parse(@estimate.measurement_areas.to_json), 'customer' => @estimate.customer.attributes, 'custom' => @params, 'signature' => JSON.parse(@estimate.signatures.last.to_json)   ) %>
   <% else %>
-    <%== @template.render('custom' => @params   ) %>
+    <%== @mail = @template.render('custom' => @params   ) %>
   <% end %>
 </div>
+
+<!--<div class="row">-->
+<!--  <a class="btn waves-effect waves-light modal-trigger breadcrumbs-btn right mr-2 indigo border-round btn-send-email" href="#modal-mail"><i class="material-icons hide-on-med-and-up ">send</i><span class="hide-on-small-only">Send email</span></a>-->
+<!--  <div id="modal-mail" class="modal">-->
+    <%#= form_with url: send_mail_documents_path, local: true do |f| %>
+<!--      <div class="modal-content">-->
+<!--        <h4>Send email</h4>-->
+<!--        <div class="row">-->
+<!--          <div class="input-field">-->
+            <%#= f.select :template, @templates, {prompt: true} %>
+            <%#= f.label :template %>
+<!--          </div>-->
+<!--          <div class="input-field">-->
+            <%#= f.label :emails, "Emails" %>
+            <%#= f.text_field :emails, value: @email_customer %>
+
+<!--          </div>-->
+
+<!--          <div class="input-field">-->
+            <%#= f.label :subject %>
+            <%#= f.text_field :subject %>
+<!--          </div>-->
+
+<!--        </div>-->
+<!--      </div>-->
+<!--      <div class="modal-footer">-->
+        <%#= f.button :submit,  class:"modal-action modal-close waves-effect waves-green btn-flat btn-send", target:"_self" do %>
+<!--          <i class="material-icons left">send</i> Send-->
+        <%# end %>
+<!--      </div>-->
+    <%# end %>
+<!--  </div>-->
+  <%#= form_with url: send_mail_documents_path(html: @mail), local: true do |f|%>
+    <%#= f.submit "Send Mail", class: "btn" %>
+  <%# end %>
+<!--</div>-->

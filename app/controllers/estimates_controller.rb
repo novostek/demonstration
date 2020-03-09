@@ -190,7 +190,7 @@ class EstimatesController < ApplicationController
 
   def view_estimate
     @estimate = Estimate.find(params[:estimate_id])
-
+    @documents = Document.to_select
     begin
       @email_customer = @estimate.customer.contacts.where(category: :email).first.data["email"]
     rescue

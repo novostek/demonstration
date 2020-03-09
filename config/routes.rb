@@ -7,6 +7,7 @@ Rails.application.routes.draw do
       post "save_data"
       get "preview"
       get "send_customs"
+      post "send_mail"
     end
   end
   resources :transactions

@@ -8,6 +8,10 @@ class ApplicationController < ActionController::Base
 
   before_action :configure_permitted_parameters, if: :devise_controller?
 
+  def toastr(type, body)
+    flash["#{type}"] = body
+  end
+
 
   def cache_globals_settings
     @company_name = Setting.get_value('company_name')

@@ -15,11 +15,16 @@ class DocumentsController < ApplicationController
     @estimate = params[:estimate]
     @document = params[:document]
     @customs = params[:customs]
+    @send_mail = params[:send_mail]
 
+  end
+  
+  def send_mail
+    
   end
 
   def preview
-
+    @mail = nil
     has_custom_field = false
     @customs = []
     @params = {}
@@ -50,26 +55,31 @@ class DocumentsController < ApplicationController
 
     if has_custom_field
       if params[:estimate].present?
-        redirect_to send_customs_documents_path(estimate: params[:estimate], document: params[:document], customs: @customs)
+        redirect_to send_customs_documents_path(estimate: params[:estimate], document: params[:document], customs: @customs, send_mail: params[:send_mail],emails: params[:emails],subject: params[:subject])
       else
-        redirect_to send_customs_documents_path(document: params[:document], customs: @customs)
+        redirect_to send_customs_documents_path(document: params[:document], customs: @customs, send_mail: params[:send_mail],emails: params[:emails],subject: params[:subject])
       end
 
     end
 
     @template = Liquid::Template.parse(@data)
 
-    if params[:custom_send].present?
-      emails = ["gabrielvash@gmail.com"]
+    if params[:send_mail].present? and params[:send_mail] == "true"
+      emails = params[:emails]
       begin
-        DocumentMailer.with(emails: emails, pdf: @template.render('estimate' => @estimate.attributes, 'measurements' => JSON.parse(@estimate.measurement_areas.to_json), 'customer' => @estimate.customer.attributes, 'custom' => @params, 'signature' => JSON.parse(@estimate.signatures.last.to_json)   )).send_document.deliver_now
+        puts "Enviando email"
+        DocumentMailer.with(subject: params[:subject], emails: emails, pdf: @template.render('estimate' => @estimate.attributes, 'measurements' => JSON.parse(@estimate.measurement_areas.to_json), 'customer' => @estimate.customer.attributes, 'custom' => @params, 'signature' => JSON.parse(@estimate.signatures.last.to_json)   )).send_document.deliver_now
       rescue
-
+        puts "Enviando erro"
       end
     end
 
     respond_to do |format|
-      format.html
+      format.html {
+          if params[:send_mail].present? and params[:send_mail] == "true"
+            toastr("success","Mail Sent")
+          end
+          }
       format.pdf do
         render pdf: "#{@document.name}",
                page_size: 'A4',
@@ -90,7 +100,7 @@ class DocumentsController < ApplicationController
     document = Document.find(params[:document])
     document.data = params[:data]
     document.save
-    render json: {success:"Success"}
+    render json: {success:"Document Saved"}
   end
 
   # GET /documents/new

@@ -17,6 +17,7 @@
         <div class="col s2 m6 l6">
           <a class="btn waves-effect waves-light breadcrumbs-btn right border-round" href="order-schedule.html"><i class="material-icons hide-on-med-and-up">attach_money</i><span class="hide-on-small-only">Order</span></a>
           <a class="btn waves-effect waves-light modal-trigger breadcrumbs-btn right mr-2 indigo border-round btn-send-email" href="#modal-mail"><i class="material-icons hide-on-med-and-up ">send</i><span class="hide-on-small-only">Send email</span></a>
+          <a class="btn waves-effect waves-light modal-trigger breadcrumbs-btn right mr-2 indigo border-round btn-send-email" href="#modal-mail_document"><i class="material-icons hide-on-med-and-up ">send</i><span class="hide-on-small-only">Documents</span></a>
           <%= link_to step_one_estimates_path(@estimate.lead.id),  class: "btn waves-effect waves-light breadcrumbs-btn right mr-2 pink lighten-4 pink-text border-round" do %>
             <i class="material-icons hide-on-med-and-up ">edit</i><span class="hide-on-small-only"><%= t "button.edit" %></span>
           <% end %>
@@ -241,6 +242,37 @@
 
         </div>
 
+        <div class="input-field">
+          <%= f.label :subject %>
+          <%= f.text_field :subject %>
+        </div>
+
+      </div>
+    </div>
+    <div class="modal-footer">
+      <%= f.button :submit,  class:"modal-action modal-close waves-effect waves-green btn-flat btn-send", target:"_self" do %>
+        <i class="material-icons left">send</i> Send
+      <% end %>
+      <!--		<a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat btn-send"> <i class="material-icons left">send</i> Send</a>-->
+    </div>
+  <% end %>
+</div>
+
+<div id="modal-mail_document" class="modal">
+  <%= form_with url: preview_documents_path, method: :get, local: true do |f| %>
+    <div class="modal-content">
+      <h4>Send Document</h4>
+      <%= f.hidden_field :estimate, value: @estimate.id %>
+      <%= f.hidden_field :send_mail, value: true %>
+      <div class="row">
+        <div class="input-field">
+          <%= f.select :document, @documents, {prompt: true} %>
+          <%= f.label :document %>
+        </div>
+        <div class="input-field">
+          <%= f.label :emails, "Emails" %>
+          <%= f.text_field :emails, value: @email_customer %>
+        </div>
         <div class="input-field">
           <%= f.label :subject %>
           <%= f.text_field :subject %>

@@ -121,7 +121,9 @@
               data = editor.html.get(true);
           });
 
-          $.post( "<%= save_data_documents_path %>", { document: "<%= document.id %>", data: editor.html.get(true) } );
+          $.post( "<%= save_data_documents_path %>", { document: "<%= document.id %>", data: editor.html.get(true) },function(data){
+              M.toast({html: data["success"]});
+          } );
 
 
       });

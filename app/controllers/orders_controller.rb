@@ -1,5 +1,8 @@
 class OrdersController < ApplicationController
-  before_action :set_order, only: [:show, :edit, :update, :destroy, :schedule, :create_schedule, :payments]
+  before_action :set_order, only: [
+    :show, :edit, :update, 
+    :destroy, :schedule, :create_schedule, 
+    :payments, :transaction, :product_purchase]
 
   # GET /orders
   def index
@@ -25,7 +28,7 @@ class OrdersController < ApplicationController
     @order = Order.new(order_params)
 
     if @order.save
-      redirect_to @order, notice: 'Order foi criado com sucesso'
+      redirect_to product_purchase_order(@order), notice: 'Order was successfully created.'
     else
       render :new
     end
@@ -34,9 +37,9 @@ class OrdersController < ApplicationController
   # PATCH/PUT /orders/1
   def update
     if @order.update(order_params)
-      redirect_to @order, notice: 'Order foi atualizado com sucesso.'
+      redirect_to product_purchase_order_path(@order), notice: 'Order was successfully updated.'
     else
-      render :edit
+      render payments_order_path(@order), notice: 'There was an error while trying to update the order.'
     end
   end
 
@@ -77,6 +80,13 @@ class OrdersController < ApplicationController
     @estimate = @order.get_current_estimate
 
     render :order_payments
+  end
+
+  def product_purchase
+    @products = Product.all
+    @estimate = @order.get_current_estimate
+
+    render :product_purchase
   end
 
   def delete_schedule

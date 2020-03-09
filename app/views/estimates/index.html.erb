@@ -69,12 +69,14 @@
               <td><span class="chip lighten-5 green green-text"><%= estimate.status %></span></td>
               
               <td>
-                <%= link_to worker_path(estimate.worker) do %>
+                <% if estimate.worker %>
+                  <%= link_to worker_path(estimate.worker) do %>
 
-                <div class="chip">
-                  <img src="<%= estimate.worker.photo.url ? estimate.worker.photo.url : "https://i.pravatar.cc/50"  %>" alt="Contact Person">
-                  <%= estimate.worker.name.strip %>
-                </div></a>
+                  <div class="chip">
+                    <img src="<%= estimate.worker.photo.url ? estimate.worker.photo.url : "https://i.pravatar.cc/50"  %>" alt="Contact Person">
+                    <%= estimate.worker.name.strip %>
+                  </div></a>
+                  <% end %>
                 <% end %>
               </td>
             </tr>

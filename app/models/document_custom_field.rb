@@ -18,4 +18,9 @@
 #
 class DocumentCustomField < ApplicationRecord
   belongs_to :document
+  before_save :tolower
+
+  def tolower
+    self.name.downcase
+  end
 end

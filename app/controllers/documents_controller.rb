@@ -16,11 +16,11 @@ class DocumentsController < ApplicationController
     @document = params[:document]
     @customs = params[:customs]
     @send_mail = params[:send_mail]
-
+    @emails = params[:emails]
   end
-  
+
   def send_mail
-    
+
   end
 
   def preview
@@ -46,9 +46,9 @@ class DocumentsController < ApplicationController
         end
       end
     else
-     params[:customs].each do |p|
-       @params["#{p[0]}"] = "#{p[1]}"
-     end
+      params[:customs].each do |p|
+        @params["#{p[0]}"] = "#{p[1]}"
+      end
 
     end
 
@@ -56,42 +56,44 @@ class DocumentsController < ApplicationController
     if has_custom_field
       if params[:estimate].present?
         redirect_to send_customs_documents_path(estimate: params[:estimate], document: params[:document], customs: @customs, send_mail: params[:send_mail],emails: params[:emails],subject: params[:subject])
+        #return
       else
         redirect_to send_customs_documents_path(document: params[:document], customs: @customs, send_mail: params[:send_mail],emails: params[:emails],subject: params[:subject])
+        #return
       end
 
-    end
+    else
 
-    @template = Liquid::Template.parse(@data)
+      @template = Liquid::Template.parse(@data)
 
-    if params[:send_mail].present? and params[:send_mail] == "true"
-      emails = params[:emails]
-      begin
-        puts "Enviando email"
-        DocumentMailer.with(subject: params[:subject], emails: emails, pdf: @template.render('estimate' => @estimate.attributes, 'measurements' => JSON.parse(@estimate.measurement_areas.to_json), 'customer' => @estimate.customer.attributes, 'custom' => @params, 'signature' => JSON.parse(@estimate.signatures.last.to_json)   )).send_document.deliver_now
-      rescue
-        puts "Enviando erro"
+      if params[:send_mail].present? and params[:send_mail] == "true"
+        emails = params[:emails]
+        begin
+          puts "Enviando email"
+          DocumentMailer.with(subject: params[:subject], emails: emails, pdf: @template.render('estimate' => @estimate.attributes, 'measurements' => JSON.parse(@estimate.measurement_areas.to_json), 'customer' => @estimate.customer.attributes, 'custom' => @params, 'signature' => JSON.parse(@estimate.signatures.last.to_json)   )).send_document.deliver_now
+        rescue
+          puts "Enviando erro"
+        end
       end
-    end
 
-    respond_to do |format|
-      format.html {
+      respond_to do |format|
+        format.html {
           if params[:send_mail].present? and params[:send_mail] == "true"
             toastr("success","Mail Sent")
           end
-          }
-      format.pdf do
-        render pdf: "#{@document.name}",
-               page_size: 'A4',
-               template: "documents/preview.html.erb",
-               layout: "pdf.html",
-               orientation: "Portrait",
-               lowquality: true,
-               zoom: 1,
-               dpi: 75
+        }
+        format.pdf do
+          render pdf: "#{@document.name}",
+                 page_size: 'A4',
+                 template: "documents/preview.html.erb",
+                 layout: "pdf.html",
+                 orientation: "Portrait",
+                 lowquality: true,
+                 zoom: 1,
+                 dpi: 75
+        end
       end
     end
-
   end
 
   #Método que salva os dados do froala
@@ -139,13 +141,13 @@ class DocumentsController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_document
-      @document = Document.find(params[:id])
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_document
+    @document = Document.find(params[:id])
+  end
 
-    # Only allow a trusted parameter "white list" through.
-    def document_params
-      params.require(:document).permit(:name, :description, :data, :doc_type, :sub_type,document_custom_fields_attributes:[:id, :document_id,:name,:_destroy])
-    end
+  # Only allow a trusted parameter "white list" through.
+  def document_params
+    params.require(:document).permit(:name, :description, :data, :doc_type, :sub_type,document_custom_fields_attributes:[:id, :document_id,:name,:_destroy])
+  end
 end

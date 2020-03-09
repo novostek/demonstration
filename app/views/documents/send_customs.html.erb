@@ -6,6 +6,7 @@
     <%= f.hidden_field :document, value: @document %>
     <%= f.hidden_field :send_mail, value: @send_mail %>
     <%= f.hidden_field :custom_send, value: true %>
+    <%= f.hidden_field :emails, value: @emails %>
 
     <%= f.fields_for :customs do |ff| %>
       <% @customs.each do |c| %>

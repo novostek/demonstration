@@ -1,5 +1,5 @@
 class OrdersController < ApplicationController
-  before_action :set_order, only: [:show, :edit, :update, :destroy]
+  before_action :set_order, only: [:show, :edit, :update, :destroy, :schedule, :create_schedule, :payments]
 
   # GET /orders
   def index
@@ -45,6 +45,45 @@ class OrdersController < ApplicationController
     @order.destroy
     redirect_to orders_url, notice: 'Order foi apagado com sucesso.'
   end
+  
+  def schedule
+    @schedules = @order.schedules
+    @workers = Worker.all
+    @estimate = @order.get_current_estimate
+
+    render :order_schedules
+  end
+
+  def create_schedule
+    schedule_obj = {
+      :title => params[:title],
+      :schedule_id => params[:schedule_id],
+      :code => params[:code],
+      :status => params[:status],
+      :start_at => params[:start_at],
+      :end_at => params[:end_at],
+      :color => params[:color],
+      :worker_id => params[:worker_id],
+      :origin => "Order",
+      :origin_id => @order.id
+    }
+
+    schedule = Schedule.new_schedule(schedule_obj)
+
+    render json: schedule
+  end
+
+  def payments
+    @estimate = @order.get_current_estimate
+
+    render :order_payments
+  end
+
+  def delete_schedule
+    schedule = Schedule.find_by(origin: params[:origin], origin_id: params[:order_id], worker_id: params[:worker_id])
+
+    schedule.destroy
+  end
 
   private
     # Use callbacks to share common setup or constraints between actions.
@@ -54,6 +93,10 @@ class OrdersController < ApplicationController
 
     # Only allow a trusted parameter "white list" through.
     def order_params
-      params.require(:order).permit(:code, :status, :bpmn_instance, :start_at, :end_at)
+      params.require(:order).permit(
+        :code, :status, :bpmn_instance, :start_at, :end_at,
+        transactions_attributes: [
+          :id, :origin, :origin_id, :value, :payment_method, :due, :_destroy
+        ])
     end
 end

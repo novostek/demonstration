@@ -1,12 +1,43 @@
-<div class="section">
-  <div id="react-component"></div>
-<%= content_tag :div,
-  id: "order_data",
-  data: @order.to_json,
-  products: @products.to_json do %>
-<% end %>
+<div class="row">
+  <div class="content-wrapper-before gradient-45deg-indigo-purple"></div>
+  <div class="breadcrumbs-dark pb-0 pt-4" id="breadcrumbs-wrapper">
+  <!-- Search for small screen-->
+  <div class="container">
+    <div class="row">
+      <div class="col s10 m6 l6">
+        <h5 class="breadcrumbs-title mt-0 mb-0">Products purchase</h5>
+        <ol class="breadcrumbs mb-0">
+          <li class="breadcrumb-item"><a href="index.html">Home</a>
+          </li>
+          <li class="breadcrumb-item"><a href="#">Order</a>
+          </li>
+          <li class="breadcrumb-item"><a href="#">New</a>
+          </li>
+          <li class="breadcrumb-item active">Products purchase
+          </li>
+        </ol>
+      </div>
+      <!-- <div class="col s2 m6 l6"><a class="btn waves-effect waves-light breadcrumbs-btn right" href="lead-add.html"><i class="material-icons hide-on-med-and-up">add</i><span class="hide-on-small-only">New Estimate</span></a> -->
+      </div>
+    </div>
+  </div>
+</div>
+<div class="row">
+  <div class="col s12">
+    <div class="container">
+      <div class="section">
+        <div id="react-component"></div>
+        <%= content_tag :div,
+          id: "order_data",
+          data: @order.to_json,
+          estimate: @estimate.to_json,
+          products: @products.to_json do %>
+        <% end %>
 
-<%= javascript_pack_tag 'orders/ProductComponent/index' %>
+        <%= javascript_pack_tag 'orders/ProductComponent/index' %>
   
 
+      </div>
+    </div>
+  </div>
 </div>

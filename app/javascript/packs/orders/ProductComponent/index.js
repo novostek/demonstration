@@ -22,6 +22,7 @@ const ProductComponent = () => {
 
   const node = document.getElementById('order_data')
   const order = JSON.parse(node.getAttribute('data'))
+  const estimate = JSON.parse(node.getAttribute('estimate'))
 
   const [productEstimate, setProductEstimate] = useState([])
 
@@ -112,6 +113,8 @@ const ProductComponent = () => {
       copy.push(product)
       return copy
     })
+
+    console.log(productEstimate)
   }
 
   const removeProduct = (key) => {
@@ -141,6 +144,7 @@ const ProductComponent = () => {
   }
 
   const productTotalPrice = (index, value) => {
+    console.log("change", index, value)
     setProductEstimate(productEstimate => {
       const copy = [...productEstimate]
 
@@ -176,20 +180,22 @@ const ProductComponent = () => {
     })
   }
 
-  const onSubmit = data => {
-    setProductEstimate(productEstimate => {
-      const copy = [...productEstimate]
-      return copy.map((ma, index) => {
-        const maCopy = { ...ma }
-        maCopy.products = ma.products.map((pe, peIndex) => {
-          return { ...pe, ...data.measurement[index].products[peIndex] }
-        })
-        return maCopy
-      })
-    })
+  console.log(estimate)
 
-    create_product_estimate()
-      .then(() => window.location = `/estimates/${order.id}/view`)
+  const onSubmit = data => {
+    // setProductEstimate(productEstimate => {
+    //   const copy = [...productEstimate]
+    //   return copy.map((ma, index) => {
+    //     const maCopy = { ...ma }
+    //     maCopy.products = ma.products.map((pe, peIndex) => {
+    //       return { ...pe, ...data.measurement[index].products[peIndex] }
+    //     })
+    //     return maCopy
+    //   })
+    // })
+
+    // create_product_estimate()
+    //   .then(() => window.location = `/estimates/${order.id}/view`)
   }
 
   // console.log("ORDER", order)
@@ -197,142 +203,138 @@ const ProductComponent = () => {
   // console.log('orderValues', orderValues)
 
   return (
-    <div className="row">
-      <div className="col s12">
-        <div className="container">
-          {/* <EstimateDetail estimate={order} /> */}
-          <div className="card">
-            <div className="card-content">
-              <ul className="stepper horizontal stepper-head-only">
-                <li className="step ">
-                  <div className="step-title waves-effect">Schedule</div>
-                </li>
-                <li className="step">
-                  <div className="step-title waves-effect">Payment</div>
-                </li>
-                <li className="step active">
-                  <div className="step-title waves-effect">Products purchase</div>
-                </li>
-              </ul>
-              <div className="row products-area-list pl-1 pr-1" id="measurement_proposals" >
-                <div className="product-area">
-                  <div className="products-list" >
-                    <form onSubmit={handleSubmit(onSubmit)}>
-                      {
-                        productEstimate.map((pe, index) => (
-                          <div className="product" key={index}>
-                            <div className="row pl-1 pr-1 products-search">
-                              <div className="row">
-                                <div className="col s6 m4">
-                                  <span className="left width-100 pt-1">Product</span>
-                                  <div className="input-field mt-0 mb-0 products-search-field-box">
-                                    {/* <a href="#" className="btn-add-product tooltipped" data-tooltip="New product"><i className="material-icons">add</i></a> */}
-                                    <input
-                                      name="product_list"
-                                      ref={register}
-                                      defaultValue={productEstimate[index].name}
-                                      onClick={() => setProductIndex(prev => {
-                                        return { ...prev, productIndex: index }
-                                      })}
-                                      autoComplete="off" type="text" className="autocomplete autocomplete-products mt-1" />
-                                    <input
-                                      defaultValue={productEstimate[index].product_id}
-                                      name={`products[${index}].product_id`}
-                                      ref={register}
-                                      autoComplete="off"
-                                      type="hidden" />
-                                  </div>
-                                </div>
-                                <div className="col s6 m2 calc-fields">
-                                  <span className="left width-100 pt-1">Qty.</span>
-                                  <input
-                                    type="text"
-                                    name={`products[${index}].qty`}
-                                    defaultValue={productEstimate[index].qty}
-                                    onChange={(e) => productTotalQty(index, e.target.value)}
-                                    ref={register(schema.requiredDecimal)} className="product-value qty" />
-                                  {errors.qty && <span>{errors.qty.message}</span>}
-                                </div>
-                                <div className="col s6 m2 calc-fields">
-                                  <span className="left width-100 pt-1">Prince un.</span>
-                                  <input
-                                    type="text"
-                                    name={`products[${index}].price`}
-                                    ref={register(schema.requiredDecimal)}
-                                    defaultValue={productEstimate[index].price}
-                                    onChange={(e) => productTotalPrice(index, e.target.value)}
-                                    className="product-value price" />
-                                  {errors.price && <span>{errors.price.message}</span>}
-                                </div>
-                                <div className="col s6 m2 calc-fields">
-                                  <span className="left width-100 pt-1">Discount</span>
-                                  <input type="text"
-                                    name={`products[${index}].discount`}
-                                    defaultValue={productEstimate[index].discount}
-                                    onChange={(e) => productTotalDiscount(index, e.target.value)}
-                                    ref={register(schema.requiredDecimal)}
-                                    className="product-value discount" />
-                                  {errors.discount && <span>{errors.discount.message}</span>}
-                                </div>
-                                <div className="col s6 m2 calc-fields">
-                                  <span className="left width-100 pt-1">Total</span>
-                                  <input
-                                    type="text"
-                                    name={`products[${index}].total`}
-                                    defaultValue={productEstimate[index].total}
-                                    ref={register(schema.requiredDecimal)}
-                                    className="product-value total" />
-                                  <a onClick={() => removeProduct(pe.key)} style={{ cursor: 'pointer' }} className="btn-remove-product"><i className="material-icons">delete</i></a>
-                                  {errors.total && <span>{errors.total.message}</span>}
-                                </div>
+    <>
+      <EstimateDetail estimate={estimate} />
+      <div className="card">
+        <div className="card-content">
+          <ul className="stepper horizontal stepper-head-only">
+            <li className="step ">
+              <div className="step-title waves-effect">Schedule</div>
+            </li>
+            <li className="step">
+              <div className="step-title waves-effect">Payment</div>
+            </li>
+            <li className="step active">
+              <div className="step-title waves-effect">Products purchase</div>
+            </li>
+          </ul>
+          <div className="row products-area-list pl-1 pr-1" id="measurement_proposals" >
+            <div className="product-area">
+              <div className="products-list" >
+                <form onSubmit={handleSubmit(onSubmit)}>
+                  {
+                    productEstimate.map((pe, index) => (
+                      <div className="product" key={index}>
+                        <div className="row pl-1 pr-1 products-search">
+                          <div className="row">
+                            <div className="col s6 m4">
+                              <span className="left width-100 pt-1">Product</span>
+                              <div className="input-field mt-0 mb-0 products-search-field-box">
+                                {/* <a href="#" className="btn-add-product tooltipped" data-tooltip="New product"><i className="material-icons">add</i></a> */}
+                                <input
+                                  name="product_list"
+                                  ref={register}
+                                  defaultValue={productEstimate[index].name}
+                                  onClick={() => setProductIndex(prev => {
+                                    return { ...prev, productIndex: index }
+                                  })}
+                                  autoComplete="off" type="text" className="autocomplete autocomplete-products mt-1" />
+                                <input
+                                  defaultValue={productEstimate[index].product_id}
+                                  name={`products[${index}].product_id`}
+                                  ref={register}
+                                  autoComplete="off"
+                                  type="hidden" />
                               </div>
                             </div>
+                            <div className="col s6 m2 calc-fields">
+                              <span className="left width-100 pt-1">Qty.</span>
+                              <input
+                                type="text"
+                                name={`products[${index}].qty`}
+                                defaultValue={productEstimate[index].qty}
+                                onChange={(e) => productTotalQty(index, e.target.value)}
+                                ref={register(schema.requiredDecimal)} className="product-value qty" />
+                              {errors.qty && <span>{errors.qty.message}</span>}
+                            </div>
+                            <div className="col s6 m2 calc-fields">
+                              <span className="left width-100 pt-1">Prince un.</span>
+                              <input
+                                type="text"
+                                name={`products[${index}].price`}
+                                ref={register(schema.requiredDecimal)}
+                                defaultValue={productEstimate[index].price}
+                                onChange={(e) => productTotalPrice(index, e.target.value)}
+                                className="product-value price" />
+                              {errors.price && <span>{errors.price.message}</span>}
+                            </div>
+                            <div className="col s6 m2 calc-fields">
+                              <span className="left width-100 pt-1">Discount</span>
+                              <input type="text"
+                                name={`products[${index}].discount`}
+                                defaultValue={productEstimate[index].discount}
+                                onChange={(e) => productTotalDiscount(index, e.target.value)}
+                                ref={register(schema.requiredDecimal)}
+                                className="product-value discount" />
+                              {errors.discount && <span>{errors.discount.message}</span>}
+                            </div>
+                            <div className="col s6 m2 calc-fields">
+                              <span className="left width-100 pt-1">Total</span>
+                              <input
+                                type="text"
+                                name={`products[${index}].total`}
+                                defaultValue={productEstimate[index].total}
+                                ref={register(schema.requiredDecimal)}
+                                className="product-value total" />
+                              <a onClick={() => removeProduct(pe.key)} style={{ cursor: 'pointer' }} className="btn-remove-product"><i className="material-icons">delete</i></a>
+                              {errors.total && <span>{errors.total.message}</span>}
+                            </div>
                           </div>
-                        ))
-                      }
-                      <a onClick={() => addProduct()} style={{ height: '30px' }} className="product new-product">
-                      </a>
-                      <button type="submit" style={{ display: 'none' }} ref={submitBtnRef}></button>
-                    </form>
-                  </div>
-                </div>
-              </div>
-
-              <div className="row">
-                <div className="col m5 s12">
-                </div>
-                <div className="col xl4 m7 s12 offset-xl3">
-                  <ul>
-                    <li className="display-flex justify-content-between">
-                      <span className="invoice-subtotal-title">Subtotal</span>
-                      <h6 className="mt-0 subtotal-all">{orderValues.subTotal}</h6>
-                    </li>
-                    <li className="display-flex justify-content-between">
-                      <span className="invoice-subtotal-title">Discount</span>
-                      <h6 className="mt-0 discount-all">{orderValues.discount}</h6>
-                    </li>
-                    <li className="display-flex justify-content-between">
-                      <span className="invoice-subtotal-title">Tax</span>
-                      <h6 className="mt-0 tax-whole">{(orderValues.tax ? orderValues.tax : 0)}</h6>
-                    </li>
-                    <li className="divider mt-2 mb-2"></li>
-                    <li className="display-flex justify-content-between">
-                      <span className="invoice-subtotal-title">Order Total</span>
-                      <h6 className="mt-0 order-total">$ {orderValues.subTotal - orderValues.discount + (orderValues.tax ? orderValues.tax : 0)}</h6>
-                    </li>
-                  </ul>
-                </div>
+                        </div>
+                      </div>
+                    ))
+                  }
+                  <a onClick={() => addProduct()} style={{ height: '30px' }} className="product new-product">
+                  </a>
+                  <button type="submit" style={{ display: 'none' }} ref={submitBtnRef}></button>
+                </form>
               </div>
             </div>
+          </div>
 
+          <div className="row">
+            <div className="col m5 s12">
+            </div>
+            <div className="col xl4 m7 s12 offset-xl3">
+              <ul>
+                <li className="display-flex justify-content-between">
+                  <span className="invoice-subtotal-title">Subtotal</span>
+                  <h6 className="mt-0 subtotal-all">{orderValues.subTotal}</h6>
+                </li>
+                <li className="display-flex justify-content-between">
+                  <span className="invoice-subtotal-title">Discount</span>
+                  <h6 className="mt-0 discount-all">{orderValues.discount}</h6>
+                </li>
+                <li className="display-flex justify-content-between">
+                  <span className="invoice-subtotal-title">Tax</span>
+                  <h6 className="mt-0 tax-whole">{(orderValues.tax ? orderValues.tax : 0)}</h6>
+                </li>
+                <li className="divider mt-2 mb-2"></li>
+                <li className="display-flex justify-content-between">
+                  <span className="invoice-subtotal-title">Order Total</span>
+                  <h6 className="mt-0 order-total">$ {orderValues.subTotal - orderValues.discount + (orderValues.tax ? orderValues.tax : 0)}</h6>
+                </li>
+              </ul>
+            </div>
           </div>
         </div>
+
       </div>
       <div className="col s12 pb-2 pr-0 pl-0" style={{ position: 'relative', zIndex: 1 }}>
         <a className="btn grey lighten-5 grey-text waves-effect waves-light breadcrumbs-btn left save" href="estimate-measurements.html"><i className="material-icons left">arrow_back</i> Back</a>
         <a className="btn indigo waves-effect waves-light breadcrumbs-btn right ml-1" onClick={() => remoteSubmit()}><i className="material-icons left">save</i> Save</a>
       </div>
-    </div>
+    </>
   )
 }
 

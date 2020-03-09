@@ -39,43 +39,42 @@
   </div>
   <p></p>
   <!-- create invoice button-->
-  <div class="responsive-table">
-    <style>td{padding: 15px}</style>
-    <table class="table invoice-data-table white border-radius-4 pt-1">
-      <thead>
-        <tr>
-          <th><%= t('activerecord.attributes.lead.customer') %></th>
-          <th><%= t('activerecord.attributes.lead.via') %></th>
-          <th><%= t('activerecord.attributes.lead.description') %></th>
-          <th><%= t('activerecord.attributes.lead.status') %></th>
-          <th><%= t('activerecord.attributes.lead.date') %></th>
-          <th><%= t('activerecord.attributes.lead.phone') %></th>
-          <th></th>
-        </tr>
-      </thead>
-      <tbody>
-        <% @leads.each do |lead| %>
-        <tr>
-            <td><%= lead.customer.name %></td>
-            <td><%= lead.via %></td>
-            <td><%= lead.description %></td>
-            <td><%= lead.status %></td>
-            <td><%= lead.date %></td>
-            <td><%= lead.phone %></td>
-          <td>
-            <div class="invoice-action right-align">
-              <%= link_to step_one_estimates_path(lead.id), class: "invoice-action-view mr-4" do %>
-                <i class="material-icons">remove_red_eye</i>
-              <% end %>
-              <%= link_to edit_lead_path(lead) , class: "invoice-action-edit mr-4" do %>
-                <i class="material-icons">edit</i>
-              <% end %>
-            </div>
-          </td>
-        </tr>
-        <% end %>
-      </tbody>
-    </table>
+  <div class="card">
+    <div class="card-content">
+      <style>td{padding: 15px}</style>
+      <table class="responsive-table">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th><%= t('activerecord.attributes.lead.customer') %></th>
+            <th><%= t('activerecord.attributes.lead.phone') %></th>
+            <th><%= t('activerecord.attributes.lead.via') %></th>
+            <th><%= t('activerecord.attributes.lead.description') %></th>
+            <th><%= t('activerecord.attributes.lead.status') %></th>
+            <th><%= t('activerecord.attributes.lead.date') %></th>
+          </tr>
+        </thead>
+        <tbody>
+          <% @leads.each do |lead| %>
+            <tr>
+              <td>
+                <%= link_to lead.id, lead_path(lead) %>
+              </td>
+              <td><%= lead.customer.name %></td>
+              <td><%= lead.phone %></td>
+              <td><%= lead.via %></td>
+              <td><%= lead.description %></td>
+              <td>
+                <span class="chip lighten-5 green green-text">
+                  <%= lead.status %>
+                </span>
+              </td>
+              <td><%= lead.date %></td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
   </div>
   <%= paginate(@leads)  %>
 </section>

@@ -44,7 +44,14 @@ const ProductComponent = () => {
     console.log("effect")
     const inicialLoad = async () => {
       if (estimate.measurement_proposals.length > 0) {
-        productEstimate[0].products.shift()
+        setProductEstimate(productEstimate => {
+          const copy = [...productEstimate]
+
+          copy[0].products.shift()
+
+          return copy
+        })
+
         await Promise.all(
           estimate.measurement_proposals.map((mp, mpIndex) => {
             setProductEstimate(productEstimate => {
@@ -71,15 +78,16 @@ const ProductComponent = () => {
               } else {
                 console.log("igual", mpIndex - 1)
                 mp.product_estimates.map((pe, peIndex) => {
-                  copy[mpIndex - 1].products.push({
-                    key: new Date().getTime(),
-                    name: pe.name,
-                    product_id: pe.product_id,
-                    qty: pe.quantity,
-                    price: pe.unitary_value,
-                    discount: pe.discount,
-                    total: pe.value
-                  })
+                  if(copy[mpIndex - 1])
+                    copy[mpIndex - 1].products.push({
+                      key: new Date().getTime(),
+                      name: pe.name,
+                      product_id: pe.product_id,
+                      qty: pe.quantity,
+                      price: pe.unitary_value,
+                      discount: pe.discount,
+                      total: pe.value
+                    })
                 })
                 // console.log(copy[])
               }
@@ -88,11 +96,13 @@ const ProductComponent = () => {
           })
         )
       }
+
+      
     }
     inicialLoad()
-    console.log("productEstimate", productEstimate)
   }, [])
-
+  
+  console.log("productEstimate", productEstimate)
   useEffect(() => {
 
     const node = document.getElementById('estimate_data')
@@ -117,8 +127,6 @@ const ProductComponent = () => {
           if (productEstimate[maProductListIndex.maIndex].areas.length > 0)
             calculateProductLW(productEstimate[maProductListIndex.maIndex].areas, id)
               .then(result => {
-                // const peCopy = [...prodEst]
-                console.log(result)
                 copy[maProductListIndex.maIndex].products[maProductListIndex.productIndex].qty = result.qty
                 copy[maProductListIndex.maIndex].products[maProductListIndex.productIndex].total = result.total
                 copy[maProductListIndex.maIndex].products[maProductListIndex.productIndex].price = result.customer_price
@@ -269,7 +277,7 @@ const ProductComponent = () => {
               </ul>
               {
                 productEstimate.map((pe, index) => (
-                  <div className="row products-area-list pl-1 pr-1" id="measurement_proposals" key={index}>
+                  <div className="row products-area-list pl-1 pr-1 mt-2" id="measurement_proposals" key={index}>
                     <div className="product-area">
                       <a href="#" className="btn-close-product-area"><i className="material-icons">close</i></a>
                       <div className="areas-available col s12">

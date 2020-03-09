@@ -15,25 +15,18 @@
   <div class="input-field">
 
     <%= f.label  :category %>
-    <%= f.text_field :category %>
+    <%= f.text_field :category, required: true %>
     
   </div>
 
   <div class="input-field">
     <%= f.select :transaction_category_id, @categories,{ prompt: true}  %>
-    
+    <%= f.label  :transaction_category_id %>
   </div>
 
   <div class="input-field">
     <%= f.select :transaction_account_id, @accounts, {prompt: true}  %>
-    
-  </div>
-
-  <div class="input-field">
-
-    <%= f.label  :origin %>
-    <%= f.text_field :origin %>
-    
+    <%= f.label  :transaction_account_id %>
   </div>
 
   <div class="input-field">
@@ -45,14 +38,14 @@
 
   <div class="input">
     <%= f.label  :effective %>
-    <%= f.datetime_field :effective %>
+    <%= f.datetime_field :effective, required: true %>
 
   </div>
 
   <div class="input-field">
 
     <%= f.label  :value %>
-    <%= f.text_field :value %>
+    <%= f.number_field :value, required: true %>
     
   </div>
 

@@ -11,7 +11,7 @@ class EstimatesController < ApplicationController
   # GET /estimates/1
   def show
   end
-  
+
   def estimate_signature
     #verifica se foi assinado para criar a order
     if params[:sign].present?
@@ -25,8 +25,8 @@ class EstimatesController < ApplicationController
             #verifica se o produto pertence ao catalogo
             if p.product.present?
               #begin
-                purchase = Purchase.find_or_create_by(order_id: order.id, supplier_id: p.product.supplier.id)
-                ProductPurchase.create(product: p.product, purchase: purchase, unity_value: p.unitary_value, quantity: p.quantity, value: p.value, custom_title: p.custom_title)
+              purchase = Purchase.find_or_create_by(order_id: order.id, supplier_id: p.product.supplier.id)
+              ProductPurchase.create(product: p.product, purchase: purchase, unity_value: p.unitary_value, quantity: p.quantity, value: p.value, custom_title: p.custom_title)
               # rescue
               #end
 
@@ -42,19 +42,26 @@ class EstimatesController < ApplicationController
     @signature = Signature.new
     @signature.origin = "Estimate"
     @signature.origin_id = @estimate.id
-      #render "estimate_signature_new", layout: "clean"
+    #render "estimate_signature_new", layout: "clean"
     render layout: "clean"
   end
 
   def send_mail
-    if !Rails.env.production?
-      @estimate.link = "http://localhost:3000/estimates/#{@estimate.id}/estimate_signature"
-    else
-      @estimate.link = "http://woodoffice.herokuapp.com/estimates/#{@estimate.id}/estimate_signature"
-    end
 
-    SendGridMail.send_mail(params[:template],[@estimate,@estimate.customer],params[:subject],params[:emails])
-    redirect_to "/estimates/#{@estimate.id}/view", notice: "Mail Sent"
+    if !params[:template].present? or !params[:subject].present? or !params[:emails].present?
+      redirect_to "/estimates/#{@estimate.id}/view", notice: "Inform all fields"
+
+    else
+
+      if !Rails.env.production?
+        @estimate.link = "http://localhost:3000/estimates/#{@estimate.id}/estimate_signature"
+      else
+        @estimate.link = "http://woodoffice.herokuapp.com/estimates/#{@estimate.id}/estimate_signature"
+      end
+
+      SendGridMail.send_mail(params[:template],[@estimate,@estimate.customer],params[:subject],params[:emails])
+      redirect_to "/estimates/#{@estimate.id}/view", notice: "Mail Sent"
+    end
   end
 
   # GET /estimates/new
@@ -94,7 +101,7 @@ class EstimatesController < ApplicationController
 
   def step_one
     @estimate = Estimate.find_or_initialize_by(lead_id: params[:lead_id])
-    
+
     @lead = Lead.find(params[:lead_id])
     render :step_1
   end
@@ -117,7 +124,7 @@ class EstimatesController < ApplicationController
       redirect_to schedule_estimate_path(estimate.id)
     end
   end
-  
+
   def schedule
     @estimate = Estimate.find(params[:id])
     @workers = Worker.all
@@ -129,16 +136,16 @@ class EstimatesController < ApplicationController
     estimate = Estimate.find(params[:estimate_id])
 
     schedule_obj = {
-      :title => params[:title],
-      :schedule_id => params[:schedule_id],
-      :category => params[:category],
-      :description => params[:description],
-      :start_at => params[:start_at],
-      :end_at => params[:end_at],
-      :color => params[:color],
-      :worker_id => params[:worker_id],
-      :origin => "Estimate",
-      :origin_id => estimate.id
+        :title => params[:title],
+        :schedule_id => params[:schedule_id],
+        :category => params[:category],
+        :description => params[:description],
+        :start_at => params[:start_at],
+        :end_at => params[:end_at],
+        :color => params[:color],
+        :worker_id => params[:worker_id],
+        :origin => "Estimate",
+        :origin_id => estimate.id
     }
 
     schedule = Schedule.new_schedule(schedule_obj)
@@ -151,7 +158,7 @@ class EstimatesController < ApplicationController
 
     schedule.destroy
   end
-  
+
   def products
     estimate = Estimate.includes(:lead).find(params[:id])
 
@@ -172,13 +179,13 @@ class EstimatesController < ApplicationController
         end
         pe["products"].each do |product|
           ProductEstimate.create_or_find_by(
-            product_id: product["product_id"],
-            quantity: product["qty"],
-            unitary_value: product["price"],
-            discount: product["discount"],
-            tax: 0,
-            value: product["total"],
-            measurement_proposal_id: mp.id
+              product_id: product["product_id"],
+              quantity: product["qty"],
+              unitary_value: product["price"],
+              discount: product["discount"],
+              tax: 0,
+              value: product["total"],
+              measurement_proposal_id: mp.id
           )
         end
       end
@@ -208,27 +215,27 @@ class EstimatesController < ApplicationController
   end
 
   private
-    #Método que carrega os objetos de seleção
-    def set_combos
-      @workers = Worker.to_select
-    end
+  #Método que carrega os objetos de seleção
+  def set_combos
+    @workers = Worker.to_select
+  end
 
-    # Use callbacks to share common setup or constraints between actions.
-    def set_estimate
-      @estimate = Estimate.find(params[:id])
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_estimate
+    @estimate = Estimate.find(params[:id])
+  end
 
-    # Only allow a trusted parameter "white list" through.
-    def estimate_params
-      params.require(:estimate).permit(
-          :code, :title, :worker_id, :status, :description, :location, 
-          :latitude, :longitude, :category, :order_id, :price, :tax, 
-          :tax_calculation, :lead_id, :bpmn_instance, :current, :total,
-          measurement_areas_attributes: [
+  # Only allow a trusted parameter "white list" through.
+  def estimate_params
+    params.require(:estimate).permit(
+        :code, :title, :worker_id, :status, :description, :location,
+        :latitude, :longitude, :category, :order_id, :price, :tax,
+        :tax_calculation, :lead_id, :bpmn_instance, :current, :total,
+        measurement_areas_attributes: [
             :id, :estimate_id, :name, :description, :_destroy,
             measurements_attributes: [
-              :id, :length, :width, :height, :_destroy
+                :id, :length, :width, :height, :_destroy
             ]
-          ])
-    end
+        ])
+  end
 end

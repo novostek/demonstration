@@ -238,13 +238,13 @@
         </div>
         <div class="input-field">
           <%= f.label :emails, "Emails" %>
-          <%= f.text_field :emails, value: @email_customer %>
+          <%= f.text_field :emails, value: @email_customer, required: true %>
 
         </div>
 
         <div class="input-field">
           <%= f.label :subject %>
-          <%= f.text_field :subject %>
+          <%= f.text_field :subject, required: true %>
         </div>
 
       </div>
@@ -271,11 +271,11 @@
         </div>
         <div class="input-field">
           <%= f.label :emails, "Emails" %>
-          <%= f.text_field :emails, value: @email_customer %>
+          <%= f.text_field :emails, value: @email_customer, required: true %>
         </div>
         <div class="input-field">
           <%= f.label :subject %>
-          <%= f.text_field :subject %>
+          <%= f.text_field :subject, required: true %>
         </div>
 
       </div>

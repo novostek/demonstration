@@ -24,6 +24,7 @@ class DocumentsController < ApplicationController
   end
 
   def preview
+
     @mail = nil
     has_custom_field = false
     @customs = []
@@ -31,6 +32,11 @@ class DocumentsController < ApplicationController
 
     if params[:estimate].present?
       @estimate = Estimate.find(params[:estimate])
+    end
+
+    if !params[:document].present?
+      redirect_to "/estimates/#{@estimate.id}/view", notice: "Inform Document"
+      return
     end
 
     @document = Document.find(params[:document])

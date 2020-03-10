@@ -15,14 +15,14 @@
   <div class="input-field">
 
     <%= f.label :name %>
-    <%= f.text_field :name %>
+    <%= f.text_field :name, required: true %>
     
   </div>
 
   <div class="input-field">
 
     <%= f.label :description %>
-    <%= f.text_area :description %>
+    <%= f.text_area :description, class:"materialize-textarea" %>
     
   </div>
 

@@ -37,5 +37,16 @@ class Product < ApplicationRecord
   belongs_to :calculation_formula, optional: true
   belongs_to :supplier, optional: true
 
-  validates :name, :uuid, :customer_price, :cost_price, :area_covered, :calculation_formula_id, presence: true
+  validates :name,  :customer_price, :cost_price, :area_covered, :calculation_formula_id, presence: true
+
+  before_save :set_uuid
+
+  require 'securerandom'
+
+
+  def set_uuid
+    if self.uuid.blank?
+      self.uuid =  SecureRandom.uuid
+    end
+  end
 end

@@ -18,7 +18,7 @@ class EstimatesController < ApplicationController
       if !@estimate.order.present?
         order = Order.new
         if order.save
-          @estimate.update(order_id: order.id)
+          @estimate.update(order_id: order.id, current: true)
 
           #cria os purchases
           @estimate.product_estimates.each do |p|

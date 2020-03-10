@@ -83,7 +83,7 @@
 
       <div class="card-panel">
         <!-- Procuts and area -->
-        <% @estimate.measurement_proposals.each do |mp| %>
+        <% @estimate.measurement_proposals.distinct(:id).each do |mp| %>
           <div class="row">
             <div class="col s12">
               <div class="row pl-2 pr-2">
@@ -130,7 +130,7 @@
             <ul>
               <li class="display-flex justify-content-between">
                 <span class="invoice-subtotal-title">Subtotal</span>
-                <h6 class="mt-0">$<%= @estimate.product_estimates.sum(:value).to_f %></h6>
+                <h6 class="mt-0">$<%= @estimate.get_subtotal %></h6>
               </li>
               <li class="display-flex justify-content-between">
                 <span class="invoice-subtotal-title">Discount</span>

@@ -21,7 +21,7 @@ class Order < ApplicationRecord
 
   has_many :schedules, -> { where origin: :Order }, primary_key: :id, foreign_key: :origin_id
 
-  accepts_nested_attributes_for :transactions, reject_if: :reject_payment, allow_destroy: true
+  accepts_nested_attributes_for :transactions, reject_if: :all_blank, allow_destroy: true
 
   def reject_payment attributes
     attributes['value'].blank?

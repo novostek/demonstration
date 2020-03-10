@@ -1,5 +1,7 @@
 <div class="row deposit nested-fields">
   <div class="card-panel z-depth-0 border-radius-4">
+    <%= f.hidden_field :origin, value: 'Order' %>
+    <%= f.hidden_field :origin_id, value: @order.id %>
     <%= link_to_remove_association f, class: "btn-close-deposit" do %>
       <i class="material-icons">close</i>
     <% end %>
@@ -9,12 +11,16 @@
         <%= f.label  :value %>
       </div>
       <div class="input-field col s12 m4">
-        <%= f.select :payment_method, options_for_select(Transaction.payment_method.options, f.object.payment_method) %>
+        <%= f.select :payment_method, 
+            options_for_select(Transaction.payment_method.options.map { |op| 
+              [op[0], op[1], {'data-icon': op[0].include?("Square") ? image_path('square.svg') : '' }]
+            }, f.object.payment_method), 
+            class: 'icons' %>
         <%= f.label :payment_method %>
       </div>
       <div class="input-field col s12 m4">
         <i class="material-icons prefix">today</i>
-        <%= f.text_field :due, class: "deposit-due datepicker" %>
+        <%= f.date_field :due, class: "deposit-due" %>
         <%= f.label  :due %>
       </div>
     </div>

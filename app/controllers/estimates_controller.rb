@@ -42,6 +42,7 @@ class EstimatesController < ApplicationController
     @signature = Signature.new
     @signature.origin = "Estimate"
     @signature.origin_id = @estimate.id
+      #render "estimate_signature_new", layout: "clean"
     render layout: "clean"
   end
 

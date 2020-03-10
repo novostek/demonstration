@@ -1,54 +1,59 @@
-<div class="row">
-  <div class="content-wrapper-before gradient-45deg-indigo-purple"></div>
-  <div class="breadcrumbs-dark pb-0 pt-4" id="breadcrumbs-wrapper">
-    <div class="container">
-      <div class="row">
-        <div class="col s10 m6 l6">
-          <h5 class="breadcrumbs-title mt-0 mb-0">Estimate #<%= @estimate.code %></h5>
+<link rel="stylesheet" type="text/css" href="/css/signature.css">
+<!--<div class="row">-->
+<!--  <div class="content-wrapper-before gradient-45deg-indigo-purple"></div>-->
+<!--  <div class="breadcrumbs-dark pb-0 pt-4" id="breadcrumbs-wrapper">-->
+<!--    <div class="container">-->
+<!--      <div class="row">-->
+<!--        <div class="col s10 m6 l6">-->
+<!--          <h5 class="breadcrumbs-title mt-0 mb-0">Estimate #<%#= @estimate.code %></h5>-->
 
-        </div>
-        <div class="col s2 m6 l6">
+<!--        </div>-->
+<!--        <div class="col s2 m6 l6">-->
 
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
+<!--        </div>-->
+<!--      </div>-->
+<!--    </div>-->
+<!--  </div>-->
+<!--</div>-->
+<header>
+  <div class="logo">woffice</div>
+</header>
 <div class="row mt-1">
   <div class="col s12 l12 pl-0 pr-0">
     <div class="col s12">
       <div class="row area-grid">
-        <div class="area-box">
-          <div class="card-panel">
+        <% @estimate.measurement_areas.each do |ma| %>
+          <div class="area-box">
+            <div class="card-panel">
 
-            <% @estimate.measurement_areas.each do |ma| %>
-            <div class="row center-align">
-              <h6
-                class="col s12 pl-0 pt-0 mt-0 font-weight-600 display-flex align-items-center justify-content-center">
-                <i class="material-icons left">event_seat</i><%= ma.name %></h6>
-              <div class="row mb-2">
-                <div class="col s12">
-                  <%= ma.description %>
+
+              <div class="row center-align">
+                <h6
+                  class="col s12 pl-0 pt-0 mt-0 font-weight-600 display-flex align-items-center justify-content-center">
+                  <i class="material-icons left">event_seat</i><%= ma.name %></h6>
+                <div class="row mb-2">
+                  <div class="col s12">
+                    <%= ma.description %>
+                  </div>
+                </div>
+                <div class="col s4">
+                  <!-- length -->
+                  <i class="material-icons left width-100">straighten</i><%= ma.measurements[0].length %></span>
+                </div>
+                <div class="col s4">
+                  <!-- width -->
+                  <i class="material-icons left width-100" style="transform: rotate(-45deg)">straighten</i><%= ma.measurements[0].width %></span>
+                </div>
+                <div class="col s4">
+                  <!-- height -->
+                  <i class="material-icons left width-100" style="transform: rotate(-90deg)">straighten</i><%= ma.measurements[0].height %></span>
                 </div>
               </div>
-              <div class="col s4">
-                <!-- length -->
-                <i class="material-icons left width-100">straighten</i><%= ma.measurements[0].length %></span>
-              </div>
-              <div class="col s4">
-                <!-- width -->
-                <i class="material-icons left width-100" style="transform: rotate(-45deg)">straighten</i><%= ma.measurements[0].width %></span>
-              </div>
-              <div class="col s4">
-                <!-- height -->
-                <i class="material-icons left width-100" style="transform: rotate(-90deg)">straighten</i><%= ma.measurements[0].height %></span>
-              </div>
+
+
             </div>
-            <% end %>
-
           </div>
-        </div>
-
+        <% end %>
 
       </div>
       <!-- Areas -->
@@ -131,9 +136,9 @@
           <% if !@estimate.signatures.last.present? %>
             <%= form_for(@signature) do |f| %>
 
-                <%= f.hidden_field :sign, value: true %>
-                <%= f.hidden_field :origin %>
-                <%= f.hidden_field :origin_id %>
+              <%= f.hidden_field :sign, value: true %>
+              <%= f.hidden_field :origin %>
+              <%= f.hidden_field :origin_id %>
 
               <input type="hidden" id="signature_file" value="" name="signature[file]">
               <canvas id="signature-pad" class="signature-pad" width=800 height=200 style="border:1px solid #000000;"></canvas>
@@ -149,6 +154,38 @@
 
     </div>
   </div>
+
+</div>
+
+<% if !@estimate.signatures.last.present? %>
+  <div class="confirm">
+    <a href="#modal-signature" class="btn-confirm modal-trigger waves-effect" >Confirm</a>
+  </div>
+<% end %>
+
+<div id="modal-signature" class="modal">
+  <%= form_for(@signature) do |f| %>
+
+    <%= f.hidden_field :sign, value: true %>
+    <%= f.hidden_field :origin %>
+    <%= f.hidden_field :origin_id %>
+
+    <input type="hidden" id="signature_file" value="" name="signature[file]">
+
+    <br>
+    <button id="clear" class="btn" type="button" ><%= t :clear %></button>
+    <%= f.submit "sign", class:"btn green" %>
+    <div class="modal-content">
+      <h4>Sign</h4>
+      <div class="sign-box">
+        <canvas id="signature-pad" class="signature-pad" width=800 height=200 style="border:1px solid #000000;z-index: 9999"></canvas>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat btn-send"> <i
+        class="material-icons left">send</i> Confirm signature</a>
+    </div>
+  <% end %>
 
 </div>
 

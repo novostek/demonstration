@@ -28,7 +28,7 @@ class Order < ApplicationRecord
 
   def as_json(options = {})
     s = super(options)
-    s[:product_estimates] = self.product_estimates
+    s[:product_estimates] = self.get_current_estimate.product_estimates.distinct(:id)
     # s[:measurement_proposals] = self.measurement_areas.measurement_proposals
     s
   end

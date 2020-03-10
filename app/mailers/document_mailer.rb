@@ -5,5 +5,11 @@ class DocumentMailer < ApplicationMailer
     mail(to: params[:emails], subject: params[:subject])
   end
 
+  def send_square
+    @order = params[:order]
+    @link = params[:link]
+    mail(to: params[:emails], subject: "Payment of Order N* #{order.code}")
+  end
+
 
 end

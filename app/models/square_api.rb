@@ -26,7 +26,7 @@ class SquareApi
 
   end
 
-  def self.create_checkout
+  def self.create_checkout(order, transaction)
     client = SquareApi.client
 
     checkout_api = client.checkout
@@ -35,45 +35,50 @@ class SquareApi
     body = {}
     body[:idempotency_key] = SecureRandom.uuid
     body[:order] = {}
-    body[:order][:reference_id] = '12'
+    body[:order][:reference_id] = "#{order.id}"
     body[:order][:line_items] = []
 
 
     body[:order][:line_items][0] = {}
-    body[:order][:line_items][0][:name] = 'Printed T Shirt'
-    body[:order][:line_items][0][:quantity] = '2'
+    body[:order][:line_items][0][:name] = "Payemnt of Order N* #{order.code}"
+    body[:order][:line_items][0][:quantity] = '1'
     body[:order][:line_items][0][:base_price_money] = {}
-    body[:order][:line_items][0][:base_price_money][:amount] = 1500
+    body[:order][:line_items][0][:base_price_money][:amount] = (transaction.value*100).to_i
     body[:order][:line_items][0][:base_price_money][:currency] = 'USD'
-    body[:order][:line_items][0][:discounts] = []
+    # body[:order][:line_items][0][:discounts] = []
 
 
-    body[:order][:line_items][0][:discounts][0] = {}
-    body[:order][:line_items][0][:discounts][0][:name] = '7% off previous season item'
-    body[:order][:line_items][0][:discounts][0][:percentage] = '7'
+    # body[:order][:line_items][0][:discounts][0] = {}
+    # body[:order][:line_items][0][:discounts][0][:name] = '7% off previous season item'
+    # body[:order][:line_items][0][:discounts][0][:percentage] = '7'
 
 
-    body[:order][:taxes] = []
+    # body[:order][:taxes] = []
+    #
+    #
+    # body[:order][:taxes][0] = {}
+    # body[:order][:taxes][0][:name] = 'Sales Tax'
+    # body[:order][:taxes][0][:percentage] = '8.5'
 
 
-    body[:order][:taxes][0] = {}
-    body[:order][:taxes][0][:name] = 'Sales Tax'
-    body[:order][:taxes][0][:percentage] = '8.5'
+    # body[:ask_for_shipping_address] = true
+    # body[:merchant_support_email] = 'merchant+support@website.com'
+    # body[:pre_populate_buyer_email] = 'example@email.com'
+    # body[:pre_populate_shipping_address] = {}
+    # body[:pre_populate_shipping_address][:address_line_1] = '1455 Market St.'
+    # body[:pre_populate_shipping_address][:address_line_2] = 'Suite 600'
+    # body[:pre_populate_shipping_address][:locality] = 'San Francisco'
+    # body[:pre_populate_shipping_address][:administrative_district_level_1] = 'CA'
+    # body[:pre_populate_shipping_address][:postal_code] = '94103'
+    # body[:pre_populate_shipping_address][:country] = 'US'
+    # body[:pre_populate_shipping_address][:first_name] = 'Jane'
+    # body[:pre_populate_shipping_address][:last_name] = 'Doe'
+    if Rails.env.production?
+      body[:redirect_url] = "http://woodoffice.herokuapp.com/square_api/callback?transaction=#{transaction.id}"
+    else
+      body[:redirect_url] = "http://localhost:3000/square_api/callback?transaction=#{transaction.id}"
+    end
 
-
-    body[:ask_for_shipping_address] = true
-    body[:merchant_support_email] = 'merchant+support@website.com'
-    body[:pre_populate_buyer_email] = 'example@email.com'
-    body[:pre_populate_shipping_address] = {}
-    body[:pre_populate_shipping_address][:address_line_1] = '1455 Market St.'
-    body[:pre_populate_shipping_address][:address_line_2] = 'Suite 600'
-    body[:pre_populate_shipping_address][:locality] = 'San Francisco'
-    body[:pre_populate_shipping_address][:administrative_district_level_1] = 'CA'
-    body[:pre_populate_shipping_address][:postal_code] = '94103'
-    body[:pre_populate_shipping_address][:country] = 'US'
-    body[:pre_populate_shipping_address][:first_name] = 'Jane'
-    body[:pre_populate_shipping_address][:last_name] = 'Doe'
-    body[:redirect_url] = 'http://a098fcf9.ngrok.io/square_api/callback'
 
 
 

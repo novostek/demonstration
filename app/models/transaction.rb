@@ -44,4 +44,18 @@ class Transaction < ApplicationRecord
   enumerize :payment_method, in: [:cash, :square_credit, :square_installments], predicates: true
 
   validates :category, :effective, :value, presence: true
+  
+  after_save :send_square
+  
+  
+  def send_square
+    if self.payment_method.square_credit?
+      checkout_status, checkout_data = SquareApi.create_checkout(self.order, self)
+      if checkout_status
+        DocumentMailer.with(link: checkout_data[:checkout][:checkout_page_url] , emails: emails, order: self.order).send_square.deliver_now
+      else
+        redirect_to process_payment_customers_path
+      end
+    end
+  end
 end

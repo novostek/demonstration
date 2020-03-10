@@ -18,6 +18,7 @@ class Order < ApplicationRecord
   before_create :set_code
   has_many :transactions
 
+
   has_many :schedules, -> { where origin: :Order }, primary_key: :id, foreign_key: :origin_id
 
   accepts_nested_attributes_for :transactions, reject_if: :reject_payment, allow_destroy: true
@@ -38,7 +39,7 @@ class Order < ApplicationRecord
   end
 
   def get_current_estimate
-    self.estimates.where(current: true).first
+    self.estimates.where(current: true).last
   end
 
   def set_code

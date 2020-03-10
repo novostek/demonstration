@@ -1,59 +1,85 @@
-<div class="breadcrumbs-dark pb-0 pt-4" id="breadcrumbs-wrapper">
-  <!-- Search for small screen-->
-  <div class="container">
-    <div class="row">
-      <div class="col s10 m6 l6">
-        <h5 class="breadcrumbs-title mt-0 mb-0"><span><%= t('activerecord.models.lead') %></span></h5>
-        <ol class="breadcrumbs mb-0">
-          <li class="breadcrumb-item"><a href="/"><%= t('home') %></a>
-          </li>
-          <li class="breadcrumb-item"><a href="#"><%= t('activerecord.models.lead') %></a>
-          </li>
-          <li class="breadcrumb-item active"><%= t('breadcrumb.show') %>
-          </li>
-        </ol>
-      </div>
-      <div class="col s2 m6 l6">
-        <%= link_to t('button.all'), leads_path, class:"btn waves-effect waves-light breadcrumbs-btn right" %>
-        <%= link_to edit_lead_path(@lead) , class: "btn-flat waves-effect waves-light breadcrumbs-btn right" do %>
-          <i class="material-icons">edit</i>
-        <% end %>
-      </div>
-    </div>
-  </div>
-</div>
+<div class="content-wrapper-before gradient-45deg-indigo-purple"></div>
+			<div class="breadcrumbs-dark pb-0 pt-4" id="breadcrumbs-wrapper">
+				<!-- Search for small screen-->
+				<div class="container">
+					<div class="row">
+						<div class="col s10 m6 l6">
+							<h5 class="breadcrumbs-title mt-0 mb-0">Lead #<%= @lead.id %></h5>
+							<ol class="breadcrumbs mb-0">
+								<li class="breadcrumb-item"><a href="index.html">Home</a>
+								</li>
+								<li class="breadcrumb-item"><a href="#">Leads</a>
+								</li>
+								<li class="breadcrumb-item active">View
+								</li>
+							</ol>
+						</div>
+						<div class="col s2 m6 l6">
 
-<div class="card-panel">
-	
-  <p>
-    <strong><%= t('activerecord.attributes.lead.customer') %>:</strong>
-    <%= @lead.customer.name %>
-  </p>
+							<%# <a class="btn waves-effect waves-light breadcrumbs-btn right mr-2 pink lighten-4 pink-text border-round" href="lead-add.html"><i class="material-icons hide-on-med-and-up ">edit</i><span class="hide-on-small-only">Edit</span></a> %>
+              <%= link_to step_one_estimates_path(@lead.id), class:"btn waves-effect waves-light breadcrumbs-btn right border-round" do %>
+                <i class="material-icons hide-on-med-and-up">add</i><span class="hide-on-small-only">Estimate</span>
+              <% end %>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="col s12">
+				<div class="container">
+					<div class="row mt-1">
+						<div class="col s12 m8">
+							<div class="card-panel">
+								<div class="row">
+									<div class="col s12 m4">
+										<h6>Date</h6>
+										<span><%= @lead.date.strftime("%m/%d/%Y") %></span>
+									</div>
+									<div class="col s12 m4">
+										<h6>Via</h6>
+										<span><%= @lead.via %></span>
+									</div>
+									<div class="col s12 m4">
+										<h6>Status</h6>
+										<span class=" users-view-status chip green lighten-5 green-text"><%= @lead.status %></span>
+									</div>
+								</div>
+								<div class="row">
+									<div class="col s12">
+										<h6>Description</h6>
+										<span><%= @lead.description %></span>
+									</div>
+								</div>	
+							</div>
+						</div>
 
-  <p>
-    <strong><%= t('activerecord.attributes.lead.via') %>:</strong>
-    <%= @lead.via %>
-  </p>
+						<div class="col s12 m4">
+							<div class="card-panel">
+								<table class="striped">
+									<tbody>
+										<tr>
+											<td>Customer:</td>
+											<td><a href="customer-view.html"><%= @lead.customer %></a></td>
+										</tr>
+										<tr>
+											<td>Document:</td>
+											<td><%= @lead.customer.document_id %></td>
+										</tr>
+										<tr>
+											<td>Client since:</td>
+											<td><%= @lead.customer.since %></td>
+										</tr>
+									</tbody>
+								</table>		
+							</div>
+						</div>
 
-  <p>
-    <strong><%= t('activerecord.attributes.lead.description') %>:</strong>
-    <%= @lead.description %>
-  </p>
+						
 
-  <p>
-    <strong><%= t('activerecord.attributes.lead.status') %>:</strong>
-    <%= @lead.status %>
-  </p>
 
-  <p>
-    <strong><%= t('activerecord.attributes.lead.date') %>:</strong>
-    <%= @lead.date %>
-  </p>
+					</div>
 
-  <p>
-    <strong><%= t('activerecord.attributes.lead.phone') %>:</strong>
-    <%= @lead.phone %>
-  </p>
+				</div>
 
-</div>
 
+
+			</div>

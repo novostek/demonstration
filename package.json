@@ -22,6 +22,7 @@
     "react-autosuggest": "^9.4.3",
     "react-dom": "^16.13.0",
     "react-hook-form": "^4.10.1",
+    "sweetalert2": "^9.10.0",
     "turbolinks": "^5.2.0",
     "yup": "^0.28.1"
   },

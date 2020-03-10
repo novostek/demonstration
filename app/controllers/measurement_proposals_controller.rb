@@ -1,6 +1,6 @@
 class MeasurementProposalsController < ApplicationController
   before_action :set_measurement_proposal, only: [:show, :edit, :update, :destroy]
-
+  before_action :authenticate_user!, except: [:destroy]
   # GET /measurement_proposals
   def index
     @q = MeasurementProposal.all.ransack(params[:q])
@@ -25,7 +25,7 @@ class MeasurementProposalsController < ApplicationController
     @measurement_proposal = MeasurementProposal.new(measurement_proposal_params)
 
     if @measurement_proposal.save
-      redirect_to @measurement_proposal, notice: 'Measurement proposal foi criado com sucesso'
+      redirect_to @measurement_proposal, notice: 'Measurement was successfully created'
     else
       render :new
     end
@@ -43,7 +43,7 @@ class MeasurementProposalsController < ApplicationController
   # DELETE /measurement_proposals/1
   def destroy
     @measurement_proposal.destroy
-    redirect_to measurement_proposals_url, notice: 'Measurement proposal foi apagado com sucesso.'
+    render json: { status: :ok }
   end
 
   private

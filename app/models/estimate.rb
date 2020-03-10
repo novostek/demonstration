@@ -65,7 +65,11 @@ class Estimate < ApplicationRecord
   end
 
   def get_total_value
-    self.product_estimates.sum(:value) - self.product_estimates.sum(:discount).to_f + self.tax.to_f
+    self.product_estimates.distinct(:id).sum(:value) - self.product_estimates.sum(:discount).to_f + self.tax.to_f
+  end
+
+  def get_subtotal
+    self.product_estimates.distinct(:id).sum(:value).to_f
   end
 
   def as_json(options = {})

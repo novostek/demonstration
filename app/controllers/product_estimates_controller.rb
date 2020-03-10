@@ -1,5 +1,6 @@
 class ProductEstimatesController < ApplicationController
   before_action :set_product_estimate, only: [:show, :edit, :update, :destroy]
+  before_action :authenticate_user!, except: [:destroy]
 
   # GET /product_estimates
   def index
@@ -43,7 +44,7 @@ class ProductEstimatesController < ApplicationController
   # DELETE /product_estimates/1
   def destroy
     @product_estimate.destroy
-    redirect_to product_estimates_url, notice: 'Product estimate foi apagado com sucesso.'
+    render json: {status: :ok}
   end
 
   private

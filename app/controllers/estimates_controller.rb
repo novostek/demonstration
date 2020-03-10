@@ -1,5 +1,5 @@
 class EstimatesController < ApplicationController
-  before_action :set_estimate, only: [:show, :edit, :update, :destroy,:send_mail,:estimate_signature]
+  before_action :set_estimate, only: [:show, :edit, :update, :destroy,:send_mail,:estimate_signature, :create_products_estimates]
   before_action :set_combos, only: [:step_one]
   # skip_forgery_protection
   # GET /estimates
@@ -163,26 +163,29 @@ class EstimatesController < ApplicationController
   def create_products_estimates
     #tem areas e produtos
     product_estimate = params[:productEstimate]
+
     begin
       product_estimate.each do |pe|
-        mp = MeasurementProposal.create()
+        mp = MeasurementProposal.find_or_initialize_by(id: pe['proposal_id'])
+        mp.save()
         pe["areas"].each do |area|
-          AreaProposal.create_or_find_by(measurement_area_id: area, measurement_proposal_id: mp.id)
+          ap = AreaProposal.find_or_initialize_by(measurement_area_id: area, measurement_proposal_id: mp.id)
+          ap.measurement_area_id = area
+          ap.measurement_proposal_id = mp.id
+          ap.save()
         end
         pe["products"].each do |product|
-          ProductEstimate.create_or_find_by(
-            product_id: product["product_id"],
-            quantity: product["qty"],
-            unitary_value: product["price"],
-            discount: product["discount"],
-            tax: 0,
-            value: product["total"],
-            measurement_proposal_id: mp.id
-          )
+          p_estimate = ProductEstimate.find_or_initialize_by(product_id: product["product_id"], measurement_proposal_id: mp.id)
+          p_estimate.quantity = product["qty"]
+          p_estimate.unitary_value = product["price"]
+          p_estimate.discount = product["discount"]
+          p_estimate.tax = 0
+          p_estimate.value = product["total"]
+          p_estimate.save()
         end
       end
-    rescue
-      render json: {status: :internal_server_error}
+    rescue StandardError => e
+      render json: {status: :internal_server_error, message: e.backtrace.inspect  }
     else
       render json: {status: :ok}
     end

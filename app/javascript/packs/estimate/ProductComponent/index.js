@@ -4,6 +4,7 @@ import { useForm } from "react-hook-form";
 import M from 'materialize-css'
 import * as yup from "yup";
 import EstimateDetail from '../EstimateDetail'
+import Swal from 'sweetalert2'
 
 const schema = {
   requiredDecimal: { required: true, pattern: /^\d+(\.\d{1,2})?$/ }
@@ -23,6 +24,7 @@ const ProductComponent = () => {
 
   const [productEstimate, setProductEstimate] = useState([
     {
+      proposal_id: '',
       areas: [],
       products: [
         {
@@ -41,10 +43,9 @@ const ProductComponent = () => {
   useEffect(() => {
     let indexHelper = 0
 
-    console.log("effect")
     const inicialLoad = async () => {
       if (estimate.measurement_proposals.length > 0) {
-        setProductEstimate(productEstimate => {
+        await setProductEstimate(productEstimate => {
           const copy = [...productEstimate]
 
           copy[0].products.shift()
@@ -56,13 +57,14 @@ const ProductComponent = () => {
           estimate.measurement_proposals.map((mp, mpIndex) => {
             setProductEstimate(productEstimate => {
               const copy = [...productEstimate]
-              console.log(mp.id, indexHelper)
               if (mp.id !== indexHelper) {
                 copy.push({ areas: [], products: [] })
                 mp.measurement_area.map(area => copy[mpIndex].areas.push(area.id))
                 if (mp.id !== indexHelper) {
                   mp.product_estimates.map((pe, peIndex) => {
+                    copy[mpIndex].proposal_id = mp.id
                     copy[mpIndex].products.push({
+                      product_estimate_id: pe.id,
                       key: Math.random(),
                       name: pe.name,
                       product_id: pe.product_id,
@@ -76,10 +78,10 @@ const ProductComponent = () => {
 
                 indexHelper = mp.id
               } else {
-                console.log("igual", mpIndex - 1)
                 mp.product_estimates.map((pe, peIndex) => {
-                  if(copy[mpIndex - 1])
+                  if (copy[mpIndex - 1])
                     copy[mpIndex - 1].products.push({
+                      product_estimate_id: pe.id,
                       key: Math.random(),
                       name: pe.name,
                       product_id: pe.product_id,
@@ -104,12 +106,11 @@ const ProductComponent = () => {
         })
       }
 
-      
+
     }
     inicialLoad()
   }, [])
-  
-  console.log("productEstimate", productEstimate)
+
   useEffect(() => {
 
     const node = document.getElementById('estimate_data')
@@ -117,7 +118,6 @@ const ProductComponent = () => {
 
     const autoCompleteProductData = {}
 
-    console.log("ESTIMATE", estimate)
     products.map(product => autoCompleteProductData[product.name] = null)
 
     const options = {
@@ -130,13 +130,12 @@ const ProductComponent = () => {
           copy[maProductListIndex.maIndex].products[maProductListIndex.productIndex].product_id = id
           // {`measurement[${index}].products[${peIndex}].product_id`}
           document.getElementsByName(`measurement[${maProductListIndex.maIndex}].products[${maProductListIndex.productIndex}].product_id`)[0].setAttribute('value', id)
-          console.log(productEstimate[maProductListIndex.maIndex].areas)
           if (productEstimate[maProductListIndex.maIndex].areas.length > 0)
             calculateProductLW(productEstimate[maProductListIndex.maIndex].areas, id)
               .then(result => {
                 copy[maProductListIndex.maIndex].products[maProductListIndex.productIndex].qty = result.qty
                 copy[maProductListIndex.maIndex].products[maProductListIndex.productIndex].total = result.total
-                copy[maProductListIndex.maIndex].products[maProductListIndex.productIndex].price = result.customer_price
+                copy[maProductListIndex.maIndex].products[maProductListIndex.productIndex].price = result.price
                 setValue(`measurement[${maProductListIndex.maIndex}].products[${maProductListIndex.productIndex}]`, { qty: result.qty })
                 setValue(`measurement[${maProductListIndex.maIndex}].products[${maProductListIndex.productIndex}]`, { price: result.price })
                 setValue(`measurement[${maProductListIndex.maIndex}].products[${maProductListIndex.productIndex}]`, { total: result.total })
@@ -158,6 +157,7 @@ const ProductComponent = () => {
 
   const addArea = () => {
     const area_product = {
+      proposal_id: '',
       areas: [],
       products: [
         {
@@ -194,11 +194,39 @@ const ProductComponent = () => {
   }
 
   const removeProduct = (maIndex, peIndex) => {
-    setProductEstimate(productEstimate => {
-      const copy = [...productEstimate]
-      copy[maIndex].products.splice(peIndex, 1)
+    Swal.fire({
+      title: 'Are you sure?',
+      text: "You won't be able to revert this!",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Yes, remove it!',
+      cancelButtonText: 'No, cancel!',
+      reverseButtons: true
+    }).then((result) => {
+      if (result.value) {
+        const headers = new Headers()
+        headers.append("Content-Type", "application/json")
+        headers.append("Accept", "application/json")
+        const init = {
+          method: 'DELETE',
+          headers,
+        }
+        productEstimate[maIndex].products[peIndex].product_estimate_id &&
+          fetch(`/product_estimates/${productEstimate[maIndex].products[peIndex].product_estimate_id}`, init)
+            .then(res => console.log(res))
+            .catch(error => console.log(error))
+        Swal.fire(
+          'Deleted',
+          'Your product has been removed from list.',
+          'success'
+        )
+        setProductEstimate(productEstimate => {
+          const copy = [...productEstimate]
+          copy[maIndex].products.splice(peIndex, 1)
 
-      return copy
+          return copy
+        })
+      }
     })
     // setProductEstimate(productEstimate => [
     //   ...productEstimate.slice(0, maIndex), 
@@ -224,14 +252,13 @@ const ProductComponent = () => {
   }
 
   const remoteSubmit = () => {
-    console.log('remote')
     submitBtnRef.current.click()
   }
 
   const create_product_estimate = () => {
     const headers = new Headers()
     headers.append("Content-Type", "application/json")
-    console.log('create')
+    console.log('create', productEstimate)
     const data = { productEstimate }
     const init = {
       method: 'POST',
@@ -245,65 +272,70 @@ const ProductComponent = () => {
   const removeArea = (index) => {
     setProductEstimate(productEstimate => {
       const copy = [...productEstimate]
-      copy.splice(index,1)
+      copy.splice(index, 1)
 
       return copy
     })
   }
 
-  const productTotalPrice = (maIndex, peIndex, value) => {
-    setProductEstimate(productEstimate => {
+  const productTotalPrice = async (maIndex, peIndex, value) => {
+    await setProductEstimate(productEstimate => {
       const copy = [...productEstimate]
 
+      copy[maIndex].products[peIndex].price = parseFloat(value)
       copy[maIndex].products[peIndex].total = (parseFloat(copy[maIndex].products[peIndex].qty) * parseFloat(value)) - parseFloat(copy[maIndex].products[peIndex].discount)
 
       setValue(`measurement[${maIndex}].products[${peIndex}].total`, copy[maIndex].products[peIndex].total ? copy[maIndex].products[peIndex].total : 0)
-
+      setValue(`measurement[${maIndex}].products[${peIndex}].price`, value ? value : 0)
       return copy
     })
   }
 
-  const productTotalQty = (maIndex, peIndex, value) => {
-    setProductEstimate(productEstimate => {
+  const productTotalQty = async (maIndex, peIndex, value) => {
+    await setProductEstimate(productEstimate => {
       const copy = [...productEstimate]
-
+      copy[maIndex].products[peIndex].qty = parseFloat(value)
       copy[maIndex].products[peIndex].total = (parseFloat(value) * parseFloat(copy[maIndex].products[peIndex].price)) - parseFloat(copy[maIndex].products[peIndex].discount)
 
       setValue(`measurement[${maIndex}].products[${peIndex}].total`, copy[maIndex].products[peIndex].total ? copy[maIndex].products[peIndex].total : 0)
-
+      setValue(`measurement[${maIndex}].products[${peIndex}].qty`, value ? value : 0)
       return copy
     })
   }
 
-  const productTotalDiscount = (maIndex, peIndex, value) => {
-    setProductEstimate(productEstimate => {
+  const productTotalDiscount = async (maIndex, peIndex, value) => {
+    await setProductEstimate(productEstimate => {
       const copy = [...productEstimate]
 
+      copy[maIndex].products[peIndex].discount = parseFloat(value)
       copy[maIndex].products[peIndex].total = (parseFloat(copy[maIndex].products[peIndex].qty) * parseFloat(copy[maIndex].products[peIndex].price)) - parseFloat(value)
 
       setValue(`measurement[${maIndex}].products[${peIndex}].total`, copy[maIndex].products[peIndex].total ? copy[maIndex].products[peIndex].total : 0)
-
+      setValue(`measurement[${maIndex}].products[${peIndex}].discount`, value ? value : 0)
       return copy
     })
   }
 
-  const onSubmit = data => {
-    setProductEstimate(productEstimate => {
-      const copy = [...productEstimate]
-      return copy.map((ma, index) => {
-        const maCopy = { ...ma }
-        maCopy.products = ma.products.map((pe, peIndex) => {
-          return { ...pe, ...data.measurement[index].products[peIndex] }
-        })
-        return maCopy
+  const onSubmit = async data => {
+    const copy = [...productEstimate]
+    const results = copy.map(async (ma, index) => {
+      console.log('map1')
+      const maCopy = { ...ma }
+      maCopy.products = ma.products.map((pe, peIndex) => {
+        console.log('map2')
+        return { ...pe, ...data.measurement[index].products[peIndex] }
       })
+      return maCopy
     })
+
+    await Promise.all(results).then(async res => {
+
+      await setProductEstimate(res)
+    }).then(() => console.log('pos map'))
 
     create_product_estimate()
       .then(() => window.location = `/estimates/${estimate.id}/view`)
   }
-
-  console.log(productEstimate)
 
   return (
     <div className="row">
@@ -327,24 +359,24 @@ const ProductComponent = () => {
                 </li>
               </ul>
               <form onSubmit={handleSubmit(onSubmit)}>
-              {
-                productEstimate.map((pe, index) => (
-                  <div className="row products-area-list pl-1 pr-1 mt-2" id="measurement_proposals" key={index}>
-                    <div className="product-area">
-                      <a href="#" onClick={() => removeArea(index)} className="btn-close-product-area"><i className="material-icons">close</i></a>
-                      <div className="areas-available col s12">
-                        <span>Areas:</span>
-                        {
-                          estimate.measurement_areas.map((ma, maIndex) => (
-                            <div className={`chip ${productEstimate[index].areas.includes(ma.id) ? 'selected' : ''}`} key={Math.random()} onClick={() => !productEstimate[index].areas.includes(ma.id) ? selectArea(index, ma.id, true) : selectArea(index, ma.id, false)}>
-                              {ma.name}
-                            </div>
-                          ))
-                        }
-                        {/* <a href="#" className="select-all-areas">Select all</a> */}
-                      </div>
-                      <div className="products-list">
-                        
+                {
+                  productEstimate.map((pe, index) => (
+                    <div className="row products-area-list pl-1 pr-1 mt-2" id="measurement_proposals" key={index}>
+                      <div className="product-area">
+                        <a href="#" onClick={() => removeArea(index)} className="btn-close-product-area"><i className="material-icons">close</i></a>
+                        <div className="areas-available col s12">
+                          <span>Areas:</span>
+                          {
+                            estimate.measurement_areas.map((ma, maIndex) => (
+                              <div className={`chip ${productEstimate[index].areas.includes(ma.id) ? 'selected' : ''}`} key={Math.random()} onClick={() => !productEstimate[index].areas.includes(ma.id) ? selectArea(index, ma.id, true) : selectArea(index, ma.id, false)}>
+                                {ma.name}
+                              </div>
+                            ))
+                          }
+                          {/* <a href="#" className="select-all-areas">Select all</a> */}
+                        </div>
+                        <div className="products-list">
+
                           <input type="hidden" ref={register} name={`measurement_area[${index}]`} value={index} />
                           {
                             pe.products.map((product, peIndex) => (
@@ -420,12 +452,12 @@ const ProductComponent = () => {
                           }
                           <a onClick={() => addProduct(index)} style={{ height: '30px' }} className="product new-product">
                           </a>
-                        
+
+                        </div>
                       </div>
                     </div>
-                  </div>
-                ))
-              }
+                  ))
+                }
                 <button type="submit" style={{ display: 'none' }} ref={submitBtnRef}></button>
               </form>
               <div className="row mt-1">

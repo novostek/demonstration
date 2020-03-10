@@ -7002,6 +7002,11 @@ svgo@^1.0.0:
     unquote "~1.1.1"
     util.promisify "~1.0.0"
 
+sweetalert2@^9.10.0:
+  version "9.10.0"
+  resolved "https://registry.yarnpkg.com/sweetalert2/-/sweetalert2-9.10.0.tgz#f0a0e45d73141528e80b8c47f997c254fddcd780"
+  integrity sha512-HYLRj1zuXtrMrYh2kzrRNzmcDIuNBsIB7ZN0AZctFaVS433QnnL/ihLoRm0COTqy38KOhYwKK1PMYVK/1rQ0Lg==
+
 synchronous-promise@^2.0.6:
   version "2.0.10"
   resolved "https://registry.yarnpkg.com/synchronous-promise/-/synchronous-promise-2.0.10.tgz#e64c6fd3afd25f423963353043f4a68ebd397fd8"

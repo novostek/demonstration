@@ -39,7 +39,7 @@ class OrdersController < ApplicationController
     if @order.update(order_params)
       redirect_to product_purchase_order_path(@order), notice: 'Order was successfully updated.'
     else
-      render payments_order_path(@order), notice: 'There was an error while trying to update the order.'
+      redirect_to payments_order_path(@order), notice: 'There wwwas an error while trying to update the order.'
     end
   end
 
@@ -104,7 +104,7 @@ class OrdersController < ApplicationController
     # Only allow a trusted parameter "white list" through.
     def order_params
       params.require(:order).permit(
-        :code, :status, :bpmn_instance, :start_at, :end_at,
+        :id, :code, :status, :bpmn_instance, :start_at, :end_at,
         transactions_attributes: [
           :id, :origin, :origin_id, :value, :payment_method, :due, :_destroy
         ])

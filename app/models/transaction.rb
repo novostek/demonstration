@@ -43,5 +43,5 @@ class Transaction < ApplicationRecord
 
   enumerize :payment_method, in: [:cash, :square_credit, :square_installments], predicates: true
 
-  validates :category, :effective, :value, presence: true
+  # validates :category, :effective, :value, presence: true
 end

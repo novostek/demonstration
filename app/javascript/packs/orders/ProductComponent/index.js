@@ -42,6 +42,7 @@ const ProductComponent = () => {
   }, [productEstimate])
 
   useEffect(() => {
+    console.log(order)
     const inicialLoad = async () => {
       if (order.product_estimates.length > 0) {
         await Promise.all(

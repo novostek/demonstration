@@ -75,7 +75,7 @@ class Estimate < ApplicationRecord
   def as_json(options = {})
     s = super(options)
     s[:measurement_areas] = self.measurement_areas
-    s[:measurement_proposals] = self.measurement_proposals.distinct
+    s[:measurement_proposals] = self.measurement_proposals.distinct(:id)
     s[:lead] = self.lead
     # s[:measurement_proposals] = self.measurement_areas.measurement_proposals
     s

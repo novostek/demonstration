@@ -269,12 +269,40 @@ const ProductComponent = () => {
       .then(data => data.json())
   }
 
-  const removeArea = (index) => {
-    setProductEstimate(productEstimate => {
-      const copy = [...productEstimate]
-      copy.splice(index, 1)
+  const removeArea = (index, proposal_id) => {
+    Swal.fire({
+      title: 'Are you sure?',
+      text: "You won't be able to revert this!",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Yes, remove it!',
+      cancelButtonText: 'No, cancel!',
+      reverseButtons: true
+    }).then((result) => {
+      if (result.value) {
+        const headers = new Headers()
+        headers.append("Content-Type", "application/json")
+        headers.append("Accept", "application/json")
+        const init = {
+          method: 'DELETE',
+          headers,
+        }
 
-      return copy
+        fetch(`/measurement_proposals/${proposal_id}`, init)
+          .then(res => console.log(res))
+          .catch(error => console.log(error))
+        Swal.fire(
+          'Deleted',
+          'Your proposal has been removed from list.',
+          'success'
+        )
+        setProductEstimate(productEstimate => {
+          const copy = [...productEstimate]
+          copy.splice(index, 1)
+
+          return copy
+        })
+      }
     })
   }
 
@@ -363,7 +391,7 @@ const ProductComponent = () => {
                   productEstimate.map((pe, index) => (
                     <div className="row products-area-list pl-1 pr-1 mt-2" id="measurement_proposals" key={index}>
                       <div className="product-area">
-                        <a href="#" onClick={() => removeArea(index)} className="btn-close-product-area"><i className="material-icons">close</i></a>
+                        <a onClick={() => removeArea(index, pe.proposal_id)} style={{ cursor: 'pointer' }} className="btn-close-product-area"><i className="material-icons">close</i></a>
                         <div className="areas-available col s12">
                           <span>Areas:</span>
                           {

@@ -115,10 +115,10 @@ class SquareApi
   end
 
   def self.client
-    env = Rails.env.production? ? "production" : "sandbox"
+    #env = Rails.env.production? ? "production" : "sandbox"
     client = Square::Client.new(
         access_token: SquareApi.get_key,
-        environment: env
+        environment: "sandbox"
     )
   end
 

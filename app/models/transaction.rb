@@ -45,7 +45,7 @@ class Transaction < ApplicationRecord
 
   #validates :category, :effective, :value, presence: true
   
-  after_save :send_square
+  after_create :send_square
   
   
   def send_square

@@ -39,6 +39,8 @@ class EstimatesController < ApplicationController
         end
       end
     end
+
+    #cria a assinatura para o formulário
     @signature = Signature.new
     @signature.origin = "Estimate"
     @signature.origin_id = @estimate.id

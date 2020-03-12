@@ -25,4 +25,10 @@ class Purchase < ApplicationRecord
   belongs_to :order
   belongs_to :supplier, optional: true
   has_many :product_purchases
+
+  def as_json(options = {})
+    s = super(options)
+    s[:product_purchases] = self.product_purchases
+    s
+  end
 end

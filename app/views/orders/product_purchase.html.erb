@@ -28,9 +28,10 @@
       <div class="section">
         <div id="react-component"></div>
         <%= content_tag :div,
-          id: "order_data",
+          id: "purchase_data",
           data: @order.to_json,
           estimate: @estimate.to_json,
+          purchases: @purchases.to_json,
           products: @products.to_json do %>
         <% end %>
 

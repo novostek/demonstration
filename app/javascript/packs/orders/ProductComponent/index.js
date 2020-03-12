@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom'
 import { useForm } from "react-hook-form";
 import M from 'materialize-css'
 import * as yup from "yup";
+import Swal from 'sweetalert2'
 import EstimateDetail from '../../estimate/EstimateDetail'
 
 const schema = {
@@ -18,59 +19,55 @@ const ProductComponent = () => {
 
   const [orderValues, setOrderValues] = useState({})
 
-  const { register, handleSubmit, setValue, errors } = useForm({ mode: "onBlur", reValidateMode: "onSubmit" })
+  const { register, handleSubmit, setValue, errors, reset } = useForm()
 
-  const node = document.getElementById('order_data')
-  const order = JSON.parse(node.getAttribute('data'))
+  const node = document.getElementById('purchase_data')
+  const purchases = JSON.parse(node.getAttribute('purchases'))
   const estimate = JSON.parse(node.getAttribute('estimate'))
 
-  const [productEstimate, setProductEstimate] = useState([])
-
-  useEffect(() => {
-    const total = productEstimate
-    const reducer_subtotal = (acc, current) => parseFloat(acc) + parseFloat(current.total)
-    const reducer_discount = (acc, current) => parseFloat(acc) + parseFloat(current.discount)
-    const reducer_tax = (acc, current) => parseFloat(acc) + parseFloat(current.tax)
-
-    setOrderValues({
-      ...orderValues,
-      subTotal: total.reduce(reducer_subtotal, 0),
-      discount: total.reduce(reducer_discount, 0),
-      tax: total.reduce(reducer_tax, 0),
-    })
-
-  }, [productEstimate])
+  const [productPurchase, setProductPurchase] = useState([])
 
   useEffect(() => {
     console.log(order)
     const inicialLoad = async () => {
-      if (order.product_estimates.length > 0) {
-        await Promise.all(
-          order.product_estimates.map((pe, peIndex) => {
-            setProductEstimate(productEstimate => {
-              const copy = [...productEstimate]
-              copy.push({
-                key: Math.random(),
-                name: pe.name,
-                product_id: pe.product_id,
-                qty: pe.quantity,
-                price: pe.unitary_value,
-                discount: pe.discount,
-                total: pe.value
-              })
-              return copy
+      purchases.map(purchase => {
+        purchase.product_purchases.map((product_purchase, peIndex) => {
+          setProductPurchase(productPurchase => {
+            const copy = [...productPurchase]
+            copy.push({
+              key: Math.random(),
+              supplier_id: purchase.supplier_id,
+              purchase_id: product_purchase.purchase_id,
+              product_purchase_id: product_purchase.id,
+              name: product_purchase.product ? product_purchase.product.name : product_purchase.custom_title,
+              product_id: product_purchase.product_id,
+              qty: product_purchase.quantity,
+              price: product_purchase.unity_value,
+              total: product_purchase.value,
+              canDelete: false
             })
+            return copy
           })
-        )
-      }
+        })
+      })
     }
     inicialLoad()
 
   }, [])
 
   useEffect(() => {
+    const reducer_subtotal = (acc, current) => parseFloat(acc) + parseFloat(current.total)
+    const reducer_tax = (acc, current) => parseFloat(acc) + parseFloat(current.tax)
 
-    const node = document.getElementById('order_data')
+    setOrderValues({
+      ...orderValues,
+      subTotal: productPurchase.reduce(reducer_subtotal, 0),
+      tax: productPurchase.reduce(reducer_tax, 0),
+    })
+  }, [productPurchase])
+
+  useEffect(() => {
+    // const node = document.getElementById('order_data')
     const products = JSON.parse(node.getAttribute('products'))
 
     const autoCompleteProductData = {}
@@ -81,12 +78,17 @@ const ProductComponent = () => {
       data: autoCompleteProductData,
       limit: 5,
       onAutocomplete: (val) => {
-        setProductEstimate(productEstimate => {
-          const copy = [...productEstimate]
-          const id = products.filter(p => p.name === val)[0].id
+        setProductPurchase(productPurchase => {
+          const copy = [...productPurchase]
+          const { id, name, customer_price } = products.filter(p => p.name === val)[0]
+          console.log(products.filter(p => p.name === val)[0])
           copy[productIndex.productIndex].product_id = id
+          copy[productIndex.productIndex].price = customer_price
+          copy[productIndex.productIndex].name = name
           // {`measurement[${index}].products[${peIndex}].product_id`}
           document.getElementsByName(`products[${productIndex.productIndex}].product_id`)[0].setAttribute('value', id)
+
+          setValue(`products[${productIndex.productIndex}].price`, customer_price)
 
           return copy
         })
@@ -101,56 +103,91 @@ const ProductComponent = () => {
     const product = {
       key: Math.random(),
       name: '',
-      product_id: 0,
+      purchase_id: purchases[0].id,
+      product_id: null,
       qty: 0,
       price: 0,
-      discount: 0,
-      total: 0
+      total: 0,
+      canDelete: true
     }
     // console.log(productEstimate[index])
     // setProductEstimate(productEstimate => [...productEstimate.slice(0, index), { ...productEstimate[index], products: [...productEstimate[index].products, product] }, ...productEstimate.slice(index + 1)])
-    setProductEstimate(productEstimate => {
+    setProductPurchase(productEstimate => {
       const copy = [...productEstimate]
       copy.push(product)
       return copy
     })
-
-    console.log(productEstimate)
   }
 
-  const removeProduct = (key) => {
-    const temp = [...productEstimate]
+  const removeProduct = async (index, key) => {
+    // Swal.fire({
+    //   title: `Are you sure? ${index}`,
+    //   text: "You won't be able to revert this!",
+    //   icon: 'warning',
+    //   showCancelButton: true,
+    //   confirmButtonText: 'Yes, remove it!',
+    //   cancelButtonText: 'No, cancel!',
+    //   reverseButtons: true
+    // }).then((result) => {
+    //   if (result.value) {
+    //     const headers = new Headers()
+    //     headers.append("Content-Type", "application/json")
+    //     headers.append("Accept", "application/json")
+    //     const init = {
+    //       method: 'DELETE',
+    //       headers,
+    //     }
+    //     // productEstimate[key].purchase_id &&
+    //     //   fetch(`/product_purchases/${key}`, init)
+    //     //     .then(res => console.log(res))
+    //     //     .catch(error => console.log(error))
+    //     Swal.fire(
+    //       'Deleted',
+    //       'Your product has been removed from list.',
+    //       'success'
+    //     )
 
-    temp.splice(key, 1)
+    //   }
+    // })
 
-    setProductEstimate(temp)
+    setProductPurchase(productPurchase => {
+      const temp = [...productPurchase]
+
+      temp.splice(index, 1)
+
+      reset({
+        products: [...temp]
+      })
+
+      return temp
+    })
   }
 
   const remoteSubmit = () => {
     submitBtnRef.current.click()
   }
 
-  const create_product_estimate = () => {
+  const create_product_purchase = () => {
     const headers = new Headers()
     headers.append("Content-Type", "application/json")
     console.log('create')
-    const data = { productEstimate }
+    const data = { productPurchase: productPurchase }
     const init = {
       method: 'POST',
       headers,
       body: JSON.stringify(data)
     }
-    return fetch('/estimates/product_estimate', init)
+    return fetch('/product_purchases', init)
       .then(data => data.json())
   }
 
   const productTotalPrice = (index, value) => {
-    console.log("change", index, value)
-    setProductEstimate(productEstimate => {
+    setProductPurchase(productEstimate => {
       const copy = [...productEstimate]
 
-      copy[index].total = (parseFloat(copy[index].qty) * parseFloat(value)) - parseFloat(copy[index].discount)
-
+      copy[index].total = (parseFloat(copy[index].qty) * parseFloat(value))
+      copy[index].price = value
+      setValue(`products[${index}].price`, value)
       setValue(`products[${index}].total`, copy[index].total ? copy[index].total : 0)
 
       return copy
@@ -158,45 +195,53 @@ const ProductComponent = () => {
   }
 
   const productTotalQty = (index, value) => {
-    setProductEstimate(productEstimate => {
+    setProductPurchase(productEstimate => {
       const copy = [...productEstimate]
 
-      copy[index].total = (parseFloat(value) * parseFloat(copy[index].price)) - parseFloat(copy[index].discount)
-
+      copy[index].total = (parseFloat(value) * parseFloat(copy[index].price))
+      copy[index].qty = value
+      setValue(`products[${index}].qty`, value)
       setValue(`products[${index}].total`, copy[index].total ? copy[index].total : 0)
 
       return copy
     })
   }
 
-  const productTotalDiscount = (index, value) => {
-    setProductEstimate(productEstimate => {
-      const copy = [...productEstimate]
+  // const productTotalDiscount = (index, value) => {
+  //   setProductPurchase(productEstimate => {
+  //     const copy = [...productEstimate]
 
-      copy[index].total = (parseFloat(copy[index].qty) * parseFloat(copy[index].price)) - parseFloat(value)
+  //     copy[index].total = (parseFloat(copy[index].qty) * parseFloat(copy[index].price)) - parseFloat(value)
 
-      setValue(`products[${index}].total`, copy[index].total ? copy[index].total : 0)
+  //     setValue(`products[${index}].total`, copy[index].total ? copy[index].total : 0)
 
-      return copy
-    })
-  }
-
-  console.log(estimate)
+  //     return copy
+  //   })
+  // }
 
   const onSubmit = data => {
-    // setProductEstimate(productEstimate => {
-    //   const copy = [...productEstimate]
-    //   return copy.map((ma, index) => {
-    //     const maCopy = { ...ma }
-    //     maCopy.products = ma.products.map((pe, peIndex) => {
-    //       return { ...pe, ...data.measurement[index].products[peIndex] }
-    //     })
-    //     return maCopy
-    //   })
-    // })
+    setProductPurchase(productPurchase => {
+      const copy = [...productPurchase]
+      return copy.map((product_purchase, index) => {
+        return { ...product_purchase, ...data[index] }
+      })
+    })
 
-    // create_product_estimate()
-    //   .then(() => window.location = `/estimates/${order.id}/view`)
+    console.log('FINAL', productPurchase)
+
+    create_product_purchase()
+      .then(() => window.location = `/product_purchases`)
+  }
+
+  const handleChange = (index, name, value) => {
+    setProductPurchase(productEstimate => {
+      const copy = [...productEstimate]
+
+      copy[index].name = value
+      setValue(name, value)
+
+      return copy
+    })
   }
 
   // console.log("ORDER", order)
@@ -223,77 +268,78 @@ const ProductComponent = () => {
             <div className="product-area">
               <div className="products-list" >
                 <form onSubmit={handleSubmit(onSubmit)}>
+                  {console.log("PURCHASE", productPurchase)}
                   {
-                    productEstimate.map((pe, index) => (
-                      <div className="product" key={index}>
-                        <div className="row pl-1 pr-1 products-search">
-                          <div className="row">
-                            <div className="col s6 m4">
-                              <span className="left width-100 pt-1">Product</span>
-                              <div className="input-field mt-0 mb-0 products-search-field-box">
-                                {/* <a href="#" className="btn-add-product tooltipped" data-tooltip="New product"><i className="material-icons">add</i></a> */}
-                                <input
-                                  name="product_list"
-                                  ref={register}
-                                  defaultValue={productEstimate[index].name}
-                                  onClick={() => setProductIndex(prev => {
-                                    return { ...prev, productIndex: index }
-                                  })}
-                                  autoComplete="off" type="text" className="autocomplete autocomplete-products mt-1" />
-                                <input
-                                  defaultValue={productEstimate[index].product_id}
-                                  name={`products[${index}].product_id`}
-                                  ref={register}
-                                  autoComplete="off"
-                                  type="hidden" />
+                    productPurchase.map((product_purchase, index) => {
+                      return (
+                        <div className="product" key={index}>
+                          <div className="row pl-1 pr-1 products-search">
+                            <div className="row">
+                              <div className="col s6 m4">
+                                <span className="left width-100 pt-1">Product</span>
+                                <div className="input-field mt-0 mb-0 products-search-field-box">
+                                  {/* <a href="#" className="btn-add-product tooltipped" data-tooltip="New product"><i className="material-icons">add</i></a> */}
+                                  <input
+                                    name={`products[${index}].name`}
+                                    ref={register}
+                                    onChange={(e) => handleChange(index, e.target.name, e.target.value)}
+                                    defaultValue={product_purchase.name}
+                                    readOnly={!product_purchase.canDelete}
+                                    onClick={() => setProductIndex(prev => {
+                                      return { ...prev, productIndex: index }
+                                    })}
+                                    autoComplete="off" type="text" className="autocomplete autocomplete-products mt-1" />
+                                  <input
+                                    defaultValue={product_purchase.product_id}
+                                    name={`products[${index}].product_id`}
+                                    ref={register}
+                                    autoComplete="off"
+                                    type="hidden" />
+                                </div>
                               </div>
-                            </div>
-                            <div className="col s6 m2 calc-fields">
-                              <span className="left width-100 pt-1">Qty.</span>
-                              <input
-                                type="text"
-                                name={`products[${index}].qty`}
-                                defaultValue={productEstimate[index].qty}
-                                onChange={(e) => productTotalQty(index, e.target.value)}
-                                ref={register(schema.requiredDecimal)} className="product-value qty" />
-                              {errors.qty && <span>{errors.qty.message}</span>}
-                            </div>
-                            <div className="col s6 m2 calc-fields">
-                              <span className="left width-100 pt-1">Prince un.</span>
-                              <input
-                                type="text"
-                                name={`products[${index}].price`}
-                                ref={register(schema.requiredDecimal)}
-                                defaultValue={productEstimate[index].price}
-                                onChange={(e) => productTotalPrice(index, e.target.value)}
-                                className="product-value price" />
-                              {errors.price && <span>{errors.price.message}</span>}
-                            </div>
-                            <div className="col s6 m2 calc-fields">
-                              <span className="left width-100 pt-1">Discount</span>
-                              <input type="text"
-                                name={`products[${index}].discount`}
-                                defaultValue={productEstimate[index].discount}
-                                onChange={(e) => productTotalDiscount(index, e.target.value)}
-                                ref={register(schema.requiredDecimal)}
-                                className="product-value discount" />
-                              {errors.discount && <span>{errors.discount.message}</span>}
-                            </div>
-                            <div className="col s6 m2 calc-fields">
-                              <span className="left width-100 pt-1">Total</span>
-                              <input
-                                type="text"
-                                name={`products[${index}].total`}
-                                defaultValue={productEstimate[index].total}
-                                ref={register(schema.requiredDecimal)}
-                                className="product-value total" />
-                              <a onClick={() => removeProduct(pe.key)} style={{ cursor: 'pointer' }} className="btn-remove-product"><i className="material-icons">delete</i></a>
-                              {errors.total && <span>{errors.total.message}</span>}
+                              <div className="col s6 m2 calc-fields">
+                                <span className="left width-100 pt-1">Qty.</span>
+                                <input
+                                  type="text"
+                                  name={`products[${index}].qty`}
+                                  defaultValue={product_purchase.qty}
+                                  readOnly={!product_purchase.canDelete}
+                                  onBlur={(e) => productTotalQty(index, e.target.value)}
+                                  ref={register(schema.requiredDecimal)} className="product-value qty" />
+                                {errors.qty && <span>{errors.qty.message}</span>}
+                              </div>
+                              <div className="col s6 m3 calc-fields">
+                                <span className="left width-100 pt-1">Prince un.</span>
+                                <input
+                                  type="text"
+                                  name={`products[${index}].price`}
+                                  ref={register(schema.requiredDecimal)}
+                                  defaultValue={product_purchase.price}
+                                  readOnly={!product_purchase.canDelete}
+                                  onBlur={(e) => productTotalPrice(index, e.target.value)}
+                                  className="product-value price" />
+                                {errors.price && <span>{errors.price.message}</span>}
+                              </div>
+                              <div className="col s6 m3 calc-fields">
+                                <span className="left width-100 pt-1">Total</span>
+                                <input
+                                  type="text"
+                                  name={`products[${index}].total`}
+                                  defaultValue={product_purchase.total}
+                                  readOnly={!product_purchase.canDelete}
+                                  ref={register(schema.requiredDecimal)}
+                                  className="product-value total" />
+                                {
+                                  product_purchase.canDelete &&
+                                  <a onClick={() => removeProduct(index, product_purchase.key)} style={{ cursor: 'pointer' }} className="btn-remove-product"><i className="material-icons">delete</i></a>
+                                }
+                                {errors.total && <span>{errors.total.message}</span>}
+                              </div>
                             </div>
                           </div>
                         </div>
-                      </div>
-                    ))
+                      )
+                    })
                   }
                   <a onClick={() => addProduct()} style={{ height: '30px' }} className="product new-product">
                   </a>
@@ -313,17 +359,13 @@ const ProductComponent = () => {
                   <h6 className="mt-0 subtotal-all">{orderValues.subTotal}</h6>
                 </li>
                 <li className="display-flex justify-content-between">
-                  <span className="invoice-subtotal-title">Discount</span>
-                  <h6 className="mt-0 discount-all">{orderValues.discount}</h6>
-                </li>
-                <li className="display-flex justify-content-between">
                   <span className="invoice-subtotal-title">Tax</span>
                   <h6 className="mt-0 tax-whole">{(orderValues.tax ? orderValues.tax : 0)}</h6>
                 </li>
                 <li className="divider mt-2 mb-2"></li>
                 <li className="display-flex justify-content-between">
                   <span className="invoice-subtotal-title">Order Total</span>
-                  <h6 className="mt-0 order-total">$ {orderValues.subTotal - orderValues.discount + (orderValues.tax ? orderValues.tax : 0)}</h6>
+                  <h6 className="mt-0 order-total">$ {orderValues.subTotal - (orderValues.tax ? orderValues.tax : 0)}</h6>
                 </li>
               </ul>
             </div>
@@ -333,7 +375,7 @@ const ProductComponent = () => {
       </div>
       <div className="col s12 pb-2 pr-0 pl-0" style={{ position: 'relative', zIndex: 1 }}>
         <a className="btn grey lighten-5 grey-text waves-effect waves-light breadcrumbs-btn left save" href="estimate-measurements.html"><i className="material-icons left">arrow_back</i> Back</a>
-        <a className="btn indigo waves-effect waves-light breadcrumbs-btn right ml-1" onClick={() => remoteSubmit()}><i className="material-icons left">save</i> Save</a>
+        <a className="btn indigo waves-effect waves-light breadcrumbs-btn right ml-1" onClick={() => remoteSubmit()}><i className="material-icons left">shopping_cart</i> Place Order</a>
       </div>
     </>
   )

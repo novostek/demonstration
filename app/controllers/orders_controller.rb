@@ -90,6 +90,7 @@ class OrdersController < ApplicationController
   def product_purchase
     @products = Product.all
     @estimate = @order.get_current_estimate
+    @purchases = Purchase.where(order_id: params[:id])
 
     render :product_purchase
   end

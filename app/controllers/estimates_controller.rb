@@ -80,7 +80,7 @@ class EstimatesController < ApplicationController
     @estimate = Estimate.new(estimate_params)
 
     if @estimate.save
-      redirect_to @estimate, notice: 'Estimate foi criado com sucesso'
+      redirect_to @estimate
     else
       render :new
     end
@@ -89,7 +89,7 @@ class EstimatesController < ApplicationController
   # PATCH/PUT /estimates/1
   def update
     if @estimate.update(estimate_params)
-      redirect_to products_estimate_path(@estimate.id), notice: 'Estimate foi atualizado com sucesso.'
+      redirect_to products_estimate_path(@estimate.id)
     else
       render :edit
     end
@@ -98,7 +98,7 @@ class EstimatesController < ApplicationController
   # DELETE /estimates/1
   def destroy
     @estimate.destroy
-    redirect_to estimates_url, notice: 'Estimate foi apagado com sucesso.'
+    redirect_to estimates_url
   end
 
   def step_one

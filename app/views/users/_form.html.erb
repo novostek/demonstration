@@ -62,7 +62,7 @@
 
   <div class="input-field">
 
-    <%= f.select :worker_id, @workers, {prompt: true} %>
+    <%= f.select :worker_id, options_for_select(@workers, @user.worker_id), {prompt: true} %>
     <%= f.label  :worker_id %>
   </div>
 

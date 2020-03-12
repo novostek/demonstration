@@ -8,7 +8,8 @@
 							<ol class="breadcrumbs mb-0">
 								<li class="breadcrumb-item"><a href="/"><%= t('home') %></a>
 								</li>
-								<li class="breadcrumb-item"><a href="#"><%= t('activerecord.models.estimates') %></a>
+								<li class="breadcrumb-item">
+                  <%= link_to  t('activerecord.models.estimates'), estimates_path %>
 								</li>
 								<li class="breadcrumb-item active"><%= t('breadcrumb.list') %>
 								</li>

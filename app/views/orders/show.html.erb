@@ -7,17 +7,19 @@
 						<div class="col s10 m6 l6">
 							<h5 class="breadcrumbs-title mt-0 mb-0">Order #123</h5>
 							<ol class="breadcrumbs mb-0">
-								<li class="breadcrumb-item"><a href="index.html">Home</a>
+								<li class="breadcrumb-item"><a href="/">Home</a>
 								</li>
-								<li class="breadcrumb-item"><a href="#">Orders</a>
+								<li class="breadcrumb-item">
+                  <%= link_to  "Orders", orders_path %>
 								</li>
 								<li class="breadcrumb-item active">View
 								</li>
 							</ol>
 						</div>
 						<div class="col s2 m6 l6">
-							
-							<a class="btn waves-effect waves-light breadcrumbs-btn right pink lighten-4 pink-text border-round" href="#"><i class="material-icons hide-on-med-and-up ">edit</i><span class="hide-on-small-only">Edit</span></a>
+              <%= link_to schedule_order_path(@order), class: "btn waves-effect waves-light breadcrumbs-btn right pink lighten-4 pink-text border-round" do %>
+                <i class="material-icons hide-on-med-and-up ">edit</i><span class="hide-on-small-only">Edit</span>
+              <% end %>
 							<a class="btn waves-effect waves-light breadcrumbs-btn right pink mr-2 lighten-4 pink-text border-round" href="#"><i class="material-icons hide-on-med-and-up ">receipt</i><span class="hide-on-small-only">View invoice</span></a>
 							<a class="btn waves-effect waves-light modal-trigger breadcrumbs-btn right mr-2 indigo border-round btn-send-email" href="#modal-invoice"><i class="material-icons hide-on-med-and-up ">send</i><span class="hide-on-small-only">Send invoice</span></a>
 						</a>

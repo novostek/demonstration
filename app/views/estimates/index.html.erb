@@ -58,7 +58,7 @@
         <tbody>
           <% @estimates.each do |estimate| %>
             <tr>
-              <td><%= link_to estimate.code, step_one_estimates_path(estimate.lead.id) %></td>
+              <td><%= link_to estimate.code, view_estimates_path(estimate.lead.id) %></td>
               <td><%= link_to estimate.customer.name, customer_path(estimate.customer) %></td>
               <td><%= estimate.title %></td>
               <td><%= estimate.created_at.strftime("%m/%d/%Y") %></td>

@@ -67,7 +67,7 @@ Rails.application.routes.draw do
       post "create_step_one/:lead_id", to: "estimates#create_step_one", as: :create_step_one
       post ":estimate_id/schedule/new", to: "estimates#create_schedule"
       delete ":estimate_id/schedule/:schedule_id/delete", to: "estimates#delete_schedule"
-      get ":estimate_id/view", to: "estimates#view_estimate"
+      get ":estimate_id/view", to: "estimates#view_estimate", as: :view
     end
   end
   resources :orders do

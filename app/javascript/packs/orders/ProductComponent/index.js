@@ -373,7 +373,9 @@ const ProductComponent = () => {
 
       </div>
       <div className="col s12 pb-2 pr-0 pl-0" style={{ position: 'relative', zIndex: 1 }}>
-        <a className="btn grey lighten-5 grey-text waves-effect waves-light breadcrumbs-btn left save" href="estimate-measurements.html"><i className="material-icons left">arrow_back</i> Back</a>
+        <a 
+          className="btn grey lighten-5 grey-text waves-effect waves-light breadcrumbs-btn left save" 
+          href={`/orders/${purchases[0].order_id}/payments`}><i className="material-icons left">arrow_back</i> Back</a>
         <a className="btn indigo waves-effect waves-light breadcrumbs-btn right ml-1" onClick={() => remoteSubmit()}><i className="material-icons left">shopping_cart</i> Place Order</a>
       </div>
     </>

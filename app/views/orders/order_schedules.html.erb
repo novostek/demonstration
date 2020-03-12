@@ -82,7 +82,9 @@
     </div>
   </div>
   <div class="col s12 pb-2 pl-0 pr-0">
-    <a class="btn grey lighten-5 grey-text waves-effect waves-light breadcrumbs-btn left save" href="estimate-view.html"><i class="material-icons left">arrow_back</i> Back</a>
+    <%= link_to orders_path, class: "btn grey lighten-5 grey-text waves-effect waves-light breadcrumbs-btn left save" do %>
+      <i class="material-icons left">arrow_back</i> Back
+    <% end %>
     <%= link_to payments_order_path(@order), class: "btn waves-effect waves-light indigo breadcrumbs-btn right save-estimate" do %>
       Next: Payment <i class="material-icons right">arrow_forward</i>
     <% end %>

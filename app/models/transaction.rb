@@ -49,7 +49,7 @@ class Transaction < ApplicationRecord
   
   
   def send_square
-    if self.payment_method.square_credit?
+    if self.square_credit?
       checkout_status, checkout_data = SquareApi.create_checkout(self.order, self)
       puts "status square #{checkout_status}"
       #binding.pry

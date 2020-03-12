@@ -72,6 +72,10 @@ Rails.application.routes.draw do
   end
   resources :orders do
     member do
+      get "new_note"
+      post "new_document"
+      get "new_contact"
+      
       get "schedule"
       post "create_schedule"
       

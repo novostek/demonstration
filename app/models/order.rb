@@ -19,6 +19,9 @@ class Order < ApplicationRecord
   before_create :set_code
   has_many :transactions
 
+  has_many :notes, -> { where origin: :Order }, primary_key: :id, foreign_key: :origin_id
+  has_many :contacts, -> { where origin: :Order }, primary_key: :id, foreign_key: :origin_id
+  has_many :document_files, -> { where origin: :Order }, primary_key: :id, foreign_key: :origin_id
 
   has_many :schedules, -> { where origin: :Order }, primary_key: :id, foreign_key: :origin_id
 

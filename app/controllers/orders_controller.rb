@@ -2,7 +2,7 @@ class OrdersController < ApplicationController
   before_action :set_order, only: [
     :show, :edit, :update, 
     :destroy, :schedule, :create_schedule, 
-    :payments, :transaction, :product_purchase]
+    :payments, :transaction, :product_purchase, :new_note,:new_document,:new_contact]
 
   # GET /orders
   def index
@@ -99,6 +99,56 @@ class OrdersController < ApplicationController
     schedule = Schedule.find_by(origin: params[:origin], origin_id: params[:order_id], worker_id: params[:worker_id])
 
     schedule.destroy
+  end
+
+  #Método que insere uma nota
+  def new_note
+    note = Note.new
+    note.title = params[:title]
+    note.text = params[:text]
+    note.origin = "Order"
+    note.origin_id = @order.id
+    if note.save
+      redirect_to @order, notice: "#{t 'note_create'}"
+    else
+      redirect_to @order, alert: "#{note.errors.full_messages.to_sentence}"
+    end
+
+
+  end
+
+
+
+  #método que insere um novo documento
+  def new_document
+    doc = DocumentFile.new
+    doc.title = params[:title]
+    doc.file = params[:file]
+    doc.description = params[:description]
+    doc.origin = "Order"
+    doc.origin_id = @order.id
+    if doc.save
+      redirect_to @order, notice: "#{t 'doc_create'}"
+    else
+      redirect_to @order, alert: "#{doc.errors.full_messages.to_sentence}"
+    end
+
+  end
+
+  #Método que cria um novo contato
+  def new_contact
+    contact = Contact.new
+    contact.title = params[:title]
+    contact.category = params[:category]
+    contact.data = params[:data]
+    contact.origin = "Order"
+    contact.origin_id = @order.id
+    if contact.save
+      redirect_to @order, notice: "#{t 'contact_create'}"
+    else
+      redirect_to @order, alert: "#{contact.errors.full_messages.to_sentence}"
+    end
+
   end
 
   private

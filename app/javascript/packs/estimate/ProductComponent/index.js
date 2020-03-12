@@ -17,7 +17,7 @@ const ProductComponent = () => {
     maIndex: 0,
     productIndex: 0
   })
-  const { register, handleSubmit, setValue, errors } = useForm({ mode: "onBlur", reValidateMode: "onSubmit" })
+  const { register, handleSubmit, setValue, reset, errors } = useForm({ mode: "onBlur", reValidateMode: "onSubmit" })
 
   const node = document.getElementById('estimate_data')
   const estimate = JSON.parse(node.getAttribute('data'))
@@ -39,6 +39,12 @@ const ProductComponent = () => {
       ]
     }
   ])
+
+  // useEffect(() => {
+  //   reset({
+  //     measurement: [...productEstimate]
+  //   })
+  // }, [productEstimate])
 
   useEffect(() => {
     let indexHelper = 0

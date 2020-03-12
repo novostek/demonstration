@@ -26,4 +26,10 @@
 class ProductPurchase < ApplicationRecord
   belongs_to :product, optional: true
   belongs_to :purchase
+
+  def as_json(options = {})
+    s = super(options)
+    s[:product] = self.product
+    s
+  end
 end

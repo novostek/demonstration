@@ -21,6 +21,12 @@ class UsersController < ApplicationController
   def edit
   end
 
+  def home
+    if current_user.profiles.where(name: "Worker").present? and current_user.worker.present?
+      render "workers/dashboard"
+    end
+  end
+
   # POST /users
   def create
     @user = User.new(user_params)
@@ -51,6 +57,7 @@ class UsersController < ApplicationController
   #Método que carrega os objetos para serem utilizados no form
   def set_combos
     @profiles = Profile.to_select
+    @workers = Worker.to_select
   end
     # Use callbacks to share common setup or constraints between actions.
     def set_user
@@ -59,6 +66,6 @@ class UsersController < ApplicationController
 
     # Only allow a trusted parameter "white list" through.
     def user_params
-      params.require(:user).permit(:name, :email, :password, :password_confirmation,:password,:password_confirmation, :active, profile_ids:[])
+      params.require(:user).permit(:name, :email, :password, :password_confirmation,:password,:password_confirmation, :worker_id,:active, profile_ids:[])
     end
 end

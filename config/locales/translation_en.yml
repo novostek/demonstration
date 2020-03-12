@@ -3,6 +3,7 @@ en:
     show: "View"
     list: "List"
     edit: "Edit"
+    dashboard: "Dashboard"
   find_customer: "Find a Customer"
   placeholder:
     search: "Search ..."

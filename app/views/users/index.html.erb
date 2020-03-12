@@ -57,7 +57,7 @@
           <td><%= user.name %></td>
           <td><%= user.email %></td>
           <td><%= user.profiles.join(",") %></td>
-					<td><%= t user.active %></td>
+					<td><%= t(user.active) %></td>
           <td>
             <div class="invoice-action right-align">
               <%= link_to user, class: "invoice-action-view mr-4" do %>

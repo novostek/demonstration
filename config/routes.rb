@@ -20,7 +20,11 @@ Rails.application.routes.draw do
   #
 
   devise_for :users
-  resources :users
+  resources :users do
+    collection do
+      get "home"
+    end
+  end
 
   resources :schedules do
     collection do
@@ -151,5 +155,5 @@ Rails.application.routes.draw do
   get 'document_prototype/deliver'
   get 'document_prototype/sign'
 
-  root "customers#home"
+  root "users#home"
 end

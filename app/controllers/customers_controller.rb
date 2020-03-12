@@ -53,9 +53,7 @@ class CustomersController < ApplicationController
 
   end
 
-  def home
-    
-  end
+  
 
   def search_customers
     @customers = Customer.where("name ilike ? ","%#{params[:search]}%")

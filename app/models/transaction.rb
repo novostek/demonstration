@@ -51,10 +51,12 @@ class Transaction < ApplicationRecord
   def send_square
     if self.payment_method.square_credit?
       checkout_status, checkout_data = SquareApi.create_checkout(self.order, self)
+      puts "status square #{checkout_status}"
+      #binding.pry
       if checkout_status
-        DocumentMailer.with(link: checkout_data[:checkout][:checkout_page_url] , emails: "gabrielvash@gmail.com", order: self.order).send_square.deliver_now
+        DocumentMailer.with(link: checkout_data[:checkout][:checkout_page_url] , emails: self.email, order: self.order).send_square.deliver_later
       else
-        redirect_to process_payment_customers_path
+        #redirect_to process_payment_customers_path
       end
     end
   end

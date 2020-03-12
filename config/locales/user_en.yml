@@ -10,5 +10,6 @@ en:
         password_confirmation: "Password confirmation"
         profiles: "Profiles"
         active: "Active"
+        worker_id: "Worker"
 
   change_password: "Change Password"

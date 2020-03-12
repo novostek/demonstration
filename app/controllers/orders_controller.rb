@@ -78,6 +78,11 @@ class OrdersController < ApplicationController
 
   def payments
     @estimate = @order.get_current_estimate
+    begin
+      @email_customer = @estimate.customer.contacts.where(category: :email).first.data["email"]
+    rescue
+      @email_customer = ""
+    end
 
     render :order_payments
   end
@@ -106,7 +111,7 @@ class OrdersController < ApplicationController
       params.require(:order).permit(
         :id, :code, :status, :bpmn_instance, :start_at, :end_at,
         transactions_attributes: [
-          :id, :origin, :origin_id, :value, :payment_method, :due, :_destroy
+          :id, :origin, :origin_id, :value, :payment_method, :due,:email, :_destroy
         ])
     end
 end

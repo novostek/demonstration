@@ -15,7 +15,7 @@
             options_for_select(Transaction.payment_method.options.map { |op| 
               [op[0], op[1], {'data-icon': op[0].include?("Square") ? image_path('square.svg') : '' }]
             }, f.object.payment_method), 
-            class: 'icons' %>
+                     {class: 'icons' }, {id:"payment_method_#{f.index}_", onchange:"payment_method_change('_#{f.index}_')"} %>
         <%= f.label :payment_method %>
       </div>
       <div class="input-field col s12 m4">
@@ -24,5 +24,28 @@
         <%= f.label  :due %>
       </div>
     </div>
+    <div class="row hide email_div" id="email_<%= f.index %>_">
+      <div class="input-field">
+        <%= f.label :email, class:"active" %>
+        <%= f.text_field :email, value: @email_customer %>
+      </div>
+    </div>
   </div>
 </div>
+
+<%= content_for :scripts do %>
+  <script type="text/javascript" charset="utf-8">
+
+      function payment_method_change(index)
+      {
+          if($("#payment_method"+index).val() == "square_credit")
+          {
+              $("#email"+index).removeClass("hide");
+          }
+          else
+          {
+              $("#email"+index).addClass("hide");
+          }
+      }
+  </script>
+<% end %>

@@ -4,76 +4,149 @@
 				<div class="container">
 					<div class="row">
 						<div class="col s10 m6 l6">
-							<h5 class="breadcrumbs-title mt-0 mb-0"><span><%= t('activerecord.models.orders') %></span></h5>
+							<h5 class="breadcrumbs-title mt-0 mb-0">Order</h5>
 							<ol class="breadcrumbs mb-0">
-								<li class="breadcrumb-item"><a href="/"><%= t('home') %></a>
+								<li class="breadcrumb-item"><a href="index.html">Home</a>
 								</li>
-								<li class="breadcrumb-item"><a href="#"><%= t('activerecord.models.orders') %></a>
+								<li class="breadcrumb-item"><a href="#">Order</a>
 								</li>
-								<li class="breadcrumb-item active"><%= t('breadcrumb.list') %>
+								<li class="breadcrumb-item active">List
 								</li>
 							</ol>
 						</div>
-						<div class="col s2 m6 l6"><a class="btn waves-effect waves-light breadcrumbs-btn right border-round" href="<%= new_order_path %>"><i class="material-icons hide-on-med-and-up">add</i><span class="hide-on-small-only"><%= t("button.add")  %> <%= t('activerecord.models.order') %></span></a>
+						<!-- <div class="col s2 m6 l6"><a class="btn waves-effect waves-light breadcrumbs-btn right border-round" href="estimate-add.html"><i class="material-icons hide-on-med-and-up">add</i><span class="hide-on-small-only">Add estimate</span></a> -->
 						</div>
 					</div>
 				</div>
 			</div>
+			<div class="row">
+				<div class="col s12">
+					<div class="container">
+						<div class="section">
 
-<section class="invoice-list-wrapper section">
-  <!-- create invoice button-->
-  <!-- Options and filter dropdown button-->
-  <div class="invoice-filter-action mr-3">
-    <div class="row">
-    <%= search_form_for @q, url: request.env['PATH_INFO'] do |f|  %>
-      <div class="col s9 m11">
-          <%= f.search_field :code_cont, placeholder: t('placeholder.search'), class: "search-ransack" %>     
+							<div class="row" id="gradient-Analytics">
+								<div class="col s12 m6 l3 card-width">
+									<div class="card row gradient-45deg-amber-amber gradient-shadow white-text padding-4 mt-5">
+										<div class="col s7 m7">
+											<i class="material-icons background-round mt-5 mb-5">add_shopping_cart</i>
+											<p>Orders</p>
+										</div>
+										<div class="col s5 m5 right-align">
+											<h5 class="mb-0 white-text">690</h5>
+											<p class="no-margin">New</p>
+											<p>6,00,00</p>
+										</div>
+									</div>
+								</div>
+								<div class="col s12 m6 l3 card-width">
+									<div class="card row gradient-45deg-red-pink gradient-shadow white-text padding-4 mt-5">
+										<div class="col s7 m7">
+											<i class="material-icons background-round mt-5 mb-5">timeline</i>
+											<p>Sales</p>
+										</div>
+										<div class="col s5 m5 right-align">
+											<h5 class="mb-0 white-text">80%</h5>
+											<p class="no-margin">Growth</p>
+											<p>3,42,230</p>
+										</div>
+									</div>
+								</div>
+								<div class="col s12 m6 l3 card-width">
+									<div class="card row gradient-45deg-indigo-light-blue gradient-shadow white-text padding-4 mt-5">
+										<div class="col s7 m7">
+											<i class="material-icons background-round mt-5 mb-5">perm_identity</i>
+											<p>Pending</p>
+										</div>
+										<div class="col s5 m5 right-align">
+											<h5 class="mb-0 white-text">1885</h5>
+											<p class="no-margin">New</p>
+											<p>1,12,900</p>
+										</div>
+									</div>
+								</div>
+								
+								<div class="col s12 m6 l3 card-width">
+									<div class="card row gradient-45deg-green-teal gradient-shadow white-text padding-4 mt-5">
+										<div class="col s7 m7">
+											<i class="material-icons background-round mt-5 mb-5">attach_money</i>
+											<p>Profit</p>
+										</div>
+										<div class="col s5 m5 right-align">
+											<h5 class="mb-0 white-text">$890</h5>
+											<p class="no-margin">Today</p>
+											<p>$25,000</p>
+										</div>
+									</div>
+								</div>
+							</div>
+
+							<div class="card-panel pt-1 pb-1">
+								<div class="row">
+                  <%= search_form_for @q, url: request.env['PATH_INFO'] do |f|  %>
+                    <div class="col s9 m11">
+                        <%= f.search_field :estimates_title_cont, placeholder: t('placeholder.search'), class: "search-ransack" %>     
+                    </div>
+                    <div class="col s3 m1">
+                      <button type="submit" class="btn-floating mb-1 waves-effect waves-light rigth">
+                        <i class="material-icons">search</i>
+                      </button>
+                    </div>
+                  <% end %>
+                </div>
+							</div>
+							<div class="card">
+								<div class="card-content">
+									<table class="responsive-table">
+										<thead>
+											<tr>
+												<th>#</th>
+												<th>Customer</th>
+												<th>Title</th>
+												<th>Date</th>
+												<th>Location</th>
+												<th>Category</th>
+												<th>Price</th>
+												<th>Status</th>
+												<th>Sales person</th>
+											</tr>
+										</thead>
+										<tbody>
+                      <% @orders.each do |order| %>
+                        <tr>
+                          <td>
+                            <%= link_to order.id, order_path(order) %>
+                          </td>
+                          <td>
+                            <%= link_to  order.get_current_estimate.lead.customer, customer_path(order.get_current_estimate.lead.customer) %>
+                          </td>
+                          <td><%= order.get_current_estimate.title %></td>
+                          <td><%= order.created_at.strftime("%m/%d/%Y") %></td>
+
+                          <td><%= order.get_current_estimate.location %></td>
+                          <td><%= order.get_current_estimate.category %></td>
+                          <td>$ <%= order.purchase.product_purchases.sum(:value).to_f %></td>
+                          <td><span class="chip lighten-5 green green-text">new</span></td>
+
+                          <td>
+                            <%= link_to worker_path(order.get_current_estimate.worker) do %>
+                              <div class="chip">
+                                <img src="<%= order.get_current_estimate.worker.photo.url || "https://i.pravatar.cc/50" %>" alt="Contact Person">
+                                <%= order.get_current_estimate.worker %>
+                              </div>
+
+                            <% end %>
+                          </td>
+                        </tr>
+                      <% end %>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+
+        </div>
       </div>
-      <div class="col s3 m1">
-				<button type="submit" class="btn-floating mb-1 waves-effect waves-light rigth">
-					<i class="material-icons">search</i>
-				</button>
-      </div>
-    <% end %>
     </div>
   </div>
-  <p></p>
-  <!-- create invoice button-->
-  <div class="responsive-table">
-    <style>td{padding: 15px}</style>
-    <table class="table invoice-data-table white border-radius-4 pt-1">
-      <thead>
-        <tr>
-          <th><%= t('activerecord.attributes.order.code') %></th>
-          <th><%= t('activerecord.attributes.order.status') %></th>
-          <th><%= t('activerecord.attributes.order.bpmn_instance') %></th>
-          <th><%= t('activerecord.attributes.order.start_at') %></th>
-          <th><%= t('activerecord.attributes.order.end_at') %></th>
-          <th></th>
-        </tr>
-      </thead>
-      <tbody>
-        <% @orders.each do |order| %>
-        <tr>
-            <td><%= order.code %></td>
-            <td><%= order.status %></td>
-            <td><%= order.bpmn_instance %></td>
-            <td><%= order.start_at %></td>
-            <td><%= order.end_at %></td>
-          <td>
-            <div class="invoice-action right-align">
-              <%= link_to order, class: "invoice-action-view mr-4" do %>
-                <i class="material-icons">remove_red_eye</i>
-              <% end %>
-              <%= link_to edit_order_path(order) , class: "invoice-action-edit mr-4" do %>
-                <i class="material-icons">edit</i>
-              <% end %>
-            </div>
-          </td>
-        </tr>
-        <% end %>
-      </tbody>
-    </table>
-  </div>
-  <%= paginate(@orders)  %>
-</section>

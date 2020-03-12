@@ -28,7 +28,6 @@ const ProductComponent = () => {
   const [productPurchase, setProductPurchase] = useState([])
 
   useEffect(() => {
-    console.log(order)
     const inicialLoad = async () => {
       purchases.map(purchase => {
         purchase.product_purchases.map((product_purchase, peIndex) => {
@@ -230,7 +229,7 @@ const ProductComponent = () => {
     console.log('FINAL', productPurchase)
 
     create_product_purchase()
-      .then(() => window.location = `/product_purchases`)
+      .then(() => window.location = `/orders/${purchases[0].order_id}`)
   }
 
   const handleChange = (index, name, value) => {

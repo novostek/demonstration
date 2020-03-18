@@ -48,6 +48,7 @@ en:
   notes: "Notes"
   documents: "Documents"
   contacts: "Contact"
+  see_all: "See All"
 
   errors:
     # format to use in full error messages.

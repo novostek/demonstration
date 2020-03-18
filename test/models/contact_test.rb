@@ -5,6 +5,7 @@
 #  id         :bigint           not null, primary key
 #  category   :string
 #  data       :json
+#  main       :boolean
 #  origin     :string
 #  title      :string
 #  value      :json

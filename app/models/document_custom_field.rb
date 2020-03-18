@@ -21,6 +21,6 @@ class DocumentCustomField < ApplicationRecord
   before_save :tolower
 
   def tolower
-    self.name.downcase
+    self.name = self.name.downcase
   end
 end

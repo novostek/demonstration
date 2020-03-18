@@ -1,7 +1,7 @@
 <div class="card-panel">
 
   <% if @estimate.present? %>
-    <%== @mail = @template.render('estimate' => @estimate.attributes, 'measurements' => JSON.parse(@estimate.measurement_areas.to_json), 'customer' => @estimate.customer.attributes, 'custom' => @params, 'signature' => JSON.parse(@estimate.signatures.last.to_json)   ) %>
+    <%== @mail = @template.render('estimate' => @estimate.attributes, 'measurements' => JSON.parse(@estimate.measurement_areas.to_json), 'products' => JSON.parse(@estimate.product_estimates.to_json), 'customer' => JSON.parse(@estimate.customer.to_json), 'custom' => @params, 'signature' => JSON.parse(@estimate.signatures.last.to_json)   ) %>
   <% else %>
     <%== @mail = @template.render('custom' => @params   ) %>
   <% end %>

@@ -5,6 +5,7 @@
 #  id         :bigint           not null, primary key
 #  category   :string
 #  data       :json
+#  main       :boolean
 #  origin     :string
 #  title      :string
 #  value      :json
@@ -22,6 +23,13 @@ class Contact < ApplicationRecord
   enumerize :category, in: [:phone, :address, :email], predicates: true
 
   validate :validate_data
+  before_save :set_main
+
+  def set_main
+    if self.main
+      Contact.where(origin: self.origin, origin_id: self.origin_id, category: self.category).update_all(main: false)
+    end
+  end
 
 
   def validate_data

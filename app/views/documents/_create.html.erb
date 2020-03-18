@@ -3,11 +3,11 @@
   <link href='https://cdn.jsdelivr.net/npm/froala-editor@3.1.0/css/froala_editor.pkgd.min.css' rel='stylesheet' type='text/css' />
 <% end %>
 <div class="row">
-  <div class="col s12 m3">
+  <div class="col s12 m3 " style="position: fixed; left: 80px;">
     <ul class="collapsible collapsible-accordion">
       <% if @document.estimate? %>
         <li>
-          <div class="collapsible-header" tabindex="0"><i class="material-icons">mic_none</i> Estimate/Order</div>
+          <div class="collapsible-header" tabindex="0"><i class="material-icons">expand_more</i> Estimate/Order</div>
           <div class="collapsible-body white">
 
             <div class="chip drag-text"  draggable="true" data-value="{{estimate.code}}" >
@@ -41,7 +41,7 @@
           </div>
         </li>
         <li>
-          <div class="collapsible-header" tabindex="0"><i class="material-icons">mic_none</i> Customer</div>
+          <div class="collapsible-header" tabindex="0"><i class="material-icons">expand_more</i> Customer</div>
           <div class="collapsible-body white">
             <div class="chip drag-text"  draggable="true" data-value="{{customer.name}}" >
               <i class="material-icons chip-icon">open_with</i>
@@ -63,18 +63,86 @@
               <i class="material-icons chip-icon">open_with</i>
               Code
             </div>
+            <div class="chip drag-text" draggable="true" data-value="{{customer.main_phone }}">
+              <i class="material-icons chip-icon">open_with</i>
+              Phone
+            </div>
+            <div class="chip drag-text" draggable="true" data-value="{{customer.main_address }}">
+              <i class="material-icons chip-icon">open_with</i>
+              Address
+            </div>
+            <div class="chip drag-text" draggable="true" data-value="{{customer.main_state }}">
+              <i class="material-icons chip-icon">open_with</i>
+              State
+            </div>
+            <div class="chip drag-text" draggable="true" data-value="{{customer.main_city }}">
+              <i class="material-icons chip-icon">open_with</i>
+              City
+            </div>
+            <div class="chip drag-text" draggable="true" data-value="{{customer.main_zipcode }}">
+              <i class="material-icons chip-icon">open_with</i>
+              ZipCode
+            </div>
           </div>
         </li>
         <li>
-          <div class="collapsible-header" tabindex="0"><i class="material-icons">mic_none</i> Partials</div>
+          <div class="collapsible-header" tabindex="0"><i class="material-icons">expand_more</i> Partials</div>
           <div class="collapsible-body white">
-            <div class="chip drag-text"  draggable="true" data-value="{% for measurement in measurements %} {{measurement.name}} {{measurement.description}} {{measurement.height}} {{measurement.length}}
-  {{measurement.width}} {% endfor %}" >
+            <div class="chip drag-text"  draggable="true" data-value="
+            <table>
+            <thead>
+            <tr>
+            <th>Name</th>
+            <th>Description</th>
+            <th>height</th>
+            <th>length</th>
+            <th>width</th>
+            </tr>
+            </thead>
+            </table>
+            {% for measurement in measurements %}
+            <table>
+            <tbody>
+
+            <tr>
+            <td>{{measurement.name}}</td>
+            <td>{{measurement.description}}</td>
+            <td>{{measurement.height}}</td>
+            <td>{{measurement.length}}</td>
+            <td>{{measurement.width}}</td>
+            </tr>
+
+            </tbody></table>{% endfor %}" >
+
               <i class="material-icons chip-icon">open_with</i>
               Measurements
             </div>
-            <div class="chip drag-text" draggable="true" data-value="{% for product in products %} {{product.name}} {{product.discount}} {{product.quantity}} {{product.tax}}
-  {{product.unitary_value}} {{product.value}} {% endfor %}">
+            <div class="chip drag-text" draggable="true" data-value="
+            <table>
+            <thead>
+            <tr>
+            <th style='width=20%;'>Product</th>
+            <th style='width=20%;'>Discount</th>
+            <th style='width=20%;'>Quantity</th>
+            <th style='width=20%;'>Unitary Value</th>
+            <th style='width=20%;'>Value</th>
+            </tr>
+            </thead>
+            </table>
+            {% for product in products %}
+            <table>
+            <tbody>
+
+            <tr>
+            <td  style='width=20%;'>{{product.name}}</td>
+            <td style='width=20%;'>{{product.discount}}</td>
+            <td style='width=20%;'>{{product.quantity}}</td>
+            <td style='width=20%;'>{{product.unitary_value}}</td>
+            <td style='width=20%;'>{{product.value}}</td>
+            </tr>
+
+            </tbody></table>
+            {% endfor %}">
               <i class="material-icons chip-icon">open_with</i>
               Products
             </div>
@@ -83,19 +151,24 @@
         </li>
       <% end %>
       <li>
-        <div class="collapsible-header" tabindex="0"><i class="material-icons">mic_none</i> Customized Fields</div>
-        <div class="collapsible-body white">
+        <div class="collapsible-header" tabindex="0"><i class="material-icons">expand_more</i> Customized Fields</div>
+        <div class="collapsible-body white" >
+          <div id="custom_fields">
             <% @document.document_custom_fields.each do |d| %>
             <div class="chip drag-text"  draggable="true" data-value="{{custom.<%= d.name %>}}" >
               <i class="material-icons chip-icon">open_with</i>
               <%= d.name %>
             </div>
             <% end  %>
+          </div>
+          <br>
+          <a href="#modal_custom" class="btn  modal-trigger">New Custom Field</a>
         </div>
+
       </li>
     </ul>
   </div>
-  <div class="col s12 m9">
+  <div class="col s12 m9 right" style="">
     <div class="card-panel">
       <div id="froala-editor">
         <% if document.data.blank? %>
@@ -109,6 +182,25 @@
   </div>
 </div>
 <button id="save_data" class="btn"><%= t "button.save" %></button>
+
+<div id="modal_custom" class="modal modal-fixed-footer">
+  <%= form_with url: add_custom_document_path(@document),method: :get do |f| %>
+    <div class="modal-content">
+      <h4><%= t "button.new" %> <%= t("activerecord.attributes.document.custom_fields") %></h4>
+      <div class="input-field">
+        <%= f.label :name %>
+        <%= f.text_field :name, require: true %>
+      </div>
+
+    </div>
+    <div class="modal-footer">
+      <%= f.submit t "button.save", class:"modal-close  btn" %>
+      <!--<a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat ">Agree</a>-->
+    </div>
+  <% end  %>
+</div>
+
+
 <%= content_for :scripts do %>
   <script type='text/javascript' src='https://cdn.jsdelivr.net/npm/froala-editor@3.1.0/js/froala_editor.pkgd.min.js'></script>
   <script>

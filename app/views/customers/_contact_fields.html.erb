@@ -9,6 +9,15 @@
     <%= f.select :category, Contact.category.options , {prompt: true}, {id:"category", class:"category", onchange:"category_change()" } %>
     <%= f.label :category %>
   </div>
+  <div class="input col l6 s12">
+    <p>
+      <label>
+        <input type="checkbox" name="main" />
+        <span><%= t :main %></span>
+      </label>
+    </p>
+
+  </div>
 
 
   <div class="hide col s12" id="address_div">

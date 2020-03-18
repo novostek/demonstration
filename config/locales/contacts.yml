@@ -9,6 +9,7 @@ en:
         value: "Value"
         origin: "Origin"
         origin_id: "Origin ID"
+        main: "Main"
   enumerize:
     contact:
       category:

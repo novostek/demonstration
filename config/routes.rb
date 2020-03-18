@@ -3,6 +3,9 @@ Rails.application.routes.draw do
   resources :product_purchases
   resources :purchases
   resources :documents do
+    member do
+      get "add_custom"
+    end
     collection do
       post "save_data"
       get "preview"

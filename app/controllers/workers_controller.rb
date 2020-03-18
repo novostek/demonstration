@@ -63,6 +63,7 @@ class WorkersController < ApplicationController
     contact.data = params[:data]
     contact.origin = "Worker"
     contact.origin_id = @worker.id
+    contact.main = params[:main]
     if contact.save
       redirect_to @worker, notice: "#{t 'contact_create'}"
     else

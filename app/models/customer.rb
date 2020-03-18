@@ -56,7 +56,13 @@ class Customer < ApplicationRecord
 
   def as_json(options = {})
     s = super(options)
+    address = self.contacts.where(category: :address, main:true).last
     s[:contacts] = self.contacts
+    s[:main_phone] = self.contacts.where(category: :phone, main:true).last.present? ? self.contacts.where(category: :phone, main:true).last.data["phone"] : ""
+    s[:main_address] = address.present? ? address.data["address"] : ""
+    s[:main_state] = address.present? ? address.data["state"] : ""
+    s[:main_city] = address.present? ? address.data["city"] : ""
+    s[:main_zipcode] = address.present? ? address.data["zipcode"] : ""
     s
   end
 

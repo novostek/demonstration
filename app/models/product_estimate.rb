@@ -32,7 +32,7 @@ class ProductEstimate < ApplicationRecord
 
   def as_json(options = {})
     s = super(options)
-    s[:name] = self.product.name
+    s[:name] = self.product.present? ? self.product.name : self.custom_title
     s
   end
 end

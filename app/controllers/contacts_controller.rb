@@ -33,8 +33,13 @@ class ContactsController < ApplicationController
 
   # PATCH/PUT /contacts/1
   def update
-    if @contact.update(contact_params)
-      redirect_to @contact, notice: 'Contact was successfully updated.'
+    @contact.title = params[:contact][:title]
+    #@contact.category = params[:contact][:category]
+    @contact.main = params[:contact][:main]
+    @contact.data = params[:contact][:data]
+    #binding.pry
+    if @contact.save
+      redirect_to "/#{@contact.origin.pluralize.downcase}/#{@contact.origin_id}", notice: 'Contact was successfully updated.'
     else
       render :edit
     end
@@ -54,6 +59,6 @@ class ContactsController < ApplicationController
 
     # Only allow a trusted parameter "white list" through.
     def contact_params
-      params.require(:contact).permit(:category, :title, :value, :origin, :origin_id, :data[])
+      params.require(:contact).permit(:category, :title, :value, :origin, :origin_id, :data[:address,:zipcode,:zipcode,:state,:lat,:lng,:city,:email, :ddd,:phone],:main)
     end
 end

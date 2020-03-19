@@ -19,7 +19,32 @@
 
   </div>
 
+<!-- OpenStruct.new(f.object.data)
+$(document).ready(function(){
+            if($(".category").val() == "address")
+            {
+                var dataid = $(".category").attr("data-id");
 
+                $("#address_div"+dataid).removeClass("hide");
+            }
+            if($(".category").val() == "email")
+            {
+                var dataid = $(".category").attr("data-id");
+
+                $("#email_div"+dataid).removeClass("hide");
+            }
+            if($(".category").val() == "phone")
+            {
+                var dataid = $(".category").attr("data-id");
+
+                $("#phone_div"+dataid).removeClass("hide");
+            }
+
+
+        });
+
+
+-->
   <div class="hide col s12" id="address_div">
 
     <%= f.fields_for :data do |field| %>

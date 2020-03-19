@@ -1,5 +1,5 @@
 class WorkersController < ApplicationController
-  before_action :set_worker, only: [:show, :edit, :update, :destroy,:new_note,:new_document,:new_contact]
+  before_action :set_worker, only: [:show, :edit, :update, :destroy,:new_note,:new_document,:new_contact,:update_contact]
 
   # GET /workers
   def index
@@ -69,8 +69,9 @@ class WorkersController < ApplicationController
     else
       redirect_to @worker, alert: "#{contact.errors.full_messages.to_sentence}"
     end
-
   end
+
+
 
   # POST /workers
   def create

@@ -85,6 +85,7 @@ Rails.application.routes.draw do
       get "payments"
       
       get "product_purchase"
+      get "invoice"
     end
     collection do
       delete ":order_id/schedule/:schedule_id/delete", to: "orders#delete_schedule"
@@ -128,6 +129,7 @@ Rails.application.routes.draw do
       get "new_note"
       post "new_document"
       get "new_contact"
+      get "update_contact"
     end
   end
 

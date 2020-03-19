@@ -1,0 +1,12 @@
+en:
+  activerecord:
+    models:
+      order: "Order"
+      orders: "Orders"
+    attributes:
+      order:
+        code: "Code"
+        end_at: "End At"
+        start_at: "Start At"
+        status: "Status"
+        invoice: "Invoice"

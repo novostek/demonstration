@@ -27,7 +27,7 @@ class Contact < ApplicationRecord
 
   def set_main
     if self.main
-      Contact.where(origin: self.origin, origin_id: self.origin_id, category: self.category).update_all(main: false)
+      Contact.where.not(id: self.id).where(origin: self.origin, origin_id: self.origin_id, category: self.category).update_all(main: false)
     end
   end
 

@@ -44,15 +44,15 @@
     <table class="table invoice-data-table white border-radius-4 pt-1">
       <thead>
         <tr>
-          <th><%= t('activerecord.attributes.transaction.category') %></th>
-          <th><%= t('activerecord.attributes.transaction.transaction_category') %></th>
-          <th><%= t('activerecord.attributes.transaction.transaction_account') %></th>
-          <th><%= t('activerecord.attributes.transaction.order') %></th>
-          <th><%= t('activerecord.attributes.transaction.origin') %></th>
-          <th><%= t('activerecord.attributes.transaction.due') %></th>
-          <th><%= t('activerecord.attributes.transaction.effective') %></th>
-          <th><%= t('activerecord.attributes.transaction.value') %></th>
-          <th><%= t('activerecord.attributes.transaction.bpm_instance') %></th>
+          <th><%= sort_link(@q, :category, t('activerecord.attributes.transaction.category')) %></th>
+          <th><%= sort_link(@q, :transaction_category_id, t('activerecord.attributes.transaction.transaction_category')) %></th>
+          <th><%= sort_link(@q, :transaction_account_id, t('activerecord.attributes.transaction.transaction_account') ) %></th>
+          <th><%= sort_link(@q, :order_code, t('activerecord.attributes.transaction.order') ) %></th>
+          <th><%= sort_link(@q, :origin, t('activerecord.attributes.transaction.origin') ) %></th>
+          <th><%= sort_link(@q, :due,t('activerecord.attributes.transaction.due') ) %></th>
+          <th><%= sort_link(@q,:effective, t('activerecord.attributes.transaction.effective') ) %></th>
+          <th><%=sort_link(@q, :value, t('activerecord.attributes.transaction.value') ) %></th>
+
           <th></th>
         </tr>
       </thead>
@@ -67,7 +67,7 @@
             <td><%= transaction.due %></td>
             <td><%= transaction.effective %></td>
             <td style="color: <%= transaction.value  > 0 ? 'green' : 'red' %>"><%= transaction.value %></td>
-            <td><%= transaction.bpm_instance %></td>
+
           <td>
             <div class="invoice-action right-align">
               <%= link_to transaction, class: "invoice-action-view mr-4" do %>

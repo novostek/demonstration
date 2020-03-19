@@ -41,6 +41,7 @@ class SuppliersController < ApplicationController
     contact.data = params[:data]
     contact.origin = "Supplier"
     contact.origin_id = @supplier.id
+    contact.main = params[:main]
     if contact.save
       redirect_to @supplier, notice: "#{t 'contact_create'}"
     else

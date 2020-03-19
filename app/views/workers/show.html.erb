@@ -1,4 +1,5 @@
 <link href="/css/worker.css" rel="stylesheet" type="text/css">
+<link href="/css/view-page.css" rel="stylesheet" type="text/css">
 
 <div class="breadcrumbs-dark pb-0 pt-4" id="breadcrumbs-wrapper">
   <!-- Search for small screen-->
@@ -139,86 +140,7 @@
         </a>
       </div>
 
-      <div class="card row contacts-row">
-        <div class="contacts-wrapper">
-          <h6><%= t "activerecord.models.contacts" %></h6>
-          <div class="contacts-type-box">
-            <a href="#" class="see-all-ctb"><%= t :see_all %></a>
-            <div class="contact-type--info">
-              <p><i class="material-icons green-text">phone</i> Phone</p>
-            </div>
-            <div class="contacts-list">
-              <% @worker.contacts.where(category: :phone).sort_by { |a| a.main ? 0 : 1 }.each do |phone| %>
-                <div class="contact <%= phone.main ? "main-contact" : "" %>">
-                  <div class="contact-info">
-                    <span class="contact-description"><%= phone.data["phone"] %></span>
-                    <span class="contact-title"><%= phone.title %></span>
-                  </div>
-                  <div class="contact-edit">
-                    <a href="#edit" class="tooltipped" data-tooltip="Edit contact"><i class="material-icons">edit</i></a>
-                  </div>
-                </div>
-              <% end %>
-
-            </div>
-          </div>
-          <div class="contacts-type-box">
-            <a href="#" class="see-all-ctb"><%= t :see_all %></a>
-            <div class="contact-type--info">
-              <p><i class="material-icons red-text">mail</i> Mail</p>
-            </div>
-            <div class="contacts-list">
-              <% @worker.contacts.where(category: :email).sort_by { |a| a.main ? 0 : 1 }.each do |email| %>
-                <div class="contact <%= email.main ? "main-contact" : "" %>">
-                  <div class="contact-info">
-                    <span class="contact-description"><a href="mailto:test@test.com"><%= email.data["email"] %></a></span>
-                    <span class="contact-title"><%= email.title %></span>
-                  </div>
-                  <div class="contact-edit">
-                    <a href="#edit" class="tooltipped" data-tooltip="Edit contact"><i class="material-icons">edit</i></a>
-                  </div>
-                </div>
-              <% end %>
-
-
-            </div>
-          </div>
-          <div class="contacts-type-box address-type">
-            <a href="#" class="see-all-ctb"><%= t :see_all %></a>
-            <div class="contact-type--info">
-              <p><i class="material-icons orange-text text-darken-2">place</i> Address</p>
-            </div>
-            <div class="contacts-list">
-              <% @worker.contacts.where(category: :address).sort_by { |a| a.main ? 0 : 1 }.each do |address| %>
-                <div class="contact <%= address.main ? "main-contact" : "" %>">
-                  <div class="contact-info">
-                    <span class="contact-title"><a href="#maps"><%= address.title %></a></span>
-                  </div>
-                  <div class="contact-edit">
-                    <a href="#edit" class="tooltipped" data-tooltip="Edit contact"><i class="material-icons">edit</i></a>
-                  </div>
-                  <!-- <a href="#" class="btn-more-info tooltipped" data-tooltip="More info"><i
-                          class="material-icons">place</i></a> -->
-
-                  <div class="more-info">
-                    <!-- <a href="#" class="btn-less-info"><i class="material-icons">close</i></a> -->
-                    <div class="map">
-                      <img src="http://maps.google.com/maps/api/staticmap?center=<%= address.data['lat'] %>,<%= address.data['lng'] %>&zoom=10&size=300x80&scale=2&maptype=road&markers=color:blue%7Clabel:S%7C<%= address.data['lat'] %>,<%= address.data['lng'] %>&key=AIzaSyBUW7c4JukYkKfxTr_bxMN3vn2FvtXAaBQ" alt="">
-                    </div>
-                    <span><strong class="font-weight-600"><%= t("json_data.city") %>:</strong><%= address.data["city"] %></span><br>
-                    <span><strong class="font-weight-600"><%= t("json_data.state") %>:</strong><%= address.data["state"] %></span><br>
-                    <span><strong class="font-weight-600"><%= t("json_data.address") %>:</strong><%= address.data["address"] %></span>
-                    <a href="#" class="btn-navigate btn btn-flat btn-small btn-width blue white-text"><i
-                      class="material-icons">navigation</i></a>
-                  </div>
-                </div>
-              <% end %>
-
-            </div>
-          </div>
-
-        </div>
-      </div>
+      <%= render "layouts/row_contacts", modelo: @worker %>
 
 
     </div>
@@ -311,6 +233,8 @@
     </div>
   <% end  %>
 </div>
+
+
 
 
 <%= content_for :scripts do %>

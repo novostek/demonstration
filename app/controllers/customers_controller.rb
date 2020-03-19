@@ -46,6 +46,7 @@ class CustomersController < ApplicationController
     contact.origin = "Customer"
     contact.main = params[:main]
     contact.origin_id = @customer.id
+    contact.main = params[:main]
     if contact.save
       redirect_to @customer, notice: "#{t 'contact_create'}"
     else

@@ -2,7 +2,12 @@ class OrdersController < ApplicationController
   before_action :set_order, only: [
     :show, :edit, :update, 
     :destroy, :schedule, :create_schedule, 
-    :payments, :transaction, :product_purchase, :new_note,:new_document,:new_contact]
+    :payments, :transaction, :product_purchase, :new_note,:new_document,:new_contact, :invoice]
+
+  #Método para visualizar o invoice de order
+  def invoice
+    @transactions = @order.transactions
+  end
 
   # GET /orders
   def index

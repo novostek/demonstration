@@ -17,3 +17,4 @@ en:
   note_create: "Note was successfull created"
   doc_create: "Document was successfull created"
   contact_create: "Contact was successfull created"
+  contact_update: "Contact was successfull updated"

@@ -25,8 +25,14 @@ class EstimatesController < ApplicationController
             #verifica se o produto pertence ao catalogo
             if p.product.present?
               #begin
-              purchase = Purchase.find_or_create_by(order_id: order.id, supplier_id: p.product.supplier.id)
-              ProductPurchase.create(product: p.product, purchase: purchase, unity_value: p.unitary_value, quantity: p.quantity, value: p.value, custom_title: p.custom_title)
+              product = p.product
+              purchase = Purchase.find_or_create_by(order_id: order.id, supplier_id: product.supplier.id)
+              pp = ProductPurchase.find_or_create_by(product: product, purchase: purchase)
+              pp.unity_value =  product.cost_price
+              pp.quantity =  p.quantity
+              pp.value = pp.unity_value * pp.quantity
+              pp.custom_title = p.custom_title
+              pp.save
               # rescue
               #end
 

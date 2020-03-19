@@ -13,6 +13,7 @@
 #
 
 class CalculationFormula < ApplicationRecord
+  before_save :slug_namespace
 
   #Método que retorna o nome da formula
   def to_s
@@ -23,5 +24,11 @@ class CalculationFormula < ApplicationRecord
   #Método que retorna um array dos objetos para usar nos combos
   def self.to_select
     all.map{|a| [a.name,a.id]}
+  end
+
+  def slug_namespace
+    if self.namespace.blank?
+      self.namespace = self.name.parameterize
+    end
   end
 end

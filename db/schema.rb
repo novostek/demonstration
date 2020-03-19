@@ -268,7 +268,7 @@ ActiveRecord::Schema.define(version: 2020_03_18_122814) do
     t.string "bpm_purchase"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.bigint "supplier_id", null: false
+    t.bigint "supplier_id"
     t.bigint "calculation_formula_id", null: false
     t.text "photo"
     t.index ["calculation_formula_id"], name: "index_products_on_calculation_formula_id"

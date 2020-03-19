@@ -76,7 +76,7 @@ class SquareApi
     if Rails.env.production?
       body[:redirect_url] = "http://woodoffice.herokuapp.com/square_api/callback?transaction=#{transaction.id}"
     else
-      body[:redirect_url] = "http://a0f1f0f3.ngrok.io/square_api/callback?transaction=#{transaction.id}"
+      body[:redirect_url] = "http://f5bbe7ed.ngrok.io/square_api/callback?transaction=#{transaction.id}"
     end
 
 

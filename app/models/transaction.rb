@@ -11,6 +11,7 @@
 #  origin                  :string
 #  payment_method          :string
 #  square_data             :json
+#  status                  :string
 #  value                   :decimal(, )
 #  created_at              :datetime         not null
 #  updated_at              :datetime         not null
@@ -42,6 +43,7 @@ class Transaction < ApplicationRecord
   extend Enumerize
 
   enumerize :payment_method, in: [:cash, :square_credit, :square_installments], predicates: true
+  enumerize :status, in: [:paid, :pendent],predicates: true, default: :pendent
 
   #validates :category, :effective, :value, presence: true
   
@@ -60,4 +62,9 @@ class Transaction < ApplicationRecord
       end
     end
   end
+
+  def send_square_from_invoice
+      checkout_status, checkout_data = SquareApi.create_checkout(self.order, self)
+  end
+
 end

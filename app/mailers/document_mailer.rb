@@ -5,6 +5,11 @@ class DocumentMailer < ApplicationMailer
     mail(to: params[:emails], subject: params[:subject])
   end
 
+  def send_invoice
+    @order = params[:order]
+    mail(to: params[:emails], subject: params[:subject])
+  end
+
   def send_square
     @order = params[:order]
     @link = params[:link]
@@ -14,7 +19,7 @@ class DocumentMailer < ApplicationMailer
     if Rails.env.prodction?
       @url = "http://woodoffice.herokuapp.com/"
     else
-      @url = "http://4b48aa18.ngrok.io/"
+      @url = "http://f5bbe7ed.ngrok.io"
     end
 
 

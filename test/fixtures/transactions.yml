@@ -11,6 +11,7 @@
 #  origin                  :string
 #  payment_method          :string
 #  square_data             :json
+#  status                  :string
 #  value                   :decimal(, )
 #  created_at              :datetime         not null
 #  updated_at              :datetime         not null

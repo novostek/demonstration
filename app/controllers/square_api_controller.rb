@@ -10,6 +10,8 @@ class SquareApiController < ApplicationController
       @transaction.effective = square_transaction.transaction[:tenders].first[:created_at]
       @transaction.value = square_transaction.transaction[:tenders].first[:amount_money][:amount] / 100.00
       @transaction.square_data = square_transaction.transaction
+      @transaction.status = :paid
+      @transaction.payment_method = :square_credit
       @transaction.save
 
     end

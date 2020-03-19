@@ -13,7 +13,11 @@ Rails.application.routes.draw do
       post "send_mail"
     end
   end
-  resources :transactions
+  resources :transactions do
+    member do
+      get "send_square"
+    end
+  end
   resources :transaction_accounts
   resources :signatures
   resources :transaction_categories
@@ -86,9 +90,13 @@ Rails.application.routes.draw do
       
       get "product_purchase"
       get "invoice"
+      get "invoice_add_payment"
+      get "view_invoice_customer"
+      get "send_invoice_mail"
     end
     collection do
       delete ":order_id/schedule/:schedule_id/delete", to: "orders#delete_schedule"
+
     end
   end
   resources :leads

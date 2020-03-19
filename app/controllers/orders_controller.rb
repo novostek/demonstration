@@ -2,11 +2,26 @@ class OrdersController < ApplicationController
   before_action :set_order, only: [
     :show, :edit, :update, 
     :destroy, :schedule, :create_schedule, 
-    :payments, :transaction, :product_purchase, :new_note,:new_document,:new_contact, :invoice]
+    :payments, :transaction, :product_purchase, :new_note,:new_document,:new_contact, :invoice,:invoice_add_payment,:send_invoice_mail,:view_invoice_customer]
 
   #Método para visualizar o invoice de order
   def invoice
-    @transactions = @order.transactions
+    @transactions = @order.transactions.order(due: :asc).order(id: :asc)
+    begin
+      @email_customer = @estimate.customer.contacts.where(category: :email, main: true).first.data["email"]
+    rescue
+      @email_customer = ""
+    end
+  end
+
+  def send_invoice_mail
+    DocumentMailer.with(subject: params[:subject] , emails: params[:emails], order: @order).send_invoice.deliver_now
+    redirect_to invoice_order_path(@order), notice: "Invoice sent"
+  end
+
+  def view_invoice_customer
+    @transactions = @order.transactions.order(due: :asc).order(id: :asc)
+    render "invoice", layout: "clean"
   end
 
   # GET /orders
@@ -14,6 +29,25 @@ class OrdersController < ApplicationController
     @q = Order.all.ransack(params[:q])
     @orders = @q.result.page(params[:page])
   end
+
+  def invoice_add_payment
+    transaction = Transaction.new
+    transaction.origin = params[:origin]
+    transaction.origin_id = params[:origin_id]
+    transaction.value = params[:value]
+    transaction.payment_method = params[:payment_method]
+    transaction.due = params[:due]
+    transaction.email = params[:email]
+    transaction.order = @order
+    if transaction.save
+      redirect_to invoice_order_path(@order),notice: "Payment add successful"
+    else
+      redirect_to invoice_order_path(@order),notice: transaction.errors.full_messages.to_sentence
+    end
+
+  end
+
+
 
   # GET /orders/1
   def show

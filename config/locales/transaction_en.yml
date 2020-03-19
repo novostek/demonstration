@@ -18,4 +18,7 @@ en:
         cash: "Cash"
         square_credit: "Square (credit)"
         square_installments: "Square (installments)"
+      status:
+        paid: "Paid"
+        pendent: "Pendent"
 

@@ -1,0 +1,6 @@
+<b>Dear: </b> <%= @order.get_current_estimate.customer %>
+
+<p>Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
+
+<!--<img src="<%#= @url %>/square_name.svg">-->
+<a href="<%= view_invoice_customer_order_url(@order) %>">Invoice</a>

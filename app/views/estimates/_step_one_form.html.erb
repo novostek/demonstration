@@ -28,5 +28,12 @@
         <%= f.label  :sales_person_id %>
       </div>
     </div>
+
+    <div class="col s12 m4">
+      <div class="input-field">
+        <%= f.select :tax_calculation, @taxes, {prompt: true}, :selected => @estimate.tax_calculation  %>
+        <%= f.label  :tax_calculation %>
+      </div>
+    </div>
     
 </div>

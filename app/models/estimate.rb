@@ -42,11 +42,14 @@
 class Estimate < ApplicationRecord
   after_initialize :initialize_code, if: :new_record?
 
+  alias_attribute :tax_calculation, :calculation_formula
+
   belongs_to :worker, optional: true
   belongs_to :order, optional: true
   belongs_to :lead, optional: true
   has_one :customer, through: :lead
   has_one :worker, primary_key: :sales_person_id, foreign_key: :id
+  has_one :calculation_formula, primary_key: :tax_calculation_id, foreign_key: :id
 
   has_many :signatures, -> { where origin: :Estimate }, primary_key: :id, foreign_key: :origin_id
   has_many :measurement_areas, dependent: :destroy

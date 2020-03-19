@@ -121,6 +121,7 @@ class EstimatesController < ApplicationController
     estimate.status = 'new'
     estimate.total = 0.0
     estimate.category = 'test'
+    estimate.tax_calculation_id = params[:estimate][:tax_calculation].to_i
 
     if estimate.save()
       redirect_to schedule_estimate_path(estimate.id)
@@ -223,6 +224,7 @@ class EstimatesController < ApplicationController
   #Método que carrega os objetos de seleção
   def set_combos
     @workers = Worker.to_select
+    @taxes = CalculationFormula.where(tax: true).to_select
   end
 
   # Use callbacks to share common setup or constraints between actions.

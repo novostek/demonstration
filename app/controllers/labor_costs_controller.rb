@@ -10,9 +10,9 @@ class LaborCostsController < ApplicationController
     note.origin = "LaborCost"
     note.origin_id = @labor_cost.id
     if note.save
-      redirect_to costs_order_path(@labor_cost.order), notice: "#{t 'note_create'}"
+      redirect_to costs_order_path(@labor_cost.schedule.origin_id), notice: "#{t 'note_create'}"
     else
-      redirect_to costs_order_path(@labor_cost.order), alert: "#{note.errors.full_messages.to_sentence}"
+      redirect_to costs_order_path(@labor_cost.schedule.origin_id), alert: "#{note.errors.full_messages.to_sentence}"
     end
   end
 

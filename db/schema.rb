@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_03_19_193815) do
+ActiveRecord::Schema.define(version: 2020_03_20_205331) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -114,6 +114,18 @@ ActiveRecord::Schema.define(version: 2020_03_19_193815) do
     t.index ["order_id"], name: "index_estimates_on_order_id"
     t.index ["sales_person_id"], name: "index_estimates_on_sales_person_id"
     t.index ["tax_calculation_id"], name: "index_estimates_on_tax_calculation_id"
+  end
+
+  create_table "labor_costs", force: :cascade do |t|
+    t.bigint "worker_id", null: false
+    t.bigint "schedule_id", null: false
+    t.date "date"
+    t.decimal "value"
+    t.string "status"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["schedule_id"], name: "index_labor_costs_on_schedule_id"
+    t.index ["worker_id"], name: "index_labor_costs_on_worker_id"
   end
 
   create_table "leads", force: :cascade do |t|
@@ -428,6 +440,8 @@ ActiveRecord::Schema.define(version: 2020_03_19_193815) do
   add_foreign_key "estimates", "leads"
   add_foreign_key "estimates", "orders"
   add_foreign_key "estimates", "workers", column: "sales_person_id"
+  add_foreign_key "labor_costs", "schedules"
+  add_foreign_key "labor_costs", "workers"
   add_foreign_key "leads", "customers"
   add_foreign_key "measurement_areas", "estimates"
   add_foreign_key "measurements", "measurement_areas"

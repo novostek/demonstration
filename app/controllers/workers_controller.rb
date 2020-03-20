@@ -35,8 +35,6 @@ class WorkersController < ApplicationController
     else
       redirect_to @worker, alert: "#{note.errors.full_messages.to_sentence}"
     end
-
-
   end
 
   #método que insere um novo documento

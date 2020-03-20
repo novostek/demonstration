@@ -43,7 +43,18 @@ class NotesController < ApplicationController
   # DELETE /notes/1
   def destroy
     @note.destroy
-    redirect_to "/#{@note.origin.pluralize.downcase}/#{@note.origin_id}", notice: 'Note was successful destroyed.'
+    if @note.origin != "ProductPurchase" and @note.origin != "LaborCost"
+      redirect_to "/#{@note.origin.pluralize.downcase}/#{@note.origin_id}", notice: 'Note was successful destroyed.'
+    else
+      if @note.origin == "ProductPurchase"
+        p = ProductPurchase.find(@note.origin_id).order.id
+      else
+        p = LaborCost.find(@note.origin_id).schedule.origin_id
+      end
+
+      redirect_to costs_order_path(p), notice: 'Note was successful destroyed.'
+    end
+
   end
 
   private

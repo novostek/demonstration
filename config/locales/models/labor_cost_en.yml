@@ -1,0 +1,15 @@
+en:
+  activerecord:
+    models:
+      labor_cost: "Labor Cost"
+    attributes:
+      labor_cost:
+        worker_id: "Worker"
+        date: "Date"
+        status: "Status"
+        value: "Value"
+  enumerize:
+    labor_cost:
+      status:
+        paid: "Paid"
+        pendent: "Pendent"

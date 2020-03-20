@@ -26,6 +26,10 @@
 class ProductPurchase < ApplicationRecord
   belongs_to :product, optional: true
   belongs_to :purchase
+  has_one :order, through: :purchase
+
+  has_many :notes, -> { where origin: :ProductPurchase }, primary_key: :id, foreign_key: :origin_id
+  has_many :document_files, -> { where origin: :ProductPurchase }, primary_key: :id, foreign_key: :origin_id
 
   extend Enumerize
   enumerize :status, in: [:requested, :buyed, :delivered, :returned],predicates: true

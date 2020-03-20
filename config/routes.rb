@@ -1,6 +1,19 @@
 Rails.application.routes.draw do
 
-  resources :product_purchases
+  resources :labor_costs do
+    member do
+      get "new_note"
+      post "new_document"
+      get "change_status"
+    end
+  end
+  resources :product_purchases do
+    member do
+      get "new_note"
+      post "new_document"
+      get "change_status"
+    end
+  end
   resources :purchases
   resources :documents do
     member do

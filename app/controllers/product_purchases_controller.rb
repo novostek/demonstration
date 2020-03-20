@@ -1,5 +1,5 @@
 class ProductPurchasesController < ApplicationController
-  before_action :set_product_purchase, only: [:show, :edit, :update, :destroy]
+  before_action :set_product_purchase, only: [:show, :edit, :update, :destroy,:new_note,:new_document,:change_status]
   before_action :authenticate_user!, except: [:create]
   # GET /product_purchases
   def index
@@ -9,6 +9,47 @@ class ProductPurchasesController < ApplicationController
 
   # GET /product_purchases/1
   def show
+  end
+
+  #Método que insere uma nota
+  def new_note
+    note = Note.new
+    note.title = params[:title]
+    note.text = params[:text]
+    note.origin = "ProductPurchase"
+    note.origin_id = @product_purchase.id
+    if note.save
+      redirect_to costs_order_path(@product_purchase.order), notice: "#{t 'note_create'}"
+    else
+      redirect_to costs_order_path(@product_purchase.order), alert: "#{note.errors.full_messages.to_sentence}"
+    end
+  end
+
+  def change_status
+    @product_purchase.status = params[:status]
+    if @product_purchase.save
+      render json: {status: "ok", msg: "Changed to #{params[:status]}"}
+    else
+      render json: {status: "error", msg: @product_purchase.errors.full_message.to_sentence}
+    end
+
+  end
+
+
+  #método que insere um novo documento
+  def new_document
+    doc = DocumentFile.new
+    doc.title = params[:title]
+    doc.file = params[:file]
+    doc.description = params[:description]
+    doc.origin = "ProductPurchase"
+    doc.origin_id = @product_purchase.id
+    if doc.save
+      redirect_to costs_order_path(@product_purchase.order), notice: "#{t 'doc_create'}"
+    else
+      redirect_to costs_order_path(@product_purchase.order), alert: "#{note.errors.full_messages.to_sentence}"
+    end
+
   end
 
   # GET /product_purchases/new

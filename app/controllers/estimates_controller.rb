@@ -109,6 +109,7 @@ class EstimatesController < ApplicationController
 
   def step_one
     @estimate = Estimate.find_or_initialize_by(lead_id: params[:lead_id])
+    @worker = Worker.new
 
     @lead = Lead.find(params[:lead_id])
     render :step_1

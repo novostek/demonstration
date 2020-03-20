@@ -5,6 +5,7 @@
 #  id                  :bigint           not null, primary key
 #  height              :decimal(, )
 #  length              :decimal(, )
+#  square_feet         :decimal(10, 2)
 #  width               :decimal(, )
 #  created_at          :datetime         not null
 #  updated_at          :datetime         not null

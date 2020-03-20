@@ -138,7 +138,7 @@ class EstimatesController < ApplicationController
   def schedule
     @estimate = Estimate.find(params[:id])
     @workers = Worker.all
-    @schedules = @estimate.schedules
+    @schedules = Schedule.all
     render :schedule
   end
 

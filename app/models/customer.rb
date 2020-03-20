@@ -54,11 +54,16 @@ class Customer < ApplicationRecord
     @customers = Customer.joins(:contacts).where("contacts.data->>'phone' LIKE ? AND contacts.category = 'phone'", "#{phone}%")
   end
 
+  def self.search_by_email email
+    @customers = Customer.joins(:contacts).where("contacts.data->>'email' LIKE ? AND contacts.category = 'email'", "#{email}%")
+  end
+
   def as_json(options = {})
     s = super(options)
     address = self.contacts.where(category: :address, main:true).last
     s[:contacts] = self.contacts
     s[:main_phone] = self.contacts.where(category: :phone, main:true).last.present? ? self.contacts.where(category: :phone, main:true).last.data["phone"] : ""
+    s[:main_email] = self.contacts.where(category: :email, main:true).last.present? ? self.contacts.where(category: :email, main:true).last.data["email"] : ""
     s[:main_address] = address.present? ? address.data["address"] : ""
     s[:main_state] = address.present? ? address.data["state"] : ""
     s[:main_city] = address.present? ? address.data["city"] : ""
@@ -66,5 +71,7 @@ class Customer < ApplicationRecord
     s
   end
 
-
+  def get_main_email
+    self.contacts.where(main: true).first
+  end
 end

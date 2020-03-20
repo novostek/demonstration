@@ -87,6 +87,16 @@ class CustomersController < ApplicationController
     @customer = Customer.new(customer_params)
 
     if @customer.save
+      if params[:button] == "remote_save"
+        contact = Contact.new
+        contact.title = 'Email'
+        contact.category = 'email'
+        contact.data = { email: params[:email] }
+        contact.origin = "Customer"
+        contact.main = true
+        contact.origin_id = @customer.id
+        contact.save
+      end
       respond_to do |format|
         format.html { redirect_to @customer, notice: 'Customer was succesfully created.' }
         format.json { render json: @customer }
@@ -113,6 +123,11 @@ class CustomersController < ApplicationController
 
   def search_by_phone
     @customers = Customer.search_by_phone(params[:phone])
+    render json: @customers
+  end
+
+  def search_by_email
+    @customers = Customer.search_by_email(params[:email])
     render json: @customers
   end
 

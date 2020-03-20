@@ -130,6 +130,7 @@ Rails.application.routes.draw do
     collection do
       get "search_customers"
       get "search_by_phone/:phone", to: "customers#search_by_phone"
+      get "search_by_email/:email", to: "customers#search_by_email"
     end
 
   end

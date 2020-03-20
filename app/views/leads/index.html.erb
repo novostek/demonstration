@@ -50,6 +50,7 @@
             <th><%= t('activerecord.attributes.lead.phone') %></th>
             <th><%= t('activerecord.attributes.lead.via') %></th>
             <th><%= t('activerecord.attributes.lead.description') %></th>
+            <th>Estimate</th>
             <th><%= t('activerecord.attributes.lead.status') %></th>
             <th><%= t('activerecord.attributes.lead.date') %></th>
           </tr>
@@ -64,6 +65,13 @@
               <td><%= lead.phone %></td>
               <td><%= lead.via %></td>
               <td><%= lead.description %></td>
+              <td>
+                <% if lead.estimate.present? %>
+                  <%= link_to lead.estimate.code, view_estimates_path(lead.estimate) %>
+                <% else %>
+                   - 
+                <% end %>
+              </td>
               <td>
                 <span class="chip lighten-5 green green-text">
                   <%= lead.status %>

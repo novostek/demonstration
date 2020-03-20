@@ -14,25 +14,36 @@
     <div class="card">
       <div class="card-content">
         <div class="row">
-          <div class="input-field col s12 m4">
+          <div class="input-field col s12 m3 l3">
             <%= f.text_field :phone, 
-                autocomplete: 'off', 
+                autocomplete: 'off',
+                required: true,
                 class: 'autocomplete autocomplete-phone phone', 
                 onkeyup: "search_by_phone($(this).val())" %>
             <%= f.label  :phone, id: 'lead_phone_label' %>
           </div>
 
-          <div class="input-field col s12 m4">
+          <div class="input-field col s12 m4 l4">
             <%= f.text_field :customer, 
-                autocomplete: 'off', 
+                autocomplete: 'off',
+                required: true,
                 class: 'autocomplete autocomplete-customer', 
                 onkeyup: "search_by_name($(this).val())" %>
             <%= f.hidden_field :customer_id %>
             <%= f.label  :customer, id: 'lead_customer_label' %>
           </div>
-          <div class="col s12 m3 display-flex pt-2 justify-content-end">
+          <div class="input-field col s12 m3 l3">
+            <%= text_field_tag :email,
+                nil,
+                autocomplete: 'off',
+                required: true,
+                class: 'autocomplete autocomplete-email',
+                onkeyup: "search_by_email($(this).val())" %>
+            <%= label_tag 'Email' %>
+          </div>
+          <div class="col s12 m2 l2 display-flex pt-2 pl-4 justify-content-end">
             <!-- Mo dal Trigger -->
-            <a class="btn waves-effect indigo waves-light left modal-trigger" href="#customer-add-modal"><i class="material-icons hide-on-med-and-up">add</i><span class="hide-on-small-only">New customer</span></a>
+            <a class="btn btn-floating waves-effect indigo waves-light left modal-trigger tooltipped" data-position="left" data-tooltip="New customer" href="#customer-add-modal"><i class="material-icons">person_add</i></a>
           </div>
         </div>
         <div class="row other-fields" style="display: none;">									
@@ -41,7 +52,7 @@
             <%= f.label  :description %>
           </div>
           <div class="input-field col s6 m4">
-            <%= f.text_field :via, autocomplete: 'off', class: 'autocomplete autocomplete-via' %>
+            <%= f.text_field :via, autocomplete: 'off', required: true, class: 'autocomplete autocomplete-via' %>
             <%= f.label  :via %>
           </div>
           <div class="input-field col s6 m4">
@@ -72,9 +83,7 @@
   </div>
 <% end %>
 
-<div id="customer-add-modal" class="modal modal-fixed-footer">
-		<div class="modal-content">
-			<h4>New customer</h4>
+
 			<%= render 'customer_form', customer: @customer %>
 </div>
 
@@ -93,13 +102,31 @@
       headers
     }
 
+    document.getElementById('new_customer').addEventListener('submit', () => {
+      const customer_name = document.getElementById('customer_name').value
+      const lead_customer = document.getElementById('lead_customer')
+      const lead_customer_id = document.getElementById('lead_customer_id')
+
+      lead_customer.value = customer_name
+      document.getElementById('lead_customer_label').classList.add('active')
+
+      console.log(customer_name)
+      setTimeout(() => {
+        search_by_name(customer_name, true)
+      }, 300)
+      $("#customer-add-modal").modal('close')
+      $(".other-fields, .save-buttons").fadeIn()
+    })
+
     search_by_name = (value, completed = false) => {
       fetch(`/customers?q%5Bname_cont%5D=${value}`, fetchConfig)
       .then((res) => res.json())
       .then((result) => {
+        console.log('RESULT', result)
         if(completed){
           $("#lead_customer_id").val(result[0].id)
-          insert_value_to_field('lead_phone', result[0].contacts[0].data.phone)
+          $(".other-fields, .save-buttons").fadeIn()
+          result[0].contacts[0] && insert_value_to_field('lead_phone', result[0].contacts[0].data.phone)
         }
         // console.log(data)
         if(Array.isArray(result) && result.length > 0){
@@ -125,6 +152,7 @@
         if(completed){
           $("#lead_customer_id").val(result[0].id)
           insert_value_to_field('lead_customer', result[0].name)
+          $(".other-fields, .save-buttons").fadeIn()
         }
         if(Array.isArray(result) && result.length > 0){
           let phoneList = {}
@@ -140,10 +168,40 @@
       })
       .catch((error) => console.log(error))      
     }
+
+    search_by_email = (value, completed = false) => {
+      value &&
+      fetch(`/customers/search_by_email/${value}`, fetchConfig)
+      .then((res) => res.json())
+      .then((result) => {
+        if(completed){
+          $("#lead_customer_id").val(result[0].id)
+          insert_value_to_field('lead_customer', result[0].name)
+          result[0].contacts[0] && insert_value_to_field('lead_phone', result[0].contacts[0].data.phone)
+          $(".other-fields, .save-buttons").fadeIn()
+        }
+        if(Array.isArray(result) && result.length > 0){
+          let emailList = {}
+          result.map((element, index) => {
+            // emailList[element.contacts.data.phone] = null
+            element.contacts.map((contact) => emailList[contact.data.email] = null)
+          })
+          var email_autocomplete = document.getElementById("email");
+          var email_instance = M.Autocomplete.getInstance(email_autocomplete);
+          email_instance.updateData(emailList)
+        }
+      })
+      .catch((error) => console.log(error))      
+    }
   </script>
 
   <script>
     document.addEventListener('DOMContentLoaded', function() {
+      document.getElementById('lead_customer').addEventListener('change', (e) => {
+        document.getElementById('customer_name').setAttribute('value', e.target.value)
+        document.getElementById('customer_name_label').classList.add('active')
+      })
+
       const lead_phone = document.getElementById('lead_phone');
       const phone_options = {
         data: {},
@@ -152,6 +210,15 @@
         onAutocomplete: (res) => search_by_phone(res, true)
       }
       M.Autocomplete.init(lead_phone, phone_options);
+
+      const email_search = document.getElementById('email');
+      const email_options = {
+        data: {},
+        limit: 5,
+        minLength: 2,
+        onAutocomplete: (res) => search_by_email(res, true)
+      }
+      M.Autocomplete.init(email_search, email_options);
 
       const lead_customer = document.getElementById('lead_customer');
       const customer_options = {
@@ -165,9 +232,6 @@
 		$(document).ready(function(){
 			$('.modal').modal({
 				opacity: .8
-			});
-			$(".autocomplete").on("change", function(){
-				$(".other-fields, .save-buttons").fadeIn();
 			});
 
 			$('input.autocomplete.autocomplete-via').autocomplete({

@@ -98,7 +98,7 @@
 										<span class="left width-100"><span class="font-weight-600 black-text">Category:</span> <%= @order.get_current_estimate.category %></span>
 									</div>
 									<div class="col s12 m5">
-										<span class="left width-100"><span class="font-weight-600 black-text">Price:</span> $ <%= @order.purchase.product_purchases.sum(:value).to_f %></span>
+										<span class="left width-100"><span class="font-weight-600 black-text">Price:</span> $ <%= @order.purchases.product_purchases.sum(:value).to_f %></span>
 										<span class="left width-100"><span class="font-weight-600 black-text">Tax:</span> $ <%= @order.get_current_estimate.tax.to_f %></span>
 										<span class="left width-100"><span class="font-weight-600 black-text">Price + Tax:</span> 
                       $ <%= @order.purchase.product_purchases.sum(:value).to_f + @order.get_current_estimate.tax.to_f %>

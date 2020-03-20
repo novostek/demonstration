@@ -43,6 +43,10 @@ class Product < ApplicationRecord
 
   require 'securerandom'
 
+  #Método que retorna o nome do produto
+  def to_s
+    self.name
+  end
 
   def set_uuid
     if self.uuid.blank?

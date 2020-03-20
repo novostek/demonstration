@@ -15,7 +15,8 @@
 class Order < ApplicationRecord
   has_many :estimates
   has_many :product_estimates, through: :estimates
-  has_one :purchase
+  has_many :purchases
+  has_many :product_purchases, through: :purchases
   before_create :set_code
   has_many :transactions
 

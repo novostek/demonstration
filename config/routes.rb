@@ -93,6 +93,7 @@ Rails.application.routes.draw do
       get "invoice_add_payment"
       get "view_invoice_customer"
       get "send_invoice_mail"
+      get "costs"
     end
     collection do
       delete ":order_id/schedule/:schedule_id/delete", to: "orders#delete_schedule"

@@ -27,6 +27,9 @@ class ProductPurchase < ApplicationRecord
   belongs_to :product, optional: true
   belongs_to :purchase
 
+  extend Enumerize
+  enumerize :status, in: [:requested, :buyed, :delivered, :returned],predicates: true
+
   def as_json(options = {})
     s = super(options)
     s[:product] = self.product

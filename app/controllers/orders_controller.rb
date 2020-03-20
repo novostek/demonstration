@@ -2,7 +2,7 @@ class OrdersController < ApplicationController
   before_action :set_order, only: [
     :show, :edit, :update, 
     :destroy, :schedule, :create_schedule, 
-    :payments, :transaction, :product_purchase, :new_note,:new_document,:new_contact, :invoice,:invoice_add_payment,:send_invoice_mail,:view_invoice_customer]
+    :payments, :transaction, :product_purchase, :new_note,:new_document,:new_contact, :invoice,:invoice_add_payment,:send_invoice_mail,:view_invoice_customer,:costs]
 
   #Método para visualizar o invoice de order
   def invoice
@@ -12,6 +12,10 @@ class OrdersController < ApplicationController
     rescue
       @email_customer = ""
     end
+  end
+
+  def costs
+    @purchases = @order.purchases
   end
 
   def send_invoice_mail

@@ -25,6 +25,8 @@ class Purchase < ApplicationRecord
   belongs_to :order
   belongs_to :supplier, optional: true
   has_many :product_purchases
+  has_many :notes, -> { where origin: :Purchase }, primary_key: :id, foreign_key: :origin_id
+  has_many :document_files, -> { where origin: :Purchase }, primary_key: :id, foreign_key: :origin_id
 
   def as_json(options = {})
     s = super(options)

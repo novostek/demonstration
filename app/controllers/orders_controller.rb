@@ -16,6 +16,7 @@ class OrdersController < ApplicationController
 
   def costs
     @purchases = @order.purchases
+    @labor_costs = @order.labor_costs.order(date: :asc)
   end
 
   def send_invoice_mail

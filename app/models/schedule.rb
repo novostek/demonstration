@@ -27,15 +27,32 @@
 
 class Schedule < ApplicationRecord
   belongs_to :worker
+  has_one :labor_cost, dependent: :destroy
+
+  after_save :set_labor_cost, if: :from_order?
+
+  def from_order?
+    self.origin == "Order"
+  end
+
+  #método que cria e atualiza o Labor Cost do schedule
+  def set_labor_cost
+    cost = LaborCost.find_or_create_by(schedule_id: self.id)
+    cost.worker = self.worker
+    cost.date = self.start_at.to_date
+    cost.value = (self.worker.time_value || 0) *  (self.end_at - self.start_at) / 1.hour
+    cost.save
+  end
 
   def self.new_schedule object
+
     begin
       schedule = self.find_or_create_by(origin_id: object[:origin_id], worker_id: object[:worker_id], id: object[:schedule_id])
       schedule.title = object[:title]
       schedule.category = object[:category]
       schedule.description = object[:description]
       schedule.start_at = object[:start_at]
-      schedule.end_at = object[:end_at]
+      schedule.end_at = object[:end_at] || schedule.start_at + 30.minutes
       schedule.color = object[:color]
       schedule.worker_id = object[:worker_id]
       schedule.origin = object[:origin]

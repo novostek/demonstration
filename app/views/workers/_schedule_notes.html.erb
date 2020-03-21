@@ -1,0 +1,10 @@
+
+<% notes.each do |note| %>
+  <div class="note">
+    <%= link_to note, method: :delete, class:"btn-delete-note" do %>
+      <i class="material-icons">delete</i>
+    <% end %>
+    <h6 class="note-title"><%= note.title %></h6>
+    <p class="note-content"><%= note.text %></p>
+  </div>
+<% end %>

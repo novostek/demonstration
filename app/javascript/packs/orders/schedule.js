@@ -95,8 +95,10 @@ document.addEventListener('DOMContentLoaded', function () {
 				schedule_id: info.event.extendedProps.schedule_id,
 				worker_id: info.event.id
 			}
-			deleteSchedule(data)
-			info.event.remove()
+			//deleteSchedule(data)
+			//info.event.remove()
+			$.get( "/schedules/load_notes.js?schedule="+info.event.extendedProps.schedule_id, function( data ) {
+			});
 		},
 		events,
 		eventReceive: function ({ event, ...info }) {

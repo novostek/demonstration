@@ -1,5 +1,5 @@
 class TransactionsController < ApplicationController
-  before_action :set_transaction, only: [:show, :edit, :update, :destroy,:send_square]
+  before_action :set_transaction, only: [:show, :edit, :update, :destroy,:send_square,:send_square_again]
   before_action :set_combos, only: [:new,:edit,:create,:update]
 
   # GET /transactions
@@ -8,7 +8,20 @@ class TransactionsController < ApplicationController
     @transactions = @q.result.page(params[:page])
   end
 
+  #Método que reenvia o email com o checkout para o cliente
+  def send_square_again
+    checkout_status, checkout_data = @transaction.send_square_from_invoice
+    if checkout_status
+      DocumentMailer.with(link: checkout_data[:checkout][:checkout_page_url] , emails: params[:emails], order: @transaction.order).send_square.deliver_later
+      redirect_to invoice_order_path(@transaction.order), notice: "Mail sent"
+    else
+      redirect_to invoice_order_path(@transaction.order), notice: "Error"
+    end
 
+  end
+
+
+  #Método para o cliente ao visuzliar o invoice, realizar o pagamento pendente via square
   def send_square
     checkout_status, checkout_data = @transaction.send_square_from_invoice
     if checkout_status

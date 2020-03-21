@@ -79,15 +79,42 @@
                       <td><%= t.payment_method_text %></td>
                       <td>
                         <% if t.paid? %>
-                          <div class="chip green lighten-5 green-text"><%= t(t.status) %></div>
+                          <div class="chip green lighten-5 green-text"><%= t.status_text %></div>
                         <% else %>
-                          <%= link_to send_square_transaction_path(t) do %>
-                            <div class="chip green lighten-5"><%= t(t.status) %></div>
+                          <% if !current_user.present? %>
+                            <%= link_to send_square_transaction_path(t) do %>
+                              <div class="chip green lighten-5"><%= t.status_text %></div>
+                            <% end %>
+                          <% else %>
+                            <a href="#modal-send_payment_<%= t.id %>" class="modal-trigger">
+                              <div class="chip green lighten-5"><%= t.status_text %></div>
+                            </a>
                           <% end %>
                         <% end  %>
                       </td>
                       <td class="right-align"><%= number_to_currency(t.value) %></td>
                     </tr>
+
+                    <div id="modal-send_payment_<%= t.id %>" class="modal">
+                      <%= form_with url: send_square_again_transaction_path(t), method: :get, local: true do |f| %>
+                        <div class="modal-content">
+                          <h4>Send payment</h4>
+                          <div class="row">
+                            <div class="input-field">
+                              <%= f.label :emails, "Emails" %>
+                              <%= f.text_field :emails, value: @email_customer, required: true %>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="modal-footer">
+                          <%= f.button :submit,  class:"modal-action modal-close waves-effect waves-green btn-flat btn-send", target:"_self" do %>
+                            <i class="material-icons left">send</i> Send
+                          <% end %>
+                          <!--		<a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat btn-send"> <i class="material-icons left">send</i> Send</a>-->
+                        </div>
+                      <% end %>
+                    </div>
+
                   <% end %>
                   </tbody>
                 </table>
@@ -150,6 +177,8 @@
     </div>
 
   </div>
+
+
 
   <div id="modal-invoice" class="modal">
     <%= form_with url: send_invoice_mail_order_path(@order), method: :get, local: true do |f| %>

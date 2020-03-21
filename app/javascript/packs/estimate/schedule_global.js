@@ -80,7 +80,9 @@ document.addEventListener('DOMContentLoaded', function() {
 			// change the border color just for fun
 			info.el.style.borderColor = 'red';
 
-			window.location = "/schedules/redirect_schedule?origin="+info.event.extendedProps.origin+"&origin_id="+info.event.extendedProps.origin_id;
+			//window.location = "/schedules/redirect_schedule?origin="+info.event.extendedProps.origin+"&origin_id="+info.event.extendedProps.origin_id;
+			$.get( "/workers/load_notes.js?schedule="+info.event.extendedProps.schedule_id, function( data ) {
+			});
 		}
 
 	});

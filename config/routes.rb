@@ -29,6 +29,7 @@ Rails.application.routes.draw do
   resources :transactions do
     member do
       get "send_square"
+      get "send_square_again"
     end
   end
   resources :transaction_accounts
@@ -49,6 +50,10 @@ Rails.application.routes.draw do
   resources :schedules do
     collection do
       get "redirect_schedule"
+      get "new_note"
+      post "new_document"
+      get "load_notes"
+      get "delete_schedule"
     end
   end
 
@@ -153,6 +158,9 @@ Rails.application.routes.draw do
       post "new_document"
       get "new_contact"
       get "update_contact"
+    end
+    collection do
+      get "load_notes"
     end
   end
 

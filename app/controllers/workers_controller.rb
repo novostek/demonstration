@@ -14,6 +14,12 @@ class WorkersController < ApplicationController
     end
   end
 
+  def load_notes
+    $schedule = Schedule.find(params[:schedule])
+    @notes = Note.where(origin: "Schedule", origin_id: params[:schedule], private: true)
+    @documents = DocumentFile.where(origin: "Schedule", origin_id: params[:schedule])
+  end
+
   # GET /workers/new
   def new
     @worker = Worker.new

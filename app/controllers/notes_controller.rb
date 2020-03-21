@@ -44,7 +44,11 @@ class NotesController < ApplicationController
   def destroy
     @note.destroy
     if @note.origin != "ProductPurchase" and @note.origin != "LaborCost"
-      redirect_to "/#{@note.origin.pluralize.downcase}/#{@note.origin_id}", notice: 'Note was successful destroyed.'
+      if @note.origin == "Schedule" and @note.private
+        redirect_to "/", notice: 'Note was successful destroyed.'
+      else
+        redirect_to "/#{@note.origin.pluralize.downcase}/#{@note.origin_id}", notice: 'Note was successful destroyed.'
+      end
     else
       if @note.origin == "ProductPurchase"
         p = ProductPurchase.find(@note.origin_id).order.id

@@ -23,6 +23,8 @@ class UsersController < ApplicationController
 
   def home
     if current_user.profiles.where(name: "Worker").present? and current_user.worker.present?
+      @notes = []
+      @documents = []
       render "workers/dashboard"
     end
   end

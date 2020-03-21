@@ -46,25 +46,27 @@ class Transaction < ApplicationRecord
   enumerize :status, in: [:paid, :pendent],predicates: true, default: :pendent
 
   #validates :category, :effective, :value, presence: true
-  
+
   after_create :send_square
-  
-  
+
+
   def send_square
-    if self.square_credit?
-      checkout_status, checkout_data = SquareApi.create_checkout(self.order, self)
-      puts "status square #{checkout_status}"
-      #binding.pry
-      if checkout_status
-        DocumentMailer.with(link: checkout_data[:checkout][:checkout_page_url] , emails: self.email, order: self.order).send_square.deliver_later
-      else
-        #redirect_to process_payment_customers_path
+    if self.due == Date.today
+      if self.square_credit?
+        checkout_status, checkout_data = SquareApi.create_checkout(self.order, self)
+        puts "status square #{checkout_status}"
+        #binding.pry
+        if checkout_status
+          DocumentMailer.with(link: checkout_data[:checkout][:checkout_page_url] , emails: self.email, order: self.order).send_square.deliver_later
+        else
+          #redirect_to process_payment_customers_path
+        end
       end
     end
   end
 
   def send_square_from_invoice
-      checkout_status, checkout_data = SquareApi.create_checkout(self.order, self)
+    checkout_status, checkout_data = SquareApi.create_checkout(self.order, self)
   end
 
 end

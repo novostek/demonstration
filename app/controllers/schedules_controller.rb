@@ -18,4 +18,52 @@ class SchedulesController < ApplicationController
 
   end
 
+  def load_notes
+    $schedule = Schedule.find(params[:schedule])
+    @notes = Note.where(origin: "Schedule", origin_id: params[:schedule], private: nil)
+    @documents = DocumentFile.where(origin: "Schedule", origin_id: params[:schedule])
+    render "workers/load_notes.js"
+  end
+
+
+  #Método que insere uma nota
+  def new_note
+    #binding.pry
+    note = Note.new
+    note.title = params[:title]
+    note.text = params[:text]
+    note.origin = "Schedule"
+    note.origin_id = $schedule.id
+    if note.save
+      redirect_to params[:redirect], notice: "#{t 'note_create'}"
+    else
+      redirect_to params[:redirect], alert: "#{note.errors.full_messages.to_sentence}"
+    end
+  end
+
+  #método que insere um novo documento
+  def new_document
+    doc = DocumentFile.new
+    doc.title = params[:title]
+    doc.file = params[:file]
+    doc.description = params[:description]
+    doc.origin = "Schedule"
+    doc.origin_id = $schedule.id
+    if doc.save
+      redirect_to params[:redirect], notice: "#{t 'doc_create'}"
+    else
+      redirect_to params[:redirect], alert: "#{doc.errors.full_messages.to_sentence}"
+    end
+  end
+
+  def delete_schedule
+    schedule = Schedule.find(params[:schedule])
+    if schedule.destroy
+      redirect_to params[:redirect], notice: "Schedule deleted"
+    else
+      redirect_to params[:redirect], alert: "#{schedule.errors.full_messages.to_sentence}"
+    end
+
+  end
+
 end

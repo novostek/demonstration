@@ -22,6 +22,10 @@
               <i class="material-icons chip-icon">open_with</i>
               Estimate Title
             </div>
+            <div class="chip drag-text" draggable="true" data-value="{{estimate.location}}">
+              <i class="material-icons chip-icon">open_with</i>
+              Estimate Location
+            </div>
             <div class="chip drag-text" draggable="true" data-value="{{estimate.total}}">
               <i class="material-icons chip-icon">open_with</i>
               Estimate Total
@@ -181,7 +185,7 @@
     </div>
   </div>
 </div>
-<button id="save_data" class="btn"><%= t "button.save" %></button>
+<button id="save_data" class="btn right"><%= t "button.save" %></button>
 
 <div id="modal_custom" class="modal modal-fixed-footer">
   <%= form_with url: add_custom_document_path(@document),method: :get do |f| %>

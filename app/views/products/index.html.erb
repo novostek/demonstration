@@ -45,7 +45,7 @@
       <thead>
         <tr>
           <th><%= t('activerecord.attributes.product.name') %></th>
-          <th><%= t('activerecord.attributes.product.uuid') %></th>
+<!--          <th><%#= t('activerecord.attributes.product.uuid') %></th>-->
           <th><%= t('activerecord.attributes.product.product_category') %></th>
           <th><%= t('activerecord.attributes.product.customer_price') %></th>
           <th><%= t('activerecord.attributes.product.cost_price') %></th>
@@ -59,7 +59,7 @@
         <% @products.each do |product| %>
         <tr>
             <td><%= product.name %></td>
-            <td><%= product.uuid %></td>
+<!--            <td><%#= product.uuid %></td>-->
             <td><%= product.product_category %></td>
             <td><%= product.customer_price %></td>
             <td><%= product.cost_price %></td>

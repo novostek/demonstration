@@ -34,6 +34,7 @@ class SchedulesController < ApplicationController
     note.text = params[:text]
     note.origin = "Schedule"
     note.origin_id = $schedule.id
+    note.private = params[:private] || nil
     if note.save
       redirect_to params[:redirect], notice: "#{t 'note_create'}"
     else

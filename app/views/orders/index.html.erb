@@ -125,7 +125,7 @@
 
                           <td><%= order.get_current_estimate.location %></td>
                           <td><%= order.get_current_estimate.category %></td>
-                          <td>$ <%= order.purchase.product_purchases.sum(:value).to_f %></td>
+                          <td>$ <%= order.product_purchases.sum(:value).to_f %></td>
                           <td><span class="chip lighten-5 green green-text">new</span></td>
 
                           <td>

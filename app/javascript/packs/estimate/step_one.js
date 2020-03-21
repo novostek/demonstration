@@ -1,5 +1,8 @@
 import $ from 'jquery';
 
+let instances = ''
+let instanceModal = ''
+
 function initializeAutocomplete(id) {
   var element = document.getElementById(id);
   if (element) {
@@ -30,6 +33,55 @@ function onPlaceChanged() {
     }
   }
 }
+document.addEventListener('DOMContentLoaded', function () {
+  var elems = document.getElementById('estimate_sales_person_id');
+  var elemsModal = document.getElementById('worker-add-modal');
+  var instances = M.FormSelect.init(elems, {});
+
+  instances.el.opt
+
+  console.log(instances)
+
+  instanceModal = M.Modal.init(elemsModal, {})
+});
+
+// document.getElementById("estimate_sales_person_id").addEventListener('contentChanged', () => $(this).formSelect())
+
+document.getElementById('new_worker').addEventListener('submit', () => {
+
+  const headers = new Headers({
+    "Content-Type": "application/json",
+    "Accept": "application/json"
+  })
+  const fetchConfig = {
+    headers
+  }
+
+  const worker_name = document.getElementById('worker_name').value
+
+  setTimeout(() => {
+    fetch(`/workers?q%5Bname_eq%5D=${worker_name}`, fetchConfig)
+      .then((data) => data.json())
+      .then((res) => {
+        console.log(res)
+        // const newOption = $('<option>').attr('value', res[0].id).text(res[0].name)
+        const newOption = document.createElement('option')
+        newOption.text = res[0].name
+        newOption.value = res[0].id
+
+        const workers = document.getElementById('estimate_sales_person_id')
+        workers.appendChild(newOption)
+
+        M.FormSelect.init(workers)
+
+        // $("#estimate_sales_person_id").append(newOption)
+
+        // $("#estimate_sales_person_id").trigger('contentChanged')
+
+        instanceModal.close()
+      })
+  }, 300)
+})
 
 $(document).ready(function () {
   initializeAutocomplete('estimate_location');

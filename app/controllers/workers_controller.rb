@@ -76,7 +76,9 @@ class WorkersController < ApplicationController
     @worker = Worker.new(worker_params)
 
     if @worker.save
-      redirect_to @worker, notice: 'Worker foi criado com sucesso'
+      if params[:button] != "remote_save"
+        redirect_to @worker, notice: 'Worker foi criado com sucesso'
+      end
     else
       render :new
     end

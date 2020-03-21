@@ -41,3 +41,5 @@ en:
       worker_category:
         - employee
         - contractor
+  buttons:
+    save: "Save"

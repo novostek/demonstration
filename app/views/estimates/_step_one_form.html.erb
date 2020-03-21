@@ -29,6 +29,11 @@
       </div>
     </div>
 
+    <div class="col s12 m2 l2 display-flex pt-2 justify-content-start">
+      <!-- Mo dal Trigger -->
+      <a class="btn btn-floating waves-effect indigo waves-light left modal-trigger tooltipped" data-position="left" data-tooltip="New worker" href="#worker-add-modal"><i class="material-icons">person_add</i></a>
+    </div>
+
     <div class="col s12 m4">
       <div class="input-field">
         <%= f.select :tax_calculation, @taxes, {prompt: true}, :selected => @estimate.tax_calculation  %>

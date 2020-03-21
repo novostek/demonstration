@@ -1,0 +1,60 @@
+<%= form_for(worker, authenticity_token: true) do |f| %>
+  <div id="worker-add-modal" class="modal modal-fixed-footer">
+		<div class="modal-content">
+			<h4>New worker</h4>
+      <% if worker.errors.any? %>
+        <div id="error_explanation" class="card-panel red white-text">
+          <h5><%= t('errors.template.header')  %>:</h5>
+
+          <ul>
+          <% worker.errors.full_messages.each do |message| %>
+            <li><%= message %></li>
+          <% end %>
+          </ul>
+        </div>
+      <% end %>
+      <div class="row">
+        <div class="input-field col s12">
+          <%= f.label :name, id: 'worker_name_label' %>
+          <%= f.text_field :name, required: true %>
+        </div>
+      </div>
+
+      <div class="file-field input-field">
+        <div class="btn">
+          <span><%= f.label  :photo %></span>
+          <%= f.file_field :photo %>
+          <%= f.hidden_field :photo_cache %>
+        </div>
+        <div class="file-path-wrapper">
+          <input class="file-path validate" type="text">
+        </div>
+      </div>
+      
+      <div class="row">
+        <div class="col s6">
+          <div class="input-field">
+            <%= f.select :categories, Worker.categories.options, {prompt: true} %>
+            <%= f.label :categories %>
+          </div>
+        </div>
+        <div class="input-field col s6">
+          <%= f.label :document_id %>
+          <%= f.text_field :document_id %>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="input-field col s6">
+          <%= f.label :time_value %>
+          <%= f.number_field :time_value %>
+        </div>
+      </div>
+    </div>
+  <div class="modal-footer">
+    <%= f.button :submit, :value => "remote_save", class:"modal-action modal-close waves-effect waves-green btn-flat" do %>
+      <i class="material-icons left">save</i><%= t('buttons.save') %>
+    <% end %>
+  </div>
+</div>
+<% end %>

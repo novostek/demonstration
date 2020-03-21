@@ -1,75 +1,76 @@
 <div class="row">
-			<div class="content-wrapper-before gradient-45deg-indigo-purple"></div>
-			<div class="breadcrumbs-dark pb-0 pt-4" id="breadcrumbs-wrapper">
-				<!-- Search for small screen-->
-				<div class="container">
-					<div class="row">
-						<div class="col s10 m6 l6">
-							<h5 class="breadcrumbs-title mt-0 mb-0">Estimate Measurements</h5>
-							<ol class="breadcrumbs mb-0">
-								<li class="breadcrumb-item"><a href="index.html">Home</a>
-								</li>
-								<li class="breadcrumb-item"><a href="#">Estimates</a>
-								</li>
-								<li class="breadcrumb-item"><a href="#">New</a>
-								</li>
-								<li class="breadcrumb-item active">Measurements
-								</li>
-							</ol>
-						</div>
-						<!-- <div class="col s2 m6 l6"><a class="btn waves-effect waves-light breadcrumbs-btn right" href="lead-add.html"><i class="material-icons hide-on-med-and-up">add</i><span class="hide-on-small-only">New Estimate</span></a> -->
-					</div>
+	<div class="content-wrapper-before gradient-45deg-indigo-purple"></div>
+	<div class="breadcrumbs-dark pb-0 pt-4" id="breadcrumbs-wrapper">
+		<!-- Search for small screen-->
+		<div class="container">
+			<div class="row">
+				<div class="col s10 m6 l6">
+					<h5 class="breadcrumbs-title mt-0 mb-0">Estimate Measurements</h5>
+					<ol class="breadcrumbs mb-0">
+						<li class="breadcrumb-item"><a href="index.html">Home</a>
+						</li>
+						<li class="breadcrumb-item"><a href="#">Estimates</a>
+						</li>
+						<li class="breadcrumb-item"><a href="#">New</a>
+						</li>
+						<li class="breadcrumb-item active">Measurements
+						</li>
+					</ol>
 				</div>
+				<!-- <div class="col s2 m6 l6"><a class="btn waves-effect waves-light breadcrumbs-btn right" href="lead-add.html"><i class="material-icons hide-on-med-and-up">add</i><span class="hide-on-small-only">New Estimate</span></a> -->
 			</div>
 		</div>
-		<div class="row">
-			<div class="col s12">
-				<div class="container">
-					<%= render 'estimates/estimate_detail' %>
-						<div class="card">
-							<div class="card-content">
-								<ul class="stepper horizontal stepper-head-only">
-									<li class="step">
-										<div class="step-title waves-effect">Step 1</div>
-									</li>
-									<li class="step ">
-										<div class="step-title waves-effect">Schedule</div>
-									</li>
-									<li class="step active">
-										<div class="step-title waves-effect">Measurements</div>
-									</li>
-									<li class="step">
-										<div class="step-title waves-effect">Products</div>
-									</li>
-								</ul>
-									<%= form_for @estimate, local: true, url: estimate_path, method: :patch do |form| %>
-										<div class="row pl-1 pr-1 measurement_areas">
-												<%= form.fields_for :measurement_areas do |measurement_area_form| %>
-													<%= render 'measurement_area_fields', f: measurement_area_form %>
-												<% end %>
-										</div>
-										<div class="row mt-1">
-											<%= link_to_add_association form, :measurement_areas, class: 'btn btn-add-area' do %>
-												<i class="material-icons left">add</i> Add area
-											<% end %>
-										</div>
-									
-							</div>
-						</div>
-						<div class="col s12 pb-2 pr-0 pl-0">
-							<%= link_to schedule_estimate_path(@estimate.id), target: '_self',
-								class:"btn grey lighten-5 grey-text waves-effect waves-light breadcrumbs-btn left save" do %>
-								Back <i class="material-icons left">arrow_back</i>
-							<% end %>
-							<%= form.button :submit, class:"btn indigo waves-effect waves-light breadcrumbs-btn right ml-1" do %>
-								Next: Products
-								<i class="material-icons right">arrow_forward</i>
+	</div>
+</div>
+			<%= render 'estimates/estimate_detail' %>
+			<%= form_for @estimate, local: true, url: estimate_path, method: :patch do |form| %>
+				<div class="card">
+					<div class="card-content">
+						<ul class="stepper horizontal stepper-head-only">
+							<li class="step">
+								<%= link_to step_one_estimates_path(@estimate.lead) do %>
+									<div class="step-title waves-effect">Step 1</div>
+								<% end %>
+							</li>
+							<li class="step ">
+								<%= link_to schedule_estimate_path(@estimate) do %>
+									<div class="step-title waves-effect">Schedule</div>
+								<% end %>
+							</li>
+							<li class="step active">
+								<%= link_to measurement_view_estimates_path(@estimate) do %>
+									<div class="step-title waves-effect">Measurements</div>
+								<% end %>
+							</li>
+							<li class="step">
+								<%= link_to products_estimate_path(@estimate) do %>
+									<div class="step-title waves-effect">Products</div>
+								<% end %>
+							</li>
+						</ul>
+						<div class="m-area-list row pl-1 pr-1 measurement_areas">
+							<%= form.fields_for :measurement_areas do |measurement_area_form| %>
+								<%= render 'measurement_area_fields', f: measurement_area_form %>
 							<% end %>
 						</div>
-						<% end %>
+						<div class="row mt-1">
+							<%= link_to_add_association form, :measurement_areas, class: 'btn btn-add-area' do %>
+								<i class="material-icons left">add</i> Add area
+							<% end %>
+						</div>								
+					</div>
 				</div>
+				<div class="col s12 pb-2 pr-0 pl-0">
+					<%= link_to schedule_estimate_path(@estimate.id), target: '_self',
+						class:"btn grey lighten-5 grey-text waves-effect waves-light breadcrumbs-btn left save" do %>
+						Back <i class="material-icons left">arrow_back</i>
+					<% end %>
+					<%= form.button :submit, class:"btn indigo waves-effect waves-light breadcrumbs-btn right ml-1" do %>
+						Next: Products
+						<i class="material-icons right">arrow_forward</i>
+					<% end %>
 				</div>
-		</div>
+			<% end %>
 
 <%= content_for :scripts do %>
 	<script>

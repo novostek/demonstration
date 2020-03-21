@@ -380,16 +380,24 @@ const ProductComponent = () => {
             <div className="card-content">
               <ul className="stepper horizontal stepper-head-only">
                 <li className="step">
-                  <div className="step-title waves-effect">Step 1</div>
+                  <a href={`/estimates/step_one/${estimate.id}`}>
+                    <div className="step-title waves-effect">Step 1</div>
+                  </a>
                 </li>
                 <li className="step ">
-                  <div className="step-title waves-effect">Schedule</div>
+                  <a href={`/estimates/${estimate.id}/schedule`}>
+                    <div className="step-title waves-effect">Schedule</div>
+                  </a>
                 </li>
                 <li className="step">
-                  <div className="step-title waves-effect">Measurements</div>
+                  <a href={`/estimates/${estimate.id}/measurements`}>
+                    <div className="step-title waves-effect">Measurements</div>
+                  </a>
                 </li>
                 <li className="step active">
-                  <div className="step-title waves-effect">Products</div>
+                  <a href={`/estimates/${estimate.id}/products`}>
+                    <div className="step-title waves-effect">Products</div>
+                  </a>
                 </li>
               </ul>
               <form onSubmit={handleSubmit(onSubmit)}>

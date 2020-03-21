@@ -31,16 +31,24 @@
       <div class="card-content">
         <ul class="stepper horizontal stepper-head-only">
           <li class="step">
-            <div class="step-title waves-effect">Step 1</div>
+            <%= link_to step_one_estimates_path(@estimate.lead) do %>
+              <div class="step-title waves-effect">Step 1</div>
+            <% end %>
           </li>
           <li class="step active">
-            <div class="step-title waves-effect">Schedule</div>
+            <%= link_to schedule_estimate_path(@estimate) do %>
+              <div class="step-title waves-effect">Schedule</div>
+            <% end %>
           </li>
           <li class="step">
-            <div class="step-title waves-effect">Measurements</div>
+            <%= link_to measurement_view_estimates_path(@estimate) do %>
+              <div class="step-title waves-effect">Measurements</div>
+            <% end %>
           </li>
           <li class="step">
-            <div class="step-title waves-effect">Products</div>
+            <%= link_to products_estimate_path(@estimate) do %>
+              <div class="step-title waves-effect">Products</div>
+            <% end %>
           </li>
         </ul>
         <div class="row">
@@ -53,7 +61,8 @@
                     <% if worker.photo.present? %>
                       <img src="<%= worker.photo %>" class="circle responsive-img" style="width: 30px;" />
                     <% end %>
-                  <%= worker.name %></div>
+                    <%= worker.name %>
+                  </div>
                 <% end %>
                 <p>
                   <label>

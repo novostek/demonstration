@@ -35,17 +35,29 @@
           <% end %>
         </li>
         <li class="step ">
-          <%= link_to schedule_estimate_path(@estimate) do %>
+          <% if @estimate.schedules.present? %>
+            <%= link_to schedule_estimate_path(@estimate) do %>
+              <div class="step-title waves-effect">Schedule</div>
+            <% end %>
+          <% else %>
             <div class="step-title waves-effect">Schedule</div>
           <% end %>
         </li>
         <li class="step">
-          <%= link_to measurement_view_estimates_path(@estimate) do %>
-            <div class="step-title waves-effect">Measurements</div>
+          <% if @estimate.measurements.present? %>
+            <%= link_to measurement_view_estimates_path(@estimate) do %>
+              <div class="step-title waves-effect">Measurements</div>
+            <% end %>
+          <% else %>
+              <div class="step-title waves-effect">Measurements</div>
           <% end %>
         </li>
         <li class="step">
-          <%= link_to products_estimate_path(@estimate) do %>
+          <% if @estimate.product_estimates.present? %>
+            <%= link_to products_estimate_path(@estimate) do %>
+              <div class="step-title waves-effect">Products</div>
+            <% end %>
+          <% else %>
             <div class="step-title waves-effect">Products</div>
           <% end %>
         </li>

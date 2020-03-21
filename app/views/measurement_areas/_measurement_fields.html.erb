@@ -1,15 +1,19 @@
 
   <div class="m-area--measures nested-fields">
-    <div class="input-field col s12 m4 l2">
-      <%= m.text_field :length, class: "validade" %>
+    <div class="input-field col s12 m3 l2">
+      <%= m.text_field :length, onkeyup: "calc_square_feet(event)",  class: "validade" %>
       <%= m.label  :length %>
     </div>
-    <div class="input-field col s12 m4 l2">
-      <%= m.text_field :width, class: "validade" %>
+    <div class="input-field col s12 m3 l2">
+      <%= m.text_field :width, onkeyup: "calc_square_feet(event)",  class: "validade" %>
       <%= m.label  :width %>
     </div>
-    <div class="input-field col s12 m4 l2">
-      <%= m.text_field :height, class: "validade" %>
+    <div class="input-field col s12 m3 l2">
+      <%= m.text_field :height, onkeyup: "calc_square_feet(event)",  class: "validade" %>
       <%= m.label  :height %>
+    </div>
+    <div class="input-field col s12 m3 l2">
+      <%= m.text_field :square_feet, class: "validade" %>
+      <%= m.label  :square_feet, class: "active" %>
     </div>
   </div>

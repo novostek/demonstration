@@ -63,6 +63,10 @@ class Estimate < ApplicationRecord
 
   has_many :schedules, -> { where origin: :Estimate }, primary_key: :id, foreign_key: :origin_id
 
+  extend Enumerize
+
+  enumerize :taxpayer, in: [:customer, :company], predicates: true
+
   def reject_measurement_areas attributes
     attributes['name'].blank? && attributes['description'].blank?
   end
@@ -91,5 +95,13 @@ class Estimate < ApplicationRecord
     else
       self.code = "#{Time.now.strftime('%Y')}000000".to_i + 1
     end
+  end
+
+  def calculate_tax_values_for_customer
+    calculator = Dentaku::Calculator.new
+    sub_total = self.product_estimates.sum(:value)
+    self.price = calculator.evaluate(self.calculation_formula.formula, total: sub_total)
+    self.tax = self.price - sub_total
+    self.save
   end
 end

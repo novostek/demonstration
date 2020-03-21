@@ -127,8 +127,9 @@ class EstimatesController < ApplicationController
     estimate.lead_id = params[:lead_id]
     estimate.status = 'new'
     estimate.total = 0.0
-    estimate.category = 'test'
+    estimate.category = ''
     estimate.tax_calculation_id = params[:estimate][:tax_calculation].to_i
+    estimate.taxpayer = params[:estimate][:taxpayer]
 
     if estimate.save()
       redirect_to schedule_estimate_path(estimate.id)
@@ -202,6 +203,11 @@ class EstimatesController < ApplicationController
           p_estimate.save()
         end
       end
+      if @estimate.taxpayer == 'customer'
+        @estimate.calculate_tax_values_for_customer
+      elsif @estimate.taxpayer == 'company'
+        1+1
+      end
     rescue StandardError => e
       render json: {status: :internal_server_error, message: e.backtrace.inspect  }
     else
@@ -244,7 +250,7 @@ class EstimatesController < ApplicationController
     params.require(:estimate).permit(
         :code, :title, :worker_id, :status, :description, :location,
         :latitude, :longitude, :category, :order_id, :price, :tax,
-        :tax_calculation, :lead_id, :bpmn_instance, :current, :total,
+        :tax_calculation, :lead_id, :bpmn_instance, :current, :total, :taxpayer,
         measurement_areas_attributes: [
             :id, :estimate_id, :name, :description, :_destroy,
             measurements_attributes: [

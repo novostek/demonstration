@@ -48,6 +48,7 @@ class MeasurementAreasController < ApplicationController
 
   def measurements
     @estimate = Estimate.find(params[:id])
+    @hidden_fields = Setting.get_value('hidden_measurement_fields')
     render :measurements_areas
   end
 

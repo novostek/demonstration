@@ -70,3 +70,19 @@
 				</div>
 				</div>
 		</div>
+
+<%= content_for :scripts do %>
+	<script>
+			function calc_square_feet(e) {
+				const { id, value } = e.target
+				const r = /\d+/
+
+				const length = parseFloat(document.getElementById(`estimate_measurement_areas_attributes_${id.match(r)}_measurements_attributes_0_length`).value)
+				const width = parseFloat(document.getElementById(`estimate_measurement_areas_attributes_${id.match(r)}_measurements_attributes_0_width`).value)
+				const square_feet = document.getElementById(`estimate_measurement_areas_attributes_${id.match(r)}_measurements_attributes_0_square_feet`)
+				square_feet.nextElementSibling.classList.add('active')
+
+				square_feet.value = parseFloat(length * width)
+			}
+	</script>
+<% end %>

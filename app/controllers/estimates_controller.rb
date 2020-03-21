@@ -109,6 +109,7 @@ class EstimatesController < ApplicationController
 
   def step_one
     @estimate = Estimate.find_or_initialize_by(lead_id: params[:lead_id])
+    @worker = Worker.new
 
     @lead = Lead.find(params[:lead_id])
     render :step_1
@@ -137,7 +138,7 @@ class EstimatesController < ApplicationController
   def schedule
     @estimate = Estimate.find(params[:id])
     @workers = Worker.all
-    @schedules = @estimate.schedules
+    @schedules = Schedule.all
     render :schedule
   end
 
@@ -247,7 +248,7 @@ class EstimatesController < ApplicationController
         measurement_areas_attributes: [
             :id, :estimate_id, :name, :description, :_destroy,
             measurements_attributes: [
-                :id, :length, :width, :height, :_destroy
+                :id, :length, :width, :height, :square_feet, :_destroy
             ]
         ])
   end

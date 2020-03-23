@@ -165,7 +165,7 @@
       <div class="slide-out-right-body row pl-3 pr-3">
         <% @worker.notes.each do |note| %>
           <div class="note">
-            <%= link_to note, method: :delete, class:"btn-delete-note" do %>
+            <%= link_to note_path(note, redirect: "#{worker_path(@worker)}"), method: :delete, class:"btn-delete-note" do %>
               <i class="material-icons">delete</i>
             <% end %>
             <h6 class="note-title"><%= note.title %></h6>
@@ -190,7 +190,7 @@
   </aside>
 <% end %>
 
-<%= render "layouts/add_button" %>
+<%= render "layouts/add_button", contact: true %>
 
 <div id="modal_note" class="modal modal-fixed-footer">
   <%= form_with url: new_note_worker_path(@worker),method: :get, local: true do |f| %>
@@ -200,8 +200,9 @@
 
     </div>
     <div class="modal-footer">
-      <%= f.submit t "button.save", class:"modal-action modal-close waves-effect waves-green btn-flat" %>
-      <!--<a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat ">Agree</a>-->
+      <%= f.button :submit, class:"modal-action modal-close waves-effect waves-green btn-flat" do %>
+        <i class="material-icons left">save</i><%= t "button.save" %>
+      <% end %>
     </div>
   <% end  %>
 </div>
@@ -214,8 +215,9 @@
 
     </div>
     <div class="modal-footer">
-      <%= f.submit t "button.save", class:"modal-action modal-close waves-effect waves-green btn" %>
-      <!--<a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat ">Agree</a>-->
+      <%= f.button :submit, class:"modal-action modal-close waves-effect waves-green btn-flat" do %>
+        <i class="material-icons left">save</i><%= t "button.save" %>
+      <% end %>
     </div>
   <% end  %>
 </div>
@@ -228,8 +230,9 @@
 
     </div>
     <div class="modal-footer">
-      <%= f.submit t "button.save", class:"modal-action modal-close waves-effect waves-green btn" %>
-      <!--<a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat ">Agree</a>-->
+      <%= f.button :submit, class:"modal-action modal-close waves-effect waves-green btn-flat" do %>
+        <i class="material-icons left">save</i><%= t "button.save" %>
+      <% end %>
     </div>
   <% end  %>
 </div>

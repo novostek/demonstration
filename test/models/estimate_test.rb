@@ -15,6 +15,7 @@
 #  price              :decimal(, )
 #  status             :string           not null
 #  tax                :decimal(, )
+#  taxpayer           :string
 #  title              :string           not null
 #  total              :decimal(, )      not null
 #  created_at         :datetime         not null
@@ -30,6 +31,7 @@
 #  index_estimates_on_order_id            (order_id)
 #  index_estimates_on_sales_person_id     (sales_person_id)
 #  index_estimates_on_tax_calculation_id  (tax_calculation_id)
+#  index_estimates_on_taxpayer            (taxpayer)
 #
 # Foreign Keys
 #

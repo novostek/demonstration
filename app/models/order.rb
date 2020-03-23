@@ -49,6 +49,11 @@ class Order < ApplicationRecord
   end
 
   def set_code
-    self.code = "#{Time.now.strftime('%Y')}000000".to_i + 1
+    order = Order.last
+    if order.present?
+      self.code = order[:code].to_i + 1
+    else
+      self.code = "#{Time.now.strftime('%Y')}000000".to_i + 1
+    end
   end
 end

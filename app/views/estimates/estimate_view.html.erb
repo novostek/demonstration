@@ -1,3 +1,4 @@
+<link href="/css/view-page.css" rel="stylesheet" type="text/css">
 <div class="row">
   <div class="content-wrapper-before gradient-45deg-indigo-purple"></div>
   <div class="breadcrumbs-dark pb-0 pt-4" id="breadcrumbs-wrapper">
@@ -18,9 +19,17 @@
         <div class="col s2 m6 l6">
           <% if @estimate.order %>
             <%= link_to schedule_order_path(@estimate.order), class: "btn waves-effect waves-light breadcrumbs-btn right border-round" do %>
-              <i class="material-icons hide-on-med-and-up">attach_money</i><span class="hide-on-small-only">Order</span>
+              <i class="material-icons hide-on-med-and-up">attach_money</i><span class="hide-on-small-only"><%= t('activerecord.models.order') %></span>
+            <% end %>
+          <% else %>
+            <%= link_to create_order_estimate_path(@estimate), class: "btn waves-effect waves-light breadcrumbs-btn right border-round" do %>
+              <i class="material-icons hide-on-med-and-up">attach_money</i><span class="hide-on-small-only"><%= t('create_order') %></span>
+            <% end %>
+            <%= link_to estimate_signature_estimate_path(@estimate), class: "btn waves-effect waves-light breadcrumbs-btn right border-round" do %>
+              <i class="material-icons hide-on-med-and-up">attach_money</i><span class="hide-on-small-only"><%= t('sign') %></span>
             <% end %>
           <% end %>
+
           <a class="btn waves-effect waves-light modal-trigger breadcrumbs-btn right mr-2 indigo border-round btn-send-email" href="#modal-mail"><i class="material-icons hide-on-med-and-up ">send</i><span class="hide-on-small-only">Send email</span></a>
           <a class="btn waves-effect waves-light modal-trigger breadcrumbs-btn right mr-2 indigo border-round btn-send-email" href="#modal-mail_document"><i class="material-icons hide-on-med-and-up ">send</i><span class="hide-on-small-only">Documents</span></a>
           <%= link_to step_one_estimates_path(@estimate.lead.id),  class: "btn waves-effect waves-light breadcrumbs-btn right mr-2 pink lighten-4 pink-text border-round" do %>
@@ -193,13 +202,13 @@
     </div>
     <div class="col s12 card-width">
       <div class="card row black-text padding-4 mt-3">
-        <a href="#">
+        <a href="#" class="sidenav-trigger" data-target="slide-out-right">
           <div class="col s5 m5">
             <i class="material-icons background-round mt-5 mb-5 green-text">description</i>
             <!-- <p>Orders</p> -->
           </div>
           <div class="col s7 m7 right-align">
-            <h5 class="mb-0 black-text">6</h5>
+            <h5 class="mb-0 black-text"><%= @estimate.document_files.count %></h5>
             <p class="no-margin black-text">Documents</p>
             <!-- <p>6,00,00</p> -->
           </div>
@@ -209,26 +218,26 @@
 
     <div class="col s12 l6 card-width pl-2">
       <div class="card mt-4">
-        <a href="#">
+        <a href="#" class="sidenav-trigger" data-target="slide-out-right">
           <div class="card-content center-align">
             <i class="material-icons amber-text small-ico-bg mb-5">note</i>
-            <h4 class="m-0"><b>3</b></h4>
+            <h4 class="m-0"><b><%= @estimate.notes.count %></b></h4>
             <p class="black-text">Notes</p>
           </div>
         </a>
       </div>
     </div>
-    <div class="col s12 l6 card-width pr-2">
-      <div class="card mt-4">
-        <a href="#">
-          <div class="card-content pr-2 pl-2 center-align">
-            <i class="material-icons blue-text small-ico-bg mb-5">settings</i>
-            <h4 class="m-0"><b>2</b></h4>
-            <p class="black-text">Processes</p>
-          </div>
-        </a>
-      </div>
-    </div>
+<!--    <div class="col s12 l6 card-width pr-2">-->
+<!--      <div class="card mt-4">-->
+<!--        <a href="#">-->
+<!--          <div class="card-content pr-2 pl-2 center-align">-->
+<!--            <i class="material-icons blue-text small-ico-bg mb-5">settings</i>-->
+<!--            <h4 class="m-0"><b>2</b></h4>-->
+<!--            <p class="black-text">Processes</p>-->
+<!--          </div>-->
+<!--        </a>-->
+<!--      </div>-->
+<!--    </div>-->
   </div>
 </div>
 
@@ -292,6 +301,79 @@
       <!--		<a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat btn-send"> <i class="material-icons left">send</i> Send</a>-->
     </div>
   <% end %>
+</div>
+
+<%= content_for :sidenav do %>
+  <aside id="right-sidebar-nav">
+    <div id="slide-out-right" class="slide-out-right-sidenav sidenav rightside-navigation">
+      <div class="row">
+        <div class="slide-out-right-title">
+          <div class="col s10 pl-3">
+            <h5>Notes</h5>
+          </div>
+          <div class="col s22">
+            <i class="material-icons "><a href="#" target="_self" class="sidenav-close">clear</a></i>
+          </div>
+        </div>
+      </div>
+      <div class="slide-out-right-body row pl-3 pr-3">
+        <% @estimate.notes.each do |note| %>
+          <div class="note">
+            <%= link_to note_path(note, redirect: "/estimates/#{@estimate.id}/view"), method: :delete, class:"btn-delete-note" do %>
+              <i class="material-icons">delete</i>
+            <% end %>
+            <h6 class="note-title"><%= note.title %></h6>
+            <p class="note-content"><%= note.text %></p>
+          </div>
+        <% end %>
+
+        <!-- Exemple document -->
+        <div class="col s12 pl-3">
+          <h5>Documents</h5>
+        </div>
+        <% @estimate.document_files.each do |doc| %>
+          <%= link_to doc.file.url, target:"_blank" do %>
+            <span class="chip grey lighten-3 green-text truncate"><%= doc.title %></span>
+          <% end if doc.file.present?  %>
+        <% end %>
+
+      </div>
+    </div>
+
+
+  </aside>
+<% end %>
+
+<%= render "layouts/add_button", contact: false %>
+
+<div id="modal_note" class="modal modal-fixed-footer">
+  <%= form_with url: new_note_estimate_path(@estimate),method: :get, local: true do |f| %>
+    <div class="modal-content">
+      <h4><%= t "button.new" %> <%= t "notes" %></h4>
+      <%= render "customers/notes_form", f: f %>
+
+    </div>
+    <div class="modal-footer">
+      <%= f.button :submit, class:"modal-action modal-close waves-effect waves-green btn-flat" do %>
+        <i class="material-icons left">save</i><%= t "button.save" %>
+      <% end %>
+    </div>
+  <% end  %>
+</div>
+
+<div id="modal_doc" class="modal modal-fixed-footer">
+  <%= form_with url: new_document_estimate_path(@estimate), local: true do |f| %>
+    <div class="modal-content">
+      <h4><%= t "button.new" %> <%= t "documents" %></h4>
+      <%= render "customers/document_file_fields", f: f %>
+
+    </div>
+    <div class="modal-footer">
+      <%= f.button :submit, class:"modal-action modal-close waves-effect waves-green btn-flat" do %>
+        <i class="material-icons left">save</i><%= t "button.save" %>
+      <% end %>
+    </div>
+  <% end  %>
 </div>
 
 

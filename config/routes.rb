@@ -84,6 +84,9 @@ Rails.application.routes.draw do
       get "send_mail"
       get "estimate_signature"
       post "create_products_estimates"
+      get "new_note"
+      post "new_document"
+      get "create_order"
     end
     collection do
       get ":id/measurements", to: "measurement_areas#measurements", as: :measurement_view

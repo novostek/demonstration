@@ -1,5 +1,5 @@
 class EstimatesController < ApplicationController
-  before_action :set_estimate, only: [:show, :edit, :update, :destroy,:send_mail,:estimate_signature, :create_products_estimates]
+  before_action :set_estimate, only: [:show, :edit, :update, :destroy,:send_mail,:estimate_signature, :create_products_estimates,:new_note, :new_document,:create_order]
   before_action :set_combos, only: [:step_one]
   # skip_forgery_protection
   # GET /estimates
@@ -12,38 +12,74 @@ class EstimatesController < ApplicationController
   def show
   end
 
+  #Método que insere uma nota
+  def new_note
+    note = Note.new
+    note.title = params[:title]
+    note.text = params[:text]
+    note.origin = "Estimate"
+    note.origin_id = @estimate.id
+    if note.save
+      redirect_to "/estimates/#{@estimate.id}/view", notice: "#{t 'note_create'}"
+    else
+      redirect_to   "/estimates/#{@estimate.id}/view", alert: "#{note.errors.full_messages.to_sentence}"
+    end
+  end
+
+  #método que insere um novo documento
+  def new_document
+    doc = DocumentFile.new
+    doc.title = params[:title]
+    doc.file = params[:file]
+    doc.description = params[:description]
+    doc.origin = "Estimate"
+    doc.origin_id = @estimate.id
+    if doc.save
+      redirect_to "/estimates/#{@estimate.id}/view", notice: "#{t 'doc_create'}"
+    else
+      redirect_to "/estimates/#{@estimate.id}/view", alert: "#{doc.errors.full_messages.to_sentence}"
+    end
+
+  end
+
+  def create_order
+    @estimate.create_order
+    redirect_to schedule_order_path(@estimate.order)
+  end
+
   def estimate_signature
     #verifica se foi assinado para criar a order
     if params[:sign].present?
-      if !@estimate.order.present?
-        order = Order.new
-        if order.save
-          @estimate.update(order_id: order.id, current: true)
-
-          #cria os purchases
-          @estimate.product_estimates.each do |p|
-            #verifica se o produto pertence ao catalogo
-            if p.product.present?
-              #begin
-              product = p.product
-              purchase = Purchase.find_or_create_by(order_id: order.id, supplier_id: product.supplier.id)
-              pp = ProductPurchase.find_or_create_by(product: product, purchase: purchase)
-              pp.unity_value =  product.cost_price
-              pp.quantity =  p.quantity
-              pp.value = pp.unity_value * pp.quantity
-              pp.custom_title = p.custom_title
-              pp.save
-              # rescue
-              #end
-
-            else #custom products
-              purchase = Purchase.find_or_create_by(order_id: order.id, supplier_id: nil)
-              ProductPurchase.create(purchase: purchase, unity_value: p.unitary_value, quantity: p.quantity, value: p.value, custom_title: p.custom_title)
-            end
-
-          end
-        end
-      end
+      # if !@estimate.order.present?
+      #   order = Order.new
+      #   if order.save
+      #     @estimate.update(order_id: order.id, current: true)
+      #
+      #     #cria os purchases
+      #     @estimate.product_estimates.each do |p|
+      #       #verifica se o produto pertence ao catalogo
+      #       if p.product.present?
+      #         #begin
+      #         product = p.product
+      #         purchase = Purchase.find_or_create_by(order_id: order.id, supplier_id: product.supplier.id)
+      #         pp = ProductPurchase.find_or_create_by(product: product, purchase: purchase)
+      #         pp.unity_value =  product.cost_price
+      #         pp.quantity =  p.quantity
+      #         pp.value = pp.unity_value * pp.quantity
+      #         pp.custom_title = p.custom_title
+      #         pp.save
+      #         # rescue
+      #         #end
+      #
+      #       else #custom products
+      #         purchase = Purchase.find_or_create_by(order_id: order.id, supplier_id: nil)
+      #         ProductPurchase.create(purchase: purchase, unity_value: p.unitary_value, quantity: p.quantity, value: p.value, custom_title: p.custom_title)
+      #       end
+      #
+      #     end
+      #   end
+      # end
+      @estimate.create_order
     end
 
     #cria a assinatura para o formulário

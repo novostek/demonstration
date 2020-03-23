@@ -10,3 +10,4 @@ en:
         start_at: "Start At"
         status: "Status"
         invoice: "Invoice"
+  create_order: "Create Order"

@@ -4,6 +4,14 @@ class SchedulesController < ApplicationController
     @schedules = Schedule.all
   end
 
+  def update_hour_cost
+
+    schedule = Schedule.find(params[:schedule])
+    schedule.hour_cost = params[:hour_cost]
+    schedule.save
+    redirect_to params[:redirect], notice: "Hour cost updated"
+  end
+
   def redirect_schedule
     if params[:origin].present? and !params[:origin].blank?
       if params[:origin] == "Estimate"

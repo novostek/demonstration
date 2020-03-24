@@ -93,6 +93,8 @@
 </div>
 
 
+
+
 <div id="modal_note" class="modal modal-fixed-footer">
   <%= form_with url: new_note_schedules_path,method: :get, local: true do |f| %>
     <%= f.hidden_field :redirect, value: "/orders/#{@order.id}/schedule" %>
@@ -144,6 +146,12 @@
 
                     </div>
                     <!--                <a class="grey-text text-darken-2" href="user-profile-page.html"><i class="material-icons">trash</i> Delete schedule<span class="new badge red">2</span></a></li>-->
+                  </li>
+                  <li tabindex="0">
+                    <div class="col s12">
+                      <a href="#modal_hour_cost" class="modal-trigger">Change Hour Cost</a>
+                    </div>
+                  </li>
                 </ul>
               </div>
               <div class="col s6">
@@ -179,6 +187,23 @@
     </div>
   </aside>
 <% end %>
+
+<div id="modal_hour_cost" class="modal modal-fixed-footer">
+  <%= form_with url: update_hour_cost_schedules_path,method: :get, local: true do |f| %>
+    <%= f.hidden_field :redirect, value: "/orders/#{@order.id}/schedule" %>
+    <div class="modal-content">
+      <h4>Update Hour Cost</h4>
+      <div id="hour_cost">
+
+      </div>
+    </div>
+    <div class="modal-footer">
+      <%= f.button :submit, class:"modal-action modal-close waves-effect waves-green btn-flat" do %>
+        <i class="material-icons left">save</i><%= t "button.save" %>
+      <% end %>
+    </div>
+  <% end  %>
+</div>
 
 <%= javascript_tag do %>
   var schedules = <%= raw(@schedules.to_json) %>

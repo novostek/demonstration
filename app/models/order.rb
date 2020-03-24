@@ -30,6 +30,10 @@ class Order < ApplicationRecord
 
   accepts_nested_attributes_for :transactions, reject_if: :all_blank, allow_destroy: true
 
+  extend Enumerize
+
+  enumerize :status, in: [:new, :finished, :cancelled, :awaiting_change_approval, :change_approved], predicates: true
+
   def reject_payment attributes
     attributes['value'].blank?
   end

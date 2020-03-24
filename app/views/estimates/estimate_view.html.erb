@@ -18,7 +18,7 @@
         </div>
         <div class="col s2 m6 l6">
           <% if @estimate.order %>
-            <%= link_to schedule_order_path(@estimate.order), class: "btn waves-effect waves-light breadcrumbs-btn right border-round" do %>
+            <%= link_to order_path(@estimate.order), class: "btn waves-effect waves-light breadcrumbs-btn right border-round" do %>
               <i class="material-icons hide-on-med-and-up">attach_money</i><span class="hide-on-small-only"><%= t('activerecord.models.order') %></span>
             <% end %>
           <% else %>
@@ -49,7 +49,7 @@
           <div class="col s12 m5">
             <span class="left width-100"><span class="font-weight-600 black-text">Created at:</span> <%= @estimate.created_at %></span>
             <span class="left width-100"><span class="font-weight-600 black-text">Location:</span> <%= @estimate.location %></span>
-            <span class="left width-100"><span class="font-weight-600 black-text">Category:</span> <%= @estimate.category %></span>
+            <span class="left width-100"><span class="font-weight-600 black-text">Category:</span> <%= @estimate.category_text %></span>
           </div>
           <div class="col s12 m5">
             <span class="left width-100"><span class="font-weight-600 black-text">Price:</span> $ <%= @estimate.price.to_f %></span>

@@ -9,4 +9,17 @@ en:
         description: "Description"
         tax: "Tax"
         namespace: "Namespace"
+  enumerize:
+    estimate:
+      category:
+        estimate: "Estimate"
+        change_order: "Change Order"
+      taxpayer:
+        customer: "Customer"
+        company: "Company"
+      status:
+        new: "New"
+        waiting_approval: "Waiting Approval"
+        ordered: "Ordered"
+        cancelled: "Cancelled"
   sign: "Sing"

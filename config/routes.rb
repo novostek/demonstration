@@ -54,6 +54,7 @@ Rails.application.routes.draw do
       post "new_document"
       get "load_notes"
       get "delete_schedule"
+      get "update_hour_cost"
     end
   end
 
@@ -100,6 +101,7 @@ Rails.application.routes.draw do
   end
   resources :orders do
     member do
+      get "change_order"
       get "new_note"
       post "new_document"
       get "new_contact"

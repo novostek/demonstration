@@ -8,6 +8,7 @@
 #  color         :string
 #  description   :text
 #  end_at        :datetime
+#  hour_cost     :decimal(, )
 #  origin        :string
 #  start_at      :datetime
 #  title         :string
@@ -29,7 +30,10 @@ class Schedule < ApplicationRecord
   belongs_to :worker
   has_one :labor_cost, dependent: :destroy
 
+
   after_save :set_labor_cost, if: :from_order?
+
+
 
   def from_order?
     self.origin == "Order"
@@ -40,14 +44,14 @@ class Schedule < ApplicationRecord
     cost = LaborCost.find_or_create_by(schedule_id: self.id)
     cost.worker = self.worker
     cost.date = self.start_at.to_date
-    cost.value = (self.worker.time_value || 0) *  (self.end_at - self.start_at) / 1.hour
+    cost.value = (self.hour_cost || 0) *  (self.end_at - self.start_at) / 1.hour  #(self.worker.time_value || 0) *  (self.end_at - self.start_at) / 1.hour
     cost.save
   end
 
   def self.new_schedule object
 
     begin
-      schedule = self.find_or_create_by(origin_id: object[:origin_id], worker_id: object[:worker_id], id: object[:schedule_id])
+      schedule = self.find_or_create_by( origin_id: object[:origin_id], worker_id: object[:worker_id], id: object[:schedule_id])
       schedule.title = object[:title]
       schedule.category = object[:category]
       schedule.description = object[:description]
@@ -57,6 +61,9 @@ class Schedule < ApplicationRecord
       schedule.worker_id = object[:worker_id]
       schedule.origin = object[:origin]
       schedule.origin_id = object[:origin_id]
+      if schedule.origin == "Order"
+        schedule.hour_cost = schedule.worker.time_value
+      end
 
       schedule.save
     rescue StandardError => e

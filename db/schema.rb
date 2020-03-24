@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_03_21_201107) do
+ActiveRecord::Schema.define(version: 2020_03_24_131614) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -343,6 +343,7 @@ ActiveRecord::Schema.define(version: 2020_03_21_201107) do
     t.string "bpmn_instance"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.decimal "hour_cost"
     t.index ["worker_id"], name: "index_schedules_on_worker_id"
   end
 

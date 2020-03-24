@@ -2,7 +2,7 @@ class OrdersController < ApplicationController
   before_action :set_order, only: [
     :show, :edit, :update, 
     :destroy, :schedule, :create_schedule, 
-    :payments, :transaction, :product_purchase, :new_note,:new_document,:new_contact, :invoice,:invoice_add_payment,:send_invoice_mail,:view_invoice_customer,:costs]
+    :payments, :transaction, :product_purchase, :new_note,:new_document,:new_contact, :invoice,:invoice_add_payment,:send_invoice_mail,:view_invoice_customer,:costs,:change_order]
 
   #Método para visualizar o invoice de order
   def invoice
@@ -12,6 +12,59 @@ class OrdersController < ApplicationController
     rescue
       @email_customer = ""
     end
+  end
+
+  #Método que gera o change order
+  def change_order
+    current_estimate = @order.current_estimate
+    change_order_estimate = current_estimate.dup
+    change_order_estimate.category = :change_order
+    change_order_estimate.current = true
+
+    #remove o current estimate
+    @order.estimates.update_all(current: false)
+
+    if change_order_estimate.save
+      #duplica schedules
+      current_estimate.schedules.each do |s|
+        new_schedule = s.dup
+        new_schedule.origin_id = change_order_estimate.id
+        new_schedule.save
+      end
+
+      current_estimate.measurement_areas.each do |ma|
+        #duplica measurement_areas
+        new_ma = ma.dup
+        new_ma.estimate_id = change_order_estimate.id
+        new_ma.save
+
+        #cria as measurements
+        ma.measurements.each do |m|
+          new_m = m.dup
+          new_m.measurement_area_id = new_ma.id
+          new_m.save
+        end
+        #cria as measurement_proposals , area proposal e product_estimate
+        ma.measurement_proposals.each do |mp|
+          area_proposal = AreaProposal.new
+          area_proposal.measurement_area_id = new_ma.id
+          new_mp = mp.dup
+          new_mp.save
+          area_proposal.measurement_proposal_id = new_mp.id
+          area_proposal.save
+
+          #cria os products_estimate
+          mp.product_estimates.each do |pe|
+            new_pe = pe.dup
+            new_pe.measurement_proposal_id = new_mp.id
+            new_pe.save
+          end
+        end
+      end
+    end
+    @order.status = :awaiting_change_approval
+    @order.save
+    redirect_to products_estimate_path(change_order_estimate), notice: "Change Order created"
   end
 
   def costs

@@ -163,7 +163,7 @@ class EstimatesController < ApplicationController
     estimate.lead_id = params[:lead_id]
     estimate.status = 'new'
     estimate.total = 0.0
-    estimate.category = ''
+    estimate.category = :estimate
     estimate.tax_calculation_id = params[:estimate][:tax_calculation].to_i
     estimate.taxpayer = params[:estimate][:taxpayer]
 

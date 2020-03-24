@@ -9,4 +9,9 @@ en:
         description: "Description"
         tax: "Tax"
         namespace: "Namespace"
+  enumerize:
+    estimate:
+      taxpayer:
+        customer: 'Customer will pay'
+        company: 'We will pay'
   sign: "Sing"

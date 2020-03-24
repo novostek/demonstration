@@ -175,7 +175,7 @@ class EstimatesController < ApplicationController
   def schedule
     @estimate = Estimate.find(params[:id])
     @workers = Worker.all
-    @schedules = Schedule.all
+    @schedules = Schedule.where('start_at >= ?', Time.now.strftime('%Y-%m-%d'))
     render :schedule
   end
 
@@ -241,8 +241,6 @@ class EstimatesController < ApplicationController
       end
       if @estimate.taxpayer == 'customer'
         @estimate.calculate_tax_values_for_customer
-      elsif @estimate.taxpayer == 'company'
-        1+1
       end
     rescue StandardError => e
       render json: {status: :internal_server_error, message: e.backtrace.inspect  }

@@ -48,7 +48,7 @@ class ContactsController < ApplicationController
   # DELETE /contacts/1
   def destroy
     @contact.destroy
-    redirect_to contacts_url, notice: 'Contact was successfully deleted.'
+    redirect_to "/#{@contact.origin.pluralize.downcase}/#{@contact.origin_id}", notice: 'Contact was successfully deleted.'
   end
 
   private

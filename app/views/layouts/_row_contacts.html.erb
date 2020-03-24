@@ -2,7 +2,9 @@
   <div class="contacts-wrapper">
     <h6><%= t "activerecord.models.contacts" %></h6>
     <div class="contacts-type-box">
-      <a href="#" class="see-all-ctb"><%= t :see_all %></a>
+      <% if modelo.contacts.where(category: :phone).size > 0  %>
+        <a href="#" class="see-all-ctb"><%= t :see_all %></a>
+      <% end %>
       <div class="contact-type--info">
         <p><i class="material-icons green-text">phone</i> Phone</p>
       </div>
@@ -27,8 +29,12 @@
 
               </div>
               <div class="modal-footer">
-                <%= f.submit t "button.save", class:"modal-action modal-close waves-effect waves-green btn" %>
-                <!--<a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat ">Agree</a>-->
+                <%= link_to phone, method: :delete, class:"left modal-action modal-close waves-effect red white-text waves-green btn-flat" do %>
+                  <i class="material-icons left">delete</i><%= t "button.delete" %>
+                <% end %>
+                <%= f.button :submit, class:"modal-action modal-close waves-effect waves-green btn-flat" do %>
+                  <i class="material-icons left">save</i><%= t "button.save" %>
+                <% end %>
               </div>
             <% end  %>
           </div>
@@ -38,7 +44,9 @@
       </div>
     </div>
     <div class="contacts-type-box">
-      <a href="#" class="see-all-ctb"><%= t :see_all %></a>
+      <% if modelo.contacts.where(category: :email).size > 0  %>
+        <a href="#" class="see-all-ctb"><%= t :see_all %></a>
+      <% end %>
       <div class="contact-type--info">
         <p><i class="material-icons red-text">mail</i> Mail</p>
       </div>
@@ -63,8 +71,12 @@
 
               </div>
               <div class="modal-footer">
-                <%= f.submit t "button.save", class:"modal-action modal-close waves-effect waves-green btn" %>
-                <!--<a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat ">Agree</a>-->
+                <%= link_to email, method: :delete, class:"left modal-action modal-close waves-effect red white-text waves-green btn-flat" do %>
+                  <i class="material-icons left">delete</i><%= t "button.delete" %>
+                <% end %>
+                <%= f.button :submit, class:"modal-action modal-close waves-effect waves-green btn-flat" do %>
+                  <i class="material-icons left">save</i><%= t "button.save" %>
+                <% end %>
               </div>
             <% end  %>
           </div>
@@ -74,7 +86,9 @@
       </div>
     </div>
     <div class="contacts-type-box address-type">
-      <a href="#" class="see-all-ctb"><%= t :see_all %></a>
+      <% if modelo.contacts.where(category: :address).size > 0  %>
+        <a href="#" class="see-all-ctb"><%= t :see_all %></a>
+      <% end %>
       <div class="contact-type--info">
         <p><i class="material-icons orange-text text-darken-2">place</i> Address</p>
       </div>
@@ -112,8 +126,12 @@
 
               </div>
               <div class="modal-footer">
-                <%= f.submit t "button.save", class:"modal-action modal-close waves-effect waves-green btn" %>
-                <!--<a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat ">Agree</a>-->
+                <%= link_to address, method: :delete, class:"left modal-action modal-close waves-effect red white-text waves-green btn-flat" do %>
+                  <i class="material-icons left">delete</i><%= t "button.delete" %>
+                <% end %>
+                <%= f.button :submit, class:"modal-action modal-close waves-effect waves-green btn-flat" do %>
+                  <i class="material-icons left">save</i><%= t "button.save" %>
+                <% end %>
               </div>
             <% end  %>
           </div>

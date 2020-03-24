@@ -1,178 +1,189 @@
+<link href="/css/documents.css" rel="stylesheet" type="text/css">
+<link href="/css/froala.css" rel="stylesheet" type="text/css">
 <%= content_for :body_class do "menu-collapse" end %>
 <%= content_for :head_content do %>
   <link href='https://cdn.jsdelivr.net/npm/froala-editor@3.1.0/css/froala_editor.pkgd.min.css' rel='stylesheet' type='text/css' />
 <% end %>
 <div class="row">
-  <div class="col s12 m3 " style="position: fixed; left: 80px;">
-    <ul class="collapsible collapsible-accordion">
-      <% if @document.estimate? %>
+  <div class="doc-floating-box">
+    <div class="doc-floating-btn  animated infinite tada">
+      <i class="material-icons">keyboard_arrow_left</i>
+    </div>
+    <div class="doc-floating-content">
+      <ul class="collapsible collapsible-accordion">
+        <% if @document.estimate? %>
+          <li>
+            <div class="collapsible-header" tabindex="0"><i class="material-icons">expand_more</i> Estimate/Order</div>
+            <div class="collapsible-body white">
+
+              <div class="chip drag-text"  draggable="true" data-value="{{estimate.code}}" >
+                <i class="material-icons chip-icon">open_with</i>
+                Estimate Code
+              </div>
+              <div class="chip drag-text"  draggable="true" data-value="{{estimate.price}}" >
+                <i class="material-icons chip-icon">open_with</i>
+                Estimate Price
+              </div>
+              <div class="chip drag-text" draggable="true" data-value="{{estimate.title}}">
+                <i class="material-icons chip-icon">open_with</i>
+                Estimate Title
+              </div>
+              <div class="chip drag-text" draggable="true" data-value="{{estimate.location}}">
+                <i class="material-icons chip-icon">open_with</i>
+                Estimate Location
+              </div>
+              <div class="chip drag-text" draggable="true" data-value="{{estimate.total}}">
+                <i class="material-icons chip-icon">open_with</i>
+                Estimate Total
+              </div>
+              <div class="chip drag-text" draggable="true" data-value="{{order.start_at}}">
+                <i class="material-icons chip-icon">open_with</i>
+                Order Start at
+              </div>
+              <div class="chip drag-text" draggable="true" data-value="{{order.end_at}}">
+                <i class="material-icons chip-icon">open_with</i>
+                Order End at
+              </div>
+              <div class="chip drag-text" draggable="true" data-value="{{order.code}}">
+                <i class="material-icons chip-icon">open_with</i>
+                Order Code
+              </div>
+              <div class="chip drag-text" draggable="true" data-value="<img src='{{signature.link}}' />" > <!--<%%= wicked_pdf_image_tag '{{signature.link}}' %>  -->
+                <i class="material-icons chip-icon">open_with</i>
+                Signature
+              </div>
+            </div>
+          </li>
+          <li>
+            <div class="collapsible-header" tabindex="0"><i class="material-icons">expand_more</i> Customer</div>
+            <div class="collapsible-body white">
+              <div class="chip drag-text"  draggable="true" data-value="{{customer.name}}" >
+                <i class="material-icons chip-icon">open_with</i>
+                Name
+              </div>
+              <div class="chip drag-text" draggable="true" data-value="{{customer.name | split: ' ' | first }}">
+                <i class="material-icons chip-icon">open_with</i>
+                First Name
+              </div>
+              <div class="chip drag-text" draggable="true" data-value="{{customer.name | split: ' ' | last }}">
+                <i class="material-icons chip-icon">open_with</i>
+                Last Name
+              </div>
+              <div class="chip drag-text" draggable="true" data-value="{{customer.since }}">
+                <i class="material-icons chip-icon">open_with</i>
+                Since
+              </div>
+              <div class="chip drag-text" draggable="true" data-value="{{customer.code }}">
+                <i class="material-icons chip-icon">open_with</i>
+                Code
+              </div>
+              <div class="chip drag-text" draggable="true" data-value="{{customer.main_phone }}">
+                <i class="material-icons chip-icon">open_with</i>
+                Phone
+              </div>
+              <div class="chip drag-text" draggable="true" data-value="{{customer.main_address }}">
+                <i class="material-icons chip-icon">open_with</i>
+                Address
+              </div>
+              <div class="chip drag-text" draggable="true" data-value="{{customer.main_state }}">
+                <i class="material-icons chip-icon">open_with</i>
+                State
+              </div>
+              <div class="chip drag-text" draggable="true" data-value="{{customer.main_city }}">
+                <i class="material-icons chip-icon">open_with</i>
+                City
+              </div>
+              <div class="chip drag-text" draggable="true" data-value="{{customer.main_zipcode }}">
+                <i class="material-icons chip-icon">open_with</i>
+                ZipCode
+              </div>
+            </div>
+          </li>
+          <li>
+            <div class="collapsible-header" tabindex="0"><i class="material-icons">expand_more</i> Partials</div>
+            <div class="collapsible-body white">
+              <div class="chip drag-text"  draggable="true" data-value="
+              <table>
+              <thead>
+              <tr>
+              <th>Name</th>
+              <th>Description</th>
+              <th>height</th>
+              <th>length</th>
+              <th>width</th>
+              </tr>
+              </thead>
+              </table>
+              {% for measurement in measurements %}
+              <table>
+              <tbody>
+
+              <tr>
+              <td>{{measurement.name}}</td>
+              <td>{{measurement.description}}</td>
+              <td>{{measurement.height}}</td>
+              <td>{{measurement.length}}</td>
+              <td>{{measurement.width}}</td>
+              </tr>
+
+              </tbody></table>{% endfor %}" >
+
+                <i class="material-icons chip-icon">open_with</i>
+                Measurements
+              </div>
+              <div class="chip drag-text" draggable="true" data-value="
+              <table>
+              <thead>
+              <tr>
+              <th style='width=20%;'>Product</th>
+              <th style='width=20%;'>Discount</th>
+              <th style='width=20%;'>Quantity</th>
+              <th style='width=20%;'>Unitary Value</th>
+              <th style='width=20%;'>Value</th>
+              </tr>
+              </thead>
+              </table>
+              {% for product in products %}
+              <table>
+              <tbody>
+
+              <tr>
+              <td  style='width=20%;'>{{product.name}}</td>
+              <td style='width=20%;'>{{product.discount}}</td>
+              <td style='width=20%;'>{{product.quantity}}</td>
+              <td style='width=20%;'>{{product.unitary_value}}</td>
+              <td style='width=20%;'>{{product.value}}</td>
+              </tr>
+
+              </tbody></table>
+              {% endfor %}">
+                <i class="material-icons chip-icon">open_with</i>
+                Products
+              </div>
+
+            </div>
+          </li>
+        <% end %>
         <li>
-          <div class="collapsible-header" tabindex="0"><i class="material-icons">expand_more</i> Estimate/Order</div>
-          <div class="collapsible-body white">
-
-            <div class="chip drag-text"  draggable="true" data-value="{{estimate.code}}" >
-              <i class="material-icons chip-icon">open_with</i>
-              Estimate Code
+          <div class="collapsible-header" tabindex="0"><i class="material-icons">expand_more</i> Customized Fields</div>
+          <div class="collapsible-body white" >
+            <div id="custom_fields">
+              <% @document.document_custom_fields.each do |d| %>
+              <div class="chip drag-text"  draggable="true" data-value="{{custom.<%= d.name %>}}" >
+                <i class="material-icons chip-icon">open_with</i>
+                <%= d.name %>
+              </div>
+              <% end  %>
             </div>
-            <div class="chip drag-text"  draggable="true" data-value="{{estimate.price}}" >
-              <i class="material-icons chip-icon">open_with</i>
-              Estimate Price
-            </div>
-            <div class="chip drag-text" draggable="true" data-value="{{estimate.title}}">
-              <i class="material-icons chip-icon">open_with</i>
-              Estimate Title
-            </div>
-            <div class="chip drag-text" draggable="true" data-value="{{estimate.location}}">
-              <i class="material-icons chip-icon">open_with</i>
-              Estimate Location
-            </div>
-            <div class="chip drag-text" draggable="true" data-value="{{estimate.total}}">
-              <i class="material-icons chip-icon">open_with</i>
-              Estimate Total
-            </div>
-            <div class="chip drag-text" draggable="true" data-value="{{estimate.value_with_tax}}">
-              <i class="material-icons chip-icon">open_with</i>
-              Start Date
-            </div>
-            <div class="chip drag-text" draggable="true" data-value="{{estimate.value_with_tax}}">
-              <i class="material-icons chip-icon">open_with</i>
-              End Date
-            </div>
-            <div class="chip drag-text" draggable="true" data-value="<img src='{{signature.link}}' />" > <!--<%%= wicked_pdf_image_tag '{{signature.link}}' %>  -->
-              <i class="material-icons chip-icon">open_with</i>
-              Signature
-            </div>
+            <br>
+            <a href="#modal_custom" class="btn  modal-trigger">New Custom Field</a>
           </div>
+
         </li>
-        <li>
-          <div class="collapsible-header" tabindex="0"><i class="material-icons">expand_more</i> Customer</div>
-          <div class="collapsible-body white">
-            <div class="chip drag-text"  draggable="true" data-value="{{customer.name}}" >
-              <i class="material-icons chip-icon">open_with</i>
-              Name
-            </div>
-            <div class="chip drag-text" draggable="true" data-value="{{customer.name | split: ' ' | first }}">
-              <i class="material-icons chip-icon">open_with</i>
-              First Name
-            </div>
-            <div class="chip drag-text" draggable="true" data-value="{{customer.name | split: ' ' | last }}">
-              <i class="material-icons chip-icon">open_with</i>
-              Last Name
-            </div>
-            <div class="chip drag-text" draggable="true" data-value="{{customer.since }}">
-              <i class="material-icons chip-icon">open_with</i>
-              Since
-            </div>
-            <div class="chip drag-text" draggable="true" data-value="{{customer.code }}">
-              <i class="material-icons chip-icon">open_with</i>
-              Code
-            </div>
-            <div class="chip drag-text" draggable="true" data-value="{{customer.main_phone }}">
-              <i class="material-icons chip-icon">open_with</i>
-              Phone
-            </div>
-            <div class="chip drag-text" draggable="true" data-value="{{customer.main_address }}">
-              <i class="material-icons chip-icon">open_with</i>
-              Address
-            </div>
-            <div class="chip drag-text" draggable="true" data-value="{{customer.main_state }}">
-              <i class="material-icons chip-icon">open_with</i>
-              State
-            </div>
-            <div class="chip drag-text" draggable="true" data-value="{{customer.main_city }}">
-              <i class="material-icons chip-icon">open_with</i>
-              City
-            </div>
-            <div class="chip drag-text" draggable="true" data-value="{{customer.main_zipcode }}">
-              <i class="material-icons chip-icon">open_with</i>
-              ZipCode
-            </div>
-          </div>
-        </li>
-        <li>
-          <div class="collapsible-header" tabindex="0"><i class="material-icons">expand_more</i> Partials</div>
-          <div class="collapsible-body white">
-            <div class="chip drag-text"  draggable="true" data-value="
-            <table>
-            <thead>
-            <tr>
-            <th>Name</th>
-            <th>Description</th>
-            <th>height</th>
-            <th>length</th>
-            <th>width</th>
-            </tr>
-            </thead>
-            </table>
-            {% for measurement in measurements %}
-            <table>
-            <tbody>
-
-            <tr>
-            <td>{{measurement.name}}</td>
-            <td>{{measurement.description}}</td>
-            <td>{{measurement.height}}</td>
-            <td>{{measurement.length}}</td>
-            <td>{{measurement.width}}</td>
-            </tr>
-
-            </tbody></table>{% endfor %}" >
-
-              <i class="material-icons chip-icon">open_with</i>
-              Measurements
-            </div>
-            <div class="chip drag-text" draggable="true" data-value="
-            <table>
-            <thead>
-            <tr>
-            <th style='width=20%;'>Product</th>
-            <th style='width=20%;'>Discount</th>
-            <th style='width=20%;'>Quantity</th>
-            <th style='width=20%;'>Unitary Value</th>
-            <th style='width=20%;'>Value</th>
-            </tr>
-            </thead>
-            </table>
-            {% for product in products %}
-            <table>
-            <tbody>
-
-            <tr>
-            <td  style='width=20%;'>{{product.name}}</td>
-            <td style='width=20%;'>{{product.discount}}</td>
-            <td style='width=20%;'>{{product.quantity}}</td>
-            <td style='width=20%;'>{{product.unitary_value}}</td>
-            <td style='width=20%;'>{{product.value}}</td>
-            </tr>
-
-            </tbody></table>
-            {% endfor %}">
-              <i class="material-icons chip-icon">open_with</i>
-              Products
-            </div>
-
-          </div>
-        </li>
-      <% end %>
-      <li>
-        <div class="collapsible-header" tabindex="0"><i class="material-icons">expand_more</i> Customized Fields</div>
-        <div class="collapsible-body white" >
-          <div id="custom_fields">
-            <% @document.document_custom_fields.each do |d| %>
-            <div class="chip drag-text"  draggable="true" data-value="{{custom.<%= d.name %>}}" >
-              <i class="material-icons chip-icon">open_with</i>
-              <%= d.name %>
-            </div>
-            <% end  %>
-          </div>
-          <br>
-          <a href="#modal_custom" class="btn  modal-trigger">New Custom Field</a>
-        </div>
-
-      </li>
-    </ul>
+      </ul>
+    </div>
   </div>
-  <div class="col s12 m9 right" style="">
+  <div class="col s12" >
     <div class="card-panel">
       <div id="froala-editor">
         <% if document.data.blank? %>
@@ -207,6 +218,28 @@
 
 <%= content_for :scripts do %>
   <script type='text/javascript' src='https://cdn.jsdelivr.net/npm/froala-editor@3.1.0/js/froala_editor.pkgd.min.js'></script>
+  <script>
+      $(document).ready(function(){
+          $(".doc-floating-btn").on("click", function(){
+              $(this).removeClass("infinite").removeClass("animated");
+              $(this).parent().toggleClass("active");
+              if ($(this).parent().hasClass("active")) {
+                  $(this).find("i").text("keyboard_arrow_right");
+              } else {
+                  $(this).find("i").text("keyboard_arrow_left");
+              }
+          });
+
+          $(window).scroll(function(e){
+              console.log($(window).scrollTop());
+              if ($(window).scrollTop() >= 180) {
+                  $(".doc-floating-box").addClass("scrolled");
+              } else {
+                  $(".doc-floating-box").removeClass("scrolled");
+              }
+          });
+      });
+  </script>
   <script>
 
       $("#save_data").click(function(){

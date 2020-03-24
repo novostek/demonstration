@@ -1,0 +1,64 @@
+// @keyframes hello_options{
+//     0% {
+//         transform: translateX(0%);
+//     }
+//     50% {
+//         transform: translateX(-100%);
+//     }
+//     100% {
+//         transform: translateX(0%);
+//     }
+// }
+
+.doc-floating-box{
+    position: fixed;
+    left: 100%;
+    top: 260px;
+    z-index: 10;
+    transition: all .3s ease-in-out;
+    animation: hello_options 2s ease-in-out 1s 1 alternate forwards;
+
+    &.active{
+        left: unset;
+        right: 0px;
+    }
+
+    &.scrolled{
+        top: 70px;
+    }
+
+    .doc-floating-btn{
+        background: #3949ab;
+        color: #fff;
+        box-shadow: -5px 0 5px rgba(black, .1);
+        height: 80px;
+        width: 30px;
+        text-align: center;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border-radius: 10px 0 0 10px;
+        border: 1px solid rgba(black, .1);
+        cursor: pointer;
+        position: absolute;
+        top: 8px;
+        left: -29px;
+    }
+
+    .doc-floating-content{
+        width: 300px;
+        max-width: 300px;
+        .collapsible-body{
+            max-height: 300px;
+            overflow-y: auto;
+        }
+
+        @media screen and (max-width: 992px){
+            // padding-right: 14px !important;
+        }
+
+        @media screen and (min-width: 992px){
+            // padding-right: 30px !important;
+        }
+    }
+}

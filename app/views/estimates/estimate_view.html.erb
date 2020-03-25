@@ -17,7 +17,7 @@
           </ol>
         </div>
         <div class="col s2 m6 l6">
-          <% if @estimate.order %>
+          <% if @estimate.order.present? %>
             <%= link_to order_path(@estimate.order), class: "btn waves-effect waves-light breadcrumbs-btn right border-round" do %>
               <i class="material-icons hide-on-med-and-up">attach_money</i><span class="hide-on-small-only"><%= t('activerecord.models.order') %></span>
             <% end %>
@@ -29,6 +29,12 @@
               <i class="material-icons hide-on-med-and-up">attach_money</i><span class="hide-on-small-only"><%= t('sign') %></span>
             <% end %>
           <% end %>
+          <% if @estimate.change_order? and @estimate.order.awaiting_change_approval? %>
+            <%= link_to estimate_signature_estimate_path(@estimate), class: "btn waves-effect mr-2 waves-light breadcrumbs-btn right border-round" do %>
+              <i class="material-icons hide-on-med-and-up">attach_money</i><span class="hide-on-small-only"><%= t('sign') %></span>
+            <% end %>
+          <% end %>
+
 
           <a class="btn waves-effect waves-light modal-trigger breadcrumbs-btn right mr-2 indigo border-round btn-send-email" href="#modal-mail"><i class="material-icons hide-on-med-and-up ">send</i><span class="hide-on-small-only">Send email</span></a>
           <a class="btn waves-effect waves-light modal-trigger breadcrumbs-btn right mr-2 indigo border-round btn-send-email" href="#modal-mail_document"><i class="material-icons hide-on-med-and-up ">send</i><span class="hide-on-small-only">Documents</span></a>

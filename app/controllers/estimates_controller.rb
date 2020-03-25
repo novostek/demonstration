@@ -44,6 +44,7 @@ class EstimatesController < ApplicationController
 
   def create_order
     @estimate.create_order
+    @estimate.update(status: :ordered)
     redirect_to schedule_order_path(@estimate.order)
   end
 
@@ -79,7 +80,13 @@ class EstimatesController < ApplicationController
       #     end
       #   end
       # end
-      @estimate.create_order
+      # Cria a order caso não seja change_order
+      if @estimate.estimate?
+        @estimate.create_order
+      else
+        @estimate.update(status: :ordered)
+        @estimate.order.update(status: :change_approved)
+      end
     end
 
     #cria a assinatura para o formulário
@@ -115,6 +122,9 @@ class EstimatesController < ApplicationController
 
   # GET /estimates/1/edit
   def edit
+    if @estimate.ordered?
+      redirect_to "/estimates/#{@estimate.id}/view", notice: "Estimate already ordered"
+    end
   end
 
   # POST /estimates
@@ -144,7 +154,14 @@ class EstimatesController < ApplicationController
   end
 
   def step_one
+
+
     @estimate = Estimate.find_or_initialize_by(lead_id: params[:lead_id])
+    if @estimate.ordered?
+      redirect_to "/estimates/#{@estimate.id}/view", notice: "Estimate already ordered"
+      return
+    end
+
     @worker = Worker.new
 
     @lead = Lead.find(params[:lead_id])

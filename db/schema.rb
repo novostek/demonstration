@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_03_24_131614) do
+ActiveRecord::Schema.define(version: 2020_03_26_220650) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -242,7 +242,7 @@ ActiveRecord::Schema.define(version: 2020_03_24_131614) do
   end
 
   create_table "product_estimates", force: :cascade do |t|
-    t.bigint "product_id", null: false
+    t.bigint "product_id"
     t.string "custom_title"
     t.text "notes"
     t.decimal "unitary_value"
@@ -283,7 +283,7 @@ ActiveRecord::Schema.define(version: 2020_03_24_131614) do
     t.string "bpm_purchase"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.bigint "supplier_id", null: false
+    t.bigint "supplier_id"
     t.bigint "calculation_formula_id", null: false
     t.text "photo"
     t.index ["calculation_formula_id"], name: "index_products_on_calculation_formula_id"

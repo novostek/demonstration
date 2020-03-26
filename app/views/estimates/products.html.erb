@@ -29,10 +29,17 @@
   products: @products.to_json do %>
 <% end %>
 
+<%= render 'new_product', product: Product.new %>
+
 <%= javascript_pack_tag 'estimate/ProductComponent/index.js' %>
 
 <%= content_for :scripts do %>
   <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      var elemsModal = document.getElementById('product-add-modal');
+
+      instanceModal = M.Modal.init(elemsModal, {})
+    });
     // $(document).ready(function(){
       
 

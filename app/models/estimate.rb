@@ -84,7 +84,7 @@ class Estimate < ApplicationRecord
   end
 
   def get_subtotal
-    self.product_estimates.distinct(:id).sum(:value).to_f
+    self.product_estimates.distinct.joins(:product).sum(:value).to_f
   end
 
   def as_json(options = {})
@@ -107,9 +107,11 @@ class Estimate < ApplicationRecord
 
   def calculate_tax_values_for_customer
     calculator = Dentaku::Calculator.new
-    sub_total = self.product_estimates.sum(:value)
-    self.price = calculator.evaluate(self.calculation_formula.formula, total: sub_total)
-    self.tax = self.price - sub_total
+    sub_total = self.product_estimates.distinct.joins(:product).sum(:value)
+    tax_products = self.product_estimates.joins(:product).where(products: {:tax => true}).sum(:value)
+    sub_total_taxes = calculator.evaluate(self.calculation_formula.formula, total: tax_products)
+    self.price = (sub_total + sub_total_taxes) - self.product_estimates.distinct.sum(:discount)
+    self.tax = sub_total_taxes
     self.save
   end
 

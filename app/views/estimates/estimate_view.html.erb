@@ -17,31 +17,50 @@
           </ol>
         </div>
         <div class="col s2 m6 l6">
-          <% if @estimate.order.present? %>
-            <%= link_to order_path(@estimate.order), class: "btn waves-effect waves-light breadcrumbs-btn right border-round" do %>
-              <i class="material-icons hide-on-med-and-up">attach_money</i><span class="hide-on-small-only"><%= t('activerecord.models.order') %></span>
+
+          <a class="btn dropdown-settings waves-effect waves-light breadcrumbs-btn right" href="#!" data-target="dropdown1"><i class="material-icons hide-on-med-and-up">settings</i><span class="hide-on-small-onl">Actions</span><i class="material-icons right">arrow_drop_down</i></a>
+          <ul class="dropdown-content" id="dropdown1" tabindex="0">
+            <% if @estimate.order.present? %>
+              <li>
+                <%= link_to order_path(@estimate.order), class: "grey-text text-darken-2" do %>
+                  <i class="material-icons ">assignment_ind</i><span class="hide-on-small-only"><%= t('activerecord.models.order') %></span>
+                <% end %>
+              </li>
+            <% else %>
+              <li>
+                <%= link_to create_order_estimate_path(@estimate), class: "grey-text text-darken-2" do %>
+                  <i class="material-icons ">assignment_ind</i><span class="hide-on-small-only"><%= t('create_order') %></span>
+                <% end %>
+              </li>
+              <li>
+                <%= link_to estimate_signature_estimate_path(@estimate), class: "grey-text text-darken-2" , target: "_blank" do %>
+                  <i class="material-icons ">done</i><span class="hide-on-small-only"><%= t('sign') %></span>
+                <% end %>
+              </li>
             <% end %>
-          <% else %>
-            <%= link_to create_order_estimate_path(@estimate), class: "btn waves-effect waves-light breadcrumbs-btn right border-round" do %>
-              <i class="material-icons hide-on-med-and-up">attach_money</i><span class="hide-on-small-only"><%= t('create_order') %></span>
+
+            <% if @estimate.change_order? and @estimate.order.awaiting_change_approval? %>
+              <li>
+                <%= link_to estimate_signature_estimate_path(@estimate), class: "grey-text text-darken-2", target: "_blank" do %>
+                  <i class="material-icons">attach_money</i><span class="hide-on-small-only"><%= t('sign') %></span>
+                <% end %>
+              </li>
             <% end %>
-            <%= link_to estimate_signature_estimate_path(@estimate), class: "btn waves-effect waves-light breadcrumbs-btn right border-round" , target: "_blank" do %>
-              <i class="material-icons hide-on-med-and-up">attach_money</i><span class="hide-on-small-only"><%= t('sign') %></span>
-            <% end %>
-          <% end %>
-          <% if @estimate.change_order? and @estimate.order.awaiting_change_approval? %>
-            <%= link_to estimate_signature_estimate_path(@estimate), class: "btn waves-effect mr-2 waves-light breadcrumbs-btn right border-round", target: "_blank" do %>
-              <i class="material-icons hide-on-med-and-up">attach_money</i><span class="hide-on-small-only"><%= t('sign') %></span>
-            <% end %>
-          <% end %>
+            <li>
+              <a class="grey-text text-darken-2 modal-trigger btn-send-email" href="#modal-mail"><i class="material-icons ">send</i><span class="hide-on-small-only">Send email</span></a>
+            </li>
+            <li>
+              <a class="grey-text text-darken-2 modal-trigger btn-send-email" href="#modal-mail_document"><i class="material-icons ">send</i><span class="hide-on-small-only">Documents</span></a>
+            </li>
+            <li>
+              <%= link_to step_one_estimates_path(@estimate.lead.id),  class: "grey-text text-darken-2" do %>
+                <i class="material-icons ">edit</i><span class="hide-on-small-only"><%= t "button.edit" %></span>
+              <% end %>
+            </li>
+
+          </ul>
 
 
-          <a class="btn waves-effect waves-light modal-trigger breadcrumbs-btn right mr-2 indigo border-round btn-send-email" href="#modal-mail"><i class="material-icons hide-on-med-and-up ">send</i><span class="hide-on-small-only">Send email</span></a>
-          <a class="btn waves-effect waves-light modal-trigger breadcrumbs-btn right mr-2 indigo border-round btn-send-email" href="#modal-mail_document"><i class="material-icons hide-on-med-and-up ">send</i><span class="hide-on-small-only">Documents</span></a>
-          <%= link_to step_one_estimates_path(@estimate.lead.id),  class: "btn waves-effect waves-light breadcrumbs-btn right mr-2 pink lighten-4 pink-text border-round" do %>
-            <i class="material-icons hide-on-med-and-up ">edit</i><span class="hide-on-small-only"><%= t "button.edit" %></span>
-          <% end %>
-          </a>
         </div>
       </div>
     </div>
@@ -233,17 +252,17 @@
         </a>
       </div>
     </div>
-<!--    <div class="col s12 l6 card-width pr-2">-->
-<!--      <div class="card mt-4">-->
-<!--        <a href="#">-->
-<!--          <div class="card-content pr-2 pl-2 center-align">-->
-<!--            <i class="material-icons blue-text small-ico-bg mb-5">settings</i>-->
-<!--            <h4 class="m-0"><b>2</b></h4>-->
-<!--            <p class="black-text">Processes</p>-->
-<!--          </div>-->
-<!--        </a>-->
-<!--      </div>-->
-<!--    </div>-->
+    <!--    <div class="col s12 l6 card-width pr-2">-->
+    <!--      <div class="card mt-4">-->
+    <!--        <a href="#">-->
+    <!--          <div class="card-content pr-2 pl-2 center-align">-->
+    <!--            <i class="material-icons blue-text small-ico-bg mb-5">settings</i>-->
+    <!--            <h4 class="m-0"><b>2</b></h4>-->
+    <!--            <p class="black-text">Processes</p>-->
+    <!--          </div>-->
+    <!--        </a>-->
+    <!--      </div>-->
+    <!--    </div>-->
   </div>
 </div>
 

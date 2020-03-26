@@ -86,7 +86,7 @@ class DocumentsController < ApplicationController
         emails = params[:emails]
         begin
           puts "Enviando email"
-          DocumentMailer.with(subject: params[:subject], emails: emails, pdf: @template.render('estimate' => @estimate.attributes, 'measurements' => JSON.parse(@estimate.measurement_areas.to_json), 'products' => JSON.parse(@estimate.product_estimates.to_json), 'customer' => @estimate.customer.attributes, 'custom' => @params, 'signature' => JSON.parse(@estimate.signatures.last.to_json)   )).send_document.deliver_now
+          DocumentMailer.with(subject: params[:subject], emails: emails, pdf: @template.render('order' => @estimate.order.attributes,'estimate' => @estimate.attributes, 'measurements' => JSON.parse(@estimate.measurement_areas.to_json), 'products' => JSON.parse(@estimate.product_estimates.to_json), 'customer' => @estimate.customer.attributes, 'custom' => @params, 'signature' => JSON.parse(@estimate.signatures.last.to_json)   )).send_document.deliver_now
         rescue
           puts "Enviando erro"
         end

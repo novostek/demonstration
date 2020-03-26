@@ -17,6 +17,7 @@ en:
     delete: "Delete"
     new: "New"
     edit: "Edit"
+    delete_schedule: "Delete Schedule"
 
   false: "No"
   true: "Yes"

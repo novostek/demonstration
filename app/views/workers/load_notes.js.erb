@@ -5,5 +5,6 @@ $('#slide-out-right').css('transform', 'translateX(30%)');
 $('#slide-out-right').css('transform', 'translateX(0%)');
 $("#notes").html("<%= escape_javascript(render partial:'workers/schedule_notes', locals:{notes: @notes} )%>");
 $("#docs").html("<%= escape_javascript(render partial:'workers/schedule_docs', locals:{documents: @documents} )%>");
-$("#div_title").html("<p><h5><%= $schedule.title %></h5></p><p> <%= $schedule.start_at %> </p>")
+$("#div_title").html("<p><h5><%= $schedule.title %></h5></p><p> <%= $schedule.start_at %> </p><p> Hour Cost: <%= number_to_currency($schedule.hour_cost) %></p>")
 $("#delete_div").html("<%= escape_javascript(render partial:'schedules/delete_link' )%>")
+$("#hour_cost").html("<%= escape_javascript(render partial:'schedules/hour_cost_fields' )%>")

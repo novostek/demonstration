@@ -8,6 +8,7 @@
 #  color         :string
 #  description   :text
 #  end_at        :datetime
+#  hour_cost     :decimal(, )
 #  origin        :string
 #  start_at      :datetime
 #  title         :string

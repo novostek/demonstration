@@ -1,4 +1,10 @@
 module ApplicationHelper
+
+  def pdf_image_tag(image, options = {})
+    options[:src] = File.expand_path(Rails.root) + '/public/' + image
+    tag(:img, options)
+  end
+
   def camunda_input(data, form)
     begin
       render partial: "bpm_fields/#{data[:category]}_field", locals: {form: form, data: data}

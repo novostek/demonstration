@@ -20,6 +20,30 @@ class SignaturesController < ApplicationController
   def edit
   end
 
+  def base64_to_file(base64_data)
+    return base64_data unless base64_data.is_a? String
+
+    start_regex = /data:image\/[a-z]{3,4};base64,/
+    filename ||= SecureRandom.hex
+
+    regex_result = start_regex.match(base64_data)
+    if base64_data && regex_result
+      start = regex_result.to_s
+      tempfile = Tempfile.new(['signature', '.jpg'], Rails.root.join('public'))
+      tempfile.binmode
+      tempfile.write(Base64.decode64(base64_data[start.length..-1]))
+      # uploaded_file = ActionDispatch::Http::UploadedFile.new(
+      #     :tempfile => tempfile,
+      #     :filename => "signature.jpg",
+      #     :original_filename => "signature.jpg"
+      # )
+
+      tempfile
+    else
+      nil
+    end
+  end
+
   # POST /signatures
   def create
 
@@ -29,6 +53,25 @@ class SignaturesController < ApplicationController
 
     if @signature.save
       if params[:signature][:sign].present?
+        doc = DocumentFile.new
+        doc.title = "Signature"
+        doc.origin = @signature.origin
+        doc.origin_id = @signature.origin_id
+
+        #cria a imagem temporária da assinatura
+        temp = base64_to_file(params[:signature][:file])
+        $temp_img = "/#{temp.path.split("/").last}"
+
+        #cria o PDF
+        file = WickedPdf.new.pdf_from_url("#{Rails.configuration.woffice['url']}/estimates/#{@signature.origin_id}/estimate_signature")
+        # Write it to tempfile
+        tempfile = Tempfile.new(['invoice', '.pdf'], Rails.root.join('tmp'))
+        tempfile.binmode
+        tempfile.write file
+        tempfile.close
+
+        doc.file = File.open(tempfile.path)
+        doc.save
         redirect_to "/estimates/#{@signature.origin_id}/estimate_signature?sign=true", notice: 'Signature was successful'
       else
         redirect_to @signature, notice: 'Signature foi criado com sucesso'

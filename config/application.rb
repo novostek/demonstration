@@ -24,5 +24,6 @@ module Woffice
 
     #libera acesso as hosts
     config.hosts.clear
+    config.woffice = config_for(:woffice_config)
   end
 end

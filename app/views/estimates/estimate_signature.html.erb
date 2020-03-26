@@ -154,6 +154,7 @@
       <div class="card-panel">
         <h4>Signature</h4>
         <div class="row">
+
           <% if !@estimate.signatures.last.present? %>
             <%= form_for(@signature) do |f| %>
 
@@ -168,7 +169,7 @@
               <%= f.submit "sign", class:"btn green" %>
             <% end %>
           <% else %>
-            <img src="<%= @estimate.signatures.last.file.url %>" alt="">
+            <img src="<%= $temp_img  || @estimate.signatures.last.file.url %>" >
           <% end %>
         </div>
       </div>

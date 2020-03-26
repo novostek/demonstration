@@ -23,18 +23,18 @@
             <% if @estimate.order.present? %>
               <li>
                 <%= link_to order_path(@estimate.order), class: "grey-text text-darken-2" do %>
-                  <i class="material-icons ">assignment_ind</i><span class="hide-on-small-only"><%= t('activerecord.models.order') %></span>
+                  <i class="material-icons ">assignment_ind</i><%= t('activerecord.models.order') %>
                 <% end %>
               </li>
             <% else %>
               <li>
                 <%= link_to create_order_estimate_path(@estimate), class: "grey-text text-darken-2" do %>
-                  <i class="material-icons ">assignment_ind</i><span class="hide-on-small-only"><%= t('create_order') %></span>
+                  <i class="material-icons ">assignment_ind</i><%= t('create_order') %>
                 <% end %>
               </li>
               <li>
                 <%= link_to estimate_signature_estimate_path(@estimate), class: "grey-text text-darken-2" , target: "_blank" do %>
-                  <i class="material-icons ">done</i><span class="hide-on-small-only"><%= t('sign') %></span>
+                  <i class="material-icons ">done</i><%= t('sign') %>
                 <% end %>
               </li>
             <% end %>
@@ -42,19 +42,19 @@
             <% if @estimate.change_order? and @estimate.order.awaiting_change_approval? %>
               <li>
                 <%= link_to estimate_signature_estimate_path(@estimate), class: "grey-text text-darken-2", target: "_blank" do %>
-                  <i class="material-icons">attach_money</i><span class="hide-on-small-only"><%= t('sign') %></span>
+                  <i class="material-icons">attach_money</i><%= t('sign') %>
                 <% end %>
               </li>
             <% end %>
             <li>
-              <a class="grey-text text-darken-2 modal-trigger btn-send-email" href="#modal-mail"><i class="material-icons ">send</i><span class="hide-on-small-only">Send email</span></a>
+              <a class="grey-text text-darken-2 modal-trigger btn-send-email" href="#modal-mail"><i class="material-icons ">send</i>Send email</a>
             </li>
             <li>
-              <a class="grey-text text-darken-2 modal-trigger btn-send-email" href="#modal-mail_document"><i class="material-icons ">send</i><span class="hide-on-small-only">Documents</span></a>
+              <a class="grey-text text-darken-2 modal-trigger btn-send-email" href="#modal-mail_document"><i class="material-icons ">send</i>Documents</a>
             </li>
             <li>
               <%= link_to step_one_estimates_path(@estimate.lead.id),  class: "grey-text text-darken-2" do %>
-                <i class="material-icons ">edit</i><span class="hide-on-small-only"><%= t "button.edit" %></span>
+                <i class="material-icons ">edit</i><%= t "button.edit" %>
               <% end %>
             </li>
 

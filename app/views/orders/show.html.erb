@@ -18,16 +18,25 @@
 					</ol>
 				</div>
 				<div class="col s2 m6 l6">
-
-					<%= link_to schedule_order_path(@order), class: "btn waves-effect waves-light breadcrumbs-btn right pink lighten-4 pink-text border-round" do %>
-						<i class="material-icons hide-on-med-and-up ">edit</i><span class="hide-on-small-only">Edit</span>
-					<% end %>
-					<a class="btn waves-effect waves-light breadcrumbs-btn right pink mr-2 lighten-4 pink-text border-round" href="<%= invoice_order_path(@order) %>"><i class="material-icons hide-on-med-and-up ">receipt</i><span class="hide-on-small-only">View invoice</span></a>
-					<a class="btn waves-effect waves-light modal-trigger breadcrumbs-btn right mr-2 indigo border-round btn-send-email" href="#modal-invoice"><i class="material-icons hide-on-med-and-up ">send</i><span class="hide-on-small-only">Send invoice</span></a>
-					<%= link_to change_order_order_path(@order), class: "btn waves-effect mr-2 waves-light breadcrumbs-btn right pink lighten-4 pink-text border-round" do %>
-						<i class="material-icons hide-on-med-and-up ">edit</i><span class="hide-on-small-only">Change Order</span>
-					<% end %>
-					</a>
+          <a class="btn dropdown-settings waves-effect waves-light breadcrumbs-btn right" href="#!" data-target="dropdown1"><i class="material-icons hide-on-med-and-up">settings</i><span class="hide-on-small-onl">Actions</span><i class="material-icons right">arrow_drop_down</i></a>
+          <ul class="dropdown-content" id="dropdown1" tabindex="0">
+            <li>
+              <%= link_to schedule_order_path(@order), class: "grey-text text-darken-2" do %>
+                <i class="material-icons">edit</i>Edit
+              <% end %>
+            </li>
+            <li>
+              <a class="grey-text text-darken-2 modal-trigger " href="<%= invoice_order_path(@order) %>"><i class="material-icons">receipt</i>View invoice</a>
+            </li>
+            <li>
+              <a class="modal-trigger grey-text text-darken-2 btn-send-email" href="#modal-invoice"><i class="material-icons">send</i>Send invoice</a>
+            </li>
+            <li>
+              <%= link_to change_order_order_path(@order), class: "grey-text text-darken-2" do %>
+                <i class="material-icons">edit</i>Change Order
+              <% end %>
+            </li>
+          </ul>
 				</div>
 			</div>
 		</div>

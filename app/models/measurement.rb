@@ -22,6 +22,8 @@
 class Measurement < ApplicationRecord
   belongs_to :measurement_area, optional: true
 
+  before_validation :set_default
+
   def self.square_meter areas_ids
     square_meter = 0
     measurements = self.where(measurement_area_id: areas_ids)
@@ -30,5 +32,12 @@ class Measurement < ApplicationRecord
     end
 
     return square_meter.to_f
+  end
+
+  def set_default
+    self.length = self.length || 0
+    self.height = self.height || 0
+    self.width = self.width || 0
+    self.square_feet = self.square_feet || 0
   end
 end

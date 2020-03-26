@@ -80,7 +80,6 @@ const ProductComponent = () => {
         setProductPurchase(productPurchase => {
           const copy = [...productPurchase]
           const { id, name, customer_price } = products.filter(p => p.name === val)[0]
-          console.log(products.filter(p => p.name === val)[0])
           copy[productIndex.productIndex].product_id = id
           copy[productIndex.productIndex].price = customer_price
           copy[productIndex.productIndex].name = name
@@ -119,36 +118,6 @@ const ProductComponent = () => {
   }
 
   const removeProduct = async (index, key) => {
-    // Swal.fire({
-    //   title: `Are you sure? ${index}`,
-    //   text: "You won't be able to revert this!",
-    //   icon: 'warning',
-    //   showCancelButton: true,
-    //   confirmButtonText: 'Yes, remove it!',
-    //   cancelButtonText: 'No, cancel!',
-    //   reverseButtons: true
-    // }).then((result) => {
-    //   if (result.value) {
-    //     const headers = new Headers()
-    //     headers.append("Content-Type", "application/json")
-    //     headers.append("Accept", "application/json")
-    //     const init = {
-    //       method: 'DELETE',
-    //       headers,
-    //     }
-    //     // productEstimate[key].purchase_id &&
-    //     //   fetch(`/product_purchases/${key}`, init)
-    //     //     .then(res => console.log(res))
-    //     //     .catch(error => console.log(error))
-    //     Swal.fire(
-    //       'Deleted',
-    //       'Your product has been removed from list.',
-    //       'success'
-    //     )
-
-    //   }
-    // })
-
     setProductPurchase(productPurchase => {
       const temp = [...productPurchase]
 
@@ -169,7 +138,6 @@ const ProductComponent = () => {
   const create_product_purchase = () => {
     const headers = new Headers()
     headers.append("Content-Type", "application/json")
-    console.log('create')
     const data = { productPurchase: productPurchase }
     const init = {
       method: 'POST',
@@ -206,18 +174,6 @@ const ProductComponent = () => {
     })
   }
 
-  // const productTotalDiscount = (index, value) => {
-  //   setProductPurchase(productEstimate => {
-  //     const copy = [...productEstimate]
-
-  //     copy[index].total = (parseFloat(copy[index].qty) * parseFloat(copy[index].price)) - parseFloat(value)
-
-  //     setValue(`products[${index}].total`, copy[index].total ? copy[index].total : 0)
-
-  //     return copy
-  //   })
-  // }
-
   const onSubmit = data => {
     setProductPurchase(productPurchase => {
       const copy = [...productPurchase]
@@ -225,8 +181,6 @@ const ProductComponent = () => {
         return { ...product_purchase, ...data[index] }
       })
     })
-
-    console.log('FINAL', productPurchase)
 
     create_product_purchase()
       .then(() => window.location = `/orders/${purchases[0].order_id}`)
@@ -242,10 +196,6 @@ const ProductComponent = () => {
       return copy
     })
   }
-
-  // console.log("ORDER", order)
-  // console.log("productEstimate", productEstimate)
-  // console.log('orderValues', orderValues)
 
   return (
     <>
@@ -267,7 +217,6 @@ const ProductComponent = () => {
             <div className="product-area">
               <div className="products-list" >
                 <form onSubmit={handleSubmit(onSubmit)}>
-                  {console.log("PURCHASE", productPurchase)}
                   {
                     productPurchase.map((product_purchase, index) => {
                       return (
@@ -373,8 +322,8 @@ const ProductComponent = () => {
 
       </div>
       <div className="col s12 pb-2 pr-0 pl-0" style={{ position: 'relative', zIndex: 1 }}>
-        <a 
-          className="btn grey lighten-5 grey-text waves-effect waves-light breadcrumbs-btn left save" 
+        <a
+          className="btn grey lighten-5 grey-text waves-effect waves-light breadcrumbs-btn left save"
           href={`/orders/${purchases[0].order_id}/payments`}><i className="material-icons left">arrow_back</i> Back</a>
         <a className="btn indigo waves-effect waves-light breadcrumbs-btn right ml-1" onClick={() => remoteSubmit()}><i className="material-icons left">shopping_cart</i> Place Order</a>
       </div>

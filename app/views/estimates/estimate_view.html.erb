@@ -138,7 +138,7 @@
                 <tbody>
                 <% mp.product_estimates.each do |pe| %>
                   <tr>
-                    <td><%= pe.product.name %></td>
+                    <td><%= pe.product.present? ? pe.product.name : pe.custom_title %></td>
                     <td><%= pe.quantity %></td>
                     <td><%= pe.unitary_value %></td>
                     <td><%= pe.discount %></td>
@@ -163,7 +163,7 @@
             <ul>
               <li class="display-flex justify-content-between">
                 <span class="invoice-subtotal-title">Subtotal</span>
-                <h6 class="mt-0">$<%= @estimate.get_subtotal %></h6>
+                <h6 class="mt-0">$<%= @estimate.price %></h6>
               </li>
               <li class="display-flex justify-content-between">
                 <span class="invoice-subtotal-title">Discount</span>

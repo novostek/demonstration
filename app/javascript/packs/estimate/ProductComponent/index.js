@@ -5,6 +5,7 @@ import M from 'materialize-css'
 import * as yup from "yup";
 import EstimateDetail from '../EstimateDetail'
 import Swal from 'sweetalert2'
+import axios from 'axios'
 
 const schema = {
   requiredDecimal: { required: true, pattern: /^\d+(\.\d{1,2})?$/ }
@@ -40,16 +41,22 @@ const ProductComponent = () => {
     }
   ])
 
-  // useEffect(() => {
-  //   reset({
-  //     measurement: [...productEstimate]
-  //   })
-  // }, [productEstimate])
+  const [productAutoComplete, setProductAutoComplete] = useState({})
+
+  const updateProductList = async (index, peIndex, name, value) => {
+    const { data: products } = await axios.get('/products.json')
+
+    setProductAutoComplete(products)
+  }
 
   useEffect(() => {
     let indexHelper = 0
 
     const inicialLoad = async () => {
+      const { data: products } = await axios.get('/products.json')
+      console.log(products)
+      setProductAutoComplete(products)
+
       if (estimate.measurement_proposals.length > 0) {
         await setProductEstimate(productEstimate => {
           const copy = [...productEstimate]
@@ -77,7 +84,8 @@ const ProductComponent = () => {
                       qty: pe.quantity,
                       price: pe.unitary_value,
                       discount: pe.discount,
-                      total: pe.value
+                      total: pe.value,
+                      readOnly: true
                     })
                   })
                 }
@@ -94,7 +102,8 @@ const ProductComponent = () => {
                       qty: pe.quantity,
                       price: pe.unitary_value,
                       discount: pe.discount,
-                      total: pe.value
+                      total: pe.value,
+                      readOnly: true
                     })
                 })
                 // console.log(copy[])
@@ -124,7 +133,9 @@ const ProductComponent = () => {
 
     const autoCompleteProductData = {}
 
-    products.map(product => autoCompleteProductData[product.name] = null)
+    Array.isArray(productAutoComplete) && productAutoComplete.map(product => autoCompleteProductData[product.name] = null)
+
+    console.log(autoCompleteProductData)
 
     const options = {
       data: autoCompleteProductData,
@@ -154,7 +165,7 @@ const ProductComponent = () => {
 
     const elems = document.querySelectorAll('input.autocomplete.autocomplete-products')
     M.Autocomplete.init(elems, options)
-  })
+  }, [productAutoComplete])
 
   const calculateProductLW = (areas_ids, product_id) => {
     return fetch(`/calculation_formulas/lxw/product/${product_id}?areas_ids=[${areas_ids}]`)
@@ -229,6 +240,8 @@ const ProductComponent = () => {
         setProductEstimate(productEstimate => {
           const copy = [...productEstimate]
           copy[maIndex].products.splice(peIndex, 1)
+
+          reset(copy)
 
           return copy
         })
@@ -350,10 +363,12 @@ const ProductComponent = () => {
     })
   }
 
+
+
   const onSubmit = async data => {
     const copy = [...productEstimate]
     const results = copy.map(async (ma, index) => {
-      console.log('map1')
+      console.log(data)
       const maCopy = { ...ma }
       maCopy.products = ma.products.map((pe, peIndex) => {
         console.log('map2')
@@ -369,6 +384,17 @@ const ProductComponent = () => {
 
     create_product_estimate()
       .then(() => window.location = `/estimates/${estimate.id}/view`)
+  }
+
+  const handleChange = (index, peIndex, name, value) => {
+    setProductEstimate(productEstimate => {
+      const copy = [...productEstimate]
+
+      copy[index].products[peIndex].name = value
+      setValue(name, value)
+
+      return copy
+    })
   }
 
   return (
@@ -428,11 +454,14 @@ const ProductComponent = () => {
                                     <div className="col s6 m4">
                                       <span className="left width-100 pt-1">Product</span>
                                       <div className="input-field mt-0 mb-0 products-search-field-box">
-                                        {/* <a href="#" className="btn-add-product tooltipped" data-tooltip="New product"><i className="material-icons">add</i></a> */}
+                                        <a href="#product-add-modal" className="btn-add-product modal-trigger tooltipped" data-tooltip="New product"><i className="material-icons">add</i></a>
                                         <input
-                                          name="product_list"
+                                          name={`measurement[${index}].products[${peIndex}].name`}
                                           ref={register}
+                                          onFocus={() => updateProductList()}
+                                          onChange={(e) => handleChange(index, peIndex, e.target.name, e.target.value)}
                                           defaultValue={productEstimate[index].products[peIndex].name}
+                                          readOnly={productEstimate[index].products[peIndex].readOnly}
                                           onClick={() => setMaProductListIndex(prev => {
                                             return { ...prev, maIndex: index, productIndex: peIndex }
                                           })}
@@ -451,6 +480,7 @@ const ProductComponent = () => {
                                         type="text"
                                         name={`measurement[${index}].products[${peIndex}].qty`}
                                         defaultValue={productEstimate[index].products[peIndex].qty}
+                                        readOnly={productEstimate[index].products[peIndex].readOnly}
                                         onChange={(e) => productTotalQty(index, peIndex, e.target.value)}
                                         ref={register(schema.requiredDecimal)} className="product-value qty" />
                                       {errors.qty && <span>{errors.qty.message}</span>}
@@ -462,6 +492,7 @@ const ProductComponent = () => {
                                         name={`measurement[${index}].products[${peIndex}].price`}
                                         ref={register(schema.requiredDecimal)}
                                         defaultValue={productEstimate[index].products[peIndex].price}
+                                        readOnly={productEstimate[index].products[peIndex].readOnly}
                                         onChange={(e) => productTotalPrice(index, peIndex, e.target.value)}
                                         className="product-value price" />
                                       {errors.price && <span>{errors.price.message}</span>}
@@ -471,6 +502,7 @@ const ProductComponent = () => {
                                       <input type="text"
                                         name={`measurement[${index}].products[${peIndex}].discount`}
                                         defaultValue={productEstimate[index].products[peIndex].discount}
+                                        readOnly={productEstimate[index].products[peIndex].readOnly}
                                         onChange={(e) => productTotalDiscount(index, peIndex, e.target.value)}
                                         ref={register(schema.requiredDecimal)}
                                         className="product-value discount" />
@@ -482,6 +514,7 @@ const ProductComponent = () => {
                                         type="text"
                                         name={`measurement[${index}].products[${peIndex}].total`}
                                         defaultValue={productEstimate[index].products[peIndex].total}
+                                        readOnly={productEstimate[index].products[peIndex].readOnly}
                                         ref={register(schema.requiredDecimal)}
                                         className="product-value total" />
                                       <a onClick={() => removeProduct(index, peIndex)} style={{ cursor: 'pointer' }} className="btn-remove-product"><i className="material-icons">delete</i></a>

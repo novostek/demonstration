@@ -25,12 +25,12 @@
             <%= link_to create_order_estimate_path(@estimate), class: "btn waves-effect waves-light breadcrumbs-btn right border-round" do %>
               <i class="material-icons hide-on-med-and-up">attach_money</i><span class="hide-on-small-only"><%= t('create_order') %></span>
             <% end %>
-            <%= link_to estimate_signature_estimate_path(@estimate), class: "btn waves-effect waves-light breadcrumbs-btn right border-round" do %>
+            <%= link_to estimate_signature_estimate_path(@estimate), class: "btn waves-effect waves-light breadcrumbs-btn right border-round" , target: "_blank" do %>
               <i class="material-icons hide-on-med-and-up">attach_money</i><span class="hide-on-small-only"><%= t('sign') %></span>
             <% end %>
           <% end %>
           <% if @estimate.change_order? and @estimate.order.awaiting_change_approval? %>
-            <%= link_to estimate_signature_estimate_path(@estimate), class: "btn waves-effect mr-2 waves-light breadcrumbs-btn right border-round" do %>
+            <%= link_to estimate_signature_estimate_path(@estimate), class: "btn waves-effect mr-2 waves-light breadcrumbs-btn right border-round", target: "_blank" do %>
               <i class="material-icons hide-on-med-and-up">attach_money</i><span class="hide-on-small-only"><%= t('sign') %></span>
             <% end %>
           <% end %>

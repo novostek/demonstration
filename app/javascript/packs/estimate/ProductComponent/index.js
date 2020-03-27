@@ -53,10 +53,8 @@ const ProductComponent = () => {
     setProductAutoComplete(products)
   }
 
-  const updateSuggestions = async (product_id) => {
+  const updateSuggestions = async (area, product_id) => {
     const { data } = await axios.get(`/products/${product_id}.json`)
-
-    console.log(data)
 
     setSuggestions((suggestions) => {
       const copy = [...suggestions]
@@ -159,8 +157,6 @@ const ProductComponent = () => {
 
     Array.isArray(productAutoComplete) && productAutoComplete.map(product => autoCompleteProductData[product.name] = null)
 
-    console.log(autoCompleteProductData)
-
     const options = {
       data: autoCompleteProductData,
       limit: 5,
@@ -169,7 +165,7 @@ const ProductComponent = () => {
           const copy = [...productEstimate]
           const id = productAutoComplete.filter(p => p.name === val)[0].id
 
-          updateSuggestions(id)
+          updateSuggestions(maProductListIndex.maIndex, id)
 
           copy[maProductListIndex.maIndex].products[maProductListIndex.productIndex].product_id = id
           copy[maProductListIndex.maIndex].showSuggestions = true
@@ -573,11 +569,6 @@ const ProductComponent = () => {
                               )
                             })
                           }
-                          {/* <a href="#" data-price="56.9" data-qty="3">Product with a big name</a>
-                          <a href="#" data-price="23.1" data-qty="1">Product Y</a>
-                          <a href="#" data-price="23.1" data-qty="1">Product Y2</a>
-                          <a href="#" data-price="23.1" data-qty="1">Product Y3</a>
-                          <a href="#" data-price="23.1" data-qty="1">Product Y5</a> */}
                         </div>
 
                       </div>

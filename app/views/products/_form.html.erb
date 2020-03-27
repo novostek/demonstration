@@ -104,7 +104,7 @@
   <div class="row">
     <div class="other-field">
       <%= f.label :suggestion_ids %>
-      <%= f.select :suggestion_ids, options_for_select(@products, product.suggestions.pluck(:suggestion_id)),{:include_hidden => false},{ multiple: true} %>
+      <%= f.select :suggestion_ids, options_for_select(@products, product.suggestions.pluck(:suggestion_id)),{:include_hidden => false},{ multiple: true, class: "select2-size-sm browser-default"} %>
     </div>
   </div>
 
@@ -112,4 +112,16 @@
   <div class="actions">
     <%= f.submit t('button.save'), class:"btn" %>
   </div>
+<% end %>
+
+<%=  content_for :scripts do %>
+  <script type="text/javascript" charset="utf-8">
+      $( document ).ready(function() {
+          $('.select2-size-sm').select2({
+              dropdownAutoWidth: true,
+              width: '100%',
+              containerCssClass: 'select-sm'
+          });
+      });
+  </script>
 <% end %>

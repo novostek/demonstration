@@ -24,6 +24,7 @@ const ProductComponent = () => {
   const node = document.getElementById('purchase_data')
   const purchases = JSON.parse(node.getAttribute('purchases'))
   const estimate = JSON.parse(node.getAttribute('estimate'))
+  const order = JSON.parse(node.getAttribute('data'))
 
   const [productPurchase, setProductPurchase] = useState([])
 
@@ -324,7 +325,7 @@ const ProductComponent = () => {
       <div className="col s12 pb-2 pr-0 pl-0" style={{ position: 'relative', zIndex: 1 }}>
         <a
           className="btn grey lighten-5 grey-text waves-effect waves-light breadcrumbs-btn left save"
-          href={`/orders/${purchases[0].order_id}/payments`}><i className="material-icons left">arrow_back</i> Back</a>
+          href={`/orders/${order.id}/payments`}><i className="material-icons left">arrow_back</i> Back</a>
         <a className="btn indigo waves-effect waves-light breadcrumbs-btn right ml-1" onClick={() => remoteSubmit()}><i className="material-icons left">shopping_cart</i> Place Order</a>
       </div>
     </>

@@ -1,53 +1,78 @@
-<div class="email-wrapper">
+<div class="email-wrapper"
+     style="box-sizing: border-box;width: 90%;max-width: 800px;margin: 0 auto;padding: 40px 0;">
 
-  <section class="email-header">
-    <div class="email-header--company">
-      <span><%= Setting.get_value("company_name") %></span>
+  <section class="email-header"
+           style="box-sizing: border-box;display: grid;grid-template-columns: 40% 60%;height: 60px;align-items: center;">
+    <div class="email-header--company"
+         style="box-sizing: border-box;display: inline-flex;align-items: center;font-weight: 600;">
+      <span style="box-sizing: border-box;"><%= Setting.get_value("company_name") %></span>
     </div>
-<!--    <div class="email-header--info">-->
-<!--      Having problems viewing this email? <a href="#">View email online</a>-->
+<!--    <div class="email-header--info" style="box-sizing: border-box;color: #666;font-size: 14px;">-->
+<!--      Having problems viewing this email? <a href="#"-->
+<!--                                             style="box-sizing: border-box;color: #3949ab;text-decoration: none;">View email online</a>-->
 <!--    </div>-->
   </section>
 
-  <section class="email-body">
-    <div class="email-body--content">
-      <h6 class="greetings">Hi, <%= @order.current_estimate.customer %>!</h6>
-      <p>
+  <section class="email-body"
+           style="box-sizing: border-box;background: #fff;border: 1px solid rgba(0,0,0,0.1);border-top: 10px solid #f5b000;border-radius: 4px;padding: 40px;">
+    <div class="email-body--content" style="box-sizing: border-box;">
+      <h6 class="greetings" style="box-sizing: border-box;font-size: 22px;margin: 0px;">Hi, <%= @order.current_estimate.customer %>!</h6>
+      <p style="box-sizing: border-box;">
         <%= Setting.get_value("send_square_mail_text") %>
       </p>
-      <table>
-        <thead>
-        <tr>
-          <th>Product/Service</th>
-          <th>Value</th>
+      <table
+        style="box-sizing: border-box;border: 1px solid rgba(0,0,0,0.12);width: 100%;display: table;border-collapse: collapse;border-spacing: 0;background: rgba(0,0,0,0.03);border-radius: 4px !important;">
+        <thead style="box-sizing: border-box;">
+        <tr style="box-sizing: border-box;border-bottom: 1px solid rgba(0,0,0,0.12);">
+          <th
+            style="box-sizing: border-box;border: none;padding: 15px 10px;display: table-cell;text-align: left;vertical-align: middle;border-radius: 2px;">
+            Product/Service</th>
+          <th
+            style="box-sizing: border-box;border: none;padding: 15px 10px;display: table-cell;text-align: left;vertical-align: middle;border-radius: 2px;">
+            Value</th>
         </tr>
         </thead>
-        <tbody>
-        <tr>
-          <td>Payment of Order #<%= @order.code %></td>
-          <td><%= number_to_currency(@transaction.value) %></td>
+        <tbody style="box-sizing: border-box;">
+        <tr style="box-sizing: border-box;border-bottom: 1px solid rgba(0,0,0,0.12);">
+          <td
+            style="box-sizing: border-box;border: none;padding: 15px 10px;display: table-cell;text-align: left;vertical-align: middle;border-radius: 2px;">
+            Payment of Order #<%= @order.code %></td>
+          <td
+            style="box-sizing: border-box;border: none;padding: 15px 10px;display: table-cell;text-align: left;vertical-align: middle;border-radius: 2px;">
+            <%= number_to_currency(@transaction.value) %></td>
         </tr>
+
         </tbody>
       </table>
-      <br>
-      <a class="btn btn-primary" href="<%= @link %>">Ok, I'll pay!</a>
-<!--      <a class="btn btn-secondary" href="#">Forgerrabaaaaurrit!</a>-->
+      <br style="box-sizing: border-box;">
+      <a class="btn btn-primary" href="<%= @link %>"
+         style="box-sizing: border-box;color: #fff;text-decoration: none;margin-top: 5px;padding: 0px 15px;border-radius: 20px;height: 36px;line-height: 36px;display: inline-flex;align-items: center;background: #3949ab;">Ok,
+        I'll pay!</a>
+      <a class="btn btn-secondary" href="#"
+         style="box-sizing: border-box;color: #333;text-decoration: none;margin-top: 5px;padding: 0px 15px;border-radius: 20px;height: 36px;line-height: 36px;display: inline-flex;align-items: center;background: #f5b000;">Forgerrabaaaaurrit!</a>
     </div>
   </section>
-  <section class="email-footer">
-    <div class="email-footer--logo">
-      <div class="div">
-        <span>Powered by</span>
+  <section class="email-footer"
+           style="box-sizing: border-box;display: grid;grid-template-columns: 240px auto;grid-gap: 10px;height: 60px;align-items: center;">
+    <div class="email-footer--logo"
+         style="box-sizing: border-box;display: flex;justify-content: space-between;">
+      <div class="div"
+           style="box-sizing: border-box;display: flex;flex-direction: column;align-items: flex-start;font-weight: 600;font-size: 12px;">
+        <span style="box-sizing: border-box;">Powered by</span>
         <%= image_tag attachments['woffice.png'].url %>
+<!--        <img src="/woffice.svg" alt="Woffice" style="box-sizing: border-box;width: 100px;float: left;">-->
       </div>
-      <br>
-      <div>
-
+      <div
+        style="box-sizing: border-box;display: flex;flex-direction: column;align-items: flex-start;font-weight: 600;font-size: 12px;">
+        <br style="box-sizing: border-box;">
+<!--        <img src="app-assets/images/square.svg" alt="Square" style="box-sizing: border-box;width: 100px;float: left;">-->
         <%= image_tag attachments['square.png'].url %>
       </div>
     </div>
-    <div class="email-footer--info">
-      Having some trouble? contacts via email <a href="mailto:help@woffice.com">help@woffice.com</a>
+    <div class="email-footer--info"
+         style="box-sizing: border-box;color: #666;font-size: 14px;text-align: right;">
+      Having some trouble? contacts via email <a href="mailto:help@woffice.com"
+                                                 style="box-sizing: border-box;color: #3949ab;text-decoration: none;">help@woffice.com</a>
     </div>
   </section>
 

@@ -11,6 +11,9 @@ en:
         namespace: "Namespace"
   enumerize:
     estimate:
+      taxpayer:
+        customer: 'Customer will pay'
+        company: 'We will pay'
       category:
         estimate: "Estimate"
         change_order: "Change Order"
@@ -22,4 +25,4 @@ en:
         waiting_approval: "Waiting Approval"
         ordered: "Ordered"
         cancelled: "Cancelled"
-  sign: "Sing"
+  sign: "Sign"

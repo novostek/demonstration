@@ -18,19 +18,28 @@
 					</ol>
 				</div>
 				<div class="col s2 m6 l6">
-
-					<%= link_to schedule_order_path(@order), class: "btn waves-effect waves-light breadcrumbs-btn right pink lighten-4 pink-text border-round" do %>
-						<i class="material-icons hide-on-med-and-up ">edit</i><span class="hide-on-small-only">Edit</span>
-					<% end if !@order.finished? and !@order.cancelled? %>
-					<a class="btn waves-effect waves-light breadcrumbs-btn right pink mr-2 lighten-4 pink-text border-round" href="<%= invoice_order_path(@order) %>"><i class="material-icons hide-on-med-and-up ">receipt</i><span class="hide-on-small-only">View invoice</span></a>
-<!--					<a class="btn waves-effect waves-light modal-trigger breadcrumbs-btn right mr-2 indigo border-round btn-send-email" href="#modal-invoice"><i class="material-icons hide-on-med-and-up ">send</i><span class="hide-on-small-only">Send invoice</span></a>-->
-					<%= link_to change_order_order_path(@order), class: "btn waves-effect mr-2 waves-light breadcrumbs-btn right pink lighten-4 pink-text border-round" do %>
-						<i class="material-icons hide-on-med-and-up ">edit</i><span class="hide-on-small-only">Change Order</span>
-					<% end if !@order.finished? and !@order.cancelled? %>
-					<%= link_to finish_order_order_path(@order), class: "btn waves-effect mr-2 waves-light breadcrumbs-btn right pink lighten-4 pink-text border-round" do %>
-						<i class="material-icons hide-on-med-and-up ">edit</i><span class="hide-on-small-only">Finish Order</span>
-					<% end if !@order.finished? and !@order.cancelled? %>
-					</a>
+          <a class="btn dropdown-settings waves-effect waves-light breadcrumbs-btn right" href="#!" data-target="dropdown1"><i class="material-icons hide-on-med-and-up">settings</i><span class="hide-on-small-onl">Actions</span><i class="material-icons right">arrow_drop_down</i></a>
+          <ul class="dropdown-content" id="dropdown1" tabindex="0">
+            <li>
+            <%= link_to schedule_order_path(@order), class: "btn waves-effect waves-light breadcrumbs-btn right pink lighten-4 pink-text border-round" do %>
+              <i class="material-icons hide-on-med-and-up ">edit</i><span class="hide-on-small-only">Edit</span>
+            <% end if !@order.finished? and !@order.cancelled? %>
+            </li>
+            <li>
+            <a class="btn waves-effect waves-light breadcrumbs-btn right pink mr-2 lighten-4 pink-text border-round" href="<%= invoice_order_path(@order) %>"><i class="material-icons hide-on-med-and-up ">receipt</i><span class="hide-on-small-only">View invoice</span></a>
+            </li>
+            <!--					<a class="btn waves-effect waves-light modal-trigger breadcrumbs-btn right mr-2 indigo border-round btn-send-email" href="#modal-invoice"><i class="material-icons hide-on-med-and-up ">send</i><span class="hide-on-small-only">Send invoice</span></a>-->
+            <li>
+            <%= link_to change_order_order_path(@order), class: "btn waves-effect mr-2 waves-light breadcrumbs-btn right pink lighten-4 pink-text border-round" do %>
+              <i class="material-icons hide-on-med-and-up ">edit</i><span class="hide-on-small-only">Change Order</span>
+            <% end if !@order.finished? and !@order.cancelled? %>
+            </li>
+            <li>
+            <%= link_to finish_order_order_path(@order), class: "btn waves-effect mr-2 waves-light breadcrumbs-btn right pink lighten-4 pink-text border-round" do %>
+              <i class="material-icons hide-on-med-and-up ">edit</i><span class="hide-on-small-only">Finish Order</span>
+            <% end if !@order.finished? and !@order.cancelled? %>
+            </li>
+          </ul>
 				</div>
 			</div>
 		</div>
@@ -188,7 +197,7 @@
 											<tbody>
 											<% mp.product_estimates.each do |pe| %>
 												<tr>
-													<td><%= pe.product.name %></td>
+													<td><%= pe.product.present? ? pe.product.name : pe.custom_title %></td>
 													<td><%= pe.quantity %></td>
 													<td><%= pe.unitary_value %></td>
 													<td><%= pe.discount %></td>

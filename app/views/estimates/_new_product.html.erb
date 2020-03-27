@@ -1,0 +1,79 @@
+
+<%= form_for product, remote: true do |f| %>
+  <div id="product-add-modal" class="modal modal-fixed-footer">
+    <div class="modal-content">
+      <% if product.errors.any? %>
+        <div id="error_explanation" class="card-panel red white-text">
+          <h5><%= t('errors.template.header')  %>:</h5>
+
+          <ul>
+          <% product.errors.full_messages.each do |message| %>
+            <li><%= message %></li>
+          <% end %>
+          </ul>
+        </div>
+      <% end %>        
+      <div class="input-field">
+        <%= f.label  :name %>
+        <%= f.text_field :name, required: true %>
+      </div>
+      <div class="input-field">
+        <%= f.label  :uuid %>
+        <%= f.text_field :uuid %>
+      </div>
+      <div class="input-field">
+        <%= f.label  :details %>
+        <%= f.text_area :details, class:"materialize-textarea" %>
+      </div>
+      <div class="input-field">
+        <%= f.select :product_category_id, @categories, {prompt: true}  %>
+        <%= f.label  :product_category_id %>
+      </div>
+      <div class="input-field">
+        <%= f.select :supplier_id, @suppliers, {prompt: true}  %>
+        <%= f.label  :supplier_id %>
+      </div>
+      <div class="input-field">
+        <%= f.select :calculation_formula_id, @formulas, {prompt: true} %>
+        <%= f.label  :calculation_formula_id %>
+      </div>
+      <div class="input-field">
+        <%= f.label  :customer_price %>
+        <%= f.number_field :customer_price, step: :any%>
+      </div>
+      <div class="input-field">
+        <%= f.label  :cost_price %>
+        <%= f.number_field :cost_price, step: :any%>
+      </div>
+      <div class="input-field">
+        <%= f.label  :area_covered %>
+        <%= f.number_field :area_covered , step: :any%>
+      </div>
+      <div class="file-field input-field">
+        <div class="btn">
+          <span><%= f.label  :photo %></span>
+          <%= f.file_field :photo %>
+          <%= f.hidden_field :photo_cache %>
+        </div>
+        <div class="file-path-wrapper">
+          <input class="file-path validate" type="text">
+        </div>
+      </div>
+      <div class="input">
+        <label>
+          <input type="checkbox" name="product[tax]" id="product_tax" />
+          <span><%= f.label  :tax %></span>
+        </label>    
+      </div>
+      <div class="input-field">
+        <%= f.label  :bpm_purchase %>
+        <%= f.text_field :bpm_purchase %>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <%= f.button :submit, :value => "remote_save", class:"modal-action modal-close waves-effect waves-green btn-flat" do %>
+        <i class="material-icons left">save</i><%= t('buttons.save') %>
+      <% end %>
+    </div>
+  </div>
+<% end %>

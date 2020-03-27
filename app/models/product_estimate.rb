@@ -13,7 +13,7 @@
 #  created_at              :datetime         not null
 #  updated_at              :datetime         not null
 #  measurement_proposal_id :bigint           not null
-#  product_id              :bigint           not null
+#  product_id              :bigint
 #
 # Indexes
 #
@@ -26,7 +26,7 @@
 #  fk_rails_...  (product_id => products.id)
 #
 class ProductEstimate < ApplicationRecord
-  belongs_to :product
+  belongs_to :product, optional: true
   belongs_to :measurement_proposal
 
 

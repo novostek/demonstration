@@ -13,7 +13,7 @@
 #  created_at              :datetime         not null
 #  updated_at              :datetime         not null
 #  measurement_proposal_id :bigint           not null
-#  product_id              :bigint           not null
+#  product_id              :bigint
 #
 # Indexes
 #

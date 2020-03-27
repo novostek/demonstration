@@ -54,6 +54,7 @@ class ProductsController < ApplicationController
       @categories = ProductCategory.to_select
       @formulas = CalculationFormula.to_select
       @suppliers = Supplier.to_select
+      @products = Product.to_select
     end
     # Use callbacks to share common setup or constraints between actions.
     def set_product

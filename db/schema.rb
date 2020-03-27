@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_03_26_220650) do
+ActiveRecord::Schema.define(version: 2020_03_27_021914) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -271,6 +271,13 @@ ActiveRecord::Schema.define(version: 2020_03_26_220650) do
     t.index ["purchase_id"], name: "index_product_purchases_on_purchase_id"
   end
 
+  create_table "product_suggestions", force: :cascade do |t|
+    t.bigint "product_id"
+    t.bigint "suggestion_id"
+    t.index ["product_id"], name: "index_product_suggestions_on_product_id"
+    t.index ["suggestion_id"], name: "index_product_suggestions_on_suggestion_id"
+  end
+
   create_table "products", force: :cascade do |t|
     t.string "name"
     t.string "uuid"
@@ -454,6 +461,8 @@ ActiveRecord::Schema.define(version: 2020_03_26_220650) do
   add_foreign_key "product_estimates", "products"
   add_foreign_key "product_purchases", "products"
   add_foreign_key "product_purchases", "purchases"
+  add_foreign_key "product_suggestions", "products"
+  add_foreign_key "product_suggestions", "products", column: "suggestion_id"
   add_foreign_key "products", "calculation_formulas"
   add_foreign_key "products", "product_categories"
   add_foreign_key "products", "suppliers"

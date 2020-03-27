@@ -1,5 +1,5 @@
 class OrdersController < ApplicationController
-  before_action :set_order, only: [
+  before_action :set_order, only: [:doc_signature_mail,:send_sign_mail,:finish,:finish_order_signature,:doc_signature,:finish_order,
     :show, :edit, :update, 
     :destroy, :schedule, :create_schedule, 
     :payments, :transaction, :product_purchase, :new_note,:new_document,:new_contact, :invoice,:invoice_add_payment,:send_invoice_mail,:view_invoice_customer,:costs,:change_order]
@@ -7,6 +7,58 @@ class OrdersController < ApplicationController
   #Método para visualizar o invoice de order
   def invoice
     @transactions = @order.transactions.order(due: :asc).order(id: :asc)
+    begin
+      @email_customer = @estimate.customer.contacts.where(category: :email, main: true).first.data["email"]
+    rescue
+      @email_customer = ""
+    end
+  end
+  
+  def doc_signature
+    @document = Document.find(params[:document])
+    @data = @document.data
+    @template = Liquid::Template.parse(ERB.new(@data).result(binding))
+    @estimate = @order.current_estimate
+    render layout: "clean"
+  end
+
+  def doc_signature_mail
+    @document = Document.find(params[:document])
+    @data = @document.data
+    @template = Liquid::Template.parse(ERB.new(@data).result(binding))
+    @estimate = @order.current_estimate
+    @signature = Signature.new
+    @signature.origin = "Order"
+    @signature.origin_id = @order.id
+    render layout: "clean"
+  end
+
+  #Método que envia o email para assinatura
+  def send_sign_mail
+
+    DocumentMailer.with(link: doc_signature_mail_order_url(@order,document: params[:document]) ,subject: params[:subject] , emails: params[:emails], order: @order).sign_order.deliver_now
+    redirect_to finish_order_signature_order_path(@order), notice: "Mail sent"
+  end
+
+  #Método que finaliza a order sem a necessidade de assinatura ou photos
+  def finish
+    @order.update(status: :finished)
+    redirect_to @order, notice: "Order Finished"
+  end
+
+  #Método que inicializa a finalização da order pelo envio de fotos
+  def finish_order
+
+
+  end
+
+  #Método para caputrar a assinatura da order
+  def finish_order_signature
+    @documents = Document.where(sub_type: :conclusion).map{|a| [a.name,a.id]}
+    @signature = Signature.new
+    @signature.origin = "Order"
+    @signature.origin_id = @order.id
+
     begin
       @email_customer = @estimate.customer.contacts.where(category: :email, main: true).first.data["email"]
     rescue
@@ -134,7 +186,20 @@ class OrdersController < ApplicationController
   # PATCH/PUT /orders/1
   def update
     if @order.update(order_params)
-      redirect_to product_purchase_order_path(@order), notice: 'Order was successfully updated.'
+      
+      if !params[:status].present?
+        redirect_to product_purchase_order_path(@order), notice: 'Order was successfully updated.'
+      else
+
+        if params[:status] == true #finishing order
+          @order.update(status: :finished)
+          redirect_to @order, notice: "Order Finished"
+        else#go to sign
+          redirect_to finish_order_signature_order_path(@order)
+        end
+
+      end
+
     else
       redirect_to payments_order_path(@order), notice: 'There wwwas an error while trying to update the order.'
     end
@@ -257,7 +322,7 @@ class OrdersController < ApplicationController
     # Only allow a trusted parameter "white list" through.
     def order_params
       params.require(:order).permit(
-        :id, :code, :status, :bpmn_instance, :start_at, :end_at,
+        :id, :code, :status, :bpmn_instance, :start_at, :end_at, {photos: []},
         transactions_attributes: [
           :id, :origin, :origin_id, :value, :payment_method, :due,:email, :_destroy
         ])

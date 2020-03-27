@@ -198,6 +198,7 @@ ActiveRecord::Schema.define(version: 2020_03_27_021914) do
     t.datetime "end_at"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.json "photos"
   end
 
   create_table "plutus_accounts", id: :serial, force: :cascade do |t|
@@ -290,7 +291,7 @@ ActiveRecord::Schema.define(version: 2020_03_27_021914) do
     t.string "bpm_purchase"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.bigint "supplier_id"
+    t.bigint "supplier_id", null: false
     t.bigint "calculation_formula_id", null: false
     t.text "photo"
     t.index ["calculation_formula_id"], name: "index_products_on_calculation_formula_id"

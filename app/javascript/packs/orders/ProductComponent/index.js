@@ -205,10 +205,15 @@ const ProductComponent = () => {
         <div className="card-content">
           <ul className="stepper horizontal stepper-head-only">
             <li className="step ">
+              <a href={`/orders/${order.id}/schedule`}>
               <div className="step-title waves-effect">Schedule</div>
+              </a>
             </li>
+
             <li className="step">
-              <div className="step-title waves-effect">Payment</div>
+              <a href={`/orders/${order.id}/payments`}>
+                <div className="step-title waves-effect">Payment</div>
+              </a>
             </li>
             <li className="step active">
               <div className="step-title waves-effect">Products purchase</div>

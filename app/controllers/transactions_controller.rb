@@ -12,7 +12,7 @@ class TransactionsController < ApplicationController
   def send_square_again
     checkout_status, checkout_data = @transaction.send_square_from_invoice
     if checkout_status
-      DocumentMailer.with(link: checkout_data[:checkout][:checkout_page_url] , emails: params[:emails], order: @transaction.order).send_square.deliver_later
+      DocumentMailer.with(transaction: @transaction, link: checkout_data[:checkout][:checkout_page_url] , emails: params[:emails], order: @transaction.order).send_square.deliver_later
       redirect_to invoice_order_path(@transaction.order), notice: "Mail sent"
     else
       redirect_to invoice_order_path(@transaction.order), notice: "Error"

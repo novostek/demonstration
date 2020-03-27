@@ -23,9 +23,12 @@
   </div>
 </div>
 <div class="row">
+
   <div class="col s12">
     <div class="container">
       <div class="section">
+
+
         <div id="react-component"></div>
         <%= content_tag :div,
           id: "purchase_data",
@@ -35,8 +38,10 @@
           products: @products.to_json do %>
         <% end %>
 
+
+
         <%= javascript_pack_tag 'orders/ProductComponent/index' %>
-  
+
 
       </div>
     </div>

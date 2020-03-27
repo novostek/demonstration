@@ -4,19 +4,19 @@
     <div class="email-header--company">
       <span><%= Setting.get_value("company_name") %></span>
     </div>
-    <!--    <div class="email-header--info">-->
-    <!--      Having problems viewing this email? <a href="#">View email online</a>-->
-    <!--    </div>-->
+<!--    <div class="email-header--info">-->
+<!--      Having problems viewing this email? <a href="#">View email online</a>-->
+<!--    </div>-->
   </section>
 
   <section class="email-body">
     <div class="email-body--content">
       <h6 class="greetings">Hi, <%= @order.current_estimate.customer %>!</h6>
       <p>
-        <%= Setting.get_value("send_invoice_mail_text") %>
+        <%= Setting.get_value("sign_order_mail_text") %>
       </p>
       <br>
-      <a class="btn btn-primary" href="<%= view_invoice_customer_order_url(@order) %>">See Invoice</a>
+      <a class="btn btn-primary" href="<%= @link %>">Sign, please!</a>
     </div>
   </section>
   <section class="email-footer">

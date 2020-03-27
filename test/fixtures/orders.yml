@@ -6,6 +6,7 @@
 #  bpmn_instance :string
 #  code          :string
 #  end_at        :datetime
+#  photos        :json
 #  start_at      :datetime
 #  status        :string
 #  created_at    :datetime         not null

@@ -1,5 +1,6 @@
 class SignaturesController < ApplicationController
   before_action :set_signature, only: [:show, :edit, :update, :destroy]
+  before_action :authenticate_user!, except: [:create]
 
   # GET /signatures
   def index
@@ -63,7 +64,12 @@ class SignaturesController < ApplicationController
         $temp_img = "/#{temp.path.split("/").last}"
 
         #cria o PDF
-        file = WickedPdf.new.pdf_from_url("#{Rails.configuration.woffice['url']}/estimates/#{@signature.origin_id}/estimate_signature")
+        if @signature.origin == "Estimate"
+          file = WickedPdf.new.pdf_from_url("#{Rails.configuration.woffice['url']}/estimates/#{@signature.origin_id}/estimate_signature")
+        else
+          file = WickedPdf.new.pdf_from_url("#{Rails.configuration.woffice['url']}/orders/#{@signature.origin_id}/doc_signature?document=#{params[:document] || params[:signature][:document]}")
+        end
+
         # Write it to tempfile
         tempfile = Tempfile.new(['invoice', '.pdf'], Rails.root.join('tmp'))
         tempfile.binmode
@@ -72,7 +78,21 @@ class SignaturesController < ApplicationController
 
         doc.file = File.open(tempfile.path)
         doc.save
-        redirect_to "/estimates/#{@signature.origin_id}/estimate_signature?sign=true", notice: 'Signature was successful'
+        if @signature.origin == "Estimate"
+          redirect_to "/estimates/#{@signature.origin_id}/estimate_signature?sign=true", notice: 'Signature was successful'
+        else
+          if !params[:signature][:mail].present?
+            redirect_to "/orders/#{@signature.origin_id}/finish"
+          else
+            begin
+              Order.find(@signature.origin_id).update(status: :finished)
+            rescue
+            end
+
+            redirect_to "/orders/#{@signature.origin_id}/doc_signature?document=#{params[:signature][:document]}"
+          end
+        end
+
       else
         redirect_to @signature, notice: 'Signature foi criado com sucesso'
       end

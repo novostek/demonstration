@@ -37,8 +37,8 @@ class Product < ApplicationRecord
   belongs_to :calculation_formula, optional: true
   belongs_to :supplier, optional: true
 
-  has_many :products, :class_name => 'ProductSuggestion', :foreign_key => 'product_id'
-  has_many :suggestions, :class_name => 'ProductSuggestion', :foreign_key => 'suggestion_id'
+  has_many :products, :class_name => 'ProductSuggestion', :foreign_key => 'suggestion_id'
+  has_many :suggestions, :class_name => 'ProductSuggestion', :foreign_key =>  'product_id'
 
   validates :name,  :customer_price, :cost_price, :area_covered, :calculation_formula_id, presence: true
 
@@ -61,5 +61,4 @@ class Product < ApplicationRecord
     all.map{|a| [a.name,a.id]}
   end
 
-  def 
 end

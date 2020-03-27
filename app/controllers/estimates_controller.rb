@@ -63,37 +63,9 @@ class EstimatesController < ApplicationController
   end
 
   def estimate_signature
+    @view = params[:view]
     #verifica se foi assinado para criar a order
     if params[:sign].present?
-      # if !@estimate.order.present?
-      #   order = Order.new
-      #   if order.save
-      #     @estimate.update(order_id: order.id, current: true)
-      #
-      #     #cria os purchases
-      #     @estimate.product_estimates.each do |p|
-      #       #verifica se o produto pertence ao catalogo
-      #       if p.product.present?
-      #         #begin
-      #         product = p.product
-      #         purchase = Purchase.find_or_create_by(order_id: order.id, supplier_id: product.supplier.id)
-      #         pp = ProductPurchase.find_or_create_by(product: product, purchase: purchase)
-      #         pp.unity_value =  product.cost_price
-      #         pp.quantity =  p.quantity
-      #         pp.value = pp.unity_value * pp.quantity
-      #         pp.custom_title = p.custom_title
-      #         pp.save
-      #         # rescue
-      #         #end
-      #
-      #       else #custom products
-      #         purchase = Purchase.find_or_create_by(order_id: order.id, supplier_id: nil)
-      #         ProductPurchase.create(purchase: purchase, unity_value: p.unitary_value, quantity: p.quantity, value: p.value, custom_title: p.custom_title)
-      #       end
-      #
-      #     end
-      #   end
-      # end
       # Cria a order caso não seja change_order
       if @estimate.estimate?
         @estimate.create_order

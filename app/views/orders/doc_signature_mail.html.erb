@@ -1,4 +1,5 @@
-<%== @mail = @template.render('order' => @estimate.order.attributes, 'estimate' => @estimate.attributes, 'measurements' => JSON.parse(@estimate.measurement_areas.to_json), 'products' => JSON.parse(@estimate.product_estimates.to_json), 'customer' => JSON.parse(@estimate.customer.to_json)  ) %>
+<%#== @mail = @template.render('order' => @estimate.order.attributes, 'estimate' => @estimate.attributes, 'measurements' => JSON.parse(@estimate.measurement_areas.to_json), 'products' => JSON.parse(@estimate.product_estimates.to_json), 'customer' => JSON.parse(@estimate.customer.to_json)  ) %>
+<%== @data %>
 <br>
 
   <%= form_for(@signature) do |f| %>
@@ -6,8 +7,11 @@
     <%= f.hidden_field :sign, value: true %>
     <%= f.hidden_field :mail, value: true %>
     <%= f.hidden_field :document, value: @document.id %>
+    <%= f.hidden_field :doc_name, value: @doc_name %>
     <%= f.hidden_field :origin %>
     <%= f.hidden_field :origin_id %>
+    <%= f.hidden_field :customer_sign, value: @customer_sign %>
+
 
     <input type="hidden" id="signature_file" value="" name="signature[file]">
     <canvas id="signature-pad" class="signature-pad" width=800 height=200 style="border:1px solid #000000;"></canvas>

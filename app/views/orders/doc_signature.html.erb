@@ -1,4 +1,5 @@
-<%== @mail = @template.render('order' => @estimate.order.attributes, 'estimate' => @estimate.attributes, 'measurements' => JSON.parse(@estimate.measurement_areas.to_json), 'products' => JSON.parse(@estimate.product_estimates.to_json), 'customer' => JSON.parse(@estimate.customer.to_json)  ) %>
+<%#== @mail = @template.render('order' => @estimate.order.attributes, 'estimate' => @estimate.attributes, 'measurements' => JSON.parse(@estimate.measurement_areas.to_json), 'products' => JSON.parse(@estimate.product_estimates.to_json), 'customer' => JSON.parse(@estimate.customer.to_json)  ) %>
+<%== @data  %>
 <br>
 
 <img src="<%= $temp_img  %>" >

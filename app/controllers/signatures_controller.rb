@@ -55,7 +55,7 @@ class SignaturesController < ApplicationController
     if @signature.save
       if params[:signature][:sign].present?
         doc = DocumentFile.new
-        doc.title = "Signature"
+        doc.title = params[:signature][:doc_name] || "Signature"
         doc.origin = @signature.origin
         doc.origin_id = @signature.origin_id
 
@@ -63,11 +63,14 @@ class SignaturesController < ApplicationController
         temp = base64_to_file(params[:signature][:file])
         $temp_img = "/#{temp.path.split("/").last}"
 
+
+
         #cria o PDF
-        if @signature.origin == "Estimate"
-          file = WickedPdf.new.pdf_from_url("#{Rails.configuration.woffice['url']}/estimates/#{@signature.origin_id}/estimate_signature")
+        #binding.pry
+        if @signature.origin == "Estimate" and !params[:signature][:document].present?
+          file = WickedPdf.new.pdf_from_url("#{Rails.configuration.woffice['url']}/estimates/#{@signature.origin_id}/estimate_signature?view=true")
         else
-          file = WickedPdf.new.pdf_from_url("#{Rails.configuration.woffice['url']}/orders/#{@signature.origin_id}/doc_signature?document=#{params[:document] || params[:signature][:document]}")
+          file = WickedPdf.new.pdf_from_url("#{Rails.configuration.woffice['url']}/orders/doc_signature?document=#{params[:document] || params[:signature][:document]}")
         end
 
         # Write it to tempfile
@@ -78,18 +81,21 @@ class SignaturesController < ApplicationController
 
         doc.file = File.open(tempfile.path)
         doc.save
-        if @signature.origin == "Estimate"
-          redirect_to "/estimates/#{@signature.origin_id}/estimate_signature?sign=true", notice: 'Signature was successful'
+        if @signature.origin == "Estimate" and !params[:signature][:document].present?
+          redirect_to "/estimates/#{@signature.origin_id}/estimate_signature?sign=true&view=true", notice: 'Signature was successful'
         else
-          if !params[:signature][:mail].present?
+          if !params[:signature][:mail].present? and params[:signature][:finish_order].present?
             redirect_to "/orders/#{@signature.origin_id}/finish"
           else
-            begin
-              Order.find(@signature.origin_id).update(status: :finished)
-            rescue
+            #finaliza a order com a assinatura enviada por email
+            if params[:signature][:customer_sign].present? and params[:signature][:customer_sign] == true
+              begin
+                Order.find(@signature.origin_id).update(status: :finished)
+              rescue
+              end
             end
 
-            redirect_to "/orders/#{@signature.origin_id}/doc_signature?document=#{params[:signature][:document]}"
+            redirect_to "/orders/doc_signature?document=#{params[:signature][:document]}"
           end
         end
 

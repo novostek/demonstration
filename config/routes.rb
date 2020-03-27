@@ -102,11 +102,13 @@ Rails.application.routes.draw do
   end
   resources :orders do
     member do
-      get "doc_signature_mail"
+      get "deliver_products"
+      post "deliver_products_sign"
+      get "deliver_products_sign"
       get "send_sign_mail"
       get "finish"
       get "finish_order_signature"
-      get "doc_signature"
+
       get "finish_order"
       get "change_order"
       get "new_note"
@@ -127,7 +129,8 @@ Rails.application.routes.draw do
     end
     collection do
       delete ":order_id/schedule/:schedule_id/delete", to: "orders#delete_schedule"
-
+      get "doc_signature_mail"
+      get "doc_signature"
     end
   end
   resources :leads

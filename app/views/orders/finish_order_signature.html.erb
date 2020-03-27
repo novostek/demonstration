@@ -43,6 +43,7 @@
                       <%= f.hidden_field :sign, value: true %>
                       <%= f.hidden_field :origin %>
                       <%= f.hidden_field :origin_id %>
+                      <%= f.hidden_field :finish_order, value: true %>
 
                       <input type="hidden" id="signature_file" value="" name="signature[file]">
 
@@ -50,9 +51,18 @@
 
                       <div class="signature">
 
-                        <div class="input">
-                          <label for="">Document</label>
-                          <%= select_tag :document, options_for_select(@documents) %>
+                        <div class="row">
+                          <div class="col s12 l6">
+                            <div class="input">
+                              <label for="">Document</label>
+                              <%= select_tag :document, options_for_select(@documents) %>
+                            </div>
+                          </div>
+                          <div class="left col s12 l6">
+                            <a class="btn waves-effect waves-light right mr-2" href="#" onclick="preview_document();" >
+                              <i class="material-icons hide-on-med-and-up">save</i><span class="hide-on-small-only">Preview Document</span>
+                            </a>
+                          </div>
                         </div>
 
                         <canvas id="signature-pad" class="signature-pad"></canvas>
@@ -98,9 +108,12 @@
 
 <% end %>
 
-
 <div id="modal-mail" class="modal">
-  <%= form_with url: send_sign_mail_order_path(@order), method: :get, local: true do |f| %>
+  <%= form_with url: preview_documents_path, method: :get, local: true do |f| %>
+    <%= f.hidden_field :estimate, value: @order.current_estimate.id %>
+    <%= f.hidden_field :send_mail, value: true %>
+    <%= f.hidden_field :from, value: "Order" %>
+    <%= f.hidden_field :customer_sign, value: true %>
     <div class="modal-content">
       <h4>Send email</h4>
       <div class="row">
@@ -114,7 +127,7 @@
           <%= f.text_field :subject, required: true %>
         </div>
 
-          <%= f.hidden_field :document, id:"mail_document" %>
+        <%= f.hidden_field :document, id:"mail_document" %>
 
       </div>
     </div>
@@ -125,8 +138,40 @@
     </div>
   <% end %>
 </div>
+
+<!--<div id="modal-mail" class="modal">-->
+  <%#= form_with url: send_sign_mail_order_path(@order), method: :get, local: true do |f| %>
+<!--    <div class="modal-content">-->
+<!--      <h4>Send email</h4>-->
+<!--      <div class="row">-->
+<!--        <div class="input-field">-->
+          <%#= f.label :emails, "Emails" %>
+          <%#= f.text_field :emails, value: @email_customer, required: true %>
+
+<!--        </div>-->
+<!--        <div class="input-field">-->
+          <%#= f.label :subject %>
+          <%#= f.text_field :subject, required: true %>
+<!--        </div>-->
+
+          <%#= f.hidden_field :document, id:"mail_document" %>
+
+<!--      </div>-->
+<!--    </div>-->
+<!--    <div class="modal-footer">-->
+      <%#= f.button :submit,  class:"modal-action modal-close waves-effect waves-green btn-flat btn-send", target:"_self" do %>
+<!--        <i class="material-icons left">send</i> Send-->
+      <%# end %>
+<!--    </div>-->
+  <%# end %>
+<!--</div>-->
 <%= content_for :scripts do %>
   <script>
+
+    function preview_document()
+    {
+        window.open('/documents/preview?estimate=<%= @order.current_estimate.id %>&document='+$("#document").val(), '_blank');
+    }
     function get_document()
     {
         console.log($("#document").val());

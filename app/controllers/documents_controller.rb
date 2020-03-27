@@ -1,6 +1,8 @@
 class DocumentsController < ApplicationController
   before_action :set_document, only: [:show, :edit, :update, :destroy,:add_custom]
 
+
+
   # GET /documents
   def index
     @q = Document.all.ransack(params[:q])
@@ -17,6 +19,9 @@ class DocumentsController < ApplicationController
     @customs = params[:customs]
     @send_mail = params[:send_mail]
     @emails = params[:emails]
+    @from = params[:from]
+    @customer_sign = params[:customer_sign]
+    @redirect = params[:redirect]
   end
 
   def add_custom
@@ -39,6 +44,7 @@ class DocumentsController < ApplicationController
     has_custom_field = false
     @customs = []
     @params = {}
+    @customer_sign = params[:customer_sign] || false
 
     if params[:estimate].present?
       @estimate = Estimate.find(params[:estimate])
@@ -68,13 +74,21 @@ class DocumentsController < ApplicationController
 
     end
 
+    begin
+      @order_params = @estimate.order.attributes
+    rescue
+      @order_params = {}
+      @order_params["key"] = "value"
+    end
+
+
 
     if has_custom_field
       if params[:estimate].present?
-        redirect_to send_customs_documents_path(estimate: params[:estimate], document: params[:document], customs: @customs, send_mail: params[:send_mail],emails: params[:emails],subject: params[:subject])
+        redirect_to send_customs_documents_path(redirect: preview_documents_path ,customer_sign: @customer_sign, from: params[:from],estimate: params[:estimate], document: params[:document], customs: @customs, send_mail: params[:send_mail],emails: params[:emails],subject: params[:subject])
         #return
       else
-        redirect_to send_customs_documents_path(document: params[:document], customs: @customs, send_mail: params[:send_mail],emails: params[:emails],subject: params[:subject])
+        redirect_to send_customs_documents_path(redirect: preview_documents_path ,customer_sign: @customer_sign,from: params[:from],document: params[:document], customs: @customs, send_mail: params[:send_mail],emails: params[:emails],subject: params[:subject])
         #return
       end
 
@@ -86,7 +100,15 @@ class DocumentsController < ApplicationController
         emails = params[:emails]
         begin
           puts "Enviando email"
-          DocumentMailer.with(customer: @estimate.customer ,subject: params[:subject], emails: emails, pdf: @template.render('order' => @estimate.order.attributes,'estimate' => @estimate.attributes, 'measurements' => JSON.parse(@estimate.measurement_areas.to_json), 'products' => JSON.parse(@estimate.product_estimates.to_json), 'customer' => @estimate.customer.attributes, 'custom' => @params, 'signature' => JSON.parse(@estimate.signatures.last.to_json)   )).send_document.deliver_now
+          if params[:from] == "Estimate"
+            origin_id = @estimate.id
+          else
+            origin_id = @estimate.order.id
+          end
+
+          doc = DocumentSend.new(origin: params[:from],origin_id: origin_id, data: @template.render('order' => @order_params ,'estimate' => @estimate.attributes, 'measurements' => JSON.parse(@estimate.measurement_areas.to_json), 'products' => JSON.parse(@estimate.product_estimates.to_json), 'customer' => @estimate.customer.attributes, 'custom' => @params   ) )
+          doc.save
+          DocumentMailer.with( link: doc_signature_mail_orders_url(customer_sign: @customer_sign, document: doc.id,doc_name: @document.name) , doc: doc, customer: @estimate.customer ,subject: params[:subject], emails: emails, pdf: @template.render('order' => @order_params,'estimate' => @estimate.attributes, 'measurements' => JSON.parse(@estimate.measurement_areas.to_json), 'products' => JSON.parse(@estimate.product_estimates.to_json), 'customer' => @estimate.customer.attributes, 'custom' => @params   )).send_document.deliver_now #, 'signature' => JSON.parse(@estimate.signatures.last.to_json)
         rescue
           puts "Enviando erro"
         end

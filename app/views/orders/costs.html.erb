@@ -21,7 +21,7 @@
         <!--          <i class="material-icons hide-on-med-and-up ">edit</i><span class="hide-on-small-only">Edit</span>-->
         <%# end %>
         <!--        <a class="btn waves-effect waves-light breadcrumbs-btn right pink mr-2 lighten-4 pink-text border-round" href="<%#= invoice_order_path(@order) %>"><i class="material-icons hide-on-med-and-up ">receipt</i><span class="hide-on-small-only">View invoice</span></a>-->
-        <!--        <a class="btn waves-effect waves-light modal-trigger breadcrumbs-btn right mr-2 indigo border-round btn-send-email" href="#modal-invoice"><i class="material-icons hide-on-med-and-up ">send</i><span class="hide-on-small-only">Send invoice</span></a>-->
+        <a class="btn btn-default waves-effect display-flex align-items-center justify-content-center waves-light breadcrumbs-btn right mr-2  text-lighten-5 border-round" href="<%= order_path(@order) %>"><i class="material-icons hide-on-med-and-up">arrow_back</i><span class="hide-on-small-only">Back to order</span></a>
         </a>
       </div>
     </div>
@@ -52,7 +52,7 @@
                     </span>
               </div>
               <div class="col s12 m2">
-                <span class=" users-view-status display-inline chip green lighten-5 green-text right">Current</span>
+                <span class=" users-view-status display-inline chip green lighten-5 green-text right"><% @order.status_text %></span>
               </div>
 
               <div class="col s12 mt-1">

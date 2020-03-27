@@ -22,9 +22,9 @@ const ProductComponent = () => {
 
   const node = document.getElementById('estimate_data')
   const estimate = JSON.parse(node.getAttribute('data'))
-  const productSuggestions = JSON.parse(node.getAttribute('suggestions'))
+  // const productSuggestions = JSON.parse(node.getAttribute('suggestions'))
 
-  const [suggestions, setSuggestions] = useState([...productSuggestions])
+  // const [suggestions, setSuggestions] = useState([...productSuggestions])
 
   const [productEstimate, setProductEstimate] = useState([
     {
@@ -55,14 +55,14 @@ const ProductComponent = () => {
   const updateSuggestions = async (product_id) => {
     const { data } = await axios.get(`/products/${product_id}.json`)
 
-    setSuggestions((suggestions) => {
-      const copy = [...suggestions]
+    // setSuggestions((suggestions) => {
+    //   const copy = [...suggestions]
 
-      copy.map((suggestion, index) => {
-        if (data.suggestions[index].suggestion_id !== suggestion.suggestion_id)
-          return data.suggestions[index]
-      })
-    })
+    //   copy.map((suggestion, index) => {
+    //     if (data.suggestions[index].suggestion_id !== suggestion.suggestion_id)
+    //       return data.suggestions[index]
+    //   })
+    // })
   }
 
   useEffect(() => {
@@ -145,7 +145,7 @@ const ProductComponent = () => {
   useEffect(() => {
 
     const node = document.getElementById('estimate_data')
-    const products = JSON.parse(node.getAttribute('products'))
+    // const products = JSON.parse(node.getAttribute('products'))
 
     const autoCompleteProductData = {}
 
@@ -159,9 +159,9 @@ const ProductComponent = () => {
       onAutocomplete: (val) => {
         setProductEstimate(productEstimate => {
           const copy = [...productEstimate]
-          const id = products.filter(p => p.name === val)[0].id
+          const id = productAutoComplete.filter(p => p.name === val)[0].id
 
-          updateSuggestions(id)
+          // updateSuggestions(id)
 
           copy[maProductListIndex.maIndex].products[maProductListIndex.productIndex].product_id = id
           // {`measurement[${index}].products[${peIndex}].product_id`}
@@ -550,7 +550,7 @@ const ProductComponent = () => {
                         </div>
 
                         <div className="products-suggestions mt-2">
-                          {
+                          {/* {
                             Array.isArray(suggestions) && <h6 className="suggestions-title">Suggestions</h6>
 
                           }
@@ -560,7 +560,7 @@ const ProductComponent = () => {
                             suggestions.map((suggestion) => {
                               console.log('Suggestion', suggestion)
                             })
-                          }
+                          } */}
                           {/* <a href="#" data-price="56.9" data-qty="3">Product with a big name</a>
                           <a href="#" data-price="23.1" data-qty="1">Product Y</a>
                           <a href="#" data-price="23.1" data-qty="1">Product Y2</a>

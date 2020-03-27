@@ -69,4 +69,12 @@ class Transaction < ApplicationRecord
     checkout_status, checkout_data = SquareApi.create_checkout(self.order, self)
   end
 
+  def mark_as_paid
+    begin
+      update(status: :paid, effective: DateTime.now)
+    rescue
+      false
+    end
+  end
+
 end

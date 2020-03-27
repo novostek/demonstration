@@ -96,23 +96,42 @@
                     </tr>
 
                     <div id="modal-send_payment_<%= t.id %>" class="modal">
-                      <%= form_with url: send_square_again_transaction_path(t), method: :get, local: true do |f| %>
-                        <div class="modal-content">
-                          <h4>Send payment</h4>
-                          <div class="row">
-                            <div class="input-field">
-                              <%= f.label :emails, "Emails" %>
-                              <%= f.text_field :emails, value: @email_customer, required: true %>
-                            </div>
+                      <div class="row">
+                        <div class="col s12">
+                          <ul class="tabs">
+                            <li class="tab col m6"><a class="active" href="#request_<%= t.id %>">Request a Payment</a></li>
+                            <li class="tab col m6"><a href="#mark_<%= t.id %>">Mark as Paid</a></li>
+                          </ul>
+                        </div>
+                        <div id="request_<%= t.id %>" class="col s12">
+                          <%= form_with url: send_square_again_transaction_path(t), method: :get, local: true do |f| %>
+                            <div class="modal-content">
+                              <div class="row">
+                                <div class="input-field">
+                                  <%= f.label :emails, "Emails" %>
+                                  <%= f.text_field :emails, value: @email_customer, required: true %>
+                                </div>
+                                <%= f.button :submit,  class:"modal-action modal-close waves-effect waves-green btn btn-default btn-send", target:"_self" do %>
+                                  <i class="material-icons left">send</i> Send
+                                <% end %>
+                              </div>
+                              <!--		<a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat btn-send"> <i class="material-icons left">send</i> Send</a>-->
+                          <% end %>
                           </div>
                         </div>
-                        <div class="modal-footer">
-                          <%= f.button :submit,  class:"modal-action modal-close waves-effect waves-green btn-flat btn-send", target:"_self" do %>
-                            <i class="material-icons left">send</i> Send
-                          <% end %>
-                          <!--		<a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat btn-send"> <i class="material-icons left">send</i> Send</a>-->
+                        <div id="mark_<%= t.id %>" class="col s12">
+                            <div class="modal-content">
+                              <div class="row">
+                                <h5>Would you like to mark as paid?</h5>
+                                <%= link_to "Yes, it's paid", paid_transaction_path(t), class: "btn btn-default", remote: true %>
+                              </div>
+                          </div>
                         </div>
-                      <% end %>
+
+                      </div>
+
+
+
                     </div>
 
                   <% end %>

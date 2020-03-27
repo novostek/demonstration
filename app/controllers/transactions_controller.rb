@@ -1,5 +1,5 @@
 class TransactionsController < ApplicationController
-  before_action :set_transaction, only: [:show, :edit, :update, :destroy,:send_square,:send_square_again]
+  before_action :set_transaction, only: [:show, :edit, :update, :destroy,:send_square,:send_square_again, :paid]
   before_action :set_combos, only: [:new,:edit,:create,:update]
 
   # GET /transactions
@@ -68,6 +68,15 @@ class TransactionsController < ApplicationController
   def destroy
     @transaction.destroy
     redirect_to transactions_url, notice: 'Transaction foi apagado com sucesso.'
+  end
+
+  def paid
+    if @transaction.mark_as_paid
+      render js: "location.reload();"
+    else
+      render js: "swal('Error', 'Something went wrong, try again later', 'error')"
+    end
+
   end
 
   private

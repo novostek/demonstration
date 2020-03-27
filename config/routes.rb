@@ -30,6 +30,7 @@ Rails.application.routes.draw do
     member do
       get "send_square"
       get "send_square_again"
+      get "paid"
     end
   end
   resources :transaction_accounts

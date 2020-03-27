@@ -38,7 +38,8 @@ class Product < ApplicationRecord
   belongs_to :supplier, optional: true
 
   has_many :products, :class_name => 'ProductSuggestion', :foreign_key => 'suggestion_id'
-  has_many :suggestions, :class_name => 'ProductSuggestion', :foreign_key =>  'product_id'
+  has_many :product_suggestions, :class_name => 'ProductSuggestion', :foreign_key =>  'product_id'
+  has_many :suggestions, through: :product_suggestions
 
   validates :name,  :customer_price, :cost_price, :area_covered, :calculation_formula_id, presence: true
 

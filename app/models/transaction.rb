@@ -57,7 +57,7 @@ class Transaction < ApplicationRecord
         puts "status square #{checkout_status}"
         #binding.pry
         if checkout_status
-          DocumentMailer.with(link: checkout_data[:checkout][:checkout_page_url] , emails: self.email, order: self.order).send_square.deliver_later
+          DocumentMailer.with(transaction: self,link: checkout_data[:checkout][:checkout_page_url] , emails: self.email, order: self.order).send_square.deliver_later
         else
           #redirect_to process_payment_customers_path
         end

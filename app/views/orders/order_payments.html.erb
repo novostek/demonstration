@@ -26,13 +26,17 @@
     <div class="card-content">
       <ul class="stepper horizontal stepper-head-only">
         <li class="step">
-          <div class="step-title waves-effect">Schedule</div>
+          <%= link_to schedule_order_path(@order) do %>
+            <div class="step-title waves-effect">Schedule</div>
+          <% end %>
         </li>
         <li class="step active">
           <div class="step-title waves-effect">Payment</div>
         </li>
         <li class="step">
-          <div class="step-title waves-effect">Products purchase</div>
+          <%= link_to product_purchase_order_path(@order) do %>
+            <div class="step-title waves-effect">Products purchase</div>
+          <% end %>
         </li>
       </ul>
       <div class="deposit-list" id="transactions">

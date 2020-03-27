@@ -101,6 +101,12 @@ Rails.application.routes.draw do
   end
   resources :orders do
     member do
+      get "doc_signature_mail"
+      get "send_sign_mail"
+      get "finish"
+      get "finish_order_signature"
+      get "doc_signature"
+      get "finish_order"
       get "change_order"
       get "new_note"
       post "new_document"

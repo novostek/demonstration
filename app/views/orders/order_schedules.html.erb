@@ -49,10 +49,14 @@
           <div class="step-title waves-effect">Schedule</div>
         </li>
         <li class="step">
-          <div class="step-title waves-effect">Payment</div>
+          <%= link_to payments_order_path(@order) do %>
+            <div class="step-title waves-effect">Payment</div>
+          <% end %>
         </li>
         <li class="step">
-          <div class="step-title waves-effect">Products purchase</div>
+          <%= link_to product_purchase_order_path(@order) do %>
+            <div class="step-title waves-effect">Products purchase</div>
+          <% end %>
         </li>
       </ul>
       <div class="row">

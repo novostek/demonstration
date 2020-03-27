@@ -1,20 +1,34 @@
 class DocumentMailer < ApplicationMailer
 
   def send_document
+    @customer = params[:customer]
+    attachments.inline['logo.png'] = File.read("#{Rails.root}/public/woffice.png")
     attachments["document.pdf"] = WickedPdf.new.pdf_from_string(params[:pdf])
     mail(to: params[:emails], subject: params[:subject])
   end
 
   def send_invoice
     @order = params[:order]
+    attachments.inline['logo.png'] = File.read("#{Rails.root}/public/woffice.png")
+    mail(to: params[:emails], subject: params[:subject])
+  end
+
+  def sign_order
+    @order = params[:order]
+    @link = params[:link]
+
+    attachments.inline['logo.png'] = File.read("#{Rails.root}/public/woffice.png")
+
     mail(to: params[:emails], subject: params[:subject])
   end
 
   def send_square
     @order = params[:order]
     @link = params[:link]
+    @transaction = params[:transaction]
 
-    attachments.inline['logo.png'] = File.read("#{Rails.root}/public/logo.png")
+    attachments.inline['square.png'] = File.read("#{Rails.root}/public/logo.png")
+    attachments.inline['woffice.png'] = File.read("#{Rails.root}/public/woffice.png")
 
     if Rails.env.prodction?
       @url = "http://woodoffice.herokuapp.com/"

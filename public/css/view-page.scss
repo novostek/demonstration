@@ -164,6 +164,11 @@
 			.contact-description{
 				display: inline-flex;
 				align-items: center;
+				a{
+				    text-overflow: ellipsis;
+					overflow: hidden;
+					display: block;
+				}
 				&:after{
 					content: "star";
 					display: inline-flex;

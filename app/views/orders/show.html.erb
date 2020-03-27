@@ -21,12 +21,15 @@
 
 					<%= link_to schedule_order_path(@order), class: "btn waves-effect waves-light breadcrumbs-btn right pink lighten-4 pink-text border-round" do %>
 						<i class="material-icons hide-on-med-and-up ">edit</i><span class="hide-on-small-only">Edit</span>
-					<% end %>
+					<% end if !@order.finished? and !@order.cancelled? %>
 					<a class="btn waves-effect waves-light breadcrumbs-btn right pink mr-2 lighten-4 pink-text border-round" href="<%= invoice_order_path(@order) %>"><i class="material-icons hide-on-med-and-up ">receipt</i><span class="hide-on-small-only">View invoice</span></a>
-					<a class="btn waves-effect waves-light modal-trigger breadcrumbs-btn right mr-2 indigo border-round btn-send-email" href="#modal-invoice"><i class="material-icons hide-on-med-and-up ">send</i><span class="hide-on-small-only">Send invoice</span></a>
+<!--					<a class="btn waves-effect waves-light modal-trigger breadcrumbs-btn right mr-2 indigo border-round btn-send-email" href="#modal-invoice"><i class="material-icons hide-on-med-and-up ">send</i><span class="hide-on-small-only">Send invoice</span></a>-->
 					<%= link_to change_order_order_path(@order), class: "btn waves-effect mr-2 waves-light breadcrumbs-btn right pink lighten-4 pink-text border-round" do %>
 						<i class="material-icons hide-on-med-and-up ">edit</i><span class="hide-on-small-only">Change Order</span>
-					<% end %>
+					<% end if !@order.finished? and !@order.cancelled? %>
+					<%= link_to finish_order_order_path(@order), class: "btn waves-effect mr-2 waves-light breadcrumbs-btn right pink lighten-4 pink-text border-round" do %>
+						<i class="material-icons hide-on-med-and-up ">edit</i><span class="hide-on-small-only">Finish Order</span>
+					<% end if !@order.finished? and !@order.cancelled? %>
 					</a>
 				</div>
 			</div>

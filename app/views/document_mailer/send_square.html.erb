@@ -1,7 +1,54 @@
-<b>Dear: </b> <%= @order.get_current_estimate.customer %>
+<div class="email-wrapper">
 
-<p>Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
+  <section class="email-header">
+    <div class="email-header--company">
+      <span><%= Setting.get_value("company_name") %></span>
+    </div>
+<!--    <div class="email-header--info">-->
+<!--      Having problems viewing this email? <a href="#">View email online</a>-->
+<!--    </div>-->
+  </section>
 
-<%= image_tag attachments['logo.png'].url %>
-<!--<img src="<%#= @url %>/square_name.svg">-->
-<a href="<%= @link %>">Square checkout</a>
+  <section class="email-body">
+    <div class="email-body--content">
+      <h6 class="greetings">Hi, <%= @order.current_estimate.customer %>!</h6>
+      <p>
+        <%= Setting.get_value("send_square_mail_text") %>
+      </p>
+      <table>
+        <thead>
+        <tr>
+          <th>Product/Service</th>
+          <th>Value</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+          <td>Payment of Order #<%= @order.code %></td>
+          <td><%= number_to_currency(@transaction.value) %></td>
+        </tr>
+        </tbody>
+      </table>
+      <br>
+      <a class="btn btn-primary" href="<%= @link %>">Ok, I'll pay!</a>
+<!--      <a class="btn btn-secondary" href="#">Forgerrabaaaaurrit!</a>-->
+    </div>
+  </section>
+  <section class="email-footer">
+    <div class="email-footer--logo">
+      <div class="div">
+        <span>Powered by</span>
+        <%= image_tag attachments['woffice.png'].url %>
+      </div>
+      <br>
+      <div>
+
+        <%= image_tag attachments['square.png'].url %>
+      </div>
+    </div>
+    <div class="email-footer--info">
+      Having some trouble? contacts via email <a href="mailto:help@woffice.com">help@woffice.com</a>
+    </div>
+  </section>
+
+</div>

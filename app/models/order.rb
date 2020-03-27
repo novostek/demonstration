@@ -6,6 +6,7 @@
 #  bpmn_instance :string
 #  code          :string
 #  end_at        :datetime
+#  photos        :json
 #  start_at      :datetime
 #  status        :string
 #  created_at    :datetime         not null
@@ -13,6 +14,8 @@
 #
 
 class Order < ApplicationRecord
+
+  mount_uploaders :photos, DocumentFileUploader
   has_many :estimates
   has_many :product_estimates, through: :estimates
   has_many :purchases

@@ -39,7 +39,7 @@
                 required: true,
                 class: 'autocomplete autocomplete-email',
                 onkeyup: "search_by_email($(this).val())" %>
-            <%= label_tag 'Email' %>
+            <%= label_tag :email , "Email", id: :email_label %>
           </div>
           <div class="col s12 m2 l2 display-flex pt-2 pl-4 justify-content-end">
             <!-- Mo dal Trigger -->
@@ -103,20 +103,20 @@
     }
 
     document.getElementById('new_customer').addEventListener('submit', () => {
-      const customer_name = document.getElementById('customer_name').value
-      const lead_customer = document.getElementById('lead_customer')
-      const lead_customer_id = document.getElementById('lead_customer_id')
+      const customer_name = document.getElementById('customer_name').value;
+      const lead_customer = document.getElementById('lead_customer');
+      const lead_customer_id = document.getElementById('lead_customer_id');
 
       lead_customer.value = customer_name
-      document.getElementById('lead_customer_label').classList.add('active')
+      document.getElementById('lead_customer_label').classList.add('active');
 
-      console.log(customer_name)
+      console.log(customer_name);
       setTimeout(() => {
         search_by_name(customer_name, true)
       }, 300)
-      $("#customer-add-modal").modal('close')
+      $("#customer-add-modal").modal('close');
       $(".other-fields, .save-buttons").fadeIn()
-    })
+    });
 
     search_by_name = (value, completed = false) => {
       fetch(`/customers?q%5Bname_cont%5D=${value}`, fetchConfig)
@@ -124,8 +124,10 @@
       .then((result) => {
         console.log('RESULT', result)
         if(completed){
-          $("#lead_customer_id").val(result[0].id)
-          $(".other-fields, .save-buttons").fadeIn()
+          $("#lead_customer_id").val(result[0].id);
+            insert_value_to_field('email', result[0].main_email);
+            insert_value_to_field('phone', result[0].main_phone);
+          $(".other-fields, .save-buttons").fadeIn();
           result[0].contacts[0] && insert_value_to_field('lead_phone', result[0].contacts[0].data.phone)
         }
         // console.log(data)
@@ -140,7 +142,7 @@
         }
       })
 
-    }
+    };
 
     search_by_phone = (value, completed = false) => {
       console.log(value)
@@ -150,14 +152,15 @@
       .then((result) => {
         
         if(completed){
-          $("#lead_customer_id").val(result[0].id)
-          insert_value_to_field('lead_customer', result[0].name)
+          $("#lead_customer_id").val(result[0].id);
+          insert_value_to_field('lead_customer', result[0].name);
+          insert_value_to_field('email', result[0].main_email);
           $(".other-fields, .save-buttons").fadeIn()
         }
         if(Array.isArray(result) && result.length > 0){
           let phoneList = {}
           result.map((element, index) => {
-            console.log("CONTACT", element.contacts)
+            console.log("CONTACT", element.contacts);
             // phoneList[element.contacts.data.phone] = null
             element.contacts.map((contact) => phoneList[contact.data.phone] = null)
           })
@@ -167,7 +170,7 @@
         }
       })
       .catch((error) => console.log(error))      
-    }
+    };
 
     search_by_email = (value, completed = false) => {
       value &&
@@ -198,9 +201,10 @@
   <script>
     document.addEventListener('DOMContentLoaded', function() {
       document.getElementById('lead_customer').addEventListener('change', (e) => {
-        document.getElementById('customer_name').setAttribute('value', e.target.value)
-        document.getElementById('customer_name_label').classList.add('active')
-      })
+        document.getElementById('customer_name').setAttribute('value', e.target.value);
+        document.getElementById('customer_name_label').classList.add('active');
+        document.getElementById('email_label').classList.add('active');
+      });
 
       const lead_phone = document.getElementById('lead_phone');
       const phone_options = {
@@ -208,7 +212,7 @@
         limit: 3,
         minLength: 2,
         onAutocomplete: (res) => search_by_phone(res, true)
-      }
+      };
       M.Autocomplete.init(lead_phone, phone_options);
 
       const email_search = document.getElementById('email');
@@ -217,7 +221,7 @@
         limit: 5,
         minLength: 2,
         onAutocomplete: (res) => search_by_email(res, true)
-      }
+      };
       M.Autocomplete.init(email_search, email_options);
 
       const lead_customer = document.getElementById('lead_customer');

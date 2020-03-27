@@ -96,6 +96,11 @@ class CustomersController < ApplicationController
         contact.main = true
         contact.origin_id = @customer.id
         contact.save
+        contact = contact.dup
+        contact.title = "Phone"
+        contact.category = 'phone'
+        contact.data = { phone: params[:phone] }
+        contact.save
       end
       respond_to do |format|
         format.html { redirect_to @customer, notice: 'Customer was succesfully created.' }

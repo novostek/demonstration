@@ -21,16 +21,20 @@
       </div>
 
       <div class="row">
-        <div class="input-field col s12">
+        <div class="input-field col s12 m6">
           <%= label_tag 'Email' %>
           <%= text_field_tag :email, nil, required: true %>
+        </div>
+        <div class="input-field col s12 m6">
+          <%= label_tag 'Phone' %>
+          <%= text_field_tag :phone, nil, required: true , class: "phone"%>
         </div>
       </div>
       
       <div class="row">
         <div class="col s6">
           <div class="input-field">
-            <%= f.select :category, Customer.category.options, {prompt: true} %>
+            <%= f.select :category, Customer.category.options, {prompt: true}, {id: "category_field", onchange:"show_birthdate()"} %>
             <%= f.label :category %>
           </div>
         </div>
@@ -45,8 +49,8 @@
           <%= f.date_field :since %>
           <%= f.label :since %>
         </div>
-        <div class="input-field col s6">
-          <%= f.date_field :birthdate %>
+        <div class="input-field col s6 invisible" id="birthdate_div">
+          <%= f.date_field :birthdate, id: "birthdate_field" %>
           <%= f.label :birthdate %>
         </div>
       </div>
@@ -57,4 +61,17 @@
     <% end %>
   </div>
 </div>
+<% end %>
+
+<%= content_for :scripts do %>
+  <script type="text/javascript" charset="utf-8">
+      function show_birthdate() {
+          if ($("#category_field").val() == 'person'){
+              $("#birthdate_div").show();
+          } else{
+              $("#birthdate_div").hide();
+              $("#birthdate_field").val('');
+          }
+      }
+  </script>
 <% end %>

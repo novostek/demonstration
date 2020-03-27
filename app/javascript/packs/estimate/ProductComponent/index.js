@@ -24,11 +24,12 @@ const ProductComponent = () => {
   const estimate = JSON.parse(node.getAttribute('data'))
   // const productSuggestions = JSON.parse(node.getAttribute('suggestions'))
 
-  // const [suggestions, setSuggestions] = useState([...productSuggestions])
+  const [suggestions, setSuggestions] = useState([{}])
 
   const [productEstimate, setProductEstimate] = useState([
     {
       proposal_id: '',
+      showSuggestions: false,
       areas: [],
       products: [
         {
@@ -55,14 +56,21 @@ const ProductComponent = () => {
   const updateSuggestions = async (product_id) => {
     const { data } = await axios.get(`/products/${product_id}.json`)
 
-    // setSuggestions((suggestions) => {
-    //   const copy = [...suggestions]
+    console.log(data)
 
-    //   copy.map((suggestion, index) => {
-    //     if (data.suggestions[index].suggestion_id !== suggestion.suggestion_id)
-    //       return data.suggestions[index]
-    //   })
-    // })
+    setSuggestions((suggestions) => {
+      const copy = [...suggestions]
+
+      data.suggestions.map((suggestion_data, index) => {
+        // if (copy.find(s => suggestion_data.suggestion_id === s.suggestion_id))
+        if (copy.indexOf(suggestion_data) === -1)
+          copy.push({ ...data.suggestions[index] })
+      })
+
+      return copy
+    })
+
+    console.log(suggestions)
   }
 
   useEffect(() => {
@@ -161,9 +169,10 @@ const ProductComponent = () => {
           const copy = [...productEstimate]
           const id = productAutoComplete.filter(p => p.name === val)[0].id
 
-          // updateSuggestions(id)
+          updateSuggestions(id)
 
           copy[maProductListIndex.maIndex].products[maProductListIndex.productIndex].product_id = id
+          copy[maProductListIndex.maIndex].showSuggestions = true
           // {`measurement[${index}].products[${peIndex}].product_id`}
           document.getElementsByName(`measurement[${maProductListIndex.maIndex}].products[${maProductListIndex.productIndex}].product_id`)[0].setAttribute('value', id)
           if (productEstimate[maProductListIndex.maIndex].areas.length > 0)
@@ -390,7 +399,6 @@ const ProductComponent = () => {
       console.log(data)
       const maCopy = { ...ma }
       maCopy.products = ma.products.map((pe, peIndex) => {
-        console.log('map2')
         return { ...pe, ...data.measurement[index].products[peIndex] }
       })
       return maCopy
@@ -550,17 +558,21 @@ const ProductComponent = () => {
                         </div>
 
                         <div className="products-suggestions mt-2">
-                          {/* {
-                            Array.isArray(suggestions) && <h6 className="suggestions-title">Suggestions</h6>
+                          {
+                            productEstimate[index].showSuggestions
+                            &&
+                            <h6 className="suggestions-title">Suggestions</h6>
 
                           }
                           {
-                            Array.isArray(suggestions)
+                            productEstimate[index].showSuggestions
                             &&
-                            suggestions.map((suggestion) => {
-                              console.log('Suggestion', suggestion)
+                            suggestions.map((suggestion, index) => {
+                              return (
+                                <a href="#" key={index}> {suggestion.name}</a>
+                              )
                             })
-                          } */}
+                          }
                           {/* <a href="#" data-price="56.9" data-qty="3">Product with a big name</a>
                           <a href="#" data-price="23.1" data-qty="1">Product Y</a>
                           <a href="#" data-price="23.1" data-qty="1">Product Y2</a>
@@ -595,7 +607,7 @@ const ProductComponent = () => {
         <a className="btn grey lighten-5 grey-text waves-effect waves-light breadcrumbs-btn left save" href="estimate-measurements.html"><i className="material-icons left">arrow_back</i> Back</a>
         <a className="btn indigo waves-effect waves-light breadcrumbs-btn right ml-1" onClick={() => remoteSubmit()}><i className="material-icons left">save</i> Save</a>
       </div>
-    </div>
+    </div >
   )
 }
 

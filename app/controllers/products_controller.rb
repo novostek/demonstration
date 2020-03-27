@@ -34,6 +34,11 @@ class ProductsController < ApplicationController
 
   # PATCH/PUT /products/1
   def update
+    if product_params[:suggestion_ids].present?
+      product_params[:suggestion_ids].each_with_index do |s, index|
+        product_params[:suggestion_ids][index] = Product.find(s)
+      end
+    end
     if @product.update(product_params)
       redirect_to @product, notice: 'Product foi atualizado com sucesso.'
     else
@@ -63,6 +68,6 @@ class ProductsController < ApplicationController
 
     # Only allow a trusted parameter "white list" through.
     def product_params
-      params.require(:product).permit(:photo,:photo_cache,:calculation_formula_id,:supplier_id,:name, :uuid, :details, :product_category_id, :customer_price, :cost_price, :area_covered, :tax, :bpm_purchase, suggestions: [])
+      params.require(:product).permit(:photo,:photo_cache,:calculation_formula_id,:supplier_id,:name, :uuid, :details, :product_category_id, :customer_price, :cost_price, :area_covered, :tax, :bpm_purchase, suggestion_ids: [])
     end
 end

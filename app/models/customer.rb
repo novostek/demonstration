@@ -72,6 +72,18 @@ class Customer < ApplicationRecord
   end
 
   def get_main_email
-    self.contacts.where(main: true).first
+    begin
+      self.contacts.where(category: :email, main:true).first.data["email"]
+    rescue
+      nil
+    end
+  end
+
+  def get_main_phone
+    begin
+      self.contacts.where(category: :phone, main:true).first.data["phone"]
+    rescue
+      nil
+    end
   end
 end

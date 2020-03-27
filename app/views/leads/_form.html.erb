@@ -124,8 +124,10 @@
       .then((result) => {
         console.log('RESULT', result)
         if(completed){
-          $("#lead_customer_id").val(result[0].id)
-          $(".other-fields, .save-buttons").fadeIn()
+          $("#lead_customer_id").val(result[0].id);
+            insert_value_to_field('email', result[0].main_email);
+            insert_value_to_field('phone', result[0].main_phone);
+          $(".other-fields, .save-buttons").fadeIn();
           result[0].contacts[0] && insert_value_to_field('lead_phone', result[0].contacts[0].data.phone)
         }
         // console.log(data)

@@ -22,6 +22,9 @@ const ProductComponent = () => {
 
   const node = document.getElementById('estimate_data')
   const estimate = JSON.parse(node.getAttribute('data'))
+  const productSuggestions = JSON.parse(node.getAttribute('suggestions'))
+
+  const [suggestions, setSuggestions] = useState([...productSuggestions])
 
   const [productEstimate, setProductEstimate] = useState([
     {
@@ -47,6 +50,19 @@ const ProductComponent = () => {
     const { data: products } = await axios.get('/products.json')
 
     setProductAutoComplete(products)
+  }
+
+  const updateSuggestions = async (product_id) => {
+    const { data } = await axios.get(`/products/${product_id}.json`)
+
+    setSuggestions((suggestions) => {
+      const copy = [...suggestions]
+
+      copy.map((suggestion, index) => {
+        if (data.suggestions[index].suggestion_id !== suggestion.suggestion_id)
+          return data.suggestions[index]
+      })
+    })
   }
 
   useEffect(() => {
@@ -144,6 +160,9 @@ const ProductComponent = () => {
         setProductEstimate(productEstimate => {
           const copy = [...productEstimate]
           const id = products.filter(p => p.name === val)[0].id
+
+          updateSuggestions(id)
+
           copy[maProductListIndex.maIndex].products[maProductListIndex.productIndex].product_id = id
           // {`measurement[${index}].products[${peIndex}].product_id`}
           document.getElementsByName(`measurement[${maProductListIndex.maIndex}].products[${maProductListIndex.productIndex}].product_id`)[0].setAttribute('value', id)
@@ -529,6 +548,26 @@ const ProductComponent = () => {
                           </a>
 
                         </div>
+
+                        <div className="products-suggestions mt-2">
+                          {
+                            Array.isArray(suggestions) && <h6 className="suggestions-title">Suggestions</h6>
+
+                          }
+                          {
+                            Array.isArray(suggestions)
+                            &&
+                            suggestions.map((suggestion) => {
+                              console.log('Suggestion', suggestion)
+                            })
+                          }
+                          {/* <a href="#" data-price="56.9" data-qty="3">Product with a big name</a>
+                          <a href="#" data-price="23.1" data-qty="1">Product Y</a>
+                          <a href="#" data-price="23.1" data-qty="1">Product Y2</a>
+                          <a href="#" data-price="23.1" data-qty="1">Product Y3</a>
+                          <a href="#" data-price="23.1" data-qty="1">Product Y5</a> */}
+                        </div>
+
                       </div>
                     </div>
                   ))

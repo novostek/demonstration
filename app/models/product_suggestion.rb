@@ -19,4 +19,10 @@
 class ProductSuggestion < ApplicationRecord
   belongs_to :product, :class_name => 'Product'
   belongs_to :suggestion, :class_name => 'Product'
+
+  def as_json(options = {})
+    s = super(options)
+    s[:name] = self.suggestion.name
+    s
+  end
 end

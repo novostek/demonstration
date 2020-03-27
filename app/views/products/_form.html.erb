@@ -101,12 +101,12 @@
     
   </div>
 
-  <%# <div class="row"> %>
-    <%# <div class="other-field" id="orgaos"> %>
-      <%#= f.label :suggestion %>
-      <%#= f.select :suggestion, options_for_select(@product, @menu.profiles.pluck(:id)),{},{ multiple: true} %>
-    <%# </div> %>
-  <%# </div> %>
+  <div class="row">
+    <div class="other-field">
+      <%= f.label :suggestion_ids %>
+      <%= f.select :suggestion_ids, options_for_select(@products, product.suggestions.pluck(:suggestion_id)),{:include_hidden => false},{ multiple: true} %>
+    </div>
+  </div>
 
 </div>
   <div class="actions">

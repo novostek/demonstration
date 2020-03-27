@@ -10,6 +10,20 @@ class EstimatesController < ApplicationController
 
   # GET /estimates/1
   def show
+    @documents = Document.to_select
+    begin
+      @email_customer = @estimate.customer.contacts.where(category: :email).first.data["email"]
+    rescue
+      @email_customer = ""
+    end
+
+    begin
+      @templates = SendGridMail.get_templates["templates"].map{|a| [a["name"],a["id"]]}
+    rescue
+      @templates = []
+    end
+
+    render :estimate_view
   end
 
   #Método que insere uma nota

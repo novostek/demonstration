@@ -21,4 +21,5 @@ en:
       status:
         paid: "Paid"
         pendent: "Pendent"
-
+  Estimate: "Estimate"
+  Order: "Order"

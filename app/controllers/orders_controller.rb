@@ -229,13 +229,13 @@ class OrdersController < ApplicationController
     @q = Order.all.ransack(params[:q])
     @orders = @q.result.page(params[:page])
     @orders_month = Order.where("extract(month from start_at) = ? and extract(year from start_at) = ?", Date.today.month, Date.today.year)
-    @last_year_orders = Order.where("extract(month from start_at) = ? and extract(year from start_at) = ?", Date.today.month, Date.today.year - 1)
+    @last_month_orders = Order.where("extract(month from start_at) = ? and extract(year from start_at) = ?", (Date.today - 1.month).month, (Date.today - 1.month).year)
     @transactions = Transaction.where("extract(month from due) = ?", Date.today.month).where(status: :pendent)
     @orders_today = Order.where(start_at: Date.today)
 
 
     #calculo de crescimento
-    total_passado = @last_year_orders.sum{|a| a.current_estimate.get_total_value}
+    total_passado = @last_month_orders.sum{|a| a.current_estimate.get_total_value}
     @total_atual = @orders_month.sum{|a| a.current_estimate.get_total_value}
     @resultado = @total_atual - total_passado
     resultado2 = @resultado/total_passado

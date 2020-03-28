@@ -581,7 +581,7 @@ const ProductComponent = () => {
                         </div>
                         <div className="products-suggestions mt-2">
                           {
-                            (productEstimate[index].showSuggestions && Array.isArray(suggestions))
+                            (productEstimate[index].showSuggestions && Array.isArray(suggestions) && suggestions.length > 0)
                             &&
                             <h6 className="suggestions-title">Suggestions</h6>
                           }

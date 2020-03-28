@@ -48,6 +48,18 @@
             <%= link_to_add_association form, :transactions, class: "btn btn-add-deposit" do %>
               <i class="material-icons left">add</i> Add payment
             <% end %>
+            <div id="soma" class="right">
+              <ul>
+                <li class="justify-content-between">
+                  <span class="invoice-subtotal-title">Payments Added</span>
+                  <h6 class="invoice-subtotal-value"><%= number_to_currency(@order.transactions.sum(:value)) %></h6>
+                </li>
+                <li class="justify-content-between">
+                  <span class="invoice-subtotal-title">Payments Pendent</span>
+                  <h6 class="invoice-subtotal-value"><%= number_to_currency(@order.current_estimate.get_total_value - @order.transactions.sum(:value)) %></h6>
+                </li>
+              </ul>
+            </div>
           </div>
       </div>
     </div>

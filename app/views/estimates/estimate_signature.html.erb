@@ -105,7 +105,7 @@
                 <tbody>
                 <% mp.product_estimates.each do |pe| %>
                   <tr>
-                    <td><%= pe.product.name %></td>
+                    <td><%= pe.product.present? ? pe.product.name : pe.custom_title %></td>
                     <td><%= pe.quantity %></td>
                     <td><%= pe.unitary_value %></td>
                     <td><%= pe.discount %></td>
@@ -155,7 +155,7 @@
         <h4>Signature</h4>
         <div class="row">
 
-          <% if !@estimate.signatures.last.present? %>
+          <% if !@view.present? %>
             <%= form_for(@signature) do |f| %>
 
                 <%= f.hidden_field :sign, value: true %>
@@ -169,7 +169,7 @@
               <%= f.submit "sign", class:"btn green" %>
             <% end %>
           <% else %>
-            <img src="<%= $temp_img  || @estimate.signatures.last.file.url %>" >
+            <img src="<%= $temp_img   %>" >
           <% end %>
         </div>
       </div>
@@ -204,8 +204,6 @@
 
   <script type="text/javascript" charset="utf-8">
       var canvas = document.getElementById('signature-pad');
-
-
 
       window.onresize = resizeCanvas;
       resizeCanvas();

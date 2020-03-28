@@ -1,5 +1,5 @@
 <div class="card-panel">
-  <%= form_with url: preview_documents_path, method: :get, local: true do |f| %>
+  <%= form_with url: @redirect, method: :get, local: true do |f| %>
     <% if @estimate.present? %>
       <%= f.hidden_field :estimate, value: @estimate %>
     <% end %>
@@ -7,6 +7,8 @@
     <%= f.hidden_field :send_mail, value: @send_mail %>
     <%= f.hidden_field :custom_send, value: true %>
     <%= f.hidden_field :emails, value: @emails %>
+    <%= f.hidden_field :from, value: @from %>
+    <%= f.hidden_field :customer_sign, value: @customer_sign %>
 
     <%= f.fields_for :customs do |ff| %>
       <% @customs.each do |c| %>

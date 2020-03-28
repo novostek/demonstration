@@ -32,7 +32,7 @@ class ProductPurchase < ApplicationRecord
   has_many :document_files, -> { where origin: :ProductPurchase }, primary_key: :id, foreign_key: :origin_id
 
   extend Enumerize
-  enumerize :status, in: [:requested, :buyed, :delivered, :returned],predicates: true
+  enumerize :status, in: [:requested, :buyed, :delivered, :returned],predicates: true, default: :requested
 
   def as_json(options = {})
     s = super(options)

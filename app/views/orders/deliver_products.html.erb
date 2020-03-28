@@ -1,0 +1,238 @@
+<link href="/css/worker.css" rel="stylesheet" type="text/css">
+<link href="/css/view-page.css" rel="stylesheet" type="text/css">
+<link rel="stylesheet" type="text/css" href="/css/order.css">
+<div class="content-wrapper-before gradient-45deg-indigo-purple"></div>
+<div class="breadcrumbs-dark pb-0 pt-4" id="breadcrumbs-wrapper">
+  <!-- Search for small screen-->
+  <div class="container">
+    <div class="row">
+      <div class="col s10 m6 l6">
+        <h5 class="breadcrumbs-title mt-0 mb-0">Order #<%= @order.code %></h5>
+        <ol class="breadcrumbs mb-0">
+          <li class="breadcrumb-item"><a href="/">Home</a>
+          </li>
+          <li class="breadcrumb-item"><%= link_to  "Order", order_path(@order) %>
+          </li>
+          <li class="breadcrumb-item active">Deliver
+          </li>
+        </ol>
+      </div>
+      <div class="col s2 m6 l6">
+        <%#= link_to schedule_order_path(@order), class: "btn waves-effect waves-light breadcrumbs-btn right pink lighten-4 pink-text border-round" do %>
+        <!--          <i class="material-icons hide-on-med-and-up ">edit</i><span class="hide-on-small-only">Edit</span>-->
+        <%# end %>
+        <!--        <a class="btn waves-effect waves-light breadcrumbs-btn right pink mr-2 lighten-4 pink-text border-round" href="<%#= invoice_order_path(@order) %>"><i class="material-icons hide-on-med-and-up ">receipt</i><span class="hide-on-small-only">View invoice</span></a>-->
+        <a class="btn btn-default waves-effect display-flex align-items-center justify-content-center waves-light breadcrumbs-btn right mr-2  text-lighten-5 border-round" href="<%= order_path(@order) %>"><i class="material-icons hide-on-med-and-up">arrow_back</i><span class="hide-on-small-only">Back to order</span></a>
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="col s12">
+  <div class="container">
+
+
+    <div class="row">
+      <div class="col s12  pl-0 pr-0">
+
+        <div class="col s12 pl-1">
+          <div class="card-panel">
+            <div class="row">
+
+              <div class="col s12 m5">
+                <span class="left width-100"><span class="font-weight-600 black-text">Created at:</span> <%= @order.created_at.strftime("%m/%d/%Y") %></span>
+                <span class="left width-100"><span class="font-weight-600 black-text">Location:</span> <%= @order.get_current_estimate.location %></span>
+                <span class="left width-100"><span class="font-weight-600 black-text">Category:</span> <%= @order.get_current_estimate.category %></span>
+              </div>
+              <div class="col s12 m5">
+<!--                <span class="left width-100"><span class="font-weight-600 black-text">Price:</span> $ <%#= @order.product_purchases.sum(:value).to_f %></span>-->
+<!--                <span class="left width-100"><span class="font-weight-600 black-text">Tax:</span> $ <%#= @order.get_current_estimate.tax.to_f %></span>-->
+<!--                <span class="left width-100"><span class="font-weight-600 black-text">Price + Tax:</span>-->
+<!--                      $ <%#= @order.product_purchases.sum(:value).to_f + @order.get_current_estimate.tax.to_f %>-->
+<!--                    </span>-->
+              </div>
+              <div class="col s12 m2">
+                <span class=" users-view-status display-inline chip green lighten-5 green-text right"><% @order.status_text %></span>
+              </div>
+
+              <div class="col s12 mt-1">
+                <span><%= @order.get_current_estimate.description %></span>
+              </div>
+
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col s12  pl-0 pr-0">
+
+        <div class="col s12 pl-1">
+          <div class="card-panel">
+            <div class="row">
+              <%= form_with url: deliver_products_sign_order_path(@order), local: true do |f| %>
+              <% @purchases.each do |purchase| %>
+                <div class="card">
+
+                  <div class="card-content">
+                      <span class="card-title">
+                        <div class="row">
+                          <div class="col s12 l10">
+                            <%= purchase.supplier || "No Supplier" %>
+                          </div>
+                          <div class="col s12 l2">
+                            <%#= number_to_currency(purchase.product_purchases.sum(:value)) %>
+                          </div>
+                        </div>
+                      </span>
+                    <div class="responsive-table">
+                      <style>td{padding: 15px}</style>
+
+                      <table class="table invoice-data-table white border-radius-4 pt-1">
+                        <thead>
+                        <tr>
+                          <th>#</th>
+                          <th><%= t('activerecord.attributes.product_purchase.product_id') %></th>
+                          <th><%= t('activerecord.attributes.product_purchase.quantity') %></th>
+                          <th><%= t('activerecord.attributes.product_purchase.status')%></th>
+
+                          <th></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <% purchase.product_purchases.where.not(status: :delivered).each do |p| %>
+                          <tr>
+                            <td><label><%= check_box_tag "ids[]", p.id ,false%><span></span></label></td>
+                            <td><%= p.product || p.custom_title %></td>
+                            <td><%= p.quantity %></td>
+                            <td><%= p.status_text %></td> <!-- <%#= select_tag :status, options_for_select(ProductPurchase.status.options, p.status), {id: "status_#{p.id}",onchange:"change_status(#{p.id})"} %> -->
+                          </tr>
+                        <% end %>
+                        </tbody>
+                      </table>
+
+                    </div>
+                  </div>
+                </div>
+
+                <% end %>
+              <div class="card">
+                <div class="finish-order-steps">
+
+
+                  <div class="finish-order-step signature">
+
+                    <div class="step-title"><span class="step-icon"></span>Customer signature
+                    </div>
+                    <div class="step-content">
+
+                      <input type="hidden" id="signature_file" value="" name="signature[file]">
+                      <div class="signature">
+
+                        <div class="row">
+                          <div class="col s12 l6">
+                            <div class="input">
+                              <label for="">Document</label>
+                              <%= f.select :document, options_for_select(@documents) %>
+                            </div>
+                          </div>
+                          <div class="left col s12 l6">
+                            <a class="btn waves-effect waves-light right mr-2" href="#" onclick="preview_document();" >
+                              <i class="material-icons hide-on-med-and-up">save</i><span class="hide-on-small-only">Preview Document</span>
+                            </a>
+                          </div>
+                        </div>
+
+                        <canvas id="signature-pad" class="signature-pad"></canvas>
+                      </div>
+                      <div class="signature-actions">
+                        <a href="#" id="clear" class="clear-signature"><i class="material-icons">clear</i> Clear</a>
+                        <!--                        <a href="#" class="save-signature" ><i class="material-icons">save</i> Save signature</a>-->
+                      </div>
+
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+                <%= f.submit "Sign and Deliver", class:"btn" %>
+              <% end %>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
+
+<%= content_for :scripts do %>
+
+
+  <script type="text/javascript" charset="utf-8">
+
+      function preview_document()
+      {
+          window.open('/documents/preview?estimate=<%= @order.current_estimate.id %>&document='+$("#document").val(), '_blank');
+      }
+
+      function change_status(id)
+      {
+          $.get( "/product_purchases/"+id+"/change_status?status="+$("#status_"+id).val(), function( data ) {
+              M.toast({html: data.msg});
+          });
+      }
+
+      function change_status_labor(id)
+      {
+          $.get( "/labor_costs/"+id+"/change_status?status="+$("#status_"+id).val(), function( data ) {
+              M.toast({html: data.msg});
+          });
+      }
+  </script>
+
+  <script src="https://cdn.jsdelivr.net/npm/signature_pad@2.3.2/dist/signature_pad.min.js"></script>
+
+  <script type="text/javascript" charset="utf-8">
+      var canvas = document.getElementById('signature-pad');
+
+
+
+      window.onresize = resizeCanvas;
+      resizeCanvas();
+
+      var signaturePad = new SignaturePad(canvas, {
+          backgroundColor: 'rgb(255, 255, 255)', // necessary for saving image as JPEG; can be removed is only saving as PNG or SVG
+          onEnd: function(){
+              var data = this.toDataURL();
+              $("#signature_file").val(data);
+          }
+      });
+
+      // function endDraw()
+      // {
+      //     var data = signaturePad.toDataURL('image/png');
+      //     $("#signature_file").val(data);
+      // }
+
+      function resizeCanvas() {
+          // When zoomed out to less than 100%, for some very strange reason,
+          // some browsers report devicePixelRatio as less than 1
+          // and only part of the canvas is cleared then.
+          var ratio =  Math.max(window.devicePixelRatio || 1, 1);
+          canvas.width = canvas.offsetWidth * ratio;
+          canvas.height = canvas.offsetHeight * ratio;
+          canvas.getContext("2d").scale(ratio, ratio);
+      }
+
+      document.getElementById('clear').addEventListener('click', function () {
+          signaturePad.clear();
+          $("#signature_file").val("");
+      });
+  </script>
+
+<% end %>

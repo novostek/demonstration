@@ -48,10 +48,10 @@
                 <i class="material-icons chip-icon">open_with</i>
                 Order Code
               </div>
-              <div class="chip drag-text" draggable="true" data-value="<img src='{{signature.link}}' />" > <!--<%%= wicked_pdf_image_tag '{{signature.link}}' %>  -->
-                <i class="material-icons chip-icon">open_with</i>
-                Signature
-              </div>
+<!--              <div class="chip drag-text" draggable="true" data-value="<img src='{{signature.link}}' />" > <!--<%%= wicked_pdf_image_tag '{{signature.link}}' %>  -->-->
+<!--                <i class="material-icons chip-icon">open_with</i>-->
+<!--                Signature-->
+<!--              </div>-->
             </div>
           </li>
           <li>
@@ -209,7 +209,9 @@
 
     </div>
     <div class="modal-footer">
-      <%= f.submit t "button.save", class:"modal-close  btn" %>
+      <%= f.button :submit,  class:"modal-action modal-close waves-effect waves-green btn-flat btn-send", target:"_self" do %>
+        <i class="material-icons left">send</i> Send
+      <% end %>
       <!--<a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat ">Agree</a>-->
     </div>
   <% end  %>

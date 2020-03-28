@@ -1,9 +1,9 @@
 class OrdersController < ApplicationController
-  before_action :set_order, only: [:doc_signature_mail,:send_sign_mail,:finish,:finish_order_signature,:doc_signature,:finish_order,
-    :show, :edit, :update, 
-    :destroy, :schedule, :create_schedule, 
-    :payments, :transaction, :product_purchase, :new_note,:new_document,:new_contact, :invoice,:invoice_add_payment,:send_invoice_mail,:view_invoice_customer,:costs,:change_order]
-
+  before_action :set_order, only: [:deliver_products_sign,:deliver_products,:send_sign_mail,:finish,:finish_order_signature,:finish_order,
+                                   :show, :edit, :update,
+                                   :destroy, :schedule, :create_schedule,
+                                   :payments, :transaction, :product_purchase, :new_note,:new_document,:new_contact, :invoice,:invoice_add_payment,:send_invoice_mail,:view_invoice_customer,:costs,:change_order]
+  before_action :authenticate_user!, except: [:deliver_products_sign]
   #Método para visualizar o invoice de order
   def invoice
     @transactions = @order.transactions.order(due: :asc).order(id: :asc)
@@ -13,30 +13,59 @@ class OrdersController < ApplicationController
       @email_customer = ""
     end
   end
-  
+
+  # def doc_signature
+  #   @document = Document.find(params[:document])
+  #   @data = @document.data
+  #   @template = Liquid::Template.parse(ERB.new(@data).result(binding))
+  #   @estimate = @order.current_estimate
+  #   render layout: "clean"
+  # end
+
   def doc_signature
-    @document = Document.find(params[:document])
+    @document = DocumentSend.find(params[:document])
     @data = @document.data
-    @template = Liquid::Template.parse(ERB.new(@data).result(binding))
-    @estimate = @order.current_estimate
+    # @template = Liquid::Template.parse(ERB.new(@data).result(binding))
+    # @estimate = @order.current_estimate
     render layout: "clean"
   end
 
+  # def doc_signature_mail
+  #   @document = Document.find(params[:document])
+  #   @data = @document.data
+  #   @template = Liquid::Template.parse(ERB.new(@data).result(binding))
+  #   @estimate = @order.current_estimate
+  #   @signature = Signature.new
+  #   @signature.origin = "Order"
+  #   @signature.origin_id = @order.id
+  #   render layout: "clean"
+  # end
+  #
   def doc_signature_mail
-    @document = Document.find(params[:document])
+    @document = DocumentSend.find(params[:document])
+    @doc_name = params[:doc_name]
+    @customer_sign = params[:customer_sign]
     @data = @document.data
     @template = Liquid::Template.parse(ERB.new(@data).result(binding))
-    @estimate = @order.current_estimate
     @signature = Signature.new
-    @signature.origin = "Order"
-    @signature.origin_id = @order.id
+    @signature.origin = @document.origin
+    @signature.origin_id = @document.origin_id
     render layout: "clean"
   end
 
   #Método que envia o email para assinatura
   def send_sign_mail
 
-    DocumentMailer.with(link: doc_signature_mail_order_url(@order,document: params[:document]) ,subject: params[:subject] , emails: params[:emails], order: @order).sign_order.deliver_now
+
+    @document = Document.find(params[:document])
+    @data = @document.data
+
+    @template = Liquid::Template.parse(ERB.new(@data).result(binding))
+    @estimate = @order.current_estimate
+    doc = DocumentSend.new(origin: "Order",origin_id: @order.id, data: @template.render('order' => @order.attributes ,'estimate' => @estimate.attributes, 'measurements' => JSON.parse(@estimate.measurement_areas.to_json), 'products' => JSON.parse(@estimate.product_estimates.to_json), 'customer' => @estimate.customer.attributes, 'custom' => @params   ) )
+    doc.save
+
+    DocumentMailer.with(link: doc_signature_mail_orders_url(document: doc.id,doc_name: @document.name, customer_sign: true) ,subject: params[:subject] , emails: params[:emails], order: @order).sign_order.deliver_now
     redirect_to finish_order_signature_order_path(@order), notice: "Mail sent"
   end
 
@@ -48,9 +77,63 @@ class OrdersController < ApplicationController
 
   #Método que inicializa a finalização da order pelo envio de fotos
   def finish_order
-
-
   end
+
+  def deliver_products
+
+    @purchases = @order.purchases
+    @documents = Document.to_select
+  end
+
+  def deliver_products_sign
+    has_custom_field = false
+    @customs = []
+    @params = {}
+    @document = Document.find(params[:document])
+    @estimate = @order.current_estimate
+    @data = @document.data
+
+
+    if !params[:view].present?
+      @products = ProductPurchase.where(id: params[:ids])
+    else
+      @products = ProductPurchase.where(id: JSON.parse(params[:ids]))
+    end
+
+    @template = Liquid::Template.parse(ERB.new(@data).result(binding))
+
+    if !params[:view].present?
+      doc = DocumentFile.new
+
+      doc.title = @document.name
+      doc.origin = "Order"
+      doc.origin_id = @order.id
+
+      #cria a imagem temporária da assinatura
+      temp = Signature.base64_to_file(params[:signature][:file])
+      $temp_img = "/#{temp.path.split("/").last}"
+
+      #cria o PDF
+      file = WickedPdf.new.pdf_from_url("#{Rails.configuration.woffice['url']}/orders/#{@order.id}/deliver_products_sign?view=true&document=#{params[:document]}&ids=#{@products.pluck(:id)}")
+
+      # Write it to tempfile
+      tempfile = Tempfile.new(['invoice', '.pdf'], Rails.root.join('tmp'))
+      tempfile.binmode
+      tempfile.write file
+      tempfile.close
+
+      doc.file = File.open(tempfile.path)
+      doc.save
+
+
+      @products.update_all(status: :delivered)
+      redirect_to deliver_products_order_path(@order), notice: "Produts delivered"
+    else
+
+      render layout: "clean"
+    end
+  end
+
 
   #Método para caputrar a assinatura da order
   def finish_order_signature
@@ -186,7 +269,7 @@ class OrdersController < ApplicationController
   # PATCH/PUT /orders/1
   def update
     if @order.update(order_params)
-      
+
       if !params[:status].present?
         redirect_to product_purchase_order_path(@order), notice: 'Order was successfully updated.'
       else
@@ -210,7 +293,7 @@ class OrdersController < ApplicationController
     @order.destroy
     redirect_to orders_url, notice: 'Order foi apagado com sucesso.'
   end
-  
+
   def schedule
     @schedules = @order.schedules
     @workers = Worker.all
@@ -221,16 +304,16 @@ class OrdersController < ApplicationController
 
   def create_schedule
     schedule_obj = {
-      :title => params[:title],
-      :schedule_id => params[:schedule_id],
-      :code => params[:code],
-      :status => params[:status],
-      :start_at => params[:start_at],
-      :end_at => params[:end_at],
-      :color => params[:color],
-      :worker_id => params[:worker_id],
-      :origin => "Order",
-      :origin_id => @order.id
+        :title => params[:title],
+        :schedule_id => params[:schedule_id],
+        :code => params[:code],
+        :status => params[:status],
+        :start_at => params[:start_at],
+        :end_at => params[:end_at],
+        :color => params[:color],
+        :worker_id => params[:worker_id],
+        :origin => "Order",
+        :origin_id => @order.id
     }
 
     schedule = Schedule.new_schedule(schedule_obj)
@@ -314,17 +397,17 @@ class OrdersController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_order
-      @order = Order.find(params[:id])
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_order
+    @order = Order.find(params[:id])
+  end
 
-    # Only allow a trusted parameter "white list" through.
-    def order_params
-      params.require(:order).permit(
+  # Only allow a trusted parameter "white list" through.
+  def order_params
+    params.require(:order).permit(
         :id, :code, :status, :bpmn_instance, :start_at, :end_at, {photos: []},
         transactions_attributes: [
-          :id, :origin, :origin_id, :value, :payment_method, :due,:email, :_destroy
+            :id, :origin, :origin_id, :value, :payment_method, :due,:email, :_destroy
         ])
-    end
+  end
 end

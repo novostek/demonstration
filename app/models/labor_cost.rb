@@ -24,6 +24,7 @@
 class LaborCost < ApplicationRecord
   belongs_to :worker
   belongs_to :schedule
+  has_one :order, through: :schedule
 
   extend Enumerize
 
@@ -31,4 +32,12 @@ class LaborCost < ApplicationRecord
 
   has_many :notes, -> { where origin: :LaborCost }, primary_key: :id, foreign_key: :origin_id
   has_many :document_files, -> { where origin: :LaborCost }, primary_key: :id, foreign_key: :origin_id
+
+  after_save :update_order_total_cost
+
+  #Método que atualiza o total dos custos da order
+  def update_order_total_cost
+    self.order.total_cost = self.order.product_purchases.sum(:value) + self.order.labor_costs.sum(:value)
+    self.order.save
+  end
 end

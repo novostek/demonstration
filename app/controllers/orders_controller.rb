@@ -3,7 +3,7 @@ class OrdersController < ApplicationController
                                    :show, :edit, :update,
                                    :destroy, :schedule, :create_schedule,
                                    :payments, :transaction, :product_purchase, :new_note,:new_document,:new_contact, :invoice,:invoice_add_payment,:send_invoice_mail,:view_invoice_customer,:costs,:change_order]
-  before_action :authenticate_user!, except: [:deliver_products_sign]
+  before_action :authenticate_user!, except: [:deliver_products_sign,:doc_signature_mail,:doc_signature]
   #Método para visualizar o invoice de order
   def invoice
     @transactions = @order.transactions.order(due: :asc).order(id: :asc)
@@ -71,7 +71,7 @@ class OrdersController < ApplicationController
 
   #Método que finaliza a order sem a necessidade de assinatura ou photos
   def finish
-    @order.update(status: :finished)
+    @order.update(status: :finished, end_at: Date.today)
     redirect_to @order, notice: "Order Finished"
   end
 
@@ -221,6 +221,24 @@ class OrdersController < ApplicationController
   def index
     @q = Order.all.ransack(params[:q])
     @orders = @q.result.page(params[:page])
+    @orders_month = Order.where("extract(month from start_at) = ? and extract(year from start_at) = ?", Date.today.month, Date.today.year)
+    @last_year_orders = Order.where("extract(month from start_at) = ? and extract(year from start_at) = ?", Date.today.month, Date.today.year - 1)
+    @transactions = Transaction.where("extract(month from due) = ?", Date.today.month).where(status: :pendent)
+    @orders_today = Order.where(start_at: Date.today)
+
+
+    #calculo de crescimento
+    total_passado = @last_year_orders.sum{|a| a.current_estimate.get_total_value}
+    @total_atual = @orders_month.sum{|a| a.current_estimate.get_total_value}
+    @resultado = @total_atual - total_passado
+    resultado2 = @resultado/total_passado
+    @crecimento = resultado2 * 100
+
+
+
+    @profit = @total_atual - @orders_month.sum(:total_cost)
+
+    @profit_today = @orders_today.sum{|a| a.current_estimate.get_total_value}  - @orders_today.sum(:total_cost)
   end
 
   def invoice_add_payment
@@ -244,6 +262,7 @@ class OrdersController < ApplicationController
 
   # GET /orders/1
   def show
+    @profit = @order.current_estimate.get_total_value - @order.total_cost
   end
 
   # GET /orders/new
@@ -275,7 +294,7 @@ class OrdersController < ApplicationController
       else
 
         if params[:status] == true #finishing order
-          @order.update(status: :finished)
+          @order.update(status: :finished, end_at: Date.today)
           redirect_to @order, notice: "Order Finished"
         else#go to sign
           redirect_to finish_order_signature_order_path(@order)

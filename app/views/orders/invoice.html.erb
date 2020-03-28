@@ -41,14 +41,14 @@
               <div class="col s12 m5">
                 <span class="left width-100"><span class="font-weight-600 black-text">Created at:</span> <%= @order.created_at %></span>
                 <span class="left width-100"><span class="font-weight-600 black-text">Location:</span> <%= @order.get_current_estimate.location || "" %></span>
-                <span class="left width-100"><span class="font-weight-600 black-text">Category:</span> <%= @order.get_current_estimate.category || "" %></span>
+                <span class="left width-100"><span class="font-weight-600 black-text">Category:</span> <%= @order.get_current_estimate.category_text || "" %></span>
               </div>
               <div class="col s12 m5">
-                <span class="left width-100"><span class="font-weight-600 black-text">Price:</span> <%= number_to_currency(@transactions.sum(:value))  %></span>
+                <span class="left width-100"><span class="font-weight-600 black-text">Price:</span> <%= number_to_currency(@order.current_estimate.get_total_value)  %></span>
 
               </div>
               <div class="col s12 m2">
-                <span class=" users-view-status display-inline chip green lighten-5 green-text right">Active</span>
+                <span class=" users-view-status display-inline chip green lighten-5 green-text right"><%= @order.status_text %></span>
               </div>
 
               <div class="col s12 mt-1">
@@ -158,7 +158,7 @@
                   </li>
                   <li class="display-flex justify-content-between">
                     <span class="invoice-subtotal-title">Balance</span>
-                    <h6 class="invoice-subtotal-value"><%= number_to_currency(@transactions.sum(:value) - @transactions.where(status: :paid).sum(:value)) %></h6>
+                    <h6 class="invoice-subtotal-value"><%= number_to_currency(@order.current_estimate.get_total_value - @transactions.where(status: :paid).sum(:value)) %></h6>
                   </li>
                 </ul>
               </div>

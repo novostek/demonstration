@@ -118,7 +118,7 @@ class Estimate < ApplicationRecord
   #Método que cria a order
   def create_order
     if !self.order.present?
-      order = Order.new(status: :new)
+      order = Order.new(status: :new, start_at: Date.today)
       if order.save
         self.update(order_id: order.id, current: true)
 

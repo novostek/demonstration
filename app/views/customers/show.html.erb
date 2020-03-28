@@ -119,11 +119,11 @@
               <% @customer.estimates.each do |e| %>
                 <tr>
                   <td><%= link_to "##{e.code}", e %></td>
-                    <td><%= number_to_currency(e.product_estimates.sum(:value).to_f) %></td>
+                    <td><%= number_to_currency(e.get_total_value) %></td>
                   <td><%= link_to "##{e.order}", e.order if e.order.present? %></td>
-                  <td>$90.00</td>
-                  <td>$30.00</td>
-                  <td>$25.00</td>
+                  <td><%= number_to_currency(e.order.transactions.where(status: :paid).sum(:value) ) if e.order.present?%></td>
+                  <td><%= number_to_currency(e.get_total_value - e.order.transactions.where(status: :paid).sum(:value)) if e.order.present? %></td>
+                  <td><%= number_to_currency(e.order.transactions.where(status: :pendent).where("due < ?", Date.today).sum(:value) ) if e.order.present?%></td>
                 </tr>
               <% end %>
               </tbody>

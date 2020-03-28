@@ -47,10 +47,7 @@
           <tr>
             <th>#</th>
             <th>Customer</th>
-            <th>Title</th>
-            <th>Date</th>
             <th>Location</th>
-            <th>Category</th>
             <th>Price</th>
             <th>Status</th>
             <th>Sales person</th>
@@ -59,13 +56,18 @@
         <tbody>
           <% @estimates.each do |estimate| %>
             <tr>
-              <td><%= link_to estimate.code, view_estimates_path(estimate) %></td>
-              <td><%= link_to estimate.customer.name, customer_path(estimate.customer) %></td>
-              <td><%= estimate.title %></td>
-              <td><%= estimate.created_at.strftime("%m/%d/%Y") %></td>
-              
-              <td><%= estimate.location %></td>
-              <td><%= estimate.category %></td>
+              <td>
+                <%= link_to estimate.code, view_estimates_path(estimate) %> <br>
+                <small><%= estimate.created_at.strftime("%m/%d/%Y") %></small>
+              </td>
+              <td>
+                <%= link_to estimate.customer.name, customer_path(estimate.customer) %> <br>
+                <small><%= estimate.customer.get_main_phone_f || "No Phone"%></small>
+              </td>
+              <td>
+                <%= truncate(estimate.location || " ") %> <br>
+                <small><%= truncate(estimate.title || " ") %></small>
+              </td>
               <td><%= estimate.product_estimates.sum(:value) %></td>
               <td><span class="chip lighten-5 green green-text"><%= estimate.status %></span></td>
               

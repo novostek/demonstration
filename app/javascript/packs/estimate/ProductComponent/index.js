@@ -55,19 +55,30 @@ const ProductComponent = () => {
 
   const updateSuggestions = async (area, product_id) => {
     const { data } = await axios.get(`/products/${product_id}.json`)
-
+    console.log('Area', area)
     setSuggestions((suggestions) => {
       const copy = [...suggestions]
 
-      const suggestions_ids = copy.map(obj => obj.id)
+      copy[0].area_id === 999 && copy.shift()
+
+      if (!copy[area]) {
+        copy.push({
+          area_id: area,
+          suggestions: []
+        })
+      }
+
+      const suggestions_ids = copy[area].suggestions.map(obj => obj.id)
 
       data.suggestions.map((suggestion_data, index) => {
         if (!suggestions_ids.includes(suggestion_data.id))
-          copy.push({ ...suggestion_data })
+          copy[area].suggestions.push({ ...suggestion_data })
       })
 
       return copy
     })
+
+
   }
 
   const addSuggestionsToProductList = async (area_index, suggestion) => {
@@ -77,7 +88,21 @@ const ProductComponent = () => {
 
       const product_index = productEstimate[area_index].products.length - 1
 
-      setSuggestions(suggestion_state => suggestion_state.filter(s => s.id !== suggestion.id))
+      setSuggestions(suggestion_state => {
+        const temp = [...suggestion_state]
+
+        temp[area_index].suggestions = temp[area_index].suggestions.filter(s => s.id !== suggestion.id)
+
+        // temp[area_index].suggestions.filter(s => {
+        //   console.log(s.id, suggestion.id)
+
+        //   return s.id !== suggestion.id
+        // })
+
+        // console.log(temp)
+
+        return temp
+      })
 
       document.getElementsByName(`measurement[${area_index}].products[${product_index}].product_id`)[0].setAttribute('value', suggestion.id)
       if (productEstimate[area_index].areas.length > 0)
@@ -104,7 +129,10 @@ const ProductComponent = () => {
       const { data: products } = await axios.get('/products.json')
       console.log(products)
       setProductAutoComplete(products)
-      setSuggestions([])
+      setSuggestions([{
+        area_id: 999,
+        suggestions: [{}]
+      }])
 
       if (estimate.measurement_proposals.length > 0) {
         await setProductEstimate(productEstimate => {
@@ -191,7 +219,7 @@ const ProductComponent = () => {
         setProductEstimate(productEstimate => {
           const copy = [...productEstimate]
           const id = productAutoComplete.filter(p => p.name === val)[0].id
-          console.log('autocomplete')
+          console.log('autocomplete', maProductListIndex.maIndex)
           updateSuggestions(maProductListIndex.maIndex, id)
 
           copy[maProductListIndex.maIndex].products[maProductListIndex.productIndex].product_id = id
@@ -586,9 +614,10 @@ const ProductComponent = () => {
                             <h6 className="suggestions-title">Suggestions</h6>
                           }
                           {
-                            (productEstimate[index].showSuggestions && Array.isArray(suggestions))
+                            // console.log(suggestions[index])
+                            (productEstimate[index].showSuggestions && suggestions[index] && Array.isArray(suggestions[index].suggestions))
                             &&
-                            suggestions.map((suggestion, s_index) => {
+                            suggestions[index].suggestions.map((suggestion, s_index) => {
                               return (
                                 <a key={s_index} onClick={() => addSuggestionsToProductList(index, suggestion)} style={{ cursor: 'pointer' }}> {suggestion.name}</a>
                               )

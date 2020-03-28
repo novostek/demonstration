@@ -102,6 +102,8 @@ Rails.application.routes.draw do
   end
   resources :orders do
     member do
+
+      get "create_doc_for_signature"
       get "deliver_products"
       post "deliver_products_sign"
       get "deliver_products_sign"

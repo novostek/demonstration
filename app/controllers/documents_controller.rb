@@ -22,6 +22,7 @@ class DocumentsController < ApplicationController
     @from = params[:from]
     @customer_sign = params[:customer_sign]
     @redirect = params[:redirect]
+    @finish_order = params[:finish_order]
   end
 
   def add_custom
@@ -45,6 +46,7 @@ class DocumentsController < ApplicationController
     @customs = []
     @params = {}
     @customer_sign = params[:customer_sign] || false
+    @finish_order = params[:finish_order] || false
 
     if params[:estimate].present?
       @estimate = Estimate.find(params[:estimate])
@@ -85,10 +87,10 @@ class DocumentsController < ApplicationController
 
     if has_custom_field
       if params[:estimate].present?
-        redirect_to send_customs_documents_path(redirect: preview_documents_path ,customer_sign: @customer_sign, from: params[:from],estimate: params[:estimate], document: params[:document], customs: @customs, send_mail: params[:send_mail],emails: params[:emails],subject: params[:subject])
+        redirect_to send_customs_documents_path(finish_order: @finish_order,redirect: preview_documents_path ,customer_sign: @customer_sign, from: params[:from],estimate: params[:estimate], document: params[:document], customs: @customs, send_mail: params[:send_mail],emails: params[:emails],subject: params[:subject])
         #return
       else
-        redirect_to send_customs_documents_path(redirect: preview_documents_path ,customer_sign: @customer_sign,from: params[:from],document: params[:document], customs: @customs, send_mail: params[:send_mail],emails: params[:emails],subject: params[:subject])
+        redirect_to send_customs_documents_path(finish_order: @finish_order,redirect: preview_documents_path ,customer_sign: @customer_sign,from: params[:from],document: params[:document], customs: @customs, send_mail: params[:send_mail],emails: params[:emails],subject: params[:subject])
         #return
       end
 
@@ -96,15 +98,17 @@ class DocumentsController < ApplicationController
 
       @template = Liquid::Template.parse(ERB.new(@data).result(binding))
 
+      if params[:from] == "Estimate"
+        origin_id = @estimate.id
+      else
+        origin_id = @estimate.order.id
+      end
+
       if params[:send_mail].present? and params[:send_mail] == "true"
         emails = params[:emails]
         begin
           puts "Enviando email"
-          if params[:from] == "Estimate"
-            origin_id = @estimate.id
-          else
-            origin_id = @estimate.order.id
-          end
+
 
           doc = DocumentSend.new(origin: params[:from],origin_id: origin_id, data: @template.render('order' => @order_params ,'estimate' => @estimate.attributes, 'measurements' => JSON.parse(@estimate.measurement_areas.to_json), 'products' => JSON.parse(@estimate.product_estimates.to_json), 'customer' => @estimate.customer.attributes, 'custom' => @params   ) )
           doc.save
@@ -112,6 +116,13 @@ class DocumentsController < ApplicationController
         rescue
           puts "Enviando erro"
         end
+      end
+      #Assinatura a finalização da order
+      if params[:finish_order].present? and params[:finish_order] == "true"
+        doc = DocumentSend.new(origin: params[:from],origin_id: origin_id, data: @template.render('order' => @order_params ,'estimate' => @estimate.attributes, 'measurements' => JSON.parse(@estimate.measurement_areas.to_json), 'products' => JSON.parse(@estimate.product_estimates.to_json), 'customer' => @estimate.customer.attributes, 'custom' => @params   ) )
+        doc.save
+        redirect_to doc_signature_mail_orders_url(customer_sign: @customer_sign, document: doc.id,doc_name: @document.name)
+        return
       end
 
       respond_to do |format|

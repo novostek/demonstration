@@ -70,6 +70,33 @@ const ProductComponent = () => {
     })
   }
 
+  const addSuggestionsToProductList = async (area_index, suggestion) => {
+    await addProduct(area_index)
+    setProductEstimate(productEstimate => {
+      const copy = [...productEstimate]
+
+      const product_index = productEstimate[area_index].products.length - 1
+
+      setSuggestions(suggestion_state => suggestion_state.filter(s => s.id !== suggestion.id))
+
+      document.getElementsByName(`measurement[${area_index}].products[${product_index}].product_id`)[0].setAttribute('value', suggestion.id)
+      if (productEstimate[area_index].areas.length > 0)
+        calculateProductLW(productEstimate[area_index].areas, suggestion.id)
+          .then(result => {
+            copy[area_index].products[product_index].name = suggestion.name
+            copy[area_index].products[product_index].qty = result.qty
+            copy[area_index].products[product_index].total = result.total
+            copy[area_index].products[product_index].price = result.price
+            setValue(`measurement[${area_index}].products[${product_index}]`, { name: suggestion.name })
+            setValue(`measurement[${area_index}].products[${product_index}]`, { qty: result.qty })
+            setValue(`measurement[${area_index}].products[${product_index}]`, { price: result.price })
+            setValue(`measurement[${area_index}].products[${product_index}]`, { total: result.total })
+          })
+
+      return copy
+    })
+  }
+
   useEffect(() => {
     let indexHelper = 0
 
@@ -232,6 +259,7 @@ const ProductComponent = () => {
       copy[index].products.push(product)
       return copy
     })
+    console.log('area_length', productEstimate.length)
   }
 
   const removeProduct = (maIndex, peIndex) => {
@@ -560,9 +588,9 @@ const ProductComponent = () => {
                           {
                             (productEstimate[index].showSuggestions && Array.isArray(suggestions))
                             &&
-                            suggestions.map((suggestion, index) => {
+                            suggestions.map((suggestion, s_index) => {
                               return (
-                                <a href="#" key={index}> {suggestion.name}</a>
+                                <a key={s_index} onClick={() => addSuggestionsToProductList(index, suggestion)} style={{ cursor: 'pointer' }}> {suggestion.name}</a>
                               )
                             })
                           }

@@ -22,7 +22,7 @@
 class Measurement < ApplicationRecord
   belongs_to :measurement_area, optional: true
 
-  before_save :set_default
+  before_validation :set_default
 
   def self.square_meter areas_ids
     square_meter = 0

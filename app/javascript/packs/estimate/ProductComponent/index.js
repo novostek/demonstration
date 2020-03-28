@@ -59,16 +59,12 @@ const ProductComponent = () => {
 
   const updateSuggestions = async (area, product_id) => {
     const { data } = await axios.get(`/products/${product_id}.json`)
-    console.log('Area', area)
     setSuggestions((suggestions) => {
       const copy = [...suggestions]
-      console.log('Areas old', copy)
       copy.push({
         area_id: 0,
         suggestions: []
       })
-
-      console.log('Areas', copy)
       const suggestions_ids = copy[area].suggestions.map(obj => obj.id)
 
       data.suggestions.map((suggestion_data, index) => {

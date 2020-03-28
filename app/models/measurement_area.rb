@@ -23,7 +23,7 @@ class MeasurementArea < ApplicationRecord
   has_many :area_proposal
   has_many :measurement_proposals, through: :area_proposal
 
-  accepts_nested_attributes_for :measurements, reject_if: :reject_measurements, allow_destroy: true
+  accepts_nested_attributes_for :measurements, allow_destroy: true
   accepts_nested_attributes_for :measurement_proposals, reject_if: :all_blank, allow_destroy: true
   accepts_nested_attributes_for :area_proposal, reject_if: :all_blank, allow_destroy: true
 

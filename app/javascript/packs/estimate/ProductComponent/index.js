@@ -24,7 +24,7 @@ const ProductComponent = () => {
   const estimate = JSON.parse(node.getAttribute('data'))
   // const productSuggestions = JSON.parse(node.getAttribute('suggestions'))
 
-  const [suggestions, setSuggestions] = useState([{}])
+  const [suggestions, setSuggestions] = useState([])
 
   const [productEstimate, setProductEstimate] = useState([
     {
@@ -59,16 +59,15 @@ const ProductComponent = () => {
     setSuggestions((suggestions) => {
       const copy = [...suggestions]
 
+      const suggestions_ids = copy.map(obj => obj.id)
+
       data.suggestions.map((suggestion_data, index) => {
-        // if (copy.find(s => suggestion_data.suggestion_id === s.suggestion_id))
-        if (copy.indexOf(suggestion_data) === -1)
-          copy.push({ ...data.suggestions[index] })
+        if (!suggestions_ids.includes(suggestion_data.id))
+          copy.push({ ...suggestion_data })
       })
 
       return copy
     })
-
-    console.log(suggestions)
   }
 
   useEffect(() => {
@@ -78,6 +77,7 @@ const ProductComponent = () => {
       const { data: products } = await axios.get('/products.json')
       console.log(products)
       setProductAutoComplete(products)
+      setSuggestions([])
 
       if (estimate.measurement_proposals.length > 0) {
         await setProductEstimate(productEstimate => {
@@ -164,7 +164,7 @@ const ProductComponent = () => {
         setProductEstimate(productEstimate => {
           const copy = [...productEstimate]
           const id = productAutoComplete.filter(p => p.name === val)[0].id
-
+          console.log('autocomplete')
           updateSuggestions(maProductListIndex.maIndex, id)
 
           copy[maProductListIndex.maIndex].products[maProductListIndex.productIndex].product_id = id
@@ -550,18 +550,15 @@ const ProductComponent = () => {
                           }
                           <a onClick={() => addProduct(index)} style={{ height: '30px' }} className="product new-product">
                           </a>
-
                         </div>
-
                         <div className="products-suggestions mt-2">
                           {
-                            productEstimate[index].showSuggestions
+                            (productEstimate[index].showSuggestions && Array.isArray(suggestions))
                             &&
                             <h6 className="suggestions-title">Suggestions</h6>
-
                           }
                           {
-                            productEstimate[index].showSuggestions
+                            (productEstimate[index].showSuggestions && Array.isArray(suggestions))
                             &&
                             suggestions.map((suggestion, index) => {
                               return (
@@ -579,15 +576,6 @@ const ProductComponent = () => {
               </form>
               <div className="row mt-1">
                 <a onClick={addArea} className="btn btn-add-product-area"><i className="material-icons left">add</i> Add area</a>
-              </div>
-
-              <div className="products-suggestions hide">
-                <h6 className="suggestions-title">Suggestions</h6>
-                <a href="#" data-price="56.9" data-qty="3">Product with a big name</a>
-                <a href="#" data-price="23.1" data-qty="1">Product Y</a>
-                <a href="#" data-price="23.1" data-qty="1">Product Y2</a>
-                <a href="#" data-price="23.1" data-qty="1">Product Y3</a>
-                <a href="#" data-price="23.1" data-qty="1">Product Y5</a>
               </div>
             </div>
 

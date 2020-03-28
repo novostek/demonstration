@@ -54,6 +54,7 @@ class CalculationFormulasController < ApplicationController
     qty = calculator.evaluate(formula.formula, area: area, area_covered: product.area_covered).to_f
     render json: {
       qty: qty,
+      tax: product.tax,
       total: product.customer_price * qty,
       price: product.customer_price
     }

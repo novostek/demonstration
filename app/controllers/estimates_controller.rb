@@ -240,7 +240,7 @@ class EstimatesController < ApplicationController
           p_estimate.quantity = product["qty"].to_f
           p_estimate.unitary_value = product["price"].to_f
           p_estimate.discount = product["discount"].to_f
-          p_estimate.tax = 0
+          p_estimate.tax = product["tax"]
           p_estimate.value = product["total"].to_f
           p_estimate.save()
         end

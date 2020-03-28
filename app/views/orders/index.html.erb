@@ -127,7 +127,7 @@
                             <small><%= truncate(order.current_estimate.title || " ") %></small>
                           </td>
                           <td>$ <%= order.product_purchases.sum(:value).to_f %></td>
-                          <td><span class="chip lighten-5 green green-text"><%= order.status_text %></span></td>
+                          <td><span class="chip lighten-5 green green-text"><%= order.status_text || "New" %></span></td>
 
                           <td>
                             <%= link_to worker_path(order.get_current_estimate.worker) do %>

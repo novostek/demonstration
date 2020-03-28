@@ -24,7 +24,10 @@ const ProductComponent = () => {
   const estimate = JSON.parse(node.getAttribute('data'))
   // const productSuggestions = JSON.parse(node.getAttribute('suggestions'))
 
-  const [suggestions, setSuggestions] = useState([])
+  const [suggestions, setSuggestions] = useState([{
+    area_id: 0,
+    suggestions: []
+  }])
 
   const [productEstimate, setProductEstimate] = useState([
     {
@@ -59,16 +62,13 @@ const ProductComponent = () => {
     console.log('Area', area)
     setSuggestions((suggestions) => {
       const copy = [...suggestions]
+      console.log('Areas old', copy)
+      copy.push({
+        area_id: 0,
+        suggestions: []
+      })
 
-      copy[0].area_id === 999 && copy.shift()
-
-      if (!copy[area]) {
-        copy.push({
-          area_id: area,
-          suggestions: []
-        })
-      }
-
+      console.log('Areas', copy)
       const suggestions_ids = copy[area].suggestions.map(obj => obj.id)
 
       data.suggestions.map((suggestion_data, index) => {
@@ -105,15 +105,18 @@ const ProductComponent = () => {
         return temp
       })
 
-      document.getElementsByName(`measurement[${area_index}].products[${product_index}].product_id`)[0].setAttribute('value', suggestion.id)
+
       if (productEstimate[area_index].areas.length > 0)
         calculateProductLW(productEstimate[area_index].areas, suggestion.id)
           .then(result => {
-            copy[area_index].products[product_index].name = suggestion.name
+            // copy[area_index].products[product_index].product_id = result.id
+            copy[area_index].products[product_index].product_id = result.id
+            copy[area_index].products[product_index].name = result.name
             copy[area_index].products[product_index].qty = result.qty
             copy[area_index].products[product_index].total = result.total
             copy[area_index].products[product_index].price = result.price
             copy[area_index].products[product_index].tax = result.tax
+            setValue(`measurement[${area_index}].products[${product_index}]`, { product_id: suggestion.product_id })
             setValue(`measurement[${area_index}].products[${product_index}]`, { name: suggestion.name })
             setValue(`measurement[${area_index}].products[${product_index}]`, { qty: result.qty })
             setValue(`measurement[${area_index}].products[${product_index}]`, { price: result.price })
@@ -128,7 +131,14 @@ const ProductComponent = () => {
   useEffect(() => {
     let indexHelper = 0
 
-    const inicialLoad = async () => {
+    const suggestions_obj = {
+      area_id: 0,
+      suggestions: []
+    }
+
+    setSuggestions(suggestions => [...suggestions, suggestions_obj])
+
+    const initialLoad = async () => {
       const { data: products } = await axios.get('/products.json')
       console.log(products)
       setProductAutoComplete(products)
@@ -207,7 +217,7 @@ const ProductComponent = () => {
 
 
     }
-    inicialLoad()
+    initialLoad()
   }, [])
 
   useEffect(() => {
@@ -237,10 +247,12 @@ const ProductComponent = () => {
             calculateProductLW(productEstimate[maProductListIndex.maIndex].areas, id)
               .then(result => {
                 console.log(result)
+                copy[maProductListIndex.maIndex].products[maProductListIndex.productIndex].name = result.name
                 copy[maProductListIndex.maIndex].products[maProductListIndex.productIndex].qty = result.qty
                 copy[maProductListIndex.maIndex].products[maProductListIndex.productIndex].total = result.total
                 copy[maProductListIndex.maIndex].products[maProductListIndex.productIndex].price = result.price
                 copy[maProductListIndex.maIndex].products[maProductListIndex.productIndex].tax = result.tax
+                setValue(`measurement[${maProductListIndex.maIndex}].products[${maProductListIndex.productIndex}]`, { name: result.name })
                 setValue(`measurement[${maProductListIndex.maIndex}].products[${maProductListIndex.productIndex}]`, { qty: result.qty })
                 setValue(`measurement[${maProductListIndex.maIndex}].products[${maProductListIndex.productIndex}]`, { price: result.price })
                 setValue(`measurement[${maProductListIndex.maIndex}].products[${maProductListIndex.productIndex}]`, { tax: result.tax })
@@ -278,6 +290,7 @@ const ProductComponent = () => {
         }
       ]
     }
+
     setProductEstimate(productEstimate => [...productEstimate, area_product])
   }
 

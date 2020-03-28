@@ -33,9 +33,6 @@ class MeasurementArea < ApplicationRecord
 
   def as_json(options = {})
     s = super(options)
-    s[:height] = self.measurements.last.height
-    s[:length] = self.measurements.last.length
-    s[:width] = self.measurements.last.width
     # s[:measurement_proposals] = self.measurement_proposals
     s
   end

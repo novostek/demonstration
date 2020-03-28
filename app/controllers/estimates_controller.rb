@@ -245,9 +245,8 @@ class EstimatesController < ApplicationController
           p_estimate.save()
         end
       end
-      if @estimate.taxpayer == 'customer'
-        @estimate.calculate_tax_values_for_customer
-      end
+      
+      @estimate.calculate_tax_values
     rescue StandardError => e
       render json: {status: :internal_server_error, message: e.backtrace.inspect  }
     else

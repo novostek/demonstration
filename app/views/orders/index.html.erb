@@ -102,10 +102,7 @@
 											<tr>
 												<th>#</th>
 												<th>Customer</th>
-												<th>Title</th>
-												<th>Date</th>
 												<th>Location</th>
-												<th>Category</th>
 												<th>Price</th>
 												<th>Status</th>
 												<th>Sales person</th>
@@ -115,16 +112,20 @@
                       <% @orders.each do |order| %>
                         <tr>
                           <td>
-                            <%= link_to order.code, order_path(order) %>
+                            <%= link_to order.code, order_path(order) %> <br>
+                            <small><%= order.created_at.strftime("%m/%d/%Y") %></small>
                           </td>
                           <td>
-                            <%= link_to  order.get_current_estimate.customer, customer_path(order.get_current_estimate.customer) %>
-                          </td>
-                          <td><%= order.get_current_estimate.title %></td>
-                          <td><%= order.created_at.strftime("%m/%d/%Y") %></td>
+                            <%= link_to  order.current_estimate.customer, customer_path(order.get_current_estimate.customer) %>
+                            <br>
+                            <small><%= order.current_estimate.customer.get_main_phone_f || "No Phone"%></small>
 
-                          <td><%= order.get_current_estimate.location %></td>
-                          <td><%= order.get_current_estimate.category %></td>
+                          </td>
+
+                          <td>
+                            <%= truncate(order.current_estimate.location || " ") %> <br>
+                            <small><%= truncate(order.current_estimate.title || " ") %></small>
+                          </td>
                           <td>$ <%= order.product_purchases.sum(:value).to_f %></td>
                           <td><span class="chip lighten-5 green green-text"><%= order.status_text %></span></td>
 

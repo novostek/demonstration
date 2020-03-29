@@ -127,13 +127,6 @@ const ProductComponent = () => {
   useEffect(() => {
     let indexHelper = 0
 
-    const suggestions_obj = {
-      area_id: 0,
-      suggestions: []
-    }
-
-    setSuggestions(suggestions => [...suggestions, suggestions_obj])
-
     const initialLoad = async () => {
       const { data: products } = await axios.get('/products.json')
       console.log(products)
@@ -154,6 +147,12 @@ const ProductComponent = () => {
 
         await Promise.all(
           estimate.measurement_proposals.map((mp, mpIndex) => {
+            const suggestions_obj = {
+              area_id: 0,
+              suggestions: []
+            }
+
+            setSuggestions(suggestions => [...suggestions, suggestions_obj])
             setProductEstimate(productEstimate => {
               const copy = [...productEstimate]
               if (mp.id !== indexHelper) {

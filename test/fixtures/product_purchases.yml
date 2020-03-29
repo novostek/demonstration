@@ -6,6 +6,7 @@
 #  custom_title :string
 #  quantity     :decimal(, )
 #  status       :string
+#  tax          :boolean          default("false")
 #  unity_value  :decimal(, )
 #  value        :decimal(, )
 #  created_at   :datetime         not null

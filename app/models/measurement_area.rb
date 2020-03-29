@@ -23,7 +23,7 @@ class MeasurementArea < ApplicationRecord
   has_many :area_proposal
   has_many :measurement_proposals, through: :area_proposal
 
-  accepts_nested_attributes_for :measurements, reject_if: :reject_measurements, allow_destroy: true
+  accepts_nested_attributes_for :measurements, allow_destroy: true
   accepts_nested_attributes_for :measurement_proposals, reject_if: :all_blank, allow_destroy: true
   accepts_nested_attributes_for :area_proposal, reject_if: :all_blank, allow_destroy: true
 
@@ -33,9 +33,6 @@ class MeasurementArea < ApplicationRecord
 
   def as_json(options = {})
     s = super(options)
-    s[:height] = self.measurements.last.height
-    s[:length] = self.measurements.last.length
-    s[:width] = self.measurements.last.width
     # s[:measurement_proposals] = self.measurement_proposals
     s
   end

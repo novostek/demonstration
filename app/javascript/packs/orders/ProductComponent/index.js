@@ -31,7 +31,6 @@ const ProductComponent = () => {
   useEffect(() => {
     const inicialLoad = async () => {
       purchases.map(purchase => {
-        console.log(purchase)
         purchase.product_purchases.map((product_purchase, peIndex) => {
           setProductPurchase(productPurchase => {
             const copy = [...productPurchase]
@@ -60,7 +59,6 @@ const ProductComponent = () => {
   useEffect(() => {
     const reducer_subtotal = (acc, current) => !current.tax ? parseFloat(acc) + parseFloat(current.total) : parseFloat(acc)
     const reducer_tax = (acc, current) => current.tax ? parseFloat(acc) + parseFloat(current.total) : 0
-    console.log(productPurchase.reduce(reducer_subtotal, 0))
     setOrderValues({
       ...orderValues,
       subTotal: productPurchase.reduce(reducer_subtotal, 0),
@@ -82,10 +80,11 @@ const ProductComponent = () => {
       onAutocomplete: (val) => {
         setProductPurchase(productPurchase => {
           const copy = [...productPurchase]
-          const { id, name, customer_price } = products.filter(p => p.name === val)[0]
+          const { id, name, customer_price, tax } = products.filter(p => p.name === val)[0]
           copy[productIndex.productIndex].product_id = id
           copy[productIndex.productIndex].price = customer_price
           copy[productIndex.productIndex].name = name
+          copy[productIndex.productIndex].tax = false
           // {`measurement[${index}].products[${peIndex}].product_id`}
           document.getElementsByName(`products[${productIndex.productIndex}].product_id`)[0].setAttribute('value', id)
 
@@ -109,9 +108,9 @@ const ProductComponent = () => {
       qty: 0,
       price: 0,
       total: 0,
+      tax: false,
       canDelete: true
     }
-    // console.log(productEstimate[index])
     // setProductEstimate(productEstimate => [...productEstimate.slice(0, index), { ...productEstimate[index], products: [...productEstimate[index].products, product] }, ...productEstimate.slice(index + 1)])
     setProductPurchase(productEstimate => {
       const copy = [...productEstimate]
@@ -312,16 +311,16 @@ const ProductComponent = () => {
               <ul>
                 <li className="display-flex justify-content-between">
                   <span className="invoice-subtotal-title">Subtotal</span>
-                  <h6 className="mt-0 subtotal-all">$ {orderValues.subTotal}</h6>
+                  <h6 className="mt-0 subtotal-all">$ {parseFloat(orderValues.subTotal).toFixed(2)}</h6>
                 </li>
                 <li className="display-flex justify-content-between">
                   <span className="invoice-subtotal-title">Tax</span>
-                  <h6 className="mt-0 tax-whole">$ {(orderValues.tax ? orderValues.tax : 0)}</h6>
+                  <h6 className="mt-0 tax-whole">$ {(orderValues.tax ? parseFloat(orderValues.tax).toFixed(2) : 0.0)}</h6>
                 </li>
                 <li className="divider mt-2 mb-2"></li>
                 <li className="display-flex justify-content-between">
                   <span className="invoice-subtotal-title">Order Total</span>
-                  <h6 className="mt-0 order-total">$ {orderValues.subTotal + (orderValues.tax ? orderValues.tax : 0)}</h6>
+                  <h6 className="mt-0 order-total">$ {parseFloat(orderValues.subTotal + (orderValues.tax ? orderValues.tax : 0)).toFixed(2)}</h6>
                 </li>
               </ul>
             </div>

@@ -31,6 +31,7 @@ const ProductComponent = () => {
   useEffect(() => {
     const inicialLoad = async () => {
       purchases.map(purchase => {
+        console.log(purchase)
         purchase.product_purchases.map((product_purchase, peIndex) => {
           setProductPurchase(productPurchase => {
             const copy = [...productPurchase]
@@ -206,7 +207,7 @@ const ProductComponent = () => {
           <ul className="stepper horizontal stepper-head-only">
             <li className="step ">
               <a href={`/orders/${order.id}/schedule`}>
-              <div className="step-title waves-effect">Schedule</div>
+                <div className="step-title waves-effect">Schedule</div>
               </a>
             </li>
 

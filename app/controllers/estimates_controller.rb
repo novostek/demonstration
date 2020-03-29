@@ -69,6 +69,7 @@ class EstimatesController < ApplicationController
       # Cria a order caso não seja change_order
       if @estimate.estimate?
         @estimate.create_order
+        @estimate.update(status: :ordered)
       else
         @estimate.update(status: :ordered)
         @estimate.order.update(status: :change_approved)

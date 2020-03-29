@@ -1,9 +1,14 @@
 class OrdersController < ApplicationController
-  before_action :set_order, only: [:create_doc_for_signature,:deliver_products_sign,:deliver_products,:send_sign_mail,:finish,:finish_order_signature,:finish_order,
+  before_action :set_order, only: [:order_photos,:create_doc_for_signature,:deliver_products_sign,:deliver_products,:send_sign_mail,:finish,:finish_order_signature,:finish_order,
                                    :show, :edit, :update,
                                    :destroy, :schedule, :create_schedule,
                                    :payments, :transaction, :product_purchase, :new_note,:new_document,:new_contact, :invoice,:invoice_add_payment,:send_invoice_mail,:view_invoice_customer,:costs,:change_order]
   before_action :authenticate_user!, except: [:deliver_products_sign,:doc_signature_mail,:doc_signature]
+
+  def order_photos
+
+  end
+
   #Método para visualizar o invoice de order
   def invoice
     @transactions = @order.transactions.order(due: :asc).order(id: :asc)
@@ -93,51 +98,57 @@ class OrdersController < ApplicationController
   end
 
   def deliver_products_sign
-    has_custom_field = false
-    @customs = []
-    @params = {}
-    @document = Document.find(params[:document])
-    @estimate = @order.current_estimate
-    @data = @document.data
 
-
-    if !params[:view].present?
-      @products = ProductPurchase.where(id: params[:ids])
-    else
-      @products = ProductPurchase.where(id: JSON.parse(params[:ids]))
-    end
-
-    @template = Liquid::Template.parse(ERB.new(@data).result(binding))
-
-    if !params[:view].present?
-      doc = DocumentFile.new
-
-      doc.title = @document.name
-      doc.origin = "Order"
-      doc.origin_id = @order.id
-
-      #cria a imagem temporária da assinatura
-      temp = Signature.base64_to_file(params[:signature][:file])
-      $temp_img = "/#{temp.path.split("/").last}"
-
-      #cria o PDF
-      file = WickedPdf.new.pdf_from_url("#{Rails.configuration.woffice['url']}/orders/#{@order.id}/deliver_products_sign?view=true&document=#{params[:document]}&ids=#{@products.pluck(:id)}")
-
-      # Write it to tempfile
-      tempfile = Tempfile.new(['invoice', '.pdf'], Rails.root.join('tmp'))
-      tempfile.binmode
-      tempfile.write file
-      tempfile.close
-
-      doc.file = File.open(tempfile.path)
-      doc.save
-
-
-      @products.update_all(status: :delivered)
-      redirect_to deliver_products_order_path(@order), notice: "Produts delivered"
+    if !params[:ids].present?
+      redirect_to deliver_products_order_path(@order), notice: "Select one or more products"
     else
 
-      render layout: "clean"
+      has_custom_field = false
+      @customs = []
+      @params = {}
+      @document = Document.find(params[:document])
+      @estimate = @order.current_estimate
+      @data = @document.data
+
+
+      if !params[:view].present?
+        @products = ProductPurchase.where(id: params[:ids])
+      else
+        @products = ProductPurchase.where(id: JSON.parse(params[:ids]))
+      end
+
+      @template = Liquid::Template.parse(ERB.new(@data).result(binding))
+
+      if !params[:view].present?
+        doc = DocumentFile.new
+
+        doc.title = @document.name
+        doc.origin = "Order"
+        doc.origin_id = @order.id
+
+        #cria a imagem temporária da assinatura
+        temp = Signature.base64_to_file(params[:signature][:file])
+        $temp_img = "/#{temp.path.split("/").last}"
+
+        #cria o PDF
+        file = WickedPdf.new.pdf_from_url("#{Rails.configuration.woffice['url']}/orders/#{@order.id}/deliver_products_sign?view=true&document=#{params[:document]}&ids=#{@products.pluck(:id)}")
+
+        # Write it to tempfile
+        tempfile = Tempfile.new(['invoice', '.pdf'], Rails.root.join('tmp'))
+        tempfile.binmode
+        tempfile.write file
+        tempfile.close
+
+        doc.file = File.open(tempfile.path)
+        doc.save
+
+
+        @products.update_all(status: :delivered)
+        redirect_to deliver_products_order_path(@order), notice: "Produts delivered"
+      else
+
+        render layout: "clean"
+      end
     end
   end
 
@@ -294,6 +305,7 @@ class OrdersController < ApplicationController
 
   # PATCH/PUT /orders/1
   def update
+    # binding.pry
     if @order.update(order_params)
 
       if !params[:status].present?

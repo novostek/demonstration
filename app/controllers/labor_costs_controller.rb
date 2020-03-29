@@ -75,8 +75,10 @@ class LaborCostsController < ApplicationController
 
   # PATCH/PUT /labor_costs/1
   def update
+
     if @labor_cost.update(labor_cost_params)
-      redirect_to @labor_cost, notice: 'Labor cost foi atualizado com sucesso.'
+      redirect = params[:redirect] || params[:labor_cost][:redirect]
+      redirect_to redirect, notice: 'Labor cost was successfully updated.'
     else
       render :edit
     end
@@ -85,7 +87,7 @@ class LaborCostsController < ApplicationController
   # DELETE /labor_costs/1
   def destroy
     @labor_cost.destroy
-    redirect_to labor_costs_url, notice: 'Labor cost foi apagado com sucesso.'
+    redirect_to params[:redirect], notice: 'Labor cost was successfully destroyed.'
   end
 
   private

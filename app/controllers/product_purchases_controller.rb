@@ -93,7 +93,8 @@ class ProductPurchasesController < ApplicationController
   # PATCH/PUT /product_purchases/1
   def update
     if @product_purchase.update(product_purchase_params)
-      redirect_to @product_purchase, notice: 'Product purchase foi atualizado com sucesso.'
+      redirect = params[:redirect] || params[:product_purchase][:redirect]
+      redirect_to redirect, notice: 'Product purchase foi atualizado com sucesso.'
     else
       render :edit
     end
@@ -102,7 +103,7 @@ class ProductPurchasesController < ApplicationController
   # DELETE /product_purchases/1
   def destroy
     @product_purchase.destroy
-    redirect_to product_purchases_url, notice: 'Product purchase foi apagado com sucesso.'
+    redirect_to params[:redirect], notice: 'Product purchase was successfully destroyed'
   end
 
   private

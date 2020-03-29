@@ -9,6 +9,7 @@
     <%= f.hidden_field :emails, value: @emails %>
     <%= f.hidden_field :from, value: @from %>
     <%= f.hidden_field :customer_sign, value: @customer_sign %>
+    <%= f.hidden_field :finish_order, value: @finish_order %>
 
     <%= f.fields_for :customs do |ff| %>
       <% @customs.each do |c| %>

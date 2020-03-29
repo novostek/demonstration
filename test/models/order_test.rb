@@ -9,6 +9,7 @@
 #  photos        :json
 #  start_at      :datetime
 #  status        :string
+#  total_cost    :decimal(, )
 #  created_at    :datetime         not null
 #  updated_at    :datetime         not null
 #

@@ -1,9 +1,9 @@
 class OrdersController < ApplicationController
-  before_action :set_order, only: [:deliver_products_sign,:deliver_products,:send_sign_mail,:finish,:finish_order_signature,:finish_order,
+  before_action :set_order, only: [:create_doc_for_signature,:deliver_products_sign,:deliver_products,:send_sign_mail,:finish,:finish_order_signature,:finish_order,
                                    :show, :edit, :update,
                                    :destroy, :schedule, :create_schedule,
                                    :payments, :transaction, :product_purchase, :new_note,:new_document,:new_contact, :invoice,:invoice_add_payment,:send_invoice_mail,:view_invoice_customer,:costs,:change_order]
-  before_action :authenticate_user!, except: [:deliver_products_sign]
+  before_action :authenticate_user!, except: [:deliver_products_sign,:doc_signature_mail,:doc_signature]
   #Método para visualizar o invoice de order
   def invoice
     @transactions = @order.transactions.order(due: :asc).order(id: :asc)
@@ -20,6 +20,10 @@ class OrdersController < ApplicationController
   #   @template = Liquid::Template.parse(ERB.new(@data).result(binding))
   #   @estimate = @order.current_estimate
   #   render layout: "clean"
+  # end
+  #
+  # def create_doc_for_signature
+  #   doc_signature_mail_orders_url(customer_sign: @customer_sign, document: doc.id,doc_name: @document.name)
   # end
 
   def doc_signature
@@ -64,14 +68,17 @@ class OrdersController < ApplicationController
     @estimate = @order.current_estimate
     doc = DocumentSend.new(origin: "Order",origin_id: @order.id, data: @template.render('order' => @order.attributes ,'estimate' => @estimate.attributes, 'measurements' => JSON.parse(@estimate.measurement_areas.to_json), 'products' => JSON.parse(@estimate.product_estimates.to_json), 'customer' => @estimate.customer.attributes, 'custom' => @params   ) )
     doc.save
-
-    DocumentMailer.with(link: doc_signature_mail_orders_url(document: doc.id,doc_name: @document.name, customer_sign: true) ,subject: params[:subject] , emails: params[:emails], order: @order).sign_order.deliver_now
-    redirect_to finish_order_signature_order_path(@order), notice: "Mail sent"
+    if !params[:sign].present?
+      DocumentMailer.with(link: doc_signature_mail_orders_url(document: doc.id,doc_name: @document.name, customer_sign: true) ,subject: params[:subject] , emails: params[:emails], order: @order).sign_order.deliver_now
+      redirect_to finish_order_signature_order_path(@order), notice: "Mail sent"
+    else
+      redirect_to doc_signature_mail_orders_url(document: doc.id,doc_name: @document.name, customer_sign: true)
+    end
   end
 
   #Método que finaliza a order sem a necessidade de assinatura ou photos
   def finish
-    @order.update(status: :finished)
+    @order.update(status: :finished, end_at: Date.today)
     redirect_to @order, notice: "Order Finished"
   end
 
@@ -221,6 +228,24 @@ class OrdersController < ApplicationController
   def index
     @q = Order.all.ransack(params[:q])
     @orders = @q.result.page(params[:page])
+    @orders_month = Order.where("extract(month from start_at) = ? and extract(year from start_at) = ?", Date.today.month, Date.today.year)
+    @last_month_orders = Order.where("extract(month from start_at) = ? and extract(year from start_at) = ?", (Date.today - 1.month).month, (Date.today - 1.month).year)
+    @transactions = Transaction.where("extract(month from due) = ?", Date.today.month).where(status: :pendent)
+    @orders_today = Order.where(start_at: Date.today)
+
+
+    #calculo de crescimento
+    total_passado = @last_month_orders.sum{|a| a.current_estimate.get_total_value}
+    @total_atual = @orders_month.sum{|a| a.current_estimate.get_total_value}
+    @resultado = @total_atual - total_passado
+    resultado2 = @resultado/total_passado
+    @crecimento = resultado2 * 100
+
+
+
+    @profit = @total_atual - @orders_month.sum(:total_cost)
+
+    @profit_today = @orders_today.sum{|a| a.current_estimate.get_total_value}  - @orders_today.sum(:total_cost)
   end
 
   def invoice_add_payment
@@ -244,6 +269,7 @@ class OrdersController < ApplicationController
 
   # GET /orders/1
   def show
+    @profit = @order.current_estimate.get_total_value - @order.total_cost
   end
 
   # GET /orders/new
@@ -275,7 +301,7 @@ class OrdersController < ApplicationController
       else
 
         if params[:status] == true #finishing order
-          @order.update(status: :finished)
+          @order.update(status: :finished, end_at: Date.today)
           redirect_to @order, notice: "Order Finished"
         else#go to sign
           redirect_to finish_order_signature_order_path(@order)

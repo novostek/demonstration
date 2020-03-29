@@ -33,9 +33,9 @@
 											<p>Orders</p>
 										</div>
 										<div class="col s5 m5 right-align">
-											<h5 class="mb-0 white-text">690</h5>
+											<h5 class="mb-0 white-text"><%= @orders_month.size %></h5>
 											<p class="no-margin">New</p>
-											<p>6,00,00</p>
+											<p><%= number_to_currency(@total_atual) %></p>
 										</div>
 									</div>
 								</div>
@@ -46,9 +46,9 @@
 											<p>Sales</p>
 										</div>
 										<div class="col s5 m5 right-align">
-											<h5 class="mb-0 white-text">80%</h5>
+											<h5 class="mb-0 white-text"><%= @crecimento.round(2) %>%</h5>
 											<p class="no-margin">Growth</p>
-											<p>3,42,230</p>
+											<p><%= number_to_currency(@resultado) %></p>
 										</div>
 									</div>
 								</div>
@@ -59,9 +59,9 @@
 											<p>Pending</p>
 										</div>
 										<div class="col s5 m5 right-align">
-											<h5 class="mb-0 white-text">1885</h5>
+											<h5 class="mb-0 white-text"><%= @transactions.size %></h5>
 											<p class="no-margin">New</p>
-											<p>1,12,900</p>
+											<p><%= number_to_currency(@transactions.sum(:value)) %></p>
 										</div>
 									</div>
 								</div>
@@ -73,9 +73,9 @@
 											<p>Profit</p>
 										</div>
 										<div class="col s5 m5 right-align">
-											<h5 class="mb-0 white-text">$890</h5>
+											<h5 class="mb-0 white-text"><%= number_to_currency(@profit) %></h5>
 											<p class="no-margin">Today</p>
-											<p>$25,000</p>
+											<p><%= number_to_currency(@profit_today) %></p>
 										</div>
 									</div>
 								</div>

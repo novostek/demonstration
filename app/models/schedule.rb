@@ -29,6 +29,7 @@
 class Schedule < ApplicationRecord
   belongs_to :worker
   has_one :labor_cost, dependent: :destroy
+  has_one :order,  primary_key: :origin_id, foreign_key: :id
 
 
   after_save :set_labor_cost, if: :from_order?

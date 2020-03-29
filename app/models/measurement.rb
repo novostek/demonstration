@@ -35,9 +35,9 @@ class Measurement < ApplicationRecord
   end
 
   def set_default
-    self.length = self.length || 0
-    self.height = self.height || 0
-    self.width = self.width || 0
-    self.square_feet = self.square_feet || 0
+    self.length ||= 0
+    self.height ||= 0
+    self.width ||= 0
+    self.square_feet ||= 0
   end
 end

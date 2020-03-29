@@ -65,12 +65,12 @@
                           </div>
                         </div>
 
-                        <canvas id="signature-pad" class="signature-pad"></canvas>
+<!--                        <canvas id="signature-pad" class="signature-pad"></canvas>-->
                       </div>
-                      <div class="signature-actions">
-                        <a href="#" id="clear" class="clear-signature"><i class="material-icons">clear</i> Clear</a>
+<!--                      <div class="signature-actions">-->
+<!--                        <a href="#" id="clear" class="clear-signature"><i class="material-icons">clear</i> Clear</a>-->
 <!--                        <a href="#" class="save-signature" ><i class="material-icons">save</i> Save signature</a>-->
-                      </div>
+<!--                      </div>-->
 
                   </div>
                 </div>
@@ -83,9 +83,12 @@
 
       </div>
       <div class="save-buttons col s12 pb-2 pr-0">
-        <%= f.button :submit, class:"btn waves-effect waves-light right mr-2", onclick:"save(true);" do %>
+        <%#= f.button :submit, class:"btn waves-effect waves-light right mr-2", onclick:"save(true);" do %>
+<!--          <i class="material-icons hide-on-med-and-up">save</i><span class="hide-on-small-only">Sign and Finish</span>-->
+        <%# end %>
+        <a class="btn waves-effect waves-light right mr-2 modal-trigger" href="#" onclick="sign();" >
           <i class="material-icons hide-on-med-and-up">save</i><span class="hide-on-small-only">Sign and Finish</span>
-        <% end %>
+        </a>
         <% if !Setting.get_value("order_need_sign") and !Setting.get_value("take_photo")  %>
           <a class="btn waves-effect waves-light right mr-2" href="<%= finish_order_path(@order) %>" >
             <i class="material-icons hide-on-med-and-up">save</i><span class="hide-on-small-only">Finish Order</span>
@@ -94,6 +97,7 @@
         <a class="btn waves-effect waves-light right mr-2 modal-trigger" href="#modal-mail" onclick="get_document();" >
           <i class="material-icons hide-on-med-and-up">save</i><span class="hide-on-small-only">Send Mail</span>
         </a>
+
       </div>
     </div>
 
@@ -167,6 +171,14 @@
 <!--</div>-->
 <%= content_for :scripts do %>
   <script>
+
+    function sign()
+    {
+        //window.open('/orders/<%= @order.id %>/send_sign_mail?sign=true&document='+$("#document").val(), '_blank');
+        window.open('/documents/preview?from=Order&customer_sign=true&finish_order=true&estimate=<%= @order.current_estimate.id %>&document='+$("#document").val(), '_blank');
+    }
+
+
 
     function preview_document()
     {

@@ -240,14 +240,13 @@ class EstimatesController < ApplicationController
           p_estimate.quantity = product["qty"].to_f
           p_estimate.unitary_value = product["price"].to_f
           p_estimate.discount = product["discount"].to_f
-          p_estimate.tax = 0
+          p_estimate.tax = product["tax"]
           p_estimate.value = product["total"].to_f
           p_estimate.save()
         end
       end
-      if @estimate.taxpayer == 'customer'
-        @estimate.calculate_tax_values_for_customer
-      end
+      
+      @estimate.calculate_tax_values
     rescue StandardError => e
       render json: {status: :internal_server_error, message: e.backtrace.inspect  }
     else

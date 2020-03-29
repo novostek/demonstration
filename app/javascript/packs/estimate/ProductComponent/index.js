@@ -24,7 +24,10 @@ const ProductComponent = () => {
   const estimate = JSON.parse(node.getAttribute('data'))
   // const productSuggestions = JSON.parse(node.getAttribute('suggestions'))
 
-  const [suggestions, setSuggestions] = useState([{}])
+  const [suggestions, setSuggestions] = useState([{
+    area_id: 0,
+    suggestions: []
+  }])
 
   const [productEstimate, setProductEstimate] = useState([
     {
@@ -39,6 +42,7 @@ const ProductComponent = () => {
           qty: 0,
           price: 0,
           discount: 0,
+          tax: false,
           total: 0
         }
       ]
@@ -53,33 +57,91 @@ const ProductComponent = () => {
     setProductAutoComplete(products)
   }
 
-  const updateSuggestions = async (product_id) => {
+  const updateSuggestions = async (area, product_id) => {
     const { data } = await axios.get(`/products/${product_id}.json`)
-
-    console.log(data)
-
     setSuggestions((suggestions) => {
       const copy = [...suggestions]
+      copy.push({
+        area_id: 0,
+        suggestions: []
+      })
+      const suggestions_ids = copy[area].suggestions.map(obj => obj.id)
 
       data.suggestions.map((suggestion_data, index) => {
-        // if (copy.find(s => suggestion_data.suggestion_id === s.suggestion_id))
-        if (copy.indexOf(suggestion_data) === -1)
-          copy.push({ ...data.suggestions[index] })
+        if (!suggestions_ids.includes(suggestion_data.id))
+          copy[area].suggestions.push({ ...suggestion_data })
       })
 
       return copy
     })
 
-    console.log(suggestions)
+
+  }
+
+  const addSuggestionsToProductList = async (area_index, suggestion) => {
+    await addProduct(area_index)
+    setProductEstimate(productEstimate => {
+      const copy = [...productEstimate]
+
+      const product_index = productEstimate[area_index].products.length - 1
+
+      setSuggestions(suggestion_state => {
+        const temp = [...suggestion_state]
+
+        temp[area_index].suggestions = temp[area_index].suggestions.filter(s => s.id !== suggestion.id)
+
+        // temp[area_index].suggestions.filter(s => {
+        //   console.log(s.id, suggestion.id)
+
+        //   return s.id !== suggestion.id
+        // })
+
+        // console.log(temp)
+
+        return temp
+      })
+
+
+      if (productEstimate[area_index].areas.length > 0)
+        calculateProductLW(productEstimate[area_index].areas, suggestion.id)
+          .then(result => {
+            // copy[area_index].products[product_index].product_id = result.id
+            copy[area_index].products[product_index].product_id = result.id
+            copy[area_index].products[product_index].name = result.name
+            copy[area_index].products[product_index].qty = result.qty
+            copy[area_index].products[product_index].total = result.total
+            copy[area_index].products[product_index].price = result.price
+            copy[area_index].products[product_index].tax = result.tax
+            setValue(`measurement[${area_index}].products[${product_index}]`, { product_id: suggestion.product_id })
+            setValue(`measurement[${area_index}].products[${product_index}]`, { name: suggestion.name })
+            setValue(`measurement[${area_index}].products[${product_index}]`, { qty: result.qty })
+            setValue(`measurement[${area_index}].products[${product_index}]`, { price: result.price })
+            setValue(`measurement[${area_index}].products[${product_index}]`, { tax: result.tax })
+            setValue(`measurement[${area_index}].products[${product_index}]`, { total: result.total })
+          })
+
+      return copy
+    })
   }
 
   useEffect(() => {
     let indexHelper = 0
 
-    const inicialLoad = async () => {
+    const suggestions_obj = {
+      area_id: 0,
+      suggestions: []
+    }
+
+    setSuggestions(suggestions => [...suggestions, suggestions_obj])
+
+    const initialLoad = async () => {
       const { data: products } = await axios.get('/products.json')
       console.log(products)
       setProductAutoComplete(products)
+      setSuggestions([{
+        area_id: 999,
+        suggestions: [{}]
+      }])
 
       if (estimate.measurement_proposals.length > 0) {
         await setProductEstimate(productEstimate => {
@@ -100,6 +162,7 @@ const ProductComponent = () => {
                 if (mp.id !== indexHelper) {
                   mp.product_estimates.map((pe, peIndex) => {
                     copy[mpIndex].proposal_id = mp.id
+                    console.log(copy[mpIndex].products)
                     copy[mpIndex].products.push({
                       product_estimate_id: pe.id,
                       key: Math.random(),
@@ -108,6 +171,7 @@ const ProductComponent = () => {
                       qty: pe.quantity,
                       price: pe.unitary_value,
                       discount: pe.discount,
+                      tax: pe.tax,
                       total: pe.value,
                       readOnly: true
                     })
@@ -118,17 +182,19 @@ const ProductComponent = () => {
               } else {
                 mp.product_estimates.map((pe, peIndex) => {
                   if (copy[mpIndex - 1])
-                    copy[mpIndex - 1].products.push({
-                      product_estimate_id: pe.id,
-                      key: Math.random(),
-                      name: pe.name,
-                      product_id: pe.product_id,
-                      qty: pe.quantity,
-                      price: pe.unitary_value,
-                      discount: pe.discount,
-                      total: pe.value,
-                      readOnly: true
-                    })
+                    console.log(copy[mpIndex].products)
+                  copy[mpIndex - 1].products.push({
+                    product_estimate_id: pe.id,
+                    key: Math.random(),
+                    name: pe.name,
+                    product_id: pe.product_id,
+                    qty: pe.quantity,
+                    price: pe.unitary_value,
+                    discount: pe.discount,
+                    tax: pe.tax,
+                    total: pe.value,
+                    readOnly: true
+                  })
                 })
                 // console.log(copy[])
               }
@@ -147,7 +213,7 @@ const ProductComponent = () => {
 
 
     }
-    inicialLoad()
+    initialLoad()
   }, [])
 
   useEffect(() => {
@@ -159,8 +225,6 @@ const ProductComponent = () => {
 
     Array.isArray(productAutoComplete) && productAutoComplete.map(product => autoCompleteProductData[product.name] = null)
 
-    console.log(autoCompleteProductData)
-
     const options = {
       data: autoCompleteProductData,
       limit: 5,
@@ -168,8 +232,8 @@ const ProductComponent = () => {
         setProductEstimate(productEstimate => {
           const copy = [...productEstimate]
           const id = productAutoComplete.filter(p => p.name === val)[0].id
-
-          updateSuggestions(id)
+          console.log('autocomplete', maProductListIndex.maIndex)
+          updateSuggestions(maProductListIndex.maIndex, id)
 
           copy[maProductListIndex.maIndex].products[maProductListIndex.productIndex].product_id = id
           copy[maProductListIndex.maIndex].showSuggestions = true
@@ -178,11 +242,16 @@ const ProductComponent = () => {
           if (productEstimate[maProductListIndex.maIndex].areas.length > 0)
             calculateProductLW(productEstimate[maProductListIndex.maIndex].areas, id)
               .then(result => {
+                console.log(result)
+                copy[maProductListIndex.maIndex].products[maProductListIndex.productIndex].name = result.name
                 copy[maProductListIndex.maIndex].products[maProductListIndex.productIndex].qty = result.qty
                 copy[maProductListIndex.maIndex].products[maProductListIndex.productIndex].total = result.total
                 copy[maProductListIndex.maIndex].products[maProductListIndex.productIndex].price = result.price
+                copy[maProductListIndex.maIndex].products[maProductListIndex.productIndex].tax = result.tax
+                setValue(`measurement[${maProductListIndex.maIndex}].products[${maProductListIndex.productIndex}]`, { name: result.name })
                 setValue(`measurement[${maProductListIndex.maIndex}].products[${maProductListIndex.productIndex}]`, { qty: result.qty })
                 setValue(`measurement[${maProductListIndex.maIndex}].products[${maProductListIndex.productIndex}]`, { price: result.price })
+                setValue(`measurement[${maProductListIndex.maIndex}].products[${maProductListIndex.productIndex}]`, { tax: result.tax })
                 setValue(`measurement[${maProductListIndex.maIndex}].products[${maProductListIndex.productIndex}]`, { total: result.total })
               })
 
@@ -212,10 +281,12 @@ const ProductComponent = () => {
           qty: 0,
           price: 0.0,
           discount: 0.0,
+          tax: false,
           total: 0.0
         }
       ]
     }
+
     setProductEstimate(productEstimate => [...productEstimate, area_product])
   }
 
@@ -236,6 +307,7 @@ const ProductComponent = () => {
       copy[index].products.push(product)
       return copy
     })
+    console.log('area_length', productEstimate.length)
   }
 
   const removeProduct = (maIndex, peIndex) => {
@@ -300,20 +372,6 @@ const ProductComponent = () => {
 
   const remoteSubmit = () => {
     submitBtnRef.current.click()
-  }
-
-  const create_product_estimate = () => {
-    const headers = new Headers()
-    headers.append("Content-Type", "application/json")
-    console.log('create', productEstimate)
-    const data = { productEstimate }
-    const init = {
-      method: 'POST',
-      headers,
-      body: JSON.stringify(data)
-    }
-    return fetch(`/estimates/${estimate.id}/create_products_estimates`, init)
-      .then(data => data.json())
   }
 
   const removeArea = (index, proposal_id) => {
@@ -391,7 +449,19 @@ const ProductComponent = () => {
     })
   }
 
-
+  const create_product_estimate = () => {
+    const headers = new Headers()
+    headers.append("Content-Type", "application/json")
+    const data = { productEstimate }
+    const init = {
+      method: 'POST',
+      headers,
+      body: JSON.stringify(data)
+    }
+    console.log('create', data)
+    return fetch(`/estimates/${estimate.id}/create_products_estimates`, init)
+      .then(data => data.json())
+  }
 
   const onSubmit = async data => {
     const copy = [...productEstimate]
@@ -407,7 +477,8 @@ const ProductComponent = () => {
     await Promise.all(results).then(async res => {
 
       await setProductEstimate(res)
-    }).then(() => console.log('pos map'))
+
+    }).then(() => console.log(productEstimate))
 
     create_product_estimate()
       .then(() => window.location = `/estimates/${estimate.id}/view`)
@@ -478,7 +549,7 @@ const ProductComponent = () => {
                               <div className="product" key={peIndex}>
                                 <div className="row pl-1 pr-1 products-search">
                                   <div className="row">
-                                    <div className="col s6 m4">
+                                    <div className="col s6 m3">
                                       <span className="left width-100 pt-1">Product</span>
                                       <div className="input-field mt-0 mb-0 products-search-field-box">
                                         <a href="#product-add-modal" className="btn-add-product modal-trigger tooltipped" data-tooltip="New product"><i className="material-icons">add</i></a>
@@ -501,13 +572,33 @@ const ProductComponent = () => {
                                           type="hidden" />
                                       </div>
                                     </div>
+                                    <div className="col s6 m2 input-fields">
+                                      <label >
+                                        <input
+                                          name={`measurement[${index}].products[${peIndex}].tax`}
+                                          ref={register}
+                                          type="checkbox"
+                                          onChange={(e) => {
+                                            const { checked } = e.target
+                                            setProductEstimate(productEstimate => {
+                                              const copy = [...productEstimate]
+                                              console.log(checked)
+                                              copy[index].products[peIndex].tax = checked
+
+                                              return copy
+                                            })
+                                          }}
+                                          defaultChecked={productEstimate[index].products[peIndex].tax}
+                                        />
+                                        <span style={{ marginTop: '30px' }} className="left width-10 pt-1">Tax</span>
+                                      </label>
+                                    </div>
                                     <div className="col s6 m2 calc-fields">
                                       <span className="left width-100 pt-1">Qty.</span>
                                       <input
                                         type="text"
                                         name={`measurement[${index}].products[${peIndex}].qty`}
                                         defaultValue={productEstimate[index].products[peIndex].qty}
-                                        readOnly={productEstimate[index].products[peIndex].readOnly}
                                         onChange={(e) => productTotalQty(index, peIndex, e.target.value)}
                                         ref={register(schema.requiredDecimal)} className="product-value qty" />
                                       {errors.qty && <span>{errors.qty.message}</span>}
@@ -519,17 +610,15 @@ const ProductComponent = () => {
                                         name={`measurement[${index}].products[${peIndex}].price`}
                                         ref={register(schema.requiredDecimal)}
                                         defaultValue={productEstimate[index].products[peIndex].price}
-                                        readOnly={productEstimate[index].products[peIndex].readOnly}
                                         onChange={(e) => productTotalPrice(index, peIndex, e.target.value)}
                                         className="product-value price" />
                                       {errors.price && <span>{errors.price.message}</span>}
                                     </div>
-                                    <div className="col s6 m2 calc-fields">
+                                    <div className="col s6 m1 calc-fields">
                                       <span className="left width-100 pt-1">Discount</span>
                                       <input type="text"
                                         name={`measurement[${index}].products[${peIndex}].discount`}
                                         defaultValue={productEstimate[index].products[peIndex].discount}
-                                        readOnly={productEstimate[index].products[peIndex].readOnly}
                                         onChange={(e) => productTotalDiscount(index, peIndex, e.target.value)}
                                         ref={register(schema.requiredDecimal)}
                                         className="product-value discount" />
@@ -541,7 +630,6 @@ const ProductComponent = () => {
                                         type="text"
                                         name={`measurement[${index}].products[${peIndex}].total`}
                                         defaultValue={productEstimate[index].products[peIndex].total}
-                                        readOnly={productEstimate[index].products[peIndex].readOnly}
                                         ref={register(schema.requiredDecimal)}
                                         className="product-value total" />
                                       <a onClick={() => removeProduct(index, peIndex)} style={{ cursor: 'pointer' }} className="btn-remove-product"><i className="material-icons">delete</i></a>
@@ -554,30 +642,23 @@ const ProductComponent = () => {
                           }
                           <a onClick={() => addProduct(index)} style={{ height: '30px' }} className="product new-product">
                           </a>
-
                         </div>
-
                         <div className="products-suggestions mt-2">
                           {
-                            productEstimate[index].showSuggestions
+                            (productEstimate[index].showSuggestions && Array.isArray(suggestions) && suggestions.length > 0)
                             &&
                             <h6 className="suggestions-title">Suggestions</h6>
-
                           }
                           {
-                            productEstimate[index].showSuggestions
+                            // console.log(suggestions[index])
+                            (productEstimate[index].showSuggestions && suggestions[index] && Array.isArray(suggestions[index].suggestions))
                             &&
-                            suggestions.map((suggestion, index) => {
+                            suggestions[index].suggestions.map((suggestion, s_index) => {
                               return (
-                                <a href="#" key={index}> {suggestion.name}</a>
+                                <a key={s_index} onClick={() => addSuggestionsToProductList(index, suggestion)} style={{ cursor: 'pointer' }}> {suggestion.name}</a>
                               )
                             })
                           }
-                          {/* <a href="#" data-price="56.9" data-qty="3">Product with a big name</a>
-                          <a href="#" data-price="23.1" data-qty="1">Product Y</a>
-                          <a href="#" data-price="23.1" data-qty="1">Product Y2</a>
-                          <a href="#" data-price="23.1" data-qty="1">Product Y3</a>
-                          <a href="#" data-price="23.1" data-qty="1">Product Y5</a> */}
                         </div>
 
                       </div>
@@ -588,15 +669,6 @@ const ProductComponent = () => {
               </form>
               <div className="row mt-1">
                 <a onClick={addArea} className="btn btn-add-product-area"><i className="material-icons left">add</i> Add area</a>
-              </div>
-
-              <div className="products-suggestions hide">
-                <h6 className="suggestions-title">Suggestions</h6>
-                <a href="#" data-price="56.9" data-qty="3">Product with a big name</a>
-                <a href="#" data-price="23.1" data-qty="1">Product Y</a>
-                <a href="#" data-price="23.1" data-qty="1">Product Y2</a>
-                <a href="#" data-price="23.1" data-qty="1">Product Y3</a>
-                <a href="#" data-price="23.1" data-qty="1">Product Y5</a>
               </div>
             </div>
 

@@ -88,9 +88,10 @@ class SignaturesController < ApplicationController
             redirect_to "/orders/#{@signature.origin_id}/finish"
           else
             #finaliza a order com a assinatura enviada por email
-            if params[:signature][:customer_sign].present? and params[:signature][:customer_sign] == true
+
+            if params[:signature][:customer_sign].present? and params[:signature][:customer_sign] == "true"
               begin
-                Order.find(@signature.origin_id).update(status: :finished)
+                Order.find(@signature.origin_id).update(status: :finished, end_at: Date.today)
               rescue
               end
             end

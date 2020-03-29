@@ -6,6 +6,7 @@
 #  custom_title :string
 #  quantity     :decimal(, )
 #  status       :string
+#  tax          :boolean          default("false")
 #  unity_value  :decimal(, )
 #  value        :decimal(, )
 #  created_at   :datetime         not null
@@ -34,9 +35,17 @@ class ProductPurchase < ApplicationRecord
   extend Enumerize
   enumerize :status, in: [:requested, :buyed, :delivered, :returned],predicates: true, default: :requested
 
+  after_save :update_order_total_cost
+
   def as_json(options = {})
     s = super(options)
     s[:product] = self.product
     s
+  end
+
+  #Método que atualiza o total dos custos da order
+  def update_order_total_cost
+    self.order.total_cost = self.order.product_purchases.sum(:value) + self.order.labor_costs.sum(:value)
+    self.order.save
   end
 end

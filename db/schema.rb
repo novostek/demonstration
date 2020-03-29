@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_03_27_184259) do
+ActiveRecord::Schema.define(version: 2020_03_29_002356) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -207,6 +207,7 @@ ActiveRecord::Schema.define(version: 2020_03_27_184259) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.json "photos"
+    t.decimal "total_cost"
   end
 
   create_table "plutus_accounts", id: :serial, force: :cascade do |t|
@@ -276,6 +277,7 @@ ActiveRecord::Schema.define(version: 2020_03_27_184259) do
     t.string "custom_title"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.boolean "tax", default: false
     t.index ["product_id"], name: "index_product_purchases_on_product_id"
     t.index ["purchase_id"], name: "index_product_purchases_on_purchase_id"
   end
@@ -299,7 +301,7 @@ ActiveRecord::Schema.define(version: 2020_03_27_184259) do
     t.string "bpm_purchase"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.bigint "supplier_id", null: false
+    t.bigint "supplier_id"
     t.bigint "calculation_formula_id", null: false
     t.text "photo"
     t.index ["calculation_formula_id"], name: "index_products_on_calculation_formula_id"

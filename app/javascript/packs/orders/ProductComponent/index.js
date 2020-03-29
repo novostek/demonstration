@@ -45,6 +45,7 @@ const ProductComponent = () => {
               qty: product_purchase.quantity,
               price: product_purchase.unity_value,
               total: product_purchase.value,
+              tax: product_purchase.tax,
               canDelete: false
             })
             return copy
@@ -57,9 +58,9 @@ const ProductComponent = () => {
   }, [])
 
   useEffect(() => {
-    const reducer_subtotal = (acc, current) => parseFloat(acc) + parseFloat(current.total)
-    const reducer_tax = (acc, current) => parseFloat(acc) + parseFloat(current.tax)
-
+    const reducer_subtotal = (acc, current) => !current.tax ? parseFloat(acc) + parseFloat(current.total) : parseFloat(acc)
+    const reducer_tax = (acc, current) => current.tax ? parseFloat(acc) + parseFloat(current.total) : 0
+    console.log(productPurchase.reduce(reducer_subtotal, 0))
     setOrderValues({
       ...orderValues,
       subTotal: productPurchase.reduce(reducer_subtotal, 0),
@@ -311,16 +312,16 @@ const ProductComponent = () => {
               <ul>
                 <li className="display-flex justify-content-between">
                   <span className="invoice-subtotal-title">Subtotal</span>
-                  <h6 className="mt-0 subtotal-all">{orderValues.subTotal}</h6>
+                  <h6 className="mt-0 subtotal-all">$ {orderValues.subTotal}</h6>
                 </li>
                 <li className="display-flex justify-content-between">
                   <span className="invoice-subtotal-title">Tax</span>
-                  <h6 className="mt-0 tax-whole">{(orderValues.tax ? orderValues.tax : 0)}</h6>
+                  <h6 className="mt-0 tax-whole">$ {(orderValues.tax ? orderValues.tax : 0)}</h6>
                 </li>
                 <li className="divider mt-2 mb-2"></li>
                 <li className="display-flex justify-content-between">
                   <span className="invoice-subtotal-title">Order Total</span>
-                  <h6 className="mt-0 order-total">$ {orderValues.subTotal - (orderValues.tax ? orderValues.tax : 0)}</h6>
+                  <h6 className="mt-0 order-total">$ {orderValues.subTotal + (orderValues.tax ? orderValues.tax : 0)}</h6>
                 </li>
               </ul>
             </div>

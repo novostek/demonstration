@@ -258,7 +258,7 @@ const ProductComponent = () => {
                                 <input
                                   type="text"
                                   name={`products[${index}].qty`}
-                                  defaultValue={product_purchase.qty}
+                                  defaultValue={product_purchase.qty ? product_purchase.qty : 0.0}
                                   readOnly={!product_purchase.canDelete}
                                   onBlur={(e) => productTotalQty(index, e.target.value)}
                                   ref={register(schema.requiredDecimal)} className="product-value qty" />
@@ -270,7 +270,7 @@ const ProductComponent = () => {
                                   type="text"
                                   name={`products[${index}].price`}
                                   ref={register(schema.requiredDecimal)}
-                                  defaultValue={product_purchase.price}
+                                  defaultValue={product_purchase.price ? product_purchase.price : 0.0}
                                   readOnly={!product_purchase.canDelete}
                                   onBlur={(e) => productTotalPrice(index, e.target.value)}
                                   className="product-value price" />
@@ -281,7 +281,7 @@ const ProductComponent = () => {
                                 <input
                                   type="text"
                                   name={`products[${index}].total`}
-                                  defaultValue={product_purchase.total}
+                                  defaultValue={product_purchase.total ? product_purchase.total : 0.0}
                                   readOnly={!product_purchase.canDelete}
                                   ref={register(schema.requiredDecimal)}
                                   className="product-value total" />

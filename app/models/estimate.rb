@@ -137,10 +137,11 @@ class Estimate < ApplicationRecord
             product = p.product
             purchase = Purchase.find_or_create_by(order_id: order.id, supplier_id: product.supplier.id)
             pp = ProductPurchase.find_or_create_by(product: product, purchase: purchase)
-            pp.unity_value =  p.unitary_value
+            pp.unity_value =  product.cost_price
             pp.quantity =  p.quantity
-            pp.value = p.value
+            pp.value = pp.unity_value * pp.quantity
             pp.custom_title = p.custom_title
+            pp.tax = false
             pp.save
             # rescue
             #end
@@ -153,7 +154,7 @@ class Estimate < ApplicationRecord
         end
 
         tax_purchase = Purchase.find_by(order_id: order.id)
-        tax_cost = ProductPurchase.find_or_create_by(purchase: tax_purchase, value: self.tax, custom_title: self.calculation_formula.name)
+        tax_cost = ProductPurchase.find_or_create_by(purchase: tax_purchase, value: self.tax, custom_title: self.calculation_formula.name, tax: true)
         tax_cost.save
       end
     end

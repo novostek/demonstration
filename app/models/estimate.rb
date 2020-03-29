@@ -112,10 +112,10 @@ class Estimate < ApplicationRecord
     sub_total_taxes = calculator.evaluate(self.calculation_formula.formula, total: tax_products)
     discounts = self.product_estimates.sum(:discount)
     if self.taxpayer == 'customer'
-      self.price = (sub_total + sub_total_taxes) - discounts
+      self.price = sub_total
       self.tax = sub_total_taxes
     elsif taxpayer == 'company'
-      self.price = sub_total  - discounts
+      self.price = sub_total
       self.tax = sub_total_taxes
     end
     

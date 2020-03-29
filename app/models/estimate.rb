@@ -105,13 +105,20 @@ class Estimate < ApplicationRecord
     end
   end
 
-  def calculate_tax_values_for_customer
+  def calculate_tax_values
     calculator = Dentaku::Calculator.new
-    sub_total = self.product_estimates.distinct.joins(:product).sum(:value)
-    tax_products = self.product_estimates.joins(:product).where(products: {:tax => true}).sum(:value)
+    sub_total = self.product_estimates.sum(:value)
+    tax_products = self.product_estimates.where(tax: true).sum(:value)
     sub_total_taxes = calculator.evaluate(self.calculation_formula.formula, total: tax_products)
-    self.price = (sub_total + sub_total_taxes) - self.product_estimates.distinct.sum(:discount)
-    self.tax = sub_total_taxes
+    discounts = self.product_estimates.sum(:discount)
+    if self.taxpayer == 'customer'
+      self.price = (sub_total + sub_total_taxes) - discounts
+      self.tax = sub_total_taxes
+    elsif taxpayer == 'company'
+      self.price = sub_total  - discounts
+      self.tax = sub_total_taxes
+    end
+    
     self.save
   end
 
@@ -130,9 +137,9 @@ class Estimate < ApplicationRecord
             product = p.product
             purchase = Purchase.find_or_create_by(order_id: order.id, supplier_id: product.supplier.id)
             pp = ProductPurchase.find_or_create_by(product: product, purchase: purchase)
-            pp.unity_value =  product.cost_price
+            pp.unity_value =  p.unitary_value
             pp.quantity =  p.quantity
-            pp.value = pp.unity_value * pp.quantity
+            pp.value = p.value
             pp.custom_title = p.custom_title
             pp.save
             # rescue
@@ -144,6 +151,10 @@ class Estimate < ApplicationRecord
           end
 
         end
+
+        tax_purchase = Purchase.find_by(order_id: order.id)
+        tax_cost = ProductPurchase.find_or_create_by(purchase: tax_purchase, value: self.tax, custom_title: self.calculation_formula.name)
+        tax_cost.save
       end
     end
   end

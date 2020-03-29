@@ -12,14 +12,11 @@ en:
   enumerize:
     estimate:
       taxpayer:
-        customer: 'Customer will pay'
-        company: 'We will pay'
+        customer: "Customer will pay"
+        company: "We will pay"
       category:
         estimate: "Estimate"
         change_order: "Change Order"
-      taxpayer:
-        customer: "Customer"
-        company: "Company"
       status:
         new: "New"
         waiting_approval: "Waiting Approval"

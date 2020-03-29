@@ -52,7 +52,7 @@
               <ul>
                 <li class="justify-content-between">
                   <span class="invoice-subtotal-title">Payments Added</span>
-                  <h6 class="invoice-subtotal-value"><%= number_to_currency(@order.transactions.sum(:value)) %></h6>
+                  <h6 class="invoice-subtotal-value" id="value_total"></h6>
                 </li>
                 <li class="justify-content-between">
                   <span class="invoice-subtotal-title">Payments Pendent</span>
@@ -81,13 +81,35 @@
 
 <%= content_for :scripts do %>
   <script>
+    function update_value(){
+        $('.value').blur(function () {
+            console.log("teste");
+            var sum = 0;
+            $('.value').each(function() {
+                sum += Number($(this).val());
+            });
+            $("#value_total").html("$ "+sum);
+            // here, you have your sum
+        });
+    }
+
     $(document).ready(function(){
-    $('#transactions').on('cocoon:after-insert', function(e, insertedItem) {
-       $('.datepicker').datepicker({
-        format: 'yyyy-mm-dd',
-        autoClose: true
+        var sum = 0;
+        $('.value').each(function() {
+            sum += Number($(this).val());
+        });
+        $("#value_total").html("$ "+sum);
+      $('#transactions').on('cocoon:after-insert', function(e, insertedItem) {
+         $('.datepicker').datepicker({
+          format: 'yyyy-mm-dd',
+          autoClose: true
+        });
+
+          update_value();
+
       });
     });
-});
+
+    update_value();
   </script>
 <% end %>

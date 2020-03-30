@@ -1,6 +1,6 @@
 class SchedulesController < ApplicationController
 
-  load_and_authorize_resource except: [:delete_schedule]
+  #load_and_authorize_resource except: [:delete_schedule]
   def index
     @schedules = Schedule.all
   end

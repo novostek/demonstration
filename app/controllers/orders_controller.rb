@@ -4,7 +4,7 @@ class OrdersController < ApplicationController
                                    :destroy, :schedule, :create_schedule,
                                    :payments, :transaction, :product_purchase, :new_note,:new_document,:new_contact, :invoice,:invoice_add_payment,:send_invoice_mail,:view_invoice_customer,:costs,:change_order]
   before_action :authenticate_user!, except: [:deliver_products_sign,:doc_signature_mail,:doc_signature]
-  load_and_authorize_resource  except: [:deliver_products_sign,:doc_signature_mail,:doc_signature, :create_schedule, :delete_schedule, :view_invoice_customer]
+  #load_and_authorize_resource  except: [:deliver_products_sign,:doc_signature_mail,:doc_signature, :create_schedule, :delete_schedule, :view_invoice_customer]
 
   def order_photos
 

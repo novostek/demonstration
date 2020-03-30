@@ -1,5 +1,5 @@
 class TransactionAccountsController < ApplicationController
-  load_and_authorize_resource
+  #load_and_authorize_resource
   before_action :set_transaction_account, only: [:show, :edit, :update, :destroy]
 
   # GET /transaction_accounts

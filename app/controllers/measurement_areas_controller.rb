@@ -1,5 +1,5 @@
 class MeasurementAreasController < ApplicationController
-  load_and_authorize_resource
+  #load_and_authorize_resource
   before_action :set_measurement_area, only: [:show, :edit, :update, :destroy]
 
   # GET /measurement_areas

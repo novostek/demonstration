@@ -1,4 +1,5 @@
 class DocumentFilesController < ApplicationController
+  load_and_authorize_resource
   before_action :set_document_file, only: [:show, :edit, :update, :destroy]
 
   # GET /document_files

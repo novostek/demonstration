@@ -32,13 +32,13 @@
                   <i class="material-icons ">assignment_ind</i><%= t('create_order') %>
                 <% end %>
               </li>
-              <li>
-                <%= link_to estimate_signature_estimate_path(@estimate), class: "grey-text text-darken-2" , target: "_blank" do %>
-                  <i class="material-icons ">done</i><%= t('sign') %>
-                <% end %>
-              </li>
+
             <% end %>
-            
+            <li>
+              <%= link_to estimate_signature_estimate_path(@estimate), class: "grey-text text-darken-2" , target: "_blank" do %>
+                <i class="material-icons ">done</i><%= t('sign') %>
+              <% end %>
+            </li>
 
             <li>
               <a class="grey-text text-darken-2 modal-trigger btn-send-email" href="#modal-mail"><i class="material-icons ">send</i>Send email</a>

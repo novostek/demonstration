@@ -1,4 +1,5 @@
 class ProfilesController < ApplicationController
+  #load_and_authorize_resource
   before_action :set_profile, only: [:show, :edit, :update, :destroy]
   before_action :set_combos, only:[:new,:edit,:update,:create]
 
@@ -61,7 +62,36 @@ class ProfilesController < ApplicationController
       #Zeitwerk::Loader.eager_load_all #rails 6
       #@controllers = ApplicationController.subclasses.map{|a| {controller: a, metodos: a.action_methods} if !["DeviseController"].include? a.to_s  }
       # ApplicationController.subclasses.map{|a| {controller: a, metodos: a.action_methods}}
-      contrl = [CustomersController, CalculationFormulasController, ContactsController, DocumentFilesController, NotesController, ProductCategoriesController, ProductsController, SettingsController, SuppliersController,
+      contrl = [
+                CalculationFormulasController,
+                ContactsController,
+                CustomersController,
+                DocumentFilesController,
+
+                DocumentsController,
+                EstimatesController,
+                LaborCostsController,
+                LeadsController,
+                MeasurementAreasController,
+                MeasurementProposalsController,
+                MeasurementsController,
+                MenusController,
+                NotesController,
+                OrdersController,
+                ProductCategoriesController,
+                ProductEstimatesController,
+                ProductPurchasesController,
+                ProductsController,
+                ProfilesController,
+                PurchasesController,
+                SchedulesController,
+                SettingsController,
+                SignaturesController,
+                SquareApiController,
+                SuppliersController,
+                TransactionAccountsController,
+                TransactionCategoriesController, TransactionsController,
+                UsersController,
                 WorkersController]
 
       @controllers = contrl.map{|a| {controller: a, metodos: a.action_methods} }

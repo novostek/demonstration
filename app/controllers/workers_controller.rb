@@ -1,4 +1,5 @@
 class WorkersController < ApplicationController
+  load_and_authorize_resource
   before_action :set_worker, only: [:show, :edit, :update, :destroy,:new_note,:new_document,:new_contact,:update_contact]
 
   # GET /workers

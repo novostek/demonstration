@@ -28,7 +28,7 @@ $(function() {
       verticalFit: true,
       tError: '<a href="%url%">The image #%curr%</a> could not be loaded.',
       titleSrc: function(item) {
-        return item.el.attr('title') + '<small>by Marsel Van Oosten</small>';
+        return item.el.attr('title') + '<small></small>';
       },
       zoom: {
         enabled: true,

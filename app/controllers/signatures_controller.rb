@@ -1,6 +1,7 @@
 class SignaturesController < ApplicationController
   before_action :set_signature, only: [:show, :edit, :update, :destroy]
   before_action :authenticate_user!, except: [:create]
+  load_and_authorize_resource except: [:create]
 
   # GET /signatures
   def index

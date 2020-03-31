@@ -1,4 +1,5 @@
 class CalculationFormulasController < ApplicationController
+  load_and_authorize_resource except: [:calculate_product_qty_lw]
   before_action :set_calculation_formula, only: [:show, :edit, :update, :destroy]
 
   # GET /calculation_formulas

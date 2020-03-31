@@ -1,4 +1,5 @@
 <link rel="stylesheet" type="text/css" href="/css/order.css">
+<link rel="stylesheet" type="text/css" href="/materialize/vendors/magnific-popup/magnific-popup.css">
 <%= form_for @order, html:{id:"form_photo"} do |f| %>
 
   <%= hidden_field_tag :status, id: "status" %>
@@ -9,18 +10,18 @@
     <div class="container">
       <div class="row">
         <div class="col s10 m6 l6">
-          <h5 class="breadcrumbs-title mt-0 mb-0">Finish order #<%= @order.code %></h5>
+          <h5 class="breadcrumbs-title mt-0 mb-0">Photos</h5>
           <ol class="breadcrumbs mb-0">
-            <li class="breadcrumb-item"><a href="/">Home</a>
+            <li class="breadcrumb-item"><a href="index.html">Home</a>
             </li>
             <li class="breadcrumb-item"><a href="<%= order_path(@order) %>">Order</a>
             </li>
-            <li class="breadcrumb-item active">Finish
+            <li class="breadcrumb-item active">Photos
             </li>
           </ol>
         </div>
         <div class="col s2 m6 l6">
-
+          <a class="btn btn-default waves-effect display-flex align-items-center justify-content-center waves-light breadcrumbs-btn right mr-2  text-lighten-5 border-round" href="<%= order_path(@order) %>"><i class="material-icons hide-on-med-and-up">arrow_back</i><span class="hide-on-small-only">Back to order</span></a>
         </div>
       </div>
     </div>
@@ -31,23 +32,19 @@
         <div class="col s12 pl-0 pr-0">
 
           <div class="col s12 pl-1">
-            <div class="card-panel">
-              <div class="finish-order-steps">
-                <div class="finish-order-step photos">
-                  <div class="step-title"><span class="step-icon"></span>Upload photos</div>
-                  <div class="step-content">
-                    <div class="file-field input-field">
-                      <div class="btn right">
-                        <span>File</span>
-<!--                        <input type="file" name="order[photos][]" id="order_photos" accept="image/*" multiple required>-->
-                        <%= f.file_field :photos, multiple: true, required: true %>
-                      </div>
-                      <div class="file-path-wrapper pl-0">
-                        <input class="file-path validate" type="text"
-                               placeholder="Upload one or more photos">
+            <div class="masonry-gallery-wrapper">
+              <div class="popup-gallery">
+                <div class="gallery-sizer"></div>
+                <div class="row">
+                  <% @order.photos.each do |photo| %>
+                    <div class="col s12 m6 l4 xl2">
+                      <div>
+                        <a href="<%= photo.url %>" title="Finishig Order">
+                          <img src="<%= photo.url %>" class="responsive-img mb-10" alt="">
+                        </a>
                       </div>
                     </div>
-                  </div>
+                  <% end %>
                 </div>
               </div>
             </div>
@@ -55,46 +52,17 @@
         </div>
 
       </div>
-      <div class="save-buttons col s12 pb-2 pr-0">
-        <%= f.button :submit, class:"btn waves-effect waves-light right mr-2", onclick:"save(false);" do %>
-          <i class="material-icons hide-on-med-and-up">save</i><span class="hide-on-small-only">Save and Signature</span>
-        <% end %>
-<!--        <a class="btn waves-effect waves-light right mr-2" href="#" onclick="save(false);">-->
-<!--          <i class="material-icons hide-on-med-and-up">save</i><span class="hide-on-small-only">Save and Signature</span>-->
-<!--        </a>-->
-        <% if !Setting.get_value("order_need_sign") and Setting.get_value("take_photo") %>
-          <%= f.button :submit, class:"btn waves-effect waves-light right mr-2", onclick:"save(true);" do %>
-            <i class="material-icons hide-on-med-and-up">save</i><span class="hide-on-small-only">Save and Finish</span>
-          <% end %>
-<!--          <a class="btn waves-effect waves-light right mr-2" href="#" onclick="save(true);">-->
-<!--            <i class="material-icons hide-on-med-and-up">save</i><span class="hide-on-small-only">Save and Finish</span>-->
-<!--          </a>-->
-        <% end %>
-        <% if !Setting.get_value("take_photo")  %>
-          <a class="btn waves-effect waves-light right mr-2" href="<%= finish_order_signature_order_path(@order) %>" >
-            <i class="material-icons hide-on-med-and-up">save</i><span class="hide-on-small-only">Get Signature</span>
-          </a>
-        <% end %>
-        <% if !Setting.get_value("order_need_sign") and !Setting.get_value("take_photo")  %>
-          <a class="btn waves-effect waves-light right mr-2" href="<%= finish_order_path(@order) %>" >
-            <i class="material-icons hide-on-med-and-up">save</i><span class="hide-on-small-only">Finish Order</span>
-          </a>
-        <% end %>
-      </div>
+
     </div>
-
-
-
-
-
-
-
   </div>
 </div>
 <% end %>
 
 
 <%= content_for :scripts do %>
+  <script src="/materialize/vendors/magnific-popup/jquery.magnific-popup.min.js"></script>
+  <script src="/materialize/vendors/imagesloaded.pkgd.min.js"></script>
+  <script src="/materialize/js/scripts/media-gallery-page.js"></script>
   <script>
 
       function save(status)

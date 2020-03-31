@@ -112,27 +112,34 @@ const ProductComponent = () => {
             copy[area_index].products[product_index].total = result.total
             copy[area_index].products[product_index].price = result.price
             copy[area_index].products[product_index].tax = result.tax
-            setValue(`measurement[${area_index}].products[${product_index}]`, { product_id: suggestion.product_id })
-            setValue(`measurement[${area_index}].products[${product_index}]`, { name: suggestion.name })
+            setValue(`measurement[${area_index}].products[${product_index}]`, { product_id: result.id })
+            setValue(`measurement[${area_index}].products[${product_index}]`, { name: result.name })
             setValue(`measurement[${area_index}].products[${product_index}]`, { qty: result.qty })
             setValue(`measurement[${area_index}].products[${product_index}]`, { price: result.price })
             setValue(`measurement[${area_index}].products[${product_index}]`, { tax: result.tax })
             setValue(`measurement[${area_index}].products[${product_index}]`, { total: result.total })
           })
-
+      else {
+        console.log('Suggestion', suggestion)
+        copy[area_index].products[product_index].product_id = suggestion.id
+        copy[area_index].products[product_index].name = suggestion.name
+        copy[area_index].products[product_index].qty = 0
+        copy[area_index].products[product_index].total = 0
+        copy[area_index].products[product_index].price = suggestion.unitary_value
+        copy[area_index].products[product_index].tax = suggestion.tax
+        setValue(`measurement[${area_index}].products[${product_index}]`, { product_id: suggestion.id })
+        setValue(`measurement[${area_index}].products[${product_index}]`, { name: suggestion.name })
+        setValue(`measurement[${area_index}].products[${product_index}]`, { qty: 0 })
+        setValue(`measurement[${area_index}].products[${product_index}]`, { price: suggestion.customer_price })
+        setValue(`measurement[${area_index}].products[${product_index}]`, { tax: suggestion.tax })
+        setValue(`measurement[${area_index}].products[${product_index}]`, { total: 0 })
+      }
       return copy
     })
   }
 
   useEffect(() => {
     let indexHelper = 0
-
-    const suggestions_obj = {
-      area_id: 0,
-      suggestions: []
-    }
-
-    setSuggestions(suggestions => [...suggestions, suggestions_obj])
 
     const initialLoad = async () => {
       const { data: products } = await axios.get('/products.json')
@@ -154,6 +161,12 @@ const ProductComponent = () => {
 
         await Promise.all(
           estimate.measurement_proposals.map((mp, mpIndex) => {
+            const suggestions_obj = {
+              area_id: 0,
+              suggestions: []
+            }
+
+            setSuggestions(suggestions => [...suggestions, suggestions_obj])
             setProductEstimate(productEstimate => {
               const copy = [...productEstimate]
               if (mp.id !== indexHelper) {
@@ -290,7 +303,7 @@ const ProductComponent = () => {
     setProductEstimate(productEstimate => [...productEstimate, area_product])
   }
 
-  const addProduct = (index) => {
+  const addProduct = async (index) => {
     const product = {
       key: Math.random(),
       name: '',
@@ -302,7 +315,7 @@ const ProductComponent = () => {
     }
     // console.log(productEstimate[index])
     // setProductEstimate(productEstimate => [...productEstimate.slice(0, index), { ...productEstimate[index], products: [...productEstimate[index].products, product] }, ...productEstimate.slice(index + 1)])
-    setProductEstimate(productEstimate => {
+    await setProductEstimate(productEstimate => {
       const copy = [...productEstimate]
       copy[index].products.push(product)
       return copy
@@ -418,7 +431,7 @@ const ProductComponent = () => {
       copy[maIndex].products[peIndex].price = parseFloat(value)
       copy[maIndex].products[peIndex].total = (parseFloat(copy[maIndex].products[peIndex].qty) * parseFloat(value)) - parseFloat(copy[maIndex].products[peIndex].discount)
 
-      setValue(`measurement[${maIndex}].products[${peIndex}].total`, copy[maIndex].products[peIndex].total ? copy[maIndex].products[peIndex].total : 0)
+      setValue(`measurement[${maIndex}].products[${peIndex}].total`, copy[maIndex].products[peIndex].total ? parseFloat(copy[maIndex].products[peIndex].total).toFixed(2) : 0)
       setValue(`measurement[${maIndex}].products[${peIndex}].price`, value ? value : 0)
       return copy
     })
@@ -430,7 +443,7 @@ const ProductComponent = () => {
       copy[maIndex].products[peIndex].qty = parseFloat(value)
       copy[maIndex].products[peIndex].total = (parseFloat(value) * parseFloat(copy[maIndex].products[peIndex].price)) - parseFloat(copy[maIndex].products[peIndex].discount)
 
-      setValue(`measurement[${maIndex}].products[${peIndex}].total`, copy[maIndex].products[peIndex].total ? copy[maIndex].products[peIndex].total : 0)
+      setValue(`measurement[${maIndex}].products[${peIndex}].total`, copy[maIndex].products[peIndex].total ? parseFloat(copy[maIndex].products[peIndex].total).toFixed(2) : 0)
       setValue(`measurement[${maIndex}].products[${peIndex}].qty`, value ? value : 0)
       return copy
     })
@@ -443,7 +456,7 @@ const ProductComponent = () => {
       copy[maIndex].products[peIndex].discount = parseFloat(value)
       copy[maIndex].products[peIndex].total = (parseFloat(copy[maIndex].products[peIndex].qty) * parseFloat(copy[maIndex].products[peIndex].price)) - parseFloat(value)
 
-      setValue(`measurement[${maIndex}].products[${peIndex}].total`, copy[maIndex].products[peIndex].total ? copy[maIndex].products[peIndex].total : 0)
+      setValue(`measurement[${maIndex}].products[${peIndex}].total`, copy[maIndex].products[peIndex].total ? parseFloat(copy[maIndex].products[peIndex].total).toFixed(2) : 0)
       setValue(`measurement[${maIndex}].products[${peIndex}].discount`, value ? value : 0)
       return copy
     })
@@ -629,7 +642,7 @@ const ProductComponent = () => {
                                       <input
                                         type="text"
                                         name={`measurement[${index}].products[${peIndex}].total`}
-                                        defaultValue={productEstimate[index].products[peIndex].total}
+                                        defaultValue={parseFloat(productEstimate[index].products[peIndex].total).toFixed(2)}
                                         ref={register(schema.requiredDecimal)}
                                         className="product-value total" />
                                       <a onClick={() => removeProduct(index, peIndex)} style={{ cursor: 'pointer' }} className="btn-remove-product"><i className="material-icons">delete</i></a>

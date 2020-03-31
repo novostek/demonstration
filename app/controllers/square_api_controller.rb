@@ -1,5 +1,6 @@
 class SquareApiController < ApplicationController
 
+
   def callback
     result, square_transaction = SquareApi.get_transaction(params[:transactionId])
     if result

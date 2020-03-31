@@ -1,4 +1,5 @@
 class TransactionsController < ApplicationController
+  load_and_authorize_resource except: [:send_square]
   before_action :set_transaction, only: [:show, :edit, :update, :destroy,:send_square,:send_square_again, :paid]
   before_action :set_combos, only: [:new,:edit,:create,:update]
 

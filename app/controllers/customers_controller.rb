@@ -1,4 +1,5 @@
 class CustomersController < ApplicationController
+  load_and_authorize_resource
   before_action :set_customer, only: [:show, :edit, :update, :destroy,:new_note,:new_document,:new_contact]
   #skip_before_action :authenticate_user!, only: [:process_payment]
 

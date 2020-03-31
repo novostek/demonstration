@@ -1,4 +1,5 @@
 class EstimatesController < ApplicationController
+  load_and_authorize_resource except: [:estimate_signature, :create_products_estimates, :create_step_one, :create_schedule,:delete_schedule]
   before_action :set_estimate, only: [:show, :edit, :update, :destroy,:send_mail,:estimate_signature, :create_products_estimates,:new_note, :new_document,:create_order]
   before_action :set_combos, only: [:step_one]
   # skip_forgery_protection
@@ -69,6 +70,7 @@ class EstimatesController < ApplicationController
       # Cria a order caso não seja change_order
       if @estimate.estimate?
         @estimate.create_order
+        @estimate.update(status: :ordered)
       else
         @estimate.update(status: :ordered)
         @estimate.order.update(status: :change_approved)

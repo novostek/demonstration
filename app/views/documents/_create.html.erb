@@ -108,25 +108,22 @@
               <tr>
               <th>Name</th>
               <th>Description</th>
-              <th>height</th>
-              <th>length</th>
-              <th>width</th>
+              <th>Square Feet</th>
               </tr>
               </thead>
-              </table>
-              {% for measurement in measurements %}
-              <table>
+
+              <!-- {% for measurement in measurements %} -->
               <tbody>
 
               <tr>
               <td>{{measurement.name}}</td>
               <td>{{measurement.description}}</td>
-              <td>{{measurement.height}}</td>
-              <td>{{measurement.length}}</td>
-              <td>{{measurement.width}}</td>
+              <td>{{measurement.square_feet}}</td>
               </tr>
 
-              </tbody></table>{% endfor %}" >
+              </tbody>
+              <!-- {% endfor %} -->
+" >
 
                 <i class="material-icons chip-icon">open_with</i>
                 Measurements
@@ -142,11 +139,7 @@
               <th style='width=20%;'>Value</th>
               </tr>
               </thead>
-              </table>
-              {% for product in products %}
-              <table>
-              <tbody>
-
+              <!-- {% for product in products %} -->
               <tr>
               <td  style='width=20%;'>{{product.name}}</td>
               <td style='width=20%;'>{{product.discount}}</td>
@@ -154,9 +147,9 @@
               <td style='width=20%;'>{{product.unitary_value}}</td>
               <td style='width=20%;'>{{product.value}}</td>
               </tr>
-
-              </tbody></table>
-              {% endfor %}">
+              <!-- {% endfor %}  -->
+             </tbody></table>
+">
                 <i class="material-icons chip-icon">open_with</i>
                 Products
               </div>

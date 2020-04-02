@@ -1,5 +1,5 @@
 class ProductPurchasesController < ApplicationController
-  load_and_authorize_resource
+  #load_and_authorize_resource
   before_action :set_product_purchase, only: [:show, :edit, :update, :destroy,:new_note,:new_document,:change_status]
   before_action :authenticate_user!, except: [:create]
   # GET /product_purchases

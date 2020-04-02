@@ -1,5 +1,5 @@
 class DocumentsController < ApplicationController
-  load_and_authorize_resource
+  #load_and_authorize_resource
   before_action :set_document, only: [:show, :edit, :update, :destroy,:add_custom]
 
 
@@ -107,20 +107,20 @@ class DocumentsController < ApplicationController
 
       if params[:send_mail].present? and params[:send_mail] == "true"
         emails = params[:emails]
-        begin
+        #begin
           puts "Enviando email"
 
 
-          doc = DocumentSend.new(origin: params[:from],origin_id: origin_id, data: @template.render('order' => @order_params ,'estimate' => @estimate.attributes, 'measurements' => JSON.parse(@estimate.measurement_areas.to_json), 'products' => JSON.parse(@estimate.product_estimates.to_json), 'customer' => @estimate.customer.attributes, 'custom' => @params   ) )
+          doc = DocumentSend.new(origin: params[:from],origin_id: origin_id, data: @template.render('order' => @order_params ,'estimate' => @estimate.attributes, 'measurements' => JSON.parse(@estimate.measurement_areas.to_json), 'products' => JSON.parse(@estimate.product_estimates.to_json), 'customer' => JSON.parse(@estimate.customer.to_json), 'custom' => @params   ) )
           doc.save
-          DocumentMailer.with( link: doc_signature_mail_orders_url(customer_sign: @customer_sign, document: doc.id,doc_name: @document.name) , doc: doc, customer: @estimate.customer ,subject: params[:subject], emails: emails, pdf: @template.render('order' => @order_params,'estimate' => @estimate.attributes, 'measurements' => JSON.parse(@estimate.measurement_areas.to_json), 'products' => JSON.parse(@estimate.product_estimates.to_json), 'customer' => @estimate.customer.attributes, 'custom' => @params   )).send_document.deliver_now #, 'signature' => JSON.parse(@estimate.signatures.last.to_json)
-        rescue
+          DocumentMailer.with( link: doc_signature_mail_orders_url(customer_sign: @customer_sign, document: doc.id,doc_name: @document.name) , doc: doc, customer: @estimate.customer ,subject: params[:subject], emails: emails, pdf: @template.render('order' => @order_params,'estimate' => @estimate.attributes, 'measurements' => JSON.parse(@estimate.measurement_areas.to_json), 'products' => JSON.parse(@estimate.product_estimates.to_json), 'customer' => JSON.parse(@estimate.customer.to_json), 'custom' => @params   )).send_document.deliver_now #, 'signature' => JSON.parse(@estimate.signatures.last.to_json)
+        #rescue
           puts "Enviando erro"
-        end
+        #end
       end
       #Assinatura a finalização da order
       if params[:finish_order].present? and params[:finish_order] == "true"
-        doc = DocumentSend.new(origin: params[:from],origin_id: origin_id, data: @template.render('order' => @order_params ,'estimate' => @estimate.attributes, 'measurements' => JSON.parse(@estimate.measurement_areas.to_json), 'products' => JSON.parse(@estimate.product_estimates.to_json), 'customer' => @estimate.customer.attributes, 'custom' => @params   ) )
+        doc = DocumentSend.new(origin: params[:from],origin_id: origin_id, data: @template.render('order' => @order_params ,'estimate' => @estimate.attributes, 'measurements' => JSON.parse(@estimate.measurement_areas.to_json), 'products' => JSON.parse(@estimate.product_estimates.to_json), 'customer' => JSON.parse(@estimate.customer.to_json), 'custom' => @params   ) )
         doc.save
         redirect_to doc_signature_mail_orders_url(customer_sign: @customer_sign, document: doc.id,doc_name: @document.name)
         return

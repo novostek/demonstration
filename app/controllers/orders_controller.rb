@@ -72,7 +72,7 @@ class OrdersController < ApplicationController
 
     @template = Liquid::Template.parse(ERB.new(@data).result(binding))
     @estimate = @order.current_estimate
-    doc = DocumentSend.new(origin: "Order",origin_id: @order.id, data: @template.render('order' => @order.attributes ,'estimate' => @estimate.attributes, 'measurements' => JSON.parse(@estimate.measurement_areas.to_json), 'products' => JSON.parse(@estimate.product_estimates.to_json), 'customer' => @estimate.customer.attributes, 'custom' => @params   ) )
+    doc = DocumentSend.new(origin: "Order",origin_id: @order.id, data: @template.render('order' => @order.attributes ,'estimate' => @estimate.attributes, 'measurements' => JSON.parse(@estimate.measurement_areas.to_json), 'products' => JSON.parse(@estimate.product_estimates.to_json), 'customer' => JSON.parse(@estimate.customer.to_json), 'custom' => @params   ) )
     doc.save
     if !params[:sign].present?
       DocumentMailer.with(link: doc_signature_mail_orders_url(document: doc.id,doc_name: @document.name, customer_sign: true) ,subject: params[:subject] , emails: params[:emails], order: @order).sign_order.deliver_now

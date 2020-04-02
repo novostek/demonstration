@@ -87,6 +87,14 @@ class Customer < ApplicationRecord
     end
   end
 
+  def get_main_address
+    begin
+      self.contacts.where(category: :address, main:true).first
+    rescue
+      nil
+    end
+  end
+
   def get_main_email_f
     begin
       self.contacts.where(category: :email, main:true).first.data["email"]
@@ -102,4 +110,15 @@ class Customer < ApplicationRecord
       nil
     end
   end
+
+  def get_main_address_f
+    begin
+      address = self.contacts.where(category: :address, main:true).first.data
+      "#{address['address']}, #{address['city']}, #{address['state']}, #{address['zipcode']}"
+    rescue
+      nil
+    end
+  end
+
+
 end

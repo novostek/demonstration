@@ -30,4 +30,12 @@ class Setting < ApplicationRecord
       self.value = JSON.parse(self.value)
     end
   end
+
+  def self.logo
+    s = Setting.find_by_namespace('logo')
+    if s.present?
+      return s.value['value']
+    end
+    "/woffice.svg"
+  end
 end

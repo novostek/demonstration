@@ -21,6 +21,52 @@
     </div>
   </div>
   <div id="react-component"></div>
+  <div id="modal-areas" class="modal modal-fixed-footer">
+
+      <div class="modal-content">
+        <ul class="">
+          <li>
+            <div class=" grey lighten-4 pl-2 pr-2 pt-2 pb-2">
+              <div class="row">
+                <% @estimate.measurement_areas.each do |ma| %>
+                  <div class="col s12 l6">
+                    <div class="card-panel pt-3 pb-3">
+                      <div class="row center-align">
+                        <h6
+                          class="col s12 pl-0 pt-0 mt-0 font-weight-600 display-flex align-items-center justify-content-center">
+                          <i class="material-icons left">event_seat</i>
+                          <%= ma.name %>
+                        </h6>
+                        <%# <div class="row mb-2">
+															<div class="col s12">
+																Open kitchen included
+															</div>
+														</div> %>
+                        <div class="col s3">
+                          <!-- length -->
+                          <i class="material-icons left width-100">straighten</i><%= ma.measurements[0].length %>
+                        </div>
+                        <div class="col s3">
+                          <!-- width -->
+                          <i class="material-icons left width-100" style="transform: rotate(-45deg)">straighten</i><%= ma.measurements[0].width %>
+                        </div>
+                        <div class="col s4">
+                          <!-- height -->
+                          <i class="left width-100">SqFt</i><%= ma.measurements[0].square_feet %>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                <% end %>
+              </div>
+            </div>
+          </li>
+        </ul>
+      </div>
+    <div class="modal-footer">
+      <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat">Close</a>
+    </div>
+  </div>
 </div>
 
 <%= content_tag :div,

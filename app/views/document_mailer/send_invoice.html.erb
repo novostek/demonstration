@@ -11,12 +11,13 @@
 
   <section class="email-body">
     <div class="email-body--content">
-      <h6 class="greetings">Hi, <%= @order.current_estimate.customer %>!</h6>
+      <h6 class="greetings">Dear, <%= @order.current_estimate.customer %>!</h6>
+      <p>Following attached Invoice related to Order #<%= @order.code %>.</p>
       <p>
         <%= Setting.get_value("send_invoice_mail_text") %>
       </p>
       <br>
-      <a class="btn btn-primary" href="<%= view_invoice_customer_order_url(@order) %>">See Invoice</a>
+      <a class="btn btn-primary" href="<%= Setting.get_value('default_url') %><%= view_invoice_customer_order_path(@order) %>">See Invoice</a>
     </div>
   </section>
   <section class="email-footer">
@@ -25,7 +26,7 @@
       <%= image_tag attachments['logo.png'].url %>
     </div>
     <div class="email-footer--info">
-      Having some trouble? contacts via email <a href="mailto:help@woffice.com">help@woffice.com</a>
+      Having some trouble? contacts via email <a href="mailto:help@woffice.com">help@woffice.app</a>
     </div>
   </section>
 

@@ -5,8 +5,13 @@ class ProductsController < ApplicationController
 
   # GET /products
   def index
+    if params[:format] == "json"
+      limit = 5000
+    else
+      limit = 50
+    end
     @q = Product.all.ransack(params[:q])
-    @products = @q.result.page(params[:page])
+    @products = @q.result.page(params[:page]).per(limit)
   end
 
   # GET /products/1

@@ -285,7 +285,7 @@ class OrdersController < ApplicationController
 
   # GET /orders/1
   def show
-    @profit = @order.current_estimate.get_total_value - @order.total_cost
+    @profit = @order.current_estimate.get_total_value - (@order.total_cost || 0)
   end
 
   # GET /orders/new

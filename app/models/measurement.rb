@@ -28,7 +28,7 @@ class Measurement < ApplicationRecord
     square_meter = 0
     measurements = self.where(measurement_area_id: areas_ids)
     measurements.each do |m|
-      square_meter = square_meter + (m.length * m.width)
+      square_meter += m.square_feet
     end
 
     return square_meter.to_f

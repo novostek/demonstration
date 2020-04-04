@@ -15,7 +15,7 @@
     <div class="email-body--content" style="box-sizing: border-box;">
       <h6 class="greetings" style="box-sizing: border-box;font-size: 22px;margin: 0px;">Dear, <%= @order.current_estimate.customer %>!</h6>
       <p style="box-sizing: border-box;">
-        <%= Setting.get_value("send_square_mail_text") %>
+        <%= raw Setting.get_value("send_square_mail_text") %>
       </p>
       <table
         style="box-sizing: border-box;border: 1px solid rgba(0,0,0,0.12);width: 100%;display: table;border-collapse: collapse;border-spacing: 0;background: rgba(0,0,0,0.03);border-radius: 4px !important;">

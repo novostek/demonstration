@@ -498,6 +498,24 @@
             M.toast({html: data.msg});
         });
     }
+
+    $("#product_purchase_quantity").on('change', (e) => {
+      const qty = e.target.value
+      const unitary_value = $("#product_purchase_unity_value").val()
+
+      const value = parseFloat(qty) * parseFloat(unitary_value)
+
+      $("#product_purchase_value").val(parseFloat(value).toFixed(2))
+    })
+
+    $("#product_purchase_unity_value").on('change', (e) => {
+      const unitary_value = e.target.value
+      const qty = $("#product_purchase_quantity").val()
+
+      const value = parseFloat(qty) * parseFloat(unitary_value)
+
+      $("#product_purchase_value").val(parseFloat(value).toFixed(2))
+    })
   </script>
 
 <% end %>

@@ -134,7 +134,7 @@
         console.log('RESULT', result[0].main_phone)
         if(completed){
           $("#lead_customer_id").val(result[0].id);
-          insert_value_to_field('email', result[0].main_email);
+          insert_value_to_field('customer_email', result[0].main_email);
           insert_value_to_field('lead_phone', result[0].main_phone);
           $(".other-fields, .save-buttons").fadeIn();
         }

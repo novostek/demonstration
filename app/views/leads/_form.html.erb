@@ -38,6 +38,7 @@
                 autocomplete: 'off',
                 required: true,
                 class: 'autocomplete autocomplete-email',
+                id: 'customer_email',
                 onkeyup: "search_by_email($(this).val())" %>
             <%= label_tag :email , "Email", id: :email_label %>
           </div>
@@ -62,7 +63,7 @@
           <div class="col s12 m4">
             <div class="input-field">
 
-              <%= f.select :status, ['new'] %>
+              <%= f.select :status, options_for_select(Lead.status.options, lead.status) %>
               <%= f.label  :status %>
             </div>
           </div>
@@ -104,10 +105,18 @@
 
     document.getElementById('new_customer').addEventListener('submit', () => {
       const customer_name = document.getElementById('customer_name').value;
+      const customer_email = document.getElementById('email').value;
+      const customer_phone = document.getElementById('phone').value;
+
       const lead_customer = document.getElementById('lead_customer');
+      const lead_phone = document.getElementById('lead_phone');
+      const lead_email = document.getElementById('customer_email');
+
       const lead_customer_id = document.getElementById('lead_customer_id');
 
       lead_customer.value = customer_name
+      lead_phone.value = customer_phone
+      lead_email.value = customer_email
       document.getElementById('lead_customer_label').classList.add('active');
 
       console.log(customer_name);
@@ -122,13 +131,12 @@
       fetch(`/customers?q%5Bname_cont%5D=${value}`, fetchConfig)
       .then((res) => res.json())
       .then((result) => {
-        console.log('RESULT', result)
+        console.log('RESULT', result[0].main_phone)
         if(completed){
           $("#lead_customer_id").val(result[0].id);
-            insert_value_to_field('email', result[0].main_email);
-            insert_value_to_field('phone', result[0].main_phone);
+          insert_value_to_field('email', result[0].main_email);
+          insert_value_to_field('lead_phone', result[0].main_phone);
           $(".other-fields, .save-buttons").fadeIn();
-          result[0].contacts[0] && insert_value_to_field('lead_phone', result[0].contacts[0].data.phone)
         }
         // console.log(data)
         if(Array.isArray(result) && result.length > 0){

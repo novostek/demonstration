@@ -5,6 +5,8 @@ class SendGridMail
   require 'uri'
   require 'net/http'
 
+  #faceofwood key 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
+
   def self.get_templates
     sg = SendGrid::API.new(api_key: Setting.get_value("send_grid_key"))
     response = sg.client.templates.get({ query_params: { generations: 'dynamic' }})

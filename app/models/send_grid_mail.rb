@@ -51,7 +51,7 @@ class SendGridMail
     end
 
     mail = Mail.new
-    mail.from = Email.new(email: emails)
+    mail.from = Email.new(email: "info@faceofwood.com")
     to = Email.new(email: emails)
     # subject = 'Sending with SendGridMail is Fun'
     # content = Content.new(type: 'text/html', value: 'and easy to do anywhere, even with Ruby {{teste_tag}}')

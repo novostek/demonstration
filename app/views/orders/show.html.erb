@@ -87,8 +87,8 @@
 							<i class="material-icons background-round mt-5 mb-5">timeline</i>
 						</div>
 						<div class="col s7 m7 right-align">
-							<h5 class="mb-0 white-text"><%= number_to_currency(@order.product_estimates.sum(:value) ) %></h5>
-							<p class="no-margin">Expected</p>
+							<h5 class="mb-0 white-text"><%= number_to_currency(@order.get_current_estimate.get_total_value ) %></h5>
+							<p class="no-margin">Price</p>
 						</div>
 					</div>
 				</div>
@@ -177,7 +177,7 @@
 														</div>
 														<div class="col s4">
 															<!-- height -->
-															<i class="material-icons left width-100" style="transform: rotate(-90deg)">straighten</i><%= ma.measurements[0].height %>
+															<i class="left width-100">SqFt</i><%= ma.measurements[0].square_feet %>
 														</div>
 													</div>
 												</div>

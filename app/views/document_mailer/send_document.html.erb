@@ -13,7 +13,7 @@
     <div class="email-body--content">
       <h6 class="greetings">Hi, <%= @customer %>!</h6>
       <p>
-        <%= Setting.get_value("send_document_mail_text") %>
+        <%= raw Setting.get_value("send_document_mail_text") %>
       </p>
       <br>
       <a class="btn btn-primary" href="<%= @link %>">Sign, please!</a>
@@ -25,7 +25,7 @@
       <%= image_tag attachments['logo.png'].url %>
     </div>
     <div class="email-footer--info">
-      Having some trouble? contacts via email <a href="mailto:help@woffice.com">help@woffice.app</a>
+      Having some trouble? contacts via email <a href="mailto:help@woffice.app">help@woffice.app</a>
     </div>
   </section>
 

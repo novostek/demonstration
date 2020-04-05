@@ -25,6 +25,10 @@ class Lead < ApplicationRecord
   belongs_to :customer
   has_one :estimate
 
+  extend Enumerize
+
+  enumerize :status, in: [:new, :done], predicates: true
+
   def as_json(options = {})
     s = super(options)
     s[:customer] = self.customer

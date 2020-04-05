@@ -16,7 +16,7 @@
 #  status             :string           not null
 #  tax                :decimal(, )
 #  taxpayer           :string
-#  title              :string           not null
+#  title              :string
 #  total              :decimal(, )      not null
 #  created_at         :datetime         not null
 #  updated_at         :datetime         not null

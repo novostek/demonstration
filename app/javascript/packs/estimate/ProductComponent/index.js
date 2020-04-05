@@ -512,7 +512,10 @@ const ProductComponent = () => {
     <div className="row">
       <div className="col s12">
         <div className="container">
+          <a className="btn waves-effect waves-light modal-trigger breadcrumbs-btn right mr-2 indigo border-round btn-send-email"
+             href="#modal-areas">See Measurements</a>
           <EstimateDetail estimate={estimate} />
+
           <div className="card">
             <div className="card-content">
               <ul className="stepper horizontal stepper-head-only">

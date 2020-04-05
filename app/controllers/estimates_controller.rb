@@ -73,6 +73,7 @@ class EstimatesController < ApplicationController
         @estimate.update(status: :ordered)
       else
         @estimate.update(status: :ordered)
+        @estimate.order.estimates.where.not(id: @estimate.id).update_all(status: :cancelled)
         @estimate.order.update(status: :change_approved)
       end
     end

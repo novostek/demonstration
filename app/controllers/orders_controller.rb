@@ -234,7 +234,7 @@ class OrdersController < ApplicationController
 
   def view_invoice_customer
     @transactions = @order.transactions.order(due: :asc).order(id: :asc)
-    render "invoice", layout: "clean"
+    render layout: "clean"
   end
 
   # GET /orders
@@ -249,6 +249,9 @@ class OrdersController < ApplicationController
 
     #calculo de crescimento
     total_passado = @last_month_orders.sum{|a| a.current_estimate.get_total_value}
+    if total_passado == 0
+      total_passado = 1
+    end
     @total_atual = @orders_month.sum{|a| a.current_estimate.get_total_value}
     @resultado = @total_atual - total_passado
     resultado2 = @resultado/total_passado
@@ -282,7 +285,7 @@ class OrdersController < ApplicationController
 
   # GET /orders/1
   def show
-    @profit = @order.current_estimate.get_total_value - @order.total_cost
+    @profit = @order.current_estimate.get_total_value - (@order.total_cost || 0)
   end
 
   # GET /orders/new

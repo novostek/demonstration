@@ -101,7 +101,7 @@
     
   </div>
 
-  <div class="row">
+  <div class="row"> 
     <div class="other-field">
       <%= f.label :suggestion_ids %>
       <%= f.select :suggestion_ids, options_for_select(@products, product.suggestions.pluck(:suggestion_id)),{:include_hidden => false},{ multiple: true, class: "select2-size-sm browser-default"} %>

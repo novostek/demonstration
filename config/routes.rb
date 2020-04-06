@@ -61,6 +61,7 @@ Rails.application.routes.draw do
 
   resources :square_api do
     collection do
+      get "oauth"
       get "callback"
       get "teste_pagamento"
       post "process_payment"

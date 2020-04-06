@@ -1,6 +1,60 @@
 class SquareApi
   require 'square'
 
+
+  def self.save_access_token(code)
+    o_auth_api = SquareApi.client.o_auth
+
+    body = {}
+    body[:client_id] = SquareApi.get_app_id
+    body[:client_secret] = SquareApi.oauth_secret
+    body[:code] = code
+    body[:grant_type] = 'authorization_code'
+    result = o_auth_api.obtain_token(body: body)
+    #binding.pry
+    if result.success?
+      s = Setting.find_or_initialize_by(namespace: "square_oauth_access_token")
+      s.value = {"value": result.data.access_token }
+      s.save
+
+      ss = Setting.find_or_initialize_by(namespace: "square_oauth_refresh_token")
+      ss.value = {"value": result.data.refresh_token }
+      ss.save
+    elsif result.error?
+      warn result.errors
+    end
+  end
+
+
+  def self.renew_token
+    o_auth_api = SquareApi.client.o_auth
+
+    body = {}
+    body[:client_id] = SquareApi.get_app_id
+    body[:client_secret] = SquareApi.oauth_secret
+    body[:refresh_token] = Setting.get_value("square_oauth_refresh_token")
+    body[:grant_type] = 'refresh_token'
+    result = o_auth_api.obtain_token(body: body)
+    #binding.pry
+    if result.success?
+      s = Setting.find_or_initialize_by(namespace: "square_oauth_access_token")
+      s.value = {"value": result.data.access_token }
+      s.save
+      return result.data.access_token
+    elsif result.error?
+      warn result.errors
+    end
+  end
+
+  def self.merchants
+    merchants =  SquareApi.client.merchants
+    merchants.list_merchants
+  end
+
+  def self.oauth_secret
+    Setting.get_value("square_oauth_secret")
+  end
+
   def self.get_key
     Setting.get_value("square_key")
   end
@@ -10,13 +64,16 @@ class SquareApi
   end
 
   def self.get_transaction(transaction_id)
-    client = SquareApi.client
+    client =  Square::Client.new(
+        access_token: Setting.get_value("square_oauth_access_token"),
+        environment: "sandbox"
+    )#SquareApi.client
 
     transactions_api = client.transactions
     location_id = SquareApi.locations.first[:id]
 
     result = transactions_api.retrieve_transaction(location_id: location_id, transaction_id: transaction_id)
-
+    #binding.pry
     if result.success?
       return true, result.data
     elsif result.error?
@@ -27,12 +84,16 @@ class SquareApi
   end
 
   def self.create_checkout(order, transaction)
-    client = SquareApi.client
+    client = client = Square::Client.new(
+        access_token: SquareApi.renew_token,
+        environment: "sandbox"
+    )#SquareApi.client
 
     checkout_api = client.checkout
 
     location_id = SquareApi.locations.first[:id]
     body = {}
+    body[:access_token] = Setting.get_value("square_oauth_access_token")
     body[:idempotency_key] = SecureRandom.uuid
     body[:order] = {}
     body[:order][:reference_id] = "#{order.id}"
@@ -45,45 +106,18 @@ class SquareApi
     body[:order][:line_items][0][:base_price_money] = {}
     body[:order][:line_items][0][:base_price_money][:amount] = (transaction.value*100).to_i
     body[:order][:line_items][0][:base_price_money][:currency] = 'USD'
-    # body[:order][:line_items][0][:discounts] = []
 
-
-    # body[:order][:line_items][0][:discounts][0] = {}
-    # body[:order][:line_items][0][:discounts][0][:name] = '7% off previous season item'
-    # body[:order][:line_items][0][:discounts][0][:percentage] = '7'
-
-
-    # body[:order][:taxes] = []
-    #
-    #
-    # body[:order][:taxes][0] = {}
-    # body[:order][:taxes][0][:name] = 'Sales Tax'
-    # body[:order][:taxes][0][:percentage] = '8.5'
-
-
-    # body[:ask_for_shipping_address] = true
-    # body[:merchant_support_email] = 'merchant+support@website.com'
-    # body[:pre_populate_buyer_email] = 'example@email.com'
-    # body[:pre_populate_shipping_address] = {}
-    # body[:pre_populate_shipping_address][:address_line_1] = '1455 Market St.'
-    # body[:pre_populate_shipping_address][:address_line_2] = 'Suite 600'
-    # body[:pre_populate_shipping_address][:locality] = 'San Francisco'
-    # body[:pre_populate_shipping_address][:administrative_district_level_1] = 'CA'
-    # body[:pre_populate_shipping_address][:postal_code] = '94103'
-    # body[:pre_populate_shipping_address][:country] = 'US'
-    # body[:pre_populate_shipping_address][:first_name] = 'Jane'
-    # body[:pre_populate_shipping_address][:last_name] = 'Doe'
     if Rails.env.production?
       body[:redirect_url] = "http://woodoffice.herokuapp.com/square_api/callback?transaction=#{transaction.id}"
     else
-      body[:redirect_url] = "http://f5bbe7ed.ngrok.io/square_api/callback?transaction=#{transaction.id}"
+      body[:redirect_url] = "http://e737d500.ngrok.io/square_api/callback?transaction=#{transaction.id}"
     end
 
 
 
 
     result = checkout_api.create_checkout(location_id: location_id, body: body)
-
+    #binding.pry
     if result.success?
       return true, result.data
     elsif result.error?
@@ -123,7 +157,10 @@ class SquareApi
   end
 
   def self.locations
-    client = SquareApi.client
+    client = Square::Client.new(
+        access_token: Setting.get_value("square_oauth_access_token"),
+        environment: "sandbox"
+    )#SquareApi.client
 
     # Call list_locations method to get all locations in this Square account
     result = client.locations.list_locations

@@ -1,5 +1,15 @@
 class SquareApiController < ApplicationController
 
+  def oauth
+    #https://connect.squareupsandbox.com/oauth2/authorize?client_id=sandbox-sq0idb-g75z4FJpMVE0s9qUn7GTmQ&scope=ORDERS_WRITE PAYMENTS_WRITE MERCHANT_PROFILE_READ PAYMENTS_READ
+    SquareApi.save_access_token(params[:code])
+    if params[:code].present?
+      s = Setting.find_or_initialize_by(namespace: "square_oauth_code")
+      s.value = {"value": params[:code] }
+      s.save
+    end
+    render json: {msg: "OK"}
+  end
 
   def callback
     result, square_transaction = SquareApi.get_transaction(params[:transactionId])

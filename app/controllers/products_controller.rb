@@ -29,10 +29,32 @@ class ProductsController < ApplicationController
 
   # POST /products
   def create
-    @product = Product.new(product_params)
+    @product = Product.new
+    @product.photo_cache = product_params[:photo_cache]
+    @product.calculation_formula_id = product_params[:calculation_formula_id]
+    @product.supplier_id = product_params[:supplier_id]
+    @product.name = product_params[:name]
+    @product.uuid = product_params[:uuid]
+    @product.details = product_params[:details]
+    @product.product_category_id = product_params[:product_category_id]
+    @product.customer_price = product_params[:customer_price]
+    @product.cost_price = product_params[:cost_price]
+    @product.area_covered = product_params[:area_covered]
+    @product.tax = product_params[:tax]
+    @product.bpm_purchase = product_params[:bpm_purchase]
+    @product.photo = product_params[:photo]
 
     if @product.save
-      redirect_to @product, notice: 'Product foi criado com sucesso'
+      if product_params[:suggestion_ids].present?
+        product_params[:suggestion_ids].each_with_index do |s, index|
+          product_params[:suggestion_ids][index] = Product.find(s)
+        end
+      end
+      if @product.update(product_params)
+        redirect_to @product, notice: 'Product was succesfully created.'
+      else
+        render :new
+      end
     else
       render :new
     end
@@ -46,7 +68,7 @@ class ProductsController < ApplicationController
       end
     end
     if @product.update(product_params)
-      redirect_to @product, notice: 'Product foi atualizado com sucesso.'
+      redirect_to @product, notice: 'Product was succesfully updated.'
     else
       render :edit
     end
@@ -55,7 +77,7 @@ class ProductsController < ApplicationController
   # DELETE /products/1
   def destroy
     @product.destroy
-    redirect_to products_url, notice: 'Product foi apagado com sucesso.'
+    redirect_to products_url, notice: 'Product was succesfully deleted.'
   end
 
   private

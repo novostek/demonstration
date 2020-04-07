@@ -387,6 +387,37 @@ const ProductComponent = () => {
     submitBtnRef.current.click()
   }
 
+  const refreshArea = (proposal_id) => {
+    setProductEstimate(productEstimate => {
+      const copy = [...productEstimate]
+      console.log(copy[proposal_id].products)
+      copy[proposal_id].areas.length > 0
+        &&
+        copy[proposal_id].products.map((product, index) => {
+          product.product_id
+            &&
+            calculateProductLW(copy[proposal_id].areas, product.product_id)
+              .then(result => {
+                // copy[proposal_id].products[product_index].product_id = result.id
+                copy[proposal_id].products[index].product_id = result.id
+                copy[proposal_id].products[index].name = result.name
+                copy[proposal_id].products[index].qty = result.qty
+                copy[proposal_id].products[index].total = result.total
+                copy[proposal_id].products[index].price = result.price
+                copy[proposal_id].products[index].tax = result.tax
+                setValue(`measurement[${proposal_id}].products[${index}]`, { product_id: result.id })
+                setValue(`measurement[${proposal_id}].products[${index}]`, { name: result.name })
+                setValue(`measurement[${proposal_id}].products[${index}]`, { qty: result.qty })
+                setValue(`measurement[${proposal_id}].products[${index}]`, { price: result.price })
+                setValue(`measurement[${proposal_id}].products[${index}]`, { tax: result.tax })
+                setValue(`measurement[${proposal_id}].products[${index}]`, { total: result.total })
+              })
+        })
+      return copy
+    })
+
+  }
+
   const removeArea = (index, proposal_id) => {
     Swal.fire({
       title: 'Are you sure?',
@@ -513,7 +544,7 @@ const ProductComponent = () => {
       <div className="col s12">
         <div className="container">
           <a className="btn waves-effect waves-light modal-trigger breadcrumbs-btn right mr-2 indigo border-round btn-send-email"
-             href="#modal-areas">See Measurements</a>
+            href="#modal-areas">See Measurements</a>
           <EstimateDetail estimate={estimate} />
 
           <div className="card">
@@ -546,6 +577,7 @@ const ProductComponent = () => {
                     <div className="row products-area-list pl-1 pr-1 mt-2" id="measurement_proposals" key={index}>
                       <div className="product-area">
                         <a onClick={() => removeArea(index, pe.proposal_id)} style={{ cursor: 'pointer' }} className="btn-close-product-area"><i className="material-icons">close</i></a>
+                        <a onClick={() => refreshArea(index)} style={{ cursor: 'pointer' }} key={Math.random} className="btn-refresh-product-area"><i className="material-icons">refresh</i></a>
                         <div className="areas-available col s12">
                           <span>Areas:</span>
                           {

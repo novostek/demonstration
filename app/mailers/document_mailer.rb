@@ -10,6 +10,7 @@ class DocumentMailer < ApplicationMailer
   end
 
   def send_invoice
+    @link = params[:link]
     @order = params[:order]
     attachments.inline['logo.png'] = File.read("#{Rails.root}/public/woffice.png")
     mail(to: params[:emails], subject: params[:subject])

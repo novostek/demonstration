@@ -71,10 +71,20 @@ class EstimatesController < ApplicationController
       if @estimate.estimate?
         @estimate.create_order
         @estimate.update(status: :ordered)
-      else
+      else #change_order
         @estimate.update(status: :ordered)
         @estimate.order.estimates.where.not(id: @estimate.id).update_all(status: :cancelled)
         @estimate.order.update(status: :change_approved)
+        begin
+          estimate_doc = @estimate.document_files.last.dup
+          estimate_doc.title = "Change Order Signature"
+          estimate_doc.origin = "Order"
+          estimate_doc.origin_id = @estimate.order.id
+          estimate_doc.file = @estimate.document_files.last.file
+          estimate_doc.save
+        rescue
+        end
+
       end
     end
 

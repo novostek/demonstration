@@ -17,7 +17,7 @@
         <%= raw Setting.get_value("send_invoice_mail_text") %>
       </p>
       <br>
-      <a class="btn btn-primary" href="<%= Setting.get_value('default_url') %>/orders/<%= @order.id %>/view_invoice_customer">See Invoice</a>
+      <a class="btn btn-primary" href="<%= @link %>">See Invoice</a>
     </div>
   </section>
   <section class="email-footer">

@@ -57,6 +57,9 @@
                 <i class="material-icons  ">photo_library</i><span >Photos</span>
               <% end %>
             </li>
+            <li>
+              <a class="grey-text text-darken-2 modal-trigger btn-send-email" href="#modal-mail_document"><i class="material-icons ">send</i>Documents</a>
+            </li>
           </ul>
 				</div>
 			</div>
@@ -325,6 +328,38 @@
 			</div>
 		</div>
 	</div>
+
+  <div id="modal-mail_document" class="modal">
+    <%= form_with url: preview_documents_path, method: :get, local: true do |f| %>
+      <div class="modal-content">
+        <h4>Send Document</h4>
+        <%= f.hidden_field :estimate, value: @order.current_estimate.id %>
+        <%= f.hidden_field :send_mail, value: true %>
+        <%= f.hidden_field :from, value: "Order" %>
+        <div class="row">
+          <div class="input-field">
+            <%= f.select :document, @documents, {prompt: true} %>
+            <%= f.label :document %>
+          </div>
+          <div class="input-field">
+            <%= f.label :emails, "Emails" %>
+            <%= f.text_field :emails, value: @email_customer, required: true %>
+          </div>
+          <div class="input-field">
+            <%= f.label :subject %>
+            <%= f.text_field :subject, required: true %>
+          </div>
+
+        </div>
+      </div>
+      <div class="modal-footer">
+        <%= f.button :submit,  class:"modal-action modal-close waves-effect waves-green btn-flat btn-send", target:"_self" do %>
+          <i class="material-icons left">send</i> Send
+        <% end %>
+        <!--		<a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat btn-send"> <i class="material-icons left">send</i> Send</a>-->
+      </div>
+    <% end %>
+  </div>
 
 	<%= content_for :sidenav do %>
 		<aside id="right-sidebar-nav">

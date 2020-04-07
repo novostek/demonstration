@@ -56,7 +56,7 @@ class Estimate < ApplicationRecord
   has_many :signatures, -> { where origin: :Estimate }, primary_key: :id, foreign_key: :origin_id
   has_many :measurement_areas, dependent: :destroy
   has_many :measurements, through: :measurement_areas
-  has_many :measurement_proposals, through: :measurement_areas
+  has_many :measurement_proposals, -> { distinct }, through: :measurement_areas
   has_many :product_estimates, -> { distinct }, through: :measurement_proposals
 
   has_many :notes, -> { where origin: :Estimate }, primary_key: :id, foreign_key: :origin_id
@@ -127,6 +127,17 @@ class Estimate < ApplicationRecord
     if !self.order.present?
       order = Order.new(status: :new, start_at: Date.today)
       if order.save
+        #duplica o estimate assinado na order
+        begin
+          estimate_doc = self.document_files.last.dup
+          estimate_doc.origin = "Order"
+          estimate_doc.origin_id = order.id
+          estimate_doc.file = self.document_files.last.file
+          estimate_doc.save
+        rescue
+        end
+
+
         self.update(order_id: order.id, current: true)
 
         #cria os purchases
@@ -138,7 +149,12 @@ class Estimate < ApplicationRecord
             purchase = Purchase.find_or_create_by(order_id: order.id, supplier_id: product.supplier.id)
             pp = ProductPurchase.find_or_create_by(product: product, purchase: purchase)
             pp.unity_value =  product.cost_price
-            pp.quantity =  p.quantity
+            begin
+              pp.quantity = pp.quantity + p.quantity
+            rescue
+              pp.quantity =  p.quantity
+            end
+
             pp.value = pp.unity_value * pp.quantity
             pp.custom_title = p.custom_title
             pp.tax = false
@@ -157,6 +173,17 @@ class Estimate < ApplicationRecord
         tax_cost = ProductPurchase.find_or_create_by(purchase: tax_purchase, value: self.tax, custom_title: self.calculation_formula.name, tax: true)
         tax_cost.save
       end
+    else
+      begin
+        estimate_doc = self.document_files.last.dup
+        estimate_doc.origin = "Order"
+        estimate_doc.origin_id = self.order.id
+        estimate_doc.file = self.document_files.last.file
+        estimate_doc.save
+      rescue
+      end
     end
+
+
   end
 end

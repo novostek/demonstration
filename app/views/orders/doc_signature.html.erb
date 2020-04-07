@@ -2,6 +2,12 @@
 <%== @data  %>
 <br>
 <% if $temp_img.present? %>
-<img src="<%= $temp_img  %>" >
+
+    <img src="<%= $temp_img  %>" >
+  <br>
+    <div class="left">
+      <%=  DateTime.now  %>
+    </div>
+
 <% end %>
 

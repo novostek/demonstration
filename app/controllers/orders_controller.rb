@@ -175,6 +175,67 @@ class OrdersController < ApplicationController
     change_order_estimate.category = :change_order
     change_order_estimate.current = true
     change_order_estimate.status = :waiting_approval
+    change_order_estimate.initialize_code
+
+    #remove o current estimate
+    @order.estimates.update_all(current: false)
+
+    if change_order_estimate.save
+      #duplica schedules
+      current_estimate.schedules.each do |s|
+        new_schedule = s.dup
+        new_schedule.origin_id = change_order_estimate.id
+        new_schedule.save
+      end
+
+      current_estimate.measurement_areas.each do |ma|
+        #duplica measurement_areas
+        new_ma = ma.dup
+        new_ma.estimate_id = change_order_estimate.id
+        new_ma.save
+
+        #cria as measurements
+        ma.measurements.each do |m|
+          new_m = m.dup
+          new_m.measurement_area_id = new_ma.id
+          new_m.save
+        end
+      end
+
+      #cria as measurement_proposals , area proposal e product_estimate
+      current_estimate.measurement_proposals.each do |mp| #ma.measurement_proposals.each do |mp|
+
+        new_mp = mp.dup
+        new_mp.save
+
+        change_order_estimate.measurement_areas.each do |ma|
+          area_proposal = AreaProposal.new
+          area_proposal.measurement_area_id = ma.id
+          area_proposal.measurement_proposal_id = new_mp.id
+          area_proposal.save
+        end
+
+        #cria os products_estimate
+        mp.product_estimates.each do |pe|
+          new_pe = pe.dup
+          new_pe.measurement_proposal_id = new_mp.id
+          new_pe.save
+        end
+      end
+
+    end
+    @order.status = :awaiting_change_approval
+    @order.save
+    redirect_to products_estimate_path(change_order_estimate), notice: "Change Order created"
+  end
+
+  def change_order_old
+    current_estimate = @order.current_estimate
+    change_order_estimate = current_estimate.dup
+    change_order_estimate.category = :change_order
+    change_order_estimate.current = true
+    change_order_estimate.status = :waiting_approval
+    change_order_estimate.initialize_code
 
     #remove o current estimate
     @order.estimates.update_all(current: false)
@@ -201,10 +262,12 @@ class OrdersController < ApplicationController
         end
         #cria as measurement_proposals , area proposal e product_estimate
         ma.measurement_proposals.each do |mp|
-          area_proposal = AreaProposal.new
-          area_proposal.measurement_area_id = new_ma.id
+
           new_mp = mp.dup
           new_mp.save
+
+          area_proposal = AreaProposal.new
+          area_proposal.measurement_area_id = new_ma.id
           area_proposal.measurement_proposal_id = new_mp.id
           area_proposal.save
 
@@ -228,7 +291,7 @@ class OrdersController < ApplicationController
   end
 
   def send_invoice_mail
-    DocumentMailer.with(subject: params[:subject] , emails: params[:emails], order: @order).send_invoice.deliver_now
+    DocumentMailer.with(subject: params[:subject] , emails: params[:emails], order: @order, link: view_invoice_customer_order_url(@order)).send_invoice.deliver_now
     redirect_to invoice_order_path(@order), notice: "Invoice sent"
   end
 
@@ -286,6 +349,12 @@ class OrdersController < ApplicationController
   # GET /orders/1
   def show
     @profit = @order.current_estimate.get_total_value - (@order.total_cost || 0)
+    @documents = Document.to_select
+    begin
+      @email_customer = @estimate.customer.contacts.where(category: :email).first.data["email"]
+    rescue
+      @email_customer = ""
+    end
   end
 
   # GET /orders/new

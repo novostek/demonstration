@@ -3,6 +3,7 @@
 # Table name: measurement_areas
 #
 #  id          :bigint           not null, primary key
+#  cloned_from :integer
 #  description :text
 #  name        :string
 #  created_at  :datetime         not null

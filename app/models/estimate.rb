@@ -56,8 +56,9 @@ class Estimate < ApplicationRecord
   has_many :signatures, -> { where origin: :Estimate }, primary_key: :id, foreign_key: :origin_id
   has_many :measurement_areas, dependent: :destroy
   has_many :measurements, through: :measurement_areas
-  has_many :measurement_proposals, -> { distinct }, through: :measurement_areas
+  has_many :measurement_proposals, through: :measurement_areas
   has_many :product_estimates, -> { distinct }, through: :measurement_proposals
+  has_many :area_proposals, -> { distinct }, through: :measurement_proposals
 
   has_many :notes, -> { where origin: :Estimate }, primary_key: :id, foreign_key: :origin_id
   has_many :document_files, -> { where origin: :Estimate }, primary_key: :id, foreign_key: :origin_id

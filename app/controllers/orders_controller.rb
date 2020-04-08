@@ -192,6 +192,7 @@ class OrdersController < ApplicationController
         #duplica measurement_areas
         new_ma = ma.dup
         new_ma.estimate_id = change_order_estimate.id
+        new_ma.cloned_from = ma.id
         new_ma.save
 
         #cria as measurements
@@ -200,19 +201,22 @@ class OrdersController < ApplicationController
           new_m.measurement_area_id = new_ma.id
           new_m.save
         end
+
+
+
       end
 
       #cria as measurement_proposals , area proposal e product_estimate
-      current_estimate.measurement_proposals.each do |mp| #ma.measurement_proposals.each do |mp|
-
+      current_estimate.area_proposals.group_by(&:measurement_proposal).map do |mp, aps| #ma.measurement_proposals.each do |mp|
+        #binding.pry
         new_mp = mp.dup
         new_mp.save
 
-        change_order_estimate.measurement_areas.each do |ma|
-          area_proposal = AreaProposal.new
-          area_proposal.measurement_area_id = ma.id
-          area_proposal.measurement_proposal_id = new_mp.id
-          area_proposal.save
+        aps.each do |ap|
+            area_proposal = AreaProposal.new
+            area_proposal.measurement_area_id = change_order_estimate.measurement_areas.find_by(cloned_from: ap.measurement_area_id).id
+            area_proposal.measurement_proposal_id = new_mp.id
+            area_proposal.save
         end
 
         #cria os products_estimate
@@ -222,6 +226,8 @@ class OrdersController < ApplicationController
           new_pe.save
         end
       end
+
+
 
     end
     @order.status = :awaiting_change_approval

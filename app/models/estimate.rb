@@ -165,14 +165,14 @@ class Estimate < ApplicationRecord
   end
 
   def subtotal
-    value =  self.price + discounts
+    value =  (self.price || 0 ) + discounts
   end
 
   def total
     if customer?
-      return self.price + self.tax
+      return (self.price || 0) + (self.tax || 0)
     end
-    price
+    price || 0
   end
 
 end

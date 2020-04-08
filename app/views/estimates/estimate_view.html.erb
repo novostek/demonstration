@@ -158,11 +158,11 @@
                     <td><%= pe.quantity %></td>
                     <td><%= pe.unitary_value %></td>
                     <td><%= pe.discount %></td>
-                    <td class=" right-align">$<%= pe.value %></td>
+                    <td class=" right-align"><%= number_to_currency pe.value %></td>
                   </tr>
                 <% end %>
                 <tr class="white">
-                  <td class="right-align" colspan="100"><strong>Subtotal area:</strong><br>$<%= mp.product_estimates.sum(:value) %></td>
+                  <td class="right-align" colspan="100"><strong>Subtotal area:</strong><br><%= number_to_currency mp.product_estimates.sum(:value) %></td>
                 </tr>
                 </tbody>
               </table>

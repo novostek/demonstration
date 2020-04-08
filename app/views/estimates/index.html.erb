@@ -68,7 +68,7 @@
                 <%= truncate(estimate.location || " ") %> <br>
                 <small><%= truncate(estimate.title || " ") %></small>
               </td>
-              <td><%= estimate.product_estimates.sum(:value) %></td>
+              <td><%= number_to_currency estimate.total %></td>
               <td><span class="chip lighten-5 green green-text"><%= estimate.status %></span></td>
               
               <td>

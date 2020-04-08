@@ -147,7 +147,7 @@
             <%= f.hidden_field :origin_id %>
 
             <input type="hidden" id="signature_file" value="" name="signature[file]">
-            <canvas id="signature-pad" class="signature-pad" width=700 height=200 style="border:1px solid #000000;"></canvas>
+            <canvas id="signature-pad" class="signature-pad" width=700 height=300 style="border:1px solid #000000;"></canvas>
             <br>
             <button id="clear" class="btn" type="button" ><%= t :clear %></button>
             <%= f.submit "sign", class:"btn green" %>

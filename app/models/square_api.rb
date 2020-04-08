@@ -64,10 +64,11 @@ class SquareApi
   end
 
   def self.get_transaction(transaction_id)
-    client =  Square::Client.new(
-        access_token: Setting.get_value("square_oauth_access_token"),
-        environment: "sandbox"
-    )#SquareApi.client
+    client =  SquareApi.client
+    #Square::Client.new(
+    #         access_token: Setting.get_value("square_oauth_access_token"),
+    #         environment: "sandbox"
+    #     )
 
     transactions_api = client.transactions
     location_id = SquareApi.locations.first[:id]
@@ -84,16 +85,17 @@ class SquareApi
   end
 
   def self.create_checkout(order, transaction)
-    client = client = Square::Client.new(
-        access_token: SquareApi.renew_token,
-        environment: "sandbox"
-    )#SquareApi.client
+    client = SquareApi.client
+    #client = Square::Client.new(
+    #         access_token: SquareApi.renew_token,
+    #         environment: "sandbox"
+    #     )
 
     checkout_api = client.checkout
 
     location_id = SquareApi.locations.first[:id]
     body = {}
-    body[:access_token] = Setting.get_value("square_oauth_access_token")
+    #body[:access_token] = Setting.get_value("square_oauth_access_token")
     body[:idempotency_key] = SecureRandom.uuid
     body[:order] = {}
     body[:order][:reference_id] = "#{order.id}"
@@ -157,10 +159,11 @@ class SquareApi
   end
 
   def self.locations
-    client = Square::Client.new(
-        access_token: Setting.get_value("square_oauth_access_token"),
-        environment: "sandbox"
-    )#SquareApi.client
+    client = SquareApi.client
+    #Square::Client.new(
+    #         access_token: Setting.get_value("square_oauth_access_token"),
+    #         environment: "sandbox"
+    #     )
 
     # Call list_locations method to get all locations in this Square account
     result = client.locations.list_locations

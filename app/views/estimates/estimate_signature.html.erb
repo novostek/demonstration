@@ -116,7 +116,7 @@
               <span class="invoice-subtotal-title">Discount</span>
               <h6 class="mt-0">- <%= number_to_currency @estimate.discounts %></h6>
             </li>
-            <%= if @estimate.customer? %>
+            <% if @estimate.customer? %>
               <li class="display-flex justify-content-between">
                 <span class="invoice-subtotal-title">Tax</span>
                 <h6 class="mt-0"><%= @estimate.tax %></h6>

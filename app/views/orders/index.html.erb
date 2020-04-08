@@ -126,7 +126,7 @@
                             <%= truncate(order.current_estimate.location || " ") %> <br>
                             <small><%= truncate(order.current_estimate.title || " ") %></small>
                           </td>
-                          <td>$ <%= order.product_purchases.sum(:value).to_f %></td>
+                          <td><%= number_to_currency order.current_estimate.total %></td>
                           <td><span class="chip lighten-5 green green-text"><%= order.status_text || "New" %></span></td>
 
                           <td>

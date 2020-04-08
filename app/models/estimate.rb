@@ -187,4 +187,20 @@ class Estimate < ApplicationRecord
 
 
   end
+
+  def discounts
+    product_estimates.sum(:discount)
+  end
+
+  def subtotal
+    value =  (self.price || 0 ) + discounts
+  end
+
+  def total
+    if customer?
+      return (self.price || 0) + (self.tax || 0)
+    end
+    price || 0
+  end
+
 end

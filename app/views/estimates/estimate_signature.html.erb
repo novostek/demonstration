@@ -77,7 +77,7 @@
               <tr>
                 <th>Product</th>
                 <th>Qty</th>
-                <th>Price Unity</th>
+                <th>Unit Price</th>
                 <th>Discount</th>
                 <th class="right-align">Subtotal</th>
               </tr>
@@ -110,20 +110,22 @@
           <ul>
             <li class="display-flex justify-content-between">
               <span class="invoice-subtotal-title">Subtotal</span>
-              <h6 class="mt-0">$<%= @estimate.get_subtotal %></h6>
+              <h6 class="mt-0"><%= number_to_currency @estimate.subtotal %></h6>
             </li>
             <li class="display-flex justify-content-between">
               <span class="invoice-subtotal-title">Discount</span>
-              <h6 class="mt-0">$ <%= @estimate.product_estimates.sum(:discount).to_f %></h6>
+              <h6 class="mt-0">- <%= number_to_currency @estimate.discounts %></h6>
             </li>
-            <li class="display-flex justify-content-between">
-              <span class="invoice-subtotal-title">Tax</span>
-              <h6 class="mt-0">$ <%= @estimate.tax.to_f %></h6>
-            </li>
+            <%= if @estimate.customer? %>
+              <li class="display-flex justify-content-between">
+                <span class="invoice-subtotal-title">Tax</span>
+                <h6 class="mt-0"><%= @estimate.tax %></h6>
+              </li>
+           <% end %>
             <li class="divider mt-2 mb-2"></li>
             <li class="display-flex justify-content-between">
               <span class="invoice-subtotal-title">Estimate Total</span>
-              <h6 class="mt-0">$ <%= @estimate.get_total_value %></h6>
+              <h6 class="mt-0">$ <%= @estimate.total %></h6>
             </li>
           </ul>
         </div>

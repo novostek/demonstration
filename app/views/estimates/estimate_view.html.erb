@@ -65,14 +65,17 @@
     <div class="col s12">
       <div class="card-panel">
         <div class="row">
+          <div class="col s12">
+            <%= link_to @estimate.customer, @estimate.customer %>
+          </div>
           <div class="col s12 m5">
             <span class="left width-100"><span class="font-weight-600 black-text">Created at:</span> <%= @estimate.created_at %></span>
             <span class="left width-100"><span class="font-weight-600 black-text">Location:</span> <%= @estimate.location %></span>
             <span class="left width-100"><span class="font-weight-600 black-text">Category:</span> <%= @estimate.category_text %></span>
           </div>
           <div class="col s12 m5">
-            <span class="left width-100"><span class="font-weight-600 black-text">Price:</span> $ <%= @estimate.price.to_f %></span>
-            <span class="left width-100"><span class="font-weight-600 black-text">Tax:</span> $ <%= @estimate.tax %> (<%= t("enumerize.estimate.taxpayer.#{@estimate.taxpayer}") %>)</span>
+            <span class="left width-100"><span class="font-weight-600 black-text">Price:</span> <%= number_to_currency @estimate.total %></span>
+            <span class="left width-100"><span class="font-weight-600 black-text">Tax:</span> <%= number_to_currency @estimate.tax %> (<%= t("enumerize.estimate.taxpayer.#{@estimate.taxpayer}") %>)</span>
           </div>
           <div class="col s12 m2">
             <span class=" users-view-status display-inline chip green lighten-5 green-text right"><%= @estimate.status_text %></span>
@@ -155,11 +158,11 @@
                     <td><%= pe.quantity %></td>
                     <td><%= pe.unitary_value %></td>
                     <td><%= pe.discount %></td>
-                    <td class=" right-align">$<%= pe.value %></td>
+                    <td class=" right-align"><%= number_to_currency pe.value %></td>
                   </tr>
                 <% end %>
                 <tr class="white">
-                  <td class="right-align" colspan="100"><strong>Subtotal area:</strong><br>$<%= mp.product_estimates.sum(:value) %></td>
+                  <td class="right-align" colspan="100"><strong>Subtotal area:</strong><br><%= number_to_currency mp.product_estimates.sum(:value) %></td>
                 </tr>
                 </tbody>
               </table>
@@ -172,24 +175,24 @@
           <div class="col m4 s12">
             <!-- <p>Thanks for your business.</p> -->
           </div>
-          <div class="col xl4 m8 s12 offset-xl3">
+          <div class="col xl6 m8 s12 offset-xl6">
             <ul>
               <li class="display-flex justify-content-between">
                 <span class="invoice-subtotal-title">Subtotal</span>
-                <h6 class="mt-0">$<%= @estimate.price %></h6>
+                <h6 class="mt-0"><%= number_to_currency @estimate.subtotal %></h6>
               </li>
               <li class="display-flex justify-content-between">
                 <span class="invoice-subtotal-title">Discount</span>
-                <h6 class="mt-0">$ <%= @estimate.product_estimates.sum(:discount).to_f %></h6>
+                <h6 class="mt-0">- <%= number_to_currency @estimate.discounts %></h6>
               </li>
               <li class="display-flex justify-content-between">
                 <span class="invoice-subtotal-title">Tax (<%= t("enumerize.estimate.taxpayer.#{@estimate.taxpayer}") %>)</span>
-                <h6 class="mt-0">$ <%= @estimate.tax.to_f %></h6>
+                <h6 class="mt-0"> <%= number_to_currency @estimate.tax || 0 %></h6>
               </li>
               <li class="divider mt-2 mb-2"></li>
               <li class="display-flex justify-content-between">
                 <span class="invoice-subtotal-title">Estimate Total</span>
-                <h6 class="mt-0">$ <%= @estimate.price %></h6>
+                <h6 class="mt-0"><%= number_to_currency @estimate.total %></h6>
               </li>
             </ul>
           </div>

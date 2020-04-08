@@ -6,7 +6,7 @@
 		<div class="container">
 			<div class="row">
 				<div class="col s10 m6 l6">
-					<h5 class="breadcrumbs-title mt-0 mb-0">Order #123</h5>
+					<h5 class="breadcrumbs-title mt-0 mb-0">Order #<%= @order.code %></h5>
 					<ol class="breadcrumbs mb-0">
 						<li class="breadcrumb-item"><a href="/">Home</a>
 						</li>
@@ -90,7 +90,7 @@
 							<i class="material-icons background-round mt-5 mb-5">timeline</i>
 						</div>
 						<div class="col s7 m7 right-align">
-							<h5 class="mb-0 white-text"><%= number_to_currency(@order.get_current_estimate.get_total_value ) %></h5>
+							<h5 class="mb-0 white-text"><%= number_to_currency(@order.get_current_estimate.total ) %></h5>
 							<p class="no-margin">Price</p>
 						</div>
 					</div>
@@ -125,19 +125,18 @@
 					<div class="col s12 pl-1">
 						<div class="card-panel">
 							<div class="row">
-
+                <div class="col s12">
+                  <%= link_to @order.current_estimate.customer,@order.current_estimate.customer  %>
+                </div>
 								<div class="col s12 m5">
 									<span class="left width-100"><span class="font-weight-600 black-text">Created at:</span> <%= @order.created_at.strftime("%m/%d/%Y") %></span>
 									<span class="left width-100"><span class="font-weight-600 black-text">Location:</span> <%= @order.current_estimate.location %></span>
 									<span class="left width-100"><span class="font-weight-600 black-text">Category:</span> <%= @order.current_estimate.category_text %></span>
 								</div>
-								<div class="col s12 m5">
-									<span class="left width-100"><span class="font-weight-600 black-text">Price:</span> $ <%= @order.product_purchases.sum(:value).to_f %></span>
-									<span class="left width-100"><span class="font-weight-600 black-text">Tax:</span> $ <%= @order.current_estimate.tax.to_f %></span>
-									<span class="left width-100"><span class="font-weight-600 black-text">Price + Tax:</span>
-                      $ <%= @order.product_purchases.sum(:value).to_f + @order.current_estimate.tax.to_f %>
-                    </span>
-								</div>
+                <div class="col s12 m5">
+                  <span class="left width-100"><span class="font-weight-600 black-text">Price:</span> <%= number_to_currency @order.current_estimate.total %></span>
+                  <span class="left width-100"><span class="font-weight-600 black-text">Tax:</span> <%= number_to_currency @order.current_estimate.tax %> (<%= t("enumerize.estimate.taxpayer.#{@order.current_estimate.taxpayer}") %>)</span>
+                </div>
 								<div class="col s12 m2">
 									<span class=" users-view-status display-inline chip green lighten-5 green-text right"><%= @order.status_text %></span>
 								</div>
@@ -222,11 +221,11 @@
 													<td><%= pe.quantity %></td>
 													<td><%= pe.unitary_value %></td>
 													<td><%= pe.discount %></td>
-													<td class=" right-align">$<%= pe.value %></td>
+													<td class=" right-align"><%= number_to_currency pe.value %></td>
 												</tr>
 											<% end %>
 											<tr class="white">
-												<td class="right-align" colspan="100"><strong>Subtotal area:</strong><br>$<%= mp.product_estimates.sum(:value) %></td>
+												<td class="right-align" colspan="100"><strong>Subtotal area:</strong><br><%= number_to_currency mp.product_estimates.sum(:value) %></td>
 											</tr>
 											</tbody>
 										</table>
@@ -239,27 +238,27 @@
 								<div class="col m5 s12">
 									<!-- <p>Thanks for your business.</p> -->
 								</div>
-								<div class="col xl4 m7 s12 offset-xl3">
-									<ul>
-										<li class="display-flex justify-content-between">
-											<span class="invoice-subtotal-title">Subtotal</span>
-											<h6 class="mt-0">$<%= @order.get_current_estimate.get_subtotal %></h6>
-										</li>
-										<li class="display-flex justify-content-between">
-											<span class="invoice-subtotal-title">Discount</span>
-											<h6 class="mt-0">$ <%= @order.get_current_estimate.product_estimates.distinct(:id).sum(:discount).to_f %></h6>
-										</li>
-										<li class="display-flex justify-content-between">
-											<span class="invoice-subtotal-title">Tax</span>
-											<h6 class="mt-0">$ <%= @order.get_current_estimate.tax.to_f %></h6>
-										</li>
-										<li class="divider mt-2 mb-2"></li>
-										<li class="display-flex justify-content-between">
-											<span class="invoice-subtotal-title">Estimate Total</span>
-											<h6 class="mt-0">$ <%= @order.get_current_estimate.get_total_value %></h6>
-										</li>
-									</ul>
-								</div>
+                <div class="col xl6 m8 s12 offset-xl6">
+                  <ul>
+                    <li class="display-flex justify-content-between">
+                      <span class="invoice-subtotal-title">Subtotal</span>
+                      <h6 class="mt-0"><%= number_to_currency @order.current_estimate.subtotal %></h6>
+                    </li>
+                    <li class="display-flex justify-content-between">
+                      <span class="invoice-subtotal-title">Discount</span>
+                      <h6 class="mt-0">- <%= number_to_currency @order.current_estimate.discounts %></h6>
+                    </li>
+                    <li class="display-flex justify-content-between">
+                      <span class="invoice-subtotal-title">Tax (<%= t("enumerize.estimate.taxpayer.#{@order.current_estimate.taxpayer}") %>)</span>
+                      <h6 class="mt-0"> <%= number_to_currency @order.current_estimate.tax || 0 %></h6>
+                    </li>
+                    <li class="divider mt-2 mb-2"></li>
+                    <li class="display-flex justify-content-between">
+                      <span class="invoice-subtotal-title">Estimate Total</span>
+                      <h6 class="mt-0"><%= number_to_currency @order.current_estimate.total %></h6>
+                    </li>
+                  </ul>
+                </div>
 							</div>
 							<!--  End products area -->
 						</div>

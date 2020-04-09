@@ -56,7 +56,7 @@
                 </li>
                 <li class="justify-content-between">
                   <span class="invoice-subtotal-title">Payments Pendent</span>
-                  <h6 class="invoice-subtotal-value"><%= number_to_currency(@order.current_estimate.get_total_value - @order.transactions.sum(:value)) %></h6>
+                  <h6 class="invoice-subtotal-value"><%= number_to_currency(@order.current_estimate.total - @order.transactions.sum(:value)) %></h6>
                 </li>
               </ul>
             </div>

@@ -96,3 +96,4 @@ gem 'liquid'
 
 gem 'wicked_pdf'
 gem 'wkhtmltopdf-binary'
+gem 'turnout'

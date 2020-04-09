@@ -377,6 +377,7 @@ DEPENDENCIES
   ancestry
   annotate
   bootsnap (>= 1.4.2)
+  bundler
   byebug
   camunda-workflow
   cancancan

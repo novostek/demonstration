@@ -81,7 +81,10 @@ class Estimate < ApplicationRecord
   end
 
   def get_total_value
-    self.product_estimates.distinct(:id).sum(:value) - self.product_estimates.sum(:discount).to_f + self.tax.to_f
+    if customer?
+      return (self.price || 0) + (self.tax || 0)
+    end
+    price || 0
   end
 
   def get_subtotal

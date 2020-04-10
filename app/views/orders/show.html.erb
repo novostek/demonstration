@@ -285,6 +285,27 @@
 							</div>
 						</div>
 					</div>
+
+					<div class="row">
+						<div class="col s12 card-width">
+							<div class="card-panel estimates-order-list recent-orders-card animate fadeRight border-radius-5">
+								<h6 class="mb-0 mt-0 mb-5">Estimates</h6>
+								<ul class="collection estimate-schedule-list">
+									<% @order.estimates.order(current: :desc).each do |estimate| %>
+										<li class="collection-item">
+											<p class="font-weight-600 mb-0 mt-0">
+												<%= link_to view_estimates_path(estimate) do %>
+													#<%= estimate.code %> <span class="medium-small mt-0 mb-0"><%= estimate.current? ? '(current)' : '' %></span></p>
+												<% end %>
+											</p>
+										</li>
+									<% end %>
+								</ul>
+						
+							</div>
+						</div>
+					</div>
+
 					<div class="col s12 card-width">
 						<div class="card row black-text padding-4 mt-3">
 							<a href="#" class="sidenav-trigger" data-target="slide-out-right">

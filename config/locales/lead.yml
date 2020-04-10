@@ -11,6 +11,14 @@ en:
         description: "Description"
         status: "Status"
         date: "Date"
+  enumerize:
+    lead:
+      status:
+        new: "New"
+        done: "Done"
+        contracted: "Contracted"
+        scheduled: "Scheduled"
+        closed: "Closed"
   actions:
     leads:
       save_lead: "Save Lead"

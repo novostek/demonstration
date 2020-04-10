@@ -27,7 +27,7 @@ class Lead < ApplicationRecord
 
   extend Enumerize
 
-  enumerize :status, in: [:new, :done], predicates: true
+  enumerize :status, in: [:new, :done, :contracted, :scheduled, :closed], predicates: true
 
   def as_json(options = {})
     s = super(options)

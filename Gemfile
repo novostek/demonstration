@@ -31,6 +31,7 @@ gem 'bootsnap', '>= 1.4.2', require: false
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
+  gem 'bundler'
 end
 
 group :development do
@@ -46,6 +47,10 @@ group :development do
   gem 'pry-remote'
   gem 'pry-byebug'
   gem 'seed_dump'
+end
+
+group :production do
+  
 end
 
 group :test do
@@ -96,3 +101,4 @@ gem 'liquid'
 
 gem 'wicked_pdf'
 gem 'wkhtmltopdf-binary'
+gem 'turnout'

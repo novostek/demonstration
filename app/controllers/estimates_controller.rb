@@ -65,6 +65,7 @@ class EstimatesController < ApplicationController
 
   def estimate_signature
     @view = params[:view]
+    @hidden_fields = Setting.get_value('hidden_measurement_fields')
     #verifica se foi assinado para criar a order
     if params[:sign].present?
       # Cria a order caso não seja change_order

@@ -50,13 +50,35 @@
       <table>
         <thead>
           <th>Area</th>
-          <th>Square Ft</th>
+          <% if !@hidden_fields['length'].present? %>
+            <th>Length</th>
+          <% end %>
+          <% if !@hidden_fields['width'].present? %>
+            <th>Width</th>
+          <% end %>
+          <% if !@hidden_fields['height'].present? %>
+            <th>Height</th>
+          <% end %>
+          <% if !@hidden_fields['square_feet'].present? %>
+            <th>Square Ft</th>
+          <% end %>
         </thead>
         <tbody>
         <% @estimate.measurement_areas.each do |ma| %>
           <tr>
             <td><%= ma.name %></td>
-            <td><%= ma.measurements.first.square_feet %></td>
+            <% if !@hidden_fields['length'].present? %>
+              <td><%= ma.measurements.first.length %></td>
+            <% end %>
+            <% if !@hidden_fields['width'].present? %>
+              <td><%= ma.measurements.first.width %></td>
+            <% end %>
+            <% if !@hidden_fields['height'].present? %>
+              <td><%= ma.measurements.first.height %></td>
+            <% end %>
+            <% if !@hidden_fields['square_feet'].present? %>
+              <td><%= ma.measurements.first.square_feet %></td>
+            <% end %>
           </tr>
         <% end %>
         </tbody>

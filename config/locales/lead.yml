@@ -16,7 +16,7 @@ en:
       status:
         new: "New"
         done: "Done"
-        contracted: "Contracted"
+        contacted: "Contacted"
         scheduled: "Scheduled"
         closed: "Closed"
   actions:

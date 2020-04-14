@@ -90,6 +90,7 @@ Rails.application.routes.draw do
       get "new_note"
       post "new_document"
       get "create_order"
+      get "clone"
     end
     collection do
       get ":id/measurements", to: "measurement_areas#measurements", as: :measurement_view

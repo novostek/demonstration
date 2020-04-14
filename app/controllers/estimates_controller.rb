@@ -11,6 +11,7 @@ class EstimatesController < ApplicationController
 
   # GET /estimates/1
   def show
+    @hidden_fields = Setting.get_value('hidden_measurement_fields')
     @documents = Document.to_select
     begin
       @email_customer = @estimate.customer.contacts.where(category: :email).first.data["email"]
@@ -153,9 +154,41 @@ class EstimatesController < ApplicationController
     redirect_to estimates_url
   end
 
+  def clone
+    begin
+      estimate = Estimate.find(params[:id])
+
+      lead = estimate.lead.dup
+      lead.save
+
+      new_estimate = estimate.dup
+      new_estimate.code = Estimate.last.code.to_i + 1
+      new_estimate.status = :new
+      new_estimate.lead = lead
+      new_estimate.save
+
+
+      estimate.measurement_areas.each do |ma|
+         #duplica measurement_areas
+         new_ma = ma.dup
+         new_ma.estimate_id = new_estimate.id
+         new_ma.save
+ 
+         #cria as measurements
+         ma.measurements.each do |m|
+           new_m = m.dup
+           new_m.measurement_area_id = new_ma.id
+           new_m.save
+         end
+      end
+
+      redirect_to products_estimate_path( new_estimate.id), notice: "Estimate cloned successfully."
+    rescue StandardError => e
+      redirect_back(fallback_location: root_path, notice: "There was an error while trying to duplicate the estimate. Please try again.")
+    end
+  end
+
   def step_one
-
-
     @estimate = Estimate.find_or_initialize_by(lead_id: params[:lead_id])
     if @estimate.ordered?
       redirect_to "/estimates/#{@estimate.id}/view", notice: "Estimate already ordered"

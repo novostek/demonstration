@@ -107,7 +107,7 @@
             <table class="striped responsive-table">
               <thead>
               <tr>
-                <th>Estimate</th>
+                <th style="width: 20%">Estimate</th>
                 <th>Est. price</th>
                 <th>Order</th>
                 <th>Paid</th>
@@ -118,7 +118,12 @@
               <tbody>
               <% @customer.estimates.each do |e| %>
                 <tr>
-                  <td><%= link_to "##{e.code}", e %></td>
+                  <td >
+                    <%= link_to clone_estimate_path(e.id) do %>
+                      <i class="material-icons left">content_copy</i>
+                    <% end %>
+                    <%= link_to "##{e.code}", e %>
+                  </td>
                     <td><%= number_to_currency(e.get_total_value) %></td>
                   <td><%= link_to "##{e.order}", e.order if e.order.present? %></td>
                   <td><%= number_to_currency(e.order.transactions.where(status: :paid).sum(:value) ) if e.order.present?%></td>

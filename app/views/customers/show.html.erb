@@ -120,7 +120,7 @@
                 <tr>
                   <td class="display-flex" style="width: 25%">
                     <%= link_to clone_estimate_path(e.id) do %>
-                      <i class="material-icons left">content_copy</i>
+                      <i class="material-icons left tooltipped" data-tooltip="Clone estimate">content_copy</i>
                     <% end %>
                     <%= link_to "##{e.code}", e %>
                   </td>

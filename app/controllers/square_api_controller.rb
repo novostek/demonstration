@@ -1,6 +1,7 @@
 class SquareApiController < ApplicationController
 
   def oauth
+    ##{Rails.configuration.woffice['url']}
     #https://connect.squareupsandbox.com/oauth2/authorize?client_id=sandbox-sq0idb-g75z4FJpMVE0s9qUn7GTmQ&scope=ORDERS_WRITE PAYMENTS_WRITE MERCHANT_PROFILE_READ PAYMENTS_READ
     SquareApi.save_access_token(params[:code])
     if params[:code].present?
@@ -8,7 +9,8 @@ class SquareApiController < ApplicationController
       s.value = {"value": params[:code] }
       s.save
     end
-    render json: {msg: "OK"}
+      #render json: {msg: "OK"}
+    redirect_to settings_path, notice: "Square Linked"
   end
 
   def callback

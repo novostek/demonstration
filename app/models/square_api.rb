@@ -110,7 +110,7 @@ class SquareApi
     body[:order][:line_items][0][:base_price_money][:currency] = 'USD'
 
     if Rails.env.production?
-      body[:redirect_url] = "#{Rails.configuration.woffice['url']}/square_api/callback?transaction=#{transaction.id}"
+      body[:redirect_url] = "#{Setting.get_value("url_app")}/square_api/callback?transaction=#{transaction.id}"
     else
       body[:redirect_url] = "http://e737d500.ngrok.io/square_api/callback?transaction=#{transaction.id}"
     end

@@ -15,7 +15,13 @@ class SettingsController < ApplicationController
         s.value = {"value": p[1] == "1" ? true : p[1] == "0" ? false : p[1]}
       else
         s = Setting.find_or_initialize_by(namespace: "hidden_measurement_fields")
-        s.value["value"]["#{p[0]}"] = p[1] == "1" ? true : false
+        if s.value.present?
+          s.value["value"]["#{p[0]}"] = p[1] == "1" ? true : false
+        else
+          s.value = {"value": {}}
+          s.value["value"]["#{p[0]}"] = p[1] == "1" ? true : false
+        end
+
       end
       s.save
     end

@@ -1,3 +1,6 @@
+<%= content_for :head_content do %>
+  <link href='https://cdn.jsdelivr.net/npm/froala-editor@3.1.0/css/froala_editor.pkgd.min.css' rel='stylesheet' type='text/css' />
+<% end %>
 <%= form_with url: atualiza_settings_settings_path, local: true do |f| %>
   <%= f.hidden_field  :redirect,  value: "/settings/email"%>
 <div class="content-wrapper-before woffice-color"></div>
@@ -47,26 +50,58 @@
               <div class="row">
                 <div class="input-field col s12 l8">
                   <p class="font-weight-600">Square mail text</p>
-                  <input class="materialize-textarea" name="send_square_mail_text" id="send_square_mail_text" value="<%= Setting.get_value("send_square_mail_text")  %>">
+<!--                  <input class="materialize-textarea" name="send_square_mail_text" id="send_square_mail_text" value="<%#= Setting.get_value("send_square_mail_text")  %>">-->
+                  <div id="froala-editor_send_square_mail_text">
+                    <% if !Setting.find_by(namespace: "send_square_mail_text").present? %>
+                      <h3>Click here to edit the content</h3>
+                      <p>Drag the image above or the text block to insert them in the editor.</p>
+                    <% else %>
+                      <%= Setting.get_value("send_square_mail_text").html_safe %>
+                    <% end %>
+                  </div>
                   <span class="helper-text">This text is sent via Square.</span>
                 </div>
               </div>
               <div class="row">
                 <div class="input-field col s12 l8">
                   <p class="font-weight-600">Invoice mail</p>
-                  <input class="materialize-textarea" name="send_invoice_mail_text" id="send_invoice_mail_text" value="<%= Setting.get_value("send_invoice_mail_text")  %>">
+<!--                  <input class="materialize-textarea" name="send_invoice_mail_text" id="send_invoice_mail_text" value="<%#= Setting.get_value("send_invoice_mail_text")  %>">-->
+                  <div id="froala-editor_send_invoice_mail_text">
+                    <% if !Setting.find_by(namespace: "send_invoice_mail_text").present? %>
+                      <h3>Click here to edit the content</h3>
+                      <p>Drag the image above or the text block to insert them in the editor.</p>
+                    <% else %>
+                      <%= Setting.get_value("send_invoice_mail_text").html_safe %>
+                    <% end %>
+                  </div>
                 </div>
               </div>
               <div class="row">
                 <div class="input-field col s12 l8">
                   <p class="font-weight-600">Document mail</p>
-                  <input class="materialize-textarea" name="send_document_mail_text" id="send_document_mail_text" value="<%= Setting.get_value("send_document_mail_text")  %>">
+<!--                  <input class="materialize-textarea" name="send_document_mail_text" id="send_document_mail_text" value="<%#= Setting.get_value("send_document_mail_text")  %>">-->
+                  <div id="froala-editor_send_document_mail_text">
+                    <% if !Setting.find_by(namespace: "send_document_mail_text").present? %>
+                      <h3>Click here to edit the content</h3>
+                      <p>Drag the image above or the text block to insert them in the editor.</p>
+                    <% else %>
+                      <%= Setting.get_value("send_document_mail_text").html_safe %>
+                    <% end %>
+                  </div>
                 </div>
               </div>
               <div class="row">
                 <div class="input-field col s12 l8">
                   <p class="font-weight-600">Sign order mail</p>
-                  <input class="materialize-textarea" name="sign_order_mail_text" id="sign_order_mail_text" value="<%= Setting.get_value("sign_order_mail_text")  %>">
+<!--                  <input class="materialize-textarea" name="sign_order_mail_text" id="sign_order_mail_text" value="<%#= Setting.get_value("sign_order_mail_text")  %>">-->
+                  <div id="froala-editor_sign_order_mail_text">
+                    <% if !Setting.find_by(namespace: "sign_order_mail_text").present? %>
+                      <h3>Click here to edit the content</h3>
+                      <p>Drag the image above or the text block to insert them in the editor.</p>
+                    <% else %>
+                      <%= Setting.get_value("sign_order_mail_text").html_safe %>
+                    <% end %>
+                  </div>
                 </div>
               </div>
 
@@ -78,10 +113,78 @@
 
 
     <!-- END RIGHT SIDEBAR NAV -->
-    <%= f.submit "Save", class:"btn" %>
+    <%#= f.submit "Save", class:"btn" %>
+    <button id="save_data" class="btn"><%= t "button.save" %></button>
   </div>
   <div class="content-overlay"></div>
 
 </div>
 
+<% end %>
+<%= content_for :scripts do %>
+  <script type='text/javascript' src='https://cdn.jsdelivr.net/npm/froala-editor@3.1.0/js/froala_editor.pkgd.min.js'></script>
+  <script>
+
+      $("#save_data").click(function(){
+          //
+
+          var editor = new FroalaEditor('#froala-editor_send_square_mail_text', {}, function () {
+              // Call the method inside the initialized event.
+              data = editor.html.get(true);
+          });
+
+          var editor2 = new FroalaEditor('#froala-editor_send_invoice_mail_text', {}, function () {
+              // Call the method inside the initialized event.
+              data = editor.html.get(true);
+          });
+
+          var editor3 = new FroalaEditor('#froala-editor_send_document_mail_text', {}, function () {
+              // Call the method inside the initialized event.
+              data = editor.html.get(true);
+          });
+
+          var editor4 = new FroalaEditor('#froala-editor_sign_order_mail_text', {}, function () {
+              // Call the method inside the initialized event.
+              data = editor.html.get(true);
+          });
+
+          $.post( "<%= atualiza_settings_settings_path %>", {  send_square_mail_text: editor.html.get(true), send_invoice_mail_text: editor2.html.get(true), send_document_mail_text: editor3.html.get(true), sign_order_mail_text: editor4.html.get(true) },function(data){
+              M.toast({html: data["success"]});
+          } );
+
+
+      });
+
+      new FroalaEditor('div#froala-editor_send_square_mail_text', {
+          events: {
+              initialized: function () {
+                  var editor = this;
+              }
+          }
+      })
+
+      new FroalaEditor('div#froala-editor_send_invoice_mail_text', {
+          events: {
+              initialized: function () {
+                  var editor = this;
+              }
+          }
+      })
+
+      new FroalaEditor('div#froala-editor_send_document_mail_text', {
+          events: {
+              initialized: function () {
+                  var editor = this;
+              }
+          }
+      })
+
+      new FroalaEditor('div#froala-editor_sign_order_mail_text', {
+          events: {
+              initialized: function () {
+                  var editor = this;
+              }
+          }
+      })
+  </script>
 <% end %>

@@ -23,16 +23,16 @@
 			<div class="row">
 				<div class="col s12">
 					<div class="container">
-						<div class="section">
+						<div class="section orders-list-analytics">
 
 							<div class="row" id="gradient-Analytics">
 								<div class="col s12 m6 l3 card-width">
 									<div class="card row gradient-45deg-amber-amber gradient-shadow white-text padding-4 mt-5">
-										<div class="col s7 m7">
+										<div class="col s5 m5">
 											<i class="material-icons background-round mt-5 mb-5">add_shopping_cart</i>
 											<p>Orders</p>
 										</div>
-										<div class="col s5 m5 right-align">
+										<div class="col s7 m7 right-align">
 											<h5 class="mb-0 white-text"><%= @orders_month.size %></h5>
 											<p class="no-margin">New</p>
 											<p><%= number_to_currency(@total_atual) %></p>
@@ -41,11 +41,11 @@
 								</div>
 								<div class="col s12 m6 l3 card-width">
 									<div class="card row gradient-45deg-red-pink gradient-shadow white-text padding-4 mt-5">
-										<div class="col s7 m7">
+										<div class="col s5 m5">
 											<i class="material-icons background-round mt-5 mb-5">timeline</i>
 											<p>Sales</p>
 										</div>
-										<div class="col s5 m5 right-align">
+										<div class="col s7 m7 right-align">
 											<h5 class="mb-0 white-text"><%= @crecimento.round(2) %>%</h5>
 											<p class="no-margin">Growth</p>
 											<p><%= number_to_currency(@resultado) %></p>
@@ -54,11 +54,11 @@
 								</div>
 								<div class="col s12 m6 l3 card-width">
 									<div class="card row gradient-45deg-indigo-light-blue gradient-shadow white-text padding-4 mt-5">
-										<div class="col s7 m7">
+										<div class="col s5 m5">
 											<i class="material-icons background-round mt-5 mb-5">perm_identity</i>
 											<p>Pending</p>
 										</div>
-										<div class="col s5 m5 right-align">
+										<div class="col s7 m7 right-align">
 											<h5 class="mb-0 white-text"><%= @transactions.size %></h5>
 											<p class="no-margin">New</p>
 											<p><%= number_to_currency(@transactions.sum(:value)) %></p>
@@ -68,11 +68,11 @@
 								
 								<div class="col s12 m6 l3 card-width">
 									<div class="card row gradient-45deg-green-teal gradient-shadow white-text padding-4 mt-5">
-										<div class="col s7 m7">
+										<div class="col s5 m5">
 											<i class="material-icons background-round mt-5 mb-5">attach_money</i>
 											<p>Profit</p>
 										</div>
-										<div class="col s5 m5 right-align">
+										<div class="col s7 m7 right-align">
 											<h5 class="mb-0 white-text"><%= number_to_currency(@profit) %></h5>
 											<p class="no-margin">Today</p>
 											<p><%= number_to_currency(@profit_today) %></p>
@@ -81,18 +81,20 @@
 								</div>
 							</div>
 
-							<div class="card-panel pt-1 pb-1">
+							<div class="pt-1 pb-1">
 								<div class="row">
-                  <%= search_form_for @q, url: request.env['PATH_INFO'] do |f|  %>
-                    <div class="col s9 m11">
-                        <%= f.search_field :estimates_title_cont, placeholder: t('placeholder.search'), class: "search-ransack" %>     
-                    </div>
-                    <div class="col s3 m1">
-                      <button type="submit" class="btn-floating mb-1 waves-effect waves-light rigth">
-                        <i class="material-icons">search</i>
-                      </button>
-                    </div>
-                  <% end %>
+                  <div class="search-table-list">
+                    <%= search_form_for @q, url: request.env['PATH_INFO'] do |f|  %>
+                      <div class="col s9 m11">
+                          <%= f.search_field :estimates_title_cont, placeholder: t('placeholder.search'), class: "search-ransack" %>
+                      </div>
+                      <div class="col s3 m1">
+                        <button type="submit" class="btn-floating mb-1 waves-effect waves-light rigth">
+                          <i class="material-icons">search</i>
+                        </button>
+                      </div>
+                    <% end %>
+                  </div>
                 </div>
 							</div>
 							<div class="card">

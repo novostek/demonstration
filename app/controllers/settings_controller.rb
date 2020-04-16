@@ -8,6 +8,37 @@ class SettingsController < ApplicationController
     @settings = @q.result.page(params[:page])
   end
 
+  def atualiza_settings
+    params.reject{|a,b| ["action","commit","controller","redirect","logo"].include? a }.each do |p|
+      if p[0] != "width" and p[0] != "length" and p[0] != "height" and p[0] != "square_feet"
+        s = Setting.find_or_initialize_by(namespace: p[0])
+        s.value = {"value": p[1] == "1" ? true : p[1] == "0" ? false : p[1]}
+      else
+        s = Setting.find_or_initialize_by(namespace: "hidden_measurement_fields")
+        if s.value.present?
+          s.value["value"]["#{p[0]}"] = p[1] == "1" ? true : false
+        else
+          s.value = {"value": {}}
+          s.value["value"]["#{p[0]}"] = p[1] == "1" ? true : false
+        end
+
+      end
+      s.save
+    end
+
+    if params[:logo].present?
+      #binding.pry
+      doc = DocumentFile.find_or_initialize_by(origin: "Logo", origin_id: 1)
+      doc.title = "Logo"
+      doc.file = params[:logo]
+      doc.save
+      s = Setting.find_or_initialize_by(namespace: "logo")
+      s.value = {"value": doc.file.url }
+      s.save
+    end
+    redirect_to params[:redirect], notice: "Settings updated"
+  end
+
   # GET /settings/1
   def show
   end

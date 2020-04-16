@@ -103,23 +103,30 @@
                         <i class="material-icons left">event_seat</i>
                         <%= ma.name %>
                       </h6>
-                      <%# <div class="row mb-2">
-															<div class="col s12">
-																Open kitchen included
-															</div>
-														</div> %>
-                      <div class="col s3">
-                        <!-- length -->
-                        <i class="material-icons left width-100">straighten</i><%= ma.measurements[0].length %>
-                      </div>
-                      <div class="col s3">
-                        <!-- width -->
-                        <i class="material-icons left width-100" style="transform: rotate(-45deg)">straighten</i><%= ma.measurements[0].width %>
-                      </div>
-                      <div class="col s4">
-                        <!-- height -->
-                        <i class="left width-100">SqFt</i><%= ma.measurements[0].square_feet %>
-                      </div>
+                      <% if !@hidden_fields['length'].present? %>
+                        <div class="col">
+                          <!-- length -->
+                          <i class="material-icons left width-100">straighten</i><%= ma.measurements[0].length %>
+                        </div>
+                      <% end %>
+                      <% if !@hidden_fields['width'].present? %>
+                        <div class="col">
+                          <!-- length -->
+                          <i class="material-icons left width-100" style="transform: rotate(-45deg)">straighten</i><%= ma.measurements[0].width %>
+                        </div>
+                      <% end %>
+                      <% if !@hidden_fields['height'].present? %>
+                        <div class="col">
+                          <!-- length -->
+                          <i class="material-icons left width-100" style="transform: rotate(-90deg)">straighten</i><%= ma.measurements[0].height %>
+                        </div>
+                      <% end %>
+                      <% if !@hidden_fields['square_feet'].present? %>
+                        <div class="col">
+                          <!-- height -->
+                          <i class="left width-100">SqFt</i><%= ma.measurements[0].square_feet %>
+                        </div>
+                      <% end %>
                     </div>
                   </div>
                 </div>

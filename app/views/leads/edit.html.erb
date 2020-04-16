@@ -20,4 +20,85 @@
 	</div>
 </div>
 
-<%= render 'form', lead: @lead %>
+<%= form_for(@lead) do |f| %>
+  <% if @lead.errors.any? %>
+    <div id="error_explanation" class="card-panel red white-text">
+      <h5><%= t('errors.template.header')  %>:</h5>
+
+      <ul>
+      <% @lead.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+  <div class="section">
+    <div class="card">
+      <div class="card-content">
+        <div class="row">
+          <div class="input-field col s12 m3 l3">
+            <%= f.text_field :phone, 
+                autocomplete: 'off',
+                required: true,
+                class: 'autocomplete autocomplete-phone phone', 
+                onkeyup: "search_by_phone($(this).val())" %>
+            <%= f.label  :phone, id: 'lead_phone_label' %>
+          </div>
+
+          <div class="input-field col s12 m4 l4">
+            <%= f.text_field :customer, 
+                autocomplete: 'off',
+                required: true,
+                class: 'autocomplete autocomplete-customer', 
+                onkeyup: "search_by_name($(this).val())" %>
+            <%= f.hidden_field :customer_id %>
+            <%= f.label  :customer, id: 'lead_customer_label' %>
+          </div>
+          <div class="input-field col s12 m3 l3">
+            <%= text_field_tag :email,
+                nil,
+                autocomplete: 'off',
+                required: true,
+                class: 'autocomplete autocomplete-email',
+                id: 'customer_email',
+                onkeyup: "search_by_email($(this).val())" %>
+            <%= label_tag :email , "Email", id: :email_label %>
+          </div>
+          <div class="col s12 m2 l2 display-flex pt-2 pl-4 justify-content-end">
+            <!-- Mo dal Trigger -->
+            <a class="btn btn-floating waves-effect indigo waves-light left modal-trigger tooltipped" data-position="left" data-tooltip="New customer" href="#customer-add-modal"><i class="material-icons">person_add</i></a>
+          </div>
+        </div>
+        <div class="row other-fields">									
+          <div class="input-field col s12 m8">
+            <%= f.text_field :description, autocomplete: 'off' %>
+            <%= f.label  :description %>
+          </div>
+          <div class="input-field col s6 m4">
+            <%= f.text_field :via, autocomplete: 'off', required: true, class: 'autocomplete autocomplete-via' %>
+            <%= f.label  :via %>
+          </div>
+          <div class="input-field col s6 m4">
+            <%= f.date_field :date, value: Time.now.strftime('%Y-%m-%d'), class: 'validate datepicker' %>
+            <%= f.label  :date %>
+          </div>
+          <div class="col s12 m4">
+            <div class="input-field">
+
+              <%= f.select :status, options_for_select(Lead.status.options, @lead.status) %>
+              <%= f.label  :status %>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="save-buttons col s12 pb-2">
+    <%= f.button :submit, :value => "save", class:"btn waves-effect waves-light breadcrumbs-btn right" do %>
+      <i class="material-icons hide-on-med-and-up">save</i><span class="hide-on-small-only"><%= t('actions.leads.save_lead') %></span>
+    <% end %>
+  </div>
+<% end %>
+
+</div>

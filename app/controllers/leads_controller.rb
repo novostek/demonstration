@@ -29,10 +29,12 @@ class LeadsController < ApplicationController
     @lead = Lead.new(lead_params)
 
     if @lead.save
-      if params[:button] == "save_n_lead"
+      if params[:button] == "save_n_estimate"
+        @lead.status = 'closed'
+        @lead.save
         redirect_to step_one_estimates_path(@lead.id)
       else
-        redirect_to @lead, notice: 'Lead foi criado com sucesso'
+        redirect_to @lead, notice: 'Lead was successfully created.'
       end
     else
       render :new
@@ -42,7 +44,7 @@ class LeadsController < ApplicationController
   # PATCH/PUT /leads/1
   def update
     if @lead.update(lead_params)
-      redirect_to @lead, notice: 'Lead foi atualizado com sucesso.'
+      redirect_to @lead, notice: 'Lead was successfully updated.'
     else
       render :edit
     end
@@ -51,7 +53,7 @@ class LeadsController < ApplicationController
   # DELETE /leads/1
   def destroy
     @lead.destroy
-    redirect_to leads_url, notice: 'Lead foi apagado com sucesso.'
+    redirect_to leads_url, notice: 'Lead was successfully deleted.'
   end
 
   private

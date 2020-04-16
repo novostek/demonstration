@@ -90,6 +90,7 @@ Rails.application.routes.draw do
       get "new_note"
       post "new_document"
       get "create_order"
+      get "clone"
     end
     collection do
       get ":id/measurements", to: "measurement_areas#measurements", as: :measurement_view
@@ -182,7 +183,13 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :settings
+  resources :settings do
+    collection do
+      get "email"
+      get "estimate"
+      post "atualiza_settings"
+    end
+  end
 
   #BPM routes
   get 'bpm/start/:process' => "bpm#start_process", as: :bpm_start_process

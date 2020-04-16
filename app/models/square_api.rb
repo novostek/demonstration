@@ -64,11 +64,11 @@ class SquareApi
   end
 
   def self.get_transaction(transaction_id)
-    client =  SquareApi.client
-    #Square::Client.new(
-    #         access_token: Setting.get_value("square_oauth_access_token"),
-    #         environment: "sandbox"
-    #     )
+    #client =  SquareApi.client
+    client = Square::Client.new(
+            access_token: Setting.get_value("square_oauth_access_token"),
+            environment: Rails.configuration.woffice['square_env']
+        )
 
     transactions_api = client.transactions
     location_id = SquareApi.locations.first[:id]
@@ -85,17 +85,17 @@ class SquareApi
   end
 
   def self.create_checkout(order, transaction)
-    client = SquareApi.client
-    #client = Square::Client.new(
-    #         access_token: SquareApi.renew_token,
-    #         environment: "sandbox"
-    #     )
+    #client = SquareApi.client
+    client = Square::Client.new(
+            access_token: SquareApi.renew_token,
+            environment: Rails.configuration.woffice['square_env']
+        )
 
     checkout_api = client.checkout
 
     location_id = SquareApi.locations.first[:id]
     body = {}
-    #body[:access_token] = Setting.get_value("square_oauth_access_token")
+    body[:access_token] = Setting.get_value("square_oauth_access_token")
     body[:idempotency_key] = SecureRandom.uuid
     body[:order] = {}
     body[:order][:reference_id] = "#{order.id}"
@@ -110,13 +110,10 @@ class SquareApi
     body[:order][:line_items][0][:base_price_money][:currency] = 'USD'
 
     if Rails.env.production?
-      body[:redirect_url] = "http://woodoffice.herokuapp.com/square_api/callback?transaction=#{transaction.id}"
+      body[:redirect_url] = "#{Setting.get_value("url_app")}/square_api/callback?transaction=#{transaction.id}"
     else
       body[:redirect_url] = "http://e737d500.ngrok.io/square_api/callback?transaction=#{transaction.id}"
     end
-
-
-
 
     result = checkout_api.create_checkout(location_id: location_id, body: body)
     #binding.pry
@@ -127,43 +124,20 @@ class SquareApi
     end
   end
 
-
-  def self.create_payment(nonce, value)
-    client = SquareApi.client
-
-    request_body = {
-        :source_id => nonce,
-        :amount_money => {
-            :amount => value,
-            :currency => 'USD'
-        },
-        :reference_id => '123456',
-        :idempotency_key => SecureRandom.uuid
-    }
-
-    resp = client.payments.create_payment(body: request_body)
-
-    if resp.success?
-      @payment = resp.data.payment
-    else
-      @error = resp.errors
-    end
-  end
-
   def self.client
     #env = Rails.env.production? ? "production" : "sandbox"
     client = Square::Client.new(
         access_token: SquareApi.get_key,
-        environment: "sandbox"
+        environment: Rails.configuration.woffice['square_env']
     )
   end
 
   def self.locations
-    client = SquareApi.client
-    #Square::Client.new(
-    #         access_token: Setting.get_value("square_oauth_access_token"),
-    #         environment: "sandbox"
-    #     )
+    #client = SquareApi.client
+    client = Square::Client.new(
+            access_token: Setting.get_value("square_oauth_access_token"),
+            environment: Rails.configuration.woffice['square_env']
+        )
 
     # Call list_locations method to get all locations in this Square account
     result = client.locations.list_locations

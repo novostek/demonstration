@@ -20,6 +20,9 @@
               <%= link_to step_one_estimates_path(@lead.id), class:"btn waves-effect waves-light breadcrumbs-btn right border-round" do %>
                 <i class="material-icons hide-on-med-and-up">add</i><span class="hide-on-small-only">Estimate</span>
               <% end %>
+							<%= link_to edit_lead_path(@lead.id), class:"btn waves-effect waves-light breadcrumbs-btn right border-round mr-2" do %>
+								<i class="material-icons hide-on-med-and-up">edit</i><span class="hide-on-small-only">Edit</span>
+							<% end %>
 						</div>
 					</div>
 				</div>

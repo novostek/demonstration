@@ -99,6 +99,7 @@
 <!--        </div>-->
 <!--      </div>-->
       <!-- End Contacts -->
+      
 
       <div class="card-panel customer-estimates">
         <!-- Estimate list -->
@@ -107,7 +108,7 @@
             <table class="striped responsive-table">
               <thead>
               <tr>
-                <th>Estimate</th>
+                <th style="width: 25%">Estimate</th>
                 <th>Est. price</th>
                 <th>Order</th>
                 <th>Paid</th>
@@ -118,7 +119,12 @@
               <tbody>
               <% @customer.estimates.each do |e| %>
                 <tr>
-                  <td><%= link_to "##{e.code}", e %></td>
+                  <td class="display-flex" style="width: 25%">
+                    <%= link_to clone_estimate_path(e.id) do %>
+                      <i class="material-icons left tooltipped" data-tooltip="Clone estimate">content_copy</i>
+                    <% end %>
+                    <%= link_to "##{e.code}", e %>
+                  </td>
                     <td><%= number_to_currency(e.get_total_value) %></td>
                   <td><%= link_to "##{e.order}", e.order if e.order.present? %></td>
                   <td><%= number_to_currency(e.order.transactions.where(status: :paid).sum(:value) ) if e.order.present?%></td>

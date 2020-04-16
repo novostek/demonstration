@@ -32,7 +32,7 @@ class DocumentMailer < ApplicationMailer
 
     attachments.inline['square.png'] = File.read("#{Rails.root}/public/logo.png")
     attachments.inline['woffice.png'] = File.read("#{Rails.root}/public/woffice.png")
-    
+
     mail(to: params[:emails], subject: "Payment of Order N* #{@order.code}")
   end
 

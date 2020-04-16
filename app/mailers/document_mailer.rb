@@ -32,14 +32,7 @@ class DocumentMailer < ApplicationMailer
 
     attachments.inline['square.png'] = File.read("#{Rails.root}/public/logo.png")
     attachments.inline['woffice.png'] = File.read("#{Rails.root}/public/woffice.png")
-
-    if Rails.env.prodction?
-      @url = "http://woodoffice.herokuapp.com/"
-    else
-      @url = "http://f5bbe7ed.ngrok.io"
-    end
-
-
+    
     mail(to: params[:emails], subject: "Payment of Order N* #{@order.code}")
   end
 

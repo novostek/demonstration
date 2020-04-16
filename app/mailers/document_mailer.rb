@@ -34,7 +34,7 @@ class DocumentMailer < ApplicationMailer
     attachments.inline['woffice.png'] = File.read("#{Rails.root}/public/woffice.png")
 
     if Rails.env.prodction?
-      @url = "http://woodoffice.herokuapp.com/"
+      @url = "#{Rails.configuration.woffice['url']}"
     else
       @url = "http://f5bbe7ed.ngrok.io"
     end

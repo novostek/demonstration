@@ -22,6 +22,7 @@ class LeadsController < ApplicationController
 
   # GET /leads/1/edit
   def edit
+    @customer = Customer.new
   end
 
   # POST /leads
@@ -64,6 +65,6 @@ class LeadsController < ApplicationController
 
     # Only allow a trusted parameter "white list" through.
     def lead_params
-      params.require(:lead).permit(:customer_id, :via, :description, :status, :date, :phone)
+      params.require(:lead).permit(:customer_id, :via, :description, :status, :date, :phone, :email)
     end
 end

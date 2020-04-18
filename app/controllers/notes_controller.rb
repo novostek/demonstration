@@ -26,7 +26,7 @@ class NotesController < ApplicationController
     @note = Note.new(note_params)
 
     if @note.save
-      redirect_to @note, notice: 'Note foi criado com sucesso'
+      redirect_to @note, notice: t('notice.note.created')
     else
       render :new
     end
@@ -35,7 +35,7 @@ class NotesController < ApplicationController
   # PATCH/PUT /notes/1
   def update
     if @note.update(note_params)
-      redirect_to @note, notice: 'Note foi atualizado com sucesso.'
+      redirect_to @note, notice: t('notice.note.updated')
     else
       render :edit
     end
@@ -46,7 +46,7 @@ class NotesController < ApplicationController
 
     @note.destroy
 
-    redirect_to params[:redirect], notice: 'Note was successful destroyed.'
+    redirect_to params[:redirect], notice: t('notice.note.deleted')
 
 
 

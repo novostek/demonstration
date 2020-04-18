@@ -1,0 +1,9 @@
+en:
+  activerecord:
+    models:
+      product_estimate: "Product Estimate"
+  notice:
+    product_estimate:
+      created: "Product estimate was successfully created."
+      updated: "Product estimate was sucessfully updated."
+      deleted: "Product estimate was sucessfully deleted."

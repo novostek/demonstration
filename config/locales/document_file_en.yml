@@ -12,3 +12,8 @@ en:
         photo_date: "Photo Date"
         photo_description: "Photo Description"
         description: "Description"
+  notice:
+    document_file:
+      created: "Document file was successfully created."
+      updated: "Document file was sucessfully updated."
+      deleted: "Document file was sucessfully deleted."

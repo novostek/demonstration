@@ -21,5 +21,8 @@ en:
         conclusion: "Conclusion"
         other: "Other"
   custom_fields: "Custom Fields"
-
-
+  notice:
+    document:
+      created: "Document was successfully created."
+      updated: "Document was sucessfully updated."
+      deleted: "Document was sucessfully deleted."

@@ -76,7 +76,7 @@ class OrdersController < ApplicationController
     doc.save
     if !params[:sign].present?
       DocumentMailer.with(link: doc_signature_mail_orders_url(document: doc.id,doc_name: @document.name, customer_sign: true) ,subject: params[:subject] , emails: params[:emails], order: @order).sign_order.deliver_now
-      redirect_to finish_order_signature_order_path(@order), notice: "Mail sent"
+      redirect_to finish_order_signature_order_path(@order), notice: t('notice.order.mail_sent')
     else
       redirect_to doc_signature_mail_orders_url(document: doc.id,doc_name: @document.name, customer_sign: true)
     end
@@ -85,7 +85,7 @@ class OrdersController < ApplicationController
   #Método que finaliza a order sem a necessidade de assinatura ou photos
   def finish
     @order.update(status: :finished, end_at: Date.today)
-    redirect_to @order, notice: "Order Finished"
+    redirect_to @order, notice: t('notice.order.finished')
   end
 
   #Método que inicializa a finalização da order pelo envio de fotos
@@ -101,7 +101,7 @@ class OrdersController < ApplicationController
   def deliver_products_sign
 
     if !params[:ids].present?
-      redirect_to deliver_products_order_path(@order), notice: "Select one or more products"
+      redirect_to deliver_products_order_path(@order), notice: t('notice.order.select_products')
     else
 
       has_custom_field = false
@@ -145,7 +145,7 @@ class OrdersController < ApplicationController
 
 
         @products.update_all(status: :delivered)
-        redirect_to deliver_products_order_path(@order), notice: "Produts delivered"
+        redirect_to deliver_products_order_path(@order), notice: t('notice.order.products_delivered')
       else
 
         render layout: "clean"
@@ -232,7 +232,7 @@ class OrdersController < ApplicationController
     end
     @order.status = :awaiting_change_approval
     @order.save
-    redirect_to products_estimate_path(change_order_estimate), notice: "Change Order created"
+    redirect_to products_estimate_path(change_order_estimate), notice: t('notice.order.change_order_created')
   end
 
   def change_order_old
@@ -288,7 +288,7 @@ class OrdersController < ApplicationController
     end
     @order.status = :awaiting_change_approval
     @order.save
-    redirect_to products_estimate_path(change_order_estimate), notice: "Change Order created"
+    redirect_to products_estimate_path(change_order_estimate), notice: t('notice.order.change_order_created')
   end
 
   def costs
@@ -298,7 +298,7 @@ class OrdersController < ApplicationController
 
   def send_invoice_mail
     DocumentMailer.with(subject: params[:subject] , emails: params[:emails], order: @order, link: view_invoice_customer_order_url(@order)).send_invoice.deliver_now
-    redirect_to invoice_order_path(@order), notice: "Invoice sent"
+    redirect_to invoice_order_path(@order), notice: t('notice.order.invoice_sent')
   end
 
   def view_invoice_customer
@@ -343,7 +343,7 @@ class OrdersController < ApplicationController
     transaction.email = params[:email]
     transaction.order = @order
     if transaction.save
-      redirect_to invoice_order_path(@order),notice: "Payment add successful"
+      redirect_to invoice_order_path(@order),notice: t('notice.order.payment_added')
     else
       redirect_to invoice_order_path(@order),notice: transaction.errors.full_messages.to_sentence
     end
@@ -377,7 +377,7 @@ class OrdersController < ApplicationController
     @order = Order.new(order_params)
 
     if @order.save
-      redirect_to product_purchase_order(@order), notice: 'Order was successfully created.'
+      redirect_to product_purchase_order(@order), notice: t('notice.order.created')
     else
       render :new
     end
@@ -389,7 +389,7 @@ class OrdersController < ApplicationController
     if @order.update(order_params)
 
       if !params[:status].present?
-        redirect_to product_purchase_order_path(@order), notice: 'Order was successfully updated.'
+        redirect_to product_purchase_order_path(@order), notice: t('notice.order.updated')
       else
 
         if params[:status] == true #finishing order
@@ -402,14 +402,14 @@ class OrdersController < ApplicationController
       end
 
     else
-      redirect_to payments_order_path(@order), notice: 'There wwwas an error while trying to update the order.'
+      redirect_to payments_order_path(@order), notice: t('notice.order.update_error')
     end
   end
 
   # DELETE /orders/1
   def destroy
     @order.destroy
-    redirect_to orders_url, notice: 'Order foi apagado com sucesso.'
+    redirect_to orders_url, notice: t('notice.order.deleted')
   end
 
   def schedule

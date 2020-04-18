@@ -9,3 +9,8 @@ en:
         description: "Description"
         tax: "Tax"
         namespace: "Namespace"
+  notice:
+    calculation_formula:
+      created: "Calculation formula was successfully created."
+      updated: "Calculation formula was sucessfully updated."
+      deleted: "Calculation formula was sucessfully deleted."

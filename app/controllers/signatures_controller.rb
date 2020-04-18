@@ -83,7 +83,7 @@ class SignaturesController < ApplicationController
         doc.file = File.open(tempfile.path)
         doc.save
         if @signature.origin == "Estimate" and !params[:signature][:document].present?
-          redirect_to "/estimates/#{@signature.origin_id}/estimate_signature?sign=true&view=true", notice: 'Signature was successful'
+          redirect_to "/estimates/#{@signature.origin_id}/estimate_signature?sign=true&view=true", notice: t('notice.signature.signed')
         else
           if !params[:signature][:mail].present? and params[:signature][:finish_order].present?
             redirect_to "/orders/#{@signature.origin_id}/finish"
@@ -102,7 +102,7 @@ class SignaturesController < ApplicationController
         end
 
       else
-        redirect_to @signature, notice: 'Signature foi criado com sucesso'
+        redirect_to @signature, notice: t('notice.signature.created')
       end
 
     else
@@ -117,7 +117,7 @@ class SignaturesController < ApplicationController
     @signature.file = params[:signature][:file]
     @signature.file.recreate_versions!
     if @signature.save
-      redirect_to @signature, notice: 'Signature foi atualizado com sucesso.'
+      redirect_to @signature, notice: t('notice.signature.updated')
     else
       render :edit
     end
@@ -126,7 +126,7 @@ class SignaturesController < ApplicationController
   # DELETE /signatures/1
   def destroy
     @signature.destroy
-    redirect_to signatures_url, notice: 'Signature foi apagado com sucesso.'
+    redirect_to signatures_url, notice: t('notice.signature.deleted')
   end
 
   private

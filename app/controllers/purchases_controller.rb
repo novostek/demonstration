@@ -26,7 +26,7 @@ class PurchasesController < ApplicationController
     @purchase = Purchase.new(purchase_params)
 
     if @purchase.save
-      redirect_to @purchase, notice: 'Purchase foi criado com sucesso'
+      redirect_to @purchase, notice: t('notice.purchase.created')
     else
       render :new
     end
@@ -35,7 +35,7 @@ class PurchasesController < ApplicationController
   # PATCH/PUT /purchases/1
   def update
     if @purchase.update(purchase_params)
-      redirect_to @purchase, notice: 'Purchase foi atualizado com sucesso.'
+      redirect_to @purchase, notice: t('notice.purchase.updated')
     else
       render :edit
     end
@@ -44,7 +44,7 @@ class PurchasesController < ApplicationController
   # DELETE /purchases/1
   def destroy
     @purchase.destroy
-    redirect_to purchases_url, notice: 'Purchase foi apagado com sucesso.'
+    redirect_to purchases_url, notice: t('notice.purchase.deleted')
   end
 
   private

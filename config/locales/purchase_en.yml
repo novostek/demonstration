@@ -1,0 +1,9 @@
+en:
+  activerecord:
+    models:
+      purchase: "Purchase"
+  notice:
+    purchase:
+      created: "Purchase was successfully created."
+      updated: "Purchase was sucessfully updated."
+      deleted: "Purchase was sucessfully deleted."

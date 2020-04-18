@@ -18,4 +18,8 @@ en:
   buttons:
     customer:
       save: "Save"
-
+  notice:
+    customer:
+      created: "Customer was successfully created."
+      updated: "Customer was sucessfully updated."
+      deleted: "Customer was sucessfully deleted."

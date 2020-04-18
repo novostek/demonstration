@@ -36,7 +36,7 @@ class SettingsController < ApplicationController
       s.value = {"value": doc.file.url }
       s.save
     end
-    redirect_to params[:redirect], notice: "Settings updated"
+    redirect_to params[:redirect], notice: t('notice.setting.updated')
   end
 
   # GET /settings/1
@@ -57,7 +57,7 @@ class SettingsController < ApplicationController
     @setting = Setting.new(setting_params)
 
     if @setting.save
-      redirect_to @setting, notice: 'Setting foi criado com sucesso'
+      redirect_to @setting, notice: t('notice.setting.created')
     else
       render :new
     end
@@ -66,7 +66,7 @@ class SettingsController < ApplicationController
   # PATCH/PUT /settings/1
   def update
     if @setting.update(setting_params)
-      redirect_to @setting, notice: 'Setting foi atualizado com sucesso.'
+      redirect_to @setting, notice: t('notice.setting.updated')
     else
       render :edit
     end
@@ -75,7 +75,7 @@ class SettingsController < ApplicationController
   # DELETE /settings/1
   def destroy
     @setting.destroy
-    redirect_to settings_url, notice: 'Setting foi apagado com sucesso.'
+    redirect_to settings_url, notice: t('notice.setting.deleted')
   end
 
   private

@@ -27,7 +27,7 @@ class ProductEstimatesController < ApplicationController
     @product_estimate = ProductEstimate.new(product_estimate_params)
 
     if @product_estimate.save
-      redirect_to @product_estimate, notice: 'Product estimate foi criado com sucesso'
+      redirect_to @product_estimate, notice: t('notice.product_estimate.created')
     else
       render :new
     end
@@ -36,7 +36,7 @@ class ProductEstimatesController < ApplicationController
   # PATCH/PUT /product_estimates/1
   def update
     if @product_estimate.update(product_estimate_params)
-      redirect_to @product_estimate, notice: 'Product estimate foi atualizado com sucesso.'
+      redirect_to @product_estimate, notice: t('notice.product_estimate.updated')
     else
       render :edit
     end

@@ -68,7 +68,7 @@ class LaborCostsController < ApplicationController
     @labor_cost = LaborCost.new(labor_cost_params)
 
     if @labor_cost.save
-      redirect_to @labor_cost, notice: 'Labor cost foi criado com sucesso'
+      redirect_to @labor_cost, notice: t('notice.labor_cost.created')
     else
       render :new
     end
@@ -79,7 +79,7 @@ class LaborCostsController < ApplicationController
 
     if @labor_cost.update(labor_cost_params)
       redirect = params[:redirect] || params[:labor_cost][:redirect]
-      redirect_to redirect, notice: 'Labor cost was successfully updated.'
+      redirect_to redirect, notice: t('notice.labor_cost.updated')
     else
       render :edit
     end
@@ -88,7 +88,7 @@ class LaborCostsController < ApplicationController
   # DELETE /labor_costs/1
   def destroy
     @labor_cost.destroy
-    redirect_to params[:redirect], notice: 'Labor cost was successfully destroyed.'
+    redirect_to params[:redirect], notice: t('notice.labor_cost.deleted')
   end
 
   private

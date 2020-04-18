@@ -26,7 +26,7 @@ class DocumentFilesController < ApplicationController
     @document_file = DocumentFile.new(document_file_params)
 
     if @document_file.save
-      redirect_to @document_file, notice: 'Document file foi criado com sucesso'
+      redirect_to @document_file, notice: t('notice.document_file.created')
     else
       render :new
     end
@@ -35,7 +35,7 @@ class DocumentFilesController < ApplicationController
   # PATCH/PUT /document_files/1
   def update
     if @document_file.update(document_file_params)
-      redirect_to @document_file, notice: 'Document file foi atualizado com sucesso.'
+      redirect_to @document_file, notice: t('notice.document_file.updated')
     else
       render :edit
     end
@@ -44,7 +44,7 @@ class DocumentFilesController < ApplicationController
   # DELETE /document_files/1
   def destroy
     @document_file.destroy
-    redirect_to document_files_url, notice: 'Document file foi apagado com sucesso.'
+    redirect_to document_files_url, notice: t('notice.document_file.deleted')
   end
 
   private

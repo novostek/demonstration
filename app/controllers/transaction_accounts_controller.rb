@@ -26,7 +26,7 @@ class TransactionAccountsController < ApplicationController
     @transaction_account = TransactionAccount.new(transaction_account_params)
 
     if @transaction_account.save
-      redirect_to @transaction_account, notice: 'Transaction account foi criado com sucesso'
+      redirect_to @transaction_account, notice: t('notice.transaction_account.created')
     else
       render :new
     end
@@ -35,7 +35,7 @@ class TransactionAccountsController < ApplicationController
   # PATCH/PUT /transaction_accounts/1
   def update
     if @transaction_account.update(transaction_account_params)
-      redirect_to @transaction_account, notice: 'Transaction account foi atualizado com sucesso.'
+      redirect_to @transaction_account, notice: t('notice.transaction_account.updated')
     else
       render :edit
     end
@@ -44,7 +44,7 @@ class TransactionAccountsController < ApplicationController
   # DELETE /transaction_accounts/1
   def destroy
     @transaction_account.destroy
-    redirect_to transaction_accounts_url, notice: 'Transaction account foi apagado com sucesso.'
+    redirect_to transaction_accounts_url, notice: t('notice.transaction_account.deleted')
   end
 
   private

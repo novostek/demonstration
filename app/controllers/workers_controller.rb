@@ -84,7 +84,7 @@ class WorkersController < ApplicationController
 
     if @worker.save
       if params[:button] != "remote_save"
-        redirect_to @worker, notice: 'Worker foi criado com sucesso'
+        redirect_to @worker, notice: t('notice.worker.created')
       end
     else
       render :new
@@ -100,7 +100,7 @@ class WorkersController < ApplicationController
     # end
     #binding.pry
     if @worker.update(worker_params)
-      redirect_to @worker, notice: 'Worker foi atualizado com sucesso.'
+      redirect_to @worker, notice: t('notice.worker.updated')
     else
       render :edit
     end
@@ -109,7 +109,7 @@ class WorkersController < ApplicationController
   # DELETE /workers/1
   def destroy
     @worker.destroy
-    redirect_to workers_url, notice: 'Worker foi apagado com sucesso.'
+    redirect_to workers_url, notice: t('notice.worker.deleted')
   end
 
   private

@@ -60,7 +60,7 @@ class AccountsController  < ApplicationController
     entry = Plutus::Entry.build(description: description, date: date, debits: debits, credits: credits)
     @entry = entry
     if entry.save
-      redirect_to entries_accounts_path, notice: "Entry was successful created."
+      redirect_to entries_accounts_path, notice: t('notice.entry.created')
     else
       render :new_entry
     end
@@ -69,7 +69,7 @@ class AccountsController  < ApplicationController
   def create
     @account = Plutus::Account.new(account_params)
     if @account.save
-      redirect_to accounts_path, notice: 'Account was sucessful created.'
+      redirect_to accounts_path, notice: t('notice.entry.created')
     else
       render :new
     end
@@ -79,7 +79,7 @@ class AccountsController  < ApplicationController
   def update
 
     if @account.update(account_params)
-      redirect_to @account, notice: 'Account was sucessful updated.'
+      redirect_to @account, notice: t('notice.account.updated')
     else
       render :edit
     end
@@ -88,7 +88,7 @@ class AccountsController  < ApplicationController
   # DELETE /profiles/1
   def destroy
     @account.destroy
-    redirect_to accounts_path, notice: 'Account was sucessful deleted.'
+    redirect_to accounts_path, notice: t('notice.account.deleted')
   end
 
   private

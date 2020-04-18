@@ -11,3 +11,16 @@ en:
         status: "Status"
         invoice: "Invoice"
   create_order: "Create Order"
+  notice:
+    order:
+      created: "Order was successfully created."
+      updated: "Order was sucessfully updated."
+      deleted: "Order was sucessfully deleted."
+      finished: "Order finished."
+      mail_sent: "Mail sent."
+      select_products: "Select one or more products."
+      products_delivered: "Products delivered."
+      invoice_sent: "Invoice sent."
+      payment_added: "Payment successfully added."
+      update_error: "There was an error while trying to update the order."
+      change_order_created: "Change order was successfully created."

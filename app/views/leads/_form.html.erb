@@ -1,4 +1,7 @@
-<%= form_for(lead) do |f| %>
+<%= form_for lead, :html => {'autocomplete' => 'off'} do |f| %>
+<input type="text" style="display:none">
+<input type="password" style="display:none">
+
   <% if lead.errors.any? %>
     <div id="error_explanation" class="card-panel red white-text">
       <h5><%= t('errors.template.header')  %>:</h5>

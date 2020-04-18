@@ -5,6 +5,7 @@
 #  id          :bigint           not null, primary key
 #  date        :datetime
 #  description :text
+#  email       :string
 #  phone       :string
 #  status      :string
 #  via         :string

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_04_08_000208) do
+ActiveRecord::Schema.define(version: 2020_04_18_000531) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -147,6 +147,7 @@ ActiveRecord::Schema.define(version: 2020_04_08_000208) do
     t.string "phone"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.string "email"
     t.index ["customer_id"], name: "index_leads_on_customer_id"
   end
 
@@ -302,7 +303,7 @@ ActiveRecord::Schema.define(version: 2020_04_08_000208) do
     t.string "bpm_purchase"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.bigint "supplier_id", null: false
+    t.bigint "supplier_id"
     t.bigint "calculation_formula_id", null: false
     t.text "photo"
     t.index ["calculation_formula_id"], name: "index_products_on_calculation_formula_id"

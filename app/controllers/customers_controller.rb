@@ -104,7 +104,7 @@ class CustomersController < ApplicationController
         contact.save
       end
       respond_to do |format|
-        format.html { redirect_to @customer, notice: 'Customer was succesfully created.' }
+        format.html { redirect_to @customer, notice: t('notice.customer.created') }
         format.json { render json: @customer }
       end
     else
@@ -115,7 +115,7 @@ class CustomersController < ApplicationController
   # PATCH/PUT /customers/1
   def update
     if @customer.update(customer_params)
-      redirect_to @customer, notice: 'Customer was succesfully updated.'
+      redirect_to @customer, notice: t('notice.customer.updated')
     else
       render :edit
     end
@@ -124,7 +124,7 @@ class CustomersController < ApplicationController
   # DELETE /customers/1
   def destroy
     @customer.destroy
-    redirect_to customers_url, notice: 'Customer was succesfully deleted.'
+    redirect_to customers_url, notice: t('notice.customer.deleted')
   end
 
   def search_by_phone

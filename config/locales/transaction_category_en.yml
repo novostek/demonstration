@@ -8,3 +8,8 @@ en:
         color: "Color"
         namespace: "Namespace"
         description: "Description"
+  notice:
+    transaction_category:
+      created: "Transaction category was successfully created."
+      updated: "Transaction category was sucessfully updated."
+      deleted: "Transaction category was sucessfully deleted."

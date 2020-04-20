@@ -316,12 +316,12 @@
                       <textarea class="materialize-textarea" name="send_grid_key" id="send_grid_key" readonly><%= Setting.get_value("square_oauth_code") %></textarea>
                     <% else %>
                       <p class="font-weight-600">Link Square Account</p><br>
-<!--                      <a href="<%#= Rails.configuration.woffice['oauth_square_url'] %>client_id=<%#= Setting.get_value('square_app_id') %>&scope=ORDERS_WRITE PAYMENTS_WRITE MERCHANT_PROFILE_READ PAYMENTS_READ">-->
-<!--                        <img src="/square_name.svg" alt="">-->
-<!--                      </a>-->
-                      <a href="https://wofficeauth.herokuapp.com/square_apis/square_oauth?redirect=<%= Setting.get_value("url_app")%>/square_api/oauth">
+                      <a href="<%= Rails.configuration.woffice['oauth_square_url'] %>client_id=<%= Setting.get_value('square_app_id') %>&scope=ORDERS_WRITE PAYMENTS_WRITE MERCHANT_PROFILE_READ PAYMENTS_READ">
                         <img src="/square_name.svg" alt="">
                       </a>
+<!--                      <a href="https://wofficeauth.herokuapp.com/square_apis/square_oauth?redirect=<%#= Setting.get_value("url_app")%>/square_api/oauth">-->
+<!--                        <img src="/square_name.svg" alt="">-->
+<!--                      </a>-->
                     <% end %>
                   </div>
                 </div>

@@ -108,7 +108,7 @@ class EstimatesController < ApplicationController
       if !Rails.env.production?
         @estimate.link = "http://localhost:3000/estimates/#{@estimate.id}/estimate_signature"
       else
-        @estimate.link = "http://woodoffice.herokuapp.com/estimates/#{@estimate.id}/estimate_signature"
+        @estimate.link = "#{Setting.url}/estimates/#{@estimate.id}/estimate_signature"
       end
 
       SendGridMail.send_mail(params[:template],[@estimate,@estimate.customer],params[:subject],params[:emails])

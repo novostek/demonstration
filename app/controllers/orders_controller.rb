@@ -297,7 +297,7 @@ class OrdersController < ApplicationController
   end
 
   def send_invoice_mail
-    DocumentMailer.with(subject: params[:subject] , emails: params[:emails], order: @order, link: view_invoice_customer_order_url(@order)).send_invoice.deliver_now
+    DocumentMailer.with(subject: params[:subject] , emails: params[:emails], order: @order, link: "#{Setting.url}#{view_invoice_customer_order_path(@order)}").send_invoice.deliver_now
     redirect_to invoice_order_path(@order), notice: t('notice.order.invoice_sent')
   end
 

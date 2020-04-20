@@ -113,7 +113,7 @@ class DocumentsController < ApplicationController
 
           doc = DocumentSend.new(origin: params[:from],origin_id: origin_id, data: @template.render('order' => @order_params ,'estimate' => @estimate.attributes, 'measurements' => JSON.parse(@estimate.measurement_areas.to_json), 'products' => JSON.parse(@estimate.product_estimates.to_json), 'customer' => JSON.parse(@estimate.customer.to_json), 'custom' => @params   ) )
           doc.save
-          DocumentMailer.with( link: doc_signature_mail_orders_url(customer_sign: @customer_sign, document: doc.id,doc_name: @document.name) , doc: doc, customer: @estimate.customer ,subject: params[:subject], emails: emails, pdf: @template.render('order' => @order_params,'estimate' => @estimate.attributes, 'measurements' => JSON.parse(@estimate.measurement_areas.to_json), 'products' => JSON.parse(@estimate.product_estimates.to_json), 'customer' => JSON.parse(@estimate.customer.to_json), 'custom' => @params   )).send_document.deliver_now #, 'signature' => JSON.parse(@estimate.signatures.last.to_json)
+          DocumentMailer.with( link: "#{Setting.url}#{doc_signature_mail_orders_path(customer_sign: @customer_sign, document: doc.id,doc_name: @document.name)}" , doc: doc, customer: @estimate.customer ,subject: params[:subject], emails: emails, pdf: @template.render('order' => @order_params,'estimate' => @estimate.attributes, 'measurements' => JSON.parse(@estimate.measurement_areas.to_json), 'products' => JSON.parse(@estimate.product_estimates.to_json), 'customer' => JSON.parse(@estimate.customer.to_json), 'custom' => @params   )).send_document.deliver_now #, 'signature' => JSON.parse(@estimate.signatures.last.to_json)
         #rescue
           puts "Enviando erro"
         #end

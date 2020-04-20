@@ -42,7 +42,7 @@ class Transaction < ApplicationRecord
 
   extend Enumerize
 
-  enumerize :payment_method, in: [:cash, :square_credit, :square_installments], predicates: true
+  enumerize :payment_method, in: [:cash, :square_credit, :square_installments, :check], predicates: true
   enumerize :status, in: [:paid, :pendent],predicates: true, default: :pendent
 
   #validates :category, :effective, :value, presence: true

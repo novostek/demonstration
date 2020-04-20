@@ -95,7 +95,7 @@ class ProductPurchasesController < ApplicationController
   def update
     if @product_purchase.update(product_purchase_params)
       redirect = params[:redirect] || params[:product_purchase][:redirect]
-      redirect_to redirect, notice: 'Product purchase foi atualizado com sucesso.'
+      redirect_to redirect, notice: t('notice.product_purchase.updated')
     else
       render :edit
     end
@@ -104,7 +104,7 @@ class ProductPurchasesController < ApplicationController
   # DELETE /product_purchases/1
   def destroy
     @product_purchase.destroy
-    redirect_to params[:redirect], notice: 'Product purchase was successfully destroyed'
+    redirect_to params[:redirect], notice: t('notice.product_purchase.deleted')
   end
 
   private

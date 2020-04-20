@@ -14,9 +14,9 @@ class TransactionsController < ApplicationController
     checkout_status, checkout_data = @transaction.send_square_from_invoice
     if checkout_status
       DocumentMailer.with(transaction: @transaction, link: checkout_data[:checkout][:checkout_page_url] , emails: params[:emails], order: @transaction.order).send_square.deliver_later
-      redirect_to invoice_order_path(@transaction.order), notice: "Mail sent"
+      redirect_to invoice_order_path(@transaction.order), notice: t('notice.transaction.mail_sent')
     else
-      redirect_to invoice_order_path(@transaction.order), notice: "Error"
+      redirect_to invoice_order_path(@transaction.order), notice: t('notice.transaction.error')
     end
 
   end
@@ -50,7 +50,7 @@ class TransactionsController < ApplicationController
     @transaction = Transaction.new(transaction_params)
 
     if @transaction.save
-      redirect_to @transaction, notice: 'Transaction foi criado com sucesso'
+      redirect_to @transaction, notice: t('notice.transaction.created')
     else
       render :new
     end
@@ -59,7 +59,7 @@ class TransactionsController < ApplicationController
   # PATCH/PUT /transactions/1
   def update
     if @transaction.update(transaction_params)
-      redirect_to @transaction, notice: 'Transaction foi atualizado com sucesso.'
+      redirect_to @transaction, notice: t('notice.transaction.updated')
     else
       render :edit
     end
@@ -68,14 +68,14 @@ class TransactionsController < ApplicationController
   # DELETE /transactions/1
   def destroy
     @transaction.destroy
-    redirect_to transactions_url, notice: 'Transaction foi apagado com sucesso.'
+    redirect_to transactions_url, notice: t('notice.transaction.deleted')
   end
 
   def paid
     if @transaction.mark_as_paid
       render js: "location.reload();"
     else
-      render js: "swal('Error', 'Something went wrong, try again later', 'error')"
+      render js: "swal('Error', #{t('notice.transaction.swal_error')}, 'error')"
     end
 
   end

@@ -6,3 +6,8 @@ en:
       supplier:
         name: "Name"
         description: "Description"
+  notice:
+    supplier:
+      created: "Supplier was successfully created."
+      updated: "Supplier was sucessfully updated."
+      deleted: "Supplier was sucessfully deleted."

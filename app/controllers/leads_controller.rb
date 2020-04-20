@@ -22,6 +22,7 @@ class LeadsController < ApplicationController
 
   # GET /leads/1/edit
   def edit
+    @customer = Customer.new
   end
 
   # POST /leads
@@ -34,7 +35,7 @@ class LeadsController < ApplicationController
         @lead.save
         redirect_to step_one_estimates_path(@lead.id)
       else
-        redirect_to @lead, notice: 'Lead was successfully created.'
+        redirect_to @lead, notice: t('notice.lead.created')
       end
     else
       render :new
@@ -44,7 +45,7 @@ class LeadsController < ApplicationController
   # PATCH/PUT /leads/1
   def update
     if @lead.update(lead_params)
-      redirect_to @lead, notice: 'Lead was successfully updated.'
+      redirect_to @lead, notice: t('notice.lead.updated')
     else
       render :edit
     end
@@ -53,7 +54,7 @@ class LeadsController < ApplicationController
   # DELETE /leads/1
   def destroy
     @lead.destroy
-    redirect_to leads_url, notice: 'Lead was successfully deleted.'
+    redirect_to leads_url, notice: t('notice.lead.deleted')
   end
 
   private
@@ -64,6 +65,6 @@ class LeadsController < ApplicationController
 
     # Only allow a trusted parameter "white list" through.
     def lead_params
-      params.require(:lead).permit(:customer_id, :via, :description, :status, :date, :phone)
+      params.require(:lead).permit(:customer_id, :via, :description, :status, :date, :phone, :email)
     end
 end

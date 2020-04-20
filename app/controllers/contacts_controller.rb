@@ -26,7 +26,7 @@ class ContactsController < ApplicationController
     @contact = Contact.new(contact_params)
 
     if @contact.save
-      redirect_to @contact, notice: 'Contact was successfully created.'
+      redirect_to @contact, notice: t('notice.contact.created')
     else
       render :new
     end
@@ -40,7 +40,7 @@ class ContactsController < ApplicationController
     @contact.data = params[:contact][:data]
     #binding.pry
     if @contact.save
-      redirect_to "/#{@contact.origin.pluralize.downcase}/#{@contact.origin_id}", notice: 'Contact was successfully updated.'
+      redirect_to "/#{@contact.origin.pluralize.downcase}/#{@contact.origin_id}", notice: t('notice.contact.updated')
     else
       render :edit
     end
@@ -49,7 +49,7 @@ class ContactsController < ApplicationController
   # DELETE /contacts/1
   def destroy
     @contact.destroy
-    redirect_to "/#{@contact.origin.pluralize.downcase}/#{@contact.origin_id}", notice: 'Contact was successfully deleted.'
+    redirect_to "/#{@contact.origin.pluralize.downcase}/#{@contact.origin_id}", notice: t('notice.contact.deleted')
   end
 
   private

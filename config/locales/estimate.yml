@@ -24,3 +24,13 @@ en:
         cancelled: "Cancelled"
   sign: "Sign"
   measurements: "Measurements"
+  notice:
+    estimate:
+      created: "Estimate was successfully created."
+      updated: "Estimate was sucessfully updated."
+      deleted: "Estimate was sucessfully deleted."
+      cloned: "Estimate was sucessfully cloned."
+      clone_error: "There was an error while trying to duplicate the estimate. Please try again."
+      already_ordered: "Estimate already ordered"
+      mail_sent: "Mail Sent"
+      inform_all_fields: "All fields must be filled"

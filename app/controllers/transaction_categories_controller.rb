@@ -26,7 +26,7 @@ class TransactionCategoriesController < ApplicationController
     @transaction_category = TransactionCategory.new(transaction_category_params)
 
     if @transaction_category.save
-      redirect_to @transaction_category, notice: 'Transaction category foi criado com sucesso'
+      redirect_to @transaction_category, notice: t('notice.transaction_category.created')
     else
       render :new
     end
@@ -35,7 +35,7 @@ class TransactionCategoriesController < ApplicationController
   # PATCH/PUT /transaction_categories/1
   def update
     if @transaction_category.update(transaction_category_params)
-      redirect_to @transaction_category, notice: 'Transaction category foi atualizado com sucesso.'
+      redirect_to @transaction_category, notice: t('notice.transaction_category.updated')
     else
       render :edit
     end
@@ -44,7 +44,7 @@ class TransactionCategoriesController < ApplicationController
   # DELETE /transaction_categories/1
   def destroy
     @transaction_category.destroy
-    redirect_to transaction_categories_url, notice: 'Transaction category foi apagado com sucesso.'
+    redirect_to transaction_categories_url, notice: t('notice.transaction_category.deleted')
   end
 
   private

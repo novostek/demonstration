@@ -51,7 +51,7 @@ class ProductsController < ApplicationController
         end
       end
       if @product.update(product_params)
-        redirect_to @product, notice: 'Product was succesfully created.'
+        redirect_to @product, notice: t('notice.product.created')
       else
         render :new
       end
@@ -68,7 +68,7 @@ class ProductsController < ApplicationController
       end
     end
     if @product.update(product_params)
-      redirect_to @product, notice: 'Product was succesfully updated.'
+      redirect_to @product, notice: t('notice.product.updated')
     else
       render :edit
     end
@@ -77,7 +77,7 @@ class ProductsController < ApplicationController
   # DELETE /products/1
   def destroy
     @product.destroy
-    redirect_to products_url, notice: 'Product was succesfully deleted.'
+    redirect_to products_url, notice: t('notice.product.deleted')
   end
 
   private

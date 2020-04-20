@@ -12,3 +12,8 @@ en:
         position: "Position"
   menu_pai: "Father Menu"
   profiles: "Profiles"
+  notice:
+    menu:
+      created: "Menu was successfully created."
+      updated: "Menu was sucessfully updated."
+      deleted: "Menu was sucessfully deleted."

@@ -101,7 +101,7 @@ class EstimatesController < ApplicationController
   def send_mail
 
     if !params[:template].present? or !params[:subject].present? or !params[:emails].present?
-      redirect_to "/estimates/#{@estimate.id}/view", notice: "Inform all fields"
+      redirect_to "/estimates/#{@estimate.id}/view", notice: t('notice.estimate.inform_all_fields')
 
     else
 
@@ -112,7 +112,7 @@ class EstimatesController < ApplicationController
       end
 
       SendGridMail.send_mail(params[:template],[@estimate,@estimate.customer],params[:subject],params[:emails])
-      redirect_to "/estimates/#{@estimate.id}/view", notice: "Mail Sent"
+      redirect_to "/estimates/#{@estimate.id}/view", notice: t('notice.estimate.mail_sent')
     end
   end
 
@@ -124,7 +124,7 @@ class EstimatesController < ApplicationController
   # GET /estimates/1/edit
   def edit
     if @estimate.ordered?
-      redirect_to "/estimates/#{@estimate.id}/view", notice: "Estimate already ordered"
+      redirect_to "/estimates/#{@estimate.id}/view", notice: t('notice.estimate.already_ordered')
     end
   end
 
@@ -182,16 +182,16 @@ class EstimatesController < ApplicationController
          end
       end
 
-      redirect_to products_estimate_path( new_estimate.id), notice: "Estimate cloned successfully."
+      redirect_to products_estimate_path( new_estimate.id), notice: t('notice.estimate.cloned')
     rescue StandardError => e
-      redirect_back(fallback_location: root_path, notice: "There was an error while trying to duplicate the estimate. Please try again.")
+      redirect_back(fallback_location: root_path, notice: t('notice.estimate.clone_error'))
     end
   end
 
   def step_one
     @estimate = Estimate.find_or_initialize_by(lead_id: params[:lead_id])
     if @estimate.ordered?
-      redirect_to "/estimates/#{@estimate.id}/view", notice: "Estimate already ordered"
+      redirect_to "/estimates/#{@estimate.id}/view", notice: t('notice.estimate.already_ordered')
       return
     end
 

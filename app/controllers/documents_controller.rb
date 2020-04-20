@@ -169,7 +169,7 @@ class DocumentsController < ApplicationController
     @document = Document.new(document_params)
 
     if @document.save
-      redirect_to @document, notice: 'Document foi criado com sucesso'
+      redirect_to @document, notice: t('notice.document.created')
     else
       render :new
     end
@@ -178,7 +178,7 @@ class DocumentsController < ApplicationController
   # PATCH/PUT /documents/1
   def update
     if @document.update(document_params)
-      redirect_to @document, notice: 'Document foi atualizado com sucesso.'
+      redirect_to @document, notice: t('notice.document.updated')
     else
       render :edit
     end
@@ -187,7 +187,7 @@ class DocumentsController < ApplicationController
   # DELETE /documents/1
   def destroy
     @document.destroy
-    redirect_to documents_url, notice: 'Document foi apagado com sucesso.'
+    redirect_to documents_url, notice: t('notice.document.deleted')
   end
 
   private

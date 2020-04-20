@@ -16,4 +16,12 @@ en:
         supplier_id: "Supplier"
         calculation_formula_id: "Calculation Formula"
         photo: "Photo"
-
+  notice:
+    product:
+      created: "Product was successfully created."
+      updated: "Product was sucessfully updated."
+      deleted: "Product was sucessfully deleted."
+    product_category:
+      created: "Product category was successfully created."
+      updated: "Product category was sucessfully updated."
+      deleted: "Product category was sucessfully deleted."

@@ -13,3 +13,8 @@ en:
         worker_id: "Worker"
 
   change_password: "Change Password"
+  notice:
+    user:
+      created: "User was successfully created."
+      updated: "User was sucessfully updated."
+      deleted: "User was sucessfully deleted."

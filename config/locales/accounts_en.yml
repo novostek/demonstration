@@ -27,3 +27,10 @@ en:
   credit: "Credit"
   accounts: "Accounts"
   balance: "Balance"
+  notice:
+    account:
+      created: "Account was successfully created."
+      updated: "Account was sucessfully updated."
+      deleted: "Account was sucessfully deleted."
+    entry:
+      created: "Entry was successfully created."

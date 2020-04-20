@@ -13,3 +13,8 @@ en:
       status:
         paid: "Paid"
         pendent: "Pendent"
+  notice:
+    labor_cost:
+      created: "Labor cost was successfully created."
+      updated: "Labor cost was sucessfully updated."
+      deleted: "Labor cost was sucessfully deleted."

@@ -9,4 +9,8 @@ en:
         color: "Color"
         description: "Description"
         namespace: "NameSpace"
-
+  notice:
+    transaction_account:
+      created: "Transaction account was successfully created."
+      updated: "Transaction account was sucessfully updated."
+      deleted: "Transaction account was sucessfully deleted."

@@ -26,7 +26,7 @@ class ProductCategoriesController < ApplicationController
     @product_category = ProductCategory.new(product_category_params)
 
     if @product_category.save
-      redirect_to @product_category, notice: 'Product category foi criado com sucesso'
+      redirect_to @product_category, notice: t('notice.product_category.created')
     else
       render :new
     end
@@ -35,7 +35,7 @@ class ProductCategoriesController < ApplicationController
   # PATCH/PUT /product_categories/1
   def update
     if @product_category.update(product_category_params)
-      redirect_to @product_category, notice: 'Product category foi atualizado com sucesso.'
+      redirect_to @product_category, notice: t('notice.product_category.updated')
     else
       render :edit
     end
@@ -44,7 +44,7 @@ class ProductCategoriesController < ApplicationController
   # DELETE /product_categories/1
   def destroy
     @product_category.destroy
-    redirect_to product_categories_url, notice: 'Product category foi apagado com sucesso.'
+    redirect_to product_categories_url, notice: t('notice.product_category.deleted')
   end
 
   private

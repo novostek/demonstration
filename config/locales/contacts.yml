@@ -26,3 +26,8 @@ en:
     email: "Email"
     ddd: "DDD"
     phone: "Phone"
+  notice:
+    contact:
+      created: "Contact was successfully created."
+      updated: "Contact was sucessfully updated."
+      deleted: "Contact was sucessfully deleted."

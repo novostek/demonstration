@@ -23,3 +23,11 @@ en:
         pendent: "Pendent"
   Estimate: "Estimate"
   Order: "Order"
+  notice:
+    transaction:
+      created: "Transaction was successfully created."
+      updated: "Transaction was sucessfully updated."
+      deleted: "Transaction was sucessfully deleted."
+      mail_sent: "Mail sent"
+      error: "Error"
+      swal_error: "Something went wrong, try again later."

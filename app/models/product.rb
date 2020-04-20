@@ -16,7 +16,7 @@
 #  updated_at             :datetime         not null
 #  calculation_formula_id :bigint           not null
 #  product_category_id    :bigint           not null
-#  supplier_id            :bigint           not null
+#  supplier_id            :bigint
 #
 # Indexes
 #

@@ -1,0 +1,9 @@
+en:
+  activerecord:
+    models:
+      setting: "Setting"
+  notice:
+    setting:
+      created: "Setting was successfully created."
+      updated: "Setting was sucessfully updated."
+      deleted: "Setting was sucessfully deleted."

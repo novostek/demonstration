@@ -26,7 +26,7 @@ class CalculationFormulasController < ApplicationController
     @calculation_formula = CalculationFormula.new(calculation_formula_params)
 
     if @calculation_formula.save
-      redirect_to @calculation_formula, notice: 'Calculation was successfully created.'
+      redirect_to @calculation_formula, notice: t('notice.calculation_formula.created')
     else
       render :new
     end
@@ -35,7 +35,7 @@ class CalculationFormulasController < ApplicationController
   # PATCH/PUT /calculation_formulas/1
   def update
     if @calculation_formula.update(calculation_formula_params)
-      redirect_to @calculation_formula, notice: 'Calculation formula was successfully updated.'
+      redirect_to @calculation_formula, notice: t('notice.calculation_formula.updated')
     else
       render :edit
     end
@@ -44,7 +44,7 @@ class CalculationFormulasController < ApplicationController
   # DELETE /calculation_formulas/1
   def destroy
     @calculation_formula.destroy
-    redirect_to calculation_formulas_url, notice: 'Calculation formula was successfully deleted.'
+    redirect_to calculation_formulas_url, notice: t('notice.calculation_formula.deleted')
   end
 
   def calculate_product_qty_lw

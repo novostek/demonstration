@@ -38,4 +38,12 @@ class Setting < ApplicationRecord
     end
     "/woffice.svg"
   end
+
+  def self.url
+    s = Setting.find_by_namespace('url_app')
+    if s.present?
+      return s.value['value']
+    end
+    "http://woffice.app"
+  end
 end

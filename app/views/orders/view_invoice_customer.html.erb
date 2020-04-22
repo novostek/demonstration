@@ -44,7 +44,39 @@
           </div>
         </div>
       </div>
+
       <div class="divider mb-3 mt-3"></div>
+      <p><b>Products/Services:</b></p>
+        <div class="row">
+          <div class="col s12">
+            <table class="striped responsive-table">
+              <thead>
+              <tr>
+                <th>Product</th>
+                <th>Qty</th>
+                <th>Unit Price</th>
+                <th>Discount</th>
+                <th class="right-align">Subtotal</th>
+              </tr>
+              </thead>
+              <tbody>
+              <% @order.current_estimate.product_estimates.each do |pe| %>
+                <tr>
+                  <td><%= pe.product.present? ? pe.product.name : pe.custom_title %></td>
+                  <td><%= pe.quantity %></td>
+                  <td><%= pe.unitary_value %></td>
+                  <td><%= pe.discount %></td>
+                  <td class=" right-align">$<%= pe.value %></td>
+                </tr>
+              <% end %>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+      <div class="divider mb-3 mt-3"></div>
+      <p><b>Payments:</b></p>
+
       <!-- Procuts and area -->
       <div class="row">
         <div class="col s12">
@@ -69,7 +101,7 @@
                     <div class="chip green lighten-5 green-text"><%= t.status_text %></div>
                   <% else %>
                     <%= link_to send_square_transaction_path(t) do %>
-                      <div class="chip blue"> Pay This</div>
+                      <div class="chip blue white-text"> Pay This</div>
                     <% end %>
                   <% end  %>
                 </td>

@@ -126,6 +126,7 @@ class OrdersController < ApplicationController
         doc.title = @document.name
         doc.origin = "Order"
         doc.origin_id = @order.id
+        doc.description = "Deliver"
 
         #cria a imagem temporária da assinatura
         temp = Signature.base64_to_file(params[:signature][:file])

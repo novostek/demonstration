@@ -111,3 +111,12 @@
     </div>
   </div>
 </div>
+
+<%= content_for :scripts do %>
+  <script type="text/javascript" charset="utf-8">
+      $(document).ready(function () {
+          window.print();
+          setTimeout(window.close, 0);
+      });
+  </script>
+<% end if params[:print] %>

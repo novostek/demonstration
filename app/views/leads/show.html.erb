@@ -47,11 +47,25 @@
 									</div>
 								</div>
 								<div class="row">
-									<div class="col s12">
+									<div class="col s12 m4">
 										<h6>Description</h6>
 										<span><%= @lead.description %></span>
 									</div>
-								</div>	
+									<div class="col s12 m4">
+										<h6>Phone</h6>
+										<span><%= @lead.customer.get_main_phone.data['phone'] %></span>
+									</div>
+									<div class="col s12 m4">
+										<h6>Email</h6>
+										<span><%= @lead.email %></span>
+									</div>
+								</div>
+								<div class="row">
+									<div class="col s12">
+										<h6>Customer address</h6>
+										<span><%= @lead.customer.get_main_address.present? ? @lead.customer.get_main_address.data['address'] : '' %></span>
+									</div>
+								</div>
 							</div>
 						</div>
 
@@ -61,7 +75,9 @@
 									<tbody>
 										<tr>
 											<td>Customer:</td>
-											<td><a href="customer-view.html"><%= @lead.customer %></a></td>
+											<td>
+												<%= link_to @lead.customer, customer_path(@lead.customer) %>
+											</td>
 										</tr>
 										<tr>
 											<td>Document:</td>

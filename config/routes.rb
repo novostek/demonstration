@@ -104,6 +104,8 @@ Rails.application.routes.draw do
   end
   resources :orders do
     member do
+      get "new_labor_cost"
+      get "new_cost"
       get "order_photos"
       get "create_doc_for_signature"
       get "deliver_products"

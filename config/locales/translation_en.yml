@@ -50,6 +50,8 @@ en:
   documents: "Documents"
   contacts: "Contact"
   see_all: "See All"
+  cost_saved: "Cost Saved"
+  check_dates: "Check dates"
 
   errors:
     # format to use in full error messages.

@@ -272,9 +272,80 @@
 
               <% end %>
             </div>
+            <a href="#modal_new_product" class="invoice-action-view modal-trigger btn" target="_self"  >
+              <i class="material-icons">description</i> <%= t 'button.new' %> <%= t('activerecord.models.product') %>
+            </a>
           </div>
         </div>
       </div>
+    </div>
+
+
+    <div id="modal_new_product" class="modal modal-fixed-footer">
+      <%= form_with url: new_cost_order_path(@order), method: :get, local: true do |f| %>
+        <%= f.hidden_field :redirect, value: costs_order_path(@order) %>
+        <div class="modal-content">
+          <h4><%= t "button.edit" %> <%= t "activerecord.models.product_purchase" %></h4>
+          <div class="row">
+            <div class="input-field">
+              <%= f.select :product, @products, {prompt: true},{id:"product_select"} %>
+              <%= f.label :product %>
+            </div>
+            <div class="input-field">
+              <%= f.label :custom_product %>
+              <%= f.text_field :custom_product %>
+            </div>
+            <div class="input-field">
+              <%= f.label :quantity %>
+              <%= f.number_field :quantity, step: :any, id:"quantidade", onblur:"calcula_total()" %>
+            </div>
+            <div class="input-field" id="div_unity_value">
+              <%= f.label :unity_value %>
+              <%= f.number_field :unity_value, step: :any, id:"valor_unitario",onblur:"calcula_total()" %>
+            </div>
+            <div class="input-field" id="div_value">
+              <%= f.label :value %>
+              <%= f.number_field :value, step: :any, id:"valor" %>
+            </div>
+            <div class="input">
+              <p>
+                <label>
+                  <%= f.radio_button :status, "requested"  %>
+                  <span>Requested</span>
+                </label>
+              </p>
+              <p>
+                <label>
+                  <%= f.radio_button :status, "buyed" %>
+                  <span>Buyed</span>
+                </label>
+              </p>
+              <p>
+                <label>
+                  <%= f.radio_button :status, "delivered" %>
+                  <span>Delivered</span>
+                </label>
+              </p>
+              <p>
+                <label>
+                  <%= f.radio_button :status, "returned" %>
+                  <span>Returned</span>
+                </label>
+              </p>
+
+
+              <%#= f.label :status %>
+              <%#= f.select :status, options_for_select(LaborCost.status.options, labor.status),{},{} %>
+            </div>
+          </div>
+
+        </div>
+        <div class="modal-footer">
+          <%= f.button :submit, class:"modal-action modal-close waves-effect waves-green btn-flat" do %>
+            <i class="material-icons left">save</i><%= t "button.save" %>
+          <% end %>
+        </div>
+      <% end  %>
     </div>
 
     <div class="row">
@@ -464,7 +535,11 @@
                       </table>
                     </div>
                   </div>
+
                 </div>
+              <a href="#modal_new_labor" class="invoice-action-view modal-trigger btn" target="_self" >
+                <i class="material-icons">description</i> <%= t 'button.new' %> <%= t('activerecord.models.labor_cost') %>
+              </a>
             </div>
           </div>
         </div>
@@ -476,9 +551,77 @@
 </div>
 </div>
 
+<div id="modal_new_labor" class="modal modal-fixed-footer">
+  <%= form_with  url: new_labor_cost_order_path(@order), method: :get, local: true do |f| %>
+    <%= f.hidden_field :redirect, value: costs_order_path(@order) %>
+    <div class="modal-content">
+      <h4><%= t 'button.new' %> <%= t('activerecord.models.labor_cost') %></h4>
+      <div class="row">
+        <div class="input-field">
+
+          <%= f.select :worker_id, @workers %>
+          <%= f.label :worker_id %>
+        </div>
+        <div class="input ">
+          <%= f.label :start_at  %>
+          <%= f.datetime_field :start_at, required: true %>
+
+        </div>
+        <div class="input ">
+          <%= f.label :end_at  %>
+          <%= f.datetime_field :end_at, required: true %>
+
+        </div>
+        <div class="input-field">
+          <%= f.label :hour_cost %>
+          <%= f.number_field :hour_cost, step: :any, required: true %>
+        </div>
+<!--        <div class="input">-->
+<!--          <p>-->
+<!--            <label>-->
+              <%#= f.radio_button :status, "paid" %>
+<!--              <span>Paid</span>-->
+<!--            </label>-->
+<!--          </p>-->
+<!--          <p>-->
+<!--            <label>-->
+              <%#= f.radio_button :status, "pendent" %>
+<!--              <span>Pendent</span>-->
+<!--            </label>-->
+<!--          </p>-->
+<!--        </div>-->
+      </div>
+
+    </div>
+    <div class="modal-footer">
+      <%= f.button :submit, class:"modal-action modal-close waves-effect waves-green btn-flat" do %>
+        <i class="material-icons left">save</i><%= t "button.save" %>
+      <% end %>
+    </div>
+  <% end  %>
+</div>
+
 
 <%= content_for :scripts do %>
   <script type="text/javascript" charset="utf-8">
+
+      $("#product_select").on("change", () => {
+          if($("#product_select").val())
+          {
+              $("#div_unity_value").addClass("hide");
+              $("#div_value").addClass("hide");
+          }else {
+              $("#div_unity_value").removeClass("hide");
+              $("#div_value").removeClass("hide");
+          }
+
+      });
+
+      function calcula_total()
+      {
+          total = $("#quantidade").val() * $("#valor_unitario").val();
+          $("#valor").val(total);
+      }
 
       function materialselect(){
           $("select").formSelect();

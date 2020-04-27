@@ -186,6 +186,7 @@ Rails.application.routes.draw do
   resources :settings do
     collection do
       get "email"
+      get "company_logo"
       get "estimate"
       post "atualiza_settings"
     end

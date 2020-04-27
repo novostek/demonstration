@@ -78,6 +78,11 @@ class SettingsController < ApplicationController
     redirect_to settings_url, notice: t('notice.setting.deleted')
   end
 
+  #Render Company Logo
+  def company_logo
+    redirect_to Setting.logo
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_setting

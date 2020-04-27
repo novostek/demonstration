@@ -65,10 +65,11 @@ class LaborCostsController < ApplicationController
 
   # POST /labor_costs
   def create
-    @labor_cost = LaborCost.new(labor_cost_params)
 
+    @labor_cost = LaborCost.new(labor_cost_params)
+    binding.pry
     if @labor_cost.save
-      redirect_to @labor_cost, notice: t('notice.labor_cost.created')
+      redirect_to params[:labor_cost][:redirect], notice: t('notice.labor_cost.created')
     else
       render :new
     end

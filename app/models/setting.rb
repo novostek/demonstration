@@ -32,9 +32,9 @@ class Setting < ApplicationRecord
   end
 
   def self.logo
-    s = Setting.find_by_namespace('logo')
-    if s.present?
-      return s.value['value']
+    d = DocumentFile.where(origin: "Logo", origin_id: 1).first
+    if d.present?
+      return d.file.url
     end
     "/woffice.svg"
   end

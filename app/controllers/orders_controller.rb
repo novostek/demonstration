@@ -1,5 +1,5 @@
 class OrdersController < ApplicationController
-  before_action :set_order, only: [:order_photos,:create_doc_for_signature,:deliver_products_sign,:deliver_products,:send_sign_mail,:finish,:finish_order_signature,:finish_order,
+  before_action :set_order, only: [:new_labor_cost,:new_cost,:order_photos,:create_doc_for_signature,:deliver_products_sign,:deliver_products,:send_sign_mail,:finish,:finish_order_signature,:finish_order,
                                    :show, :edit, :update,
                                    :destroy, :schedule, :create_schedule,
                                    :payments, :transaction, :product_purchase, :new_note,:new_document,:new_contact, :invoice,:invoice_add_payment,:send_invoice_mail,:view_invoice_customer,:costs,:change_order]
@@ -7,6 +7,55 @@ class OrdersController < ApplicationController
   #load_and_authorize_resource  except: [:deliver_products_sign,:doc_signature_mail,:doc_signature, :create_schedule, :delete_schedule, :view_invoice_customer]
 
   def order_photos
+
+  end
+
+  #Método utilizado para salvar um novo product purchase pela view de cost
+  def new_cost
+    if params[:product].present?
+      product = Product.find(params[:product])
+      purchase = Purchase.find_or_create_by(order_id: @order.id, supplier_id: product.supplier.id)
+      pp = ProductPurchase.new(product: product, purchase: purchase) #find_or_create_by
+      pp.unity_value =  product.cost_price
+      #binding.pry
+      begin
+        pp.quantity = pp.quantity + params[:quantity]
+      rescue
+        pp.quantity =  params[:quantity]
+      end
+
+      pp.value = pp.unity_value * pp.quantity
+      pp.custom_title = ""
+      pp.tax = false
+      pp.status = params[:status]
+      pp.save
+    else
+      purchase = Purchase.find_or_create_by(order_id: @order.id, supplier_id: nil)
+      ProductPurchase.create(purchase: purchase, unity_value: params[:unity_value], quantity: params[:quantity], value: params[:value], custom_title: params[:custom_product],status: params[:status])
+    end
+    redirect_to params[:redirect], notice: t(:cost_saved)
+  end
+  #Método utilizado para salvar um novo labor cost pela view de cost
+  def new_labor_cost
+
+    if params[:end_at].to_datetime < params[:start_at].to_datetime
+      redirect_to params[:redirect], notice: t(:check_dates)
+    else
+      schedule = Schedule.new
+      schedule.origin = "Order"
+      schedule.origin_id = @order.id
+      schedule.start_at = params[:start_at]
+      schedule.end_at = params[:end_at]
+      schedule.hour_cost = params[:hour_cost]
+      schedule.worker_id = params[:worker_id]
+      if schedule.save
+        redirect_to params[:redirect], notice: t(:cost_saved)
+      else
+        redirect_to params[:redirect], alert: schedule.errors.full_messages.to_sentence
+      end
+
+    end
+
 
   end
 
@@ -126,6 +175,7 @@ class OrdersController < ApplicationController
         doc.title = @document.name
         doc.origin = "Order"
         doc.origin_id = @order.id
+        doc.description = "Deliver"
 
         #cria a imagem temporária da assinatura
         temp = Signature.base64_to_file(params[:signature][:file])
@@ -292,6 +342,8 @@ class OrdersController < ApplicationController
   end
 
   def costs
+    @products = Product.to_select
+    @workers = Worker.to_select
     @purchases = @order.purchases
     @labor_costs = @order.labor_costs.order(date: :asc)
   end

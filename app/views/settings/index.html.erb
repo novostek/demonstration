@@ -51,7 +51,7 @@
                 <div class="row">
                   <div class="col s12 m4 company_logo">
 <!--                    <img src="https://i.ibb.co/sVQ03Sk/Whats-App-Image-2020-04-02-at-12-51-26.jpg" alt="Company logo">-->
-                    <img src="<%= DocumentFile.where(origin: "Logo", origin_id: 1).first.present? ? DocumentFile.where(origin: "Logo", origin_id: 1).first.file.url : "/woffice.png"  %>" alt="Company logo">
+                    <img src="<%= Setting.logo %>" alt="Company logo">
                   </div>
                   <div class="file-field input-field col s12 l8">
                     <div class="btn">

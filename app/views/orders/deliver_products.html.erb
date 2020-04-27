@@ -59,6 +59,10 @@
               <div class="col s12 mt-1">
                 <span><%= @order.get_current_estimate.description %></span>
               </div>
+              <br>
+              <div class="col s12">
+                <a class="sidenav-trigger btn" href="#" data-target="slide-out-right">Documents</a>
+              </div>
 
 
             </div>
@@ -74,50 +78,52 @@
           <div class="card-panel">
             <div class="row">
               <%= form_with url: deliver_products_sign_order_path(@order), local: true do |f| %>
+                <%# binding.pry %>
               <% @purchases.each do |purchase| %>
-                <div class="card">
+                  <% if purchase.product_purchases.where.not(status: :delivered, tax: true).size > 0 %>
+                    <div class="card">
 
-                  <div class="card-content">
-                      <span class="card-title">
-                        <div class="row">
-                          <div class="col s12 l10">
-                            <%= purchase.supplier || "No Supplier" %>
-                          </div>
-                          <div class="col s12 l2">
-                            <%#= number_to_currency(purchase.product_purchases.sum(:value)) %>
-                          </div>
+                      <div class="card-content">
+                          <span class="card-title">
+                            <div class="row">
+                              <div class="col s12 l10">
+                                <%= purchase.supplier || "No Supplier" %>
+                              </div>
+                              <div class="col s12 l2">
+                                <%#= number_to_currency(purchase.product_purchases.sum(:value)) %>
+                              </div>
+                            </div>
+                          </span>
+                        <div class="responsive-table">
+                          <style>td{padding: 15px}</style>
+
+                          <table class="table invoice-data-table white border-radius-4 pt-1">
+                            <thead>
+                            <tr>
+                              <th>#</th>
+                              <th><%= t('activerecord.attributes.product_purchase.product_id') %></th>
+                              <th><%= t('activerecord.attributes.product_purchase.quantity') %></th>
+                              <th><%= t('activerecord.attributes.product_purchase.status')%></th>
+
+                              <th></th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <% purchase.product_purchases.where.not(status: :delivered, tax: true).each do |p| %>
+                              <tr>
+                                <td><label><%= check_box_tag "ids[]", p.id ,false%><span></span></label></td>
+                                <td><%= p.product || p.custom_title %></td>
+                                <td><%= p.quantity %></td>
+                                <td><%= p.status_text %></td> <!-- <%#= select_tag :status, options_for_select(ProductPurchase.status.options, p.status), {id: "status_#{p.id}",onchange:"change_status(#{p.id})"} %> -->
+                              </tr>
+                            <% end %>
+                            </tbody>
+                          </table>
+
                         </div>
-                      </span>
-                    <div class="responsive-table">
-                      <style>td{padding: 15px}</style>
-
-                      <table class="table invoice-data-table white border-radius-4 pt-1">
-                        <thead>
-                        <tr>
-                          <th>#</th>
-                          <th><%= t('activerecord.attributes.product_purchase.product_id') %></th>
-                          <th><%= t('activerecord.attributes.product_purchase.quantity') %></th>
-                          <th><%= t('activerecord.attributes.product_purchase.status')%></th>
-
-                          <th></th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <% purchase.product_purchases.where.not(status: :delivered).each do |p| %>
-                          <tr>
-                            <td><label><%= check_box_tag "ids[]", p.id ,false%><span></span></label></td>
-                            <td><%= p.product || p.custom_title %></td>
-                            <td><%= p.quantity %></td>
-                            <td><%= p.status_text %></td> <!-- <%#= select_tag :status, options_for_select(ProductPurchase.status.options, p.status), {id: "status_#{p.id}",onchange:"change_status(#{p.id})"} %> -->
-                          </tr>
-                        <% end %>
-                        </tbody>
-                      </table>
-
+                      </div>
                     </div>
-                  </div>
-                </div>
-
+                  <% end %>
                 <% end %>
               <div class="card">
                 <div class="finish-order-steps">
@@ -168,6 +174,33 @@
   </div>
 </div>
 </div>
+
+<%= content_for :sidenav do %>
+  <aside id="right-sidebar-nav">
+    <div id="slide-out-right" class="slide-out-right-sidenav sidenav rightside-navigation">
+      <div class="row">
+        <div class="slide-out-right-title">
+          <div class="col s10 pl-3">
+            <h5>Documents</h5>
+          </div>
+          <div class="col s22">
+            <i class="material-icons "><a href="#" target="_self" class="sidenav-close">clear</a></i>
+          </div>
+        </div>
+      </div>
+      <div class="slide-out-right-body row pl-3 pr-3">
+        <% @order.document_files.where(description: "Deliver").each do |doc| %>
+          <%= link_to doc.file.url, target:"_blank" do %>
+            <span class="chip grey lighten-3 green-text truncate"><%= doc.title %></span>
+          <% end if doc.file.present?  %>
+        <% end %>
+
+      </div>
+    </div>
+
+
+  </aside>
+<% end %>
 
 
 <%= content_for :scripts do %>

@@ -114,12 +114,12 @@ Rails.application.configure do
   config.action_mailer.perform_deliveries = true
   config.action_mailer.raise_delivery_errors = false
   config.action_mailer.default :charset => "utf-8"
-  config.action_mailer.default_url_options = { :host => "https://faceofwood.woffice.app" }
+  config.action_mailer.default_url_options = { :host => ENV["smtp_url"] || "https://faceofwood.woffice.app" }
   config.action_mailer.smtp_settings = {
-      :address              => "smtp.gmail.com",
-      :port                 => 587,
-      :user_name            => 'info@faceofwood.net',
-      :password             => 'novostek..',
+      :address              => ENV["smtp_address"] || "smtp.gmail.com",
+      :port                 => ENV["smtp_port"] || 587,
+      :user_name            => ENV["smtp_user"] || 'info@faceofwood.net',
+      :password             => ENV["smtp_password"] || 'novostek..',
       :authentication       => "plain",
       :enable_starttls_auto => true
   }

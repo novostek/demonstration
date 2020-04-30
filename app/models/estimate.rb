@@ -206,4 +206,8 @@ class Estimate < ApplicationRecord
     price || 0
   end
 
+  def sum_square_feet
+    self.measurement_areas.joins(:measurements).select("sum(measurements.square_feet) as total")
+  end
+
 end

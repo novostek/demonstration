@@ -31,8 +31,12 @@ class Setting < ApplicationRecord
     end
   end
 
+  def self.logo_object
+    DocumentFile.where(origin: "Logo", origin_id: 1).first
+  end
+
   def self.logo
-    d = DocumentFile.where(origin: "Logo", origin_id: 1).first
+    d = logo_object
     if d.present?
       return d.file.url
     end

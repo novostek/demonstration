@@ -18,4 +18,5 @@ select[required]{
     size: 35cm 49.5cm;
 }
 #main .content-wrapper-before {
-  height: 230px !important;
+    height: 230px !important;
+}

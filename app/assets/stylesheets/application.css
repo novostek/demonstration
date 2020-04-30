@@ -13,10 +13,6 @@ select[required]{
   border: none;
   top: 0;
 }
-@page {
-    /*size: 29.7cm 42cm; -> that would be a regular A4 page */
-    size: 35cm 49.5cm;
-}
 #main .content-wrapper-before {
     height: 230px !important;
 }

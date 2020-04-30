@@ -101,34 +101,34 @@
                         </thead>
                         <tbody>
                         <% purchase.product_purchases.each do |p| %>
-                          <tr>
-
-                            <td><%= p.product || p.custom_title %></td>
-                            <td><%= p.quantity %></td>
-                            <td><%= p.unity_value %></td>
-                            <td><%= p.value %></td>
-                            <td><%= select_tag :status, options_for_select(ProductPurchase.status.options, p.status), {id: "status_#{p.id}",onchange:"change_status(#{p.id})"} %></td>
-
-                            <td>
-                              <div class="invoice-action right-align">
-                                <a href="#modal_note_<%= p.id %>" class="invoice-action-view mr-4 modal-trigger tooltipped" target="_self" data-position="left" data-tooltip="<%= t 'button.new' %> <%= t('activerecord.models.note') %>">
-                                  <i class="material-icons">note</i>
-                                </a>
-                                <a href="#modal_doc_<%= p.id %>" class="invoice-action-view modal-trigger tooltipped" target="_self" data-position="left" data-tooltip="<%= t 'button.new' %> <%= t('activerecord.models.document') %>" >
-                                  <i class="material-icons">description</i>
-                                </a>
-                                <a class="sidenav-trigger" href="#" data-target="slide-out-right_<%= p.id %>">
-                                  <i class="material-icons">remove_red_eye</i>
-                                </a>
-                                <a class="modal-trigger" href="#modal_edit_<%= p.id %>" >
-                                  <i class="material-icons">edit</i>
-                                </a>
-                                <%= link_to product_purchase_path(p,redirect: costs_order_path(@order)), method: :delete,data: { confirm: "#{t :will_delete}" } ,target:"_self", class: "invoice-action-edit mr-4" do %>
-                                                                    <i class="material-icons">delete</i>
-                                <% end %>
-                              </div>
-                            </td>
-                          </tr>
+                          <% if !p.tax %>
+                            <tr>
+                              <td><%= p.product || p.custom_title %></td>
+                              <td><%= p.quantity %></td>
+                              <td><%= p.unity_value %></td>
+                              <td><%= p.value %></td>
+                              <td><%= select_tag :status, options_for_select(ProductPurchase.status.options, p.status), {id: "status_#{p.id}",onchange:"change_status(#{p.id})"} %></td>
+                              <td>
+                                <div class="invoice-action right-align">
+                                  <a href="#modal_note_<%= p.id %>" class="invoice-action-view mr-4 modal-trigger tooltipped" target="_self" data-position="left" data-tooltip="<%= t 'button.new' %> <%= t('activerecord.models.note') %>">
+                                    <i class="material-icons">note</i>
+                                  </a>
+                                  <a href="#modal_doc_<%= p.id %>" class="invoice-action-view modal-trigger tooltipped" target="_self" data-position="left" data-tooltip="<%= t 'button.new' %> <%= t('activerecord.models.document') %>" >
+                                    <i class="material-icons">description</i>
+                                  </a>
+                                  <a class="sidenav-trigger" href="#" data-target="slide-out-right_<%= p.id %>">
+                                    <i class="material-icons">remove_red_eye</i>
+                                  </a>
+                                  <a class="modal-trigger" href="#modal_edit_<%= p.id %>" >
+                                    <i class="material-icons">edit</i>
+                                  </a>
+                                  <%= link_to product_purchase_path(p,redirect: costs_order_path(@order)), method: :delete,data: { confirm: "#{t :will_delete}" } ,target:"_self", class: "invoice-action-edit mr-4" do %>
+                                                                      <i class="material-icons">delete</i>
+                                  <% end %>
+                                </div>
+                              </td>
+                            </tr>
+                          <% end %>
 
                           <div id="modal_edit_<%= p.id %>" class="modal modal-fixed-footer">
                             <%= form_for  p do |f| %>

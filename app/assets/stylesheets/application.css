@@ -13,7 +13,6 @@ select[required]{
   border: none;
   top: 0;
 }
-
 #main .content-wrapper-before {
-  height: 230px !important;
+    height: 230px !important;
 }

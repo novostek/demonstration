@@ -14,5 +14,27 @@ select[required]{
   top: 0;
 }
 #main .content-wrapper-before {
+<<<<<<< HEAD
     height: 230px !important;
 }
+=======
+  height: 230px !important;
+}
+
+@media only print{
+  .card-panel, .card, .card-content{
+      box-shadow: none !important;
+  }
+  html, body{
+      background-color: #fff !important;
+  }
+  table th{
+      border-top: 0px;
+      color: #333;
+  }
+  table td, table th{
+      border-left: 0px !important;
+      border-right: 0px !important;
+  }
+}
+>>>>>>> 76f7d746dccef3cff3da1dc29c51cfe8afbd3f9e

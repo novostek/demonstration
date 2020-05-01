@@ -2,13 +2,14 @@
   <div class="col s12 m8 offset-m2">
     <div class="card-panel">
       <div class="row mt-3 invoice-logo-title">
-        <div class="col m6 s12 display-flex invoice-logo mt-1 push-m6">
-          <img src="<%= Setting.logo %>" alt="logo" width="164">
-        </div>
-        <div class="col m6 s12 pull-m6">
+        <div class="col m9 s12">
           <h4 class="indigo-text">Invoice</h4>
-          Nº <span>#<%= @order.code %></span> <br>
+          Nº <span>#<%= @order.code %></span>
         </div>
+        <div class="col m3 s12 display-flex invoice-logo mt-1">
+          <img src="<%= Setting.url.gsub('https','http') %>/settings/company_logo" alt="logo" class="responsive-img" style="max-width: 150px !important;">
+        </div>
+
       </div>
       <div class="divider mb-3 mt-3"></div>
       <div class="row invoice-info">

@@ -69,9 +69,9 @@ class SignaturesController < ApplicationController
         #cria o PDF
         #binding.pry
         if @signature.origin == "Estimate" and !params[:signature][:document].present?
-          file = WickedPdf.new.pdf_from_url("#{Setting.url.sub! "https", "http"}/estimates/#{@signature.origin_id}/estimate_signature?view=true")
+          file = WickedPdf.new.pdf_from_url("#{Setting.url.sub! "https", "http"}/estimates/#{@signature.origin_id}/estimate_signature?view=true", {page_size: "A3"})
         else
-          file = WickedPdf.new.pdf_from_url("#{Setting.url.sub! "https", "http"}/orders/doc_signature?document=#{params[:document] || params[:signature][:document]}")
+          file = WickedPdf.new.pdf_from_url("#{Setting.url.sub! "https", "http"}/orders/doc_signature?document=#{params[:document] || params[:signature][:document]}", {page_size: "A3"})
         end
 
         # Write it to tempfile

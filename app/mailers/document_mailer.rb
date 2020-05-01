@@ -5,7 +5,7 @@ class DocumentMailer < ApplicationMailer
     @doc = params[:doc]
     @link = params[:link]
     attachments.inline['logo.png'] = File.read("#{Rails.root}/public/woffice.png")
-    attachments["document.pdf"] = WickedPdf.new.pdf_from_url("#{Setting.url.sub! "https", "http"}/orders/doc_signature?document=#{@doc.id}") #WickedPdf.new.pdf_from_string(params[:pdf])
+    attachments["document.pdf"] = WickedPdf.new.pdf_from_url("#{Setting.url.sub! "https", "http"}/orders/doc_signature?document=#{@doc.id}", {page_size: "A3"}) #WickedPdf.new.pdf_from_string(params[:pdf])
     mail(to: params[:emails], subject: params[:subject])
   end
 

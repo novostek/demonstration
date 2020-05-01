@@ -8,7 +8,7 @@
           <small>Created At <%= @estimate.created_at %></small>
         </div>
         <div class="col m3 s12 display-flex invoice-logo mt-1">
-          <img src="<%= Setting.url.gsub('https','http') %>/settings/company_logo" alt="logo" class="responsive-img">
+          <img src="<%= Setting.url.gsub('https','http') %>/settings/company_logo" alt="logo" class="responsive-img" style="max-width: 150px !important;">
         </div>
 
       </div>
@@ -84,7 +84,6 @@
         <% end %>
         </tbody>
       </table>
-      <div class="divider mb-3 mt-3"></div>
       <p><b>Products/Services:</b></p>
       <% @estimate.measurement_proposals.distinct(:id).each do |mp| %>
         <div class="row">

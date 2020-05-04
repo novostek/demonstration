@@ -190,6 +190,15 @@ class EstimatesController < ApplicationController
 
   def step_one
     @estimate = Estimate.find_or_initialize_by(lead_id: params[:lead_id])
+    if @estimate.new_record?
+      address= @estimate.customer.get_main_address
+      if address.present?
+        @estimate.location = address.data["address"]
+        @estimate.latitude = address.data["lat"]
+        @estimate.longitude = address.data["lng"]
+      end
+      @estimate.description = @estimate.lead.description
+    end
     if @estimate.ordered?
       redirect_to "/estimates/#{@estimate.id}/view", notice: t('notice.estimate.already_ordered')
       return

@@ -77,4 +77,41 @@ class Transaction < ApplicationRecord
     end
   end
 
+  def self.get_finances category_ids
+    where(
+      'extract(year from created_at) = ? AND transaction_account_id IN (?)', 
+      Time.now.year, category_ids
+    ).group('extract(month from created_at)').sum(:value).map { |t| {
+      'month_n': t[0],
+      'month': Date::MONTHNAMES[t[0]],
+      'value': t[1].to_f
+    } }.sort_by { |f| f[:month_n] }
+  end
+
+  def self.get_day_finances category_ids
+    where(
+      'extract(day from created_at) = ? AND transaction_account_id IN (?)', 
+      Time.now.day, category_ids
+    ).sum(:value).to_f
+  end
+
+  def self.get_balance debit_category_ids, credit_category_ids
+    credit = where(
+      'extract(year from created_at) = ? AND transaction_account_id IN (?)', 
+      Time.now.year, credit_category_ids
+    ).group('extract(month from created_at)').sum(:value).map { |t| {
+      'month': Date::MONTHNAMES[t[0]],
+      'value': t[1].to_f
+    } }
+
+    debit = where(
+      'extract(year from created_at) = ? AND transaction_account_id IN (?)', 
+      Time.now.year, debit_category_ids
+    ).group('extract(month from created_at)').sum(:value).map { |t| {
+      'month': Date::MONTHNAMES[t[0]],
+      'value': t[1].to_f
+    } }
+    
+  end
+
 end

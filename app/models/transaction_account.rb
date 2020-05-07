@@ -29,4 +29,8 @@ class TransactionAccount < ApplicationRecord
       self.namespace = self.name.parameterize
     end
   end
+
+  def self.get_category_ids category_like
+    where('namespace ILIKE ?', "%#{category_like}%").map { |t| t[:id] }
+  end
 end

@@ -223,5 +223,7 @@ Rails.application.routes.draw do
   get 'document_prototype/deliver'
   get 'document_prototype/sign'
 
+  get 'finances/dashboard' => 'finances#dashboard', as: :finance_dashboard
+
   root "users#home"
 end

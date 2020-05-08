@@ -1,0 +1,19 @@
+en:
+  activerecord:
+    models:
+      profile: "Profile"
+      profiles: "Profiles"
+    attributes:
+      menu:
+        name: "Name"
+        url: "Url"
+        active: "Active"
+        icon: "Icon"
+        position: "Position"
+  menu_pai: "Father Menu"
+  profiles: "Profiles"
+  notice:
+    profile:
+      created: "Profile was successfully created."
+      updated: "Profile was sucessfully updated."
+      deleted: "Profile was sucessfully deleted."

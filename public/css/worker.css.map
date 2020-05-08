@@ -1,0 +1,7 @@
+{
+"version": 3,
+"mappings": "AACC,qCAAuB,CAItB,UAAU,CAAE,IAAI,CAChB,WAAW,CAAE,GAAG,CAChB,cAAc,CAAE,GAAG,CALnB,2CAAO,CACN,UAAU,CAAE,OAAO,CAKpB,uCAAC,CACA,OAAO,CAAE,KAAK,CACd,OAAO,CAAE,MAAM",
+"sources": ["worker.scss"],
+"names": [],
+"file": "worker.css"
+}

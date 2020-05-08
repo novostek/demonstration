@@ -1,0 +1,25 @@
+en:
+  activerecord:
+    models:
+      worker: "Worker"
+    attributes:
+      worker:
+        name: "Name"
+        photo: "Photo"
+        document_id: "DocumentID"
+        categories: "Category"
+        time_value: "Hour cost"
+  enumerize:
+    worker:
+      categories:
+        employee: "Employee"
+        contractor: "Contractor"
+  note_create: "Note was successfully created"
+  doc_create: "Document was successfully created"
+  contact_create: "Contact was successfully created"
+  contact_update: "Contact was successfully updated"
+  notice:
+    worker:
+      created: "Worker was successfully created."
+      updated: "Worker was sucessfully updated."
+      deleted: "Worker was sucessfully deleted."

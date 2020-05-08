@@ -1,0 +1,17 @@
+<div class="row nested-fields">
+  <div class="col s12">
+  <div class="input-field">
+    <%= f.select :account, Plutus::Account.where.not("type = 'Plutus::Asset' or type = 'Plutus::Expense' ").map{|a| [a.name,a.name]}, {required: true} %>
+    <%= f.label :account %>
+  </div>
+  <div class="input-field">
+
+    <%= f.label :amount %>
+    <%= f.number_field :amount, required: true %>
+
+  </div>
+  <%= link_to_remove_association  f, class: "btn waves-effect waves-light red left white-text" do %>
+    <i class="material-icons left">remove_circle</i> <%= t "button.delete" %>
+  <% end %>
+  </div>
+</div>

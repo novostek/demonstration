@@ -1,0 +1,23 @@
+<table>
+  <thead>
+  <tr>
+    <th><%= t "activerecord.attributes.document_file.title" %></th>
+    <th><%= t "activerecord.attributes.document_file.file" %></th>
+    <th><%= t "activerecord.attributes.document_file.description" %></th>
+
+  </tr>
+  </thead>
+  <tbody>
+  <% document_files.each do |doc| %>
+      <tr>
+        <td><%= doc.title %></td>
+        <td>
+          <%= link_to  doc.file.url, target:"_blank" do  %>
+              <i class="material-icons">remove_red_eye</i>
+          <% end  if doc.file.present? %>
+        </td>
+        <td><%= doc.description.truncate(50) if doc.description.present? %></td>
+      </tr>
+  <% end %>
+  </tbody>
+</table>

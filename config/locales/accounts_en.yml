@@ -1,0 +1,36 @@
+en:
+  activerecord:
+    models:
+      account: "Account"
+      entry: "Entry"
+    attributes:
+      account:
+        name: "Name"
+        since: "Since"
+        document_id: "DocumentID"
+        category: "Category"
+        code: "Code"
+        birthdate: "BirthDate"
+        transaction_category_id: "Category"
+        type: "Type"
+      entry:
+        description: "Description"
+        date: "Date"
+        debits: "Debits"
+        credits: "Credits"
+  enumerize:
+    customer:
+      category:
+        company: "Company"
+        person: "Person"
+  debit: "Debit"
+  credit: "Credit"
+  accounts: "Accounts"
+  balance: "Balance"
+  notice:
+    account:
+      created: "Account was successfully created."
+      updated: "Account was sucessfully updated."
+      deleted: "Account was sucessfully deleted."
+    entry:
+      created: "Entry was successfully created."

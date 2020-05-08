@@ -1,0 +1,155 @@
+<div class="row">
+  <div class="col s12 m8 offset-m2">
+    <div class="card-panel">
+      <div class="row mt-3 invoice-logo-title">
+        <div class="col m9 s12">
+          <h4 class="indigo-text">Invoice</h4>
+          Nº <span>#<%= @order.code %></span>
+        </div>
+        <div class="col m3 s12 display-flex invoice-logo mt-1">
+          <img src="<%= Setting.url.gsub('https','http') %>/settings/company_logo" alt="logo" class="responsive-img" style="max-width: 150px !important;">
+        </div>
+
+      </div>
+      <div class="divider mb-3 mt-3"></div>
+      <div class="row invoice-info">
+        <div class="col m6 s12">
+          <h6 class="invoice-from">Bill From</h6>
+          <div class="invoice-address">
+            <span><%= Setting.get_value("company_full_name") %></span>
+          </div>
+          <div class="invoice-address">
+            <span><%= Setting.get_value("company_address") %></span>
+          </div>
+          <div class="invoice-address">
+            <span><%= Setting.get_value("company_email") %></span>
+          </div>
+          <div class="invoice-address">
+            <span><%= Setting.get_value("company_phone") %></span>
+          </div>
+        </div>
+        <div class="col m6 s12">
+          <div class="divider show-on-small hide-on-med-and-up mb-3"></div>
+          <h6 class="invoice-to">Bill To</h6>
+          <div class="invoice-address">
+            <span><%= @order.current_estimate.customer.name %></span>
+          </div>
+          <div class="invoice-address">
+            <span><%= @order.current_estimate.customer.get_main_address_f %></span>
+          </div>
+          <div class="invoice-address">
+            <span><%= @order.current_estimate.customer.get_main_email_f %></span>
+          </div>
+          <div class="invoice-address">
+            <span><%= @order.current_estimate.customer.get_main_phone_f  %></span>
+          </div>
+        </div>
+      </div>
+
+      <div class="divider mb-3 mt-3"></div>
+      <p><b>Products/Services:</b></p>
+        <div class="row">
+          <div class="col s12">
+            <table class="striped responsive-table">
+              <thead>
+              <tr>
+                <th>Product</th>
+                <th>Qty</th>
+                <th>Unit Price</th>
+                <th>Discount</th>
+                <th class="right-align">Subtotal</th>
+              </tr>
+              </thead>
+              <tbody>
+              <% @order.current_estimate.product_estimates.each do |pe| %>
+                <tr>
+                  <td><%= pe.product.present? ? pe.product.name : pe.custom_title %></td>
+                  <td><%= pe.quantity %></td>
+                  <td><%= pe.unitary_value %></td>
+                  <td><%= pe.discount %></td>
+                  <td class=" right-align">$<%= pe.value %></td>
+                </tr>
+              <% end %>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+      <div class="divider mb-3 mt-3"></div>
+      <p><b>Payments:</b></p>
+
+      <!-- Procuts and area -->
+      <div class="row">
+        <div class="col s12">
+          <table class="striped responsive-table">
+            <thead>
+            <tr>
+              <th>Id</th>
+              <th>Date</th>
+              <th>Payment method</th>
+              <th>Status</th>
+              <th class="right-align">Amount</th>
+            </tr>
+            </thead>
+            <tbody>
+            <% @transactions.each_with_index do |t, index| %>
+              <tr>
+                <td>#<%= index + 1 %></td>
+                <td><%= t.due %></td>
+                <td><%= t.payment_method_text %></td>
+                <td>
+                  <% if t.paid? %>
+                    <div class="chip green lighten-5 green-text"><%= t.status_text %></div>
+                  <% else %>
+                    <%= link_to send_square_transaction_path(t) do %>
+                      <div class="chip blue white-text"> Pay This</div>
+                    <% end %>
+                  <% end  %>
+                </td>
+                <td class="right-align"><%= number_to_currency(t.value) %></td>
+              </tr>
+            <% end %>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="divider mb-3 mt-3"></div>
+
+      <div class="row">
+        <div class="col m5 s12">
+          <!-- <p>Thanks for your business.</p> -->
+        </div>
+        <div class="col xl4 m7 s12 offset-xl3">
+          <ul>
+
+            <li class="display-flex justify-content-between">
+              <span class="invoice-subtotal-title">Invoice Total</span>
+              <h6 class="invoice-subtotal-value"><%= number_to_currency(@order.current_estimate.get_total_value) %></h6>
+            </li>
+            <li class="display-flex justify-content-between">
+              <span class="invoice-subtotal-title">Paid</span>
+              <h6 class="invoice-subtotal-value"><%= number_to_currency(@transactions.where(status: :paid).sum(:value)) %></h6>
+            </li>
+            <li class="display-flex justify-content-between">
+              <span class="invoice-subtotal-title">Balance</span>
+              <h6 class="invoice-subtotal-value"><%= number_to_currency(@order.current_estimate.get_total_value - @transactions.where(status: :paid).sum(:value)) %></h6>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="divider mb-3 mt-3"></div>
+      <%= raw Setting.get_value("invoice_notes") %>
+
+    </div>
+  </div>
+</div>
+
+<%= content_for :scripts do %>
+  <script type="text/javascript" charset="utf-8">
+      $(document).ready(function () {
+          window.print();
+          //setTimeout(window.close, 0);
+      });
+  </script>
+<% end if params[:print] %>

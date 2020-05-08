@@ -1,0 +1,25 @@
+en:
+  activerecord:
+    models:
+      customer: "Customer"
+    attributes:
+      customer:
+        name: "Name"
+        since: "Since"
+        document_id: "DocumentID"
+        category: "Category"
+        code: "Code"
+        birthdate: "BirthDate"
+  enumerize:
+    customer:
+      category:
+        company: "Company"
+        person: "Person"
+  buttons:
+    customer:
+      save: "Save"
+  notice:
+    customer:
+      created: "Customer was successfully created."
+      updated: "Customer was sucessfully updated."
+      deleted: "Customer was sucessfully deleted."

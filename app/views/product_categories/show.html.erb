@@ -1,4 +1,4 @@
-<div class="breadcrumbs-dark pb-0 pt-4" id="breadcrumbs-wrapper">
+<div class="breadcrumbs-lightpb-0 pt-4" id="breadcrumbs-wrapper">
   <!-- Search for small screen-->
   <div class="container">
     <div class="row">
@@ -26,22 +26,23 @@
 <div class="card-panel">
 	
   <p>
-    <strong>Name:</strong>
+    <strong><%= t('activerecord.attributes.product_category.name') %>:</strong>
     <%= @product_category.name %>
   </p>
 
   <p>
-    <strong>Description:</strong>
+    <strong><%= t('activerecord.attributes.product_category.description') %>:</strong>
     <%= @product_category.description %>
   </p>
 
   <p>
-    <strong>Color:</strong>
-    <%= @product_category.color %>
+    <strong><%= t('activerecord.attributes.product_category.color') %>:</strong>
+
+    <div class="chip white-text" style="background-color:<%= @product_category.color %>"><%= @product_category.color %></div>
   </p>
 
   <p>
-    <strong>Namespace:</strong>
+    <strong><%= t('activerecord.attributes.product_category.namespace') %>:</strong>
     <%= @product_category.namespace %>
   </p>
 

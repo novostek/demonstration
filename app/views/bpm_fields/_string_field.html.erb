@@ -1,2 +1,7 @@
-<label for="<%= key %>"><%= name %></label>
-<%= form.text_field key, value: value, data: mask %>
+<label for="<%= data[:key] %>"><%= data[:name] %></label>
+<% data_html = {} %>
+<% begin %>
+  <% data_html[:mask] = data[:properties_f][:mask] %>
+<%rescue %>
+<% end %>
+<%= form.text_field data[:key], value: data[:value], data: data_html %>

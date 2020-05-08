@@ -1,0 +1,111 @@
+<div class="row nested-fields">
+
+  <div class="input-field col l6 s12">
+    <%= f.label :title %>
+    <%= f.text_field :title %>
+  </div>
+  <div class="input-field col l6 s12">
+
+    <%= f.select :category, Contact.category.options , {prompt: true}, {id:"category_#{f.index}_","data-id":"_#{f.index}_", class:"category", onchange:"category_change('_#{f.index}_')" } %>
+    <%= f.label :category %>
+  </div>
+
+
+  <div class="<%= f.object.category == "address" ? "" : "hide"  %> col s12" id="address_div_<%= f.index %>_">
+
+    <%= f.fields_for :data, OpenStruct.new(f.object.data) do |field| %>
+        <div class="input-field">
+          <%= field.label :address %>
+          <%= field.text_field :address %>
+        </div>
+        <div class="input-field">
+          <%= field.label :zipcode %>
+          <%= field.text_field :zipcode%>
+        </div>
+        <div class="input-field">
+          <%= field.label :city %>
+          <%= field.text_field :city %>
+        </div>
+        <div class="input-field">
+          <%= field.label :state %>
+          <%= field.text_field :state %>
+        </div>
+        <div class="input-field">
+          <%= field.label :lat %>
+          <%= field.text_field :lat %>
+        </div>
+        <div class="input-field">
+          <%= field.label :lng %>
+          <%= field.text_field  :lng %>
+        </div>
+    <% end %>
+
+  </div>
+
+  <div class="<%= f.object.category == "phone" ? "" : "hide"  %> col s12" id="phone_div_<%= f.index %>_">
+    <%= f.fields_for :data, OpenStruct.new(f.object.data) do |field| %>
+        <div class="input-field">
+          <%= field.label :ddd %>
+          <%= field.text_field :ddd %>
+        </div>
+        <div class="input-field">
+          <%= field.label :phone %>
+          <%= field.text_field :phone%>
+        </div>
+
+    <% end %>
+  </div>
+
+  <div class="<%= f.object.category == "email" ? "" : "hide"  %> col s12" id="email_div_<%= f.index %>_">
+    <%= f.fields_for :data, OpenStruct.new(f.object.data) do |field| %>
+        <div class="input-field">
+          <%= field.label :email %>
+          <%= field.text_field :email%>
+        </div>
+
+    <% end %>
+  </div>
+
+
+
+  <div class="col s12 l3">
+    <%= link_to_remove_association  f, class: "btn waves-effect waves-light red left white-text" do %>
+        <i class="material-icons left">remove_circle</i> <%= t "button.delete" %>
+    <% end %>
+  </div>
+
+</div>
+
+<%= content_for :scripts do %>
+    <script type="text/javascript" charset="utf-8">
+
+
+        function category_change(index)
+        {
+            console.log("index - ",index);
+            var category = $("#category"+index).val();
+            if(category == "address")
+            {
+                $("#address_div"+index).removeClass("hide");
+                $("#phone_div"+index).addClass("hide");
+                $("#email_div"+index).addClass("hide");
+            }
+            if(category == "phone")
+            {
+                $("#address_div"+index).addClass("hide");
+                $("#phone_div"+index).removeClass("hide");
+                $("#email_div"+index).addClass("hide");
+            }
+            if(category == "email")
+            {
+                $("#address_div"+index).addClass("hide");
+                $("#phone_div"+index).addClass("hide");
+                $("#email_div"+index).removeClass("hide");
+            }
+
+        }
+
+
+    </script>
+<% end %>
+

@@ -1,0 +1,10 @@
+en:
+  activerecord:
+    models:
+      note: "Note"
+      ntoes: "Notes"
+  notice:
+    note:
+      created: "Note was successfully created."
+      updated: "Note was sucessfully updated."
+      deleted: "Note was sucessfully deleted."

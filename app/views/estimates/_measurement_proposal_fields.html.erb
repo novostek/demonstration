@@ -1,0 +1,18 @@
+<div class="product-area nested-fields">
+    <a href="#" class="btn-close-product-area"><i class="material-icons">close</i></a>
+    <div class="areas-available col s12">
+      <span>Areas:</span>
+      <% @estimate.measurement_areas.each do |area| %>
+        <div class="chip" id="area_<%= area.id.to_s + SecureRandom.hex(10) %>"><%= area.name %></div>
+      <% end %>
+      <a href="#" class="select-all-areas">Select all</a>
+    </div>
+    <div class="products-list" id="product_estimates">
+    <%= f.fields_for :product_estimate do |pe| %>
+        <%= render 'product_estimate_fields', f: pe %>
+        <%= link_to_add_association f, :product_estimates, class: 'btn-add-product' do %>
+          <i class="material-icons left">add</i> Add product
+        <% end %>
+      <% end %>
+    </div>
+</div>

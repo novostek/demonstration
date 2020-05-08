@@ -1,0 +1,24 @@
+en:
+  activerecord:
+    models:
+      product_purchase: "Product Purchase"
+    attributes:
+      product_purchase:
+        product_id: "Product"
+        quantity: "Quantity"
+        status: "Status"
+        unity_value: "Unitary Value"
+        value: "Value"
+        purchase_id: "Purchase"
+  enumerize:
+    product_purchase:
+      status:
+        requested: "Requested"
+        buyed: "Buyed"
+        delivered: "Delivered"
+        returned: "Returned"
+  notice:
+    product_purchase:
+      created: "Product purchase was successfully created."
+      updated: "Product purchase was sucessfully updated."
+      deleted: "Product purchase was sucessfully deleted."

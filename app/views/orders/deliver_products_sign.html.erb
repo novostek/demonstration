@@ -1,0 +1,24 @@
+<%==  @template.render('order' => @order.attributes, 'estimate' => @estimate.attributes, 'measurements' => JSON.parse(@estimate.measurement_areas.to_json), 'products' => JSON.parse(@estimate.product_estimates.to_json), 'customer' => JSON.parse(@estimate.customer.to_json), 'custom' => @params   ) %>
+
+<div class="card">
+  <table>
+    <thead>
+    <th>Product</th>
+    <th>Quantity</th>
+    </thead>
+    <tbody>
+      <% @products.each do |p| %>
+        <tr>
+          <td><%= p.product.present? ? p.product : p.custom_title %></td>
+          <td><%= p.quantity %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>
+
+
+<img src="<%= $temp_img  %>" >
+<div class="left">
+  <%=  DateTime.now  %>
+</div>

@@ -1,0 +1,33 @@
+en:
+  activerecord:
+    models:
+      transaction: "Transaction"
+      transactions: "Transactions"
+    attributes:
+      transaction_account:
+        bpm_instance: "BPM Instance"
+        category: "Category"
+        due: "Payment due"
+        effective: "Effective"
+        origin: "Origin"
+        value: "Value"
+        order_id: "Order"
+  enumerize:
+    transaction:
+      payment_method:
+        cash: "Cash"
+        square_credit: "Square (credit)"
+        square_installments: "Square (installments)"
+      status:
+        paid: "Paid"
+        pendent: "Pendent"
+  Estimate: "Estimate"
+  Order: "Order"
+  notice:
+    transaction:
+      created: "Transaction was successfully created."
+      updated: "Transaction was sucessfully updated."
+      deleted: "Transaction was sucessfully deleted."
+      mail_sent: "Mail sent"
+      error: "Error"
+      swal_error: "Something went wrong, try again later."

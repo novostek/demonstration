@@ -1,0 +1,115 @@
+<div class="content-wrapper-before woffice-color"></div>
+<div class="breadcrumbs-lightpb-0 pt-4" id="breadcrumbs-wrapper">
+  <!-- Search for small screen-->
+  <div class="container">
+    <div class="row">
+      <div class="col s10 m6 l6">
+        <h5 class="breadcrumbs-title mt-0 mb-0">Schedule Order</h5>
+        <ol class="breadcrumbs mb-0">
+          <li class="breadcrumb-item"><a href="/">Home</a>
+          </li>
+          <li class="breadcrumb-item"><a href="#">Order</a>
+          </li>
+          <li class="breadcrumb-item active">Payment
+          </li>
+        </ol>
+      </div>
+      <div class="col s2 m6 l6">
+        <!-- <a class="btn waves-effect waves-light breadcrumbs-btn right border-round" href="estimate-add.html"><i class="material-icons hide-on-med-and-up">add</i><span class="hide-on-small-only">Add estimate</span></a> -->
+      </div>
+    </div>
+  </div>
+</div>
+<div class="section">
+  <%= render 'estimates/estimate_detail' %>
+  <div class="card">
+    <div class="card-content">
+      <ul class="stepper horizontal stepper-head-only">
+        <li class="step">
+          <%= link_to schedule_order_path(@order) do %>
+            <div class="step-title waves-effect">Schedule</div>
+          <% end %>
+        </li>
+        <li class="step active">
+          <div class="step-title waves-effect">Payment</div>
+        </li>
+        <li class="step">
+          <%= link_to product_purchase_order_path(@order) do %>
+            <div class="step-title waves-effect">Products purchase</div>
+          <% end %>
+        </li>
+      </ul>
+      <div class="deposit-list" id="transactions">
+        <%= form_for @order, local: true, url: order_path, method: :patch do |form| %>
+          <%= form.fields_for :transactions do |transaction_form| %>
+            <%= render 'transaction_fields', f: transaction_form %>
+          <% end %>
+          <div class="row mt-1">
+            <%= link_to_add_association form, :transactions, class: "btn btn-add-deposit" do %>
+              <i class="material-icons left">add</i> Add payment
+            <% end %>
+            <div id="soma" class="right">
+              <ul>
+                <li class="justify-content-between">
+                  <span class="invoice-subtotal-title">Payments Added</span>
+                  <h6 class="invoice-subtotal-value" id="value_total"></h6>
+                </li>
+                <li class="justify-content-between">
+                  <span class="invoice-subtotal-title">Payments Pendent</span>
+                  <h6 class="invoice-subtotal-value"><%= number_to_currency(@order.current_estimate.total - @order.transactions.sum(:value)) %></h6>
+                </li>
+              </ul>
+            </div>
+          </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="col s12 pr-0 pl-0 pb-2">
+    <%= link_to schedule_order_path, class: "btn grey lighten-5 grey-text waves-effect waves-light breadcrumbs-btn left save" do %>
+      <i class="material-icons left">arrow_back</i> Back
+    <% end %>
+    <%= form.button :submit, class:"btn indigo waves-effect waves-light breadcrumbs-btn right ml-1" do %>
+      Next: Products purchase
+      <i class="material-icons right">arrow_forward</i>
+    <% end %>
+  </div>
+  <% end %>
+
+
+</div>
+
+<%= content_for :scripts do %>
+  <script>
+    function update_value(){
+        $('.value').blur(function () {
+            console.log("teste");
+            var sum = 0;
+            $('.value').each(function() {
+                sum += Number($(this).val());
+            });
+            $("#value_total").html("$ "+sum);
+            // here, you have your sum
+        });
+    }
+
+    $(document).ready(function(){
+        var sum = 0;
+        $('.value').each(function() {
+            sum += Number($(this).val());
+        });
+        $("#value_total").html("$ "+sum);
+      $('#transactions').on('cocoon:after-insert', function(e, insertedItem) {
+         $('.datepicker').datepicker({
+          format: 'yyyy-mm-dd',
+          autoClose: true
+        });
+
+          update_value();
+
+      });
+    });
+
+    update_value();
+  </script>
+<% end %>

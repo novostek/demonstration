@@ -1,0 +1,72 @@
+<%= form_for(transaction_category) do |f| %>
+  <% if transaction_category.errors.any? %>
+    <div id="error_explanation" class="card-panel red white-text">
+      <h5><%= t('errors.template.header')  %>:</h5>
+
+      <ul>
+      <% transaction_category.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+<div class="card-panel">
+  
+  <div class="input-field">
+
+    <%= f.label  :name %>
+    <%= f.text_field :name, required: true %>
+    
+  </div>
+
+  <div class="input-field">
+
+    <%= f.label  :description %>
+    <%= f.text_area :description, class:"materialize-textarea" %>
+    
+  </div>
+
+  <div id="colorpicker"></div>
+  <div class="input-field">
+
+    <%= f.label  :color %>
+    <%= f.text_field :color,{id:"color", required:true} %>
+    
+  </div>
+
+  <div class="input-field">
+
+    <%= f.label  :namespace %>
+    <%= f.text_field :namespace %>
+    
+  </div>
+
+</div>
+  <div class="actions">
+    <%= f.submit t('button.save'), class:"btn" %>
+  </div>
+<% end %>
+
+<% content_for  :scripts do %>
+    <script type="text/javascript">
+
+        $(document).ready(function() {
+
+            if($("#color").val())
+            {
+                $("#color").css("background",$("#color").val());
+            }
+
+            //$('#colorpicker').farbtastic('#color');
+            $('#colorpicker').farbtastic(function callback(color){
+                $("#color").val(color);
+
+                $('#color').trigger('input');
+                $('#color').trigger('focusin');
+                $("#color").css("background",color);
+            });
+
+        });
+
+    </script>
+<% end %>

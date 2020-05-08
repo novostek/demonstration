@@ -1,5 +1,5 @@
-<div class="content-wrapper-before gradient-45deg-indigo-purple"></div>
-			<div class="breadcrumbs-dark pb-0 pt-4" id="breadcrumbs-wrapper">
+<div class="content-wrapper-before woffice-color"></div>
+			<div class="breadcrumbs-lightpb-0 pt-4" id="breadcrumbs-wrapper">
 				<!-- Search for small screen-->
 				<div class="container">
 					<div class="row">
@@ -39,9 +39,9 @@
   </div>
   <p></p>
   <!-- create invoice button-->
-  <div class="responsive-table">
+  <div >
     <style>td{padding: 15px}</style>
-    <table class="table invoice-data-table white border-radius-4 pt-1">
+    <table class="table invoice-data-table white border-radius-4 pt-1 responsive-table">
       <thead>
         <tr>
           <th><%= t('activerecord.attributes.product_category.name') %></th>
@@ -56,7 +56,7 @@
         <tr>
             <td><%= product_category.name %></td>
             <td><%= product_category.description %></td>
-            <td><%= product_category.color %></td>
+            <td><div class="chip white-text" style="background-color:<%= product_category.color %>"><%= product_category.color %></div></td>
             <td><%= product_category.namespace %></td>
           <td>
             <div class="invoice-action right-align">

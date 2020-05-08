@@ -1,0 +1,84 @@
+<%= form_for(menu) do |f| %>
+    <% if menu.errors.any? %>
+        <div id="error_explanation" class="card-panel red white-text">
+          <h5><%= t('errors.template.header')  %>:</h5>
+
+          <ul>
+            <% menu.errors.full_messages.each do |message| %>
+                <li><%= message %></li>
+            <% end %>
+          </ul>
+        </div>
+    <% end %>
+    <div class="card-panel">
+
+      <% if @pai.present? %>
+          <%= hidden_field_tag :pai, @pai %>
+          <b><%= t "menu_pai" %>: <%= Menu.find(@pai) %></b>
+      <% end %>
+
+
+      <div class="input-field">
+
+        <%= f.label  :name %>
+        <%= f.text_field :name %>
+
+      </div>
+
+      <div class="input-field">
+
+        <%= f.label  :url %>
+        <%= f.text_field :url %>
+
+      </div>
+
+      <div class="input-field">
+
+        <%= f.label  :position %>
+        <%= f.number_field :position, step: 1 %>
+
+      </div>
+
+
+
+      <div class="input-field">
+
+        <%= f.label  :icon %> <br>
+        <%= render partial: "icones" %>
+        <%= f.text_field :icon %>
+
+      </div>
+
+      <div class="row">
+        <div class="input-field" id="orgaos">
+         <%= f.select :profile_ids, options_for_select(@profiles, @menu.profiles.pluck(:id)),{},{ multiple: true} %>
+          <%= f.label :profile_ids, "#{t 'profiles'}" %>
+        </div>
+      </div>
+
+
+    </div>
+    <div class="actions">
+      <%= f.submit t('button.save'), class:"btn" %>
+    </div>
+<% end %>
+
+<% content_for :scripts do %>
+    <script>
+        $(document).ready(function () {
+
+            $(".select-icon-category li").on('click', function (e) {
+                console.log("teste");
+                $("#menu_icon").val("");
+                $("#menu_icon").val($(this).prop("id"));
+                $(".select-icon-category li").removeClass("selected");
+                $(this).addClass("selected");
+            });
+            $('select').formSelect();
+            $(".select2").select2({
+                width: 'resolve',
+            });
+        })
+    </script>
+<% end %>
+

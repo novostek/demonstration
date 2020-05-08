@@ -1,5 +1,6 @@
 class WorkersController < ApplicationController
-  before_action :set_worker, only: [:show, :edit, :update, :destroy]
+  #load_and_authorize_resource
+  before_action :set_worker, only: [:show, :edit, :update, :destroy,:new_note,:new_document,:new_contact,:update_contact]
 
   # GET /workers
   def index
@@ -9,6 +10,15 @@ class WorkersController < ApplicationController
 
   # GET /workers/1
   def show
+    if params[:layout].present?
+      render :show_old
+    end
+  end
+
+  def load_notes
+    $schedule = Schedule.find(params[:schedule])
+    @notes = Note.where(origin: "Schedule", origin_id: params[:schedule], private: true)
+    @documents = DocumentFile.where(origin: "Schedule", origin_id: params[:schedule])
   end
 
   # GET /workers/new
@@ -20,12 +30,62 @@ class WorkersController < ApplicationController
   def edit
   end
 
+  #Método que insere uma nota
+  def new_note
+    note = Note.new
+    note.title = params[:title]
+    note.text = params[:text]
+    note.origin = "Worker"
+    note.origin_id = @worker.id
+    if note.save
+      redirect_to @worker, notice: "#{t 'note_create'}"
+    else
+      redirect_to @worker, alert: "#{note.errors.full_messages.to_sentence}"
+    end
+  end
+
+  #método que insere um novo documento
+  def new_document
+    doc = DocumentFile.new
+    doc.title = params[:title]
+    doc.file = params[:file]
+    doc.description = params[:description]
+    doc.origin = "Worker"
+    doc.origin_id = @worker.id
+    if doc.save
+      redirect_to @worker, notice: "#{t 'doc_create'}"
+    else
+      redirect_to @worker, alert: "#{doc.errors.full_messages.to_sentence}"
+    end
+
+  end
+
+  #Método que cria um novo contato
+  def new_contact
+    contact = Contact.new
+    contact.title = params[:title]
+    contact.category = params[:category]
+    contact.data = params[:data]
+    contact.origin = "Worker"
+    contact.origin_id = @worker.id
+    contact.main = params[:main]
+    if contact.save
+      redirect_to @worker, notice: "#{t 'contact_create'}"
+    else
+      redirect_to @worker, alert: "#{contact.errors.full_messages.to_sentence}"
+    end
+  end
+
+
+
   # POST /workers
   def create
     @worker = Worker.new(worker_params)
 
     if @worker.save
-      redirect_to @worker, notice: 'Worker foi criado com sucesso'
+      if params[:button] != "remote_save"
+        redirect_to @worker, notice: t('notice.worker.created')
+      end
     else
       render :new
     end
@@ -33,8 +93,14 @@ class WorkersController < ApplicationController
 
   # PATCH/PUT /workers/1
   def update
+
+    # if params[:value].present?
+    #   value = JSON.parse(params[:value].to_json)
+    #   params[:worker][:contacts_attributes][:value] = value
+    # end
+    #binding.pry
     if @worker.update(worker_params)
-      redirect_to @worker, notice: 'Worker foi atualizado com sucesso.'
+      redirect_to @worker, notice: t('notice.worker.updated')
     else
       render :edit
     end
@@ -43,17 +109,22 @@ class WorkersController < ApplicationController
   # DELETE /workers/1
   def destroy
     @worker.destroy
-    redirect_to workers_url, notice: 'Worker foi apagado com sucesso.'
+    redirect_to workers_url, notice: t('notice.worker.deleted')
   end
 
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_worker
-      @worker = Worker.find(params[:id])
+      @worker = Worker.includes(:contacts).find(params[:id])
     end
 
     # Only allow a trusted parameter "white list" through.
     def worker_params
-      params.require(:worker).permit(:name, :photo, :document_id, :categories)
+      params.require(:worker).permit(:name, :photo, :document_id, :categories,:time_value,
+                                     notes_attributes:[:id,:origin,:origin_id,:private,:text,:title,:_destroy],
+                                     document_files_attributes:[:description,:id,:title,:file,:origin, :origin_id,:esign,:esign_data,:photo,:photo_date,:photo_description,:_destroy],
+                                     contacts_attributes:[:id, :category,:origin, :origin_id,:title,{data:[:address,:zipcode,:zipcode,:state,:lat,:lng,:city,:email, :ddd,:phone]},:_destroy])
     end
+
+  #[:address,:zipcode,:zipcode,:state,:lat,:lng]
 end

@@ -15,13 +15,13 @@
   <div class="input-field">
 
     <%= f.label t :name %>
-    <%= f.text_field :name %>
+    <%= f.text_field :name, {required: true} %>
     
   </div>
 
   <div class="input-field">
 
-    <%= f.label :description %>
+    <%= f.label t :description %>
     <%= f.text_area :description, class:"materialize-textarea" %>
     
   </div>
@@ -30,14 +30,14 @@
   <div id="colorpicker"></div>
   <div class="input-field">
 
-    <%= f.label :color %>
-    <%= f.text_field :color %>
+    <%= f.label t :color %>
+    <%= f.text_field :color, {id:"color", required:true} %>
     
   </div>
 
   <div class="input-field">
 
-    <%= f.label :namespace %>
+    <%= f.label  t :namespace %>
     <%= f.text_field :namespace %>
     
   </div>
@@ -46,4 +46,28 @@
   <div class="actions">
     <%= f.submit t('button.save'), class:"btn" %>
   </div>
+<% end %>
+
+<% content_for  :scripts do %>
+<script type="text/javascript">
+
+    $(document).ready(function() {
+
+        if($("#color").val())
+        {
+            $("#color").css("background",$("#color").val());
+        }
+
+        //$('#colorpicker').farbtastic('#color');
+        $('#colorpicker').farbtastic(function callback(color){
+            $("#color").val(color);
+
+            $('#color').trigger('input');
+            $('#color').trigger('focusin');
+            $("#color").css("background",color);
+        });
+
+    });
+
+</script>
 <% end %>

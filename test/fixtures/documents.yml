@@ -1,0 +1,28 @@
+# == Schema Information
+#
+# Table name: documents
+#
+#  id            :bigint           not null, primary key
+#  custom_fields :json
+#  data          :text
+#  description   :text
+#  doc_type      :string
+#  name          :string
+#  sub_type      :string
+#  created_at    :datetime         not null
+#  updated_at    :datetime         not null
+#
+
+one:
+  name: MyString
+  description: MyText
+  data: MyText
+  type: 
+  sub_type: MyString
+
+two:
+  name: MyString
+  description: MyText
+  data: MyText
+  type: 
+  sub_type: MyString

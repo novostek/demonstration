@@ -1,0 +1,10 @@
+<div style="bottom: 50px; right: 19px;" class="fixed-action-btn direction-top"><a class="btn-floating btn-large gradient-45deg-light-blue-cyan gradient-shadow"><i class="material-icons">add</i></a>
+  <ul>
+    <li><a href="#modal_note" class="btn-floating blue modal-trigger tooltipped" target="_self" data-position="left" data-tooltip="<%= t 'button.new' %> <%= t('activerecord.models.note') %>" style="opacity: 0; transform: scale(0.4) translateY(40px) translateX(0px);"><i class="material-icons">note</i></a></li>
+    <li><a href="#modal_doc" class="btn-floating red modal-trigger tooltipped" target="_self" data-position="left" data-tooltip="<%= t 'button.new' %> <%= t('activerecord.models.document') %>" style="opacity: 0; transform: scale(0.4) translateY(40px) translateX(0px);"><i class="material-icons">description</i></a></li>
+    <% if contact %>
+      <li><a href="#modal_contact" class="btn-floating green modal-trigger tooltipped" target="_self" data-position="left" data-tooltip="<%= t 'button.new' %> <%= t('activerecord.models.contact') %>" style="opacity: 0; transform: scale(0.4) translateY(40px) translateX(0px);"><i class="material-icons">contacts</i></a></li>
+    <% end %>
+
+  </ul>
+</div>

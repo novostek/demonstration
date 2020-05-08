@@ -1,0 +1,54 @@
+<div class="breadcrumbs-light pb-0 pt-4" id="breadcrumbs-wrapper">
+  <!-- Search for small screen-->
+  <div class="container">
+    <div class="row">
+      <div class="col s10 m6 l6">
+        <h5 class="breadcrumbs-title mt-0 mb-0"><span><%= t('activerecord.models.labor_cost') %></span></h5>
+        <ol class="breadcrumbs mb-0">
+          <li class="breadcrumb-item"><a href="/"><%= t('home') %></a>
+          </li>
+          <li class="breadcrumb-item"><a href="#"><%= t('activerecord.models.labor_cost') %></a>
+          </li>
+          <li class="breadcrumb-item active"><%= t('breadcrumb.show') %>
+          </li>
+        </ol>
+      </div>
+      <div class="col s2 m6 l6">
+        <%= link_to t('button.all'), labor_costs_path, class:"btn waves-effect waves-light breadcrumbs-btn right" %>
+        <%= link_to edit_labor_cost_path(@labor_cost) , class: "btn-flat waves-effect waves-light breadcrumbs-btn right" do %>
+          <i class="material-icons">edit</i>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="card-panel">
+	
+  <p>
+    <strong><%= t('activerecord.attributes.labor_cost.worker') %>:</strong>
+    <%= @labor_cost.worker %>
+  </p>
+
+  <p>
+    <strong><%= t('activerecord.attributes.labor_cost.schedule') %>:</strong>
+    <%= @labor_cost.schedule %>
+  </p>
+
+  <p>
+    <strong><%= t('activerecord.attributes.labor_cost.date') %>:</strong>
+    <%= @labor_cost.date %>
+  </p>
+
+  <p>
+    <strong><%= t('activerecord.attributes.labor_cost.value') %>:</strong>
+    <%= @labor_cost.value %>
+  </p>
+
+  <p>
+    <strong><%= t('activerecord.attributes.labor_cost.status') %>:</strong>
+    <%= @labor_cost.status %>
+  </p>
+
+</div>
+

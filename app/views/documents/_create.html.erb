@@ -1,0 +1,310 @@
+<link href="/css/documents.css" rel="stylesheet" type="text/css">
+<link href="/css/froala.css" rel="stylesheet" type="text/css">
+<%= content_for :body_class do "menu-collapse" end %>
+<%= content_for :head_content do %>
+  <link href='https://cdn.jsdelivr.net/npm/froala-editor@3.1.0/css/froala_editor.pkgd.min.css' rel='stylesheet' type='text/css' />
+<% end %>
+<div class="row">
+  <div class="doc-floating-box">
+    <div class="doc-floating-btn  animated infinite tada">
+      <i class="material-icons">keyboard_arrow_left</i>
+    </div>
+    <div class="doc-floating-content">
+      <ul class="collapsible collapsible-accordion">
+        <% if @document.estimate? %>
+          <li>
+            <div class="collapsible-header" tabindex="0"><i class="material-icons">expand_more</i> Estimate/Order</div>
+            <div class="collapsible-body white">
+
+              <div class="chip drag-text"  draggable="true" data-value="{{estimate.code}}" >
+                <i class="material-icons chip-icon">open_with</i>
+                Estimate Code
+              </div>
+              <div class="chip drag-text"  draggable="true" data-value="{{estimate.price}}" >
+                <i class="material-icons chip-icon">open_with</i>
+                Estimate Price
+              </div>
+              <div class="chip drag-text" draggable="true" data-value="{{estimate.title}}">
+                <i class="material-icons chip-icon">open_with</i>
+                Estimate Title
+              </div>
+              <div class="chip drag-text" draggable="true" data-value="{{estimate.location}}">
+                <i class="material-icons chip-icon">open_with</i>
+                Estimate Location
+              </div>
+              <div class="chip drag-text" draggable="true" data-value="{{estimate.total}}">
+                <i class="material-icons chip-icon">open_with</i>
+                Estimate Total
+              </div>
+              <div class="chip drag-text" draggable="true" data-value="{{order.start_at}}">
+                <i class="material-icons chip-icon">open_with</i>
+                Order Start at
+              </div>
+              <div class="chip drag-text" draggable="true" data-value="{{order.end_at}}">
+                <i class="material-icons chip-icon">open_with</i>
+                Order End at
+              </div>
+              <div class="chip drag-text" draggable="true" data-value="{{order.code}}">
+                <i class="material-icons chip-icon">open_with</i>
+                Order Code
+              </div>
+<!--              <div class="chip drag-text" draggable="true" data-value="<img src='{{signature.link}}' />" > <!--<%%= wicked_pdf_image_tag '{{signature.link}}' %>  -->-->
+<!--                <i class="material-icons chip-icon">open_with</i>-->
+<!--                Signature-->
+<!--              </div>-->
+            </div>
+          </li>
+          <li>
+            <div class="collapsible-header" tabindex="0"><i class="material-icons">expand_more</i> Customer</div>
+            <div class="collapsible-body white">
+              <div class="chip drag-text"  draggable="true" data-value="{{customer.name}}" >
+                <i class="material-icons chip-icon">open_with</i>
+                Name
+              </div>
+              <div class="chip drag-text" draggable="true" data-value="{{customer.name | split: ' ' | first }}">
+                <i class="material-icons chip-icon">open_with</i>
+                First Name
+              </div>
+              <div class="chip drag-text" draggable="true" data-value="{{customer.name | split: ' ' | last }}">
+                <i class="material-icons chip-icon">open_with</i>
+                Last Name
+              </div>
+              <div class="chip drag-text" draggable="true" data-value="{{customer.since }}">
+                <i class="material-icons chip-icon">open_with</i>
+                Since
+              </div>
+              <div class="chip drag-text" draggable="true" data-value="{{customer.code }}">
+                <i class="material-icons chip-icon">open_with</i>
+                Code
+              </div>
+              <div class="chip drag-text" draggable="true" data-value="{{customer.main_phone }}">
+                <i class="material-icons chip-icon">open_with</i>
+                Phone
+              </div>
+              <div class="chip drag-text" draggable="true" data-value="{{customer.main_address }}">
+                <i class="material-icons chip-icon">open_with</i>
+                Address
+              </div>
+              <div class="chip drag-text" draggable="true" data-value="{{customer.main_state }}">
+                <i class="material-icons chip-icon">open_with</i>
+                State
+              </div>
+              <div class="chip drag-text" draggable="true" data-value="{{customer.main_city }}">
+                <i class="material-icons chip-icon">open_with</i>
+                City
+              </div>
+              <div class="chip drag-text" draggable="true" data-value="{{customer.main_zipcode }}">
+                <i class="material-icons chip-icon">open_with</i>
+                ZipCode
+              </div>
+            </div>
+          </li>
+          <li>
+            <div class="collapsible-header" tabindex="0"><i class="material-icons">expand_more</i> Partials</div>
+            <div class="collapsible-body white">
+              <div class="chip drag-text" draggable="true" data-value='<img src="<%= Setting.url.gsub('https','http') %>/settings/company_logo" alt="">'>
+                <i class="material-icons chip-icon">open_with</i>
+                Company Logo
+              </div>
+              <div class="chip drag-text"  draggable="true" data-value="
+              <table>
+              <thead>
+              <tr>
+              <th>Name</th>
+              <th>Description</th>
+              <th>Square Feet</th>
+              </tr>
+              </thead>
+
+              <!-- {% for measurement in measurements %} -->
+              <tbody>
+
+              <tr>
+              <td>{{measurement.name}}</td>
+              <td>{{measurement.description}}</td>
+              <td>{{measurement.square_feet}}</td>
+              </tr>
+
+              </tbody>
+              <!-- {% endfor %} -->
+" >
+
+                <i class="material-icons chip-icon">open_with</i>
+                Measurements
+              </div>
+              <div class="chip drag-text" draggable="true" data-value="
+              <table>
+              <thead>
+              <tr>
+              <th style='width=20%;'>Product</th>
+              <th style='width=20%;'>Discount</th>
+              <th style='width=20%;'>Quantity</th>
+              <th style='width=20%;'>Unitary Value</th>
+              <th style='width=20%;'>Value</th>
+              </tr>
+              </thead>
+              <!-- {% for product in products %} -->
+              <tr>
+              <td  style='width=20%;'>{{product.name}}</td>
+              <td style='width=20%;'>{{product.discount}}</td>
+              <td style='width=20%;'>{{product.quantity}}</td>
+              <td style='width=20%;'>{{product.unitary_value}}</td>
+              <td style='width=20%;'>{{product.value}}</td>
+              </tr>
+              <!-- {% endfor %}  -->
+             </tbody></table>
+">
+                <i class="material-icons chip-icon">open_with</i>
+                Products
+              </div>
+
+            </div>
+          </li>
+        <% end %>
+        <li>
+          <div class="collapsible-header" tabindex="0"><i class="material-icons">expand_more</i> Customized Fields</div>
+          <div class="collapsible-body white" >
+            <div id="custom_fields">
+              <% @document.document_custom_fields.each do |d| %>
+              <div class="chip drag-text"  draggable="true" data-value="{{custom.<%= d.name %>}}" >
+                <i class="material-icons chip-icon">open_with</i>
+                <%= d.name %>
+              </div>
+              <% end  %>
+            </div>
+            <br>
+            <a href="#modal_custom" class="btn  modal-trigger">New Custom Field</a>
+          </div>
+
+        </li>
+      </ul>
+    </div>
+  </div>
+  <div class="col s12" >
+    <div class="card-panel">
+      <div id="froala-editor">
+        <% if document.data.blank? %>
+        <h3>Click here to edit the content</h3>
+        <p>Drag the image above or the text block to insert them in the editor.</p>
+        <% else %>
+          <%= document.data.html_safe %>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>
+<button id="save_data" class="btn right"><%= t "button.save" %></button>
+
+<div id="modal_custom" class="modal modal-fixed-footer">
+  <%= form_with url: add_custom_document_path(@document),method: :get do |f| %>
+    <div class="modal-content">
+      <h4><%= t "button.new" %> <%= t("activerecord.attributes.document.custom_fields") %></h4>
+      <div class="input-field">
+        <%= f.label :name %>
+        <%= f.text_field :name, require: true %>
+      </div>
+
+    </div>
+    <div class="modal-footer">
+      <%= f.button :submit,  class:"modal-action modal-close waves-effect waves-green btn-flat btn-send", target:"_self" do %>
+        <i class="material-icons left">send</i> Send
+      <% end %>
+      <!--<a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat ">Agree</a>-->
+    </div>
+  <% end  %>
+</div>
+
+
+<%= content_for :scripts do %>
+  <script type='text/javascript' src='https://cdn.jsdelivr.net/npm/froala-editor@3.1.0/js/froala_editor.pkgd.min.js'></script>
+  <script>
+      $(document).ready(function(){
+          $(".doc-floating-btn").on("click", function(){
+              $(this).removeClass("infinite").removeClass("animated");
+              $(this).parent().toggleClass("active");
+              if ($(this).parent().hasClass("active")) {
+                  $(this).find("i").text("keyboard_arrow_right");
+              } else {
+                  $(this).find("i").text("keyboard_arrow_left");
+              }
+          });
+
+          $(window).scroll(function(e){
+              console.log($(window).scrollTop());
+              if ($(window).scrollTop() >= 180) {
+                  $(".doc-floating-box").addClass("scrolled");
+              } else {
+                  $(".doc-floating-box").removeClass("scrolled");
+              }
+          });
+      });
+  </script>
+  <script>
+
+      $("#save_data").click(function(){
+          //
+
+          var editor = new FroalaEditor('#froala-editor', {}, function () {
+              // Call the method inside the initialized event.
+              data = editor.html.get(true);
+          });
+
+          $.post( "<%= save_data_documents_path %>", { document: "<%= document.id %>", data: editor.html.get(true) },function(data){
+              M.toast({html: data["success"]});
+          } );
+
+
+      });
+
+      var dragCallback = function (e) {
+          e.dataTransfer.setData('Text', this.dataset.value);
+      };
+
+      // For Firefox to work.
+      $('.drag-text').each(function () {
+          this.addEventListener('dragstart', dragCallback);
+      });
+
+      new FroalaEditor('div#froala-editor', {
+          events: {
+              initialized: function () {
+                  var editor = this;
+
+
+
+                  editor.events.on('drop', function (dropEvent) {
+                      // Focus at the current posisiton.
+                      editor.markers.insertAtPoint(dropEvent.originalEvent);
+                      var $marker = editor.$el.find('.fr-marker');
+                      $marker.replaceWith(FroalaEditor.MARKERS);
+                      editor.selection.restore();
+
+                      // Save into undo stack the current position.
+                      if (!editor.undo.canDo()) editor.undo.saveStep();
+
+                      // Insert HTML.
+                      editor.html.insert(dropEvent.originalEvent.dataTransfer.getData('Text') );
+
+                      // Save into undo stack the changes.
+                      editor.undo.saveStep();
+
+                      // Stop event propagation.
+                      dropEvent.preventDefault();
+                      dropEvent.stopPropagation();
+
+                      // Firefox show cursor.
+                      if (editor.core.hasFocus() && editor.browser.mozilla) {
+                          editor.events.disableBlur();
+                          setTimeout(function () {
+                              editor.$el.blur().focus();
+                              editor.events.enableBlur();
+                          }, 0);
+                      }
+
+                      return false;
+                  }, true);
+              }
+          }
+      })
+  </script>
+<% end %>

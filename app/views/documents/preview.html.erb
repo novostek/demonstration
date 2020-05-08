@@ -1,0 +1,9 @@
+<div class="card-panel">
+
+  <% if @estimate.present? %>
+    <%== @mail = @template.render('order' => @order_params, 'estimate' => @estimate.attributes, 'measurements' => JSON.parse(@estimate.measurement_areas.to_json), 'products' => JSON.parse(@estimate.product_estimates.to_json), 'customer' => JSON.parse(@estimate.customer.to_json), 'custom' => @params   ) %>
+  <% else %>
+    <%== @mail = @template.render('custom' => @params   ) %>
+  <% end %>
+</div>
+

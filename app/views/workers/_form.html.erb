@@ -15,15 +15,19 @@
   <div class="input-field">
 
     <%= f.label :name %>
-    <%= f.text_field :name %>
+    <%= f.text_field :name, required: true %>
     
   </div>
 
-  <div class="input-field">
-
-    <%= f.label :photo %>
-    <%= f.text_area :photo %>
-    
+  <div class="file-field input-field">
+    <div class="btn">
+      <span><%= f.label  :photo %></span>
+      <%= f.file_field :photo %>
+      <%= f.hidden_field :photo_cache %>
+    </div>
+    <div class="file-path-wrapper">
+      <input class="file-path validate" type="text">
+    </div>
   </div>
 
   <div class="input-field">
@@ -35,13 +39,23 @@
 
   <div class="input-field">
 
+
+    <%= f.select :categories, Worker.categories.options, {required: true, prompt: true} %>
     <%= f.label :categories %>
-    <%= f.text_field :categories %>
-    
   </div>
+
+  <div class="input-field">
+
+    <%= f.label :time_value %>
+    <%= f.number_field :time_value, step: :any %>
+
+  </div>
+
+
 
 </div>
   <div class="actions">
     <%= f.submit t('button.save'), class:"btn" %>
   </div>
 <% end %>
+

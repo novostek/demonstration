@@ -1,0 +1,20 @@
+en:
+  activerecord:
+    models:
+      labor_cost: "Labor Cost"
+    attributes:
+      labor_cost:
+        worker_id: "Worker"
+        date: "Date"
+        status: "Status"
+        value: "Value"
+  enumerize:
+    labor_cost:
+      status:
+        paid: "Paid"
+        pendent: "Pendent"
+  notice:
+    labor_cost:
+      created: "Labor cost was successfully created."
+      updated: "Labor cost was sucessfully updated."
+      deleted: "Labor cost was sucessfully deleted."

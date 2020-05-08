@@ -1,0 +1,80 @@
+<div class="breadcrumbs-lightpb-0 pt-4" id="breadcrumbs-wrapper">
+	<!-- Search for small screen-->
+	<div class="container">
+		<div class="row">
+			<div class="col s10 m6 l6">
+				<h5 class="breadcrumbs-title mt-0 mb-0"><span><%= t('activerecord.models.estimates') %></span></h5>
+				<ol class="breadcrumbs mb-0">
+					<li class="breadcrumb-item"><a href="/"><%= t('home') %></a>
+					</li>
+					<li class="breadcrumb-item">
+            <%= link_to estimates_path do %>
+              <%= t('activerecord.models.estimates') %>
+            <% end %>
+          </li>
+					<li class="breadcrumb-item active"><%= t('breadcrumb.new') %>
+					</li>
+				</ol>
+			</div>
+			<div class="col s2 m6 l6">
+				<%= link_to t('button.all'), estimates_path, class:"btn waves-effect waves-light breadcrumbs-btn right" %>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="section">
+  <%= render 'leads/lead_detail', lead: @lead %>
+
+  <div class="card">
+    <div class="card-content">
+      <ul class="stepper horizontal stepper-head-only">
+        <li class="step active">
+          <%= link_to step_one_estimates_path(@estimate.lead) do %>
+            <div class="step-title waves-effect">Step 1</div>
+          <% end %>
+        </li>
+        <li class="step ">
+          <% if @estimate.schedules.present? %>
+            <%= link_to schedule_estimate_path(@estimate) do %>
+              <div class="step-title waves-effect">Schedule</div>
+            <% end %>
+          <% else %>
+            <div class="step-title waves-effect">Schedule</div>
+          <% end %>
+        </li>
+        <li class="step">
+          <% if @estimate.measurements.present? %>
+            <%= link_to measurement_view_estimates_path(@estimate) do %>
+              <div class="step-title waves-effect">Measurements</div>
+            <% end %>
+          <% else %>
+              <div class="step-title waves-effect">Measurements</div>
+          <% end %>
+        </li>
+        <li class="step">
+          <% if @estimate.product_estimates.present? %>
+            <%= link_to products_estimate_path(@estimate) do %>
+              <div class="step-title waves-effect">Products</div>
+            <% end %>
+          <% else %>
+            <div class="step-title waves-effect">Products</div>
+          <% end %>
+        </li>
+      </ul>
+      <%= form_with local: true, scope: :estimate, url: create_step_one_estimates_path(@lead.id)  do |f| %>
+        <%= render 'step_one_form', estimate: @estimate, f: f %>
+        <div class="col s12 pb-2 pr-0 pl-0 mt-5">
+          <%= f.button :submit, class:"btn indigo waves-effect waves-light breadcrumbs-btn right ml-1", target: '_self' do %>
+            Next: Schedule
+            <i class="material-icons right">arrow_forward</i>
+          <% end %>
+        </div>
+      <% end %>
+      <%= render 'worker_form', worker: @worker %>
+    </div>
+  </div>
+</div>
+
+<%= javascript_pack_tag 'materialize-stepper', 'data-turbolinks-track': 'reload' %>
+<%= javascript_pack_tag 'estimate/step_one', 'data-turbolinks-track': 'reload' %>

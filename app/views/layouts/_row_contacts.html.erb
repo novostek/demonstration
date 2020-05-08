@@ -1,0 +1,144 @@
+<div class="card row contacts-row">
+  <div class="contacts-wrapper">
+    <h6><%= t "activerecord.models.contacts" %></h6>
+    <div class="contacts-type-box">
+      <% if modelo.contacts.where(category: :phone).size > 0  %>
+        <a href="#" class="see-all-ctb"><%= t :see_all %></a>
+      <% end %>
+      <div class="contact-type--info">
+        <p><i class="material-icons green-text">phone</i> Phone</p>
+      </div>
+      <div class="contacts-list">
+        <% modelo.contacts.where(category: :phone).sort_by { |a| a.main ? 0 : 1 }.each do |phone| %>
+          <div class="contact <%= phone.main ? "main-contact" : "" %>">
+            <div class="contact-info">
+              <span class="contact-description"><%= phone.data["phone"] %></span>
+              <span class="contact-title"><%= phone.title %></span>
+            </div>
+            <div class="contact-edit">
+              <a href="#modal_contact_update_<%= phone.id %>" class="tooltipped modal-trigger" data-tooltip="Edit contact"><i class="material-icons">edit</i></a>
+            </div>
+          </div>
+
+          <div id="modal_contact_update_<%= phone.id %>" class="modal modal-fixed-footer">
+            <!--url: update_contact_worker_path(@worker) -->
+            <%= form_with model: phone , local: true do |f| %>
+              <div class="modal-content">
+                <h4><%= t "button.edit" %> <%= t "contacts" %></h4>
+                <%= render "customers/contact_update_fields",f: f, tipo: "phone" %>
+
+              </div>
+              <div class="modal-footer">
+                <%= link_to phone, method: :delete, class:"left modal-action modal-close waves-effect red white-text waves-green btn-flat" do %>
+                  <i class="material-icons left">delete</i><%= t "button.delete" %>
+                <% end %>
+                <%= f.button :submit, class:"modal-action modal-close waves-effect waves-green btn-flat" do %>
+                  <i class="material-icons left">save</i><%= t "button.save" %>
+                <% end %>
+              </div>
+            <% end  %>
+          </div>
+
+        <% end %>
+
+      </div>
+    </div>
+    <div class="contacts-type-box">
+      <% if modelo.contacts.where(category: :email).size > 0  %>
+        <a href="#" class="see-all-ctb"><%= t :see_all %></a>
+      <% end %>
+      <div class="contact-type--info">
+        <p><i class="material-icons red-text">mail</i> Mail</p>
+      </div>
+      <div class="contacts-list">
+        <% modelo.contacts.where(category: :email).sort_by { |a| a.main ? 0 : 1 }.each do |email| %>
+          <div class="contact <%= email.main ? "main-contact" : "" %>">
+            <div class="contact-info">
+              <span class="contact-description"><a href="mailto:test@test.com"><%= email.data["email"] %></a></span>
+              <span class="contact-title"><%= email.title %></span>
+            </div>
+            <div class="contact-edit">
+              <a href="#modal_contact_update_email_<%= email.id %>" class="tooltipped modal-trigger" data-tooltip="Edit contact"><i class="material-icons">edit</i></a>
+            </div>
+          </div>
+
+          <div id="modal_contact_update_email_<%= email.id %>" class="modal modal-fixed-footer">
+            <!--url: update_contact_worker_path(@worker) -->
+            <%= form_with model: email , local: true do |f| %>
+              <div class="modal-content">
+                <h4><%= t "button.edit" %> <%= t "contacts" %></h4>
+                <%= render "customers/contact_update_fields",f: f, tipo: "email" %>
+
+              </div>
+              <div class="modal-footer">
+                <%= link_to email, method: :delete, class:"left modal-action modal-close waves-effect red white-text waves-green btn-flat" do %>
+                  <i class="material-icons left">delete</i><%= t "button.delete" %>
+                <% end %>
+                <%= f.button :submit, class:"modal-action modal-close waves-effect waves-green btn-flat" do %>
+                  <i class="material-icons left">save</i><%= t "button.save" %>
+                <% end %>
+              </div>
+            <% end  %>
+          </div>
+        <% end %>
+
+
+      </div>
+    </div>
+    <div class="contacts-type-box address-type">
+      <% if modelo.contacts.where(category: :address).size > 0  %>
+        <a href="#" class="see-all-ctb"><%= t :see_all %></a>
+      <% end %>
+      <div class="contact-type--info">
+        <p><i class="material-icons orange-text text-darken-2">place</i> Address</p>
+      </div>
+      <div class="contacts-list">
+        <% modelo.contacts.where(category: :address).sort_by { |a| a.main ? 0 : 1 }.each do |address| %>
+          <div class="contact <%= address.main ? "main-contact" : "" %>">
+            <div class="contact-info">
+              <span class="contact-title"><a href="#maps"><%= address.title %></a></span>
+            </div>
+            <div class="contact-edit">
+              <a href="@modal_contact_update_address_<%= address.id %>" class="tooltipped modal-trigger" data-tooltip="Edit contact"><i class="material-icons">edit</i></a>
+            </div>
+            <!-- <a href="#" class="btn-more-info tooltipped" data-tooltip="More info"><i
+                    class="material-icons">place</i></a> -->
+
+            <div class="more-info">
+              <!-- <a href="#" class="btn-less-info"><i class="material-icons">close</i></a> -->
+              <div class="map">
+                <img src="http://maps.google.com/maps/api/staticmap?center=<%= address.data['lat'] %>,<%= address.data['lng'] %>&zoom=10&size=300x80&scale=2&maptype=road&markers=color:blue%7Clabel:S%7C<%= address.data['lat'] %>,<%= address.data['lng'] %>&key=AIzaSyBUW7c4JukYkKfxTr_bxMN3vn2FvtXAaBQ" alt="">
+              </div>
+              <span><strong class="font-weight-600"><%= t("json_data.city") %>:</strong><%= address.data["city"] %></span><br>
+              <span><strong class="font-weight-600"><%= t("json_data.state") %>:</strong><%= address.data["state"] %></span><br>
+              <span><strong class="font-weight-600"><%= t("json_data.address") %>:</strong><%= address.data["address"] %></span>
+              <a href="#" class="btn-navigate btn btn-flat btn-small btn-width blue white-text"><i
+                class="material-icons">navigation</i></a>
+            </div>
+          </div>
+
+          <div id="modal_contact_update_address_<%= address.id %>" class="modal modal-fixed-footer">
+            <!--url: update_contact_worker_path(@worker) -->
+            <%= form_with model: address , local: true do |f| %>
+              <div class="modal-content">
+                <h4><%= t "button.edit" %> <%= t "contacts" %></h4>
+                <%= render "customers/contact_update_fields",f: f, tipo: "address" %>
+
+              </div>
+              <div class="modal-footer">
+                <%= link_to address, method: :delete, class:"left modal-action modal-close waves-effect red white-text waves-green btn-flat" do %>
+                  <i class="material-icons left">delete</i><%= t "button.delete" %>
+                <% end %>
+                <%= f.button :submit, class:"modal-action modal-close waves-effect waves-green btn-flat" do %>
+                  <i class="material-icons left">save</i><%= t "button.save" %>
+                <% end %>
+              </div>
+            <% end  %>
+          </div>
+        <% end %>
+
+      </div>
+    </div>
+
+  </div>
+</div>

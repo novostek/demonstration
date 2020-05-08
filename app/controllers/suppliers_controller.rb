@@ -1,5 +1,55 @@
 class SuppliersController < ApplicationController
-  before_action :set_supplier, only: [:show, :edit, :update, :destroy]
+  #load_and_authorize_resource
+  before_action :set_supplier, only: [:show, :edit, :update, :destroy,:new_note,:new_document,:new_contact]
+
+  #Método que insere uma nota
+  def new_note
+    note = Note.new
+    note.title = params[:title]
+    note.text = params[:text]
+    note.origin = "Supplier"
+    note.origin_id = @supplier.id
+    if note.save
+      redirect_to @supplier, notice: "#{t 'note_create'}"
+    else
+      redirect_to @supplier, alert: "error"
+    end
+
+
+  end
+
+  #método que insere um novo documento
+  def new_document
+    doc = DocumentFile.new
+    doc.title = params[:title]
+    doc.file = params[:file]
+    doc.description = params[:description]
+    doc.origin = "Supplier"
+    doc.origin_id = @supplier.id
+    if doc.save
+      redirect_to @supplier, notice: "#{t 'doc_create'}"
+    else
+      redirect_to @supplier, alert: "error"
+    end
+
+  end
+
+  #Método que cria um novo contato
+  def new_contact
+    contact = Contact.new
+    contact.title = params[:title]
+    contact.category = params[:category]
+    contact.data = params[:data]
+    contact.origin = "Supplier"
+    contact.origin_id = @supplier.id
+    contact.main = params[:main]
+    if contact.save
+      redirect_to @supplier, notice: "#{t 'contact_create'}"
+    else
+      redirect_to @supplier, alert: "error"
+    end
+
+  end
 
   # GET /suppliers
   def index
@@ -9,6 +59,9 @@ class SuppliersController < ApplicationController
 
   # GET /suppliers/1
   def show
+    if params[:layout].present?
+      render :show_old
+    end
   end
 
   # GET /suppliers/new
@@ -25,7 +78,7 @@ class SuppliersController < ApplicationController
     @supplier = Supplier.new(supplier_params)
 
     if @supplier.save
-      redirect_to @supplier, notice: 'Supplier was successfully created'
+      redirect_to @supplier, notice: t('notice.supplier.created')
     else
       render :new
     end
@@ -34,7 +87,7 @@ class SuppliersController < ApplicationController
   # PATCH/PUT /suppliers/1
   def update
     if @supplier.update(supplier_params)
-      redirect_to @supplier, notice: 'Supplier was successfully updated.'
+      redirect_to @supplier, notice: t('notice.supplier.updated')
     else
       render :edit
     end
@@ -43,7 +96,7 @@ class SuppliersController < ApplicationController
   # DELETE /suppliers/1
   def destroy
     @supplier.destroy
-    redirect_to suppliers_url, notice: 'Supplier was successfully deleted.'
+    redirect_to suppliers_url, notice: t('notice.supplier.deleted')
   end
 
   private
@@ -54,6 +107,8 @@ class SuppliersController < ApplicationController
 
     # Only allow a trusted parameter "white list" through.
     def supplier_params
-      params.require(:supplier).permit(:name, :description)
+      params.require(:supplier).permit(:name, :description, notes_attributes:[:id,:origin,:origin_id,:private,:text,:title,:_destroy],
+                                       document_files_attributes:[:description,:id,:title,:file,:origin, :origin_id,:esign,:esign_data,:photo,:photo_date,:photo_description,:_destroy],
+                                       contacts_attributes:[:id, :category,:origin, :origin_id,:title,{data:[:address,:zipcode,:zipcode,:state,:lat,:lng,:city,:email, :ddd,:phone]},:_destroy])
     end
 end

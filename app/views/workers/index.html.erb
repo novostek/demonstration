@@ -1,5 +1,5 @@
-<div class="content-wrapper-before gradient-45deg-indigo-purple"></div>
-			<div class="breadcrumbs-dark pb-0 pt-4" id="breadcrumbs-wrapper">
+<div class="content-wrapper-before woffice-color"></div>
+			<div class="breadcrumbs-lightpb-0 pt-4" id="breadcrumbs-wrapper">
 				<!-- Search for small screen-->
 				<div class="container">
 					<div class="row">
@@ -14,7 +14,7 @@
 								</li>
 							</ol>
 						</div>
-						<div class="col s2 m6 l6"><a class="btn waves-effect waves-light breadcrumbs-btn right border-round" href="new_worker_path"><i class="material-icons hide-on-med-and-up">add</i><span class="hide-on-small-only"><%= t "add"  %> <%= t('activerecord.models.workers') %></span></a>
+						<div class="col s2 m6 l6"><a class="btn waves-effect waves-light breadcrumbs-btn right border-round" href="<%= new_worker_path %>"><i class="material-icons hide-on-med-and-up">add</i><span class="hide-on-small-only"><%= t "button.add"  %> <%= t('activerecord.models.worker') %></span></a>
 						</div>
 					</div>
 				</div>
@@ -45,19 +45,32 @@
       <thead>
         <tr>
           <th><%= t('activerecord.attributes.worker.name') %></th>
-          <th><%= t('activerecord.attributes.worker.photo') %></th>
+
           <th><%= t('activerecord.attributes.worker.document_id') %></th>
           <th><%= t('activerecord.attributes.worker.categories') %></th>
+          <th><%= t('activerecord.attributes.worker.time_value') %></th>
           <th></th>
         </tr>
       </thead>
       <tbody>
         <% @workers.each do |worker| %>
         <tr>
-            <td><%= worker.name %></td>
-            <td><%= worker.photo %></td>
+          <td>
+
+						<div class="chip">
+							<img class="circle" src="<%= worker.photo.present? ? worker.photo.url : "/materialize/images/avatar/avatar-1.png" %>" alt="avatar">
+							<%= worker.name %>
+						</div>
+
+            <!--<span class="avatar-contact avatar-online">-->
+
+            <!--</span>-->
+            <%#= worker.photo %>
+          </td>
+
             <td><%= worker.document_id %></td>
-            <td><%= worker.categories %></td>
+            <td><%= worker.categories_text %></td>
+            <td><%= worker.time_value %></td>
           <td>
             <div class="invoice-action right-align">
               <%= link_to worker, class: "invoice-action-view mr-4" do %>

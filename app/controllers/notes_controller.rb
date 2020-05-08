@@ -1,4 +1,5 @@
 class NotesController < ApplicationController
+  #load_and_authorize_resource
   before_action :set_note, only: [:show, :edit, :update, :destroy]
 
   # GET /notes
@@ -25,7 +26,7 @@ class NotesController < ApplicationController
     @note = Note.new(note_params)
 
     if @note.save
-      redirect_to @note, notice: 'Note foi criado com sucesso'
+      redirect_to @note, notice: t('notice.note.created')
     else
       render :new
     end
@@ -34,7 +35,7 @@ class NotesController < ApplicationController
   # PATCH/PUT /notes/1
   def update
     if @note.update(note_params)
-      redirect_to @note, notice: 'Note foi atualizado com sucesso.'
+      redirect_to @note, notice: t('notice.note.updated')
     else
       render :edit
     end
@@ -42,8 +43,13 @@ class NotesController < ApplicationController
 
   # DELETE /notes/1
   def destroy
+
     @note.destroy
-    redirect_to notes_url, notice: 'Note foi apagado com sucesso.'
+
+    redirect_to params[:redirect], notice: t('notice.note.deleted')
+
+
+
   end
 
   private

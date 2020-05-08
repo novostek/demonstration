@@ -1,4 +1,5 @@
 class CalculationFormulasController < ApplicationController
+  #load_and_authorize_resource except: [:calculate_product_qty_lw]
   before_action :set_calculation_formula, only: [:show, :edit, :update, :destroy]
 
   # GET /calculation_formulas
@@ -25,7 +26,7 @@ class CalculationFormulasController < ApplicationController
     @calculation_formula = CalculationFormula.new(calculation_formula_params)
 
     if @calculation_formula.save
-      redirect_to @calculation_formula, notice: 'Calculation was successfully created.'
+      redirect_to @calculation_formula, notice: t('notice.calculation_formula.created')
     else
       render :new
     end
@@ -34,7 +35,7 @@ class CalculationFormulasController < ApplicationController
   # PATCH/PUT /calculation_formulas/1
   def update
     if @calculation_formula.update(calculation_formula_params)
-      redirect_to @calculation_formula, notice: 'Calculation formula was successfully updated.'
+      redirect_to @calculation_formula, notice: t('notice.calculation_formula.updated')
     else
       render :edit
     end
@@ -43,7 +44,23 @@ class CalculationFormulasController < ApplicationController
   # DELETE /calculation_formulas/1
   def destroy
     @calculation_formula.destroy
-    redirect_to calculation_formulas_url, notice: 'Calculation formula was successfully deleted.'
+    redirect_to calculation_formulas_url, notice: t('notice.calculation_formula.deleted')
+  end
+
+  def calculate_product_qty_lw
+    calculator = Dentaku::Calculator.new
+    area = Measurement.square_meter(JSON.parse params[:areas_ids])
+    product = Product.find(params[:product_id])
+    formula = product.calculation_formula
+    qty = calculator.evaluate(formula.formula, area: area, area_covered: product.area_covered).to_f
+    render json: {
+      id: product.id,
+      name: product.name,
+      qty: qty,
+      tax: product.tax,
+      total: product.customer_price * qty,
+      price: product.customer_price
+    }
   end
 
   private
@@ -54,6 +71,6 @@ class CalculationFormulasController < ApplicationController
 
     # Only allow a trusted parameter "white list" through.
     def calculation_formula_params
-      params.require(:calculation_formula).permit(:name, :formula, :description, :taz, :namespace)
+      params.require(:calculation_formula).permit(:name, :formula, :description, :tax, :namespace)
     end
 end

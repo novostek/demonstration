@@ -9,3 +9,25 @@ en:
         value: "Value"
         origin: "Origin"
         origin_id: "Origin ID"
+        main: "Main"
+  enumerize:
+    contact:
+      category:
+        phone: "Phone"
+        email: "Email"
+        address: "Address"
+  json_data:
+    address: "Address"
+    zipcode: "ZipCode"
+    state: "State"
+    city: "City"
+    lat: "Latitude"
+    lng: "Longitude"
+    email: "Email"
+    ddd: "DDD"
+    phone: "Phone"
+  notice:
+    contact:
+      created: "Contact was successfully created."
+      updated: "Contact was sucessfully updated."
+      deleted: "Contact was sucessfully deleted."

@@ -3,16 +3,21 @@ en:
     show: "View"
     list: "List"
     edit: "Edit"
-
+    dashboard: "Dashboard"
+  find_customer: "Find a Customer"
   placeholder:
     search: "Search ..."
-
+  add:  "Add"
   button:
     back: "Back"
     all: "View all"
     save: "Save"
     see_more: "See More"
     add: "Add"
+    delete: "Delete"
+    new: "New"
+    edit: "Edit"
+    delete_schedule: "Delete Schedule"
 
   false: "No"
   true: "Yes"
@@ -30,3 +35,24 @@ en:
   minutes: "minutes"
   second: "second"
   seconds: "seconds"
+
+  will_delete: "Are you sure?"
+  remember: "Remember Me"
+  signin: "Sign in"
+  is_required: "is required"
+
+  #atributes
+  name: "Name"
+  description: "Description"
+  color: "Color"
+  namespace: "Namespace"
+  notes: "Notes"
+  documents: "Documents"
+  contacts: "Contact"
+  see_all: "See All"
+  cost_saved: "Cost Saved"
+  check_dates: "Check dates"
+
+  errors:
+    # format to use in full error messages.
+    format: "%{attribute} %{message} "

@@ -1,0 +1,14 @@
+.worker-tasks{
+	.collection-item.avatar{
+		&:hover{
+			background: #f6f6f6;
+		}
+		min-height: auto;
+		padding-top: 0px;
+		padding-bottom: 0px;
+		a{
+			display: block;
+			padding: 10px 0;
+		}
+	}
+}

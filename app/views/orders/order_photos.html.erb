@@ -1,0 +1,135 @@
+<link rel="stylesheet" type="text/css" href="/css/order.css">
+<link rel="stylesheet" type="text/css" href="/materialize/vendors/magnific-popup/magnific-popup.css">
+<%= form_for @order, html:{id:"form_photo"} do |f| %>
+
+  <%= hidden_field_tag :status, id: "status" %>
+<div class="row">
+  <div class="content-wrapper-before woffice-color"></div>
+  <div class="breadcrumbs-light pb-0 pt-4" id="breadcrumbs-wrapper">
+    <!-- Search for small screen-->
+    <div class="container">
+      <div class="row">
+        <div class="col s10 m6 l6">
+          <h5 class="breadcrumbs-title mt-0 mb-0">Photos</h5>
+          <ol class="breadcrumbs mb-0">
+            <li class="breadcrumb-item"><a href="index.html">Home</a>
+            </li>
+            <li class="breadcrumb-item"><a href="<%= order_path(@order) %>">Order</a>
+            </li>
+            <li class="breadcrumb-item active">Photos
+            </li>
+          </ol>
+        </div>
+        <div class="col s2 m6 l6">
+          <a class="btn btn-default waves-effect display-flex align-items-center justify-content-center waves-light breadcrumbs-btn right mr-2  text-lighten-5 border-round" href="<%= order_path(@order) %>"><i class="material-icons hide-on-med-and-up">arrow_back</i><span class="hide-on-small-only">Back to order</span></a>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col s12">
+    <div class="container">
+      <div class="row mt-1">
+        <div class="col s12 pl-0 pr-0">
+
+          <div class="col s12 pl-1">
+            <div class="masonry-gallery-wrapper">
+              <div class="popup-gallery">
+                <div class="gallery-sizer"></div>
+                <div class="row">
+                  <% @order.photos.each do |photo| %>
+                    <div class="col s12 m6 l4 xl2">
+                      <div>
+                        <a href="<%= photo.url %>" title="Finishig Order">
+                          <img src="<%= photo.url %>" class="responsive-img mb-10" alt="">
+                        </a>
+                      </div>
+                    </div>
+                  <% end %>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+</div>
+<% end %>
+
+
+<%= content_for :scripts do %>
+  <script src="/materialize/vendors/magnific-popup/jquery.magnific-popup.min.js"></script>
+  <script src="/materialize/vendors/imagesloaded.pkgd.min.js"></script>
+  <script src="/materialize/js/scripts/media-gallery-page.js"></script>
+  <script>
+
+      function save(status)
+      {
+        $("#status").val(status);
+        //$('#form_photo').submit();
+      }
+
+
+
+      $(document).ready(function () {
+
+
+          $(".save-signature").on("click", function (e) {
+              e.stopPropagation();
+              $(this).parent().parent().parent().addClass("done");
+          });
+
+          $(".finish-order-step").on("click", function () {
+              if ($(this).hasClass("done")){
+                  $(this).toggleClass("toggled");
+              }
+          });
+
+          $('.modal').modal({
+              opacity: .8
+          });
+      });
+  </script>
+
+  <script src="https://cdn.jsdelivr.net/npm/signature_pad@2.3.2/dist/signature_pad.min.js"></script>
+
+  <script type="text/javascript" charset="utf-8">
+      var canvas = document.getElementById('signature-pad');
+
+
+
+      window.onresize = resizeCanvas;
+      resizeCanvas();
+
+      var signaturePad = new SignaturePad(canvas, {
+          backgroundColor: 'rgb(255, 255, 255)', // necessary for saving image as JPEG; can be removed is only saving as PNG or SVG
+          onEnd: function(){
+              var data = this.toDataURL();
+              $("#signature_file").val(data);
+          }
+      });
+
+      // function endDraw()
+      // {
+      //     var data = signaturePad.toDataURL('image/png');
+      //     $("#signature_file").val(data);
+      // }
+
+      function resizeCanvas() {
+          // When zoomed out to less than 100%, for some very strange reason,
+          // some browsers report devicePixelRatio as less than 1
+          // and only part of the canvas is cleared then.
+          var ratio =  Math.max(window.devicePixelRatio || 1, 1);
+          canvas.width = canvas.offsetWidth * ratio;
+          canvas.height = canvas.offsetHeight * ratio;
+          canvas.getContext("2d").scale(ratio, ratio);
+      }
+
+      document.getElementById('clear').addEventListener('click', function () {
+          signaturePad.clear();
+          $("#signature_file").val("");
+      });
+  </script>
+<% end %>

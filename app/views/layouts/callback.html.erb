@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html class="loading" lang="en" data-textdirection="ltr">
+<!-- BEGIN: Head-->
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimal-ui">
+  <meta name="description" content="Materialize is a Material Design Admin Template,It's modern, responsive and based on Material Design by Google.">
+  <meta name="keywords" content="materialize, admin template, dashboard template, flat admin template, responsive admin template, eCommerce dashboard, analytic dashboard">
+  <meta name="author" content="ThemeSelect">
+  <title><%= "#{ yield :title }  Wood Office " %></title>
+  <link rel="apple-touch-icon" href="/materialize/images/favicon/apple-touch-icon-152x152.png">
+  <link rel="shortcut icon" type="image/x-icon" href="/materialize/images/favicon/favicon-32x32.png">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <!-- BEGIN: VENDOR CSS-->
+  <link rel="stylesheet" type="text/css" href="/materialize/vendors/vendors.min.css">
+  <link rel="stylesheet" type="text/css" href="/materialize/vendors/flag-icon/css/flag-icon.min.css">
+  <link rel="stylesheet" href="/materialize/vendors/select2/select2.min.css" type="text/css">
+  <link rel="stylesheet" href="/materialize/vendors/select2/select2-materialize.css" type="text/css">
+  <link rel="stylesheet" type="text/css" href="/materialize/vendors/data-tables/css/jquery.dataTables.min.css">
+  <link rel="stylesheet" type="text/css" href="/materialize/vendors/data-tables/extensions/responsive/css/responsive.dataTables.min.css">
+  <link rel="stylesheet" type="text/css" href="/materialize/vendors/data-tables/css/dataTables.checkboxes.css">
+  <!-- END: VENDOR CSS-->
+  <!-- BEGIN: Page Level CSS-->
+  <link rel="stylesheet" type="text/css" href="/materialize/css/themes/vertical-modern-menu-template/materialize.css">
+  <link rel="stylesheet" type="text/css" href="/materialize/css/themes/vertical-modern-menu-template/style.css">
+  <link rel="stylesheet" type="text/css" href="/materialize/css/pages/app-sidebar.css">
+  <link rel="stylesheet" type="text/css" href="/materialize/css/pages/app-todo.css">
+  <link rel="stylesheet" type="text/css" href="/materialize/css/pages/app-invoice.css">
+  <link rel="stylesheet" type="text/css" href="/materialize/css/pages/app-email.css">
+  <link rel="stylesheet" type="text/css" href="/materialize/vendors/sweetalert/sweetalert.css">
+  <link href="/js/farbtastic/farbtastic.css" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" type="text/css" href="/css/callback.css">
+
+  <link href="/css/search_google.css" rel="stylesheet" type="text/css">
+  <%= stylesheet_link_tag 'main-process' %>
+  <%= stylesheet_link_tag 'materialize-stepper.min' %>
+  <%= stylesheet_pack_tag 'application' %>
+  <%= stylesheet_link_tag 'app-calendar' %>
+
+  <!-- END: Page Level CSS-->
+  <!-- BEGIN: Custom CSS-->
+  <link rel="stylesheet" type="text/css" href="/materialize/css/custom/custom.css">
+  <!-- END: Custom CSS-->
+  <%= csrf_meta_tags %>
+  <%= csp_meta_tag %>
+
+  <%= stylesheet_link_tag 'application', media: 'all' %> <!-- , 'data-turbolinks-track': 'reload' -->
+  <%= javascript_pack_tag 'application' %> <!-- , 'data-turbolinks-track': 'reload' -->
+  <%= yield :head_content %>
+</head>
+<!-- END: Head-->
+
+<body class="cb-body"   >
+
+       <%= yield %>
+
+<!-- END PAGE LEVEL JS-->
+<%= yield :scripts %>
+<!-- END PAGE LEVEL JS-->
+</body>
+</html>

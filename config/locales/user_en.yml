@@ -1,0 +1,20 @@
+en:
+  activerecord:
+    models:
+      user: "User"
+    attributes:
+      user:
+        name: "Name"
+        email: "Email"
+        password: "Password"
+        password_confirmation: "Password confirmation"
+        profiles: "Profiles"
+        active: "Active"
+        worker_id: "Worker"
+
+  change_password: "Change Password"
+  notice:
+    user:
+      created: "User was successfully created."
+      updated: "User was sucessfully updated."
+      deleted: "User was sucessfully deleted."

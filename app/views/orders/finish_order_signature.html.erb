@@ -1,0 +1,252 @@
+<link rel="stylesheet" type="text/css" href="/css/order.css">
+<%= form_for @signature, html:{id:"form_signature"} do |f| %>
+<div class="row">
+  <div class="content-wrapper-before woffice-color"></div>
+  <div class="breadcrumbs-light pb-0 pt-4" id="breadcrumbs-wrapper">
+    <!-- Search for small screen-->
+    <div class="container">
+      <div class="row">
+        <div class="col s10 m6 l6">
+          <h5 class="breadcrumbs-title mt-0 mb-0">Finish order #123</h5>
+          <ol class="breadcrumbs mb-0">
+            <li class="breadcrumb-item"><a href="/">Home</a>
+            </li>
+            <li class="breadcrumb-item"><a href="#">Orders</a>
+            </li>
+            <li class="breadcrumb-item active">Finish
+            </li>
+          </ol>
+        </div>
+        <div class="col s2 m6 l6">
+
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col s12">
+    <div class="container">
+      <div class="row mt-1">
+        <div class="col s12 pl-0 pr-0">
+
+          <div class="col s12 pl-1">
+            <div class="card-panel">
+              <div class="finish-order-steps">
+
+
+                <div class="finish-order-step signature">
+
+                  <div class="step-title"><span class="step-icon"></span>Customer signature
+                  </div>
+                  <div class="step-content">
+
+
+                      <%= f.hidden_field :sign, value: true %>
+                      <%= f.hidden_field :origin %>
+                      <%= f.hidden_field :origin_id %>
+                      <%= f.hidden_field :finish_order, value: true %>
+
+                      <input type="hidden" id="signature_file" value="" name="signature[file]">
+
+
+
+                      <div class="signature">
+
+                        <div class="row">
+                          <div class="col s12 l6">
+                            <div class="input">
+                              <label for="">Document</label>
+                              <%= select_tag :document, options_for_select(@documents) %>
+                            </div>
+                          </div>
+                          <div class="left col s12 l6">
+                            <a class="btn waves-effect waves-light right mr-2" href="#" onclick="preview_document();" >
+                              <i class="material-icons hide-on-med-and-up">save</i><span class="hide-on-small-only">Preview Document</span>
+                            </a>
+                          </div>
+                        </div>
+
+<!--                        <canvas id="signature-pad" class="signature-pad"></canvas>-->
+                      </div>
+<!--                      <div class="signature-actions">-->
+<!--                        <a href="#" id="clear" class="clear-signature"><i class="material-icons">clear</i> Clear</a>-->
+<!--                        <a href="#" class="save-signature" ><i class="material-icons">save</i> Save signature</a>-->
+<!--                      </div>-->
+
+                  </div>
+                </div>
+
+
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+      <div class="save-buttons col s12 pb-2 pr-0">
+        <%#= f.button :submit, class:"btn waves-effect waves-light right mr-2", onclick:"save(true);" do %>
+<!--          <i class="material-icons hide-on-med-and-up">save</i><span class="hide-on-small-only">Sign and Finish</span>-->
+        <%# end %>
+        <a class="btn waves-effect waves-light right mr-2 modal-trigger" href="#" onclick="sign();" >
+          <i class="material-icons hide-on-med-and-up">save</i><span class="hide-on-small-only">Sign and Finish</span>
+        </a>
+        <% if !Setting.get_value("order_need_sign") and !Setting.get_value("take_photo")  %>
+          <a class="btn waves-effect waves-light right mr-2" href="<%= finish_order_path(@order) %>" >
+            <i class="material-icons hide-on-med-and-up">save</i><span class="hide-on-small-only">Finish Order</span>
+          </a>
+        <% end %>
+        <a class="btn waves-effect waves-light right mr-2 modal-trigger" href="#modal-mail" onclick="get_document();" >
+          <i class="material-icons hide-on-med-and-up">save</i><span class="hide-on-small-only">Send Mail</span>
+        </a>
+
+      </div>
+    </div>
+
+
+
+
+
+  </div>
+
+</div>
+
+
+<% end %>
+
+<div id="modal-mail" class="modal">
+  <%= form_with url: preview_documents_path, method: :get, local: true do |f| %>
+    <%= f.hidden_field :estimate, value: @order.current_estimate.id %>
+    <%= f.hidden_field :send_mail, value: true %>
+    <%= f.hidden_field :from, value: "Order" %>
+    <%= f.hidden_field :customer_sign, value: true %>
+    <div class="modal-content">
+      <h4>Send email</h4>
+      <div class="row">
+        <div class="input-field">
+          <%= f.label :emails, "Emails" %>
+          <%= f.text_field :emails, value: @email_customer, required: true %>
+
+        </div>
+        <div class="input-field">
+          <%= f.label :subject %>
+          <%= f.text_field :subject, required: true %>
+        </div>
+
+        <%= f.hidden_field :document, id:"mail_document" %>
+
+      </div>
+    </div>
+    <div class="modal-footer">
+      <%= f.button :submit,  class:"modal-action modal-close waves-effect waves-green btn-flat btn-send", target:"_self" do %>
+        <i class="material-icons left">send</i> Send
+      <% end %>
+    </div>
+  <% end %>
+</div>
+
+<!--<div id="modal-mail" class="modal">-->
+  <%#= form_with url: send_sign_mail_order_path(@order), method: :get, local: true do |f| %>
+<!--    <div class="modal-content">-->
+<!--      <h4>Send email</h4>-->
+<!--      <div class="row">-->
+<!--        <div class="input-field">-->
+          <%#= f.label :emails, "Emails" %>
+          <%#= f.text_field :emails, value: @email_customer, required: true %>
+
+<!--        </div>-->
+<!--        <div class="input-field">-->
+          <%#= f.label :subject %>
+          <%#= f.text_field :subject, required: true %>
+<!--        </div>-->
+
+          <%#= f.hidden_field :document, id:"mail_document" %>
+
+<!--      </div>-->
+<!--    </div>-->
+<!--    <div class="modal-footer">-->
+      <%#= f.button :submit,  class:"modal-action modal-close waves-effect waves-green btn-flat btn-send", target:"_self" do %>
+<!--        <i class="material-icons left">send</i> Send-->
+      <%# end %>
+<!--    </div>-->
+  <%# end %>
+<!--</div>-->
+<%= content_for :scripts do %>
+  <script>
+
+    function sign()
+    {
+        //window.open('/orders/<%= @order.id %>/send_sign_mail?sign=true&document='+$("#document").val(), '_blank');
+        window.open('/documents/preview?from=Order&customer_sign=true&finish_order=true&estimate=<%= @order.current_estimate.id %>&document='+$("#document").val(), '_blank');
+    }
+
+
+
+    function preview_document()
+    {
+        window.open('/documents/preview?estimate=<%= @order.current_estimate.id %>&document='+$("#document").val(), '_blank');
+    }
+    function get_document()
+    {
+        console.log($("#document").val());
+        $("#mail_document").val($("#document").val());
+    }
+
+      $(document).ready(function () {
+
+
+          $(".save-signature").on("click", function (e) {
+              e.stopPropagation();
+              $(this).parent().parent().parent().addClass("done");
+          });
+
+          $(".finish-order-step").on("click", function () {
+              if ($(this).hasClass("done")){
+                  $(this).toggleClass("toggled");
+              }
+          });
+
+          $('.modal').modal({
+              opacity: .8
+          });
+      });
+  </script>
+
+  <script src="https://cdn.jsdelivr.net/npm/signature_pad@2.3.2/dist/signature_pad.min.js"></script>
+
+  <script type="text/javascript" charset="utf-8">
+      var canvas = document.getElementById('signature-pad');
+
+
+
+      window.onresize = resizeCanvas;
+      resizeCanvas();
+
+      var signaturePad = new SignaturePad(canvas, {
+          backgroundColor: 'rgb(255, 255, 255)', // necessary for saving image as JPEG; can be removed is only saving as PNG or SVG
+          onEnd: function(){
+              var data = this.toDataURL();
+              $("#signature_file").val(data);
+          }
+      });
+
+      // function endDraw()
+      // {
+      //     var data = signaturePad.toDataURL('image/png');
+      //     $("#signature_file").val(data);
+      // }
+
+      function resizeCanvas() {
+          // When zoomed out to less than 100%, for some very strange reason,
+          // some browsers report devicePixelRatio as less than 1
+          // and only part of the canvas is cleared then.
+          var ratio =  Math.max(window.devicePixelRatio || 1, 1);
+          canvas.width = canvas.offsetWidth * ratio;
+          canvas.height = canvas.offsetHeight * ratio;
+          canvas.getContext("2d").scale(ratio, ratio);
+      }
+
+      document.getElementById('clear').addEventListener('click', function () {
+          signaturePad.clear();
+          $("#signature_file").val("");
+      });
+  </script>
+<% end %>

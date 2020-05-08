@@ -1,4 +1,5 @@
 class BpmController < ApplicationController
+  #load_and_authorize_resource
   before_action :get_my_tasks, only:[:tasks, :assignee_tasks]
   before_action :get_task, only:[:task, :complete_task, :task_information, :fix_task]
   before_action :set_bpm_user

@@ -1,0 +1,269 @@
+
+
+<div class="breadcrumbs-lightpb-0 pt-4" id="breadcrumbs-wrapper">
+  <!-- Search for small screen-->
+  <div class="container">
+    <div class="row">
+      <div class="col s10 m6 l6">
+        <h5 class="breadcrumbs-title mt-0 mb-0"><span><%= @supplier %></span></h5>
+        <ol class="breadcrumbs mb-0">
+          <li class="breadcrumb-item"><a href="/"><%= t('home') %></a>
+          </li>
+          <li class="breadcrumb-item"><a href="#"><%= t('activerecord.models.supplier') %></a>
+          </li>
+          <li class="breadcrumb-item active"><%= t('breadcrumb.show') %>
+          </li>
+        </ol>
+      </div>
+      <div class="col s2 m6 l6">
+        <%= link_to t('button.all'), suppliers_path, class:"btn waves-effect waves-light breadcrumbs-btn right" %>
+        <%= link_to edit_supplier_path(@supplier) , class: "btn-flat waves-effect waves-light breadcrumbs-btn right" do %>
+          <i class="material-icons">edit</i>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!--<div class="col s12">-->
+<!--  <div class="container">-->
+<div class="row">
+  <div class="col s12 l9 pl-0 pr-0">
+
+    <div class="col s12 pl-1">
+      <div class="card-panel  pb-0">
+        <div class="row">
+            <div class="col s12 m8">
+              <span class="left width-100"><span class="font-weight-600 black-text"><%= t 'activerecord.attributes.supplier.name' %>: </span><%= @supplier.name %></span>
+              <span class="left width-100"><span class="font-weight-600 black-text"><%= t 'activerecord.attributes.supplier.description' %>: </span><%= @supplier.description %></span>
+            </div>
+            <div class="col s12 m4">
+              <!--              <span class="left width-100"><span class="display-inline chip grey lighten-5 grey-text right">Since:02/18/2020</span></span>-->
+            </div>
+        </div>
+      </div>
+      <!-- Contacts -->
+
+      <div class="row contacts-row">
+        <div class="contacts-wrapper">
+          <% @supplier.contacts.group_by(&:category).map do |category, contatos| %>
+            <div class="contacts-type-box">
+              <div class="contact-type--info">
+                <div class="contact-icon">
+                  <% if category == :phone %>
+                    <i class="material-icons green-text">phone</i>
+                  <% elsif category == :address %>
+                    <i class="material-icons orange-text">place</i>
+                  <% else %>
+                    <i class="material-icons red-text">mail</i>
+                  <% end %>
+                </div>
+                <h6><%= category %></h6>
+              </div>
+              <div class="contacts-list">
+                <% contatos.each do |doc| %>
+                  <div class="contact">
+                    <div class="contact-info">
+                      <span class="contact-title"><%= doc.title %></span>
+                      <% if category == :phone %>
+                        <span class="contact-description"><%= doc.data["phone"] %></span>
+                      <% elsif category == :address %>
+                        <span class="contact-description"><%= doc.data["address"] %></span>
+                      <% else %>
+                        <span class="contact-description"><a href="mailto:<%= doc.data["email"] %>"><%= doc.data["email"] %></a></span>
+                      <% end %>
+                    </div>
+                    <% if category == :address %>
+                      <a href="#" class="btn-more-info tooltipped" data-tooltip="More info"><i class="material-icons">place</i></a>
+                      <div class="more-info">
+                        <a href="#" class="btn-less-info"><i
+                          class="material-icons">close</i></a>
+                        <div class="map">
+                          <img src="http://maps.google.com/maps/api/staticmap?center=<%= doc.data['lat'] %>,<%= doc.data['lng'] %>&zoom=10&size=300x80&scale=2&maptype=road&markers=color:blue%7Clabel:S%7C<%= doc.data['lat'] %>,<%= doc.data['lng'] %>&key=AIzaSyBUW7c4JukYkKfxTr_bxMN3vn2FvtXAaBQ" alt="">
+                        </div>
+                        <span><strong class="font-weight-600">City:</strong> <%= doc.data["city"] %></span><br>
+                        <span><strong class="font-weight-600">State:</strong><%= doc.data["state"] %></span><br>
+                        <a href="#" class="btn-navigate btn btn-flat btn-small btn-width blue white-text"><i class="material-icons">navigation</i></a>
+                      </div>
+                    <% end %>
+                  </div>
+                <% end %>
+              </div>
+            </div>
+          <% end %>
+        </div>
+      </div>
+      <!-- End Contacts -->
+
+      <div class="card-panel customer-estimates">
+        <div class="row">
+          <div class="col s12 pt-0 pb-0 pl-0 pr-0">
+            <div class="col s12">
+
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+    </div>
+  </div>
+  <div class="col s12 l3 pl-0 pr-0">
+    <div class="col s12 card-width">
+      <div class="card row black-text padding-4 mt-3">
+        <a class="sidenav-trigger" href="#" data-target="slide-out-right">
+          <div class="col s5 m5">
+            <i
+              class="material-icons background-round grey lighten-4 mt-5 mb-5 green-text">description</i>
+            <!-- <p>Orders</p> -->
+          </div>
+          <div class="col s7 m7 right-align">
+            <h5 class="mb-0 black-text"><%= @supplier.document_files.count %></h5>
+            <p class="no-margin black-text">Documents</p>
+            <!-- <p>6,00,00</p> -->
+          </div>
+        </a>
+      </div>
+
+      <div class="card row black-text padding-4 mt-3">
+        <a class="sidenav-trigger" href="#" data-target="slide-out-right">
+          <div class="col s5 m5">
+            <i
+              class="material-icons background-round grey lighten-4 mt-5 mb-5 amber-text">note</i>
+            <!-- <p>Orders</p> -->
+          </div>
+          <div class="col s7 m7 right-align">
+            <h5 class="mb-0 black-text"><%= @supplier.notes.count %></h5>
+            <p class="no-margin black-text">Notes</p>
+            <!-- <p>6,00,00</p> -->
+          </div>
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+<!--  </div>-->
+<!--</div>-->
+
+<%= content_for :sidenav do %>
+  <aside id="right-sidebar-nav">
+    <div id="slide-out-right" class="slide-out-right-sidenav sidenav rightside-navigation">
+      <div class="row">
+        <div class="slide-out-right-title">
+          <div class="col s10 pl-3">
+            <h5>Notes</h5>
+          </div>
+          <div class="col s22">
+            <i class="material-icons "><a href="#" target="_self" class="sidenav-close">clear</a></i>
+          </div>
+        </div>
+      </div>
+      <div class="slide-out-right-body row pl-3 pr-3">
+        <% @supplier.notes.each do |note| %>
+          <div class="note">
+            <%= link_to note, method: :delete, class:"btn-delete-note" do %>
+              <i class="material-icons">delete</i>
+            <% end %>
+            <h6 class="note-title"><%= note.title %></h6>
+            <p class="note-content"><%= note.text %></p>
+          </div>
+        <% end %>
+
+        <!-- Exemple document -->
+        <div class="col s12 pl-3">
+          <h5>Documents</h5>
+        </div>
+        <% @supplier.document_files.each do |doc| %>
+          <%= link_to doc.file.url, target:"_blank" do %>
+            <span class="chip grey lighten-3 green-text truncate"><%= doc.title %></span>
+          <% end if doc.file.present?  %>
+        <% end %>
+
+      </div>
+    </div>
+
+
+  </aside>
+<% end %>
+
+<%= render "layouts/add_button" %>
+
+<div id="modal_note" class="modal modal-fixed-footer">
+  <%= form_with url: new_note_supplier_path(@supplier),method: :get, local: true do |f| %>
+    <div class="modal-content">
+      <h4><%= t "button.new" %> <%= t "notes" %></h4>
+      <%= render "customers/notes_form", f: f %>
+
+    </div>
+    <div class="modal-footer">
+      <%= f.submit t "button.save", class:"modal-action modal-close waves-effect waves-green btn-flat" %>
+      <!--<a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat ">Agree</a>-->
+    </div>
+  <% end  %>
+</div>
+
+<div id="modal_doc" class="modal modal-fixed-footer">
+  <%= form_with url: new_document_supplier_path(@supplier), local: true do |f| %>
+    <div class="modal-content">
+      <h4><%= t "button.new" %> <%= t "documents" %></h4>
+      <%= render "customers/document_file_fields", f: f %>
+
+    </div>
+    <div class="modal-footer">
+      <%= f.submit t "button.save", class:"modal-action modal-close waves-effect waves-green btn" %>
+      <!--<a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat ">Agree</a>-->
+    </div>
+  <% end  %>
+</div>
+
+<div id="modal_contact" class="modal modal-fixed-footer">
+  <%= form_with url: new_contact_supplier_path(@supplier),method: :get, local: true do |f| %>
+    <div class="modal-content">
+      <h4><%= t "button.new" %> <%= t "contacts" %></h4>
+      <%= render "customers/contact_fields", f: f %>
+
+    </div>
+    <div class="modal-footer">
+      <%= f.submit t "button.save", class:"modal-action modal-close waves-effect waves-green btn" %>
+      <!--<a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat ">Agree</a>-->
+    </div>
+  <% end  %>
+</div>
+
+
+<%= content_for :scripts do %>
+
+  <script>
+      $(document).ready(function () {
+
+          $('.chips').chips();
+
+          $('.modal').modal({
+              opacity: .8
+          });
+
+          $("a.btn-more-info").on("click", function (e) {
+              e.preventDefault();
+              // console.log($(this).parent().find(".more-info").offset().top);
+              // console.log($(".contacts-wrapper").offset().top);
+              // console.log($(this).parent().find(".more-info").position().top);
+              // var tp = (($(this).parent().find(".more-info").offset().top - $(".contacts-wrapper").offset().top))*-1;
+              $(".contacts-list").toggleClass("active");
+              // $(this).parent().find(".more-info").css("top", tp);
+              $(this).parent().find(".more-info").height($(".contacts-wrapper").height());
+              $(this).parent().find(".more-info").toggleClass("active");
+              $(this).parent().toggleClass("active");
+
+          });
+
+          $("a.btn-less-info").on("click", function (e) {
+              e.preventDefault();
+              $(this).parent().toggleClass("active");
+              $(this).parent().parent().toggleClass("active");
+              $(".contacts-list").toggleClass("active");
+          });
+
+
+      });
+  </script>
+<% end %>

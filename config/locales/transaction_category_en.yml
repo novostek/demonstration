@@ -1,0 +1,15 @@
+en:
+  activerecord:
+    models:
+      transaction_category: "Transaction Category"
+    attributes:
+      transaction_category:
+        name: "Name"
+        color: "Color"
+        namespace: "Namespace"
+        description: "Description"
+  notice:
+    transaction_category:
+      created: "Transaction category was successfully created."
+      updated: "Transaction category was sucessfully updated."
+      deleted: "Transaction category was sucessfully deleted."

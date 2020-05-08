@@ -1,0 +1,936 @@
+<div class="col s12">
+  <div class="container">
+      <div class="section">
+
+          <div class="row">
+              <div class="col s12 mb-0 pb-0 animate fadeLeft right-align">
+                  <div class="row">
+                      <div class="col s12">
+                          <p class="medium-small pb-0 mb-0">30 days summary</p>
+                      </div>
+                  </div>
+              </div>
+              <col class="s12">
+              <div class="row">
+                  <div class="col s12">
+                      <div class="col s12 m4">
+                          <div class="dashboard-chart card pt-0 pb-0 animated fadeInLeft border-radius-5">
+                              <div class="dashboard-income-wrapper padding-2 ml-2">
+                                  <span class="badge indigo gradient-shadow mt-2 mr-2">+ <%= number_to_currency(@day_incomes, :unit => '$ ') %> today</span>
+                                  <p class="mt-2 mb-0 font-weight-600">Income <%= @income %></p>
+                                  <h5>
+                                    <% if @year_incomes.length > 1 %>
+                                      <%= number_to_currency(@year_incomes.map { |m| m[:value] }.reduce(0, :+), :unit => '$ ')%>
+                                    <% else %>
+                                      <%= number_to_currency(@year_incomes.map { |m| m[:value] }.reduce(0, :+)[:value], :unit => '$ ')%>
+                                    <% end %>
+                                  </h5>
+                              </div>
+                              <div class="chart-wrapper">
+                                  <canvas id="income-dashboard-chart" class="center"></canvas>
+                              </div>
+                          </div>
+                      </div>
+                      <div class="col s12 m4">
+                          <div class="dashboard-chart card pt-0 pb-0 animated fadeInLeft fast border-radius-5">
+                              <div class="dashboard-income-wrapper padding-2 ml-2">
+                                  <span class="badge red gradient-shadow mt-2 mr-2">- <%= number_to_currency(@day_costs, :unit => '$ ') %> today</span>
+                                  <p class="mt-2 mb-0 font-weight-600">Expenses</p>
+                                  <h5>
+                                    <% if @year_costs.length > 1 %>
+                                      <%= number_to_currency(@year_costs.map { |m| m[:value] }.reduce(0, :+), :unit => '$ ')%>
+                                    <% else %>
+                                      <%= number_to_currency(@year_costs.map { |m| m[:value] }.reduce(0, :+)[:value], :unit => '$ ')%>
+                                    <% end %>
+                                  </h5>
+                              </div>
+                              <div class="chart-wrapper">
+                                  <canvas id="expenses-dashboard-chart" class="center"></canvas>
+                              </div>
+                          </div>
+                      </div>
+                      <div class="col s12 m4">
+                          <div class="dashboard-chart card pt-0 pb-0 animated fadeInLeft faster border-radius-5">
+                              <div class="dashboard-income-wrapper padding-2 ml-2">
+                                  <p class="mt-2 mb-0 font-weight-600">Balance</p>
+                                  <h5><%= number_to_currency(@total_balance, :unit => '$ ') %></h5>
+                              </div>
+                              <div class="chart-wrapper">
+                                  <canvas id="balance-dashboard-chart" class="center"></canvas>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+              <%# <div class="col s12 m8 mt-0 pt-0">
+                  <div class="row">
+                      <div class="col s12 m6">
+                          <div class="card z-depth-0  border-radius-5 transparent ">
+                              <div class="card-content p-0">
+                                  <div class="row  animated fadeInDown faster" style="animation-delay: .7s;">
+                                      <div class="col s12">
+                                          <span class="left width-100 left-align indigo-text font-weight-900">Receivables
+                                          </span>
+                                          <span class="left width-100 display-flex left-align">$600,000.56</span>
+                                      </div>
+                                  </div>
+                                  <div class="row mt-2 animated fadeInDown fast" style="animation-delay: .7s;">
+                                      <div class="col s12">
+                                          <span class="left width-100 left-align indigo-text font-weight-900">Overdue orders</span>
+                                          <span class="left width-100 display-flex left-align">$600,000.56</span>
+                                      </div>
+                                  </div>
+                              </div>
+                          </div>
+                      </div>
+
+                      <div class="col s12 m6">
+                          <div class="card z-depth-0 border-radius-5 transparent">
+                              <div class="card-content p-0">
+                                  <div class="row animated fadeInDown faster" style="animation-delay: .7s;">
+                                      <div class="col s12">
+                                          <span class="left width-100 left-align red-text font-weight-900">Materials costs</span>
+                                          <span class="left width-100 display-flex left-align">$150,000.00</span>
+                                      </div>
+                                  </div>
+
+
+                                  <div class="row mt-2 animated fadeInDown fast" style="animation-delay: .7s;">
+                                      <div class="col s12">
+                                          <span class="left width-100 left-align red-text font-weight-900">Workers costs</span>
+                                          <span class="left width-100 display-flex left-align">$150,000.00</span>
+                                      </div>
+                                  </div>
+
+
+
+
+                              </div>
+                          </div>
+                      </div>
+
+                  </div>
+                  <div class="divider mb-2" style="margin-top: 30px;"></div>
+                  <h6 class="mb-0 mt-0 display-flex justify-content-between">Orders
+                      <a href="#" class="waves-effect"></a>
+                  </h6>
+                  <div class="row">
+
+                      <div class="col s4">
+                          <div class="card orders-card animated fadeInUp faster border-radius-8 ">
+                              <div class="card-content pl-7 pr-7">
+                                  <div class="row">
+                                      <div class="col s4 pl-3">
+                                          <i class="material-icons transparent indigo-text background-round mt-5">new_releases</i>
+                                      </div>
+                                      <div class="col s8">
+                                          <span class="font-weight-600">New</span><br>
+                                          <h5 class="mt-0"><a class="indigo-text" href="#">30</a></h5>
+                                      </div>
+                                  </div>
+                              </div>
+                          </div>
+                      </div>
+                      <div class="col s4">
+                          <div class="card orders-card animated fadeInUp fast border-radius-8 ">
+                              <div class="card-content pl-7 pr-7">
+                                  <div class="row">
+                                      <div class="col s4 pl-3">
+                                          <i class="material-icons transparent green-text background-round mt-5">done</i>
+                                      </div>
+                                      <div class="col s8">
+                                          <span class="font-weight-600">Finished</span><br>
+                                          <h5 class="mt-0"><a class="green-text" href="#">30</a></h5>
+                                      </div>
+                                  </div>
+                              </div>
+                          </div>
+                      </div>
+                      <div class="col s4">
+                          <div class="card orders-card animated fadeInUp border-radius-8">
+                              <div class="card-content pl-7 pr-7">
+                                  <div class="row">
+                                      <div class="col s4 pl-3">
+                                          <i class="material-icons transparent background-round mt-5">clear</i>
+                                      </div>
+                                      <div class="col s8">
+                                          <span class="font-weight-600">Cancelled</span><br>
+                                          <h5 class="mt-0"><a class="grey-text" href="#">30</a></h5>
+                                      </div>
+                                  </div>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+                  <div class="card recent-orders-card animate fadeLeft border-radius-5">
+                      <div class="card-content">
+
+
+                          <h6 class="mb-0 mt-0 display-flex justify-content-between mb-5">Latest
+                              orders
+                              <a href="#" class="waves-effect"><i class="material-icons float-right">more_vert</i></a>
+                          </h6>
+                          <ul class="collection">
+                              <li class="collection-item">
+                                  <p class="font-weight-600 display-flex justify-content-between">
+                                      Client name <span>$1294.56</span> </p>
+                                  <p class="medium-small"><a href="#" class="">#12455</a></p>
+
+                              </li>
+                              <li class="collection-item">
+                                  <p class="font-weight-600 display-flex justify-content-between">
+                                      Client name <span>$1294.56</span> </p>
+                                  <p class="medium-small"><a href="#" class="">#12455</a></p>
+
+                              </li>
+                              <li class="collection-item">
+                                  <p class="font-weight-600 display-flex justify-content-between">
+                                      Client name <span>$1294.56</span> </p>
+                                  <p class="medium-small"><a href="#" class="">#12455</a></p>
+
+                              </li>
+                              <li class="collection-item">
+                                  <p class="font-weight-600 display-flex justify-content-between">
+                                      Client name <span>$1294.56</span> </p>
+                                  <p class="medium-small"><a href="#" class="">#12455</a></p>
+
+                              </li>
+                          </ul>
+
+                      </div>
+                  </div>
+              </div>
+              <div class="col s12 m4">
+
+                  <div class="card padding-4 animate fadeRight border-radius-5">
+                      <div class="row">
+                          <div class="col s5 m5">
+                              <h5 class="mb-0">1885</h5>
+                              <p class="no-margin">New</p>
+                              <p class="mb-0 pt-8">1,12,900</p>
+                          </div>
+                          <div class="col s7 m7 right-align">
+                              <i class="material-icons background-round mt-5 mb-5 woffice-color gradient-shadow black-text">perm_identity</i>
+                              <p class="mb-0">Total Clients</p>
+                          </div>
+                      </div>
+                  </div>
+
+                  <div class="card recent-clients-card animate fadeRight border-radius-5">
+                      <div class="card-content">
+                          <h4 class="card-title mb-0">Recent clients <a href="#"><i class="material-icons float-right">more_vert</i></a></h4>
+                          <ul class="collection mb-0">
+                              <li class="collection-item">
+                                  <p class="font-weight-600"><a href="#">John Doe</a></p>
+                                  <p class="medium-small">18, January 2019</p>
+                              </li>
+                              <li class="collection-item">
+                                  <p class="font-weight-600"><a href="#">Adam Garza</a></p>
+                                  <p class="medium-small">20, January 2019</p>
+                              </li>
+                              <li class="collection-item">
+                                  <p class="font-weight-600"><a href="#">Jennifer Rice</a></p>
+                                  <p class="medium-small">25, January 2019</p>
+                              </li>
+                          </ul>
+                      </div>
+                  </div>
+              </div> %>
+          </div>
+      </div>
+
+      <%# <aside id="right-sidebar-nav">
+          <div id="slide-out-right" class="slide-out-right-sidenav sidenav rightside-navigation">
+              <div class="row">
+                  <div class="slide-out-right-title">
+                      <div class="col s12 border-bottom-1 pb-0 pt-1">
+                          <div class="row">
+                              <div class="col s2 pr-0 center">
+                                  <i class="material-icons vertical-text-middle"><a href="#" class="sidenav-close">clear</a></i>
+                              </div>
+                              <div class="col s10 pl-0">
+                                  <ul class="tabs">
+                                      <li class="tab col s4 p-0">
+                                          <a href="#messages" class="active">
+                                              <span>Messages</span>
+                                          </a>
+                                      </li>
+                                      <li class="tab col s4 p-0">
+                                          <a href="#settings">
+                                              <span>Settings</span>
+                                          </a>
+                                      </li>
+                                      <li class="tab col s4 p-0">
+                                          <a href="#activity">
+                                              <span>Activity</span>
+                                          </a>
+                                      </li>
+                                  </ul>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+                  <div class="slide-out-right-body row pl-3">
+                      <div id="messages" class="col s12 pb-0">
+                          <div class="collection border-none mb-0">
+                              <input class="header-search-input mt-4 mb-2" type="text" name="Search" placeholder="Search Messages" />
+                              <ul class="collection right-sidebar-chat p-0 mb-0">
+                                  <li class="collection-item right-sidebar-chat-item sidenav-trigger display-flex avatar pl-5 pb-0" data-target="slide-out-chat">
+                                      <span class="avatar-status avatar-online avatar-50"><img src="../../../app-assets/images/avatar/avatar-7.png" alt="avatar" />
+                                          <i></i>
+                                      </span>
+                                      <div class="user-content">
+                                          <h6 class="line-height-0">Elizabeth Elliott</h6>
+                                          <p class="medium-small blue-grey-text text-lighten-3 pt-3">Thank
+                                              you</p>
+                                      </div>
+                                      <span class="secondary-content medium-small">5.00 AM</span>
+                                  </li>
+                                  <li class="collection-item right-sidebar-chat-item sidenav-trigger display-flex avatar pl-5 pb-0" data-target="slide-out-chat">
+                                      <span class="avatar-status avatar-online avatar-50"><img src="../../../app-assets/images/avatar/avatar-1.png" alt="avatar" />
+                                          <i></i>
+                                      </span>
+                                      <div class="user-content">
+                                          <h6 class="line-height-0">Mary Adams</h6>
+                                          <p class="medium-small blue-grey-text text-lighten-3 pt-3">Hello
+                                              Boo</p>
+                                      </div>
+                                      <span class="secondary-content medium-small">4.14 AM</span>
+                                  </li>
+                                  <li class="collection-item right-sidebar-chat-item sidenav-trigger display-flex avatar pl-5 pb-0" data-target="slide-out-chat">
+                                      <span class="avatar-status avatar-off avatar-50"><img src="../../../app-assets/images/avatar/avatar-2.png" alt="avatar" />
+                                          <i></i>
+                                      </span>
+                                      <div class="user-content">
+                                          <h6 class="line-height-0">Caleb Richards</h6>
+                                          <p class="medium-small blue-grey-text text-lighten-3 pt-3">Hello
+                                              Boo</p>
+                                      </div>
+                                      <span class="secondary-content medium-small">4.14 AM</span>
+                                  </li>
+                                  <li class="collection-item right-sidebar-chat-item sidenav-trigger display-flex avatar pl-5 pb-0" data-target="slide-out-chat">
+                                      <span class="avatar-status avatar-online avatar-50"><img src="../../../app-assets/images/avatar/avatar-3.png" alt="avatar" />
+                                          <i></i>
+                                      </span>
+                                      <div class="user-content">
+                                          <h6 class="line-height-0">Caleb Richards</h6>
+                                          <p class="medium-small blue-grey-text text-lighten-3 pt-3">Keny
+                                              !</p>
+                                      </div>
+                                      <span class="secondary-content medium-small">9.00 PM</span>
+                                  </li>
+                                  <li class="collection-item right-sidebar-chat-item sidenav-trigger display-flex avatar pl-5 pb-0" data-target="slide-out-chat">
+                                      <span class="avatar-status avatar-online avatar-50"><img src="../../../app-assets/images/avatar/avatar-4.png" alt="avatar" />
+                                          <i></i>
+                                      </span>
+                                      <div class="user-content">
+                                          <h6 class="line-height-0">June Lane</h6>
+                                          <p class="medium-small blue-grey-text text-lighten-3 pt-3">Ohh
+                                              God</p>
+                                      </div>
+                                      <span class="secondary-content medium-small">4.14 AM</span>
+                                  </li>
+                                  <li class="collection-item right-sidebar-chat-item sidenav-trigger display-flex avatar pl-5 pb-0" data-target="slide-out-chat">
+                                      <span class="avatar-status avatar-off avatar-50"><img src="../../../app-assets/images/avatar/avatar-5.png" alt="avatar" />
+                                          <i></i>
+                                      </span>
+                                      <div class="user-content">
+                                          <h6 class="line-height-0">Edward Fletcher</h6>
+                                          <p class="medium-small blue-grey-text text-lighten-3 pt-3">Love
+                                              you</p>
+                                      </div>
+                                      <span class="secondary-content medium-small">5.15 PM</span>
+                                  </li>
+                                  <li class="collection-item right-sidebar-chat-item sidenav-trigger display-flex avatar pl-5 pb-0" data-target="slide-out-chat">
+                                      <span class="avatar-status avatar-online avatar-50"><img src="../../../app-assets/images/avatar/avatar-6.png" alt="avatar" />
+                                          <i></i>
+                                      </span>
+                                      <div class="user-content">
+                                          <h6 class="line-height-0">Crystal Bates</h6>
+                                          <p class="medium-small blue-grey-text text-lighten-3 pt-3">Can
+                                              we</p>
+                                      </div>
+                                      <span class="secondary-content medium-small">8.00 AM</span>
+                                  </li>
+                                  <li class="collection-item right-sidebar-chat-item sidenav-trigger display-flex avatar pl-5 pb-0" data-target="slide-out-chat">
+                                      <span class="avatar-status avatar-off avatar-50"><img src="../../../app-assets/images/avatar/avatar-7.png" alt="avatar" />
+                                          <i></i>
+                                      </span>
+                                      <div class="user-content">
+                                          <h6 class="line-height-0">Nathan Watts</h6>
+                                          <p class="medium-small blue-grey-text text-lighten-3 pt-3">
+                                              Great!</p>
+                                      </div>
+                                      <span class="secondary-content medium-small">9.53 PM</span>
+                                  </li>
+                                  <li class="collection-item right-sidebar-chat-item sidenav-trigger display-flex avatar pl-5 pb-0" data-target="slide-out-chat">
+                                      <span class="avatar-status avatar-off avatar-50"><img src="../../../app-assets/images/avatar/avatar-8.png" alt="avatar" />
+                                          <i></i>
+                                      </span>
+                                      <div class="user-content">
+                                          <h6 class="line-height-0">Willard Wood</h6>
+                                          <p class="medium-small blue-grey-text text-lighten-3 pt-3">Do it
+                                          </p>
+                                      </div>
+                                      <span class="secondary-content medium-small">4.20 AM</span>
+                                  </li>
+                                  <li class="collection-item right-sidebar-chat-item sidenav-trigger display-flex avatar pl-5 pb-0" data-target="slide-out-chat">
+                                      <span class="avatar-status avatar-online avatar-50"><img src="../../../app-assets/images/avatar/avatar-1.png" alt="avatar" />
+                                          <i></i>
+                                      </span>
+                                      <div class="user-content">
+                                          <h6 class="line-height-0">Ronnie Ellis</h6>
+                                          <p class="medium-small blue-grey-text text-lighten-3 pt-3">Got
+                                              that</p>
+                                      </div>
+                                      <span class="secondary-content medium-small">5.20 AM</span>
+                                  </li>
+                                  <li class="collection-item right-sidebar-chat-item sidenav-trigger display-flex avatar pl-5 pb-0" data-target="slide-out-chat">
+                                      <span class="avatar-status avatar-online avatar-50"><img src="../../../app-assets/images/avatar/avatar-9.png" alt="avatar" />
+                                          <i></i>
+                                      </span>
+                                      <div class="user-content">
+                                          <h6 class="line-height-0">Daniel Russell</h6>
+                                          <p class="medium-small blue-grey-text text-lighten-3 pt-3">Thank
+                                              you</p>
+                                      </div>
+                                      <span class="secondary-content medium-small">12.00 AM</span>
+                                  </li>
+                                  <li class="collection-item right-sidebar-chat-item sidenav-trigger display-flex avatar pl-5 pb-0" data-target="slide-out-chat">
+                                      <span class="avatar-status avatar-off avatar-50"><img src="../../../app-assets/images/avatar/avatar-10.png" alt="avatar" />
+                                          <i></i>
+                                      </span>
+                                      <div class="user-content">
+                                          <h6 class="line-height-0">Sarah Graves</h6>
+                                          <p class="medium-small blue-grey-text text-lighten-3 pt-3">Okay
+                                              you</p>
+                                      </div>
+                                      <span class="secondary-content medium-small">11.14 PM</span>
+                                  </li>
+                                  <li class="collection-item right-sidebar-chat-item sidenav-trigger display-flex avatar pl-5 pb-0" data-target="slide-out-chat">
+                                      <span class="avatar-status avatar-off avatar-50"><img src="../../../app-assets/images/avatar/avatar-11.png" alt="avatar" />
+                                          <i></i>
+                                      </span>
+                                      <div class="user-content">
+                                          <h6 class="line-height-0">Andrew Hoffman</h6>
+                                          <p class="medium-small blue-grey-text text-lighten-3 pt-3">Can
+                                              do</p>
+                                      </div>
+                                      <span class="secondary-content medium-small">7.30 PM</span>
+                                  </li>
+                                  <li class="collection-item right-sidebar-chat-item sidenav-trigger display-flex avatar pl-5 pb-0" data-target="slide-out-chat">
+                                      <span class="avatar-status avatar-online avatar-50"><img src="../../../app-assets/images/avatar/avatar-12.png" alt="avatar" />
+                                          <i></i>
+                                      </span>
+                                      <div class="user-content">
+                                          <h6 class="line-height-0">Camila Lynch</h6>
+                                          <p class="medium-small blue-grey-text text-lighten-3 pt-3">Leave
+                                              it</p>
+                                      </div>
+                                      <span class="secondary-content medium-small">2.00 PM</span>
+                                  </li>
+                              </ul>
+                          </div>
+                      </div>
+                      <div id="settings" class="col s12">
+                          <p class="setting-header mt-8 mb-3 ml-5 font-weight-900">GENERAL SETTINGS</p>
+                          <ul class="collection border-none">
+                              <li class="collection-item border-none">
+                                  <div class="m-0">
+                                      <span>Notifications</span>
+                                      <div class="switch right">
+                                          <label>
+                                              <input checked type="checkbox" />
+                                              <span class="lever"></span>
+                                          </label>
+                                      </div>
+                                  </div>
+                              </li>
+                              <li class="collection-item border-none">
+                                  <div class="m-0">
+                                      <span>Show recent activity</span>
+                                      <div class="switch right">
+                                          <label>
+                                              <input type="checkbox" />
+                                              <span class="lever"></span>
+                                          </label>
+                                      </div>
+                                  </div>
+                              </li>
+                              <li class="collection-item border-none">
+                                  <div class="m-0">
+                                      <span>Show recent activity</span>
+                                      <div class="switch right">
+                                          <label>
+                                              <input type="checkbox" />
+                                              <span class="lever"></span>
+                                          </label>
+                                      </div>
+                                  </div>
+                              </li>
+                              <li class="collection-item border-none">
+                                  <div class="m-0">
+                                      <span>Show Task statistics</span>
+                                      <div class="switch right">
+                                          <label>
+                                              <input type="checkbox" />
+                                              <span class="lever"></span>
+                                          </label>
+                                      </div>
+                                  </div>
+                              </li>
+                              <li class="collection-item border-none">
+                                  <div class="m-0">
+                                      <span>Show your emails</span>
+                                      <div class="switch right">
+                                          <label>
+                                              <input type="checkbox" />
+                                              <span class="lever"></span>
+                                          </label>
+                                      </div>
+                                  </div>
+                              </li>
+                              <li class="collection-item border-none">
+                                  <div class="m-0">
+                                      <span>Email Notifications</span>
+                                      <div class="switch right">
+                                          <label>
+                                              <input checked type="checkbox" />
+                                              <span class="lever"></span>
+                                          </label>
+                                      </div>
+                                  </div>
+                              </li>
+                          </ul>
+                          <p class="setting-header mt-7 mb-3 ml-5 font-weight-900">SYSTEM SETTINGS</p>
+                          <ul class="collection border-none">
+                              <li class="collection-item border-none">
+                                  <div class="m-0">
+                                      <span>System Logs</span>
+                                      <div class="switch right">
+                                          <label>
+                                              <input type="checkbox" />
+                                              <span class="lever"></span>
+                                          </label>
+                                      </div>
+                                  </div>
+                              </li>
+                              <li class="collection-item border-none">
+                                  <div class="m-0">
+                                      <span>Error Reporting</span>
+                                      <div class="switch right">
+                                          <label>
+                                              <input type="checkbox" />
+                                              <span class="lever"></span>
+                                          </label>
+                                      </div>
+                                  </div>
+                              </li>
+                              <li class="collection-item border-none">
+                                  <div class="m-0">
+                                      <span>Applications Logs</span>
+                                      <div class="switch right">
+                                          <label>
+                                              <input checked type="checkbox" />
+                                              <span class="lever"></span>
+                                          </label>
+                                      </div>
+                                  </div>
+                              </li>
+                              <li class="collection-item border-none">
+                                  <div class="m-0">
+                                      <span>Backup Servers</span>
+                                      <div class="switch right">
+                                          <label>
+                                              <input type="checkbox" />
+                                              <span class="lever"></span>
+                                          </label>
+                                      </div>
+                                  </div>
+                              </li>
+                              <li class="collection-item border-none">
+                                  <div class="m-0">
+                                      <span>Audit Logs</span>
+                                      <div class="switch right">
+                                          <label>
+                                              <input type="checkbox" />
+                                              <span class="lever"></span>
+                                          </label>
+                                      </div>
+                                  </div>
+                              </li>
+                          </ul>
+                      </div>
+                      <div id="activity" class="col s12">
+                          <div class="activity">
+                              <p class="mt-5 mb-0 ml-5 font-weight-900">SYSTEM LOGS</p>
+                              <ul class="widget-timeline mb-0">
+                                  <li class="timeline-items timeline-icon-green active">
+                                      <div class="timeline-time">Today</div>
+                                      <h6 class="timeline-title">Homepage mockup design</h6>
+                                      <p class="timeline-text">Melissa liked your activity.</p>
+                                      <div class="timeline-content orange-text">Important</div>
+                                  </li>
+                                  <li class="timeline-items timeline-icon-cyan active">
+                                      <div class="timeline-time">10 min</div>
+                                      <h6 class="timeline-title">Melissa liked your activity Drinks.</h6>
+                                      <p class="timeline-text">Here are some news feed interactions
+                                          concepts.</p>
+                                      <div class="timeline-content green-text">Resolved</div>
+                                  </li>
+                                  <li class="timeline-items timeline-icon-red active">
+                                      <div class="timeline-time">30 mins</div>
+                                      <h6 class="timeline-title">12 new users registered</h6>
+                                      <p class="timeline-text">Here are some news feed interactions
+                                          concepts.</p>
+                                      <div class="timeline-content">
+                                          <img src="../../../app-assets/images/icon/pdf.png" alt="document" height="30" width="25" class="mr-1">Registration.doc
+                                      </div>
+                                  </li>
+                                  <li class="timeline-items timeline-icon-indigo active">
+                                      <div class="timeline-time">2 Hrs</div>
+                                      <h6 class="timeline-title">Tina is attending your activity</h6>
+                                      <p class="timeline-text">Here are some news feed interactions
+                                          concepts.</p>
+                                      <div class="timeline-content">
+                                          <img src="../../../app-assets/images/icon/pdf.png" alt="document" height="30" width="25" class="mr-1">Activity.doc
+                                      </div>
+                                  </li>
+                                  <li class="timeline-items timeline-icon-orange">
+                                      <div class="timeline-time">5 hrs</div>
+                                      <h6 class="timeline-title">Josh is now following you</h6>
+                                      <p class="timeline-text">Here are some news feed interactions
+                                          concepts.</p>
+                                      <div class="timeline-content red-text">Pending</div>
+                                  </li>
+                              </ul>
+                              <p class="mt-5 mb-0 ml-5 font-weight-900">APPLICATIONS LOGS</p>
+                              <ul class="widget-timeline mb-0">
+                                  <li class="timeline-items timeline-icon-green active">
+                                      <div class="timeline-time">Just now</div>
+                                      <h6 class="timeline-title">New order received urgent</h6>
+                                      <p class="timeline-text">Melissa liked your activity.</p>
+                                      <div class="timeline-content orange-text">Important</div>
+                                  </li>
+                                  <li class="timeline-items timeline-icon-cyan active">
+                                      <div class="timeline-time">05 min</div>
+                                      <h6 class="timeline-title">System shutdown.</h6>
+                                      <p class="timeline-text">Here are some news feed interactions
+                                          concepts.</p>
+                                      <div class="timeline-content blue-text">Urgent</div>
+                                  </li>
+                                  <li class="timeline-items timeline-icon-red">
+                                      <div class="timeline-time">20 mins</div>
+                                      <h6 class="timeline-title">Database overloaded 89%</h6>
+                                      <p class="timeline-text">Here are some news feed interactions
+                                          concepts.</p>
+                                      <div class="timeline-content">
+                                          <img src="../../../app-assets/images/icon/pdf.png" alt="document" height="30" width="25" class="mr-1">Database-log.doc
+                                      </div>
+                                  </li>
+                              </ul>
+                              <p class="mt-5 mb-0 ml-5 font-weight-900">SERVER LOGS</p>
+                              <ul class="widget-timeline mb-0">
+                                  <li class="timeline-items timeline-icon-green active">
+                                      <div class="timeline-time">10 min</div>
+                                      <h6 class="timeline-title">System error</h6>
+                                      <p class="timeline-text">Melissa liked your activity.</p>
+                                      <div class="timeline-content red-text">Error</div>
+                                  </li>
+                                  <li class="timeline-items timeline-icon-cyan">
+                                      <div class="timeline-time">1 min</div>
+                                      <h6 class="timeline-title">Production server down.</h6>
+                                      <p class="timeline-text">Here are some news feed interactions
+                                          concepts.</p>
+                                      <div class="timeline-content blue-text">Urgent</div>
+                                  </li>
+                              </ul>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+          </div>
+
+      </aside> %>
+      <!-- END RIGHT SIDEBAR NAV -->
+
+  </div>
+  <div class="content-overlay"></div>
+</div>
+
+<%= content_for :scripts do %>
+  <script>
+    // Dashboard - Modern
+    //----------------------
+
+    (async function (window, document, $) {
+
+      var income = [];
+      var costs = [];
+      var balance = [];
+
+      await fetch('dashboard.json')
+        .then(data => data.json())
+        .then(res => {
+          income = res.incomes
+          costs = res.costs
+          balance = res.balance
+        })
+        .catch(error => console.error(error))
+
+      //Income chart
+
+      // Options
+      var SLOption = {
+          responsive: true,
+          maintainAspectRatio: true,
+          datasetStrokeWidth: 3,
+          pointDotStrokeWidth: 4,
+          tooltipFillColor: "rgba(0,0,0,0.6)",
+          tooltips: {
+              callbacks: {
+                  label: function (tooltipItem, data) {
+                      return '$' + tooltipItem.yLabel.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+                  }
+              }
+          },
+          legend: {
+              display: false,
+              position: "bottom"
+          },
+          hover: {
+              mode: "label"
+          },
+          scales: {
+              xAxes: [
+                  {
+                      display: false
+                  }
+              ],
+              yAxes: [
+                  {
+                      display: false
+                  }
+              ]
+          },
+          title: {
+              display: false,
+              fontColor: "#FFF",
+              fullWidth: false,
+              fontSize: 40,
+              text: "82%"
+          }
+      }
+      var SLlabels = ["January", "February", "March", "April", "May", "June", "August", "September", "October", "November", "December"]
+
+      var LineSL3ctx = document
+          .getElementById("income-dashboard-chart")
+          .getContext("2d")
+
+      var gradientStroke = LineSL3ctx.createLinearGradient(500, 0, 0, 200)
+      gradientStroke.addColorStop(0, "#3f51b5")
+
+      var gradientFill = LineSL3ctx.createLinearGradient(500, 0, 0, 200)
+      gradientFill.addColorStop(0, "#2196f3")
+      gradientFill.addColorStop(1, "#4a148c")
+
+      var SL3Chart = new Chart(LineSL3ctx, {
+          type: "line",
+          data: {
+              labels: SLlabels,
+              datasets: [
+                  {
+                      // label: "My Second dataset",
+                      borderColor: gradientStroke,
+                      pointColor: "#fff",
+                      pointBorderColor: gradientStroke,
+                      pointBackgroundColor: "#fff",
+                      pointHoverBackgroundColor: gradientStroke,
+                      pointHoverBorderColor: gradientStroke,
+                      pointRadius: 4,
+                      pointBorderWidth: 1,
+                      pointHoverRadius: 4,
+                      pointHoverBorderWidth: 1,
+                      fill: true,
+                      backgroundColor: gradientFill,
+                      borderWidth: 2,
+                      data: income
+                  }
+              ]
+          },
+          options: SLOption
+      })
+
+      //Expenses chart
+
+      // Options
+      var SLOption = {
+          responsive: true,
+          maintainAspectRatio: true,
+          datasetStrokeWidth: 3,
+          pointDotStrokeWidth: 4,
+          tooltipFillColor: "rgba(0,0,0,0.6)",
+          tooltips: {
+              callbacks: {
+                  label: function (tooltipItem, data) {
+                      return '$' + tooltipItem.yLabel.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+                  }
+              }
+          },
+          legend: {
+              display: false,
+              position: "bottom"
+          },
+          hover: {
+              mode: "label"
+          },
+          scales: {
+              xAxes: [
+                  {
+                      display: false
+                  }
+              ],
+              yAxes: [
+                  {
+                      display: false
+                  }
+              ]
+          },
+          title: {
+              display: false,
+              fontColor: "#FFF",
+              fullWidth: false,
+              fontSize: 40,
+              text: "82%"
+          }
+      }
+
+      var LineSL3ctx = document
+          .getElementById("expenses-dashboard-chart")
+          .getContext("2d")
+
+      var gradientStroke = LineSL3ctx.createLinearGradient(500, 0, 0, 200)
+      gradientStroke.addColorStop(0, "#F44336")
+
+      var gradientFill = LineSL3ctx.createLinearGradient(500, 0, 0, 200)
+      gradientFill.addColorStop(0, "#f44336")
+      gradientFill.addColorStop(1, "#b71c1c")
+
+      var SL3Chart = new Chart(LineSL3ctx, {
+          type: "line",
+          data: {
+              labels: SLlabels,
+              datasets: [
+                  {
+                      // label: "My Second dataset",
+                      borderColor: gradientStroke,
+                      pointColor: "#fff",
+                      pointBorderColor: gradientStroke,
+                      pointBackgroundColor: "#fff",
+                      pointHoverBackgroundColor: gradientStroke,
+                      pointHoverBorderColor: gradientStroke,
+                      pointRadius: 4,
+                      pointBorderWidth: 1,
+                      pointHoverRadius: 4,
+                      pointHoverBorderWidth: 1,
+                      fill: true,
+                      backgroundColor: gradientFill,
+                      borderWidth: 1,
+                      data: costs
+                  }
+              ]
+          },
+          options: SLOption
+      })
+
+      //Balance chart
+
+      // Options
+      var SLOption = {
+          currency: "$",
+          responsive: true,
+          maintainAspectRatio: true,
+          datasetStrokeWidth: 3,
+          pointDotStrokeWidth: 4,
+          tooltipFillColor: "rgba(0,0,0,0.6)",
+          tooltips: {
+              callbacks: {
+                  label: function (tooltipItem, data) {
+                      return '$' + tooltipItem.yLabel.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+                  }
+              }
+          },
+          legend: {
+              display: false,
+              position: "bottom"
+          },
+          hover: {
+              mode: "label"
+          },
+          scales: {
+              xAxes: [
+                  {
+                      display: false
+                  }
+              ],
+              yAxes: [
+                  {
+                      display: false
+                  }
+              ]
+          },
+          title: {
+              display: false,
+              fontColor: "#FFF",
+              fullWidth: false,
+              fontSize: 40,
+              text: "82%"
+          }
+      }
+
+      var LineSL3ctx = document
+          .getElementById("balance-dashboard-chart")
+          .getContext("2d")
+
+      var gradientStroke = LineSL3ctx.createLinearGradient(500, 0, 0, 200)
+      gradientStroke.addColorStop(0, "#4CAF50")
+
+      var gradientFill = LineSL3ctx.createLinearGradient(500, 0, 0, 200)
+      gradientFill.addColorStop(0, "#8bc34a")
+      gradientFill.addColorStop(1, "#2e7d32")
+
+      var SL3Chart = new Chart(LineSL3ctx, {
+          type: "line",
+          data: {
+              labels: SLlabels,
+              datasets: [
+                  {
+                      // label: "My Second dataset",
+                      borderColor: gradientStroke,
+                      pointColor: "#fff",
+                      pointBorderColor: gradientStroke,
+                      pointBackgroundColor: "#fff",
+                      pointHoverBackgroundColor: gradientStroke,
+                      pointHoverBorderColor: gradientStroke,
+                      pointRadius: 4,
+                      pointBorderWidth: 1,
+                      pointHoverRadius: 4,
+                      pointHoverBorderWidth: 1,
+                      fill: true,
+                      backgroundColor: gradientFill,
+                      borderWidth: 1,
+                      data: balance
+                  }
+              ]
+          },
+          options: SLOption,
+          plugins: [
+              Chartist.plugins.tooltip({
+                  currency: "$"
+              })
+          ]
+      })
+
+    })(window, document, jQuery)
+  </script>
+<% end %>

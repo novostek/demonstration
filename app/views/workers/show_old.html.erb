@@ -1,0 +1,166 @@
+<style>
+  .pac-container {
+    z-index: 1051 !important;
+  }
+</style>
+
+<div class="breadcrumbs-lightpb-0 pt-4" id="breadcrumbs-wrapper">
+  <!-- Search for small screen-->
+  <div class="container">
+    <div class="row">
+      <div class="col s10 m6 l6">
+        <h5 class="breadcrumbs-title mt-0 mb-0"><span><%= t('activerecord.models.worker') %></span></h5>
+        <ol class="breadcrumbs mb-0">
+          <li class="breadcrumb-item"><a href="/"><%= t('home') %></a>
+          </li>
+          <li class="breadcrumb-item"><a href="#"><%= t('activerecord.models.worker') %></a>
+          </li>
+          <li class="breadcrumb-item active"><%= t('breadcrumb.show') %>
+          </li>
+        </ol>
+      </div>
+      <div class="col s2 m6 l6">
+        <%= link_to t('button.all'), workers_path, class:"btn waves-effect waves-light breadcrumbs-btn right" %>
+        <%= link_to edit_worker_path(@worker) , class: "btn-flat waves-effect waves-light breadcrumbs-btn right" do %>
+            <i class="material-icons">edit</i>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="card-panel">
+
+
+  <div class="row">
+    <div class="col s12">
+      <ul class="tabs">
+        <li class="tab col m3"><a href="#test1" class="active"><%= t :worker %></a></li>
+        <li class="tab col m3"><a  href="#test2"><%= t :notes %></a></li>
+        <li class="tab col sm"><a href="#test3"><%= t :documents %></a></li>
+        <li class="tab col m3"><a href="#test4"><%= t :contacts %></a></li>
+      </ul>
+    </div>
+    <div id="test1" class="col s12">
+      <p>
+        <strong><%= t("activerecord.attributes.worker.name") %>:</strong>
+        <%= @worker.name %>
+      </p>
+
+      <p>
+        <strong><%= t("activerecord.attributes.worker.photo") %>:</strong>
+        <% if @worker.photo.present? %>
+            <img src="<%= @worker.photo.url %>" alt="">
+        <% end %>
+
+      </p>
+
+      <p>
+        <strong><%= t("activerecord.attributes.worker.document_id") %>:</strong>
+        <%= @worker.document_id %>
+      </p>
+
+      <p>
+        <strong><%= t("activerecord.attributes.worker.categories") %>:</strong>
+        <%= @worker.categories %>
+      </p>
+      <p>
+        <strong><%= t("activerecord.attributes.worker.time_value") %>:</strong>
+        <%= @worker.time_value %>
+      </p>
+    </div>
+    <div id="test2" class="col s12">
+      <%= render "customers/notes_show", notes: @worker.notes %>
+
+      <br>
+      <!-- Modal Trigger -->
+      <a class="waves-effect waves-light btn modal-trigger" href="#modal_note"><%= t "button.new" %> <%= t "notes" %></a>
+      <!-- Modal Structure -->
+      <div id="modal_note" class="modal modal-fixed-footer">
+        <%= form_with url: new_note_worker_path(@worker),method: :get, local: true do |f| %>
+        <div class="modal-content">
+            <h4><%= t "button.new" %> <%= t "notes" %></h4>
+            <%= render "customers/notes_form", f: f %>
+
+        </div>
+        <div class="modal-footer">
+          <%= f.submit t "button.save", class:"modal-action modal-close waves-effect waves-green btn-flat" %>
+          <!--<a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat ">Agree</a>-->
+        </div>
+        <% end  %>
+      </div>
+    </div>
+    <div id="test3" class="col s12">
+      <%= render "customers/documents_show", document_files: @worker.document_files %>
+
+      <br>
+      <!-- Modal Trigger -->
+      <a class="waves-effect waves-light btn modal-trigger" href="#modal_doc"><%= t "button.new" %> <%= t "documents" %></a>
+      <!-- Modal Structure -->
+      <div id="modal_doc" class="modal modal-fixed-footer">
+        <%= form_with url: new_document_worker_path(@worker), local: true do |f| %>
+            <div class="modal-content">
+              <h4><%= t "button.new" %> <%= t "documents" %></h4>
+              <%= render "customers/document_file_fields", f: f %>
+
+            </div>
+            <div class="modal-footer">
+              <%= f.submit t "button.save", class:"modal-action modal-close waves-effect waves-green btn" %>
+              <!--<a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat ">Agree</a>-->
+            </div>
+        <% end  %>
+      </div>
+    </div>
+    <div id="test4" class="col s12">
+      <%= render "customers/contacts_show", contacts: @worker.contacts %>
+
+      <br>
+      <!-- Modal Trigger -->
+      <a class="waves-effect waves-light btn modal-trigger" href="#modal_contact"><%= t "button.new" %> <%= t "contacts" %></a>
+      <!-- Modal Structure -->
+      <div id="modal_contact" class="modal modal-fixed-footer">
+        <%= form_with url: new_contact_worker_path(@worker),method: :get, local: true do |f| %>
+            <div class="modal-content">
+              <h4><%= t "button.new" %> <%= t "contacts" %></h4>
+              <%= render "customers/contact_fields", f: f %>
+
+            </div>
+            <div class="modal-footer">
+              <%= f.submit t "button.save", class:"modal-action modal-close waves-effect waves-green btn" %>
+              <!--<a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat ">Agree</a>-->
+            </div>
+        <% end  %>
+      </div>
+
+    </div>
+  </div>
+
+
+
+  <!--<div class="card">-->
+  <!--<div class="card-content">-->
+  <!--<span class="card-title"><%#= t :notes %></span>-->
+  <!---->
+
+  <!--</div>-->
+  <!--</div>-->
+
+  <!--<div class="card">-->
+    <!--<div class="card-content">-->
+      <!--<span class="card-title"><%#= t :documents %></span>-->
+
+
+      <!---->
+    <!--</div>-->
+  <!--</div>-->
+
+  <!--<div class="card">-->
+    <!--<div class="card-content">-->
+      <!--<span class="card-title"><%#= t :contacts %></span>-->
+
+    <!--</div>-->
+  <!--</div>-->
+
+
+</div>
+

@@ -31,3 +31,15 @@
 
 en:
   hello: "Hello world"
+
+  faker:
+    name:
+      category:
+        - company
+        - person
+      
+      worker_category:
+        - employee
+        - contractor
+  buttons:
+    save: "Save"

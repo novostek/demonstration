@@ -1,0 +1,33 @@
+<div class="email-wrapper">
+
+  <section class="email-header">
+    <div class="email-header--company">
+      <span><%= Setting.get_value("company_name") %></span>
+    </div>
+    <!--    <div class="email-header--info">-->
+    <!--      Having problems viewing this email? <a href="#">View email online</a>-->
+    <!--    </div>-->
+  </section>
+
+  <section class="email-body">
+    <div class="email-body--content">
+      <h6 class="greetings">Dear, <%= @order.current_estimate.customer %>!</h6>
+      <p>Following attached Invoice related to Order #<%= @order.code %>.</p>
+      <p>
+        <%= raw Setting.get_value("send_invoice_mail_text") %>
+      </p>
+      <br>
+      <a class="btn btn-primary" href="<%= @link %>">See Invoice</a>
+    </div>
+  </section>
+  <section class="email-footer">
+    <div class="email-footer--logo">
+      <span>Powered by</span>
+      <%= image_tag attachments['logo.png'].url %>
+    </div>
+    <div class="email-footer--info">
+      Having some trouble? contacts via email <a href="mailto:help@woffice.app">help@woffice.app</a>
+    </div>
+  </section>
+
+</div>

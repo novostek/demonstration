@@ -1,0 +1,19 @@
+en:
+  activerecord:
+    attributes:
+      document_file:
+        title: "Title"
+        file: "File"
+        origin: "Origin"
+        origin_id: "Origin ID"
+        esign: "E-Sign"
+        esign_data: "E-Sign Data"
+        photo: "Photo"
+        photo_date: "Photo Date"
+        photo_description: "Photo Description"
+        description: "Description"
+  notice:
+    document_file:
+      created: "Document file was successfully created."
+      updated: "Document file was sucessfully updated."
+      deleted: "Document file was sucessfully deleted."

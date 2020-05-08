@@ -1,0 +1,30 @@
+en:
+  activerecord:
+    models:
+      leads: "Leads"
+      lead: "Lead"
+    attributes:
+      leads:
+        customer: "Customer"
+        phone: "Phone"
+        via: "Via"
+        description: "Description"
+        status: "Status"
+        date: "Date"
+  enumerize:
+    lead:
+      status:
+        new: "New"
+        done: "Done"
+        contacted: "Contacted"
+        scheduled: "Scheduled"
+        closed: "Closed"
+  actions:
+    leads:
+      save_lead: "Save Lead"
+      save_n_estimate: "Save & Estimate"
+  notice:
+    lead:
+      created: "Lead was successfully created."
+      updated: "Lead was sucessfully updated."
+      deleted: "Lead was sucessfully deleted."

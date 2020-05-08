@@ -1,0 +1,59 @@
+<div class="row">
+    <div class="input-field col s12 m3">
+      <%= f.text_field :code, value: @estimate.code, class: "validade", readonly: 'true' %>
+      <%= f.label  :code %>
+    </div>
+
+    <div class="input-field col s12 m9">
+      <%= f.text_field :title, class: "validade", autofocus: 'true' %>
+      <%= f.label  :title %>
+    </div>
+</div>
+<div class="row">
+    <div class="input-field col s12 m4">
+      <i class="material-icons prefix">location_on</i>
+      <%= f.text_field :location, class: "autocomplete autocomplete-location", placeholder: '', required: true %>
+      <%= f.label  :location %>
+
+      <%= f.hidden_field :latitude %>
+      <%= f.hidden_field :longitude %>
+    </div>
+    <div class="input-field col s12 m8">
+      <%= f.text_field :description, class: "validade", required: true %>
+      <%= f.label  :description %>
+    </div>
+</div>
+<div class="row">    
+    <div class="col s12 m4 l3">
+      <div class="input-field">
+        <%= f.select :sales_person_id, @workers, {prompt: true}, :selected => @estimate.sales_person_id, required: true  %>
+        <%= f.label  :sales_person_id %>
+      </div>
+    </div>
+
+    <div class="col s12 m2 l2 display-flex pt-2 justify-content-start">
+      <!-- Mo dal Trigger -->
+      <a 
+        class="btn btn-floating waves-effect indigo waves-light left modal-trigger tooltipped" 
+        data-position="left" 
+        data-tooltip="New worker" 
+        href="#worker-add-modal">
+          <i class="material-icons">person_add</i>
+      </a>
+    </div>
+
+    <div class="col s12 m3 l4">
+      <div class="input-field">
+        <%= f.select :tax_calculation, @taxes, {prompt: true}, :selected => @estimate.tax_calculation, required: true  %>
+        <%= f.label  :tax_calculation %>
+      </div>
+    </div>
+
+    <div class="col s12 m3 l3">
+      <div class="input-field">
+        <%= f.select :taxpayer, Estimate.taxpayer.options, {prompt: true}, :selected => @estimate.taxpayer, required: true  %>
+        <%= f.label  :taxpayer %>
+      </div>
+    </div>
+    
+</div>

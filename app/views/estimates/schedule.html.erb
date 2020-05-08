@@ -1,0 +1,211 @@
+
+<link href="/css/view-page.css" rel="stylesheet" type="text/css">
+<div class="breadcrumbs-lightpb-0 pt-4" id="breadcrumbs-wrapper">
+  <!-- Search for small screen-->
+  <div class="container">
+    <div class="row">
+      <div class="col s10 m6 l6">
+        <h5 class="breadcrumbs-title mt-0 mb-0">Schedule estimate</h5>
+        <ol class="breadcrumbs mb-0">
+          <li class="breadcrumb-item"><a href="/">Home</a>
+          </li>
+          <li class="breadcrumb-item"><a href="#">Estimates</a>
+          </li>
+          <li class="breadcrumb-item active">Schedule
+          </li>
+        </ol>
+      </div>
+      <div class="col s2 m6 l6">
+        <!-- <a class="btn waves-effect waves-light breadcrumbs-btn right border-round" href="estimate-add.html"><i class="material-icons hide-on-med-and-up">add</i><span class="hide-on-small-only">Add estimate</span></a> -->
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+<div class="col s12">
+  <div class="container">
+    <%= render 'estimate_detail' %>
+    <div class="card">
+      <div class="card-content">
+        <ul class="stepper horizontal stepper-head-only">
+          <li class="step">
+            <%= link_to step_one_estimates_path(@estimate.lead) do %>
+              <div class="step-title waves-effect">Step 1</div>
+            <% end %>
+          </li>
+          <li class="step active">
+            <% if @estimate.schedules.present? %>
+              <%= link_to schedule_estimate_path(@estimate) do %>
+                <div class="step-title waves-effect">Schedule</div>
+              <% end %>
+            <% else %>
+              <div class="step-title waves-effect">Schedule</div>
+            <% end %>
+          </li>
+          <li class="step">
+            <% if @estimate.measurements.present? %>
+              <%= link_to measurement_view_estimates_path(@estimate) do %>
+                <div class="step-title waves-effect">Measurements</div>
+              <% end %>
+            <% else %>
+                <div class="step-title waves-effect">Measurements</div>
+            <% end %>
+          </li>
+          <li class="step">
+            <% if @estimate.product_estimates.present? %>
+              <%= link_to products_estimate_path(@estimate) do %>
+                <div class="step-title waves-effect">Products</div>
+              <% end %>
+            <% else %>
+              <div class="step-title waves-effect">Products</div>
+            <% end %>
+          </li>
+        </ul>
+        <div class="row">
+          <div class="col m3 s12">
+            <div id='external-events'>
+              <h5>Workers</h5>
+              <div class="fc-events-container mb-5">
+                <% @workers.each do |worker| %>
+                  <div class='fc-event' id="<%= worker.id %>" data-color='<%= @schedules.find_by(worker_id: worker.id, origin_id: @estimate.id).present? ? @schedules.find_by(worker_id: worker.id, origin_id: @estimate.id).color : "##{SecureRandom.hex(3)}" %>'>
+                    <% if worker.photo.present? %>
+                      <img src="<%= worker.photo %>" class="circle responsive-img" style="width: 30px;" />
+                    <% end %>
+                    <%= worker.name %>
+                  </div>
+                <% end %>
+                <p>
+                  <label>
+                    <input type="checkbox" id="drop-remove" />
+                    <span>Remove After Drop</span>
+                  </label>
+                </p>
+              </div>
+            </div>
+          </div>
+          <div class="col m9 s12">
+            <div id='fc-external-drag'></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col s12 pb-2 pr-0 pl-0">
+      <%= link_to step_one_estimates_path(@estimate.lead.id),
+        class: "btn grey lighten-5 grey-text waves-effect waves-light breadcrumbs-btn left save", method: :get do %>
+        <i class="material-icons left">arrow_back</i> Back
+      <% end %>
+      <%= link_to measurement_view_estimates_path(id: @estimate.id), target: '_self',
+        class: "btn indigo waves-effect waves-light breadcrumbs-btn right ml-1" do %>
+        Next: Measurements
+        <i class="material-icons right">arrow_forward</i>
+      <% end %>
+
+    </div>
+  </div>
+</div>
+
+<div id="modal_note" class="modal modal-fixed-footer">
+  <%= form_with url: new_note_schedules_path,method: :get, local: true do |f| %>
+    <%= f.hidden_field :redirect, value: "/estimates/#{@estimate.id}/schedule" %>
+    <div class="modal-content">
+      <h4><%= t "button.new" %> <%= t "notes" %></h4>
+      <%= render "customers/notes_form", f: f %>
+
+    </div>
+    <div class="modal-footer">
+      <%= f.button :submit, class:"modal-action modal-close waves-effect waves-green btn-flat" do %>
+        <i class="material-icons left">save</i><%= t "button.save" %>
+      <% end %>
+    </div>
+  <% end  %>
+</div>
+
+<div id="modal_doc" class="modal modal-fixed-footer">
+  <%= form_with url: new_document_schedules_path, local: true do |f| %>
+    <%= f.hidden_field :redirect, value: "/estimates/#{@estimate.id}/schedule" %>
+    <div class="modal-content">
+      <h4><%= t "button.new" %> <%= t "documents" %></h4>
+      <%= render "customers/document_file_fields", f: f %>
+
+    </div>
+    <div class="modal-footer">
+      <%= f.button :submit, class:"modal-action modal-close waves-effect waves-green btn-flat" do %>
+        <i class="material-icons left">save</i><%= t "button.save" %>
+      <% end %>
+    </div>
+  <% end  %>
+</div>
+
+<%= content_for :sidenav do %>
+  <aside id="right-sidebar-nav">
+    <div id="slide-out-right" style="width: 340px !important;" class="slide-out-right-sidenav sidenav rightside-navigation">
+
+      <div class="row">
+        <div class="slide-out-right-title">
+          <div id="div_title" class="col s8 pl-3">
+
+          </div>
+<!--          <div class="col s2">-->
+          <div class="col s4 right-align mt-1">
+            <div class="row">
+              <div class="col s6">
+            <a class="btn-floating btn dropdown-settings waves-effect waves-light btn-flat black-text" href="#!" data-target="dropdown_schedule"><i class="material-icons black-text">more_vert</i></a>
+            <ul class="dropdown-content" id="dropdown_schedule" tabindex="0" style="">
+              <li tabindex="0">
+                <div class="col s12" id="delete_div">
+
+                </div>
+<!--                <a class="grey-text text-darken-2" href="user-profile-page.html"><i class="material-icons">trash</i> Delete schedule<span class="new badge red">2</span></a></li>-->
+            </ul>
+              </div>
+              <div class="col s6">
+            <a href="#" target="_self" onclick="close_side();" class="btn-floating btn btn-flat"><i class="material-icons black-text">clear</i></a>
+              </div>
+            </div>
+          </div>
+<!--            <i class="material-icons "><a href="#" target="_self" onclick="close_side();" class="">clear</a></i>-->
+<!--          </div>-->
+        </div>
+      </div>
+      <div class="slide-out-right-body row pl-3 pr-3">
+
+        <div class="col s12 pl-3">
+          <h5>Notes <a href="#modal_note" class="modal-trigger"><i class="material-icons ">add</i></a></h5>
+        </div>
+        <div id="notes">
+
+        </div>
+
+        <!-- Exemple document -->
+        <div class="col s12 pl-3">
+          <h5>Documents <a href="#modal_doc" class="modal-trigger"><i class="material-icons ">add</i></a></h5>
+        </div>
+        <div id="docs">
+
+        </div>
+
+      </div>
+    </div>
+  </aside>
+<% end %>
+
+<%= javascript_tag do %>
+  var estimate = <%= raw(@estimate.to_json) %>
+  var schedules = <%= raw(@schedules.to_json) %>
+<% end %>
+<%= content_for :scripts do %>
+  <%= javascript_pack_tag 'estimate/schedule', 'data-turbolinks-track': 'true', 'defer': true %>
+
+  <script type="text/javascript" charset="utf-8">
+      function close_side()
+      {
+          $('#slide-out-right').css('transform', 'translateX(0%)');
+          $('#slide-out-right').css('transform', 'translateX(30%)');
+          $('#slide-out-right').css('transform', 'translateX(50%)');
+          $('#slide-out-right').css('transform', 'translateX(80%)');
+          $('#slide-out-right').css('transform', 'translateX(105%)');
+      }
+  </script>
+<% end %>

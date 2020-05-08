@@ -1,4 +1,4 @@
-<div class="breadcrumbs-dark pb-0 pt-4" id="breadcrumbs-wrapper">
+<div class="breadcrumbs-lightpb-0 pt-4" id="breadcrumbs-wrapper">
   <!-- Search for small screen-->
   <div class="container">
     <div class="row">
@@ -27,7 +27,7 @@
 	
 <% attributes.reject(&:password_digest?).each do |attribute| -%>
   <p>
-    <strong><%= attribute.human_name %>:</strong>
+    <strong><%%= t('activerecord.attributes.<%= model_resource_name %>.<%= attribute.name %>') %>:</strong>
     <%%= @<%= singular_table_name %>.<%= attribute.name %> %>
   </p>
 

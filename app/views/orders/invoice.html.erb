@@ -1,0 +1,293 @@
+<!--<div class="row">-->
+<div class="content-wrapper-before woffice-color"></div>
+<% if current_user.present? %>
+  <div class="breadcrumbs-light pb-0 pt-4" id="breadcrumbs-wrapper">
+    <!-- Search for small screen-->
+    <div class="container">
+      <div class="row">
+        <div class="col s10 m6 l6">
+          <h5 class="breadcrumbs-title mt-0 mb-0"><%= t('activerecord.attributes.order.invoice') %> - <%= t('activerecord.models.order') %> #<%= @order.code %></h5>
+          <ol class="breadcrumbs mb-0">
+            <li class="breadcrumb-item"><a href="index.html"><%= t('home') %></a>
+            </li>
+            <li class="breadcrumb-item"><a href="#"><%= t('activerecord.models.order') %></a>
+            </li>
+            <li class="breadcrumb-item active"><%= t('activerecord.attributes.order.invoice') %></li>
+          </ol>
+        </div>
+        <div class="col s2 m6 l6">
+          <!-- <a class="btn waves-effect waves-light breadcrumbs-btn right border-round dropdown-settings" href="#!" data-target='dropdown1'><i class="material-icons hide-on-med-and-up">attach_money</i><span class="hide-on-small-only">Order</span></a>
+                      <ul id='dropdown1' class='dropdown-content'>
+                          <li><a class="grey-text text-darken-2" href="order-schedule.html"><i class="material-icons left">event</i> Schedule</a></li>
+                          <li><a class="grey-text text-darken-2" href="order-deposit.html"><i class="material-icons left">archive</i> Deposit</a></li>
+                      </ul> -->
+          <% if current_user.present? %>
+            <a class="btn btn-default waves-effect display-flex align-items-center justify-content-center waves-light breadcrumbs-btn right mr-2  text-lighten-5 border-round" href="<%= order_path(@order) %>"><i class="material-icons hide-on-med-and-up">arrow_back</i><span class="hide-on-small-only">Back to order</span></a>
+          <% end %>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+<% end %>
+
+<div class="col s12">
+  <div class="container">
+    <div class="row">
+      <div class="col xl9 m8 s12">
+        <div class="card">
+          <div class="card-content invoice-print-area">
+            <div class="row">
+              <div class="col s12 m5">
+                <span class="left width-100"><span class="font-weight-600 black-text">Created at:</span> <%= @order.created_at %></span>
+                <span class="left width-100"><span class="font-weight-600 black-text">Location:</span> <%= @order.get_current_estimate.location || "" %></span>
+                <span class="left width-100"><span class="font-weight-600 black-text">Category:</span> <%= @order.get_current_estimate.category_text || "" %></span>
+              </div>
+              <div class="col s12 m5">
+                <span class="left width-100"><span class="font-weight-600 black-text">Price:</span> <%= number_to_currency(@order.current_estimate.get_total_value)  %></span>
+
+              </div>
+              <div class="col s12 m2">
+                <span class=" users-view-status display-inline chip green lighten-5 green-text right"><%= @order.status_text %></span>
+              </div>
+
+              <div class="col s12 mt-1">
+                <span><%= @order.get_current_estimate.description || "" %></span>
+              </div>
+
+
+            </div>
+            <div class="divider mb-3 mt-3"></div>
+            <!-- Procuts and area -->
+            <div class="row">
+              <div class="col s12">
+                <table class="striped responsive-table">
+                  <thead>
+                  <tr>
+                    <th>Id</th>
+                    <th>Date</th>
+                    <th>Payment method</th>
+                    <th>Status</th>
+                    <th class="right-align">Amount</th>
+                  </tr>
+                  </thead>
+                  <tbody>
+                  <% @transactions.each_with_index do |t, index| %>
+                    <tr>
+                      <td>#<%= index + 1 %></td>
+                      <td><%= t.due %></td>
+                      <td><%= t.payment_method_text %></td>
+                      <td>
+                        <% if t.paid? %>
+                          <div class="chip green lighten-5 green-text"><%= t.status_text %></div>
+                        <% else %>
+                          <% if !current_user.present? %>
+                            <%= link_to send_square_transaction_path(t) do %>
+                              <div class="chip green lighten-5"><%= t.status_text %></div>
+                            <% end %>
+                          <% else %>
+                            <a href="#modal-send_payment_<%= t.id %>" class="modal-trigger">
+                              <div class="chip green lighten-5"><%= t.status_text %></div>
+                            </a>
+                          <% end %>
+                        <% end  %>
+                      </td>
+                      <td class="right-align"><%= number_to_currency(t.value) %></td>
+                    </tr>
+
+                    <div id="modal-send_payment_<%= t.id %>" class="modal">
+                      <div class="row">
+                        <div class="col s12">
+                          <ul class="tabs">
+                            <li class="tab col m6"><a class="active" href="#request_<%= t.id %>">Request a Payment</a></li>
+                            <li class="tab col m6"><a href="#mark_<%= t.id %>">Mark as Paid</a></li>
+                          </ul>
+                        </div>
+                        <div id="request_<%= t.id %>" class="col s12">
+                          <%= form_with url: send_square_again_transaction_path(t), method: :get, local: true do |f| %>
+                            <div class="modal-content">
+                              <div class="row">
+                                <div class="input-field">
+                                  <%= f.label :emails, "Emails" %>
+                                  <%= f.text_field :emails, value: @email_customer, required: true %>
+                                </div>
+                                <%= f.button :submit,  class:"modal-action modal-close waves-effect waves-green btn btn-default btn-send", target:"_self" do %>
+                                  <i class="material-icons left">send</i> Send
+                                <% end %>
+                              </div>
+                              <!--		<a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat btn-send"> <i class="material-icons left">send</i> Send</a>-->
+                          <% end %>
+                          </div>
+                        </div>
+                        <div id="mark_<%= t.id %>" class="col s12">
+                            <div class="modal-content">
+                              <div class="row">
+                                <h5>Would you like to mark as paid?</h5>
+                                <%= link_to "Yes, it's paid", paid_transaction_path(t), class: "btn btn-default", remote: true %>
+                              </div>
+                          </div>
+                        </div>
+
+                      </div>
+
+
+
+                    </div>
+
+                  <% end %>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+            <div class="divider mb-3 mt-3"></div>
+
+            <div class="row">
+              <div class="col m5 s12">
+                <!-- <p>Thanks for your business.</p> -->
+              </div>
+              <div class="col xl4 m7 s12 offset-xl3">
+                <ul>
+
+                  <li class="display-flex justify-content-between">
+                    <span class="invoice-subtotal-title">Invoice Total</span>
+                    <h6 class="invoice-subtotal-value"><%= number_to_currency(@transactions.sum(:value)) %></h6>
+                  </li>
+                  <li class="display-flex justify-content-between">
+                    <span class="invoice-subtotal-title">Paid</span>
+                    <h6 class="invoice-subtotal-value"><%= number_to_currency(@transactions.where(status: :paid).sum(:value)) %></h6>
+                  </li>
+                  <li class="display-flex justify-content-between">
+                    <span class="invoice-subtotal-title">Balance</span>
+                    <h6 class="invoice-subtotal-value"><%= number_to_currency(@order.current_estimate.total - @transactions.where(status: :paid).sum(:value)) %></h6>
+                  </li>
+                </ul>
+              </div>
+            </div>
+            <!--  End products area -->
+
+          </div>
+        </div>
+      </div>
+      <% if current_user.present? %>
+        <div class="col xl3 m4 s12">
+          <div class="card invoice-action-wrapper">
+            <div class="card-content">
+              <div class="invoice-action-btn mb-4">
+                <a href="#modal-invoice" class="btn modal-trigger indigo waves-effect waves-light display-flex align-items-center justify-content-center">
+                  <i class="material-icons mr-4">check</i>
+                  <span class="text-nowrap">Send Invoice</span>
+                </a>
+              </div>
+              <div class="invoice-action-btn mb-4">
+                <%= link_to view_invoice_customer_order_path(@order, print: true), class: "btn indigo waves-effect waves-light display-flex align-items-center justify-content-center", target: :_blank do %>
+                  <i class="material-icons mr-4">print</i>
+                  <span class="text-nowrap">Print</span>
+                <% end %>
+
+              </div>
+              <div class="invoice-action-btn">
+                <a href="#modal_payment" class="modal-trigger btn waves-effect waves-light display-flex align-items-center justify-content-center">
+                  <i class="material-icons mr-3">attach_money</i>
+                  <span class="text-nowrap">Add Payment</span>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      <% end %>
+    </div>
+
+  </div>
+
+
+
+  <div id="modal-invoice" class="modal">
+    <%= form_with url: send_invoice_mail_order_path(@order), method: :get, local: true do |f| %>
+      <div class="modal-content">
+        <h4>Send invoice</h4>
+        <div class="row">
+          <div class="input-field">
+            <%= f.label :emails, "Emails" %>
+            <%= f.text_field :emails, value: @email_customer, required: true %>
+          </div>
+          <div class="input-field">
+            <%= f.label :subject %>
+            <%= f.text_field :subject, required: true %>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <%= f.button :submit,  class:"modal-action modal-close waves-effect waves-green btn-flat btn-send", target:"_self" do %>
+          <i class="material-icons left">send</i> Send
+        <% end %>
+        <!--		<a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat btn-send"> <i class="material-icons left">send</i> Send</a>-->
+      </div>
+    <% end %>
+  </div>
+
+
+  <div id="modal_payment" class="modal">
+    <%= form_with url: invoice_add_payment_order_path(@order), method: :get, local: true do |f| %>
+      <div class="modal-content">
+        <h4>New Payment</h4>
+        <div class="card-panel z-depth-0 border-radius-4">
+          <%= f.hidden_field :origin, value: 'Order' %>
+          <%= f.hidden_field :origin_id, value: @order.id %>
+
+          <div class="row">
+            <div class="input-field col s12 m4">
+              <%= f.text_field :value, class: "validade", required: true %>
+              <%= f.label  :value %>
+            </div>
+            <div class="input-field col s12 m4">
+              <%= f.select :payment_method,
+                           options_for_select(Transaction.payment_method.options.map { |op| [op[0], op[1], {'data-icon': op[0].include?("Square") ? image_path('square.svg') : '' }] }),
+                           {class: 'icons' }, {id:"payment_method", onchange:"payment_method_change()"} %>
+              <%= f.label :payment_method %>
+            </div>
+            <div class="input-field col s12 m4">
+              <i class="material-icons prefix">today</i>
+              <%= f.date_field :due, class: "deposit-due", required: true %>
+              <%= f.label  :due %>
+            </div>
+          </div>
+          <div class="row hide email_div" id="email">
+            <div class="input-field">
+              <%= f.label :email, class:"active" %>
+              <%= f.text_field :email, value: @email_customer %>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <%= f.button :submit,  class:"modal-action modal-close waves-effect waves-green btn-flat btn-send", target:"_self" do %>
+          <i class="material-icons left">send</i> Send
+        <% end %>
+        <!--		<a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat btn-send"> <i class="material-icons left">send</i> Send</a>-->
+      </div>
+    <% end %>
+  </div>
+
+
+
+
+
+</div>
+<!--</div>-->
+
+<%= content_for :scripts do %>
+  <script type="text/javascript" charset="utf-8">
+
+      function payment_method_change()
+      {
+          if($("#payment_method").val() == "square_credit")
+          {
+              $("#email").removeClass("hide");
+          }
+          else
+          {
+              $("#email").addClass("hide");
+          }
+      }
+  </script>
+<% end %>

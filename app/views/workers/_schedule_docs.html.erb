@@ -1,0 +1,5 @@
+<% documents.each do |doc| %>
+  <%= link_to doc.file.url, target:"_blank" do %>
+    <span class="chip grey lighten-3 green-text truncate"><%= doc.title %></span>
+  <% end if doc.file.present?  %>
+<% end %>

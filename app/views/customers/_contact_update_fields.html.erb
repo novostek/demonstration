@@ -1,0 +1,205 @@
+<div class="row nested-fields">
+
+  <div class="input-field col l6 s12">
+    <%= f.label :title %>
+    <%= f.text_field :title %>
+  </div>
+  <div class="input col l6 s12">
+
+    <%#= f.select :category, Contact.category.options , {prompt: true}, {id:"category", class:"category", onchange:"category_change()" } %>
+<!--    <p><%#= f.label :category %> </p>-->
+<!--    <p><%#= f.object.category %></p>-->
+
+
+  </div>
+  <div class="input col l6 s12">
+    <p>
+      <label>
+        <!--        <input type="checkbox" name="contact[main]" id="contact_main"  />-->
+        <%= f.check_box :main %>
+        <span><%= t :main %></span>
+      </label>
+    </p>
+
+  </div>
+
+  <!-- OpenStruct.new(f.object.data)
+  $(document).ready(function(){
+              if($(".category").val() == "address")
+              {
+                  var dataid = $(".category").attr("data-id");
+
+                  $("#address_div"+dataid).removeClass("hide");
+              }
+              if($(".category").val() == "email")
+              {
+                  var dataid = $(".category").attr("data-id");
+
+                  $("#email_div"+dataid).removeClass("hide");
+              }
+              if($(".category").val() == "phone")
+              {
+                  var dataid = $(".category").attr("data-id");
+
+                  $("#phone_div"+dataid).removeClass("hide");
+              }
+
+
+          });
+
+
+  -->
+
+  <% if tipo == "address" %>
+    <div class=" col s12" id="address_div_update">
+
+      <%= f.fields_for :data, OpenStruct.new(f.object.data) do |field| %>
+        <div class="input active">
+          <label for="" >Search</label>
+          <input type="text" id="autocomplete_address">
+        </div>
+        <div class="input-field" >
+          <%= field.label :address %>
+          <%= field.text_field :address, id: "fulladdress" %>
+        </div>
+        <div class="input-field">
+          <%= field.label :zipcode %>
+          <%= field.text_field :zipcode, id: "postal_code"%>
+        </div>
+        <div class="input-field">
+          <%= field.label :city %>
+          <%= field.text_field :city, id:"locality" %>
+        </div>
+        <div class="input-field">
+          <%= field.label :state %>
+          <%= field.text_field :state , id:"administrative_area_level_1"%>
+        </div>
+        <div class="input-field">
+          <%= field.label :lat %>
+          <%= field.text_field :lat, id:"lat" %>
+        </div>
+        <div class="input-field">
+          <%= field.label :lng %>
+          <%= field.text_field  :lng, id:"lng" %>
+        </div>
+      <% end %>
+
+    </div>
+  <% end %>
+
+  <% if tipo == "phone" %>
+    <div class=" col s12" id="phone_div_update">
+      <%= f.fields_for :data,OpenStruct.new(f.object.data) do |field| %>
+        <!--        <div class="input-field">-->
+        <%#= field.label :ddd %>
+        <%#= field.text_field :ddd %>
+        <!--        </div>-->
+        <div class="input-field">
+          <%= field.label :phone %>
+          <%= field.text_field :phone, class: "phone" %>
+        </div>
+
+      <% end %>
+    </div>
+  <% end %>
+
+  <% if tipo == "email" %>
+    <div class=" col s12" id="email_div_update">
+      <%= f.fields_for :data, OpenStruct.new(f.object.data) do |field| %>
+        <div class="input-field">
+          <%= field.label :email %>
+          <%= field.text_field :email%>
+        </div>
+
+      <% end %>
+    </div>
+  <% end %>
+
+
+</div>
+
+<%= content_for :scripts do %>
+  <script type="text/javascript" charset="utf-8">
+
+
+      function initializeAutocomplete(id) {
+
+          console.log("autocomplete google");
+          var element = document.getElementById(id);
+          if (element) {
+              var autocomplete = new google.maps.places.Autocomplete(element, { types: ['geocode'], componentRestrictions: {country: 'us'} });
+              google.maps.event.addListener(autocomplete, 'place_changed', onPlaceChanged);
+          }
+      }
+
+      function onPlaceChanged() {
+          var place = this.getPlace();
+
+          console.log(place);
+
+          $("#fulladdress").val(place.formatted_address);
+
+          $("#lat").val(place.geometry.location.lat());
+          $("#lng").val(place.geometry.location.lng());
+
+          $("label").addClass("active");
+          for (var i in place.address_components) {
+              var component = place.address_components[i];
+
+              for (var j in component.types) {  // Some types are ["country", "political"]
+                  var type_element = document.getElementById(component.types[j]);
+                  if (type_element) {
+                      type_element.value = component.long_name;
+                  }
+              }
+          }
+      }
+
+      $(document).ready(function(){
+          //console.log("autocomplete google");
+          // if($(".category").val() == "address")
+          // {
+          //     $("#address_div").removeClass("hide");
+          // }
+          // if($(".category").val() == "email")
+          // {
+          //     $("#email_div").removeClass("hide");
+          // }
+          // if($(".category").val() == "phone")
+          // {
+          //     $("#phone_div").removeClass("hide");
+          // }
+          initializeAutocomplete('autocomplete_address');
+      });
+
+
+      function category_change(index)
+      {
+
+          var category = $("#category").val();
+          if(category == "address")
+          {
+              // initializeAutocomplete("autocomplete_address");
+              $("#address_div").removeClass("hide");
+              $("#phone_div").addClass("hide");
+              $("#email_div").addClass("hide");
+          }
+          if(category == "phone")
+          {
+              $("#address_div").addClass("hide");
+              $("#phone_div").removeClass("hide");
+              $("#email_div").addClass("hide");
+          }
+          if(category == "email")
+          {
+              $("#address_div").addClass("hide");
+              $("#phone_div").addClass("hide");
+              $("#email_div").removeClass("hide");
+          }
+
+      }
+
+
+  </script>
+<% end %>
+

@@ -1,0 +1,16 @@
+en:
+  activerecord:
+    models:
+      schedule: "Schedule"
+      schedules: "Schedules"
+    attributes:
+      contact:
+        category: "Category"
+        title: "Title"
+        value: "Value"
+        origin: "Origin"
+        origin_id: "Origin ID"
+  global_schedule: "Global Schedule"
+  global: "Global"
+
+

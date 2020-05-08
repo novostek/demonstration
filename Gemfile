@@ -31,16 +31,26 @@ gem 'bootsnap', '>= 1.4.2', require: false
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
+  gem 'bundler'
 end
 
 group :development do
-  gem 'pry-rails'
+
   # Access an interactive console on exception pages or by calling 'console' anywhere in the code.
   gem 'web-console', '>= 3.3.0'
   gem 'listen', '>= 3.0.5', '< 3.2'
   # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
   gem 'spring'
   gem 'spring-watcher-listen', '~> 2.0.0'
+  gem 'annotate'
+  gem 'pry-rails'
+  gem 'pry-remote'
+  gem 'pry-byebug'
+  gem 'seed_dump'
+end
+
+group :production do
+  
 end
 
 group :test do
@@ -60,4 +70,35 @@ gem 'devise'
 gem 'cancancan'
 gem 'rest-client'
 gem 'dentaku'
+
+#upload de arquivos
+gem 'carrierwave', '~> 2.0'
+gem "fog-aws"
+gem 'carrierwave-base64'
+
+gem 'enumerize'
+
+gem "cocoon"
+
+#https://github.com/stefankroes/ancestry
+gem 'ancestry'
 gem 'camunda-workflow'
+
+gem 'sendgrid-ruby'
+
+#financeiro
+gem "plutus", git: "https://github.com/mbulat/plutus.git"
+# gem 'jquery-rails', '~> 4.3', '>= 4.3.3'
+# gem 'rails-ujs', '~> 0.1.0'
+
+
+#pagamentos https://github.com/square/square-ruby-sdk
+gem 'square.rb'
+
+gem 'faker'
+
+gem 'liquid'
+
+gem 'wicked_pdf'
+gem 'wkhtmltopdf-binary'
+gem 'turnout'

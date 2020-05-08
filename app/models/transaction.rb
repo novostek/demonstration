@@ -78,20 +78,90 @@ class Transaction < ApplicationRecord
   end
 
   def self.get_finances category_ids
+    months = [
+      {
+        'month_n': 0,
+        'month': 0,
+        'value': 0
+      },
+      {
+        'month_n': 0,
+        'month': 0,
+        'value': 0
+      },
+      {
+        'month_n': 0,
+        'month': 0,
+        'value': 0
+      },
+      {
+        'month_n': 0,
+        'month': 0,
+        'value': 0
+      },
+      {
+        'month_n': 0,
+        'month': 0,
+        'value': 0
+      },
+      {
+        'month_n': 0,
+        'month': 0,
+        'value': 0
+      },
+      {
+        'month_n': 0,
+        'month': 0,
+        'value': 0
+      },
+      {
+        'month_n': 0,
+        'month': 0,
+        'value': 0
+      },
+      {
+        'month_n': 0,
+        'month': 0,
+        'value': 0
+      },
+      {
+        'month_n': 0,
+        'month': 0,
+        'value': 0
+      },
+      {
+        'month_n': 0,
+        'month': 0,
+        'value': 0
+      },
+      {
+        'month_n': 0,
+        'month': 0,
+        'value': 0
+      }
+    ]
     where(
       'extract(year from created_at) = ? AND transaction_account_id IN (?)', 
       Time.now.year, category_ids
-    ).group('extract(month from created_at)').sum(:value).map { |t| {
-      'month_n': t[0],
-      'month': Date::MONTHNAMES[t[0]],
-      'value': t[1].to_f
-    } }.sort_by { |f| f[:month_n] }
+    ).group('extract(month from created_at)').sum(:value).each do |t|
+      puts t[0].to_i
+      months[t[0].to_i() -1][:month_n] = t[0]
+      months[t[0].to_i() -1][:month] = Date::MONTHNAMES[t[0]]
+      months[t[0].to_i() -1][:value] = t[1].to_f
+    end
+
+    return months
+    # ).group('extract(month from created_at)').sum(:value).map { |t| {
+    #   'month_n': t[0],
+    #   'month': Date::MONTHNAMES[t[0]],
+    #   'value': t[1].to_f
+    # } }.sort_by { |f| f[:month_n] }
   end
 
   def self.get_day_finances category_ids
     where(
-      'extract(day from created_at) = ? AND transaction_account_id IN (?)', 
-      Time.now.day, category_ids
+      'created_at::date = ? AND transaction_account_id IN (?)', 
+      Time.now.strftime('%Y-%m-%d'), category_ids
     ).sum(:value).to_f
   end
 
@@ -112,6 +182,10 @@ class Transaction < ApplicationRecord
       'value': t[1].to_f
     } }
     
+    return {
+      'debit' => debit,
+      'credit' => credit
+    }
   end
 
 end

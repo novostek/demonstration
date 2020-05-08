@@ -1,5 +1,7 @@
 Rails.application.routes.draw do
 
+  resources :testes
+  resources :clients
   resources :labor_costs do
     member do
       get "new_note"

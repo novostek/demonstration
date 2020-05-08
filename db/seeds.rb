@@ -1,12 +1,11 @@
+begin
 User.create!([
-  {email: "anadoloresld@gmail.com", encrypted_password: "$2a$11$NEpbMV42l6Gb3ArJvqBoAuf0d2FUDjabY4JlgSIhP0ImJ5vLusx96", reset_password_token: nil, reset_password_sent_at: nil, remember_created_at: nil, name: "Ana Dolores Lima Dias", active: true, worker_id: nil},
-  {email: "jovictor.miguel@gmail.com", encrypted_password: "$2a$11$1PLqYqw09D4O8/aoOMXwDO9G0UO1zlo1rIsEnXDDEgdzm9GRRvJcm", reset_password_token: nil, reset_password_sent_at: nil, remember_created_at: nil, name: "João Victor", active: true, worker_id: 6},
-  {email: "jrochelly@gmail.com", encrypted_password: "$2a$11$wU7T247zMdJfZQSeAXiLRel/Zk1PmjRPEAQ1hURa0r0y.zI.EbqFS", reset_password_token: nil, reset_password_sent_at: nil, remember_created_at: nil, name: "Jakson", active: true, worker_id: nil},
-  {email: "gabrielvash@gmail.com", encrypted_password: "$2a$11$Egogn.9ctuYnt4FxOZhHgOluTSpit4v8YSG0xZD2FukMVj6EAn8A6", reset_password_token: nil, reset_password_sent_at: nil, remember_created_at: nil, name: "Gabriel Santos", active: true, worker_id: 6},
-  {email: "lucascunha.dev@gmail.com", encrypted_password: "$2a$11$fAOujLfT.R9I1XXEoT5NPuSo9EAy.zR0ybrySojQ4Wrsi6vFPP0PS", reset_password_token: nil, reset_password_sent_at: nil, remember_created_at: nil, name: "Lucas", active: true, worker_id: nil},
-  {email: "jackbauer@email.com", encrypted_password: "$2a$11$3zkndBx0RkyMJg93IRE9.uJhCQH3gVZUee9goiM/hiOXENMcd8LK.", reset_password_token: nil, reset_password_sent_at: nil, remember_created_at: nil, name: "Jack Bauer", active: true, worker_id: 6},
-  {email: "rename@later.com", encrypted_password: "$2a$11$RcWnltn0wOWMrHHX.T6aiuRc83QweHz2S2VvdlgNylTJJPTIqTUK2", reset_password_token: nil, reset_password_sent_at: nil, remember_created_at: nil, name: "Daniel", active: true, worker_id: 10}
+
+  {email: "gabrielvash@gmail.com", password:"123456", password_confirmation: "123456", reset_password_token: nil, reset_password_sent_at: nil, remember_created_at: nil, name: "Gabriel Santos", active: true},
 ])
+rescue
+end
+begin
 Setting.create!([
   {namespace: "company_name", value: {"value"=>"Woffice"}},
   {namespace: "client_end_order", value: {"value"=>true}},
@@ -102,3 +101,5 @@ ProfileUser.create!([
   {user_id: 3, profile_id: 1},
   {user_id: 7, profile_id: 3}
 ])
+rescue
+end

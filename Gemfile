@@ -102,3 +102,6 @@ gem 'liquid'
 gem 'wicked_pdf'
 gem 'wkhtmltopdf-binary'
 gem 'turnout'
+
+##https://github.com/rails-on-services/apartment
+gem 'ros-apartment', require: 'apartment'

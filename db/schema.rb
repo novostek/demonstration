@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_04_23_212831) do
+ActiveRecord::Schema.define(version: 2020_05_08_190008) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -30,6 +30,13 @@ ActiveRecord::Schema.define(version: 2020_04_23_212831) do
     t.string "description"
     t.boolean "tax"
     t.string "namespace"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "clients", force: :cascade do |t|
+    t.string "name"
+    t.string "tenant_name"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end
@@ -128,7 +135,7 @@ ActiveRecord::Schema.define(version: 2020_04_23_212831) do
 
   create_table "labor_costs", force: :cascade do |t|
     t.bigint "worker_id", null: false
-    t.bigint "schedule_id"
+    t.bigint "schedule_id", null: false
     t.date "date"
     t.decimal "value"
     t.string "status"
@@ -385,6 +392,12 @@ ActiveRecord::Schema.define(version: 2020_04_23_212831) do
   create_table "suppliers", force: :cascade do |t|
     t.string "name", null: false
     t.text "description"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "testes", force: :cascade do |t|
+    t.string "nome"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end

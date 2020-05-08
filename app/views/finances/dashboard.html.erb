@@ -20,9 +20,9 @@
                                   <p class="mt-2 mb-0 font-weight-600">Income <%= @income %></p>
                                   <h5>
                                     <% if @year_incomes.length > 1 %>
-                                      <%= number_to_currency(@year_incomes.reduce { |prev, cur| prev[:value]+cur[:value] }, :unit => '$ ')%>
+                                      <%= number_to_currency(@year_incomes.map { |m| m[:value] }.reduce(0, :+), :unit => '$ ')%>
                                     <% else %>
-                                      <%= number_to_currency(@year_incomes.reduce { |prev, cur| prev[:value]+cur[:value] }[:value], :unit => '$ ')%>
+                                      <%= number_to_currency(@year_incomes.map { |m| m[:value] }.reduce(0, :+)[:value], :unit => '$ ')%>
                                     <% end %>
                                   </h5>
                               </div>
@@ -38,9 +38,9 @@
                                   <p class="mt-2 mb-0 font-weight-600">Expenses</p>
                                   <h5>
                                     <% if @year_costs.length > 1 %>
-                                      <%= number_to_currency(@year_costs.reduce { |prev, cur| prev[:value]+cur[:value] }, :unit => '$ ')%>
+                                      <%= number_to_currency(@year_costs.map { |m| m[:value] }.reduce(0, :+), :unit => '$ ')%>
                                     <% else %>
-                                      <%= number_to_currency(@year_costs.reduce { |prev, cur| prev[:value]+cur[:value] }[:value], :unit => '$ ')%>
+                                      <%= number_to_currency(@year_costs.map { |m| m[:value] }.reduce(0, :+)[:value], :unit => '$ ')%>
                                     <% end %>
                                   </h5>
                               </div>
@@ -53,7 +53,7 @@
                           <div class="dashboard-chart card pt-0 pb-0 animated fadeInLeft faster border-radius-5">
                               <div class="dashboard-income-wrapper padding-2 ml-2">
                                   <p class="mt-2 mb-0 font-weight-600">Balance</p>
-                                  <h5>$ 22,300</h5>
+                                  <h5><%= number_to_currency(@total_balance, :unit => '$ ') %></h5>
                               </div>
                               <div class="chart-wrapper">
                                   <canvas id="balance-dashboard-chart" class="center"></canvas>
@@ -667,12 +667,14 @@
 
       var income = [];
       var costs = [];
+      var balance = [];
 
       await fetch('dashboard.json')
         .then(data => data.json())
         .then(res => {
           income = res.incomes
           costs = res.costs
+          balance = res.balance
         })
         .catch(error => console.error(error))
 
@@ -885,7 +887,6 @@
               text: "82%"
           }
       }
-      var SLlabels = ["January", "February", "March", "April", "May", "June"]
 
       var LineSL3ctx = document
           .getElementById("balance-dashboard-chart")
@@ -918,7 +919,7 @@
                       fill: true,
                       backgroundColor: gradientFill,
                       borderWidth: 1,
-                      data: [55000.56, 56000, 1020, 3050, 2000, 4003]
+                      data: balance
                   }
               ]
           },

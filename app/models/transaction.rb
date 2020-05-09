@@ -48,6 +48,7 @@ class Transaction < ApplicationRecord
   #validates :category, :effective, :value, presence: true
 
   after_create :send_square
+  before_create :set_default_categories
 
 
   def send_square
@@ -62,6 +63,26 @@ class Transaction < ApplicationRecord
           #redirect_to process_payment_customers_path
         end
       end
+    end
+  end
+
+  def set_default_categories
+    if self.origin == 'Order'
+      if self.due == Date.today and (self.payment_method == 'cash' or self.payment_method == 'check')
+        self.effective = Time.now
+        self.status = :paid
+      end
+      self.transaction_account_id = Setting.get_value("#{self.payment_method}_transaction_account")
+      self.transaction_category_id = Setting.get_value("#{self.payment_method}_transaction_category")
+    elsif self.origin == 'LaborCost'
+      self.transaction_account_id = Setting.get_value("labor_cost_transaction_account")
+      self.transaction_category_id = Setting.get_value("labor_cost_transaction_category")
+    elsif self.origin == 'Tax'
+      self.transaction_account_id = Setting.get_value("taxes_transaction_account")
+      self.transaction_category_id = Setting.get_value("taxes_transaction_category")
+    elsif self.origin == 'Purchase'
+      self.transaction_account_id = Setting.get_value("product_purchase_transaction_account")
+      self.transaction_category_id = Setting.get_value("product_purchase_transaction_category")
     end
   end
 

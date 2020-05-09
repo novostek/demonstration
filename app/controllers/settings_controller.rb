@@ -8,6 +8,17 @@ class SettingsController < ApplicationController
     @settings = @q.result.page(params[:page])
   end
 
+  def atualiza_transactions
+    params.reject{|a,b| ["action","commit","controller","redirect","logo"].include? a }.each do |p|
+      s = Setting.find_or_initialize_by(namespace: p[0])
+      s.value = {"value": p[1] }
+      
+      s.save
+    end
+
+    redirect_to transactions_settings_path, notice: t('notice.setting.updated')
+  end
+
   def atualiza_settings
     params.reject{|a,b| ["action","commit","controller","redirect","logo"].include? a }.each do |p|
       if p[0] != "width" and p[0] != "length" and p[0] != "height" and p[0] != "square_feet"

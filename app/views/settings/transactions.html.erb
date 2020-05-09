@@ -1,0 +1,118 @@
+<%= content_for :head_content do %>
+  <link href='/css/settings.css' rel='stylesheet' type='text/css' />
+<% end %>
+<%= form_with url: atualiza_settings_settings_path, local: true do |f| %>
+<section class="invoice-list-wrapper section">
+  <%= f.hidden_field  :redirect,  value: "/settings"%>
+  <!-- create invoice button-->
+  <div class="content-wrapper-before woffice-color"></div>
+  <div class="pb-0 pt-4" id="breadcrumbs-wrapper">
+    <!-- Search for small screen-->
+    <div class="container">
+      <div class="row">
+        <div class="col s10 m6 l6">
+          <h5 class="breadcrumbs-title mt-0 mb-0"><span>Settings</span></h5>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col s12">
+    <div class="container settings_container">
+      <div class="section">
+        <ul class="tabs">
+          <li class="tab"><a target="_self" href="#">Company</a></li>
+          <li class="tab"><a target="_self" href="/settings/email">Emails</a></li>
+          <li class="tab"><a target="_self" href="/settings/estimate">Estimates</a></li>
+          <li class="tab"><a target="_self" class="active " href="/settings/transactions">Transactions</a></li>
+        </ul>
+        <div class="card">
+          <div class="card-content">
+            <div class="row mb-3">
+              <div class="col s12">
+                <div class="card-title black-text">
+                  <h5>Transaction defaults</h5>
+                </div>
+                <p>Define the default values for your transactions</p>
+              </div>
+            </div>
+            <div class="row mb-3">
+              <div class="col s12 m6">
+                <p class="card-title font-weight-600 mr-5 black-text">Order payments</p>
+                <span class="helper-text">Select a default value for when you receive an order payment by:</span>
+              </div>
+            </div>
+            <div class="container">
+              <div class="row">
+                <div class="col s12 ">
+                  <p class="card-title font-weight-600 mr-5 black-text">Cash</p>
+                </div>
+              </div>
+              <div class="row mb-3">
+                <div class="input-field col s12 m6">
+                  <%= select_tag :cash_transaction_account, options_from_collection_for_select(@accounts, 'id', 'name'), {prompt: 'Select one'}  %>
+                  <%= label_tag  :cash_transaction_account %>
+                </div>
+                <div class="input-field col s12 m6">
+                  <%= select_tag :cash_transaction_category, options_from_collection_for_select(@categories, 'id', 'name'), {prompt: 'Select one'}  %>
+                  <%= label_tag  :cash_transaction_category %>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col s12 ">
+                  <p class="card-title font-weight-600 mr-5 black-text">Square (credit)</p>
+                </div>
+              </div>
+              <div class="row mb-3">
+                <div class="input-field col s12 m6">
+                  <%= select_tag :square_credit_transaction_account, options_from_collection_for_select(@accounts, 'id', 'name'), {prompt: 'Select one'}  %>
+                  <%= label_tag  :square_credit_transaction_account %>
+                </div>
+                <div class="input-field col s12 m6">
+                  <%= select_tag :square_credit_transaction_category, options_from_collection_for_select(@categories, 'id', 'name'), {prompt: 'Select one'}  %>
+                  <%= label_tag  :square_credit_transaction_category %>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col s12 ">
+                  <p class="card-title font-weight-600 mr-5 black-text">Square (debit)</p>
+                </div>
+              </div>
+              <div class="row mb-3">
+                <div class="input-field col s12 m6">
+                  <%= select_tag :square_debit_transaction_account, options_from_collection_for_select(@accounts, 'id', 'name'), {prompt: 'Select one'}  %>
+                  <%= label_tag  :square_debit_transaction_account %>
+                </div>
+                <div class="input-field col s12 m6">
+                  <%= select_tag :square_debit_transaction_category, options_from_collection_for_select(@categories, 'id', 'name'), {prompt: 'Select one'}  %>
+                  <%= label_tag  :square_debit_transaction_category %>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col s12 ">
+                  <p class="card-title font-weight-600 mr-5 black-text">Check</p>
+                </div>
+              </div>
+              <div class="row mb-3">
+                <div class="input-field col s12 m6">
+                  <%= select_tag :check_transaction_account, options_from_collection_for_select(@accounts, 'id', 'name'), {prompt: 'Select one'}  %>
+                  <%= label_tag  :check_transaction_account %>
+                </div>
+                <div class="input-field col s12 m6">
+                  <%= select_tag :check_transaction_category, options_from_collection_for_select(@categories, 'id', 'name'), {prompt: 'Select one'}  %>
+                  <%= label_tag  :check_transaction_category %>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <%= f.submit "Save", class:"btn" %>
+    </div>
+    <div class="content-overlay"></div>
+  </div>
+</section>
+
+<% end %>

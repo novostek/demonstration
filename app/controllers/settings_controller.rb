@@ -39,6 +39,11 @@ class SettingsController < ApplicationController
     redirect_to params[:redirect], notice: t('notice.setting.updated')
   end
 
+  def transactions
+    @categories = TransactionCategory.all
+    @accounts = TransactionAccount.all
+  end
+
   # GET /settings/1
   def show
   end

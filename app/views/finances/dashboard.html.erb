@@ -663,20 +663,48 @@
     // Dashboard - Modern
     //----------------------
 
+    function fill_array(elem) {
+      var months = ["January", "February", "March", "April", "May", "June", "August", "September", "October", "November", "December"]
+      var today = new Date();
+      var d;
+      var month;
+      var year;
+
+      for (var i = 0; i <= 12; i++) {
+        d = new Date(today.getFullYear(), today.getMonth() - i, 1);
+        month = months[d.getMonth()];
+        year = d.getFullYear();
+        
+        if(!elem.some(value => value.month === month)){
+            // month && console.log(month, elem.some(value => String(value.month) === String(month)))
+            month && elem.unshift({
+            month: month,
+            value: 0
+            })
+        }
+      }
+
+      return elem
+    }
+
     (async function (window, document, $) {
 
-      var income = [];
+      var incomes = [];
       var costs = [];
       var balance = [];
 
       await fetch('dashboard.json')
         .then(data => data.json())
         .then(res => {
-          income = res.incomes
-          costs = res.costs
-          balance = res.balance
+          incomes = fill_array(res.incomes)
+          costs = fill_array(res.costs)
+          balance = fill_array(res.balance)
         })
         .catch(error => console.error(error))
+
+      console.log('Incomes: ', incomes)
+      console.log('Costs: ', costs)
+      console.log('Balance: ', balance)
 
       //Income chart
 
@@ -737,7 +765,7 @@
       var SL3Chart = new Chart(LineSL3ctx, {
           type: "line",
           data: {
-              labels: SLlabels,
+              labels: SLlabels.filter(month => incomes.some(value => value.month === month)),
               datasets: [
                   {
                       // label: "My Second dataset",
@@ -754,7 +782,7 @@
                       fill: true,
                       backgroundColor: gradientFill,
                       borderWidth: 2,
-                      data: income
+                      data: incomes
                   }
               ]
           },
@@ -819,7 +847,7 @@
       var SL3Chart = new Chart(LineSL3ctx, {
           type: "line",
           data: {
-              labels: SLlabels,
+              labels: SLlabels.filter(month => costs.some(value => value.month === month)),
               datasets: [
                   {
                       // label: "My Second dataset",

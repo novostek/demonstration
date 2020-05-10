@@ -48,6 +48,7 @@ class Transaction < ApplicationRecord
   #validates :category, :effective, :value, presence: true
 
   after_create :send_square
+  before_create :set_default_categories
 
 
   def send_square
@@ -61,6 +62,29 @@ class Transaction < ApplicationRecord
         else
           #redirect_to process_payment_customers_path
         end
+      end
+    end
+  end
+
+  def set_default_categories
+    if self.origin == 'Order'
+      if self.due == Date.today and (self.payment_method == 'cash' or self.payment_method == 'check')
+        self.effective = Time.now
+        self.status = :paid
+      end
+      self.transaction_account_id = Setting.get_value("#{self.payment_method}_transaction_account")
+      self.transaction_category_id = Setting.get_value("#{self.payment_method}_transaction_category")
+    elsif self.origin == 'LaborCost'
+      self.transaction_account_id = Setting.get_value("labor_cost_transaction_account")
+      self.transaction_category_id = Setting.get_value("labor_cost_transaction_category")
+    elsif self.origin == 'ProductPurchase'
+      product_purchase = ProductPurchase.find self.origin_id
+      if product_purchase.tax
+        self.transaction_account_id = Setting.get_value("taxes_transaction_account")
+        self.transaction_category_id = Setting.get_value("taxes_transaction_category")
+      else
+        self.transaction_account_id = Setting.get_value("product_purchase_transaction_account")
+        self.transaction_category_id = Setting.get_value("product_purchase_transaction_category")
       end
     end
   end
@@ -140,22 +164,20 @@ class Transaction < ApplicationRecord
         'value': 0
       }
     ]
-    where(
-      'extract(year from created_at) = ? AND transaction_account_id IN (?)', 
-      Time.now.year, category_ids
-    ).group('extract(month from created_at)').sum(:value).each do |t|
-      puts t[0].to_i
-      months[t[0].to_i() -1][:month_n] = t[0]
-      months[t[0].to_i() -1][:month] = Date::MONTHNAMES[t[0]]
-      months[t[0].to_i() -1][:value] = t[1].to_f
-    end
+    where("created_at > now() - interval '1 year' AND transaction_account_id IN (?)", category_ids)
+      .group('extract(month from created_at)').sum(:value).map { |t| {
+        'month_n': t[0].to_i,
+        'month': Date::MONTHNAMES[t[0]],
+        'value': t[1].to_f
+      } }.sort_by { |f| f[:month_n] }
+    # ).group('extract(month from created_at)').sum(:value).each do |t|
+    #   puts t[0].to_i
+    #   months[t[0].to_i() -1][:month_n] = t[0]
+    #   months[t[0].to_i() -1][:month] = Date::MONTHNAMES[t[0]]
+    #   months[t[0].to_i() -1][:value] = t[1].to_f
+    # end
 
-    return months
-    # ).group('extract(month from created_at)').sum(:value).map { |t| {
-    #   'month_n': t[0],
-    #   'month': Date::MONTHNAMES[t[0]],
-    #   'value': t[1].to_f
-    # } }.sort_by { |f| f[:month_n] }
+    # return months
   end
 
   def self.get_day_finances category_ids

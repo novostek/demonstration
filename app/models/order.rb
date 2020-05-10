@@ -22,7 +22,7 @@ class Order < ApplicationRecord
   has_many :purchases
   has_many :product_purchases, through: :purchases
   before_create :set_code
-  has_many :transactions
+  has_many :transactions, -> { where origin: :Order }
 
   has_many :notes, -> { where origin: :Order }, primary_key: :id, foreign_key: :origin_id
   has_many :contacts, -> { where origin: :Order }, primary_key: :id, foreign_key: :origin_id

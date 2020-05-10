@@ -27,7 +27,7 @@ class ProductPurchasesController < ApplicationController
   end
 
   def change_status
-    @product_purchase.status = params[:status]
+    @product_purchase.status = params[:status].to_sym
     if @product_purchase.save
       render json: {status: "ok", msg: "Changed to #{params[:status]}"}
     else

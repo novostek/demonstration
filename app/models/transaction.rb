@@ -77,12 +77,15 @@ class Transaction < ApplicationRecord
     elsif self.origin == 'LaborCost'
       self.transaction_account_id = Setting.get_value("labor_cost_transaction_account")
       self.transaction_category_id = Setting.get_value("labor_cost_transaction_category")
-    elsif self.origin == 'Tax'
-      self.transaction_account_id = Setting.get_value("taxes_transaction_account")
-      self.transaction_category_id = Setting.get_value("taxes_transaction_category")
-    elsif self.origin == 'Purchase'
-      self.transaction_account_id = Setting.get_value("product_purchase_transaction_account")
-      self.transaction_category_id = Setting.get_value("product_purchase_transaction_category")
+    elsif self.origin == 'ProductPurchase'
+      product_purchase = ProductPurchase.find self.origin_id
+      if product_purchase.tax
+        self.transaction_account_id = Setting.get_value("taxes_transaction_account")
+        self.transaction_category_id = Setting.get_value("taxes_transaction_category")
+      else
+        self.transaction_account_id = Setting.get_value("product_purchase_transaction_account")
+        self.transaction_category_id = Setting.get_value("product_purchase_transaction_category")
+      end
     end
   end
 

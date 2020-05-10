@@ -34,7 +34,7 @@ class LaborCost < ApplicationRecord
   has_many :document_files, -> { where origin: :LaborCost }, primary_key: :id, foreign_key: :origin_id
 
   after_save :update_order_total_cost
-  after_create :set_transaction
+  after_save :set_transaction
 
   #Método que atualiza o total dos custos da order
   def update_order_total_cost
@@ -43,9 +43,7 @@ class LaborCost < ApplicationRecord
   end
 
   def set_transaction
-    transaction = Transaction.new
-    transaction.origin = 'LaborCost'
-    transaction.origin_id = self.id
+    transaction = Transaction.find_or_initialize_by(origin: 'LaborCost', origin_id: self.id)
     transaction.order_id = Schedule.find(self.schedule_id).origin_id
     transaction.status = self.status == 'paid' ? 'paid' : 'pendent'
     transaction.value = self.value

@@ -65,4 +65,28 @@ class Order < ApplicationRecord
       self.code = "#{Time.now.strftime('%Y')}000000".to_i + 1
     end
   end
+
+  def self.get_new_orders_count
+    where("created_at > now() - interval '30 day' AND status = 'new'").count
+  end
+
+  def self.get_finished_orders_count
+    where("created_at > now() - interval '30 day'  AND status = 'finished'").count
+  end
+
+  def self.get_cancelled_orders_count
+    where("created_at > now() - interval '30 day'  AND status = 'cancelled'").count
+  end
+
+  def self.get_latest_orders limit
+    all.order(id: :desc).limit(limit)
+  end
+
+  def get_customer_name
+    self.current_estimate.customer.name
+  end
+
+  def get_order_value
+    self.product_purchases.sum(:value).to_f
+  end
 end

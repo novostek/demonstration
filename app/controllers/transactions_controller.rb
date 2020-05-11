@@ -5,7 +5,7 @@ class TransactionsController < ApplicationController
 
   # GET /transactions
   def index
-    @q = Transaction.all.ransack(params[:q])
+    @q = Transaction.all.order(id: :desc).ransack(params[:q])
     @transactions = @q.result.page(params[:page])
   end
 

@@ -164,8 +164,8 @@ class Transaction < ApplicationRecord
         'value': 0
       }
     ]
-    where("created_at > now() - interval '1 year' AND transaction_account_id IN (?)", category_ids)
-      .group('extract(month from created_at)').sum(:value).map { |t| {
+    where("effective > now() - interval '1 year' AND transaction_account_id IN (?)", category_ids)
+      .group('extract(month from effective)').sum(:value).map { |t| {
         'month_n': t[0].to_i,
         'month': Date::MONTHNAMES[t[0]],
         'value': t[1].to_f
@@ -182,24 +182,24 @@ class Transaction < ApplicationRecord
 
   def self.get_day_finances category_ids
     where(
-      'created_at::date = ? AND transaction_account_id IN (?)', 
+      'effective::date = ? AND transaction_account_id IN (?)', 
       Time.now.strftime('%Y-%m-%d'), category_ids
     ).sum(:value).to_f
   end
 
   def self.get_balance debit_category_ids, credit_category_ids
     credit = where(
-      'extract(year from created_at) = ? AND transaction_account_id IN (?)', 
+      'extract(year from effective) = ? AND transaction_account_id IN (?)', 
       Time.now.year, credit_category_ids
-    ).group('extract(month from created_at)').sum(:value).map { |t| {
+    ).group('extract(month from effective)').sum(:value).map { |t| {
       'month': Date::MONTHNAMES[t[0]],
       'value': t[1].to_f
     } }
 
     debit = where(
-      'extract(year from created_at) = ? AND transaction_account_id IN (?)', 
+      'extract(year from effective) = ? AND transaction_account_id IN (?)', 
       Time.now.year, debit_category_ids
-    ).group('extract(month from created_at)').sum(:value).map { |t| {
+    ).group('extract(month from effective)').sum(:value).map { |t| {
       'month': Date::MONTHNAMES[t[0]],
       'value': t[1].to_f
     } }
@@ -208,6 +208,22 @@ class Transaction < ApplicationRecord
       'debit' => debit,
       'credit' => credit
     }
+  end
+
+  def self.get_amount_of_receivables
+    where('effective > now() - interval \'30 day\' AND transaction_account_id = 2 AND status = \'paid\'').sum(:value).to_f
+  end
+
+  def self.get_amount_of_overdue
+    where('due > now() - interval \'30 day\' AND transaction_account_id = 2 AND status = \'pendent\'').sum(:value).to_f
+  end
+  
+  def self.get_material_costs
+    where('created_at > now() - interval \'30 day\' AND transaction_account_id = 1 AND origin = \'ProductPurchase\'').sum(:value).to_f
+  end
+
+  def self.get_labor_costs
+    where('created_at > now() - interval \'30 day\' AND transaction_account_id = 1 AND origin = \'LaborCost\'').sum(:value).to_f
   end
 
 end

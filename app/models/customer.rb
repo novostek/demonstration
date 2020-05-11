@@ -119,5 +119,11 @@ class Customer < ApplicationRecord
     end
   end
 
+  def self.count_new_customers
+    where("created_at > now() - interval '30 day'").count
+  end
 
+  def self.get_recent_customers limit
+    all.order(id: :desc).limit(limit)
+  end
 end

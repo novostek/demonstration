@@ -70,6 +70,7 @@ class ProfilesController < ApplicationController
 
                 DocumentsController,
                 EstimatesController,
+                FinancesController,
                 LaborCostsController,
                 LeadsController,
                 MeasurementAreasController,

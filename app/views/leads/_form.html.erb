@@ -23,7 +23,7 @@
                 required: true,
                 class: 'autocomplete autocomplete-phone phone', 
                 onkeyup: "search_by_phone($(this).val())",
-                onkeydown: "select_first(event, this)" %>
+                onkeydown: "select_first_phone(event, this)" %>
             <%= f.label  :phone, id: 'lead_phone_label' %>
           </div>
 
@@ -130,7 +130,7 @@
       $(".other-fields, .save-buttons").fadeIn()
     });
 
-    select_first = (event, input) => {
+    select_first_phone = (event, input) => {
       const code = (event.keyCode ? event.keyCode : e.which)
 
       if (code == 13) {

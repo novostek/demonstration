@@ -77,14 +77,17 @@ class Transaction < ApplicationRecord
     elsif self.origin == 'LaborCost'
       self.transaction_account_id = Setting.get_value("labor_cost_transaction_account")
       self.transaction_category_id = Setting.get_value("labor_cost_transaction_category")
+      self.value = self.value * -1
     elsif self.origin == 'ProductPurchase'
       product_purchase = ProductPurchase.find self.origin_id
       if product_purchase.tax
         self.transaction_account_id = Setting.get_value("taxes_transaction_account")
         self.transaction_category_id = Setting.get_value("taxes_transaction_category")
+        self.value = self.value * -1
       else
         self.transaction_account_id = Setting.get_value("product_purchase_transaction_account")
         self.transaction_category_id = Setting.get_value("product_purchase_transaction_category")
+        self.value = self.value * -1
       end
     end
   end
@@ -101,7 +104,7 @@ class Transaction < ApplicationRecord
     end
   end
 
-  def self.get_finances category_ids
+  def self.get_finances type
     months = [
       {
         'month_n': 0,
@@ -164,7 +167,7 @@ class Transaction < ApplicationRecord
         'value': 0
       }
     ]
-    where("effective > now() - interval '1 year' AND transaction_account_id IN (?)", category_ids)
+    where("effective > now() - interval '1 year' AND value #{type == 'income' ? '>' : '<'} 0")
       .group('extract(month from effective)').sum(:value).map { |t| {
         'month_n': t[0].to_i,
         'month': Date::MONTHNAMES[t[0]],
@@ -180,25 +183,25 @@ class Transaction < ApplicationRecord
     # return months
   end
 
-  def self.get_day_finances category_ids
+  def self.get_day_finances type
     where(
-      'effective::date = ? AND transaction_account_id IN (?)', 
-      Time.now.strftime('%Y-%m-%d'), category_ids
+      "effective::date = ? AND value #{type == 'income' ? '>' : '<'} 0", 
+      Time.now.strftime('%Y-%m-%d')
     ).sum(:value).to_f
   end
 
-  def self.get_balance debit_category_ids, credit_category_ids
+  def self.get_balance
     credit = where(
-      'extract(year from effective) = ? AND transaction_account_id IN (?)', 
-      Time.now.year, credit_category_ids
+      'extract(year from effective) = ? AND value > 0', 
+      Time.now.year
     ).group('extract(month from effective)').sum(:value).map { |t| {
       'month': Date::MONTHNAMES[t[0]],
       'value': t[1].to_f
     } }
 
     debit = where(
-      'extract(year from effective) = ? AND transaction_account_id IN (?)', 
-      Time.now.year, debit_category_ids
+      'extract(year from effective) = ? AND value < 0', 
+      Time.now.year
     ).group('extract(month from effective)').sum(:value).map { |t| {
       'month': Date::MONTHNAMES[t[0]],
       'value': t[1].to_f
@@ -211,19 +214,25 @@ class Transaction < ApplicationRecord
   end
 
   def self.get_amount_of_receivables
-    where('effective > now() - interval \'30 day\' AND transaction_account_id = 2 AND status = \'paid\'').sum(:value).to_f
+    where('effective > now() - interval \'30 day\' AND value > 0 AND status = \'paid\'').sum(:value).to_f
   end
 
   def self.get_amount_of_overdue
-    where('due > now() - interval \'30 day\' AND transaction_account_id = 2 AND status = \'pendent\'').sum(:value).to_f
+    where('due > now() - interval \'30 day\' AND value > 0 AND status = \'pendent\'').sum(:value).to_f
+  end
+  
+  def self.get_amount_of_open
+    where('due < now() - interval \'30 day\' AND value > 0 AND status = \'pendent\'').sum(:value).to_f
   end
   
   def self.get_material_costs
-    where('created_at > now() - interval \'30 day\' AND transaction_account_id = 1 AND origin = \'ProductPurchase\'').sum(:value).to_f
+    where('created_at > now() - interval \'30 day\' AND value < 0 AND origin = \'ProductPurchase\'').sum(:value).to_f
   end
 
   def self.get_labor_costs
-    where('created_at > now() - interval \'30 day\' AND transaction_account_id = 1 AND origin = \'LaborCost\'').sum(:value).to_f
+    where('created_at > now() - interval \'30 day\' AND value < 0 AND origin = \'LaborCost\'').sum(:value).to_f
   end
+
+
 
 end

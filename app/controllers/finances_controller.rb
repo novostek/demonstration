@@ -1,14 +1,11 @@
 class FinancesController < ApplicationController
 
   def dashboard
-    credit_category_ids = TransactionAccount.get_category_ids('credit')
-    cost_category_ids = TransactionAccount.get_category_ids('debit')
+    @year_incomes = Transaction.get_finances('income')
+    @year_costs = Transaction.get_finances('cost')
 
-    @year_incomes = Transaction.get_finances(credit_category_ids)
-    @year_costs = Transaction.get_finances(cost_category_ids)
-
-    @day_incomes = Transaction.get_day_finances(credit_category_ids)
-    @day_costs = Transaction.get_day_finances(cost_category_ids)
+    @day_incomes = Transaction.get_day_finances('income')
+    @day_costs = Transaction.get_day_finances('cost')
 
     @balance = []
 
@@ -22,7 +19,12 @@ class FinancesController < ApplicationController
       end
     end
 
-    @total_balance = @balance.reduce { |sum, num| sum[:value] + num[:value] }
+    @year_costs = @year_costs.map { |cost| {
+      :month => cost[:month],
+      :value => cost[:value] * -1
+    } }
+
+    @total_balance = @balance.reduce { |sum, num| sum[:value] - num[:value] }
 
     @receivables = Transaction.get_amount_of_receivables
     @overdue = Transaction.get_amount_of_overdue

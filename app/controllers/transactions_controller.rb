@@ -6,7 +6,10 @@ class TransactionsController < ApplicationController
   # GET /transactions
   def index
     @q = Transaction.all.order(id: :desc).ransack(params[:q])
-    @transactions = @q.result.page(params[:page])
+    @transactions = @q.result.page(params[:page]).per(10)
+    @overdue = Transaction.get_amount_of_overdue
+    @open = Transaction.get_amount_of_open
+    @paid = Transaction.get_amount_of_receivables
   end
 
   #Método que reenvia o email com o checkout para o cliente

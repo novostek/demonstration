@@ -24,7 +24,7 @@ class FinancesController < ApplicationController
       :value => cost[:value] * -1
     } }
 
-    @total_balance = @balance.reduce { |sum, num| sum[:value] - num[:value] }
+    @total_balance = @balance.reduce { |sum, num| sum[:value] + num[:value] }
 
     @receivables = Transaction.get_amount_of_receivables
     @overdue = Transaction.get_amount_of_overdue

@@ -31,10 +31,12 @@
             <div class="card row blue-grey gradient-shadow white-text padding-4">
               <div class="col s5 m5">
                 <i class="material-icons background-round mt-5 mb-5">format_list_numbered</i>
-                <p class="no-margin">Unbiled</p>
+                <p class="no-margin">Balance</p>
               </div>
               <div class="col s7 m7 right-align">
-                <h5 class="mb-0 white-text">$2,798</h5>
+                <h5 class="mb-0 white-text">
+                  <%= number_to_currency(@total_balance[:value], :unit => '$') %>
+                </h5>
                 <p class="no-margin">last 30 days</p>
               </div>
             </div>

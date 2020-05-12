@@ -105,68 +105,6 @@ class Transaction < ApplicationRecord
   end
 
   def self.get_finances type
-    months = [
-      {
-        'month_n': 0,
-        'month': 0,
-        'value': 0
-      },
-      {
-        'month_n': 0,
-        'month': 0,
-        'value': 0
-      },
-      {
-        'month_n': 0,
-        'month': 0,
-        'value': 0
-      },
-      {
-        'month_n': 0,
-        'month': 0,
-        'value': 0
-      },
-      {
-        'month_n': 0,
-        'month': 0,
-        'value': 0
-      },
-      {
-        'month_n': 0,
-        'month': 0,
-        'value': 0
-      },
-      {
-        'month_n': 0,
-        'month': 0,
-        'value': 0
-      },
-      {
-        'month_n': 0,
-        'month': 0,
-        'value': 0
-      },
-      {
-        'month_n': 0,
-        'month': 0,
-        'value': 0
-      },
-      {
-        'month_n': 0,
-        'month': 0,
-        'value': 0
-      },
-      {
-        'month_n': 0,
-        'month': 0,
-        'value': 0
-      },
-      {
-        'month_n': 0,
-        'month': 0,
-        'value': 0
-      }
-    ]
     where("effective > now() - interval '1 year' AND value #{type == 'income' ? '>' : '<'} 0")
       .group('extract(month from effective)').sum(:value).map { |t| {
         'month_n': t[0].to_i,
@@ -181,6 +119,15 @@ class Transaction < ApplicationRecord
     # end
 
     # return months
+  end
+
+  def self.get_thirty_days_finances type
+    where("effective > now() - interval '1 year' AND value #{type == 'income' ? '>' : '<'} 0")
+      .group('extract(month from effective)').sum(:value).map { |t| {
+        'month_n': t[0].to_i,
+        'month': Date::MONTHNAMES[t[0]],
+        'value': t[1].to_f
+      } }.sort_by { |f| f[:month_n] }
   end
 
   def self.get_day_finances type
@@ -201,6 +148,29 @@ class Transaction < ApplicationRecord
 
     debit = where(
       'extract(year from effective) = ? AND value < 0', 
+      Time.now.year
+    ).group('extract(month from effective)').sum(:value).map { |t| {
+      'month': Date::MONTHNAMES[t[0]],
+      'value': t[1].to_f
+    } }
+    
+    return {
+      'debit' => debit,
+      'credit' => credit
+    }
+  end
+
+  def self.get_thirty_days_balance
+    credit = where(
+      'effective > now() - interval \'30 day\' AND value > 0', 
+      Time.now.year
+    ).group('extract(month from effective)').sum(:value).map { |t| {
+      'month': Date::MONTHNAMES[t[0]],
+      'value': t[1].to_f
+    } }
+
+    debit = where(
+      'effective > now() - interval \'30 day\' AND value < 0', 
       Time.now.year
     ).group('extract(month from effective)').sum(:value).map { |t| {
       'month': Date::MONTHNAMES[t[0]],

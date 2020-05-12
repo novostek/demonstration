@@ -145,14 +145,16 @@
                     </td>
                     <td>
                       <% if transaction.transaction_account.present? %>
-                        <% if transaction.value > 0 %>
-                          <span class="badge green-text lighten-5 green transaction-value"><i class="material-icons">keyboard_arrow_up</i>
-                            <%= transaction.value.present? ? number_to_currency(transaction.value, :unit => '$') : '-' %>
-                          </span>
-                        <% else %>
-                          <span class="badge red-text lighten-5 red transaction-value"><i class="material-icons">keyboard_arrow_down</i>
-                            <%= transaction.value.present? ? number_to_currency(transaction.value, :unit => '$') : '-' %>
-                          </span>                                
+                        <% if transaction.value.present? %>
+                          <% if transaction.value > 0 %>
+                            <span class="badge green-text lighten-5 green transaction-value"><i class="material-icons">keyboard_arrow_up</i>
+                              <%= number_to_currency(transaction.value, :unit => '$') : '-' %>
+                            </span>
+                          <% else %>
+                            <span class="badge red-text lighten-5 red transaction-value"><i class="material-icons">keyboard_arrow_down</i>
+                              <%= number_to_currency(transaction.value, :unit => '$') : '-' %>
+                            </span>                                
+                          <% end %>                          
                         <% end %>
                       <% end %>
                     </td>

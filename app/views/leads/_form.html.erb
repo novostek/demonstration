@@ -56,7 +56,7 @@
           </div>
           <div class="input-field col s6 m4">
             <%= f.text_field :via, autocomplete: 'off', required: true, class: 'autocomplete autocomplete-via' %>
-            <%= f.label  :via %>
+            <%= f.label :via, "Source" %>
           </div>
           <div class="input-field col s6 m4">
             <%= f.text_field :date, value: Time.now.strftime('%m/%d/%Y %H:%M'), class: 'validate datepicker' %>

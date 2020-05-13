@@ -22,7 +22,8 @@
                 autocomplete: 'nope',
                 required: true,
                 class: 'autocomplete autocomplete-phone phone', 
-                onkeyup: "search_by_phone($(this).val())" %>
+                onkeyup: "search_by_phone($(this).val())",
+                onkeydown: "select_first_phone(event, this)" %>
             <%= f.label  :phone, id: 'lead_phone_label' %>
           </div>
 
@@ -55,10 +56,10 @@
           </div>
           <div class="input-field col s6 m4">
             <%= f.text_field :via, autocomplete: 'off', required: true, class: 'autocomplete autocomplete-via' %>
-            <%= f.label  :via %>
+            <%= f.label :via, "Source" %>
           </div>
           <div class="input-field col s6 m4">
-            <%= f.date_field :date, value: Time.now.strftime('%Y-%m-%d'), class: 'validate datepicker' %>
+            <%= f.text_field :date, value: Time.now.strftime('%m/%d/%Y %H:%M'), class: 'validate datepicker' %>
             <%= f.label  :date %>
           </div>
           <div class="col s12 m4">
@@ -105,6 +106,8 @@
     }
 
     document.getElementById('new_customer').addEventListener('submit', () => {
+      let firstPhone = '';
+
       const customer_name = document.getElementById('customer_name').value;
       const customer_email = document.getElementById('email').value;
       const customer_phone = document.getElementById('phone').value;
@@ -120,7 +123,6 @@
       lead_email.value = customer_email
       document.getElementById('lead_customer_label').classList.add('active');
 
-      console.log(customer_name);
       setTimeout(() => {
         search_by_name(customer_name, true)
       }, 300)
@@ -128,11 +130,21 @@
       $(".other-fields, .save-buttons").fadeIn()
     });
 
+    select_first_phone = (event, input) => {
+      const code = (event.keyCode ? event.keyCode : e.which)
+
+      if (code == 13) {
+        event.preventDefault();
+        search_by_phone(firstPhone, true)
+        insert_value_to_field('lead_phone', firstPhone)
+        lead_phone.blur()
+      }
+    }
+
     search_by_name = (value, completed = false) => {
       fetch(`/customers?q%5Bname_cont%5D=${value}`, fetchConfig)
       .then((res) => res.json())
       .then((result) => {
-        console.log('RESULT', result[0].main_phone)
         if(completed){
           $("#lead_customer_id").val(result[0].id);
           insert_value_to_field('lead_email', result[0].main_email);
@@ -154,7 +166,6 @@
     };
 
     search_by_phone = (value, completed = false) => {
-      console.log(value)
       value &&
       fetch(`/customers/search_by_phone/${value}`, fetchConfig)
       .then((res) => res.json())
@@ -169,13 +180,13 @@
         if(Array.isArray(result) && result.length > 0){
           let phoneList = {}
           result.map((element, index) => {
-            console.log("CONTACT", element.contacts);
             // phoneList[element.contacts.data.phone] = null
             element.contacts.map((contact) => phoneList[contact.data.phone] = null)
           })
           var phone_autocomplete = document.getElementById("lead_phone");
           var phone_instance = M.Autocomplete.getInstance(phone_autocomplete);
           phone_instance.updateData(phoneList)
+          firstPhone = result[0].main_phone
         }
       })
       .catch((error) => console.log(error))      
@@ -245,7 +256,9 @@
 		$(document).ready(function(){
 			$('.modal').modal({
 				opacity: .8
-			});
+      });
+      
+      var DateField = MaterialDateTimePicker.create($('#lead_date'))
 
 			$('input.autocomplete.autocomplete-via').autocomplete({
 				data: {

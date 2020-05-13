@@ -5,8 +5,29 @@ class TransactionsController < ApplicationController
 
   # GET /transactions
   def index
-    @q = Transaction.all.ransack(params[:q])
-    @transactions = @q.result.page(params[:page])
+    @q = Transaction.all.order(id: :desc).ransack(params[:q])
+    @transactions = @q.result.page(params[:page]).per(10)
+    @overdue = Transaction.get_amount_of_overdue
+    @open = Transaction.get_amount_of_open
+    @paid = Transaction.get_amount_of_receivables
+
+    @year_incomes = Transaction.get_thirty_days_finances('income')
+    @year_costs = Transaction.get_thirty_days_finances('cost')
+
+    @balance = []
+
+    @year_incomes.each do |income|
+      cost = @year_costs.detect { |c| c[:month] == income[:month] }
+      if cost.present? and income[:month] == cost[:month]
+        @balance.push({
+          :month => income[:month],
+          :value => income[:value] - cost[:value]
+        })
+      end
+    end
+
+    @total_balance = @balance.reduce { |sum, num| sum[:value] + num[:value] }
+
   end
 
   #Método que reenvia o email com o checkout para o cliente

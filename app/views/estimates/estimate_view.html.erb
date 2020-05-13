@@ -103,25 +103,25 @@
                         <i class="material-icons left">event_seat</i>
                         <%= ma.name %>
                       </h6>
-                      <% if !@hidden_fields['length'].present? %>
+                      <% if @hidden_fields['length'].present? %>
                         <div class="col">
                           <!-- length -->
                           <i class="material-icons left width-100">straighten</i><%= ma.measurements[0].length %>
                         </div>
                       <% end %>
-                      <% if !@hidden_fields['width'].present? %>
+                      <% if @hidden_fields['width'].present? %>
                         <div class="col">
                           <!-- length -->
                           <i class="material-icons left width-100" style="transform: rotate(-45deg)">straighten</i><%= ma.measurements[0].width %>
                         </div>
                       <% end %>
-                      <% if !@hidden_fields['height'].present? %>
+                      <% if @hidden_fields['height'].present? %>
                         <div class="col">
                           <!-- length -->
                           <i class="material-icons left width-100" style="transform: rotate(-90deg)">straighten</i><%= ma.measurements[0].height %>
                         </div>
                       <% end %>
-                      <% if !@hidden_fields['square_feet'].present? %>
+                      <% if @hidden_fields['square_feet'].present? %>
                         <div class="col">
                           <!-- height -->
                           <i class="left width-100">SqFt</i><%= ma.measurements[0].square_feet %>

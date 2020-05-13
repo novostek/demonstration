@@ -190,7 +190,9 @@ Rails.application.routes.draw do
       get "email"
       get "company_logo"
       get "estimate"
+      get "transactions" => 'settings#transactions'
       post "atualiza_settings"
+      post "atualiza_transactions"
     end
   end
 

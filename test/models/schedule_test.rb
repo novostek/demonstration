@@ -9,7 +9,9 @@
 #  description   :text
 #  end_at        :datetime
 #  hour_cost     :decimal(, )
+#  mail_sent     :boolean
 #  origin        :string
+#  send_mail     :boolean
 #  start_at      :datetime
 #  title         :string
 #  created_at    :datetime         not null

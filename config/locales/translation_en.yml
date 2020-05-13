@@ -41,6 +41,8 @@ en:
   signin: "Sign in"
   is_required: "is required"
 
+  send_mail_schedule: "Send Confirmation to Customer"
+
   #atributes
   name: "Name"
   description: "Description"

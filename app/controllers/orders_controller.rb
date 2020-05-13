@@ -484,7 +484,8 @@ class OrdersController < ApplicationController
         :color => params[:color],
         :worker_id => params[:worker_id],
         :origin => "Order",
-        :origin_id => @order.id
+        :origin_id => @order.id,
+        :send_mail => params[:send_mail]
     }
 
     schedule = Schedule.new_schedule(schedule_obj)

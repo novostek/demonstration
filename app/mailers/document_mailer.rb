@@ -36,5 +36,14 @@ class DocumentMailer < ApplicationMailer
     mail(to: params[:emails], subject: "Payment of Order N* #{@order.code}")
   end
 
+  def send_schedule_mail
+    @schedule = params[:schedule]
+    @customer = params[:customer]
+
+    attachments.inline['logo.png'] = File.read("#{Rails.root}/public/woffice.png")
+
+    mail(to: params[:emails], subject: "Schedule confirmation")
+  end
+
 
 end

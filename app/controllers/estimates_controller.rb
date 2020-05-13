@@ -251,7 +251,8 @@ class EstimatesController < ApplicationController
         :color => params[:color],
         :worker_id => params[:worker_id],
         :origin => "Estimate",
-        :origin_id => estimate.id
+        :origin_id => estimate.id,
+        :send_mail => params[:send_mail]
     }
 
     schedule = Schedule.new_schedule(schedule_obj)

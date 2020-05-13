@@ -102,6 +102,7 @@ document.addEventListener('DOMContentLoaded', function() {
 		},
     events,
     eventReceive: function ({event,...info}) {
+		console.log("checked -",$("#send_mail").prop("checked"));
 			const { estimate } = window
 
 			const data = {
@@ -112,6 +113,7 @@ document.addEventListener('DOMContentLoaded', function() {
 				color: event.backgroundColor,
 				start_at: event.start,
 				end_at: event.end,
+				send_mail: $("#send_mail").prop("checked"),
 			}
 
 			saveSchedule(data).then(({schedule}) => event.setExtendedProp('schedule_id', schedule.id))
@@ -136,6 +138,7 @@ document.addEventListener('DOMContentLoaded', function() {
 			saveSchedule(data)
 		},
 		eventDrop: ({event}) => {
+  		console.log("checked -",$("#send_mail").prop("checked"));
 			const data = {
 				title: event.title,
 				color: event.backgroundColor,
@@ -145,6 +148,7 @@ document.addEventListener('DOMContentLoaded', function() {
 				worker_id: event.id,
 				start_at: event.start,
 				end_at: event.end,
+				send_mail: $("#send_mail").prop("checked"),
 			}
 
 			saveSchedule(data)

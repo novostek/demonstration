@@ -84,6 +84,7 @@ gem "cocoon"
 gem 'ancestry'
 gem 'camunda-workflow'
 
+#https://github.com/sendgrid/sendgrid-ruby
 gem 'sendgrid-ruby'
 
 #financeiro

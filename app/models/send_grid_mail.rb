@@ -52,17 +52,19 @@ class SendGridMail
 
     mail = Mail.new
     mail.from = Email.new(email: "info@faceofwood.com")
+    mail.subject = subject
     to = Email.new(email: emails)
     # subject = 'Sending with SendGridMail is Fun'
     # content = Content.new(type: 'text/html', value: 'and easy to do anywhere, even with Ruby {{teste_tag}}')
 
     personalization = Personalization.new
     personalization.add_to(to)
+    personalization.subject = subject
     personalization.add_dynamic_template_data(template_data)
 
     mail.add_personalization(personalization)
     mail.template_id = template_id  #data["template_id"]
-
+    #binding.pry
     sg = SendGrid::API.new(api_key: Setting.get_value("send_grid_key"))
     response = sg.client.mail._('send').post(request_body: mail.to_json)
     puts response.status_code

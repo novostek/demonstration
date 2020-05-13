@@ -42,6 +42,32 @@ class Schedule < ApplicationRecord
     self.mail_sent = false
   end
 
+  #Método que envia os emails de confirmação dos schedules
+  def self.send_schedule_mail
+    schedules = Schedule.where(send_mail: true, mail_sent: false)
+    #binding.pry
+
+    schedules.each do |s|
+      if s.from_order?
+        order = Order.find(s.origin_id)
+        customer = order.current_estimate.customer
+      else
+        estimate = Estimate.find(s.origin_id)
+        customer = estimate.customer
+      end
+
+      if customer.present?
+        email = customer.get_main_email
+        #binding.pry
+        if email.present?
+          DocumentMailer.with(schedule: s, customer: customer, emails: email.data["email"]).send_schedule_mail.deliver_now
+          s.update(mail_sent: true)
+        end
+      end
+
+    end
+  end
+
 
   def from_order?
     self.origin == "Order"
@@ -69,7 +95,9 @@ class Schedule < ApplicationRecord
       schedule.worker_id = object[:worker_id]
       schedule.origin = object[:origin]
       schedule.origin_id = object[:origin_id]
-      schedule.send_mail  = object[:send_mail]
+      if object[:send_mail].present?
+        schedule.send_mail  = object[:send_mail]
+      end
       if schedule.origin == "Order"
         schedule.hour_cost = schedule.worker.time_value
       end

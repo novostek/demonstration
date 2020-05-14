@@ -103,3 +103,6 @@ gem 'liquid'
 gem 'wicked_pdf'
 gem 'wkhtmltopdf-binary'
 gem 'turnout'
+
+#https://github.com/msgpack/msgpack-ruby
+gem 'msgpack', '~> 1.3', '>= 1.3.3'

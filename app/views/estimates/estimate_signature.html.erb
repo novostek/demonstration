@@ -109,13 +109,13 @@
                 <tr>
                   <td><%= pe.product.present? ? pe.product.name : pe.custom_title %></td>
                   <td><%= pe.quantity %></td>
-                  <td><%= pe.unitary_value %></td>
-                  <td><%= pe.discount %></td>
-                  <td class=" right-align">$<%= pe.value %></td>
+                  <td><%= number_to_currency(pe.unitary_value) %></td>
+                  <td><%= number_to_currency(pe.discount) %></td>
+                  <td class=" right-align"><%= number_to_currency(pe.value) %></td>
                 </tr>
               <% end %>
               <tr class="white">
-                <td class="right-align" colspan="100"><strong>Subtotal area:</strong><br>$<%= mp.product_estimates.sum(:value) %></td>
+                <td class="right-align" colspan="100"><strong>Subtotal area:</strong> <%= number_to_currency(mp.product_estimates.sum(:value)) %></td>
               </tr>
               </tbody>
             </table>
@@ -128,7 +128,7 @@
         <div class="col m5 s12">
           <!-- <p>Thanks for your business.</p> -->
         </div>
-        <div class="col xl4 m7 s12 offset-xl3">
+        <div class="col xl4 m7 s4 offset-s8 offset-xl3">
           <ul>
             <li class="display-flex justify-content-between">
               <span class="invoice-subtotal-title">Subtotal</span>
@@ -158,7 +158,11 @@
 
     </div>
     <div class="card-panel">
-      <h4>Signature</h4>
+      <% if !@view.present? %>
+        <p> <b>Signature</b></p>
+      <% else %>
+        <p> <b>Signed at <%= "#{DateTime.now}" %></b></p>
+      <% end %>
       <div class="row">
 
         <% if !@view.present? %>
@@ -175,7 +179,8 @@
             <%= f.submit "sign", class:"btn green" %>
           <% end %>
         <% else %>
-          <img src="<%= $temp_img   %>" >
+          <img style="width: 688px; height: 80px" src="<%= $temp_img   %>" >
+<!--          <p><%#= DateTime.now %></p>-->
         <% end %>
       </div>
     </div>

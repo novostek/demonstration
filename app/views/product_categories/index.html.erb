@@ -54,7 +54,7 @@
       <tbody>
         <% @product_categories.each do |product_category| %>
         <tr>
-            <td><%= product_category.name %></td>
+            <td><%= link_to product_category.name, product_category%></td>
             <td><%= product_category.description %></td>
             <td><div class="chip white-text" style="background-color:<%= product_category.color %>"><%= product_category.color %></div></td>
             <td><%= product_category.namespace %></td>

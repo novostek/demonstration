@@ -23,10 +23,14 @@ class UsersController < ApplicationController
   end
 
   def home
-    if current_user.profiles.where(name: "Worker").present? and current_user.worker.present?
+    if current_user.profiles.where(name: "Administrator").present?
+      redirect_to finance_dashboard_path
+    elsif current_user.profiles.where(name: "Worker").present? and current_user.worker.present?
       @notes = []
       @documents = []
       render "workers/dashboard"
+    else
+      redirect_to schedules_path
     end
   end
 

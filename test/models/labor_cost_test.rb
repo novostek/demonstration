@@ -8,7 +8,7 @@
 #  value       :decimal(, )
 #  created_at  :datetime         not null
 #  updated_at  :datetime         not null
-#  schedule_id :bigint
+#  schedule_id :bigint           not null
 #  worker_id   :bigint           not null
 #
 # Indexes

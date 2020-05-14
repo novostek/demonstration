@@ -26,7 +26,7 @@
       <div class="section">
 
         <div class="row" id="gradient-Analytics">
-          
+
           <div class="col s12 m6 l3 card-width">
             <div class="card row blue-grey gradient-shadow white-text padding-4">
               <div class="col s5 m5">
@@ -71,8 +71,8 @@
               </div>
             </div>
           </div>
-          
-          
+
+
           <div class="col s12 m6 l3 card-width">
             <div class="card row green gradient-shadow white-text padding-4">
               <div class="col s5 m5">
@@ -93,73 +93,77 @@
           <div class="card-content">
             <table class="responsive-table transactions-table">
               <thead>
-                <tr>
-                  <th>Category</th>
-                  <th>Transaction Category</th>
-                  <th>Account</th>
-                  <th>Origin</th>
-                  <th>Due</th>
-                  <th>Effective</th>
-                  <th>Status</th>
-                  <th>Value</th>
-                  <th></th>
-                </tr>
+              <tr>
+                <th>Source</th>
+                <th>Transaction Category</th>
+                <th>Account</th>
+                <th>Origin</th>
+                <th>Due</th>
+                <th>Effective</th>
+                <th>Status</th>
+                <th>Value</th>
+                <th></th>
+              </tr>
               </thead>
               <tbody>
-                <% @transactions.each do |transaction| %>
-                  <tr>
-                    <td>
-                      <% if transaction.payment_method.present? %>
-                        <% if transaction.payment_method.include?('square_credit') or transaction.payment_method.include?('square_installments') %>
-                          <%= image_tag('square.svg', class: "square-logo") %>
-                        <% else %>
-                          <%= transaction.payment_method %>
-                        <% end %>
+              <% @transactions.each do |transaction| %>
+                <tr>
+                  <td>
+                    <% if transaction.payment_method.present? %>
+                      <% if transaction.payment_method.include?('square_credit') or transaction.payment_method.include?('square_installments') %>
+                        <%= image_tag('square_name.svg', class: "square-logo") %>
+                      <% else %>
+                        <%= t(transaction.payment_method) %>
                       <% end %>
-                    </td>
-                    <td>
+                    <% end %>
+                  </td>
+                  <td>
+                    <% if transaction.transaction_category.present? %>
                       <div class="chip white-text" style="background-color: <%= transaction.transaction_category.color %>!important">
                         <%= transaction.transaction_category %>
                       </div>
-                    </td>
-                    <td>
+                    <% end %>
+                  </td>
+                  <td>
+                    <% if transaction.transaction_account.present? %>
                       <div class="chip white-text" style="background-color: <%= transaction.transaction_account.color %>!important">
                         <%= transaction.transaction_account %>
                       </div>
-                    </td>
-                    <td>
-                      <% if transaction.order.present? %>
-                        <%= link_to "Order ##{transaction.order}", order_path(transaction.order) %>
-                      <% else %>
-                        -
-                      <% end %>
-                    </td>
-                    <td>
-                      <%= transaction.due.present? ? transaction.due.strftime("%m/%d/%Y") : '-' %>
-                    </td>
-                    <td>
-                      <%= transaction.due.present? ? transaction.due.strftime("%m/%d/%Y") : '-' %>
-                    </td>
-                    <td>
-                      <%= transaction.status %>
-                    </td>
-                    <td>
-                      <% if transaction.transaction_account.present? %>
-                        <% if transaction.value.present? %>
-                          <% if transaction.value > 0 %>
+                    <% end %>
+                  </td>
+                  <td>
+                    <% if transaction.order.present? %>
+                      <%= link_to "Order ##{transaction.order}", order_path(transaction.order) %>
+                    <% else %>
+                      -
+                    <% end %>
+                  </td>
+                  <td>
+                    <%= transaction.due.present? ? transaction.due.strftime("%m/%d/%Y") : '-' %>
+                  </td>
+                  <td>
+                    <%= transaction.due.present? ? transaction.due.strftime("%m/%d/%Y") : '-' %>
+                  </td>
+                  <td>
+                    <%= transaction.status %>
+                  </td>
+                  <td>
+                    <% if transaction.transaction_account.present? %>
+                      <% if transaction.value.present? %>
+                        <% if transaction.value > 0 %>
                             <span class="badge green-text lighten-5 green transaction-value"><i class="material-icons">keyboard_arrow_up</i>
                               <%= number_to_currency(transaction.value, :unit => '$') %>
                             </span>
-                          <% else %>
+                        <% else %>
                             <span class="badge red-text lighten-5 red transaction-value"><i class="material-icons">keyboard_arrow_down</i>
                               <%= number_to_currency(transaction.value, :unit => '$') %>
-                            </span>                                
-                          <% end %>                          
+                            </span>
                         <% end %>
                       <% end %>
-                    </td>
-                  </tr>
-                <% end %>
+                    <% end %>
+                  </td>
+                </tr>
+              <% end %>
               </tbody>
             </table>
           </div>

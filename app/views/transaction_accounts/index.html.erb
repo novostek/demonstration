@@ -54,7 +54,7 @@
       <tbody>
         <% @transaction_accounts.each do |transaction_account| %>
         <tr>
-            <td><%= transaction_account.name %></td>
+            <td><%= link_to transaction_account.name, transaction_account %></td>
             <td><%= transaction_account.description %></td>
             <td><div class="chip white-text" style="background-color:<%= transaction_account.color %>"><%= transaction_account.color %></div></td>
             <td><%= transaction_account.namespace %></td>

@@ -54,7 +54,7 @@
       <tbody>
         <% @transaction_categories.each do |transaction_category| %>
         <tr>
-            <td><%= transaction_category.name %></td>
+            <td><%= link_to transaction_category.name, transaction_category %></td>
             <td><%= transaction_category.description %></td>
           <td><div class="chip white-text" style="background-color:<%= transaction_category.color %>"><%= transaction_category.color %></div></td>
             <td><%= transaction_category.namespace %></td>

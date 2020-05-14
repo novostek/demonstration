@@ -360,7 +360,7 @@ class OrdersController < ApplicationController
 
   # GET /orders
   def index
-    @q = Order.all.ransack(params[:q])
+    @q = Order.all.order(created_at: :desc).ransack(params[:q])
     @orders = @q.result.page(params[:page])
     @orders_month = Order.where("extract(month from start_at) = ? and extract(year from start_at) = ?", Date.today.month, Date.today.year)
     @last_month_orders = Order.where("extract(month from start_at) = ? and extract(year from start_at) = ?", (Date.today - 1.month).month, (Date.today - 1.month).year)

@@ -56,12 +56,13 @@
         <% @workers.each do |worker| %>
         <tr>
           <td>
+            <%= link_to worker do %>
 
 						<div class="chip">
 							<img class="circle" src="<%= worker.photo.present? ? worker.photo.url : "/materialize/images/avatar/avatar-1.png" %>" alt="avatar">
 							<%= worker.name %>
 						</div>
-
+            <% end %>
             <!--<span class="avatar-contact avatar-online">-->
 
             <!--</span>-->

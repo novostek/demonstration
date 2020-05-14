@@ -52,7 +52,7 @@
       <tbody>
         <% @suppliers.each do |supplier| %>
         <tr>
-            <td><%= supplier.name %></td>
+            <td><%= link_to supplier.name, supplier %></td>
             <td><%= supplier.description %></td>
           <td>
             <div class="invoice-action right-align">

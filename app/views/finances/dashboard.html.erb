@@ -174,7 +174,7 @@
                             <% @latest_orders.each do |order| %>
                               <li class="collection-item">
                                   <p class="font-weight-600 display-flex justify-content-between">
-                                    <%= order.get_customer_name %> <span>$ <%= order.get_order_value %></span> </p>
+                                    <%= order.get_customer_name %> <span><%= number_to_currency(order.get_order_value) %></span> </p>
                                   <p class="medium-small">
                                     <%= link_to order.code, order_path(order) %>
                                   </p>

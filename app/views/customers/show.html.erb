@@ -35,15 +35,15 @@
       <div class="card-panel pb-0">
         <div class="row">
           <div class="col s12 m8">
-            <span class="left width-100"><span class="font-weight-600 black-text"><%= t("activerecord.attributes.customer.document_id") %>: </span><%= @customer.document_id %></span>
+            <span class="left width-100"><span class="font-weight-600 black-text"><%= t("activerecord.attributes.customer.category") %>: </span> <%= @customer.category_text %></span>
+            <span class="left width-100"><span class="font-weight-600 black-text"><%= t("activerecord.attributes.customer.code") %>: </span> <%= @customer.code %></span>
+            <span class="left width-100"><span class="font-weight-600 black-text"><%= t("activerecord.attributes.customer.birthdate") %>: </span> <%= @customer.birthdate || " -- " %></span>
+            <span class="left width-100"><span class="font-weight-600 black-text"><%= t("activerecord.attributes.customer.document_id") %>: </span> <%= @customer.document_id || " -- " %></span>
             <% if @customer.person? %>
-              <span class="left width-100"><span class="font-weight-600 black-text"><%= t("activerecord.attributes.customer.birthdate") %>: </span><%= @customer.birthdate %></span>
-            <% end %>
-            <span class="left width-100"><span class="font-weight-600 black-text"><%= t("activerecord.attributes.customer.code") %>: </span><%= @customer.code %></span>
-            <span class="left width-100"><span class="font-weight-600 black-text"><%= t("activerecord.attributes.customer.category") %>: </span><%= @customer.category_text %></span>
+          <% end %>
           </div>
           <div class="col s12 m4">
-            <span class="left width-100"><span class="display-inline chip grey lighten-5 grey-text right"><%= t("activerecord.attributes.customer.since") %>: <%= @customer.since %></span>
+            <span class="left width-100"><span class="display-inline chip grey lighten-5 grey-text right"><%= t("activerecord.attributes.customer.since") %>: <%= @customer.since || @customer.created_at.to_date %></span>
           </div>
         </div>
       </div>

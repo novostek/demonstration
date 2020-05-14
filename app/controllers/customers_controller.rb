@@ -66,7 +66,7 @@ class CustomersController < ApplicationController
 
   # GET /customers
   def index
-    @q = Customer.all.ransack(params[:q])
+    @q = Customer.all.order(created_at: :desc).ransack(params[:q])
     @customers = @q.result.page(params[:page])
   end
 

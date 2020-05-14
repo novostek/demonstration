@@ -10,7 +10,7 @@ class ProductsController < ApplicationController
     else
       limit = 50
     end
-    @q = Product.all.ransack(params[:q])
+    @q = Product.all.order(name: :asc).ransack(params[:q])
     @products = @q.result.page(params[:page]).per(limit)
   end
 

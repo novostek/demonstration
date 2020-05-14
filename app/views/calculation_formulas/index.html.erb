@@ -55,7 +55,7 @@
       <tbody>
         <% @calculation_formulas.each do |calculation_formula| %>
         <tr>
-            <td><%= calculation_formula.name %></td>
+            <td><%= link_to calculation_formula.name, calculation_formula %></td>
             <td><%= calculation_formula.formula %></td>
             <td><%= calculation_formula.description %></td>
             <td><%= calculation_formula.tax %></td>

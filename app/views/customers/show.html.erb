@@ -40,66 +40,66 @@
             <span class="left width-100"><span class="font-weight-600 black-text"><%= t("activerecord.attributes.customer.birthdate") %>: </span> <%= @customer.birthdate || " -- " %></span>
             <span class="left width-100"><span class="font-weight-600 black-text"><%= t("activerecord.attributes.customer.document_id") %>: </span> <%= @customer.document_id || " -- " %></span>
             <% if @customer.person? %>
-          <% end %>
+            <% end %>
           </div>
           <div class="col s12 m4">
-            <span class="left width-100"><span class="display-inline chip grey lighten-5 grey-text right"><%= t("activerecord.attributes.customer.since") %>: <%= @customer.since || @customer.created_at.to_date %></span>
+            <span class="left width-100"><span class="display-inline chip grey lighten-5 grey-text right"><%= t("activerecord.attributes.customer.since") %>: <%= @customer.since || @customer.created_at.to_date %></span></span>
           </div>
         </div>
       </div>
       <!-- Contacts -->
 
-<!--      <div class="row contacts-row">-->
-<!--        <div class="contacts-wrapper">-->
-          <%# @customer.contacts.group_by(&:category).map do |category, contatos| %>
-<!--            <div class="contacts-type-box">-->
-<!--              <div class="contact-type--info">-->
-<!--                <div class="contact-icon">-->
-                  <%# if category == :phone %>
-<!--                    <i class="material-icons green-text">phone</i>-->
-                  <%# elsif category == :address %>
-<!--                    <i class="material-icons orange-text">place</i>-->
-                  <%# else %>
-<!--                    <i class="material-icons red-text">mail</i>-->
-                  <%# end %>
-<!--                </div>-->
-<!--                <h6><%#= category %></h6>-->
-<!--              </div>-->
-<!--              <div class="contacts-list">-->
-                <%# contatos.each do |doc| %>
-<!--                  <div class="contact">-->
-<!--                    <div class="contact-info">-->
-<!--                      <span class="contact-title"><%#= doc.title %></span>-->
-                      <%# if category == :phone %>
-<!--                        <span class="contact-description"><%#= doc.data["phone"] %></span>-->
-                      <%# elsif category == :address %>
-<!--                        <span class="contact-description"><%#= doc.data["address"] %></span>-->
-                      <%# else %>
-<!--                         <span class="contact-description"><a href="mailto:<%#= doc.data["email"] %>"><%#= doc.data["email"] %></a></span>-->
-                      <%# end %>
-<!--                    </div>-->
-                    <%# if category == :address %>
-<!--                      <a href="#" class="btn-more-info tooltipped" data-tooltip="More info"><i class="material-icons">place</i></a>-->
-<!--                      <div class="more-info">-->
-<!--                        <a href="#" class="btn-less-info"><i-->
-<!--                          class="material-icons">close</i></a>-->
-<!--                        <div class="map">-->
-<!--                          <img src="http://maps.google.com/maps/api/staticmap?center=<%#= doc.data['lat'] %>,<%#= doc.data['lng'] %>&zoom=10&size=300x80&scale=2&maptype=road&markers=color:blue%7Clabel:S%7C<%#= doc.data['lat'] %>,<%#= doc.data['lng'] %>&key=AIzaSyBUW7c4JukYkKfxTr_bxMN3vn2FvtXAaBQ" alt="">-->
-<!--                        </div>-->
-<!--                        <span><strong class="font-weight-600">City:</strong> <%#= doc.data["city"] %></span><br>-->
-<!--                        <span><strong class="font-weight-600">State:</strong><%#= doc.data["state"] %></span><br>-->
-<!--                        <a href="#" class="btn-navigate btn btn-flat btn-small btn-width blue white-text"><i class="material-icons">navigation</i></a>-->
-<!--                      </div>-->
-                    <%# end %>
-<!--                  </div>-->
-                <%# end %>
-<!--              </div>-->
-<!--            </div>-->
-          <%# end %>
-<!--        </div>-->
-<!--      </div>-->
+      <!--      <div class="row contacts-row">-->
+      <!--        <div class="contacts-wrapper">-->
+      <%# @customer.contacts.group_by(&:category).map do |category, contatos| %>
+      <!--            <div class="contacts-type-box">-->
+      <!--              <div class="contact-type--info">-->
+      <!--                <div class="contact-icon">-->
+      <%# if category == :phone %>
+      <!--                    <i class="material-icons green-text">phone</i>-->
+      <%# elsif category == :address %>
+      <!--                    <i class="material-icons orange-text">place</i>-->
+      <%# else %>
+      <!--                    <i class="material-icons red-text">mail</i>-->
+      <%# end %>
+      <!--                </div>-->
+      <!--                <h6><%#= category %></h6>-->
+      <!--              </div>-->
+      <!--              <div class="contacts-list">-->
+      <%# contatos.each do |doc| %>
+      <!--                  <div class="contact">-->
+      <!--                    <div class="contact-info">-->
+      <!--                      <span class="contact-title"><%#= doc.title %></span>-->
+      <%# if category == :phone %>
+      <!--                        <span class="contact-description"><%#= doc.data["phone"] %></span>-->
+      <%# elsif category == :address %>
+      <!--                        <span class="contact-description"><%#= doc.data["address"] %></span>-->
+      <%# else %>
+      <!--                         <span class="contact-description"><a href="mailto:<%#= doc.data["email"] %>"><%#= doc.data["email"] %></a></span>-->
+      <%# end %>
+      <!--                    </div>-->
+      <%# if category == :address %>
+      <!--                      <a href="#" class="btn-more-info tooltipped" data-tooltip="More info"><i class="material-icons">place</i></a>-->
+      <!--                      <div class="more-info">-->
+      <!--                        <a href="#" class="btn-less-info"><i-->
+      <!--                          class="material-icons">close</i></a>-->
+      <!--                        <div class="map">-->
+      <!--                          <img src="http://maps.google.com/maps/api/staticmap?center=<%#= doc.data['lat'] %>,<%#= doc.data['lng'] %>&zoom=10&size=300x80&scale=2&maptype=road&markers=color:blue%7Clabel:S%7C<%#= doc.data['lat'] %>,<%#= doc.data['lng'] %>&key=AIzaSyBUW7c4JukYkKfxTr_bxMN3vn2FvtXAaBQ" alt="">-->
+      <!--                        </div>-->
+      <!--                        <span><strong class="font-weight-600">City:</strong> <%#= doc.data["city"] %></span><br>-->
+      <!--                        <span><strong class="font-weight-600">State:</strong><%#= doc.data["state"] %></span><br>-->
+      <!--                        <a href="#" class="btn-navigate btn btn-flat btn-small btn-width blue white-text"><i class="material-icons">navigation</i></a>-->
+      <!--                      </div>-->
+      <%# end %>
+      <!--                  </div>-->
+      <%# end %>
+      <!--              </div>-->
+      <!--            </div>-->
+      <%# end %>
+      <!--        </div>-->
+      <!--      </div>-->
       <!-- End Contacts -->
-      
+
 
       <div class="card-panel customer-estimates">
         <!-- Estimate list -->
@@ -125,7 +125,7 @@
                     <% end %>
                     <%= link_to "##{e.code}", e %>
                   </td>
-                    <td><%= number_to_currency(e.get_total_value) %></td>
+                  <td><%= number_to_currency(e.get_total_value) %></td>
                   <td><%= link_to "##{e.order}", e.order if e.order.present? %></td>
                   <td><%= number_to_currency(e.order.transactions.where(status: :paid).sum(:value) ) if e.order.present?%></td>
                   <td><%= number_to_currency(e.get_total_value - e.order.transactions.where(status: :paid).sum(:value)) if e.order.present? %></td>

@@ -5,7 +5,7 @@ class EstimatesController < ApplicationController
   # skip_forgery_protection
   # GET /estimates
   def index
-    @q = Estimate.all.ransack(params[:q])
+    @q = Estimate.all.order(created_at: :desc).ransack(params[:q])
     @estimates = @q.result.page(params[:page])
   end
 

@@ -128,7 +128,7 @@ ActiveRecord::Schema.define(version: 2020_05_13_175858) do
 
   create_table "labor_costs", force: :cascade do |t|
     t.bigint "worker_id", null: false
-    t.bigint "schedule_id"
+    t.bigint "schedule_id", null: false
     t.date "date"
     t.decimal "value"
     t.string "status"

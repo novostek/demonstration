@@ -1,5 +1,10 @@
 Rails.application.routes.draw do
 
+  resources :running_jobs do
+    member do
+      get "is_complete"
+    end
+  end
   resources :labor_costs do
     member do
       get "new_note"
@@ -34,7 +39,11 @@ Rails.application.routes.draw do
     end
   end
   resources :transaction_accounts
-  resources :signatures
+  resources :signatures do
+    collection do
+      post "create_sign"
+    end
+  end
   resources :transaction_categories
   resources :product_estimates
   resources :measurement_proposals

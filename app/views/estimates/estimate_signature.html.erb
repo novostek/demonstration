@@ -166,17 +166,17 @@
       <div class="row">
 
         <% if !@view.present? %>
-          <%= form_for(@signature) do |f| %>
+          <%= form_with url: create_sign_signatures_path do |f| %>
 
-            <%= f.hidden_field :sign, value: true %>
-            <%= f.hidden_field :origin %>
-            <%= f.hidden_field :origin_id %>
+            <%= f.hidden_field "signature[sign]", value: true %>
+            <%= f.hidden_field "signature[origin]", value: "Estimate" %>
+            <%= f.hidden_field "signature[origin_id]", value: @estimate.id %>
 
             <input type="hidden" id="signature_file" value="" name="signature[file]">
             <canvas id="signature-pad" class="signature-pad" width=700 height=200 style="border:1px solid #000000;"></canvas>
             <br>
             <button id="clear" class="btn" type="button" ><%= t :clear %></button>
-            <%= f.submit "sign", class:"btn green" %>
+            <%= f.submit "sign", class:"btn green", onclick:"loading_()" %>
           <% end %>
         <% else %>
           <img style="width: 688px; height: 80px" src="<%= $temp_img   %>" >
@@ -192,7 +192,15 @@
 
 
 <%= content_for :scripts do %>
+  <!--https://gasparesganga.com/labs/jquery-loading-overlay/#quick-demo -->
+  <script src="https://cdn.jsdelivr.net/npm/gasparesganga-jquery-loading-overlay@2.1.7/dist/loadingoverlay.min.js"></script>
   <script>
+    function loading_()
+    {
+        $.LoadingOverlay("show",{
+            image: "/loading.gif",
+        });
+    }
       $(document).ready(function(){
 
           $('.chips').chips();

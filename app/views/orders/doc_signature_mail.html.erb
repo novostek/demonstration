@@ -4,22 +4,22 @@
     <div class="card-panel">
       <%== @data %>
       <p>
-        <%= form_for(@signature) do |f| %>
+        <%= form_with url: create_sign_signatures_path do |f| %>
 
-          <%= f.hidden_field :sign, value: true %>
-          <%= f.hidden_field :mail, value: true %>
-          <%= f.hidden_field :document, value: @document.id %>
-          <%= f.hidden_field :doc_name, value: @doc_name %>
-          <%= f.hidden_field :origin %>
-          <%= f.hidden_field :origin_id %>
-          <%= f.hidden_field :customer_sign, value: @customer_sign %>
+          <%= f.hidden_field "signature[sign]", value: true %>
+          <%= f.hidden_field "signature[mail]", value: true %>
+          <%= f.hidden_field "signature[document]", value: @document.id %>
+          <%= f.hidden_field "signature[doc_name]", value: @doc_name %>
+          <%= f.hidden_field "signature[origin]", value: @document.origin %>
+          <%= f.hidden_field "signature[origin_id]", value: @document.origin_id %>
+          <%= f.hidden_field "signature[customer_sign]", value: @customer_sign %>
 
 
           <input type="hidden" id="signature_file" value="" name="signature[file]">
           <canvas id="signature-pad" class="signature-pad" width=700 height=200 style="border:1px solid #000000;"></canvas>
           <br>
           <button id="clear" class="btn" type="button" ><%= t :clear %></button>
-          <%= f.submit "sign", class:"btn green" %>
+          <%= f.submit "sign", class:"btn green", onclick:"loading_()" %>
         <% end %>
       </p>
     </div>
@@ -34,9 +34,18 @@
 
 
 <%= content_for :scripts do %>
+  <!--https://gasparesganga.com/labs/jquery-loading-overlay/#quick-demo -->
+  <script src="https://cdn.jsdelivr.net/npm/gasparesganga-jquery-loading-overlay@2.1.7/dist/loadingoverlay.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/signature_pad@2.3.2/dist/signature_pad.min.js"></script>
 
   <script type="text/javascript" charset="utf-8">
+      function loading_()
+      {
+          $.LoadingOverlay("show",{
+              image: "/loading.gif",
+          });
+      }
+
       var canvas = document.getElementById('signature-pad');
 
 

@@ -1,6 +1,6 @@
 class SignaturesController < ApplicationController
   before_action :set_signature, only: [:show, :edit, :update, :destroy]
-  before_action :authenticate_user!, except: [:create]
+  before_action :authenticate_user!, except: [:create,:create_sign]
   #load_and_authorize_resource except: [:create]
 
   # GET /signatures
@@ -47,67 +47,83 @@ class SignaturesController < ApplicationController
   end
 
   # POST /signatures
-  def create
+  def create_sign
+    #binding.pry
+    if params[:signature][:sign].present?
+      @job = RunningJob.create(complete:false, redirect: "")
+      p =  {}
+      p[:signature] = params[:signature].to_enum.to_h.with_indifferent_access
+      #binding.pry
+      SignatureJob.perform_later(@job,p)
+      respond_to do |format|
+        format.js { render 'create'}
+      end
+    else
+      redirect_to "/", notice: t('notice.signature.created')
+    end
+  end
+
+  def create_old
 
     @signature = Signature.new(signature_params)
     @signature.file = params[:signature][:file]
     #@signature.file.recreate_versions!
 
-    if @signature.save
-      if params[:signature][:sign].present?
-        doc = DocumentFile.new
-        doc.title = params[:signature][:doc_name] || "Signature"
-        doc.origin = @signature.origin
-        doc.origin_id = @signature.origin_id
+    #if @signature.save
+    if params[:signature][:sign].present?
+      doc = DocumentFile.new
+      doc.title = params[:signature][:doc_name] || "Signature"
+      doc.origin = @signature.origin
+      doc.origin_id = @signature.origin_id
 
-        #cria a imagem temporária da assinatura
-        temp = base64_to_file(params[:signature][:file])
-        $temp_img = "/#{temp.path.split("/").last}"
+      #cria a imagem temporária da assinatura
+      temp = base64_to_file(params[:signature][:file])
+      $temp_img = "/#{temp.path.split("/").last}"
 
 
 
-        #cria o PDF
-        #binding.pry
-        if @signature.origin == "Estimate" and !params[:signature][:document].present?
-          file = WickedPdf.new.pdf_from_url("#{Setting.url.sub! "https", "http"}/estimates/#{@signature.origin_id}/estimate_signature?view=true", {page_width: 1550, viewport_size: "1920x1080",print_media_type: true})
-        else
-          file = WickedPdf.new.pdf_from_url("#{Setting.url.sub! "https", "http"}/orders/doc_signature?document=#{params[:document] || params[:signature][:document]}", {page_width: 1550,  viewport_size: "1920x1080",print_media_type: true})
-        end
-
-        # Write it to tempfile
-        tempfile = Tempfile.new(['invoice', '.pdf'], Rails.root.join('tmp'))
-        tempfile.binmode
-        tempfile.write file
-        tempfile.close
-
-        doc.file = File.open(tempfile.path)
-        doc.save
-        if @signature.origin == "Estimate" and !params[:signature][:document].present?
-          redirect_to "/estimates/#{@signature.origin_id}/estimate_signature?sign=true&view=true", notice: t('notice.signature.signed')
-        else
-          if !params[:signature][:mail].present? and params[:signature][:finish_order].present?
-            redirect_to "/orders/#{@signature.origin_id}/finish"
-          else
-            #finaliza a order com a assinatura enviada por email
-
-            if params[:signature][:customer_sign].present? and params[:signature][:customer_sign] == "true"
-              begin
-                Order.find(@signature.origin_id).update(status: :finished, end_at: Date.today)
-              rescue
-              end
-            end
-
-            redirect_to "/orders/doc_signature?document=#{params[:signature][:document]}"
-          end
-        end
-
+      #cria o PDF
+      #binding.pry
+      if @signature.origin == "Estimate" and !params[:signature][:document].present?
+        file = WickedPdf.new.pdf_from_url("#{Setting.url.sub! "https", "http"}/estimates/#{@signature.origin_id}/estimate_signature?view=true", {page_width: 1550, viewport_size: "1920x1080",print_media_type: true})
       else
-        redirect_to @signature, notice: t('notice.signature.created')
+        file = WickedPdf.new.pdf_from_url("#{Setting.url.sub! "https", "http"}/orders/doc_signature?document=#{params[:document] || params[:signature][:document]}", {page_width: 1550,  viewport_size: "1920x1080",print_media_type: true})
+      end
+
+      # Write it to tempfile
+      tempfile = Tempfile.new(['invoice', '.pdf'], Rails.root.join('tmp'))
+      tempfile.binmode
+      tempfile.write file
+      tempfile.close
+
+      doc.file = File.open(tempfile.path)
+      doc.save
+      if @signature.origin == "Estimate" and !params[:signature][:document].present?
+        redirect_to "/estimates/#{@signature.origin_id}/estimate_signature?sign=true&view=true", notice: t('notice.signature.signed')
+      else
+        if !params[:signature][:mail].present? and params[:signature][:finish_order].present?
+          redirect_to "/orders/#{@signature.origin_id}/finish"
+        else
+          #finaliza a order com a assinatura enviada por email
+
+          if params[:signature][:customer_sign].present? and params[:signature][:customer_sign] == "true"
+            begin
+              Order.find(@signature.origin_id).update(status: :finished, end_at: Date.today)
+            rescue
+            end
+          end
+
+          redirect_to "/orders/doc_signature?document=#{params[:signature][:document]}"
+        end
       end
 
     else
-      render :new
+      redirect_to @signature, notice: t('notice.signature.created')
     end
+
+    #else
+    #  render :new
+    #end
   end
 
   # PATCH/PUT /signatures/1

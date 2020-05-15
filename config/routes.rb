@@ -131,6 +131,8 @@ Rails.application.routes.draw do
       get "invoice_add_payment"
       get "view_invoice_customer"
       get "send_invoice_mail"
+      put "change_transaction_value"
+      put "change_payment_status_to_pendent"
       get "costs"
     end
     collection do

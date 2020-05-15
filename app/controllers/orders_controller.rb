@@ -2,7 +2,7 @@ class OrdersController < ApplicationController
   before_action :set_order, only: [:new_labor_cost,:new_cost,:order_photos,:create_doc_for_signature,:deliver_products_sign,:deliver_products,:send_sign_mail,:finish,:finish_order_signature,:finish_order,
                                    :show, :edit, :update,
                                    :destroy, :schedule, :create_schedule,
-                                   :payments, :transaction, :product_purchase, :new_note,:new_document,:new_contact, :invoice,:invoice_add_payment,:send_invoice_mail,:view_invoice_customer,:costs,:change_order]
+                                   :payments, :transaction, :product_purchase, :new_note,:new_document,:new_contact, :invoice,:invoice_add_payment,:send_invoice_mail,:view_invoice_customer,:costs,:change_order,:change_payment_status]
   before_action :authenticate_user!, except: [:invoice,:deliver_products_sign,:doc_signature_mail,:doc_signature, :view_invoice_customer]
   #load_and_authorize_resource  except: [:deliver_products_sign,:doc_signature_mail,:doc_signature, :create_schedule, :delete_schedule, :view_invoice_customer]
 
@@ -67,6 +67,18 @@ class OrdersController < ApplicationController
     rescue
       @email_customer = ""
     end
+  end
+
+  def change_payment_status_to_pendent
+    transaction = Transaction.find params[:transaction_id]
+    transaction.status = :pendent
+    transaction.save
+  end
+
+  def change_transaction_value
+    transaction = Transaction.find params[:transaction_id]
+    transaction.value = params[:value]
+    transaction.save
   end
 
   # def doc_signature

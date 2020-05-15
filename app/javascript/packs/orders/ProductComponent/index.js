@@ -232,7 +232,10 @@ const ProductComponent = () => {
                             <div className="row">
                               <div className="col s6 m4">
                                 <span className="left width-100 pt-1">Product</span>
-                                <div className="input-field mt-0 mb-0 products-search-field-box">
+                                <div 
+                                  className="input-field mt-0 mb-0 products-search-field-box tooltipped"
+                                  data-position="bottom"
+                                  data-tooltip={product_purchase.name}>
                                   {/* <a href="#" className="btn-add-product tooltipped" data-tooltip="New product"><i className="material-icons">add</i></a> */}
                                   <input
                                     name={`products[${index}].name`}

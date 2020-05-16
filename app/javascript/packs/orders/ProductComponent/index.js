@@ -58,7 +58,7 @@ const ProductComponent = () => {
 
   useEffect(() => {
     const reducer_subtotal = (acc, current) => !current.tax ? parseFloat(acc) + parseFloat(current.total) : parseFloat(acc)
-    const reducer_tax = (acc, current) => current.tax ? parseFloat(acc) + parseFloat(current.total) : 0
+    const reducer_tax = (acc, current) => current.tax ? parseFloat(acc) + parseFloat(current.total) : parseFloat(acc)
     setOrderValues({
       ...orderValues,
       subTotal: productPurchase.reduce(reducer_subtotal, 0),
@@ -227,6 +227,7 @@ const ProductComponent = () => {
                   {
                     productPurchase.map((product_purchase, index) => {
                       return (
+                        !product_purchase.tax &&
                         <div className="product" key={index}>
                           <div className="row pl-1 pr-1 products-search">
                             <div className="row">

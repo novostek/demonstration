@@ -66,6 +66,13 @@ class Order < ApplicationRecord
     end
   end
 
+  def get_taxes
+    purchases.map { |purchase| purchase.product_purchases.where(:tax => true).map { |product| {
+      :name => product.custom_title,
+      :value => product.value.to_f
+    } } }
+  end
+
   def self.get_new_orders_count
     where("created_at > now() - interval '30 day' AND status = 'new'").count
   end

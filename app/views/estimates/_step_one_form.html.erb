@@ -42,18 +42,5 @@
       </a>
     </div>
 
-    <div class="col s12 m3 l4">
-      <div class="input-field">
-        <%= f.select :tax_calculation, @taxes, {prompt: true}, :selected => @estimate.tax_calculation, required: true  %>
-        <%= f.label  :tax_calculation %>
-      </div>
-    </div>
-
-    <div class="col s12 m3 l3">
-      <div class="input-field">
-        <%= f.select :taxpayer, Estimate.taxpayer.options, {prompt: true}, :selected => @estimate.taxpayer, required: true  %>
-        <%= f.label  :taxpayer %>
-      </div>
-    </div>
     
 </div>

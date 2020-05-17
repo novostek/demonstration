@@ -223,8 +223,6 @@ class EstimatesController < ApplicationController
     estimate.status = 'new'
     estimate.total = 0.0
     estimate.category = :estimate
-    estimate.tax_calculation_id = params[:estimate][:tax_calculation].to_i
-    estimate.taxpayer = params[:estimate][:taxpayer]
 
     if estimate.save()
       redirect_to schedule_estimate_path(estimate.id)

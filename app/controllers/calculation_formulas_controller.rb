@@ -47,6 +47,11 @@ class CalculationFormulasController < ApplicationController
     redirect_to calculation_formulas_url, notice: t('notice.calculation_formula.deleted')
   end
 
+  def taxes
+    @taxes = CalculationFormula.where(tax: true)
+    render json: @taxes
+  end
+
   def calculate_product_qty_lw
     calculator = Dentaku::Calculator.new
     area = Measurement.square_meter(JSON.parse params[:areas_ids])

@@ -113,7 +113,7 @@
 							<i class="material-icons background-round mt-5 mb-5">attach_money</i>
 						</div>
 						<div class="col s7 m7 right-align">
-							<h5 class="mb-0 white-text"><%= number_to_currency(@profit) %></h5>
+							<h5 class="mb-0 white-text hide-numbers" id="profit-numbers"><%= number_to_currency(@profit) %></h5>
 							<p class="no-margin">Profit</p>
 						</div>
 					</div>
@@ -480,3 +480,14 @@
 			</div>
 		<% end  %>
 	</div>
+
+<%= content_for :scripts do %>
+	<script>
+			const profit = document.getElementById("profit-numbers")
+			
+			profit.addEventListener("click", function () {
+				profit.classList.toggle("hide-numbers")
+			})
+				
+	</script>
+<% end %>

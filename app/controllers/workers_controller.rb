@@ -4,7 +4,7 @@ class WorkersController < ApplicationController
 
   # GET /workers
   def index
-    @q = Worker.all.ransack(params[:q])
+    @q = Worker.all.order(name: :asc).ransack(params[:q])
     @workers = @q.result.page(params[:page])
   end
 

@@ -1,85 +1,81 @@
 <div class="content-wrapper-before woffice-color"></div>
-			<div class="breadcrumbs-light pb-0 pt-4" id="breadcrumbs-wrapper">
-				<!-- Search for small screen-->
-				<div class="container">
-					<div class="row">
-						<div class="col s10 m6 l6">
-							<h5 class="breadcrumbs-title mt-0 mb-0"><span><%= t('activerecord.models.products') %></span></h5>
-							<ol class="breadcrumbs mb-0">
-								<li class="breadcrumb-item"><a href="/"><%= t('home') %></a>
-								</li>
-								<li class="breadcrumb-item"><a href="#"><%= t('activerecord.models.products') %></a>
-								</li>
-								<li class="breadcrumb-item active"><%= t('breadcrumb.list') %>
-								</li>
-							</ol>
-						</div>
-						<div class="col s2 m6 l6"><a class="btn waves-effect waves-light breadcrumbs-btn right border-round" href="<%= new_product_path %>"><i class="material-icons hide-on-med-and-up">add</i><span class="hide-on-small-only"><%= t("button.add")  %> <%= t('activerecord.models.product') %></span></a>
-						</div>
-					</div>
-				</div>
-			</div>
+<div class="breadcrumbs-light pb-0 pt-4" id="breadcrumbs-wrapper">
+  <!-- Search for small screen-->
+  <div class="container">
+    <div class="row">
+      <div class="col s10 m6 l6">
+        <h5 class="breadcrumbs-title mt-0 mb-0"><span><%= t('activerecord.models.products') %></span></h5>
+        <ol class="breadcrumbs mb-0">
+          <li class="breadcrumb-item"><a href="/"><%= t('home') %></a>
+          </li>
+          <li class="breadcrumb-item"><a href="#"><%= t('activerecord.models.products') %></a>
+          </li>
+          <li class="breadcrumb-item active"><%= t('breadcrumb.list') %>
+          </li>
+        </ol>
+      </div>
+      <div class="col s2 m6 l6"><a class="btn waves-effect waves-light breadcrumbs-btn right border-round" href="<%= new_product_path %>"><i class="material-icons hide-on-med-and-up">add</i><span class="hide-on-small-only"><%= t("button.add")  %> <%= t('activerecord.models.product') %></span></a>
+      </div>
+    </div>
+  </div>
+</div>
 
 <section class="invoice-list-wrapper section">
   <!-- create invoice button-->
   <!-- Options and filter dropdown button-->
   <div class="invoice-filter-action mr-3">
     <div class="row">
-    <%= search_form_for @q, url: request.env['PATH_INFO'] do |f|  %>
-      <div class="col s9 m11">
+      <%= search_form_for @q, url: request.env['PATH_INFO'] do |f|  %>
+        <div class="col s9 m11">
           <%= f.search_field :name_or_uuid_or_product_category_name_cont, placeholder: t('placeholder.search'), class: "search-ransack" %>
-      </div>
-      <div class="col s3 m1">
-				<button type="submit" class="btn-floating mb-1 waves-effect waves-light rigth">
-					<i class="material-icons">search</i>
-				</button>
-      </div>
-    <% end %>
+        </div>
+        <div class="col s3 m1">
+          <button type="submit" class="btn-floating mb-1 waves-effect waves-light rigth">
+            <i class="material-icons">search</i>
+          </button>
+        </div>
+      <% end %>
     </div>
   </div>
-  <p></p>
-  <!-- create invoice button-->
-  <div>
-    <style>td{padding: 15px}</style>
-    <table class="table invoice-data-table white border-radius-4 pt-1 responsive-table">
-      <thead>
+
+  <div class="card">
+    <div class="card-content">
+      <table class="responsive-table">
+        <thead>
         <tr>
-          <th><%= t('activerecord.attributes.product.name') %></th>
-<!--          <th><%#= t('activerecord.attributes.product.uuid') %></th>-->
-          <th><%= t('activerecord.attributes.product.product_category') %></th>
-          <th><%= t('activerecord.attributes.product.customer_price') %></th>
-          <th><%= t('activerecord.attributes.product.cost_price') %></th>
-          <th><%= t('activerecord.attributes.product.area_covered') %></th>
-          <th><%= t('activerecord.attributes.product.tax') %></th>
-          <th><%= t('activerecord.attributes.product.bpm_purchase') %></th>
+          <th>
+            <%= t('activerecord.attributes.product.name') %> <br>
+            <small><%= t('activerecord.attributes.product.product_category') %></small>
+          </th>
+          <th>
+            Price <br>
+            <small>Cost</small>
+          </th>
           <th></th>
         </tr>
-      </thead>
-      <tbody>
+        </thead>
+        <tbody>
         <% @products.each do |product| %>
-        <tr>
-            <td><%= product.name %></td>
-<!--            <td><%#= product.uuid %></td>-->
-            <td><%= product.product_category %></td>
-            <td><%= product.customer_price %></td>
-            <td><%= product.cost_price %></td>
-            <td><%= product.area_covered %></td>
-            <td><%= product.tax %></td>
-            <td><%= product.bpm_purchase %></td>
-          <td>
-            <div class="invoice-action right-align">
-              <%= link_to product, class: "invoice-action-view mr-4" do %>
-                <i class="material-icons">remove_red_eye</i>
-              <% end %>
+          <tr>
+            <td>
+              <%= link_to product.name, product %> <br>
+              <small><%= product.product_category %></small>
+            </td>
+            <td>
+              <%= number_to_currency(product.customer_price) %> <br>
+              <small><%= number_to_currency(product.cost_price) %></small>
+            </td>
+            <td>
               <%= link_to edit_product_path(product) , class: "invoice-action-edit mr-4" do %>
                 <i class="material-icons">edit</i>
               <% end %>
-            </div>
-          </td>
-        </tr>
+            </td>
+          </tr>
         <% end %>
-      </tbody>
-    </table>
+        </tbody>
+      </table>
+    </div>
   </div>
+
   <%= paginate(@products)  %>
 </section>

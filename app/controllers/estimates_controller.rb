@@ -1,11 +1,11 @@
 class EstimatesController < ApplicationController
   #load_and_authorize_resource except: [:estimate_signature, :create_products_estimates, :create_step_one, :create_schedule,:delete_schedule]
-  before_action :set_estimate, only: [:show, :edit, :update, :destroy,:send_mail,:estimate_signature, :create_products_estimates,:new_note, :new_document,:create_order]
-  before_action :set_combos, only: [:step_one]
+  before_action :set_estimate, only: [:show, :edit, :update, :destroy,:send_mail,:estimate_signature, :tax_calculation, :taxpayer, :create_products_estimates,:new_note, :new_document,:create_order]
+  before_action :set_combos, only: [:step_one, :products]
   # skip_forgery_protection
   # GET /estimates
   def index
-    @q = Estimate.all.ransack(params[:q])
+    @q = Estimate.all.order(created_at: :desc).ransack(params[:q])
     @estimates = @q.result.page(params[:page])
   end
 
@@ -223,8 +223,6 @@ class EstimatesController < ApplicationController
     estimate.status = 'new'
     estimate.total = 0.0
     estimate.category = :estimate
-    estimate.tax_calculation_id = params[:estimate][:tax_calculation].to_i
-    estimate.taxpayer = params[:estimate][:taxpayer]
 
     if estimate.save()
       redirect_to schedule_estimate_path(estimate.id)
@@ -328,6 +326,16 @@ class EstimatesController < ApplicationController
     end
 
     render :estimate_view
+  end
+
+  def tax_calculation
+    @estimate.tax_calculation = CalculationFormula.find params[:tax_calculation]
+    @estimate.save
+  end
+
+  def taxpayer
+    @estimate.taxpayer = params[:taxpayer]
+    @estimate.save
   end
 
   private

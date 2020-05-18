@@ -10,7 +10,7 @@ class ProductsController < ApplicationController
     else
       limit = 50
     end
-    @q = Product.all.ransack(params[:q])
+    @q = Product.all.order(name: :asc).ransack(params[:q])
     @products = @q.result.page(params[:page]).per(limit)
   end
 
@@ -85,7 +85,7 @@ class ProductsController < ApplicationController
     #Método que carrega os objetos de seleção
     def set_combos
       @categories = ProductCategory.to_select
-      @formulas = CalculationFormula.to_select
+      @formulas = CalculationFormula.where(tax:[false, nil]).to_select
       @suppliers = Supplier.to_select
       @products = Product.to_select
     end

@@ -2,7 +2,7 @@ class OrdersController < ApplicationController
   before_action :set_order, only: [:new_labor_cost,:new_cost,:order_photos,:create_doc_for_signature,:deliver_products_sign,:deliver_products,:send_sign_mail,:finish,:finish_order_signature,:finish_order,
                                    :show, :edit, :update,
                                    :destroy, :schedule, :create_schedule,
-                                   :payments, :transaction, :product_purchase, :new_note,:new_document,:new_contact, :invoice,:invoice_add_payment,:send_invoice_mail,:view_invoice_customer,:costs,:change_order]
+                                   :payments, :transaction, :product_purchase, :new_note,:new_document,:new_contact, :invoice,:invoice_add_payment,:send_invoice_mail,:view_invoice_customer,:costs,:change_order,:change_payment_status]
   before_action :authenticate_user!, except: [:invoice,:deliver_products_sign,:doc_signature_mail,:doc_signature, :view_invoice_customer]
   #load_and_authorize_resource  except: [:deliver_products_sign,:doc_signature_mail,:doc_signature, :create_schedule, :delete_schedule, :view_invoice_customer]
 
@@ -63,10 +63,22 @@ class OrdersController < ApplicationController
   def invoice
     @transactions = @order.transactions.order(due: :asc).order(id: :asc)
     begin
-      @email_customer = @estimate.customer.contacts.where(category: :email, main: true).first.data["email"]
+      @email_customer = @order.get_current_estimate.customer.get_main_email['data']['email']
     rescue
       @email_customer = ""
     end
+  end
+
+  def change_payment_status_to_pendent
+    transaction = Transaction.find params[:transaction_id]
+    transaction.status = :pendent
+    transaction.save
+  end
+
+  def change_transaction_value
+    transaction = Transaction.find params[:transaction_id]
+    transaction.value = params[:value]
+    transaction.save
   end
 
   # def doc_signature
@@ -360,7 +372,7 @@ class OrdersController < ApplicationController
 
   # GET /orders
   def index
-    @q = Order.all.ransack(params[:q])
+    @q = Order.all.order(created_at: :desc).ransack(params[:q])
     @orders = @q.result.page(params[:page])
     @orders_month = Order.where("extract(month from start_at) = ? and extract(year from start_at) = ?", Date.today.month, Date.today.year)
     @last_month_orders = Order.where("extract(month from start_at) = ? and extract(year from start_at) = ?", (Date.today - 1.month).month, (Date.today - 1.month).year)

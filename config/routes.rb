@@ -100,6 +100,8 @@ Rails.application.routes.draw do
       post "new_document"
       get "create_order"
       get "clone"
+      put "tax_calculation"
+      put "taxpayer"
     end
     collection do
       get ":id/measurements", to: "measurement_areas#measurements", as: :measurement_view
@@ -140,6 +142,8 @@ Rails.application.routes.draw do
       get "invoice_add_payment"
       get "view_invoice_customer"
       get "send_invoice_mail"
+      put "change_transaction_value"
+      put "change_payment_status_to_pendent"
       get "costs"
     end
     collection do
@@ -156,6 +160,7 @@ Rails.application.routes.draw do
   resources :document_files
   resources :calculation_formulas do
     collection do
+      get "taxes"
       get "lxw/product/:product_id" => "calculation_formulas#calculate_product_qty_lw"
     end
   end

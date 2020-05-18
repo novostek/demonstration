@@ -33,4 +33,8 @@ class Purchase < ApplicationRecord
     s[:product_purchases] = self.product_purchases
     s
   end
+
+  def get_products tax
+    product_purchases.where(:tax => tax)
+  end
 end

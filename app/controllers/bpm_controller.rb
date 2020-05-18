@@ -131,7 +131,7 @@ class BpmController < ApplicationController
   end
 
   def callback
-    binding.pry
+    #binding.pry
   end
 
   private

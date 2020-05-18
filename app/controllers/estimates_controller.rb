@@ -329,7 +329,8 @@ class EstimatesController < ApplicationController
   end
 
   def tax_calculation
-    @estimate.tax_calculation = CalculationFormula.find params[:tax_calculation]
+    #@estimate.tax_calculation = CalculationFormula.find params[:tax_calculation]
+    @estimate.tax_calculation_id = CalculationFormula.find(params[:tax_calculation]).id
     @estimate.save
   end
 

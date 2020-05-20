@@ -1,0 +1,21 @@
+<div class="row invoice-info">
+  <div class="col s12">
+    <h6 class="invoice-to">For</h6>
+  </div>
+  <div class="col s12 m6">
+    <div class="invoice-address">
+      <span><%= estimate.customer.name %></span>
+    </div>
+    <div class="invoice-address">
+      <span><%= estimate.customer.get_main_address_f %></span>
+    </div>
+  </div>
+  <div class="col s12 m6">
+    <div class="invoice-address">
+      <span><%= estimate.customer.get_main_email_f  %></span>
+    </div>
+    <div class="invoice-address">
+      <span><%= estimate.customer.get_main_phone_f  %></span>
+    </div>
+  </div>
+</div>

@@ -88,6 +88,7 @@ class EstimatesController < ApplicationController
         end
 
       end
+
     end
 
     #cria a assinatura para o formulário
@@ -95,7 +96,7 @@ class EstimatesController < ApplicationController
     @signature.origin = "Estimate"
     @signature.origin_id = @estimate.id
     #render "estimate_signature_new", layout: "clean"
-    render layout: "clean"
+    render layout: "document"
   end
 
   def send_mail

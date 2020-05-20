@@ -1,253 +1,188 @@
-
-<link rel="stylesheet" type="text/css" href="/css/signature.css">
-<!--<div class="row">-->
-<!--  <div class="content-wrapper-before woffice-color"></div>-->
-<!--  <div class="breadcrumbs-lightpb-0 pt-4" id="breadcrumbs-wrapper">-->
-<!--    <div class="container">-->
-<!--      <div class="row">-->
-<!--        <div class="col s10 m6 l6">-->
-<!--          <h5 class="breadcrumbs-title mt-0 mb-0">Estimate #<%#= @estimate.code %></h5>-->
-
-<!--        </div>-->
-<!--        <div class="col s2 m6 l6">-->
-
-<!--        </div>-->
-<!--      </div>-->
-<!--    </div>-->
-<!--  </div>-->
-<!--</div>-->
-<header>
-  <div class="logo">woffice</div>
-</header>
-<div class="row mt-1">
-  <div class="col s12 l12 pl-0 pr-0">
-    <div class="col s12">
-      <div class="row area-grid">
-        <% @estimate.measurement_areas.each do |ma| %>
-          <div class="area-box">
-            <div class="card-panel">
-
-
-              <div class="row center-align">
-                <h6
-                  class="col s12 pl-0 pt-0 mt-0 font-weight-600 display-flex align-items-center justify-content-center">
-                  <i class="material-icons left">event_seat</i><%= ma.name %></h6>
-                <div class="row mb-2">
-                  <div class="col s12">
-                    <%= ma.description %>
-                  </div>
-                </div>
-                <div class="col s4">
-                  <!-- length -->
-                  <i class="material-icons left width-100">straighten</i><%= ma.measurements[0].length %></span>
-                </div>
-                <div class="col s4">
-                  <!-- width -->
-                  <i class="material-icons left width-100" style="transform: rotate(-45deg)">straighten</i><%= ma.measurements[0].width %></span>
-                </div>
-                <div class="col s4">
-                  <!-- height -->
-                  <i class="material-icons left width-100" style="transform: rotate(-90deg)">straighten</i><%= ma.measurements[0].height %></span>
-                </div>
-              </div>
-
-
-            </div>
-          </div>
-        <% end %>
+<div class="row">
+  <div class="col s12 m8 offset-m2">
+    <div class="card-panel">
+      <div class="row mt-3 invoice-logo-title">
+        <div class="col m9 s12">
+          <h4 class="indigo-text">Estimate</h4>
+          Nº <span>#<%= @estimate.code %></span> <br>
+          <small>Created At <%= @estimate.created_at %></small>
+        </div>
+        <div class="col m3 s12 display-flex invoice-logo mt-1">
+          <img src="<%= Setting.url.gsub('https','http') %>/settings/company_logo" alt="logo" class="responsive-img" style="max-width: 150px !important;">
+        </div>
 
       </div>
-      <!-- Areas -->
-
-
-
-      <div class="card-panel">
-        <!-- Procuts and area -->
-        <% @estimate.measurement_proposals.each do |mp| %>
-          <div class="row">
-            <div class="col s12">
-              <div class="row pl-2 pr-2">
-                <span class="mr-1">Selected areas:</span>
-                <% mp.measurement_area.each do |ma| %>
-                  <div class="chip blue white-text"><%= ma.name %></div>
-                <% end %>
-              </div>
-              <table class="striped responsive-table">
-                <thead>
-                <tr>
-                  <th>Product</th>
-                  <th>Qty</th>
-                  <th>Price Unity</th>
-                  <th>Discount</th>
-                  <th class="right-align">Subtotal</th>
-                </tr>
-                </thead>
-                <tbody>
-                <% mp.product_estimates.each do |pe| %>
-                  <tr>
-                    <td><%= pe.product.name %></td>
-                    <td><%= pe.quantity %></td>
-                    <td><%= pe.unitary_value %></td>
-                    <td><%= pe.discount %></td>
-                    <td class=" right-align">$<%= pe.value %></td>
-                  </tr>
-                <% end %>
-                <tr class="white">
-                  <td class="right-align" colspan="100"><strong>Subtotal area:</strong><br>$<%= mp.product_estimates.sum(:value) %></td>
-                </tr>
-                </tbody>
-              </table>
-            </div>
+      <div class="divider mb-3 mt-3"></div>
+      <div class="row invoice-info">
+        <div class="col m6 s12">
+          <h6 class="invoice-from">From</h6>
+          <div class="invoice-address">
+            <span><%= Setting.get_value("company_full_name") %></span>
           </div>
-          <div class="divider mb-3 mt-3"></div>
+          <div class="invoice-address">
+            <span><%= Setting.get_value("company_address") %></span>
+          </div>
+          <div class="invoice-address">
+            <span><%= Setting.get_value("company_email") %></span>
+          </div>
+          <div class="invoice-address">
+            <span><%= Setting.get_value("company_phone") %></span>
+          </div>
+        </div>
+        <div class="col m6 s12">
+          <div class="divider show-on-small hide-on-small-only mb-3"></div>
+          <h6 class="invoice-to">To</h6>
+          <div class="invoice-address">
+            <span><%= @estimate.customer.name %></span>
+          </div>
+          <div class="invoice-address">
+            <span><%= @estimate.customer.get_main_address_f %></span>
+          </div>
+          <div class="invoice-address">
+            <span><%= @estimate.customer.get_main_email_f %></span>
+          </div>
+          <div class="invoice-address">
+            <span><%= @estimate.customer.get_main_phone_f  %></span>
+          </div>
+        </div>
+      </div>
+      <div class="divider mb-3 mt-3"></div>
+      <p><b>Measurements:</b></p>
+      <table>
+        <thead>
+        <th>Area</th>
+        <% if @hidden_fields['length'].present? %>
+          <th>Length</th>
         <% end %>
-
+        <% if @hidden_fields['width'].present? %>
+          <th>Width</th>
+        <% end %>
+        <% if @hidden_fields['height'].present? %>
+          <th>Height</th>
+        <% end %>
+        <% if @hidden_fields['square_feet'].present? %>
+          <th>Square Ft</th>
+        <% end %>
+        </thead>
+        <tbody>
+        <% @estimate.measurement_areas.each do |ma| %>
+          <tr>
+            <td><%= ma.name %></td>
+            <% if @hidden_fields['length'].present? %>
+              <td><%= ma.measurements.first.length %></td>
+            <% end %>
+            <% if @hidden_fields['width'].present? %>
+              <td><%= ma.measurements.first.width %></td>
+            <% end %>
+            <% if @hidden_fields['height'].present? %>
+              <td><%= ma.measurements.first.height %></td>
+            <% end %>
+            <% if @hidden_fields['square_feet'].present? %>
+              <td><%= ma.measurements.first.square_feet %></td>
+            <% end %>
+          </tr>
+        <% end %>
+        </tbody>
+      </table>
+      <p><b>Products/Services:</b></p>
+      <% @estimate.measurement_proposals.distinct(:id).each do |mp| %>
         <div class="row">
-          <div class="col m5 s12">
-            <!-- <p>Thanks for your business.</p> -->
+          <div class="col s12">
+            <div class="row pl-2 pr-2">
+              <span class="mr-1">Selected areas:</span>
+              <% mp.measurement_area.each do |ma| %>
+                <div class="chip blue white-text"><%= ma.name %></div>
+              <% end %>
+            </div>
+            <table class="striped responsive-table">
+              <thead>
+              <tr>
+                <th>Product</th>
+                <th>Qty</th>
+                <th>Unit Price</th>
+                <th>Discount</th>
+                <th class="right-align">Subtotal</th>
+              </tr>
+              </thead>
+              <tbody>
+              <% mp.product_estimates.each do |pe| %>
+                <tr>
+                  <td><%= pe.product.present? ? pe.product.name : pe.custom_title %></td>
+                  <td><%= pe.quantity %></td>
+                  <td><%= number_to_currency(pe.unitary_value) %></td>
+                  <td><%= number_to_currency(pe.discount) %></td>
+                  <td class=" right-align"><%= number_to_currency(pe.value) %></td>
+                </tr>
+              <% end %>
+              <tr class="white">
+                <td class="right-align" colspan="100"><strong>Subtotal area:</strong> <%= number_to_currency(mp.product_estimates.sum(:value)) %></td>
+              </tr>
+              </tbody>
+            </table>
           </div>
-          <div class="col xl4 m7 s12 offset-xl3">
-            <ul>
-              <li class="display-flex justify-content-between">
-                <span class="invoice-subtotal-title">Subtotal</span>
-                <h6 class="mt-0">$<%= @estimate.product_estimates.sum(:value).to_f %></h6>
-              </li>
-              <li class="display-flex justify-content-between">
-                <span class="invoice-subtotal-title">Discount</span>
-                <h6 class="mt-0">$ <%= @estimate.product_estimates.sum(:discount).to_f %></h6>
-              </li>
+        </div>
+        <div class="divider mb-3 mt-3"></div>
+      <% end %>
+
+      <div class="row">
+        <div class="col m5 s12">
+          <!-- <p>Thanks for your business.</p> -->
+        </div>
+        <div class="col xl4 m7 s4 offset-s8 offset-xl3">
+          <ul>
+            <li class="display-flex justify-content-between">
+              <span class="invoice-subtotal-title">Subtotal</span>
+              <h6 class="mt-0"><%= number_to_currency @estimate.subtotal %></h6>
+            </li>
+            <li class="display-flex justify-content-between">
+              <span class="invoice-subtotal-title">Discount</span>
+              <h6 class="mt-0">- <%= number_to_currency @estimate.discounts %></h6>
+            </li>
+            <% if @estimate.customer? %>
               <li class="display-flex justify-content-between">
                 <span class="invoice-subtotal-title">Tax</span>
-                <h6 class="mt-0">$ <%= @estimate.tax.to_f %></h6>
+                <h6 class="mt-0"><%= @estimate.tax %></h6>
               </li>
-              <li class="divider mt-2 mb-2"></li>
-              <li class="display-flex justify-content-between">
-                <span class="invoice-subtotal-title">Estimate Total</span>
-                <h6 class="mt-0">$ <%= @estimate.get_total_value %></h6>
-              </li>
-            </ul>
-          </div>
-        </div>
-        <!--  End products area -->
-      </div>
-
-      <div class="card-panel">
-        <h4>Signature</h4>
-        <div class="row">
-          <% if !@estimate.signatures.last.present? %>
-            <%= form_for(@signature) do |f| %>
-
-              <%= f.hidden_field :sign, value: true %>
-              <%= f.hidden_field :origin %>
-              <%= f.hidden_field :origin_id %>
-
-              <input type="hidden" id="signature_file" value="" name="signature[file]">
-              <canvas id="signature-pad" class="signature-pad" width=800 height=200 style="border:1px solid #000000;"></canvas>
-              <br>
-              <button id="clear" class="btn" type="button" ><%= t :clear %></button>
-              <%= f.submit "sign", class:"btn green" %>
             <% end %>
-          <% else %>
-            <img src="<%= @estimate.signatures.last.file.url %>" alt="">
-          <% end %>
+            <li class="divider mt-2 mb-2"></li>
+            <li class="display-flex justify-content-between">
+              <span class="invoice-subtotal-title">Estimate Total</span>
+              <h6 class="mt-0">$ <%= @estimate.total %></h6>
+            </li>
+          </ul>
         </div>
       </div>
 
+      <div class="divider mb-3 mt-3"></div>
+      <%= raw Setting.get_value("estimate_notes") %>
+
     </div>
-  </div>
+    <div class="card-panel">
+      <% if !@view.present? %>
+        <p> <b>Signature</b></p>
+      <% else %>
+        <p> <b>Signed at <%= "#{DateTime.now}" %></b></p>
+      <% end %>
+      <div class="row">
 
-</div>
+        <% if !@view.present? %>
+          <%= form_with url: create_sign_signatures_path do |f| %>
 
-<% if !@estimate.signatures.last.present? %>
-  <div class="confirm">
-    <a href="#modal-signature" class="btn-confirm modal-trigger waves-effect" >Confirm</a>
-  </div>
-<% end %>
+            <%= f.hidden_field "signature[sign]", value: true %>
+            <%= f.hidden_field "signature[origin]", value: "Estimate" %>
+            <%= f.hidden_field "signature[origin_id]", value: @estimate.id %>
 
-<div id="modal-signature" class="modal">
-  <%= form_for(@signature) do |f| %>
-
-    <%= f.hidden_field :sign, value: true %>
-    <%= f.hidden_field :origin %>
-    <%= f.hidden_field :origin_id %>
-
-    <input type="hidden" id="signature_file" value="" name="signature[file]">
-
-    <br>
-    <button id="clear" class="btn" type="button" ><%= t :clear %></button>
-    <%= f.submit "sign", class:"btn green" %>
-    <div class="modal-content">
-      <h4>Sign</h4>
-      <div class="sign-box">
-        <canvas id="signature-pad" class="signature-pad" width=800 height=200 style="border:1px solid #000000;z-index: 9999"></canvas>
+            <input type="hidden" id="signature_file" value="" name="signature[file]">
+            <canvas id="signature-pad" class="signature-pad" width=700 height=200 style="border:1px solid #000000;"></canvas>
+            <br>
+            <button id="clear" class="btn" type="button" ><%= t :clear %></button>
+            <%= f.submit "sign", class:"btn green", onclick:"loading_()" %>
+          <% end %>
+        <% else %>
+          <img style="width: 688px; height: 80px" src="<%= $temp_img   %>" >
+          <!--          <p><%#= DateTime.now %></p>-->
+        <% end %>
       </div>
     </div>
-    <div class="modal-footer">
-      <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat btn-send"> <i
-        class="material-icons left">send</i> Confirm signature</a>
-    </div>
-  <% end %>
-
+  </div>
 </div>
-
-
-
-
-<%= content_for :scripts do %>
-  <script>
-      $(document).ready(function(){
-
-          $('.chips').chips();
-
-          $('.modal').modal({
-              opacity: .8
-          });
-
-          $(document).on('click', '.modal-action.btn-send', function(){
-
-          })
-      });
-  </script>
-<% end %>
-
-<%= content_for :scripts do %>
-  <script src="https://cdn.jsdelivr.net/npm/signature_pad@2.3.2/dist/signature_pad.min.js"></script>
-
-  <script type="text/javascript" charset="utf-8">
-      var canvas = document.getElementById('signature-pad');
-
-
-
-      window.onresize = resizeCanvas;
-      resizeCanvas();
-
-      var signaturePad = new SignaturePad(canvas, {
-          backgroundColor: 'rgb(255, 255, 255)', // necessary for saving image as JPEG; can be removed is only saving as PNG or SVG
-          onEnd: function(){
-              var data = this.toDataURL();
-              $("#signature_file").val(data);
-          }
-      });
-
-      // function endDraw()
-      // {
-      //     var data = signaturePad.toDataURL('image/png');
-      //     $("#signature_file").val(data);
-      // }
-
-      function resizeCanvas() {
-          // When zoomed out to less than 100%, for some very strange reason,
-          // some browsers report devicePixelRatio as less than 1
-          // and only part of the canvas is cleared then.
-          var ratio =  Math.max(window.devicePixelRatio || 1, 1);
-          canvas.width = canvas.offsetWidth * ratio;
-          canvas.height = canvas.offsetHeight * ratio;
-          canvas.getContext("2d").scale(ratio, ratio);
-      }
-
-      document.getElementById('clear').addEventListener('click', function () {
-          signaturePad.clear();
-          $("#signature_file").val("");
-      });
-  </script>
-<% end %>

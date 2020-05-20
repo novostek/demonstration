@@ -1,0 +1,136 @@
+<html class="" lang="en" data-textdirection="ltr"><!-- BEGIN: Head--><head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimal-ui">
+  <meta name="description" content="Materialize is a Material Design Admin Template,It's modern, responsive and based on Material Design by Google.">
+  <meta name="keywords" content="materialize, admin template, dashboard template, flat admin template, responsive admin template, eCommerce dashboard, analytic dashboard">
+  <meta name="author" content="ThemeSelect">
+  <title><%= "#{ yield :title }  Woffice " %></title>
+  <link rel="apple-touch-icon" href="/materialize/images/favicon/apple-touch-icon-152x152.png">
+  <link rel="shortcut icon" type="image/x-icon" href="/materialize/images/favicon/favicon-32x32.png">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <!-- BEGIN: VENDOR CSS-->
+  <link rel="stylesheet" type="text/css" href="/materialize/vendors/vendors.min.css">
+  <link rel="stylesheet" type="text/css" href="/materialize/vendors/flag-icon/css/flag-icon.min.css">
+  <link rel="stylesheet" href="/materialize/vendors/select2/select2.min.css" type="text/css">
+  <link rel="stylesheet" href="/materialize/vendors/select2/select2-materialize.css" type="text/css">
+  <link rel="stylesheet" type="text/css" href="/materialize/vendors/data-tables/css/jquery.dataTables.min.css">
+  <link rel="stylesheet" type="text/css" href="/materialize/vendors/data-tables/extensions/responsive/css/responsive.dataTables.min.css">
+  <link rel="stylesheet" type="text/css" href="/materialize/vendors/data-tables/css/dataTables.checkboxes.css">
+  <!-- END: VENDOR CSS-->
+  <!-- BEGIN: Page Level CSS-->
+  <link rel="stylesheet" type="text/css" href="/materialize/css/themes/vertical-modern-menu-template/materialize.css">
+  <link rel="stylesheet" type="text/css" href="/materialize/css/themes/vertical-modern-menu-template/style.css?v=2">
+  <link rel="stylesheet" type="text/css" href="/materialize/css/signature.css">
+  <link rel="stylesheet" type="text/css" href="/materialize/vendors/sweetalert/sweetalert.css">
+  <link href="/js/farbtastic/farbtastic.css" rel="stylesheet" type="text/css">
+
+  <script src="https://kit.fontawesome.com/a8e04918e4.js" crossorigin="anonymous"></script>
+  <link href="https://kit-free.fontawesome.com/releases/latest/css/free-v4-shims.min.css" media="all" rel="stylesheet">
+  <link href="https://kit-free.fontawesome.com/releases/latest/css/free-v4-font-face.min.css" media="all" rel="stylesheet">
+  <link href="https://kit-free.fontawesome.com/releases/latest/css/free.min.css" media="all" rel="stylesheet">
+
+  <link href="/css/search_google.css" rel="stylesheet" type="text/css">
+  <%= stylesheet_link_tag 'main-process' %>
+  <%= stylesheet_link_tag 'materialize-stepper.min' %>
+  <%= stylesheet_pack_tag 'application' %>
+  <%= stylesheet_link_tag 'app-calendar' %>
+
+  <!-- END: Page Level CSS-->
+  <!-- BEGIN: Custom CSS-->
+  <link rel="stylesheet" type="text/css" href="/materialize/css/custom/custom.css">
+  <!-- END: Custom CSS-->
+  <%= csrf_meta_tags %>
+  <%= csp_meta_tag %>
+
+  <style>
+    @media print{
+      html, body{
+        visibility: visible !important;
+      }
+    }
+  </style>
+  <%= stylesheet_link_tag 'application', media: 'all' %> <!-- , 'data-turbolinks-track': 'reload' -->
+  <%= javascript_pack_tag 'application' %> <!-- , 'data-turbolinks-track': 'reload' -->
+  <%= yield :head_content %>
+  <!-- END: Custom CSS-->
+  <style>
+
+  </style>
+</head>
+<!-- END: Head-->
+
+
+
+<!-- BEGIN: Head-->
+
+
+<!-- END: Head-->
+
+<body class="invoice-body">
+<!-- BEGIN: Page Main-->
+<div>
+  <div class="row">
+    <div class="col s12">
+      <div class="row">
+        <div class="col s12 l8 offset-l2">
+          <%= yield %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<script src="/materialize/js/vendors.min.js"></script>
+<!-- BEGIN VENDOR JS-->
+<!-- BEGIN PAGE VENDOR JS-->
+<script src="/materialize/vendors/sortable/jquery-sortable-min.js"></script>
+<script src="/materialize/vendors/select2/select2.full.min.js"></script>
+<%# <script src="/materialize/vendors/quill/quill.min.js"></script> %>
+<!-- END PAGE VENDOR JS-->
+<!-- BEGIN THEME  JS-->
+<script src="/materialize/js/plugins.js"></script>
+<script src="/materialize/js/search.js"></script>
+<script src="/materialize/js/custom/custom-script.js"></script>
+<!-- END THEME  JS-->
+<!-- BEGIN PAGE LEVEL JS-->
+<!--<script src="/materialize/js/scripts/app-todo.js"></script>-->
+<!--<script src="/materialize/js/scripts/app-email.js"></script>-->
+<script src="/materialize/vendors/sweetalert/sweetalert.min.js"></script>
+<script src="/materialize/js/scripts/extra-components-sweetalert.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.js"></script>
+<script data-turbolinks-eval="false" type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAuo1c-9BiXODXuM5L3n26CRdukjlnlUpU&libraries=places"></script>
+<script src="/js/farbtastic/farbtastic.js"></script>
+<script src="/materialize/js/scripts/advance-ui-toasts.min.js"></script>
+
+<!-- cocoon não está funcionando com o rails 6 por isso importar o JS -->
+<script src="/js/cocoon.js"></script>
+
+<script type="text/javascript" charset="utf-8">
+    $(document).ready(function(){
+        $("select").formSelect();
+        $('.modal').modal();
+        $('tabs').tabs();
+    }).on('cocoon:after-insert', function () {
+
+        $('select').formSelect();
+        $("select").focusin();
+        $('.modal').modal();
+    });
+    $(document).ready(function(){
+        $('.datepicker').datepicker({
+            format: 'dd/mm/yyyy'
+        });
+    });
+    $(document).ready(function(){
+        $('.phone').mask('(000) 000-0000');
+    });
+    $(document).ready(function(){
+        $("a:contains('Unlicensed copy of the Froala Editor. Use it legally by purchasing a license.')").hide();
+    });
+</script>
+
+<%= toastr_flash %>
+<!-- END PAGE LEVEL JS-->
+<%= yield :scripts %>
+</body>
+</html>

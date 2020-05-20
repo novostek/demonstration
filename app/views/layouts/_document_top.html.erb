@@ -1,0 +1,25 @@
+<% if true %>
+  <div class="row header-document">
+    <img src="https://jrochelly.bitbucket.io/header-documents.png" alt="">
+  </div>
+<% else %>
+  <div class="row mt-3 invoice-logo-title">
+    <div class="col s3 display-flex invoice-logo mr-1">
+      <img src="<%= Setting.url.gsub('https','http') %>/settings/company_logo" alt="logo" class="responsive-img" style="max-width: 150px !important;">
+    </div>
+    <div class="col s9">
+      <div class="invoice-address">
+        <span class="black-text"><strong><%= Setting.get_value("company_full_name") %></strong></span>
+      </div>
+      <div class="invoice-address">
+        <span><%= Setting.get_value("company_address") %></span>
+      </div>
+      <div class="invoice-address">
+        <span><%= Setting.get_value("company_email") %></span>
+      </div>
+      <div class="invoice-address">
+        <span><%= Setting.get_value("company_phone") %></span>
+      </div>
+    </div>
+  </div>
+<% end %>

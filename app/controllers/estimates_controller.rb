@@ -166,6 +166,9 @@ class EstimatesController < ApplicationController
       new_estimate.code = Estimate.last.code.to_i + 1
       new_estimate.status = :new
       new_estimate.lead = lead
+      new_estimate.order_id = nil
+      new_estimate.price = 0
+      new_estimate.tax = 0
       new_estimate.save
 
 

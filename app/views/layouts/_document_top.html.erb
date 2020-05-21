@@ -1,6 +1,8 @@
-<% if true %>
-  <div class="row header-document">
-    <img src="<%= Setting.url.gsub('https','http') %>/header-documents.png" alt="">
+<% if Setting.banner_object.present? %>
+  <!-- header-document -->
+  <div class="row ">
+    <%= wicked_pdf_image_tag "#{Setting.banner}"  %>
+<!--    <img src="<%#= Setting.url.gsub('https','http') %>/header-documents.png" style="width: 800px" >-->
   </div>
 <% else %>
   <div class="row mt-3 invoice-logo-title">

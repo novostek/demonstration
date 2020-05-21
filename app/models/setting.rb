@@ -35,8 +35,20 @@ class Setting < ApplicationRecord
     DocumentFile.where(origin: "Logo", origin_id: 1).first
   end
 
+  def self.banner_object
+    DocumentFile.where(origin: "Banner", origin_id: 1).first
+  end
+
   def self.logo
     d = logo_object
+    if d.present?
+      return d.file.url.gsub('https','http')
+    end
+    "/woffice.svg"
+  end
+
+  def self.banner
+    d = banner_object
     if d.present?
       return d.file.url.gsub('https','http')
     end

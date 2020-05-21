@@ -40,6 +40,7 @@ en:
   remember: "Remember Me"
   signin: "Sign in"
   is_required: "is required"
+  upload_banner: "Upload new banner"
 
   send_mail_schedule: "Send Confirmation to Customer"
 

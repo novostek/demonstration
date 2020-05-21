@@ -47,6 +47,15 @@ class SettingsController < ApplicationController
       s.value = {"value": doc.file.url }
       s.save
     end
+
+    if params[:banner].present?
+      #binding.pry
+      doc = DocumentFile.find_or_initialize_by(origin: "Banner", origin_id: 1)
+      doc.title = "Banner"
+      doc.file = params[:banner]
+      doc.save
+
+    end
     redirect_to params[:redirect], notice: t('notice.setting.updated')
   end
 
@@ -100,7 +109,14 @@ class SettingsController < ApplicationController
     s = Setting.logo_object
     data = open(s.file.url.gsub('https','http'))
     send_data data.read, filename: s.file.filename, type: s.file.content_type, disposition: 'inline', stream: 'true', buffer_size: '4096'
+  end
 
+  #Render Company Banner
+  def company_banner
+    #redirect_to Setting.logo
+    s = Setting.banner_object
+    data = open(s.file.url.gsub('https','http'))
+    send_data data.read, filename: s.file.filename, type: s.file.content_type, disposition: 'inline', stream: 'true', buffer_size: '4096'
   end
 
   private

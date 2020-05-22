@@ -5,4 +5,7 @@
     .header-document img{
         min-width: 850px !important;
     }
+    .header-document{
+        text-align: center;
+    }
 }

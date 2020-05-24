@@ -367,7 +367,7 @@ class OrdersController < ApplicationController
 
   def view_invoice_customer
     @transactions = @order.transactions.order(due: :asc).order(id: :asc)
-    render layout: "clean"
+    render layout: "document"
   end
 
   # GET /orders

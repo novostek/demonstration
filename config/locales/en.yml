@@ -43,3 +43,7 @@ en:
         - contractor
   buttons:
     save: "Save"
+  
+  label:
+    edit: 'Edit'
+    remove: 'Remove'

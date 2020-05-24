@@ -1,135 +1,121 @@
-<link href="/css/worker.css" rel="stylesheet" type="text/css">
-<link href="/css/view-page.css" rel="stylesheet" type="text/css">
-<div class="content-wrapper-before woffice-color"></div>
-<div class="breadcrumbs-light pb-0 pt-4" id="breadcrumbs-wrapper">
-  <!-- Search for small screen-->
-  <div class="container">
-    <div class="row">
-      <div class="col s10 m6 l6">
-        <h5 class="breadcrumbs-title mt-0 mb-0">Order #<%= @order.code %></h5>
-        <ol class="breadcrumbs mb-0">
-          <li class="breadcrumb-item"><a href="/">Home</a>
-          </li>
-          <li class="breadcrumb-item"><%= link_to  "Order", order_path(@order) %>
-          </li>
-          <li class="breadcrumb-item active">Costs
-          </li>
-        </ol>
-      </div>
-      <div class="col s2 m6 l6">
-        <%#= link_to schedule_order_path(@order), class: "btn waves-effect waves-light breadcrumbs-btn right pink lighten-4 pink-text border-round" do %>
-        <!--          <i class="material-icons hide-on-med-and-up ">edit</i><span class="hide-on-small-only">Edit</span>-->
-        <%# end %>
-        <!--        <a class="btn waves-effect waves-light breadcrumbs-btn right pink mr-2 lighten-4 pink-text border-round" href="<%#= invoice_order_path(@order) %>"><i class="material-icons hide-on-med-and-up ">receipt</i><span class="hide-on-small-only">View invoice</span></a>-->
-        <a class="btn btn-default waves-effect display-flex align-items-center justify-content-center waves-light breadcrumbs-btn right mr-2  text-lighten-5 border-round" href="<%= order_path(@order) %>"><i class="material-icons hide-on-med-and-up">arrow_back</i><span class="hide-on-small-only">Back to order</span></a>
-        </a>
-      </div>
-    </div>
-  </div>
-</div>
+<div class="row">
+			<div class="content-wrapper-before woffice-color"></div>
+			<div class="breadcrumbs-light pb-0 pt-4" id="breadcrumbs-wrapper">
+				<!-- Search for small screen-->
+				<div class="container">
+					<div class="row">
+						<div class="col s10 m6 l6">
+							<h5 class="breadcrumbs-title mt-0 mb-0">Costs - Order #56523</h5>
+							<ol class="breadcrumbs mb-0">
+								<li class="breadcrumb-item"><a href="index.html">Home</a>
+								</li>
+								<li class="breadcrumb-item"><a href="#">Orders</a>
+								</li>
+								<li class="breadcrumb-item active">Costs
+								</li>
+							</ol>
+						</div>
+						<div class="col s2 m6 l6">
+							<!-- <a class="btn waves-effect waves-light breadcrumbs-btn right border-round dropdown-settings" href="#!" data-target='dropdown1'><i class="material-icons hide-on-med-and-up">attach_money</i><span class="hide-on-small-only">Order</span></a>
+							<ul id='dropdown1' class='dropdown-content'>
+								<li><a class="grey-text text-darken-2" href="order-schedule.html"><i class="material-icons left">event</i> Schedule</a></li>
+								<li><a class="grey-text text-darken-2" href="order-deposit.html"><i class="material-icons left">archive</i> Deposit</a></li>
+							</ul> -->
+							<a class="btn waves-effect waves-light breadcrumbs-btn right mr-2 text-lighten-5 border-round" href="order-view.html"><i class="material-icons hide-on-med-and-up">arrow_back</i><span class="hide-on-small-only">Back to order</span></a>
+							</a>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="col s12">
+				<div class="container">
+					<div class="row mt-1">
+						<div class="col s12 pl-0 pr-0">
+							<div class="col s12">
+								<div class="card-panel">
+									<div class="row">
+                    <div class="col s12 m5">
+                      <span class="left width-100"><span class="font-weight-600 black-text">Creeted at:</span> <%= @order.created_at.strftime("%m/%d/%Y") %></span>
+                      <span class="left width-100"><span class="font-weight-600 black-text">Location:</span> <%= @order.get_current_estimate.location %></span>
+                      <span class="left width-100"><span class="font-weight-600 black-text">Category:</span> <%= @order.get_current_estimate.category_text %></span>
+                    </div>
+                    <div class="col s12 m5">
+                      <span class="left width-100"><span class="font-weight-600 black-text">Price:</span> <%= number_to_currency(@order.product_purchases.sum(:value).to_f, :unit => '$') %></span>
+                      <span class="left width-100"><span class="font-weight-600 black-text">Tax:</span> $ <%= number_to_currency(@order.get_current_estimate.tax.to_f, :unit => '$') %></span>
+                      <span class="left width-100"><span class="font-weight-600 black-text">Price + Tax:</span>$ <%= number_to_currency(@order.product_purchases.sum(:value).to_f + @order.get_current_estimate.tax.to_f, :unit => '$') %></span>
+                    </div>
+                    <div class="col s12 m2">
+                      <span class=" users-view-status display-inline chip green lighten-5 green-text right"><%= @order.status_text %></span>
+                    </div>
+                    <div class="col s12 mt-1">
+                      <span><%= @order.get_current_estimate.description %></span>
+                    </div>
+                  </div>
+								</div>
 
-<div class="col s12">
-  <div class="container">
+                <% @purchases.each do |purchase| %>
+									<div class="card-panel">
+										<div class="row">
+											<div class="order-cost-list">
+												<div class="oc-supplier">
+													<h6 class="oc-supplier-name">
+														<%= purchase.supplier || "No Supplier" %>
+													</h6>
+													<div class="oc-supplier-total">
+														<%= number_to_currency(purchase.product_purchases.sum(:value)) %>
+													</div>
+												</div>
+												<div class="oc-items-header">
+													<div class="header-qty">Qty</div>
+													<div class="header-product">Product</div>
+													<div class="header-price">Price</div>
+													<div class="header-subtotal">Subtotal</div>
+													<div class="header-status">Status</div>
+												</div>
+												<% purchase.product_purchases.where(tax: false).each do |p| %>
+													<div class="oc-item">
+														<div class="oc-item-content">
+															<div class="item-qty">
+																<%= p.quantity %>
+															</div>
+															<div class="item-product">
+																<%= p.product || p.custom_title %>
+															</div>
+															<div class="item-price">
+																<%= number_to_currency(p.unity_value, :unit => '$') %>
+															</div>
+															<div class="item-subtotal">
+																<%= number_to_currency(p.value, :unit => '$') %>
+															</div>
+															<div class="item-status">
+																<%= select_tag :status, options_for_select(ProductPurchase.status.options, p.status), {id: "status_#{p.id}",onchange:"change_status(#{p.id})"} %>
+															</div>
+														</div>
+														<div class="oc-item-actions">
+															<div>
+																<a href="#modal_note_<%= p.id %>" class="invoice-action-view modal-trigger" target="_self">
+																	<i class="material-icons hide-on-med-and-up">note</i><span class="hide-on-small-only">New note</span>
+																</a>
+																<a href="#modal_doc_<%= p.id %>" class="invoice-action-view modal-trigger" target="_self">
+																	<i class="material-icons hide-on-med-and-up">description</i><span class="hide-on-small-only">New document</span>
+																</a>
+																<a class="sidenav-trigger" href="#" data-target="slide-out-right_<%= p.id %>">
+																	<i class="material-icons hide-on-med-and-up">remove_red_eye</i><span class="hide-on-small-only">View</span>
+																</a>
+															</div>
 
 
-    <div class="row">
-      <div class="col s12  pl-0 pr-0">
-
-        <div class="col s12 pl-1">
-          <div class="card-panel">
-            <div class="row">
-
-              <div class="col s12 m5">
-                <span class="left width-100"><span class="font-weight-600 black-text">Created at:</span> <%= @order.created_at.strftime("%m/%d/%Y") %></span>
-                <span class="left width-100"><span class="font-weight-600 black-text">Location:</span> <%= @order.get_current_estimate.location %></span>
-                <span class="left width-100"><span class="font-weight-600 black-text">Category:</span> <%= @order.get_current_estimate.category_text %></span>
-              </div>
-              <div class="col s12 m5">
-                <span class="left width-100"><span class="font-weight-600 black-text">Price:</span> $ <%= @order.product_purchases.sum(:value).to_f %></span>
-                <span class="left width-100"><span class="font-weight-600 black-text">Tax:</span> $ <%= @order.get_current_estimate.tax.to_f %></span>
-                <span class="left width-100"><span class="font-weight-600 black-text">Price + Tax:</span>$ <%= @order.product_purchases.sum(:value).to_f + @order.get_current_estimate.tax.to_f %></span>
-              </div>
-              <div class="col s12 m2">
-                <span class=" users-view-status display-inline chip green lighten-5 green-text right"><%= @order.status_text %></span>
-              </div>
-
-              <div class="col s12 mt-1">
-                <span><%= @order.get_current_estimate.description %></span>
-              </div>
-
-
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="row">
-      <div class="col s12  pl-0 pr-0">
-        <div class="col s12 pl-1">
-          <div class="card-panel">
-            <div class="row">
-              <% @purchases.each do |purchase| %>
-                <div class="card">
-
-                  <div class="card-content">
-                      <span class="card-title">
-                        <div class="row">
-                          <div class="col s12 l10">
-                            <%= purchase.supplier || "No Supplier" %>
-                          </div>
-                          <div class="col s12 l2">
-                            <%= number_to_currency(purchase.product_purchases.sum(:value)) %>
-                          </div>
-                        </div>
-                      </span>
-                    <div class="responsive-table">
-                      <style>td{padding: 15px}</style>
-                      <table class="table invoice-data-table white border-radius-4 pt-1">
-                        <thead>
-                        <tr>
-
-                          <th><%= t('activerecord.attributes.product_purchase.product_id') %></th>
-                          <th><%= t('activerecord.attributes.product_purchase.quantity') %></th>
-                          <th><%= t('activerecord.attributes.product_purchase.unity_value') %></th>
-                          <th><%= t('activerecord.attributes.product_purchase.value') %></th>
-                          <th><%= t('activerecord.attributes.product_purchase.status')%></th>
-
-                          <th></th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <% purchase.product_purchases.each do |p| %>
-                          <% if !p.tax %>
-                            <tr>
-                              <td><%= p.product || p.custom_title %></td>
-                              <td><%= p.quantity %></td>
-                              <td><%= p.unity_value %></td>
-                              <td><%= p.value %></td>
-                              <td><%= select_tag :status, options_for_select(ProductPurchase.status.options, p.status), {id: "status_#{p.id}",onchange:"change_status(#{p.id})"} %></td>
-                              <td>
-                                <div class="invoice-action right-align">
-                                  <a href="#modal_note_<%= p.id %>" class="invoice-action-view mr-4 modal-trigger tooltipped" target="_self" data-position="left" data-tooltip="<%= t 'button.new' %> <%= t('activerecord.models.note') %>">
-                                    <i class="material-icons">note</i>
-                                  </a>
-                                  <a href="#modal_doc_<%= p.id %>" class="invoice-action-view modal-trigger tooltipped" target="_self" data-position="left" data-tooltip="<%= t 'button.new' %> <%= t('activerecord.models.document') %>" >
-                                    <i class="material-icons">description</i>
-                                  </a>
-                                  <a class="sidenav-trigger" href="#" data-target="slide-out-right_<%= p.id %>">
-                                    <i class="material-icons">remove_red_eye</i>
-                                  </a>
-                                  <a class="modal-trigger" href="#modal_edit_<%= p.id %>" >
-                                    <i class="material-icons">edit</i>
-                                  </a>
-                                  <%= link_to product_purchase_path(p,redirect: costs_order_path(@order)), method: :delete,data: { confirm: "#{t :will_delete}" } ,target:"_self", class: "invoice-action-edit mr-4" do %>
-                                                                      <i class="material-icons">delete</i>
-                                  <% end %>
-                                </div>
-                              </td>
-                            </tr>
-                          <% end %>
-
-                          <div id="modal_edit_<%= p.id %>" class="modal modal-fixed-footer">
+															<div>
+																<a class="modal-trigger tooltipped" data-tooltip="Edit" href="#modal_edit_<%= p.id %>" >
+																	<i class="material-icons">edit</i>
+																</a>
+																<%= link_to product_purchase_path(p,redirect: costs_order_path(@order)), method: :delete,data: { confirm: "#{t :will_delete}" } ,target:"_self", class: "invoice-action-edit mr-4" do %>
+																		<i class="material-icons">delete</i>
+																<% end %>
+															</div>
+														</div>
+													</div>
+													<div id="modal_edit_<%= p.id %>" class="modal modal-fixed-footer">
                             <%= form_for  p do |f| %>
                               <%= f.hidden_field :redirect, value: costs_order_path(@order) %>
                               <div class="modal-content">
@@ -188,7 +174,7 @@
                             <% end  %>
                           </div>
 
-                          <div id="modal_note_<%= p.id %>" class="modal modal-fixed-footer">
+													<div id="modal_note_<%= p.id %>" class="modal modal-fixed-footer">
                             <%= form_with url: new_note_product_purchase_path(p),method: :get, local: true do |f| %>
                               <div class="modal-content">
                                 <h4><%= t "button.new" %> <%= t "notes" %></h4>
@@ -259,159 +245,343 @@
                               </div>
                             </aside>
                           <% end %>
+												<% end %>
+											</div>
+											<a href="#modal_new_product" class="invoice-action-view modal-trigger btn right mt-2 btn-secondary" target="_self"  >
+												<%= t 'button.new' %> <%= t('activerecord.models.product') %>
+											</a>
+										</div>
+									</div>
+								<% end %>
 
-                        <% end %>
-                        </tbody>
-                      </table>
-                    </div>
-                  </div>
-                </div>
-
-
-
-              <% end %>
-            </div>
-            <a href="#modal_new_product" class="invoice-action-view modal-trigger btn" target="_self"  >
-              <i class="material-icons">description</i> <%= t 'button.new' %> <%= t('activerecord.models.product') %>
-            </a>
-          </div>
-        </div>
-      </div>
-    </div>
-
-
-    <div id="modal_new_product" class="modal modal-fixed-footer">
-      <%= form_with url: new_cost_order_path(@order), method: :get, local: true do |f| %>
-        <%= f.hidden_field :redirect, value: costs_order_path(@order) %>
-        <div class="modal-content">
-          <h4><%= t "button.edit" %> <%= t "activerecord.models.product_purchase" %></h4>
-          <div class="row">
-            <div class="input-field">
-              <%= f.select :product, @products, {prompt: true},{id:"product_select"} %>
-              <%= f.label :product %>
-            </div>
-            <div class="input-field">
-              <%= f.label :custom_product %>
-              <%= f.text_field :custom_product %>
-            </div>
-            <div class="input-field">
-              <%= f.label :quantity %>
-              <%= f.number_field :quantity, step: :any, id:"quantidade", onblur:"calcula_total()" %>
-            </div>
-            <div class="input-field" id="div_unity_value">
-              <%= f.label :unity_value %>
-              <%= f.number_field :unity_value, step: :any, id:"valor_unitario",onblur:"calcula_total()" %>
-            </div>
-            <div class="input-field" id="div_value">
-              <%= f.label :value %>
-              <%= f.number_field :value, step: :any, id:"valor" %>
-            </div>
-            <div class="input">
-              <p>
-                <label>
-                  <%= f.radio_button :status, "requested"  %>
-                  <span>Requested</span>
-                </label>
-              </p>
-              <p>
-                <label>
-                  <%= f.radio_button :status, "buyed" %>
-                  <span>Buyed</span>
-                </label>
-              </p>
-              <p>
-                <label>
-                  <%= f.radio_button :status, "delivered" %>
-                  <span>Delivered</span>
-                </label>
-              </p>
-              <p>
-                <label>
-                  <%= f.radio_button :status, "returned" %>
-                  <span>Returned</span>
-                </label>
-              </p>
+								<% @purchases.each do |purchase| %>
+									<div class="card-panel">
+										<div class="row">
+											<div class="order-cost-list">
+												<div class="oc-supplier">
+													<h6 class="oc-supplier-name">
+														<%= purchase.supplier || "No Supplier" %>
+													</h6>
+													<div class="oc-supplier-total">
+														<%= number_to_currency(purchase.product_purchases.sum(:value)) %>
+													</div>
+												</div>
+												<div class="oc-items-header">
+													<div class="header-qty">Qty</div>
+													<div class="header-product">Product</div>
+													<div class="header-price">Price</div>
+													<div class="header-subtotal">Subtotal</div>
+													<div class="header-status">Status</div>
+												</div>
+												<% purchase.product_purchases.where(tax: true).each do |p| %>
+													<div class="oc-item">
+														<div class="oc-item-content">
+															<div class="item-qty">
+																<%= p.quantity %>
+															</div>
+															<div class="item-product">
+																<%= p.product || p.custom_title %>
+															</div>
+															<div class="item-price">
+																<%= number_to_currency(p.unity_value, :unit => '$') %>
+															</div>
+															<div class="item-subtotal">
+																<%= number_to_currency(p.value, :unit => '$') %>
+															</div>
+															<div class="item-status">
+																<%= select_tag :status, options_for_select(ProductPurchase.status.options, p.status), {id: "status_#{p.id}",onchange:"change_status(#{p.id})"} %>
+															</div>
+														</div>
+														<div class="oc-item-actions">
+															<div>
+																<a href="#modal_note_<%= p.id %>" class="invoice-action-view modal-trigger" target="_self">
+																	<i class="material-icons hide-on-med-and-up">note</i><span class="hide-on-small-only">New note</span>
+																</a>
+																<a href="#modal_doc_<%= p.id %>" class="invoice-action-view modal-trigger" target="_self">
+																	<i class="material-icons hide-on-med-and-up">description</i><span class="hide-on-small-only">New document</span>
+																</a>
+																<a class="sidenav-trigger" href="#" data-target="slide-out-right_<%= p.id %>">
+																	<i class="material-icons hide-on-med-and-up">remove_red_eye</i><span class="hide-on-small-only">View</span>
+																</a>
+															</div>
 
 
-              <%#= f.label :status %>
-              <%#= f.select :status, options_for_select(LaborCost.status.options, labor.status),{},{} %>
-            </div>
-          </div>
+															<div>
+																<a class="modal-trigger tooltipped" data-tooltip="Edit" href="#modal_edit_<%= p.id %>" >
+																	<i class="material-icons">edit</i>
+																</a>
+																<%= link_to product_purchase_path(p,redirect: costs_order_path(@order)), method: :delete,data: { confirm: "#{t :will_delete}" } ,target:"_self", class: "invoice-action-edit mr-4" do %>
+																		<i class="material-icons">delete</i>
+																<% end %>
+															</div>
+														</div>
+													</div>
+													<div id="modal_edit_<%= p.id %>" class="modal modal-fixed-footer">
+                            <%= form_for  p do |f| %>
+                              <%= f.hidden_field :redirect, value: costs_order_path(@order) %>
+                              <div class="modal-content">
+                                <h4><%= t "button.edit" %> <%= "Product Purchase - #{p.product || p.custom_title}" %></h4>
+                                <div class="row">
+                                  <div class="input-field">
+                                    <%= f.label :quantity %>
+                                    <%= f.number_field :quantity, step: :any %>
+                                  </div>
+                                  <div class="input-field">
+                                    <%= f.label :unity_value %>
+                                    <%= f.number_field :unity_value, step: :any %>
+                                  </div>
+                                  <div class="input-field">
+                                    <%= f.label :value %>
+                                    <%= f.number_field :value, step: :any %>
+                                  </div>
+                                  <div class="input">
+                                    <p>
+                                      <label>
+                                        <%= f.radio_button :status, "requested" , :checked => p.requested? %>
+                                        <span>Requested</span>
+                                      </label>
+                                    </p>
+                                    <p>
+                                      <label>
+                                        <%= f.radio_button :status, "buyed", :checked => p.buyed? %>
+                                        <span>Buyed</span>
+                                      </label>
+                                    </p>
+                                    <p>
+                                      <label>
+                                        <%= f.radio_button :status, "delivered" , :checked => p.delivered? %>
+                                        <span>Delivered</span>
+                                      </label>
+                                    </p>
+                                    <p>
+                                      <label>
+                                        <%= f.radio_button :status, "returned", :checked => p.returned? %>
+                                        <span>Returned</span>
+                                      </label>
+                                    </p>
 
-        </div>
-        <div class="modal-footer">
-          <%= f.button :submit, class:"modal-action modal-close waves-effect waves-green btn-flat" do %>
-            <i class="material-icons left">save</i><%= t "button.save" %>
-          <% end %>
-        </div>
-      <% end  %>
-    </div>
 
-    <div class="row">
-      <div class="col s12  pl-0 pr-0">
+                                    <%#= f.label :status %>
+                                    <%#= f.select :status, options_for_select(LaborCost.status.options, labor.status),{},{} %>
+                                  </div>
+                                </div>
 
-        <div class="col s12 pl-1">
-          <div class="card-panel">
-            <div class="row">
-                <div class="card">
-                  <div class="card-content">
-                      <span class="card-title">
-                        <div class="row">
-                          <div class="col s12 l10">
-                            <%= t "activerecord.model.labor_cost" %>
-                          </div>
-                          <div class="col s12 l2">
-                            <%= number_to_currency(@labor_costs.sum(:value)) %>
-                          </div>
-                        </div>
-                      </span>
-                    <div class="responsive-table">
-                      <style>td{padding: 15px}</style>
-                      <table class="table invoice-data-table white border-radius-4 pt-1">
-                        <thead>
-                        <tr>
-
-                          <th><%= t('activerecord.attributes.labor_cost.date') %></th>
-                          <th><%= t('activerecord.attributes.labor_cost.worker_id') %></th>
-                          <th><%= t('activerecord.attributes.labor_cost.value') %></th>
-                          <th><%= t('activerecord.attributes.labor_cost.status')%></th>
-
-                          <th></th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <% @labor_costs.each do |labor| %>
-                          <tr>
-
-                            <td><%= labor.date %></td>
-                            <td><%= labor.worker %></td>
-                            <td><%= labor.value %></td>
-                            <td><%= select_tag :status, options_for_select(LaborCost.status.options, labor.status), {id: "status_#{labor.id}",onchange:"change_status_labor(#{labor.id})"} %></td>
-
-                            <td>
-                              <div class="invoice-action right-align">
-                                <a href="#modal_note_labor_<%= labor.id %>" class="invoice-action-view mr-4 modal-trigger tooltipped" target="_self" data-position="left" data-tooltip="<%= t 'button.new' %> <%= t('activerecord.models.note') %>">
-                                  <i class="material-icons">note</i>
-                                </a>
-                                <a href="#modal_doc_labor_<%= labor.id %>" class="invoice-action-view modal-trigger tooltipped" target="_self" data-position="left" data-tooltip="<%= t 'button.new' %> <%= t('activerecord.models.document') %>" >
-                                  <i class="material-icons">description</i>
-                                </a>
-                                <a class="sidenav-trigger" href="#" data-target="slide-out-right_labor_<%= labor.id %>">
-                                  <i class="material-icons">remove_red_eye</i>
-                                </a>
-                                <a class="modal-trigger" href="#modal_edit_labor_<%= labor.id %>" >
-                                  <i class="material-icons">edit</i>
-                                </a>
-                                <%= link_to labor_cost_path(labor, redirect: costs_order_path(@order)), method: :delete,data: { confirm: "#{t :will_delete}" } ,target:"_self", class: "invoice-action-edit mr-4" do %>
-                                                                    <i class="material-icons">delete</i>
+                              </div>
+                              <div class="modal-footer">
+                                <%= f.button :submit, class:"modal-action modal-close waves-effect waves-green btn-flat" do %>
+                                  <i class="material-icons left">save</i><%= t "button.save" %>
                                 <% end %>
                               </div>
-                            </td>
-                          </tr>
+                            <% end  %>
+                          </div>
+
+													<div id="modal_note_<%= p.id %>" class="modal modal-fixed-footer">
+                            <%= form_with url: new_note_product_purchase_path(p),method: :get, local: true do |f| %>
+                              <div class="modal-content">
+                                <h4><%= t "button.new" %> <%= t "notes" %></h4>
+                                <%= render "customers/notes_form", f: f %>
+                              </div>
+                              <div class="modal-footer">
+                                <%= f.button :submit, class:"modal-action modal-close waves-effect waves-green btn-flat" do %>
+                                  <i class="material-icons left">save</i><%= t "button.save" %>
+                                <% end %>
+                                <!--<a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat ">Agree</a>-->
+                              </div>
+                            <% end  %>
+                          </div>
+
+                          <div id="modal_doc_<%= p.id %>" class="modal modal-fixed-footer">
+                            <%= form_with url: new_document_product_purchase_path(p), local: true do |f| %>
+                              <div class="modal-content">
+                                <h4><%= t "button.new" %> <%= t "documents" %></h4>
+                                <%= render "customers/document_file_fields", f: f %>
+
+                              </div>
+                              <div class="modal-footer">
+                                <%= f.button :submit, class:"modal-action modal-close waves-effect waves-green btn-flat" do %>
+                                  <i class="material-icons left">save</i><%= t "button.save" %>
+                                <% end %>
+                              </div>
+                            <% end  %>
+                          </div>
+
+                          <%= content_for :sidenav do %>
+                            <aside id="right-sidebar-nav">
+                              <div id="slide-out-right_<%= p.id %>" style="width: 340px !important;" class="slide-out-right-sidenav sidenav rightside-navigation">
+
+                                <div class="row">
+                                  <div class="slide-out-right-title">
+                                    <div class="col s10 pl-3">
+                                      <h5><%= purchase.supplier || "No Supplier" %> - <%= p.product || p.custom_title %>  </h5>
+                                    </div>
+                                    <div class="col s22">
+                                      <i class="material-icons "><a href="#" target="_self" class="sidenav-close">clear</a></i>
+                                    </div>
+                                  </div>
+                                </div>
+                                <div class="slide-out-right-body row pl-3 pr-3">
+                                  <div class="col s12 pl-3">
+                                    <h5>Notes</h5>
+                                  </div>
+                                  <% p.notes.each do |note| %>
+                                    <div class="note">
+                                      <%= link_to note, method: :delete, class:"btn-delete-note" do %>
+                                        <i class="material-icons">delete</i>
+                                      <% end %>
+                                      <h6 class="note-title"><%= note.title %></h6>
+                                      <p class="note-content"><%= note.text %></p>
+                                    </div>
+                                  <% end %>
+
+                                  <!-- Exemple document -->
+                                  <div class="col s12 pl-3">
+                                    <h5>Documents</h5>
+                                  </div>
+                                  <% p.document_files.each do |doc| %>
+                                    <%= link_to doc.file.url, target:"_blank" do %>
+                                      <span class="chip grey lighten-3 green-text truncate"><%= doc.title %></span>
+                                    <% end if doc.file.present?  %>
+                                  <% end %>
+                                </div>
+                              </div>
+                            </aside>
+                          <% end %>
+												<% end %>
+											</div>
+											<a href="#modal_new_product" class="invoice-action-view modal-trigger btn right mt-2 btn-secondary" target="_self"  >
+												<%= t 'button.new' %> <%= t('activerecord.models.product') %>
+											</a>
+										</div>
+									</div>
+								<% end %>
+
+								<div id="modal_new_product" class="modal modal-fixed-footer">
+									<%= form_with url: new_cost_order_path(@order), method: :get, local: true do |f| %>
+										<%= f.hidden_field :redirect, value: costs_order_path(@order) %>
+										<div class="modal-content">
+											<h4><%= t "button.new" %> <%= t "activerecord.models.product_purchase" %></h4>
+											<div class="row">
+												<div class="input-field">
+													<%= f.select :product, @products, {prompt: true},{id:"product_select"} %>
+													<%= f.label :product %>
+												</div>
+												<div class="input-field">
+													<%= f.label :custom_product %>
+													<%= f.text_field :custom_product %>
+												</div>
+												<div class="input-field">
+													<%= f.label :quantity %>
+													<%= f.number_field :quantity, step: :any, id:"quantidade", onblur:"calcula_total()" %>
+												</div>
+												<div class="input-field" id="div_unity_value">
+													<%= f.label :unity_value %>
+													<%= f.number_field :unity_value, step: :any, id:"valor_unitario",onblur:"calcula_total()" %>
+												</div>
+												<div class="input-field" id="div_value">
+													<%= f.label :value %>
+													<%= f.number_field :value, step: :any, id:"valor" %>
+												</div>
+												<div class="input">
+													<p>
+														<label>
+															<%= f.radio_button :status, "requested"  %>
+															<span>Requested</span>
+														</label>
+													</p>
+													<p>
+														<label>
+															<%= f.radio_button :status, "buyed" %>
+															<span>Buyed</span>
+														</label>
+													</p>
+													<p>
+														<label>
+															<%= f.radio_button :status, "delivered" %>
+															<span>Delivered</span>
+														</label>
+													</p>
+													<p>
+														<label>
+															<%= f.radio_button :status, "returned" %>
+															<span>Returned</span>
+														</label>
+													</p>
 
 
+													<%#= f.label :status %>
+													<%#= f.select :status, options_for_select(LaborCost.status.options, labor.status),{},{} %>
+												</div>
+											</div>
 
-                          <div id="modal_edit_labor_<%= labor.id %>" class="modal modal-fixed-footer">
+										</div>
+										<div class="modal-footer">
+											<%= f.button :submit, class:"modal-action modal-close waves-effect waves-green btn-flat" do %>
+												<i class="material-icons left">save</i><%= t "button.save" %>
+											<% end %>
+										</div>
+									<% end  %>
+								</div>
+
+								<div class="card-panel">
+									<div class="row">
+										<div class="order-cost-list oc-labor-cost">
+											<div class="oc-supplier">
+												<h6 class="oc-supplier-name">
+													<%= t "activerecord.model.labor_cost" %>
+												</h6>
+												<div class="oc-supplier-total">
+													<%= number_to_currency(@labor_costs.sum(:value)) %>
+												</div>
+											</div>
+											<div class="oc-items-header">
+												<div class="header-date"><%= t('activerecord.attributes.labor_cost.date') %></div>
+												<div class="header-worker"><%= t('activerecord.attributes.labor_cost.worker_id') %></div>
+												<div class="header-subtotal"><%= t('activerecord.attributes.labor_cost.value') %></div>
+												<div class="header-status"><%= t('activerecord.attributes.labor_cost.status')%></div>
+											</div>
+
+											<% @labor_costs.each do |labor| %>
+												<div class="oc-item">
+													<div class="oc-item-content">
+														<div class="item-date">
+															<%= labor.date %>
+														</div>
+														<div class="item-woker">
+															<%= labor.worker %>
+														</div>
+														<div class="item-subtotal">
+															<%= number_to_currency(labor.value, :unit => '$') %>
+														</div>
+														<div class="item-status">
+															<%= select_tag :status, options_for_select(LaborCost.status.options, labor.status), {id: "status_#{labor.id}",onchange:"change_status_labor(#{labor.id})"} %>
+														</div>
+													</div>
+													<div class="oc-item-actions">
+														<div>
+															<a href="#modal_note_labor_<%= labor.id %>" class="invoice-action-view modal-trigger" target="_self">
+																<i class="material-icons hide-on-med-and-up">note</i><span class="hide-on-small-only"><%= t 'button.new' %> <%= t('activerecord.models.note') %></span>
+															</a>
+															<a href="#modal_doc_labor_<%= labor.id %>" class="invoice-action-view modal-trigger" target="_self" >
+																<i class="material-icons hide-on-med-and-up">description</i><span class="hide-on-small-only"><%= t 'button.new' %> <%= t('activerecord.models.document') %></span>
+															</a>
+															<a class="sidenav-trigger" href="#" data-target="slide-out-right_labor_<%= labor.id %>">
+																<i class="material-icons hide-on-med-and-up">remove_red_eye</i><span class="hide-on-small-only">View</span>
+															</a>
+														</div>
+									
+									
+														<div>
+															<a class="modal-trigger tooltipped" data-tooltip="<%= t 'label.edit' %>" href="#modal_edit_labor_<%= labor.id %>" >
+																<i class="material-icons">edit</i>
+															</a>
+															<%= link_to labor_cost_path(labor, redirect: costs_order_path(@order)), method: :delete,data: { confirm: "#{t :will_delete}", tooltip: t('label.remove') } ,target:"_self", class: "invoice-action-edit tooltipped" do %>
+																<i class="material-icons">delete</i>
+															<% end %>
+														</div>
+													</div>
+												</div>
+
+												<div id="modal_edit_labor_<%= labor.id %>" class="modal modal-fixed-footer">
                             <%= form_for  labor do |f| %>
                               <%= f.hidden_field :redirect, value: costs_order_path(@order) %>
                               <div class="modal-content">
@@ -453,9 +623,6 @@
                               </div>
                             <% end  %>
                           </div>
-
-
-
 
                           <div id="modal_note_labor_<%= labor.id %>" class="modal modal-fixed-footer">
                             <%= form_with url: new_note_labor_cost_path(labor),method: :get, local: true do |f| %>
@@ -529,277 +696,74 @@
                             </aside>
                           <% end %>
 
-                        <% end %>
-                        </tbody>
-                      </table>
-                    </div>
-                  </div>
+											<% end %>
+										</div>
+										<a href="#modal_new_labor" class="invoice-action-view modal-trigger btn right mt-2 btn-secondary" target="_self" >
+											<%= t 'button.new' %> <%= t('activerecord.models.labor_cost') %>
+										</a>
+									</div>
+								</div>
 
-                </div>
-              <a href="#modal_new_labor" class="invoice-action-view modal-trigger btn" target="_self" >
-                <i class="material-icons">description</i> <%= t 'button.new' %> <%= t('activerecord.models.labor_cost') %>
-              </a>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
+								<div id="modal_new_labor" class="modal modal-fixed-footer">
+									<%= form_with  url: new_labor_cost_order_path(@order), method: :get, local: true do |f| %>
+										<%= f.hidden_field :redirect, value: costs_order_path(@order) %>
+										<div class="modal-content">
+											<h4><%= t 'button.new' %> <%= t('activerecord.models.labor_cost') %></h4>
+											<div class="row">
+												<div class="input-field">
 
-    <div class="row">
-      <div class="col s12 pl-0 pr-0">
-        <div class="col s12 pl-1">
-          <div class="card-panel">
-            <div class="row">
-              <% @purchases.each do |purchase| %>
-                <% purchase.product_purchases.each do |product_purchase| %>
-                  <% if product_purchase.tax %>
-                    <div class="card">
-                      <div class="card-content">
-                      <span class="card-title">
-                        <div class="row">
-                          <div class="col s12 l10">
-                            Taxes
-                          </div>
-                        </div>
-                      </span>
-                        <div class="responsive-table">
-                          <style>td{padding: 15px}</style>
-                          <table class="table invoice-data-table white border-radius-4 pt-1">
-                            <thead>
-                            <tr>
+													<%= f.select :worker_id, @workers %>
+													<%= f.label :worker_id %>
+												</div>
+												<div class="input ">
+													<%= f.label :start_at  %>
+													<%= f.datetime_field :start_at, required: true %>
 
-                              <th><%= t('activerecord.attributes.product_purchase.tax') %></th>
-                              <th><%= t('activerecord.attributes.product_purchase.value') %></th>
+												</div>
+												<div class="input ">
+													<%= f.label :end_at  %>
+													<%= f.datetime_field :end_at, required: true %>
 
-                              <th></th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            <% purchase.product_purchases.each do |p| %>
-                              <% if p.tax %>
-                                <tr>
-                                  <td><%= p.product || p.custom_title %></td>
-                                  <td><%= p.value %></td>
-                                  <td>
-                                    <div class="invoice-action right-align">
-                                      <a href="#modal_note_<%= p.id %>" class="invoice-action-view mr-4 modal-trigger tooltipped" target="_self" data-position="left" data-tooltip="<%= t 'button.new' %> <%= t('activerecord.models.note') %>">
-                                        <i class="material-icons">note</i>
-                                      </a>
-                                      <a href="#modal_doc_<%= p.id %>" class="invoice-action-view modal-trigger tooltipped" target="_self" data-position="left" data-tooltip="<%= t 'button.new' %> <%= t('activerecord.models.document') %>" >
-                                        <i class="material-icons">description</i>
-                                      </a>
-                                      <a class="sidenav-trigger" href="#" data-target="slide-out-right_<%= p.id %>">
-                                        <i class="material-icons">remove_red_eye</i>
-                                      </a>
-                                      
-                                      <%= link_to product_purchase_path(p,redirect: costs_order_path(@order)), method: :delete,data: { confirm: "#{t :will_delete}" } ,target:"_self", class: "invoice-action-edit mr-4" do %>
-                                                                          <i class="material-icons">delete</i>
-                                      <% end %>
-                                    </div>
-                                  </td>
-                                </tr>
-                              <% end %>
+												</div>
+												<div class="input-field">
+													<%= f.label :hour_cost %>
+													<%= f.number_field :hour_cost, step: :any, required: true %>
+												</div>
+								<!--        <div class="input">-->
+								<!--          <p>-->
+								<!--            <label>-->
+															<%#= f.radio_button :status, "paid" %>
+								<!--              <span>Paid</span>-->
+								<!--            </label>-->
+								<!--          </p>-->
+								<!--          <p>-->
+								<!--            <label>-->
+															<%#= f.radio_button :status, "pendent" %>
+								<!--              <span>Pendent</span>-->
+								<!--            </label>-->
+								<!--          </p>-->
+								<!--        </div>-->
+											</div>
 
-                              <div id="modal_edit_<%= p.id %>" class="modal modal-fixed-footer">
-                                <%= form_for  p do |f| %>
-                                  <%= f.hidden_field :redirect, value: costs_order_path(@order) %>
-                                  <div class="modal-content">
-                                    <h4><%= t "button.edit" %> <%= "Product Purchase - #{p.product || p.custom_title}" %></h4>
-                                    <div class="row">
-                                      <div class="input-field">
-                                        <%= f.label :quantity %>
-                                        <%= f.number_field :quantity, step: :any %>
-                                      </div>
-                                      <div class="input-field">
-                                        <%= f.label :unity_value %>
-                                        <%= f.number_field :unity_value, step: :any %>
-                                      </div>
-                                      <div class="input-field">
-                                        <%= f.label :value %>
-                                        <%= f.number_field :value, step: :any %>
-                                      </div>
-                                      <div class="input">
-                                        <p>
-                                          <label>
-                                            <%= f.radio_button :status, "requested" , :checked => p.requested? %>
-                                            <span>Requested</span>
-                                          </label>
-                                        </p>
-                                        <p>
-                                          <label>
-                                            <%= f.radio_button :status, "buyed", :checked => p.buyed? %>
-                                            <span>Buyed</span>
-                                          </label>
-                                        </p>
-                                        <p>
-                                          <label>
-                                            <%= f.radio_button :status, "delivered" , :checked => p.delivered? %>
-                                            <span>Delivered</span>
-                                          </label>
-                                        </p>
-                                        <p>
-                                          <label>
-                                            <%= f.radio_button :status, "returned", :checked => p.returned? %>
-                                            <span>Returned</span>
-                                          </label>
-                                        </p>
+										</div>
+										<div class="modal-footer">
+											<%= f.button :submit, class:"modal-action modal-close waves-effect waves-green btn-flat" do %>
+												<i class="material-icons left">save</i><%= t "button.save" %>
+											<% end %>
+										</div>
+									<% end  %>
+								</div>
+							</div>
+						</div>
+
+					</div>
+
+				</div>
 
 
-                                        <%#= f.label :status %>
-                                        <%#= f.select :status, options_for_select(LaborCost.status.options, labor.status),{},{} %>
-                                      </div>
-                                    </div>
+			</div>
 
-                                  </div>
-                                  <div class="modal-footer">
-                                    <%= f.button :submit, class:"modal-action modal-close waves-effect waves-green btn-flat" do %>
-                                      <i class="material-icons left">save</i><%= t "button.save" %>
-                                    <% end %>
-                                  </div>
-                                <% end  %>
-                              </div>
-
-                              <div id="modal_note_<%= p.id %>" class="modal modal-fixed-footer">
-                                <%= form_with url: new_note_product_purchase_path(p),method: :get, local: true do |f| %>
-                                  <div class="modal-content">
-                                    <h4><%= t "button.new" %> <%= t "notes" %></h4>
-                                    <%= render "customers/notes_form", f: f %>
-                                  </div>
-                                  <div class="modal-footer">
-                                    <%= f.button :submit, class:"modal-action modal-close waves-effect waves-green btn-flat" do %>
-                                      <i class="material-icons left">save</i><%= t "button.save" %>
-                                    <% end %>
-                                    <!--<a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat ">Agree</a>-->
-                                  </div>
-                                <% end  %>
-                              </div>
-
-                              <div id="modal_doc_<%= p.id %>" class="modal modal-fixed-footer">
-                                <%= form_with url: new_document_product_purchase_path(p), local: true do |f| %>
-                                  <div class="modal-content">
-                                    <h4><%= t "button.new" %> <%= t "documents" %></h4>
-                                    <%= render "customers/document_file_fields", f: f %>
-
-                                  </div>
-                                  <div class="modal-footer">
-                                    <%= f.button :submit, class:"modal-action modal-close waves-effect waves-green btn-flat" do %>
-                                      <i class="material-icons left">save</i><%= t "button.save" %>
-                                    <% end %>
-                                  </div>
-                                <% end  %>
-                              </div>
-
-                              <%= content_for :sidenav do %>
-                                <aside id="right-sidebar-nav">
-                                  <div id="slide-out-right_<%= p.id %>" style="width: 340px !important;" class="slide-out-right-sidenav sidenav rightside-navigation">
-
-                                    <div class="row">
-                                      <div class="slide-out-right-title">
-                                        <div class="col s10 pl-3">
-                                          <h5><%= purchase.supplier || "No Supplier" %> - <%= p.product || p.custom_title %>  </h5>
-                                        </div>
-                                        <div class="col s22">
-                                          <i class="material-icons "><a href="#" target="_self" class="sidenav-close">clear</a></i>
-                                        </div>
-                                      </div>
-                                    </div>
-                                    <div class="slide-out-right-body row pl-3 pr-3">
-                                      <div class="col s12 pl-3">
-                                        <h5>Notes</h5>
-                                      </div>
-                                      <% p.notes.each do |note| %>
-                                        <div class="note">
-                                          <%= link_to note, method: :delete, class:"btn-delete-note" do %>
-                                            <i class="material-icons">delete</i>
-                                          <% end %>
-                                          <h6 class="note-title"><%= note.title %></h6>
-                                          <p class="note-content"><%= note.text %></p>
-                                        </div>
-                                      <% end %>
-
-                                      <!-- Exemple document -->
-                                      <div class="col s12 pl-3">
-                                        <h5>Documents</h5>
-                                      </div>
-                                      <% p.document_files.each do |doc| %>
-                                        <%= link_to doc.file.url, target:"_blank" do %>
-                                          <span class="chip grey lighten-3 green-text truncate"><%= doc.title %></span>
-                                        <% end if doc.file.present?  %>
-                                      <% end %>
-                                    </div>
-                                  </div>
-                                </aside>
-                              <% end %>
-
-                            <% end %>
-                            </tbody>
-                          </table>
-                        </div>
-                      </div>
-                    </div>
-                  <% end %>
-                <% end %>
-              <% end %>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-</div>
-
-<div id="modal_new_labor" class="modal modal-fixed-footer">
-  <%= form_with  url: new_labor_cost_order_path(@order), method: :get, local: true do |f| %>
-    <%= f.hidden_field :redirect, value: costs_order_path(@order) %>
-    <div class="modal-content">
-      <h4><%= t 'button.new' %> <%= t('activerecord.models.labor_cost') %></h4>
-      <div class="row">
-        <div class="input-field">
-
-          <%= f.select :worker_id, @workers %>
-          <%= f.label :worker_id %>
-        </div>
-        <div class="input ">
-          <%= f.label :start_at  %>
-          <%= f.datetime_field :start_at, required: true %>
-
-        </div>
-        <div class="input ">
-          <%= f.label :end_at  %>
-          <%= f.datetime_field :end_at, required: true %>
-
-        </div>
-        <div class="input-field">
-          <%= f.label :hour_cost %>
-          <%= f.number_field :hour_cost, step: :any, required: true %>
-        </div>
-<!--        <div class="input">-->
-<!--          <p>-->
-<!--            <label>-->
-              <%#= f.radio_button :status, "paid" %>
-<!--              <span>Paid</span>-->
-<!--            </label>-->
-<!--          </p>-->
-<!--          <p>-->
-<!--            <label>-->
-              <%#= f.radio_button :status, "pendent" %>
-<!--              <span>Pendent</span>-->
-<!--            </label>-->
-<!--          </p>-->
-<!--        </div>-->
-      </div>
-
-    </div>
-    <div class="modal-footer">
-      <%= f.button :submit, class:"modal-action modal-close waves-effect waves-green btn-flat" do %>
-        <i class="material-icons left">save</i><%= t "button.save" %>
-      <% end %>
-    </div>
-  <% end  %>
-</div>
-
-
+		</div>
 <%= content_for :scripts do %>
   <script type="text/javascript" charset="utf-8">
 

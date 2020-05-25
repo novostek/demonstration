@@ -3,6 +3,7 @@ class SchedulesController < ApplicationController
   #load_and_authorize_resource except: [:delete_schedule]
   def index
     @schedules = Schedule.all
+    @workers = Worker.all
   end
 
   def update_hour_cost
@@ -25,6 +26,26 @@ class SchedulesController < ApplicationController
       redirect_to schedules_path
     end
 
+  end
+
+  def create
+    schedule_obj = {
+        :title => params[:title],
+        :schedule_id => params[:schedule_id],
+        :category => params[:category],
+        :description => params[:description],
+        :start_at => params[:start_at],
+        :end_at => params[:end_at],
+        :color => params[:color],
+        :worker_id => params[:worker_id],
+        :origin => "Worker",
+        :origin_id => params[:worker_id],
+        :send_mail => params[:send_mail]
+    }
+
+    schedule = Schedule.new_schedule(schedule_obj)
+
+    render json: schedule
   end
 
   def load_notes

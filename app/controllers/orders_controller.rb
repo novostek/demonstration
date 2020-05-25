@@ -357,6 +357,7 @@ class OrdersController < ApplicationController
     @products = Product.to_select
     @workers = Worker.to_select
     @purchases = @order.purchases
+    @taxes = @order.product_purchases.where(product_purchases: { tax: true })
     @labor_costs = @order.labor_costs.order(date: :asc)
   end
 

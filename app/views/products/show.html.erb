@@ -14,76 +14,62 @@
         </ol>
       </div>
       <div class="col s2 m6 l6">
-        <%= link_to t('button.all'), products_path, class:"btn waves-effect waves-light breadcrumbs-btn right" %>
-        <%= link_to edit_product_path(@product) , class: "btn-flat waves-effect waves-light breadcrumbs-btn right" do %>
-          <i class="material-icons">edit</i>
-        <% end %>
+        <%= link_to t('button.edit'), edit_product_path(@product), class:"btn waves-effect waves-light breadcrumbs-btn right" %>
       </div>
     </div>
   </div>
 </div>
 
 <div class="card-panel">
-  <p>
-    <% if @product.photo.present? %>
-        <img src="<%= @product.photo.url %>" alt="">
-    <% end %>
-  </p>
-	
-  <p>
-    <strong><%= t('activerecord.attributes.product.name') %>:</strong>
-    <%= @product.name %>
-  </p>
-
-  <p>
-    <strong><%= t('activerecord.attributes.product.uuid') %>:</strong>
-    <%= @product.uuid %>
-  </p>
-
-  <p>
-    <strong><%= t('activerecord.attributes.product.details') %>:</strong>
-    <%= @product.details %>
-  </p>
-
-  <p>
-    <strong><%= t('activerecord.attributes.product.product_category') %>:</strong>
-    <%= @product.product_category %>
-  </p>
-
-  <p>
-    <strong><%= t('activerecord.attributes.product.supplier_id') %>:</strong>
-    <%= @product.supplier %>
-  </p>
-
-  <p>
-    <strong><%= t('activerecord.attributes.product.calculation_formula_id') %>:</strong>
-    <%= @product.calculation_formula %>
-  </p>
-
-  <p>
-    <strong><%= t('activerecord.attributes.product.customer_price') %>:</strong>
-    <%= @product.customer_price %>
-  </p>
-
-  <p>
-    <strong><%= t('activerecord.attributes.product.cost_price') %>:</strong>
-    <%= @product.cost_price %>
-  </p>
-
-  <p>
-    <strong><%= t('activerecord.attributes.product.area_covered') %>:</strong>
-    <%= @product.area_covered %>
-  </p>
-
-  <p>
-    <strong><%= t('activerecord.attributes.product.tax') %>:</strong>
-    <%= @product.tax %>
-  </p>
-
-  <p>
-    <strong><%= t('activerecord.attributes.product.bpm_purchase') %>:</strong>
-    <%= @product.bpm_purchase %>
-  </p>
-
+  <div class="row">
+    <h5 class="mt-0 indigo-text hide-on-med-and-up center-align"><%= @product.name %></h5>
+    <h6 class="product-desc--supplier hide-on-med-and-up center-align"><%= t('activerecord.attributes.product.supplier_id') %>: <span><%= @product.supplier %></span> </h6>
+    <div class="col s12 m4 xl3 product-pic-card">
+      <div class="product-pic">
+        <% if !@product.photo.present? %>
+          <img src="<%= @product.photo.url %>" alt="">
+      <% else %>
+          <img src="/not-found.png" alt="">
+      <% end %>
+      </div>
+      <p class="width-100 left mt-0 mb-2">
+        <span class="font-weight-600 left"><%= t('activerecord.attributes.product.customer_price') %>:</span>
+        <span class="right"><%= number_to_currency @product.customer_price %></span>
+      </p>
+      <p class="width-100 left mt-0 mb-2">
+        <span class="font-weight-600 left"><%= t('activerecord.attributes.product.cost_price') %>:</span>
+        <span class="right"><%= number_to_currency @product.cost_price %></span>
+      </p>
+      <p class="width-100 left mt-0 mb-2">
+        <span class="font-weight-600 left"><%= t('activerecord.attributes.product.area_covered') %>:</span>
+        <span class="right"><%= @product.area_covered %> sqft</span>
+      </p>
+      <p class="width-100 left mt-0 mb-2">
+        <span class="font-weight-600 left"><%= t('activerecord.attributes.product.tax') %>:</span>
+        <span class="right"><%= t(@product.tax) %></span>
+      </p>
+    </div>
+    <div class="col s12 m8 xl9 product-desc">
+      <h5 class="mt-0 indigo-text hide-on-small-only"><%= @product.name %></h5>
+      <h6 class="product-desc--supplier hide-on-small-only"><%= t('activerecord.attributes.product.supplier_id') %>: <span><%= @product.supplier %></span> </h6>
+      <div class="row">
+        <div class="col">
+          <h6><%= t('activerecord.attributes.product.product_category_id') %></h6>
+          <span class="chip"><%= @product.product_category %></span>
+        </div>
+        <div class="col">
+          <h6><%= t('activerecord.attributes.product.calculation_formula_id') %></h6>
+          <span class="chip"><%= @product.calculation_formula %></span>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col s12">
+          <h6>Description</h6>
+          <span><%= @product.details %></span>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
+
 

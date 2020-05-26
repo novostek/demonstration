@@ -203,6 +203,7 @@ Rails.application.routes.draw do
     collection do
       get "email"
       get "company_logo"
+      get "cached_logo"
       get "company_banner"
       get "estimate"
       get "transactions" => 'settings#transactions'

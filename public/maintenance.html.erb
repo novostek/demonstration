@@ -15,48 +15,33 @@
   <link rel="stylesheet" type="text/css" href="/materialize/vendors/vendors.min.css">
   <!-- END: VENDOR CSS-->
   <!-- BEGIN: Page Level CSS-->
+  <link rel="stylesheet" type="text/css" href="/materialize/vendors/animate-css/animate.css">
   <link rel="stylesheet" type="text/css" href="/materialize/css/themes/vertical-modern-menu-template/materialize.css">
   <link rel="stylesheet" type="text/css" href="/materialize/css/themes/vertical-modern-menu-template/style.css">
   <link rel="stylesheet" type="text/css" href="/materialize/css/pages/page-maintenance.css">
   <!-- END: Page Level CSS-->
   <!-- BEGIN: Custom CSS-->
   <link rel="stylesheet" type="text/css" href="/materialize/css/custom/custom.css">
+  <link rel="stylesheet" type="text/css" href="/css/errors-pages.css">
   <!-- END: Custom CSS-->
 </head>
 <!-- END: Head-->
 
-<body class="vertical-layout vertical-menu-collapsible page-header-dark vertical-modern-menu preload-transitions 1-column    blank-page blank-page" data-open="click" data-menu="vertical-modern-menu" data-col="1-column">
-<div class="row">
-  <div class="col s12">
-    <div class="container">
-      <div class="section p-0 m-0 height-100vh section-maintenance">
-        <div class="row">
-          <!-- Maintenance -->
-          <div id="maintenance" class="col s12 center-align white">
-            <img src="/materialize/images/gallery/maintenance.png" class="responsive-img maintenance-img" alt="">
-            <h4 class="error-code">This page is under maintenance</h4>
-            <h6 class="mb-2 mt-2"><%= reason %><br></h6>
-            <a class="btn waves-effect waves-light" href="https://www.woffice.app">Go to Woffice</a>
-          </div>
-        </div>
-      </div>
+<body class="page503">
+<div class="error-wrapper">
+  <div class="error-logo animated fadeInDown">
+    <img src="/woffice.svg" alt="Woffice">
+  </div>
+  <div class="error-content">
+    <div class="error-img animate fadeUp">
+      <img src="/503.png" alt="">
     </div>
-    <div class="content-overlay"></div>
+    <div class="error-msg">
+      <h1 class="animate fadeRight"><%= reason %></h1>
+      <a href="http://www.woffice.app" class="btn-error btn border-round animate fadeRight">Go to Woffice</a>
+    </div>
   </div>
 </div>
-
-<!-- BEGIN VENDOR JS-->
-<script src="/materialize/js/vendors.min.js"></script>
-<!-- BEGIN VENDOR JS-->
-<!-- BEGIN PAGE VENDOR JS-->
-<!-- END PAGE VENDOR JS-->
-<!-- BEGIN THEME  JS-->
-<script src="/materialize/js/plugins.js"></script>
-<script src="/materialize/js/search.js"></script>
-<script src="/materialize/js/custom/custom-script.js"></script>
-<!-- END THEME  JS-->
-<!-- BEGIN PAGE LEVEL JS-->
-<!-- END PAGE LEVEL JS-->
 </body>
 
 </html>

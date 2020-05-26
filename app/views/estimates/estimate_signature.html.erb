@@ -1,193 +1,197 @@
-<div class="row">
-  <div class="col s12 m8 offset-m2">
-    <div class="card-panel">
-      <div class="row mt-3 invoice-logo-title">
-        <div class="col m9 s12">
-          <h4 class="indigo-text">Estimate</h4>
-          Nº <span>#<%= @estimate.code %></span> <br>
-          <small>Created At <%= @estimate.created_at %></small>
-        </div>
-        <div class="col m3 s12 display-flex invoice-logo mt-1">
-          <img src="<%= Setting.url.gsub('https','http') %>/settings/company_logo" alt="logo" class="responsive-img" style="max-width: 150px !important;">
-        </div>
 
+  <div class="card-panel">
+    <%= render 'layouts/document_top' %>
+    <div class="invoice-title-bar">
+      <h6>Estimate</h6>
+      <div class="invoice-title-details">
+        <span>Nº #<%= @estimate.code %></span><br>
+        <span><%= @estimate.created_at %></span>
       </div>
-      <div class="divider mb-3 mt-3"></div>
-      <div class="row invoice-info">
-        <div class="col m6 s12">
-          <h6 class="invoice-from">From</h6>
-          <div class="invoice-address">
-            <span><%= Setting.get_value("company_full_name") %></span>
-          </div>
-          <div class="invoice-address">
-            <span><%= Setting.get_value("company_address") %></span>
-          </div>
-          <div class="invoice-address">
-            <span><%= Setting.get_value("company_email") %></span>
-          </div>
-          <div class="invoice-address">
-            <span><%= Setting.get_value("company_phone") %></span>
-          </div>
-        </div>
-        <div class="col m6 s12">
-          <div class="divider show-on-small hide-on-small-only mb-3"></div>
-          <h6 class="invoice-to">To</h6>
-          <div class="invoice-address">
-            <span><%= @estimate.customer.name %></span>
-          </div>
-          <div class="invoice-address">
-            <span><%= @estimate.customer.get_main_address_f %></span>
-          </div>
-          <div class="invoice-address">
-            <span><%= @estimate.customer.get_main_email_f %></span>
-          </div>
-          <div class="invoice-address">
-            <span><%= @estimate.customer.get_main_phone_f  %></span>
-          </div>
+    </div>
+
+    <div class="row">
+      <div class="col s12"></div>
+    </div>
+    <%= render partial: "layouts/document_customer", locals: {estimate: @estimate} %>
+
+    <div class="invoice-title-bar">
+      <div class="fas" aria-hidden="true">
+
+        <img src="/materialize/images/icon/map-marked-alt-solid.svg" alt="">
+      </div>
+      <h6>Job Location:</h6>
+    </div>
+    <div class="row">
+      <div class="col s12">
+        <div class="invoice-address">
+          <span><%= @estimate.location %></span>
         </div>
       </div>
-      <div class="divider mb-3 mt-3"></div>
-      <p><b>Measurements:</b></p>
-      <table>
-        <thead>
+    </div>
+
+    <div class="invoice-title-bar">
+      <div class="fas" aria-hidden="true">
+
+        <img src="/materialize/images/icon/ruler-combined-solid.svg" alt="">
+      </div>
+      <h6>Measurements:</h6>
+    </div>
+    <div class="row">
+      <div class="col s12">
+        <table>
+          <thead>
           <th>Area</th>
-          <% if !@hidden_fields['length'].present? %>
+          <% if @hidden_fields['length'].present? %>
             <th>Length</th>
           <% end %>
-          <% if !@hidden_fields['width'].present? %>
+          <% if @hidden_fields['width'].present? %>
             <th>Width</th>
           <% end %>
-          <% if !@hidden_fields['height'].present? %>
+          <% if @hidden_fields['height'].present? %>
             <th>Height</th>
           <% end %>
-          <% if !@hidden_fields['square_feet'].present? %>
+          <% if @hidden_fields['square_feet'].present? %>
             <th>Square Ft</th>
           <% end %>
-        </thead>
-        <tbody>
-        <% @estimate.measurement_areas.each do |ma| %>
-          <tr>
-            <td><%= ma.name %></td>
-            <% if !@hidden_fields['length'].present? %>
-              <td><%= ma.measurements.first.length %></td>
-            <% end %>
-            <% if !@hidden_fields['width'].present? %>
-              <td><%= ma.measurements.first.width %></td>
-            <% end %>
-            <% if !@hidden_fields['height'].present? %>
-              <td><%= ma.measurements.first.height %></td>
-            <% end %>
-            <% if !@hidden_fields['square_feet'].present? %>
-              <td><%= ma.measurements.first.square_feet %></td>
-            <% end %>
-          </tr>
-        <% end %>
-        </tbody>
-      </table>
-      <p><b>Products/Services:</b></p>
-      <% @estimate.measurement_proposals.distinct(:id).each do |mp| %>
-        <div class="row">
-          <div class="col s12">
-            <div class="row pl-2 pr-2">
-              <span class="mr-1">Selected areas:</span>
-              <% mp.measurement_area.each do |ma| %>
-                <div class="chip blue white-text"><%= ma.name %></div>
+          </thead>
+          <tbody>
+          <% @estimate.measurement_areas.each do |ma| %>
+            <tr>
+              <td><%= ma.name %></td>
+              <% if @hidden_fields['length'].present? %>
+                <td><%= ma.measurements.first.length %></td>
               <% end %>
-            </div>
-            <table class="striped responsive-table">
-              <thead>
-              <tr>
-                <th>Product</th>
-                <th>Qty</th>
-                <th>Unit Price</th>
-                <th>Discount</th>
-                <th class="right-align">Subtotal</th>
-              </tr>
-              </thead>
-              <tbody>
-              <% mp.product_estimates.each do |pe| %>
-                <tr>
-                  <td><%= pe.product.present? ? pe.product.name : pe.custom_title %></td>
-                  <td><%= pe.quantity %></td>
-                  <td><%= pe.unitary_value %></td>
-                  <td><%= pe.discount %></td>
-                  <td class=" right-align">$<%= pe.value %></td>
-                </tr>
+              <% if @hidden_fields['width'].present? %>
+                <td><%= ma.measurements.first.width %></td>
               <% end %>
-              <tr class="white">
-                <td class="right-align" colspan="100"><strong>Subtotal area:</strong><br>$<%= mp.product_estimates.sum(:value) %></td>
-              </tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
-        <div class="divider mb-3 mt-3"></div>
-      <% end %>
-
-      <div class="row">
-        <div class="col m5 s12">
-          <!-- <p>Thanks for your business.</p> -->
-        </div>
-        <div class="col xl4 m7 s12 offset-xl3">
-          <ul>
-            <li class="display-flex justify-content-between">
-              <span class="invoice-subtotal-title">Subtotal</span>
-              <h6 class="mt-0"><%= number_to_currency @estimate.subtotal %></h6>
-            </li>
-            <li class="display-flex justify-content-between">
-              <span class="invoice-subtotal-title">Discount</span>
-              <h6 class="mt-0">- <%= number_to_currency @estimate.discounts %></h6>
-            </li>
-            <% if @estimate.customer? %>
-              <li class="display-flex justify-content-between">
-                <span class="invoice-subtotal-title">Tax</span>
-                <h6 class="mt-0"><%= @estimate.tax %></h6>
-              </li>
-           <% end %>
-            <li class="divider mt-2 mb-2"></li>
-            <li class="display-flex justify-content-between">
-              <span class="invoice-subtotal-title">Estimate Total</span>
-              <h6 class="mt-0">$ <%= @estimate.total %></h6>
-            </li>
-          </ul>
-        </div>
-      </div>
-
-      <div class="divider mb-3 mt-3"></div>
-      <%= raw Setting.get_value("estimate_notes") %>
-
-    </div>
-    <div class="card-panel">
-      <h4>Signature</h4>
-      <div class="row">
-
-        <% if !@view.present? %>
-          <%= form_for(@signature) do |f| %>
-
-            <%= f.hidden_field :sign, value: true %>
-            <%= f.hidden_field :origin %>
-            <%= f.hidden_field :origin_id %>
-
-            <input type="hidden" id="signature_file" value="" name="signature[file]">
-            <canvas id="signature-pad" class="signature-pad" width=700 height=200 style="border:1px solid #000000;"></canvas>
-            <br>
-            <button id="clear" class="btn" type="button" ><%= t :clear %></button>
-            <%= f.submit "sign", class:"btn green" %>
+              <% if @hidden_fields['height'].present? %>
+                <td><%= ma.measurements.first.height %></td>
+              <% end %>
+              <% if @hidden_fields['square_feet'].present? %>
+                <td><%= ma.measurements.first.square_feet %></td>
+              <% end %>
+            </tr>
           <% end %>
-        <% else %>
-          <img src="<%= $temp_img   %>" >
-        <% end %>
+          </tbody>
+        </table>
       </div>
+    </div>
+    <div class="mb-3 mt-3"></div>
+    <div class="invoice-title-bar">
+      <div class="fas" aria-hidden="true">
+
+        <img src="/materialize/images/icon/dolly-solid.svg" alt="">
+      </div>
+      <h6>Products/Services:</h6>
+    </div>
+    <% @estimate.measurement_proposals.distinct(:id).each do |mp| %>
+      <div class="row">
+        <div class="col s12">
+          <div class="row pl-2 pr-2">
+            <span class="mr-1">Selected areas:</span>
+            <% mp.measurement_area.each do |ma| %>
+              <div class="chip"><%= ma.name %></div>
+            <% end %>
+          </div>
+          <table class="responsive-table">
+            <thead>
+            <tr>
+              <th>Product</th>
+              <th>Qty</th>
+              <th>Unit Price</th>
+              <th>Discount</th>
+              <th class="right-align">Subtotal</th>
+            </tr>
+            </thead>
+            <tbody>
+            <% mp.product_estimates.each do |pe| %>
+              <tr>
+                <td><%= pe.product.present? ? pe.product.name : pe.custom_title %></td>
+                <td><%= pe.quantity %></td>
+                <td><%= number_to_currency(pe.unitary_value) %></td>
+                <td><%= number_to_currency(pe.discount) %></td>
+                <td class=" right-align"><%= number_to_currency(pe.value) %></td>
+              </tr>
+            <% end %>
+            <tr class="white">
+              <td class="right-align" colspan="100"><strong>Subtotal Area:</strong> <br> <%= number_to_currency(mp.product_estimates.sum(:value)) %></td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    <% end %>
+
+
+
+    <div class="row mt-4">
+      <div class="col m5 s12">
+        <!-- <p>Thanks for your business.</p> -->
+      </div>
+      <div class="col xl4 m7 s4 offset-s8 offset-xl3">
+        <ul>
+          <li class="display-flex justify-content-between">
+            <span class="invoice-subtotal-title">Subtotal:</span>
+            <h6 class="mt-0"><%= number_to_currency @estimate.subtotal %></h6>
+          </li>
+          <li class="display-flex justify-content-between">
+            <span class="invoice-subtotal-title">Discount:</span>
+            <h6 class="mt-0">- <%= number_to_currency @estimate.discounts %></h6>
+          </li>
+          <% if @estimate.customer? %>
+          <li class="display-flex justify-content-between">
+            <span class="invoice-subtotal-title">Tax:</span>
+            <h6 class="mt-0"><%= @estimate.tax %></h6>
+          </li>
+          <% end %>
+          <li class="divider mt-2 mb-2"></li>
+          <li class="display-flex justify-content-between">
+            <span class="invoice-subtotal-title">Estimate Total:</span>
+            <h6 class="mt-0"><%= number_to_currency @estimate.total %></h6>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <p>&nbsp;</p>
+    <%= raw Setting.get_value("estimate_notes") %>
+  </div>
+  <div class="card-panel">
+    <% if !@view.present? %>
+      <p> <b>Signature</b></p>
+    <% else %>
+      <p> <b>Signed at <%= "#{DateTime.now}" %></b></p>
+    <% end %>
+    <div class="row">
+
+      <% if !@view.present? %>
+        <%= form_with url: create_sign_signatures_path do |f| %>
+
+          <%= f.hidden_field "signature[sign]", value: true %>
+          <%= f.hidden_field "signature[origin]", value: "Estimate" %>
+          <%= f.hidden_field "signature[origin_id]", value: @estimate.id %>
+
+          <input type="hidden" id="signature_file" value="" name="signature[file]">
+          <canvas id="signature-pad" class="signature-pad" width=700 height=200 style="border:1px solid #000000;"></canvas>
+          <br>
+          <button id="clear" class="btn" type="button" ><%= t :clear %></button>
+          <%= f.submit "Sign", class:"btn green", onclick:"loading_()" %>
+        <% end %>
+      <% else %>
+        <img style="width: 688px; height: 80px" src="<%= $temp_img   %>" >
+        <!--          <p><%#= DateTime.now %></p>-->
+      <% end %>
     </div>
   </div>
-</div>
-
-
-
 
 
 <%= content_for :scripts do %>
+  <!--https://gasparesganga.com/labs/jquery-loading-overlay/#quick-demo -->
+  <script src="https://cdn.jsdelivr.net/npm/gasparesganga-jquery-loading-overlay@2.1.7/dist/loadingoverlay.min.js"></script>
   <script>
+    function loading_()
+    {
+        $.LoadingOverlay("show");//,{image: "/loading.gif",}
+    }
       $(document).ready(function(){
 
           $('.chips').chips();

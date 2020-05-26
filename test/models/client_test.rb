@@ -2,11 +2,14 @@
 #
 # Table name: public.clients
 #
-#  id          :bigint           not null, primary key
-#  name        :string
-#  tenant_name :string
-#  created_at  :datetime         not null
-#  updated_at  :datetime         not null
+#  id           :bigint           not null, primary key
+#  code         :string
+#  company_name :string
+#  email        :string
+#  name         :string
+#  tenant_name  :string
+#  created_at   :datetime         not null
+#  updated_at   :datetime         not null
 #
 require 'test_helper'
 

@@ -6,7 +6,7 @@
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimal-ui">
-   <meta name="author" content="Woffice LLC">
+  <meta name="author" content="Woffice LLC">
   <title>404 Page | Woffice </title>
   <link rel="apple-touch-icon" href="/materialize/images/favicon/apple-touch-icon-152x152.png">
   <link rel="shortcut icon" type="image/x-icon" href="/materialize/images/favicon/favicon-32x32.png">
@@ -15,49 +15,33 @@
   <link rel="stylesheet" type="text/css" href="/materialize/vendors/vendors.min.css">
   <!-- END: VENDOR CSS-->
   <!-- BEGIN: Page Level CSS-->
+  <link rel="stylesheet" type="text/css" href="/materialize/vendors/animate-css/animate.css">
   <link rel="stylesheet" type="text/css" href="/materialize/css/themes/vertical-modern-menu-template/materialize.css">
   <link rel="stylesheet" type="text/css" href="/materialize/css/themes/vertical-modern-menu-template/style.css">
   <link rel="stylesheet" type="text/css" href="/materialize/css/pages/page-404.css">
   <!-- END: Page Level CSS-->
   <!-- BEGIN: Custom CSS-->
   <link rel="stylesheet" type="text/css" href="/materialize/css/custom/custom.css">
+  <link rel="stylesheet" type="text/css" href="/css/errors-pages.css">
   <!-- END: Custom CSS-->
 </head>
 <!-- END: Head-->
 
-<body class="vertical-layout vertical-menu-collapsible page-header-dark vertical-modern-menu preload-transitions 1-column  bg-full-screen-image  blank-page blank-page" data-open="click" data-menu="vertical-modern-menu" data-col="1-column">
-<div class="row">
-  <div class="col s12">
-    <div class="container">
-      <div class="section section-404 p-0 m-0 height-100vh">
-        <div class="row">
-          <!-- 404 -->
-          <div class="col s12 center-align white">
-            <img src="/materialize/images/gallery/error-2.png" class="bg-image-404" alt="">
-            <h1 class="error-code m-0">404</h1>
-            <h6 class="mb-2">Not Found</h6>
-            <a class="btn waves-effect waves-light gradient-45deg-deep-purple-blue gradient-shadow mb-4" href="/">Back
-              TO Home</a>
-          </div>
-        </div>
-      </div>
+<body class="page404">
+<div class="error-wrapper">
+  <div class="error-logo animated fadeInDown">
+    <img src="/woffice.svg" alt="Woffice">
+  </div>
+  <div class="error-content">
+    <div class="error-img animate fadeUp">
+      <img src="/404.png" alt="">
     </div>
-    <div class="content-overlay"></div>
+    <div class="error-msg">
+      <h1 class="animate fadeRight">It looks like the page you're looking for no longer existes or has been moved.</h1>
+      <a href="/" class="btn-error btn border-round animate fadeRight">Go to homepage</a>
+    </div>
   </div>
 </div>
-
-<!-- BEGIN VENDOR JS-->
-<script src="/materialize/js/vendors.min.js"></script>
-<!-- BEGIN VENDOR JS-->
-<!-- BEGIN PAGE VENDOR JS-->
-<!-- END PAGE VENDOR JS-->
-<!-- BEGIN THEME  JS-->
-<script src="/materialize/js/plugins.js"></script>
-<script src="/materialize/js/search.js"></script>
-<script src="/materialize/js/custom/custom-script.js"></script>
-<!-- END THEME  JS-->
-<!-- BEGIN PAGE LEVEL JS-->
-<!-- END PAGE LEVEL JS-->
 </body>
 
 </html>

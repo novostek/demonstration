@@ -79,7 +79,7 @@
                       <td><%= t.payment_method_text %></td>
                       <td>
                         <% if t.paid? %>
-                          <div class="chip green lighten-5 green-text"><%= t.status_text %></div>
+                          <div class="chip green lighten-5 green-text" style="cursor: pointer" onclick="change_payment_status(<%= @order.id %>, <%= t.id %>)"><%= t.status_text %></div>
                         <% else %>
                           <% if !current_user.present? %>
                             <%= link_to send_square_transaction_path(t) do %>
@@ -92,7 +92,7 @@
                           <% end %>
                         <% end  %>
                       </td>
-                      <td class="right-align"><%= number_to_currency(t.value) %></td>
+                      <td class="right-align" onclick="change_payment_value(<%= t.value %>, <%= @order.id %>, <%= t.id %>)"><%= number_to_currency(t.value) %></td>
                     </tr>
 
                     <div id="modal-send_payment_<%= t.id %>" class="modal">
@@ -133,6 +133,8 @@
 
 
                     </div>
+
+
 
                   <% end %>
                   </tbody>
@@ -199,6 +201,24 @@
 
   </div>
 
+  <div id="modal-change-payment" class="modal">
+    <%= form_with url: change_transaction_value_order_path(@order), method: :post, local: true do |f| %>
+      <div class="modal-content">
+        <h4>Change payment</h4>
+        <div class="row">
+          <div class="input-field">
+            <%= f.label :value, "Value" %>
+            <%= f.text_field :value %>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <%= f.button :submit,  class:"modal-action modal-close waves-effect waves-green btn-flat btn-send", target:"_self" do %>
+          <i class="material-icons left">send</i> Send
+        <% end %>
+      </div>
+    <% end %>
+  </div>
 
 
   <div id="modal-invoice" class="modal">
@@ -276,6 +296,8 @@
 <!--</div>-->
 
 <%= content_for :scripts do %>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
   <script type="text/javascript" charset="utf-8">
 
       function payment_method_change()
@@ -287,6 +309,142 @@
           else
           {
               $("#email").addClass("hide");
+          }
+      }
+
+      function change_payment_status (order_id, transaction_id) {
+        Swal.fire({
+          title: 'Do you want to change this payment to pendent?',
+          icon: 'warning',
+          showCancelButton: true,
+          confirmButtonText: 'Yes, change it!',
+          cancelButtonText: 'No, cancel!',
+          reverseButtons: true
+        }).then(async (result) => {
+          if (result.value) {
+            const headers = new Headers()
+            headers.append("Content-Type", "application/json")
+            headers.append("Accept", "application/json")
+            const body = {
+              order_id,
+              transaction_id
+            }
+            const options = {
+              method: 'PUT',
+              headers,
+              data: body,
+              url: `/orders/${order_id}/change_payment_status_to_pendent`
+            }
+
+            try {
+              await axios(options)
+            } catch (error) {
+              Swal.fire(
+                'Error',
+                'There was an erro while trying to change the payment status, please, try again.',
+                'warning'
+              )
+            } finally {
+              Swal.fire(
+                'Success!',
+                'The payment status has been changed.',
+                'success'
+              ).then((result => location.reload()))
+            }
+          }          
+        })
+      }
+
+      async function delete_transaction(transaction_id) {
+        const headers = new Headers()
+          headers.append("Content-Type", "application/json")
+          headers.append("Accept", "application/json")
+          const options = {
+            method: 'DELETE',
+            headers,
+            url: `/transactions/${transaction_id}`
+          }
+
+          Swal.fire({
+            title: 'Do you want to delete this payment?',
+            icon: 'warning',
+            text: 'This action cannot be reverted.',
+            showCancelButton: true,
+            confirmButtonText: 'Yes, delete it!',
+            confirmButtonColor: '#d33',
+            cancelButtonText: 'No, cancel!',
+            reverseButtons: true
+          }).then(async (result) => {
+            if (result.value) {
+              try {
+                await axios(options)
+              } catch (error) {
+                Swal.fire(
+                  'Error',
+                  'There was an error while trying to delete the payment value, please, try again.',
+                  'warning'
+                )
+              } finally {
+                Swal.fire(
+                  'Success!',
+                  'The payment value has been deleted.',
+                  'success'
+                ).then((result => location.reload()))
+              }
+            }          
+          })
+
+      }
+
+      async function change_payment_value (value, order_id, transaction_id) {
+        const { value: order_value } = await Swal.fire({
+          title: 'Enter the new value',
+          input: 'number',
+          inputValue: value,
+          showCancelButton: true,
+          footer: `
+            <button 
+              class="swal2-cancel swal2-styled" 
+              onclick="delete_transaction(${transaction_id})"
+              style="display: inline-block; background-color: rgb(221, 51, 51);">
+              Excluir
+            </button>`,
+          inputValidator: (value) => {
+            if(!value)
+              return 'You need to write something.'
+          }
+        })
+
+        if (order_value) {
+            const headers = new Headers()
+            headers.append("Content-Type", "application/json")
+            headers.append("Accept", "application/json")
+            const body = {
+              value: order_value,
+              transaction_id
+            }
+            const options = {
+              method: 'PUT',
+              headers,
+              data: body,
+              url: `/orders/${order_id}/change_transaction_value`
+            }
+
+            try {
+              await axios(options)
+            } catch (error) {
+              Swal.fire(
+                'Error',
+                'There was an error while trying to change the payment value, please, try again.',
+                'warning'
+              )
+            } finally {
+              Swal.fire(
+                'Success!',
+                'The payment value has been changed.',
+                'success'
+              ).then((result => location.reload()))
+            }
           }
       }
   </script>

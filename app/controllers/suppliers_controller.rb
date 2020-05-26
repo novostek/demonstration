@@ -53,7 +53,7 @@ class SuppliersController < ApplicationController
 
   # GET /suppliers
   def index
-    @q = Supplier.all.ransack(params[:q])
+    @q = Supplier.all.order(name: :asc).ransack(params[:q])
     @suppliers = @q.result.page(params[:page])
   end
 

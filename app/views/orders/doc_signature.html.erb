@@ -2,12 +2,8 @@
 <%== @data  %>
 <br>
 <% if $temp_img.present? %>
-
-    <img src="<%= $temp_img  %>" >
+  <p> <b>Signed at <%= "#{DateTime.now}" %></b></p>
+    <img style="width: 688px; height: 80px" src="<%= $temp_img  %>" >
   <br>
-    <div class="left">
-      <%=  DateTime.now  %>
-    </div>
-
 <% end %>
 

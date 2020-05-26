@@ -84,6 +84,7 @@ gem "cocoon"
 gem 'ancestry'
 gem 'camunda-workflow'
 
+#https://github.com/sendgrid/sendgrid-ruby
 gem 'sendgrid-ruby'
 
 #financeiro
@@ -105,3 +106,9 @@ gem 'turnout'
 
 ##https://github.com/rails-on-services/apartment
 gem 'ros-apartment', require: 'apartment'
+
+#https://github.com/msgpack/msgpack-ruby
+gem 'msgpack', '~> 1.3', '>= 1.3.3'
+
+#https://github.com/ambethia/recaptcha
+gem "recaptcha"

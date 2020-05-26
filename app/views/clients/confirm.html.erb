@@ -1,0 +1,12 @@
+<%= form_with url: finish_confirm_clients_path, method: :get, local: true do |f| %>
+  <%= f.hidden_field :code, value: @code %>
+
+  <%= recaptcha_tags %>
+
+  <%= f.submit "confirm", id:"btn" %>
+<% end %>
+
+
+<script type="text/javascript" charset="utf-8">
+
+</script>

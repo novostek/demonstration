@@ -22,7 +22,7 @@ class Order < ApplicationRecord
   has_many :purchases
   has_many :product_purchases, through: :purchases
   before_create :set_code
-  has_many :transactions
+  has_many :transactions, -> { where origin: :Order }
 
   has_many :notes, -> { where origin: :Order }, primary_key: :id, foreign_key: :origin_id
   has_many :contacts, -> { where origin: :Order }, primary_key: :id, foreign_key: :origin_id
@@ -64,5 +64,36 @@ class Order < ApplicationRecord
     else
       self.code = "#{Time.now.strftime('%Y')}000000".to_i + 1
     end
+  end
+
+  def get_taxes
+    purchases.map { |purchase| purchase.product_purchases.where(:tax => true).map { |product| {
+      :name => product.custom_title,
+      :value => product.value.to_f
+    } } }
+  end
+
+  def self.get_new_orders_count
+    where("created_at > now() - interval '30 day' AND status = 'new'").count
+  end
+
+  def self.get_finished_orders_count
+    where("created_at > now() - interval '30 day'  AND status = 'finished'").count
+  end
+
+  def self.get_cancelled_orders_count
+    where("created_at > now() - interval '30 day'  AND status = 'cancelled'").count
+  end
+
+  def self.get_latest_orders limit
+    all.order(id: :desc).limit(limit)
+  end
+
+  def get_customer_name
+    self.current_estimate.customer.name
+  end
+
+  def get_order_value
+    self.product_purchases.sum(:value).to_f
   end
 end

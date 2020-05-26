@@ -103,7 +103,7 @@ document.addEventListener('DOMContentLoaded', function () {
 		events,
 		eventReceive: function ({ event, ...info }) {
 			const { order } = window
-
+			console.log("teste",$("#send_mail").prop("checked"));
 			const data = {
 				title: event.title,
 				code: order.code,
@@ -112,6 +112,7 @@ document.addEventListener('DOMContentLoaded', function () {
 				color: event.backgroundColor,
 				start_at: event.start,
 				end_at: event.end,
+				send_mail: $("#send_mail").prop("checked"),
 			}
 
 			saveSchedule(data).then(({ schedule }) => event.setExtendedProp('schedule_id', schedule.id))

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_05_08_190008) do
+ActiveRecord::Schema.define(version: 2020_05_25_232212) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -39,6 +39,9 @@ ActiveRecord::Schema.define(version: 2020_05_08_190008) do
     t.string "tenant_name"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.string "code"
+    t.string "company_name"
+    t.string "email"
   end
 
   create_table "contacts", force: :cascade do |t|
@@ -357,6 +360,13 @@ ActiveRecord::Schema.define(version: 2020_05_08_190008) do
     t.index ["supplier_id"], name: "index_purchases_on_supplier_id"
   end
 
+  create_table "running_jobs", force: :cascade do |t|
+    t.boolean "complete"
+    t.string "redirect"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
   create_table "schedules", force: :cascade do |t|
     t.bigint "worker_id", null: false
     t.string "title"
@@ -371,6 +381,8 @@ ActiveRecord::Schema.define(version: 2020_05_08_190008) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.decimal "hour_cost"
+    t.boolean "send_mail"
+    t.boolean "mail_sent"
     t.index ["worker_id"], name: "index_schedules_on_worker_id"
   end
 

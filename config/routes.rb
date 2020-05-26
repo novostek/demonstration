@@ -1,7 +1,17 @@
 Rails.application.routes.draw do
 
   resources :testes
-  resources :clients
+  resources :clients do
+    collection do
+      get "confirm"
+      get "finish_confirm"
+    end
+  end
+  resources :running_jobs do
+    member do
+      get "is_complete"
+    end
+  end
   resources :labor_costs do
     member do
       get "new_note"
@@ -36,7 +46,11 @@ Rails.application.routes.draw do
     end
   end
   resources :transaction_accounts
-  resources :signatures
+  resources :signatures do
+    collection do
+      post "create_sign"
+    end
+  end
   resources :transaction_categories
   resources :product_estimates
   resources :measurement_proposals
@@ -93,6 +107,8 @@ Rails.application.routes.draw do
       post "new_document"
       get "create_order"
       get "clone"
+      put "tax_calculation"
+      put "taxpayer"
     end
     collection do
       get ":id/measurements", to: "measurement_areas#measurements", as: :measurement_view
@@ -133,6 +149,8 @@ Rails.application.routes.draw do
       get "invoice_add_payment"
       get "view_invoice_customer"
       get "send_invoice_mail"
+      put "change_transaction_value"
+      put "change_payment_status_to_pendent"
       get "costs"
     end
     collection do
@@ -149,6 +167,7 @@ Rails.application.routes.draw do
   resources :document_files
   resources :calculation_formulas do
     collection do
+      get "taxes"
       get "lxw/product/:product_id" => "calculation_formulas#calculate_product_qty_lw"
     end
   end
@@ -191,8 +210,11 @@ Rails.application.routes.draw do
     collection do
       get "email"
       get "company_logo"
+      get "company_banner"
       get "estimate"
+      get "transactions" => 'settings#transactions'
       post "atualiza_settings"
+      post "atualiza_transactions"
     end
   end
 

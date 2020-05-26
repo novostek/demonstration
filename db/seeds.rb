@@ -38,22 +38,23 @@ Profile.create!([
   {name: "Purchase", description: "Purchase profiles", status: "t", permissions: {"CustomersController"=>{"cache_globals_settings"=>"true", "create"=>"true", "destroy"=>"true", "edit"=>"true", "home"=>"true", "index"=>"true", "new"=>"true", "new_contact"=>"true", "new_document"=>"true", "new_note"=>"true", "search_by_phone"=>"true", "search_customers"=>"true", "show"=>"true", "toastr"=>"true", "update"=>"true"}, "ContactsController"=>{"cache_globals_settings"=>"true", "create"=>"true", "destroy"=>"true", "edit"=>"true", "index"=>"true", "new"=>"true", "show"=>"true", "toastr"=>"true", "update"=>"true"}, "DocumentFilesController"=>{"cache_globals_settings"=>"true", "create"=>"true", "destroy"=>"true", "edit"=>"true", "index"=>"true", "new"=>"true", "show"=>"true", "toastr"=>"true", "update"=>"true"}, "NotesController"=>{"cache_globals_settings"=>"true", "create"=>"true", "destroy"=>"true", "edit"=>"true", "index"=>"true", "new"=>"true", "show"=>"true", "toastr"=>"true", "update"=>"true"}, "ProductCategoriesController"=>{"cache_globals_settings"=>"true", "create"=>"true", "destroy"=>"true", "edit"=>"true", "index"=>"true", "new"=>"true", "show"=>"true", "toastr"=>"true", "update"=>"true"}, "ProductsController"=>{"cache_globals_settings"=>"true", "create"=>"true", "destroy"=>"true", "edit"=>"true", "index"=>"true", "new"=>"true", "show"=>"true", "toastr"=>"true", "update"=>"true"}, "SuppliersController"=>{"cache_globals_settings"=>"true", "create"=>"true", "destroy"=>"true", "edit"=>"true", "index"=>"true", "new"=>"true", "new_contact"=>"true", "new_document"=>"true", "new_note"=>"true", "show"=>"true", "toastr"=>"true", "update"=>"true"}, "WorkersController"=>{"cache_globals_settings"=>"true", "create"=>"true", "destroy"=>"true", "edit"=>"true", "index"=>"true", "new"=>"true", "new_contact"=>"true", "new_document"=>"true", "new_note"=>"true", "show"=>"true", "toastr"=>"true", "update"=>"true"}}}
 ])
 Menu.create!([
-  {active: true, icon: "assignment_ind", name: "Profile", url: "/profiles", ancestry: "7", position: nil},
-  {active: true, icon: "person_add", name: "Users", url: "/users", ancestry: "7", position: nil},
   {active: true, icon: "assignment", name: "Leads", url: "/leads", ancestry: nil, position: 1},
-  {active: true, icon: "view_list", name: "Menu", url: "/menus", ancestry: "7", position: nil},
   {active: true, icon: "face", name: "Customer", url: "/customers", ancestry: nil, position: 4},
   {active: true, icon: "business_center", name: "Workers", url: "/workers", ancestry: nil, position: 5},
-  {active: true, icon: "local_atm", name: "Calculation Formula", url: "/calculation_formulas", ancestry: "24", position: 1},
-  {active: true, icon: "shopping_basket", name: "Product Categories", url: "/product_categories", ancestry: "24", position: 2},
-  {active: true, icon: "shopping_cart", name: "Products", url: "/products", ancestry: "24", position: 3},
   {active: true, icon: "assignment_turned_in", name: "Estimates", url: "/estimates", ancestry: nil, position: 2},
   {active: true, icon: "event_note", name: "Schedules", url: "/schedules", ancestry: nil, position: 6},
   {active: true, icon: "assignment_ind", name: "Orders", url: "/orders", ancestry: nil, position: 3},
   {active: true, icon: "settings", name: "Configuration", url: "#", ancestry: nil, position: 10},
+  {active: true, icon: "local_atm", name: "Calculation Formula", url: "/calculation_formulas", ancestry: "7", position: 1},
+  {active: true, icon: "shopping_basket", name: "Product Categories", url: "/product_categories", ancestry: "7", position: 2},
+  {active: true, icon: "shopping_cart", name: "Products", url: "/products", ancestry: "7", position: 3},
+  {active: true, icon: "credit_card", name: "Transaction Categories", url: "/transaction_categories", ancestry: "7", position: 6},
+  {active: true, icon: "chrome_reader_mode", name: "Transactions Accounts", url: "/transaction_accounts", ancestry: "7", position: 5},
   {active: true, icon: "build", name: "Setup", url: "#", ancestry: nil, position: 11},
-  {active: true, icon: "credit_card", name: "Transaction Categories", url: "/transaction_categories", ancestry: "24", position: 6},
-  {active: true, icon: "chrome_reader_mode", name: "Transactions Accounts", url: "/transaction_accounts", ancestry: "24", position: 5},
+  {active: true, icon: "view_list", name: "Menu", url: "/menus", ancestry: "13", position: nil},
+  {active: true, icon: "person_add", name: "Users", url: "/users", ancestry: "13", position: nil},
+  {active: true, icon: "assignment_ind", name: "Profile", url: "/profiles", ancestry: "13", position: nil},
+
   {active: true, icon: "description", name: "Documents", url: "/documents", ancestry: nil, position: 9},
   {active: true, icon: "local_grocery_store", name: "Suppliers", url: "/suppliers", ancestry: nil, position: 8},
   {active: true, icon: "monetization_on", name: "Transactions", url: "/transactions", ancestry: nil, position: 7},
@@ -93,13 +94,6 @@ ProfileMenu.create!([
 ])
 ProfileUser.create!([
   {user_id: 1, profile_id: 1},
-  {user_id: 2, profile_id: 1},
-  {user_id: 4, profile_id: 1},
-  {user_id: 5, profile_id: 1},
-  {user_id: 3, profile_id: 3},
-  {user_id: 6, profile_id: 3},
-  {user_id: 3, profile_id: 1},
-  {user_id: 7, profile_id: 3}
 ])
 rescue
 end

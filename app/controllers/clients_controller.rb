@@ -1,10 +1,28 @@
 class ClientsController < ApplicationController
   before_action :set_client, only: [:show, :edit, :update, :destroy]
+  before_action :authenticate_user!, except: [:confirm,:finish_confirm]
 
   # GET /clients
   def index
     @q = Client.all.ransack(params[:q])
     @clients = @q.result.page(params[:page])
+  end
+
+  def confirm
+    @code = params[:code]
+    render layout: "clean"
+  end
+
+  def finish_confirm
+    if  verify_recaptcha
+      @job = RunningJob.create(complete:false, redirect: "")
+      ConfirmJob.perform_later(params[:code], @job)
+      render layout: "loading"
+    else
+      redirect_to confirm_clients_path(code: params[:code])
+    end
+
+
   end
 
   # GET /clients/1

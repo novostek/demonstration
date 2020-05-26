@@ -151,7 +151,7 @@ class Estimate < ApplicationRecord
             #begin
             product = p.product
             purchase = Purchase.find_or_create_by(order_id: order.id, supplier_id: product.supplier.id)
-            pp = ProductPurchase.find_or_create_by(product: product, purchase: purchase)
+            pp = ProductPurchase.find_or_initialize_by(product: product, purchase: purchase)
             pp.unity_value =  product.cost_price
             begin
               pp.quantity = pp.quantity + p.quantity
@@ -162,19 +162,20 @@ class Estimate < ApplicationRecord
             pp.value = pp.unity_value * pp.quantity
             pp.custom_title = p.custom_title
             pp.tax = false
+            #binding.pry
             pp.save
             # rescue
             #end
 
           else #custom products
+
             purchase = Purchase.find_or_create_by(order_id: order.id, supplier_id: nil)
             ProductPurchase.create(purchase: purchase, unity_value: p.unitary_value, quantity: p.quantity, value: p.value, custom_title: p.custom_title)
           end
-
         end
 
         tax_purchase = Purchase.find_by(order_id: order.id)
-        tax_cost = ProductPurchase.find_or_create_by(purchase: tax_purchase, value: self.tax, custom_title: self.calculation_formula.name, tax: true)
+        tax_cost = ProductPurchase.find_or_initialize_by(purchase: tax_purchase, value: self.tax, custom_title: self.calculation_formula.name, tax: true)
         tax_cost.save
       end
     else
@@ -209,5 +210,4 @@ class Estimate < ApplicationRecord
   def sum_square_feet
     self.measurement_areas.joins(:measurements).select("sum(measurements.square_feet) as total")
   end
-
 end

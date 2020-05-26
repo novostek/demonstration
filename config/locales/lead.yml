@@ -7,7 +7,7 @@ en:
       leads:
         customer: "Customer"
         phone: "Phone"
-        via: "Via"
+        via: "Source"
         description: "Description"
         status: "Status"
         date: "Date"

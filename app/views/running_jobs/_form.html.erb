@@ -1,0 +1,33 @@
+<%= form_for(running_job) do |f| %>
+  <% if running_job.errors.any? %>
+    <div id="error_explanation" class="card-panel red white-text">
+      <h5><%= t('errors.template.header')  %>:</h5>
+
+      <ul>
+      <% running_job.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+<div class="card-panel">
+  
+  <div class="input-field">
+
+    <%= f.label  :complete %>
+    <%= f.check_box :complete %>
+    
+  </div>
+
+  <div class="input-field">
+
+    <%= f.label  :redirect %>
+    <%= f.text_field :redirect %>
+    
+  </div>
+
+</div>
+  <div class="actions">
+    <%= f.submit t('button.save'), class:"btn" %>
+  </div>
+<% end %>

@@ -9,3 +9,10 @@ task :send_square => :environment do
     end
   end
 end
+
+desc "Envia o email de confirmação do schedule"
+task :send_mail_schedule => :environment do
+
+  Schedule.send_schedule_mail
+
+end

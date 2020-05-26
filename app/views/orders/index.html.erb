@@ -73,7 +73,7 @@
 											<p>Profit</p>
 										</div>
 										<div class="col s7 m7 right-align">
-											<h5 class="mb-0 white-text"><%= number_to_currency(@profit) %></h5>
+											<h5 class="mb-0 white-text hide-numbers" id="profit-numbers"><%= number_to_currency(@profit) %></h5>
 											<p class="no-margin">Today</p>
 											<p><%= number_to_currency(@profit_today) %></p>
 										</div>
@@ -86,7 +86,7 @@
                   <div class="search-table-list">
                     <%= search_form_for @q, url: request.env['PATH_INFO'] do |f|  %>
                       <div class="col s9 m11">
-                          <%= f.search_field :estimates_title_cont, placeholder: t('placeholder.search'), class: "search-ransack" %>
+                          <%= f.search_field :estimates_title_or_code_or_current_estimate_customer_name_cont, placeholder: t('placeholder.search'), class: "search-ransack" %>
                       </div>
                       <div class="col s3 m1">
                         <button type="submit" class="btn-floating mb-1 waves-effect waves-light rigth">
@@ -154,3 +154,14 @@
       </div>
     </div>
   </div>
+
+<%= content_for :scripts do %>
+	<script>
+			const profit = document.getElementById("profit-numbers")
+			
+			profit.addEventListener("click", function () {
+				profit.classList.toggle("hide-numbers")
+			})
+				
+	</script>
+<% end %>

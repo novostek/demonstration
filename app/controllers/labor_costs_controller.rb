@@ -67,7 +67,7 @@ class LaborCostsController < ApplicationController
   def create
 
     @labor_cost = LaborCost.new(labor_cost_params)
-    binding.pry
+    #binding.pry
     if @labor_cost.save
       redirect_to params[:labor_cost][:redirect], notice: t('notice.labor_cost.created')
     else

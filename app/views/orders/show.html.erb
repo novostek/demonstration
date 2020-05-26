@@ -113,7 +113,7 @@
 							<i class="material-icons background-round mt-5 mb-5">attach_money</i>
 						</div>
 						<div class="col s7 m7 right-align">
-							<h5 class="mb-0 white-text"><%= number_to_currency(@profit) %></h5>
+							<h5 class="mb-0 white-text hide-numbers" id="profit-numbers"><%= number_to_currency(@profit) %></h5>
 							<p class="no-margin">Profit</p>
 						</div>
 					</div>
@@ -169,18 +169,30 @@
                                         Open kitchen included
                                       </div>
                                     </div> %>
-														<div class="col s4">
-															<!-- length -->
-															<i class="material-icons left width-100">straighten</i><%= ma.measurements[0].length %>
-														</div>
-														<div class="col s4">
-															<!-- width -->
-															<i class="material-icons left width-100" style="transform: rotate(-45deg)">straighten</i><%= ma.measurements[0].width %>
-														</div>
-														<div class="col s4">
-															<!-- height -->
-															<i class="left width-100">SqFt</i><%= ma.measurements[0].square_feet %>
-														</div>
+														<% if @hidden_fields['length'].present? %>
+															<div class="col">
+																<!-- length -->
+																<i class="material-icons left width-100">straighten</i><%= ma.measurements[0].length %>
+															</div>
+														<% end %>
+														<% if @hidden_fields['width'].present? %>
+															<div class="col">
+																<!-- width -->
+																<i class="material-icons left width-100" style="transform: rotate(-45deg)">straighten</i><%= ma.measurements[0].width %>
+															</div>
+														<% end %>
+														<% if @hidden_fields['height'].present? %>
+															<div class="col">
+																<!-- height -->
+																<i class="material-icons left width-100" style="transform: rotate(90deg)">straighten</i><%= ma.measurements[0].height %>
+															</div>
+														<% end %>
+														<% if @hidden_fields['square_feet'].present? %>
+															<div class="col">
+																<!-- height -->
+																<i class="left width-100">SqFt</i><%= ma.measurements[0].square_feet %>
+															</div>
+														<% end %>
 													</div>
 												</div>
 											</div>
@@ -468,3 +480,14 @@
 			</div>
 		<% end  %>
 	</div>
+
+<%= content_for :scripts do %>
+	<script>
+			const profit = document.getElementById("profit-numbers")
+			
+			profit.addEventListener("click", function () {
+				profit.classList.toggle("hide-numbers")
+			})
+				
+	</script>
+<% end %>

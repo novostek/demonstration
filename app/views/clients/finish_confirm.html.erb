@@ -1,0 +1,32 @@
+<div class="loading-box">
+  <div class="loading-animation-wrapper">
+    <img src="/rulerw.png" alt="" class="ruler">
+    <div class="loading-animation">
+    </div>
+  </div>
+  <div class="loading-info">Doing stuff</div>
+
+  <img src="/woffice.svg" alt="Woffice" class="woffice-logo">
+</div>
+
+<%= content_for :scripts do  %>
+<script type="text/javascript" charset="utf-8">
+  $(document).ready(function(){
+    verificar_status(<%= @job.id %>)
+  });
+
+  function verificar_status(id)
+  {
+      $.get("/running_jobs/"+id+"/is_complete", function(data, status){
+          if(data.complete == false)
+          {
+              setTimeout(verificar_status(id),5000);
+          }
+          else
+          {
+              window.location.href = data.redirect;
+          }
+      });
+  }
+</script>
+<% end %>

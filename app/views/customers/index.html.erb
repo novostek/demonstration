@@ -27,7 +27,7 @@
     <div class="row">
     <%= search_form_for @q, url: request.env['PATH_INFO'] do |f|  %>
       <div class="col s9 m11">
-          <%= f.search_field :name_or_document_id_or_code_cont, placeholder: t('placeholder.search'), class: "search-ransack" %>
+          <%= f.search_field :name_or_category_or_document_id_or_code_cont, placeholder: t('placeholder.search'), class: "search-ransack" %>
       </div>
       <div class="col s3 m1">
 				<button type="submit" class="btn-floating mb-1 waves-effect waves-light rigth">
@@ -37,45 +37,41 @@
     <% end %>
     </div>
   </div>
-  <p></p>
-  <!-- create invoice button-->
-  <div class="">
-    <style>td{padding: 15px}</style>
-    <table class="table invoice-data-table white border-radius-4 pt-1 responsive-table">
-      <thead>
-        <tr>
-          <th><%= t('activerecord.attributes.customer.name') %></th>
-          <th><%= t('activerecord.attributes.customer.category') %></th>
-          <th><%= t('activerecord.attributes.customer.document_id') %></th>
-          <th><%= t('activerecord.attributes.customer.since') %></th>
-          <th><%= t('activerecord.attributes.customer.code') %></th>
-          <th><%= t('activerecord.attributes.customer.birthdate') %></th>
-          <th></th>
-        </tr>
-      </thead>
-      <tbody>
-        <% @customers.each do |customer| %>
-        <tr>
-            <td><%= customer.name %></td>
-            <td><%= customer.category %></td>
-            <td><%= customer.document_id %></td>
-            <td><%= customer.since %></td>
-            <td><%= customer.code %></td>
-            <td><%= customer.birthdate %></td>
-          <td>
-            <div class="invoice-action right-align">
-              <%= link_to customer, class: "invoice-action-view mr-4" do %>
-                <i class="material-icons">remove_red_eye</i>
-              <% end %>
-              <%= link_to edit_customer_path(customer) , class: "invoice-action-edit mr-4" do %>
-                <i class="material-icons">edit</i>
-              <% end %>
-            </div>
-          </td>
-        </tr>
-        <% end %>
-      </tbody>
-    </table>
+  <div class="card">
+    <div class="card-content">
+      <table class="responsive-table">
+        <thead>
+          <tr>
+            <th><%= sort_link(@q, :name, t('activerecord.attributes.customer.name')) %></th>
+            <th><%= t('activerecord.attributes.customer.contact') %></th>
+            <th><%= t('activerecord.attributes.customer.since') %></th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          <% @customers.each do |customer| %>
+            <tr>
+              <td>
+                  <%= link_to customer.name, customer %> <br>
+                  <small><%= t(customer.category) %></small>
+              </td>
+              <td>
+                <%= truncate(customer.get_main_address_f || "No Address") %> <br>
+                <small><%= customer.get_main_phone_f || "No Phone" %></small>
+              </td>
+              <td>
+                <%= customer.since || customer.created_at.to_date %>
+              </td>
+              <td>
+                <%= link_to edit_customer_path(customer) , class: "invoice-action-edit mr-4" do %>
+                  <i class="material-icons">edit</i>
+                <% end %>
+              </td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
   </div>
   <%= paginate(@customers)  %>
 </section>

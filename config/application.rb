@@ -29,5 +29,7 @@ module Woffice
 
     #apartment
     config.middleware.use Apartment::Elevators::Subdomain
+
+
   end
 end

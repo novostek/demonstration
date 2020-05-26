@@ -36,6 +36,7 @@ class ProductPurchase < ApplicationRecord
   enumerize :status, in: [:requested, :buyed, :delivered, :returned],predicates: true, default: :requested
 
   after_save :update_order_total_cost
+  after_save :set_transaction
 
   def as_json(options = {})
     s = super(options)
@@ -47,5 +48,15 @@ class ProductPurchase < ApplicationRecord
   def update_order_total_cost
     self.order.total_cost = self.order.product_purchases.sum(:value) + self.order.labor_costs.sum(:value)
     self.order.save
+  end
+
+  def set_transaction
+
+    transaction = Transaction.find_or_initialize_by(origin: 'ProductPurchase', origin_id: self.id)
+    transaction.order_id = self.order.id
+    transaction.status = (self.status == 'buyed' or self.status == 'delivered') ? 'paid' : 'pendent'
+    transaction.value = self.value
+    transaction.effective = (self.status == 'buyed' or self.status == 'delivered') ? Time.now : nil
+    transaction.save!
   end
 end

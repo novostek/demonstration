@@ -19,11 +19,7 @@
                                   <span class="badge indigo gradient-shadow mt-2 mr-2">+ <%= number_to_currency(@day_incomes, :unit => '$ ') %> today</span>
                                   <p class="mt-2 mb-0 font-weight-600">Income <%= @income %></p>
                                   <h5>
-                                    <% if @year_incomes.length > 1 %>
-                                      <%= number_to_currency(@year_incomes.map { |m| m[:value] }.reduce(0, :+), :unit => '$ ')%>
-                                    <% else %>
-                                      <%= number_to_currency(@year_incomes.map { |m| m[:value] }.reduce(0, :+)[:value], :unit => '$ ')%>
-                                    <% end %>
+                                    <%= number_to_currency(@year_incomes.map { |m| m[:value] }.reduce(0, :+), :unit => '$ ')%>
                                   </h5>
                               </div>
                               <div class="chart-wrapper">
@@ -37,11 +33,7 @@
                                   <span class="badge red gradient-shadow mt-2 mr-2">- <%= number_to_currency(@day_costs, :unit => '$ ') %> today</span>
                                   <p class="mt-2 mb-0 font-weight-600">Expenses</p>
                                   <h5>
-                                    <% if @year_costs.length > 1 %>
-                                      <%= number_to_currency(@year_costs.map { |m| m[:value] }.reduce(0, :+), :unit => '$ ')%>
-                                    <% else %>
-                                      <%= number_to_currency(@year_costs.map { |m| m[:value] }.reduce(0, :+)[:value], :unit => '$ ')%>
-                                    <% end %>
+                                    <%= number_to_currency(@year_costs.map { |m| m[:value] }.reduce(0, :+), :unit => '$ ')%>
                                   </h5>
                               </div>
                               <div class="chart-wrapper">
@@ -53,7 +45,7 @@
                           <div class="dashboard-chart card pt-0 pb-0 animated fadeInLeft faster border-radius-5">
                               <div class="dashboard-income-wrapper padding-2 ml-2">
                                   <p class="mt-2 mb-0 font-weight-600">Balance</p>
-                                  <h5><%= number_to_currency(@total_balance, :unit => '$ ') %></h5>
+                                  <h5><%= number_to_currency(@total_balance[:value], :unit => '$ ') %></h5>
                               </div>
                               <div class="chart-wrapper">
                                   <canvas id="balance-dashboard-chart" class="center"></canvas>
@@ -62,7 +54,7 @@
                       </div>
                   </div>
               </div>
-              <%# <div class="col s12 m8 mt-0 pt-0">
+              <div class="col s12 m8 mt-0 pt-0">
                   <div class="row">
                       <div class="col s12 m6">
                           <div class="card z-depth-0  border-radius-5 transparent ">
@@ -71,13 +63,17 @@
                                       <div class="col s12">
                                           <span class="left width-100 left-align indigo-text font-weight-900">Receivables
                                           </span>
-                                          <span class="left width-100 display-flex left-align">$600,000.56</span>
+                                          <span class="left width-100 display-flex left-align">
+                                            <%= number_to_currency(@receivables, :unit => '$') %>
+                                          </span>
                                       </div>
                                   </div>
                                   <div class="row mt-2 animated fadeInDown fast" style="animation-delay: .7s;">
                                       <div class="col s12">
                                           <span class="left width-100 left-align indigo-text font-weight-900">Overdue orders</span>
-                                          <span class="left width-100 display-flex left-align">$600,000.56</span>
+                                          <span class="left width-100 display-flex left-align">
+                                            <%= number_to_currency(@overdue, :unit => '$') %>
+                                          </span>
                                       </div>
                                   </div>
                               </div>
@@ -90,7 +86,9 @@
                                   <div class="row animated fadeInDown faster" style="animation-delay: .7s;">
                                       <div class="col s12">
                                           <span class="left width-100 left-align red-text font-weight-900">Materials costs</span>
-                                          <span class="left width-100 display-flex left-align">$150,000.00</span>
+                                          <span class="left width-100 display-flex left-align">
+                                            <%= number_to_currency(@material_costs, :unit => '$') %>
+                                          </span>
                                       </div>
                                   </div>
 
@@ -98,7 +96,9 @@
                                   <div class="row mt-2 animated fadeInDown fast" style="animation-delay: .7s;">
                                       <div class="col s12">
                                           <span class="left width-100 left-align red-text font-weight-900">Workers costs</span>
-                                          <span class="left width-100 display-flex left-align">$150,000.00</span>
+                                          <span class="left width-100 display-flex left-align">
+                                            <%= number_to_currency(@labor_costs, :unit => '$') %>
+                                          </span>
                                       </div>
                                   </div>
 
@@ -125,7 +125,7 @@
                                       </div>
                                       <div class="col s8">
                                           <span class="font-weight-600">New</span><br>
-                                          <h5 class="mt-0"><a class="indigo-text" href="#">30</a></h5>
+                                          <h5 class="mt-0"><a class="indigo-text" href="#"><%= @new_orders %></a></h5>
                                       </div>
                                   </div>
                               </div>
@@ -140,7 +140,7 @@
                                       </div>
                                       <div class="col s8">
                                           <span class="font-weight-600">Finished</span><br>
-                                          <h5 class="mt-0"><a class="green-text" href="#">30</a></h5>
+                                          <h5 class="mt-0"><a class="green-text" href="#"><%= @finished_orders %></a></h5>
                                       </div>
                                   </div>
                               </div>
@@ -155,7 +155,7 @@
                                       </div>
                                       <div class="col s8">
                                           <span class="font-weight-600">Cancelled</span><br>
-                                          <h5 class="mt-0"><a class="grey-text" href="#">30</a></h5>
+                                          <h5 class="mt-0"><a class="grey-text" href="#"><%= @cancelled_orders %></a></h5>
                                       </div>
                                   </div>
                               </div>
@@ -171,30 +171,16 @@
                               <a href="#" class="waves-effect"><i class="material-icons float-right">more_vert</i></a>
                           </h6>
                           <ul class="collection">
+                            <% @latest_orders.each do |order| %>
                               <li class="collection-item">
                                   <p class="font-weight-600 display-flex justify-content-between">
-                                      Client name <span>$1294.56</span> </p>
-                                  <p class="medium-small"><a href="#" class="">#12455</a></p>
+                                    <%= order.get_customer_name %> <span><%= number_to_currency(order.get_order_value) %></span> </p>
+                                  <p class="medium-small">
+                                    <%= link_to order.code, order_path(order) %>
+                                  </p>
 
                               </li>
-                              <li class="collection-item">
-                                  <p class="font-weight-600 display-flex justify-content-between">
-                                      Client name <span>$1294.56</span> </p>
-                                  <p class="medium-small"><a href="#" class="">#12455</a></p>
-
-                              </li>
-                              <li class="collection-item">
-                                  <p class="font-weight-600 display-flex justify-content-between">
-                                      Client name <span>$1294.56</span> </p>
-                                  <p class="medium-small"><a href="#" class="">#12455</a></p>
-
-                              </li>
-                              <li class="collection-item">
-                                  <p class="font-weight-600 display-flex justify-content-between">
-                                      Client name <span>$1294.56</span> </p>
-                                  <p class="medium-small"><a href="#" class="">#12455</a></p>
-
-                              </li>
+                            <% end %>
                           </ul>
 
                       </div>
@@ -205,9 +191,9 @@
                   <div class="card padding-4 animate fadeRight border-radius-5">
                       <div class="row">
                           <div class="col s5 m5">
-                              <h5 class="mb-0">1885</h5>
+                              <h5 class="mb-0"><%= @count_new_customers %></h5>
                               <p class="no-margin">New</p>
-                              <p class="mb-0 pt-8">1,12,900</p>
+                              <p class="mb-0 pt-8"><%= @total_customers %></p>
                           </div>
                           <div class="col s7 m7 right-align">
                               <i class="material-icons background-round mt-5 mb-5 woffice-color gradient-shadow black-text">perm_identity</i>
@@ -220,22 +206,18 @@
                       <div class="card-content">
                           <h4 class="card-title mb-0">Recent clients <a href="#"><i class="material-icons float-right">more_vert</i></a></h4>
                           <ul class="collection mb-0">
+                            <% @recent_customers.each do |customer| %>
                               <li class="collection-item">
-                                  <p class="font-weight-600"><a href="#">John Doe</a></p>
-                                  <p class="medium-small">18, January 2019</p>
+                                <p class="font-weight-600">
+                                  <%= link_to customer.name, customer_path(customer) %>
+                                </p>
+                                <p class="medium-small"><%= customer.created_at.strftime("%d, %B %Y") %></p>
                               </li>
-                              <li class="collection-item">
-                                  <p class="font-weight-600"><a href="#">Adam Garza</a></p>
-                                  <p class="medium-small">20, January 2019</p>
-                              </li>
-                              <li class="collection-item">
-                                  <p class="font-weight-600"><a href="#">Jennifer Rice</a></p>
-                                  <p class="medium-small">25, January 2019</p>
-                              </li>
+                            <% end %>                              
                           </ul>
                       </div>
                   </div>
-              </div> %>
+              </div>
           </div>
       </div>
 
@@ -663,18 +645,42 @@
     // Dashboard - Modern
     //----------------------
 
+    function fill_array(elem) {
+      var months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
+      var today = new Date();
+      var d;
+      var month;
+      var year;
+
+      for (var i = 0; i <= 12; i++) {
+        d = new Date(today.getFullYear(), today.getMonth() - i, 1);
+        month = months[d.getMonth()];
+        year = d.getFullYear();
+        
+        if(!elem.some(value => value.month === month)){
+            // month && console.log(month, elem.some(value => String(value.month) === String(month)))
+            month && elem.unshift({
+            month: month,
+            value: 0
+            })
+        }
+      }
+
+      return elem
+    }
+
     (async function (window, document, $) {
 
-      var income = [];
+      var incomes = [];
       var costs = [];
       var balance = [];
 
       await fetch('dashboard.json')
         .then(data => data.json())
         .then(res => {
-          income = res.incomes
-          costs = res.costs
-          balance = res.balance
+          incomes = fill_array(res.incomes)
+          costs = fill_array(res.costs)
+          balance = fill_array(res.balance)
         })
         .catch(error => console.error(error))
 
@@ -737,7 +743,8 @@
       var SL3Chart = new Chart(LineSL3ctx, {
           type: "line",
           data: {
-              labels: SLlabels,
+            //   labels: SLlabels.filter(month => incomes.some(value => value.month === month)),
+              labels: incomes.map(income => income.month),
               datasets: [
                   {
                       // label: "My Second dataset",
@@ -754,7 +761,7 @@
                       fill: true,
                       backgroundColor: gradientFill,
                       borderWidth: 2,
-                      data: income
+                      data: incomes.map(income => income.value)
                   }
               ]
           },
@@ -819,7 +826,7 @@
       var SL3Chart = new Chart(LineSL3ctx, {
           type: "line",
           data: {
-              labels: SLlabels,
+              labels: costs.map(cost => cost.month),
               datasets: [
                   {
                       // label: "My Second dataset",
@@ -836,7 +843,7 @@
                       fill: true,
                       backgroundColor: gradientFill,
                       borderWidth: 1,
-                      data: costs
+                      data: costs.map(cost => cost.value)
                   }
               ]
           },
@@ -902,7 +909,7 @@
       var SL3Chart = new Chart(LineSL3ctx, {
           type: "line",
           data: {
-              labels: SLlabels,
+              labels: balance.map(b => b.month),
               datasets: [
                   {
                       // label: "My Second dataset",
@@ -919,7 +926,7 @@
                       fill: true,
                       backgroundColor: gradientFill,
                       borderWidth: 1,
-                      data: balance
+                      data: balance.map(b => b.value)
                   }
               ]
           },

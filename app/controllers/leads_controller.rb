@@ -28,7 +28,7 @@ class LeadsController < ApplicationController
   # POST /leads
   def create
     @lead = Lead.new(lead_params)
-
+    @lead.date = DateTime.strptime(lead_params[:date], "%m/%d/%Y %H:%M")
     if @lead.save
       if params[:button] == "save_n_estimate"
         @lead.status = 'closed'

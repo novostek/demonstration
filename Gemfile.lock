@@ -175,6 +175,7 @@ GEM
       thor (>= 0.14, < 2.0)
     jquery-ui-rails (6.0.1)
       railties (>= 3.2.16)
+    json (2.3.0)
     kaminari (1.2.0)
       activesupport (>= 4.1.0)
       kaminari-actionview (= 1.2.0)
@@ -280,6 +281,8 @@ GEM
     rb-fsevent (0.10.3)
     rb-inotify (0.10.1)
       ffi (~> 1.0)
+    recaptcha (5.5.0)
+      json
     regexp_parser (1.6.0)
     responders (3.0.0)
       actionpack (>= 5.0)
@@ -401,6 +404,7 @@ DEPENDENCIES
   kaminari
   liquid
   listen (>= 3.0.5, < 3.2)
+  msgpack (~> 1.3, >= 1.3.3)
   pg (>= 0.18, < 2.0)
   plutus!
   pry-byebug
@@ -409,6 +413,7 @@ DEPENDENCIES
   puma (~> 4.1)
   rails (~> 6.0.2, >= 6.0.2.1)
   ransack
+  recaptcha
   rest-client
   ros-apartment
   sass-rails (>= 6)

@@ -46,7 +46,7 @@
           </div>
           <div class="col s12 m2 l2 display-flex pt-2 pl-4 justify-content-end">
             <!-- Mo dal Trigger -->
-            <a class="btn btn-floating waves-effect indigo waves-light left modal-trigger tooltipped" data-position="left" data-tooltip="New customer" href="#customer-add-modal"><i class="material-icons">person_add</i></a>
+            <a class="btn btn-floating waves-effect indigo waves-light left modal-trigger tooltipped" id="customer_modal" data-position="left" data-tooltip="New customer" href="#customer-add-modal"><i class="material-icons">person_add</i></a>
           </div>
         </div>
         <div class="row other-fields" style="display: none;">									
@@ -104,9 +104,8 @@
     const fetchConfig = {
       headers
     }
-
+    let firstPhone = '';
     document.getElementById('new_customer').addEventListener('submit', () => {
-      let firstPhone = '';
 
       const customer_name = document.getElementById('customer_name').value;
       const customer_email = document.getElementById('email').value;
@@ -134,9 +133,10 @@
       const code = (event.keyCode ? event.keyCode : e.which)
 
       if (code == 13) {
+        console.log("First Phone", firstPhone)
         event.preventDefault();
         search_by_phone(firstPhone, true)
-        insert_value_to_field('lead_phone', firstPhone)
+        //insert_value_to_field('lead_phone', firstPhone)
         lead_phone.blur()
       }
     }
@@ -166,18 +166,21 @@
     };
 
     search_by_phone = (value, completed = false) => {
+      //console.log(value)
+      firstPhone = ''
       value &&
       fetch(`/customers/search_by_phone/${value}`, fetchConfig)
       .then((res) => res.json())
       .then((result) => {
-        
         if(completed){
           $("#lead_customer_id").val(result[0].id);
           insert_value_to_field('lead_customer', result[0].name);
           insert_value_to_field('lead_email', result[0].main_email);
+          insert_value_to_field('lead_phone', result[0].main_phone);
           $(".other-fields, .save-buttons").fadeIn()
+          resultCheck = result.length
         }
-        if(Array.isArray(result) && result.length > 0){
+        else if(Array.isArray(result) && result.length > 0){
           let phoneList = {}
           result.map((element, index) => {
             // phoneList[element.contacts.data.phone] = null
@@ -189,8 +192,19 @@
           firstPhone = result[0].main_phone
         }
       })
-      .catch((error) => console.log(error))      
+      .catch((error) => {
+        
+      })
+      if(!value){
+        triggerModal()
+      }      
     };
+
+    triggerModal = () => {
+      $("#customer-add-modal").modal('open');
+      $("#phone").val(document.getElementById('lead_phone').value)
+      document.getElementById('new_phone').classList.add('active')
+    }
 
     search_by_email = (value, completed = false) => {
       value &&

@@ -21,7 +21,8 @@
             <%= f.text_field :phone, 
                 autocomplete: 'nope',
                 required: true,
-                class: 'autocomplete autocomplete-phone phone', 
+                class: 'autocomplete autocomplete-phone phone',
+                id: 'phone_field' ,
                 onkeyup: "search_by_phone($(this).val())",
                 onkeydown: "select_first_phone(event, this)" %>
             <%= f.label  :phone, id: 'lead_phone_label' %>
@@ -31,7 +32,8 @@
             <%= f.text_field :customer, 
                 autocomplete: 'nope',
                 required: true,
-                class: 'autocomplete autocomplete-customer', 
+                class: 'autocomplete autocomplete-customer',
+                id: 'name_field' ,
                 onkeyup: "search_by_name($(this).val())" %>
             <%= f.hidden_field :customer_id %>
             <%= f.label  :customer, id: 'lead_customer_label' %>
@@ -41,12 +43,13 @@
                 autocomplete: 'nope',
                 required: true,
                 class: 'autocomplete autocomplete-email',
+                id: 'email_field' ,
                 onkeyup: "search_by_email($(this).val())" %>
             <%= label_tag :email , "Email", id: 'lead_email_label' %>
           </div>
           <div class="col s12 m2 l2 display-flex pt-2 pl-4 justify-content-end">
             <!-- Mo dal Trigger -->
-            <a class="btn btn-floating waves-effect indigo waves-light left modal-trigger tooltipped" data-position="left" data-tooltip="New customer" href="#customer-add-modal"><i class="material-icons">person_add</i></a>
+            <a class="btn btn-floating waves-effect indigo waves-light left tooltipped" data-position="left" data-tooltip="New customer" onclick="open_customer_modal();"><i class="material-icons">person_add</i></a>
           </div>
         </div>
         <div class="row other-fields" style="display: none;">									
@@ -268,5 +271,12 @@
 				},
 			});
 		});
+
+		function open_customer_modal() {
+        $('#new_name_field').val($('#name_field').val());
+        $('#new_email_field').val($('#email_field').val());
+        $('#new_phone_field').val($('#phone_field').val());
+        $('#customer-add-modal').modal('open');
+    }
 	</script>
 <% end %>

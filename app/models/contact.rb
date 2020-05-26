@@ -28,6 +28,16 @@ class Contact < ApplicationRecord
   def set_main
     if self.main
       Contact.where.not(id: self.id).where(origin: self.origin, origin_id: self.origin_id, category: self.category).update_all(main: false)
+    else
+      if self.origin == 'Customer'
+        begin
+          customer = Customer.find(self.origin_id)
+          if customer.send("get_main_#{self.category}").blank?
+            self.main = true
+          end
+        rescue
+        end
+      end
     end
   end
 

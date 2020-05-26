@@ -18,6 +18,19 @@ class ApplicationController < ActionController::Base
     @company_name = Setting.get_value('company_name')
   end
 
+  def set_smtp
+    smtp_settings = {
+        :address => Setting.get_value("mail_address"), :port => Setting.get_value("mail_port").to_i,
+        :domain => Setting.url,
+        :authentication => 'plain',
+        :user_name => Setting.get_value("mail_user"),
+        :password => Setting.get_value("mail_password"),
+        :enable_starttls_auto => true
+    }
+    #binding.pry
+    #mail.delivery_method.settings.merge!(smtp_settings)
+  end
+
   protected
 
   def configure_permitted_parameters

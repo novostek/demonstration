@@ -50,6 +50,43 @@
             <div class="col s12 m8">
               <div class="row">
                 <div class="input-field col s12 l8">
+                  <p class="font-weight-600">SMTP Address</p>
+                  <input name="mail_address" id="mail_address" type="text"
+                         value="<%= Setting.get_value('mail_address') %>">
+                  <!-- <span class="helper-text" data-error="wrong" data-success="right">Helper Text</span> -->
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="input-field col s12 l8">
+                  <p class="font-weight-600">SMTP Port</p>
+                  <input name="mail_port" id="mail_port" type="text"
+                         value="<%= Setting.get_value('mail_port') %>">
+                  <!-- <span class="helper-text" data-error="wrong" data-success="right">Helper Text</span> -->
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="input-field col s12 l8">
+                  <p class="font-weight-600">SMTP Username</p>
+                  <input name="mail_user" id="mail_user" type="text"
+                         value="<%= Setting.get_value('mail_user') %>">
+                  <!-- <span class="helper-text" data-error="wrong" data-success="right">Helper Text</span> -->
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="input-field col s12 l8">
+                  <p class="font-weight-600">SMTP Password</p>
+                  <input name="mail_password" id="mail_password" type="text"
+                         value="<%= Setting.get_value('mail_password') %>">
+                  <!-- <span class="helper-text" data-error="wrong" data-success="right">Helper Text</span> -->
+                </div>
+              </div>
+
+
+              <div class="row">
+                <div class="input-field col s12 l8">
                   <p class="font-weight-600">Square mail text</p>
 <!--                  <input class="materialize-textarea" name="send_square_mail_text" id="send_square_mail_text" value="<%#= Setting.get_value("send_square_mail_text")  %>">-->
                   <div id="froala-editor_send_square_mail_text">

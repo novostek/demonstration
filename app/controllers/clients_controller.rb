@@ -14,15 +14,9 @@ class ClientsController < ApplicationController
   end
 
   def finish_confirm
-    if  verify_recaptcha
       @job = RunningJob.create(complete:false, redirect: "")
       ConfirmJob.perform_later(params[:code], @job)
       render layout: "loading"
-    else
-      redirect_to confirm_clients_path(code: params[:code])
-    end
-
-
   end
 
   # GET /clients/1

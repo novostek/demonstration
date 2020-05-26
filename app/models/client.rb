@@ -80,7 +80,8 @@ class Client < ApplicationRecord
                          {active: true, icon: "description", name: "Documents", url: "/documents", ancestry: nil, position: 9},
                          {active: true, icon: "local_grocery_store", name: "Suppliers", url: "/suppliers", ancestry: nil, position: 8},
                          {active: true, icon: "monetization_on", name: "Transactions", url: "/transactions", ancestry: nil, position: 7},
-                         {active: true, icon: "add_to_queue", name: "Settings", url: "/settings", ancestry: nil, position: 9}
+                         {active: true, icon: "add_to_queue", name: "Settings", url: "/settings", ancestry: nil, position: 9},
+                          {active: true, icon: "monetization_on", name: "Finance Dashboard", url: "/finances/dashboard", ancestry: nil, position: 11}
                      ])
         ProfileMenu.create!([
                                 {menu_id: 1, profile_id: 1},
@@ -103,14 +104,17 @@ class Client < ApplicationRecord
                                 {menu_id: 18, profile_id: 1},
                                 {menu_id: 19, profile_id: 1},
                                 {menu_id: 20, profile_id: 1},
+                                {menu_id: 2, profile_id: 2},
                                 {menu_id: 1, profile_id: 2},
-                                {menu_id: 1, profile_id: 4},
-                                {menu_id: 11, profile_id: 2},
-                                {menu_id: 11, profile_id: 4},
-                                {menu_id: 13, profile_id: 2},
-                                {menu_id: 13, profile_id: 4},
-                                {menu_id: 3, profile_id: 1},
+                                {menu_id: 6, profile_id: 2},
                                 {menu_id: 3, profile_id: 2},
+                                {menu_id: 4, profile_id: 2},
+                                {menu_id: 21, profile_id: 2},
+                                {menu_id: 2, profile_id: 4},
+                                {menu_id: 6, profile_id: 4},
+                                {menu_id: 3, profile_id: 4},
+                                {menu_id: 4, profile_id: 4},
+                                {menu_id: 4, profile_id: 3},
 
                             ])
         ProfileUser.create!([

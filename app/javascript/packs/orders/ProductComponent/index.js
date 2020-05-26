@@ -4,7 +4,7 @@ import { useForm } from "react-hook-form";
 import M from 'materialize-css'
 import * as yup from "yup";
 import Swal from 'sweetalert2'
-import EstimateDetail from '../../estimate/EstimateDetail'
+import EstimateDetail from '../../../src/Estimate/EstimateDetail'
 
 const schema = {
   requiredDecimal: { required: true, pattern: /^\d+(\.\d{1,2})?$/ }

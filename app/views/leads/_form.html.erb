@@ -22,7 +22,6 @@
                 autocomplete: 'nope',
                 required: true,
                 class: 'autocomplete autocomplete-phone phone',
-                id: 'phone_field' ,
                 onkeyup: "search_by_phone($(this).val())",
                 onkeydown: "select_first_phone(event, this)" %>
             <%= f.label  :phone, id: 'lead_phone_label' %>
@@ -33,7 +32,7 @@
                 autocomplete: 'nope',
                 required: true,
                 class: 'autocomplete autocomplete-customer',
-                id: 'name_field' ,
+                id: 'lead_customer' ,
                 onkeyup: "search_by_name($(this).val())" %>
             <%= f.hidden_field :customer_id %>
             <%= f.label  :customer, id: 'lead_customer_label' %>
@@ -43,7 +42,6 @@
                 autocomplete: 'nope',
                 required: true,
                 class: 'autocomplete autocomplete-email',
-                id: 'email_field' ,
                 onkeyup: "search_by_email($(this).val())" %>
             <%= label_tag :email , "Email", id: 'lead_email_label' %>
           </div>
@@ -273,7 +271,7 @@
 		});
 
 		function open_customer_modal() {
-        $('#new_name_field').val($('#name_field').val());
+        $('#new_name_field').val($('#lead_customer').val());
         $('#new_email_field').val($('#email_field').val());
         $('#new_phone_field').val($('#phone_field').val());
         $('#customer-add-modal').modal('open');

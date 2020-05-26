@@ -21,7 +21,7 @@
             <%= f.text_field :phone, 
                 autocomplete: 'nope',
                 required: true,
-                class: 'autocomplete autocomplete-phone phone', 
+                class: 'autocomplete autocomplete-phone phone',
                 onkeyup: "search_by_phone($(this).val())",
                 onkeydown: "select_first_phone(event, this)" %>
             <%= f.label  :phone, id: 'lead_phone_label' %>
@@ -31,7 +31,8 @@
             <%= f.text_field :customer, 
                 autocomplete: 'nope',
                 required: true,
-                class: 'autocomplete autocomplete-customer', 
+                class: 'autocomplete autocomplete-customer',
+                id: 'lead_customer' ,
                 onkeyup: "search_by_name($(this).val())" %>
             <%= f.hidden_field :customer_id %>
             <%= f.label  :customer, id: 'lead_customer_label' %>
@@ -46,7 +47,7 @@
           </div>
           <div class="col s12 m2 l2 display-flex pt-2 pl-4 justify-content-end">
             <!-- Mo dal Trigger -->
-            <a class="btn btn-floating waves-effect indigo waves-light left modal-trigger tooltipped" id="customer_modal" data-position="left" data-tooltip="New customer" href="#customer-add-modal"><i class="material-icons">person_add</i></a>
+            <a class="btn btn-floating waves-effect indigo waves-light left tooltipped" data-position="left" data-tooltip="New customer" onclick="open_customer_modal();"><i class="material-icons">person_add</i></a>
           </div>
         </div>
         <div class="row other-fields" style="display: none;">									
@@ -133,7 +134,6 @@
       const code = (event.keyCode ? event.keyCode : e.which)
 
       if (code == 13) {
-        console.log("First Phone", firstPhone)
         event.preventDefault();
         search_by_phone(firstPhone, true)
         //insert_value_to_field('lead_phone', firstPhone)
@@ -202,7 +202,7 @@
 
     triggerModal = () => {
       $("#customer-add-modal").modal('open');
-      $("#phone").val(document.getElementById('lead_phone').value)
+      $("#new_phone_field").val(document.getElementById('lead_phone').value)
       document.getElementById('new_phone').classList.add('active')
     }
 
@@ -282,5 +282,12 @@
 				},
 			});
 		});
+
+		function open_customer_modal() {
+        $('#new_name_field').val($('#lead_customer').val());
+        $('#new_email_field').val($('#lead_email').val());
+        $('#new_phone_field').val($('#lead_phone').val());
+        $('#customer-add-modal').modal('open');
+    }
 	</script>
 <% end %>

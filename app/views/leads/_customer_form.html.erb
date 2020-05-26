@@ -14,20 +14,20 @@
         </div>
       <% end %>
       <div class="row">
-        <div class="input-field col s12">
-          <%= f.label :name, id: 'customer_name_label' %>
-          <%= f.text_field :name, required: true %>
+        <div class=" col s12">
+          <%= f.label :name, id: 'customer_name_label', class: 'active'%>
+          <%= f.text_field :name, required: true, id:"new_name_field" %>
         </div>
       </div>
 
       <div class="row">
-        <div class="input-field col s12 m6">
-          <%= label_tag 'Email' %>
-          <%= text_field_tag :email, nil, required: true %>
+        <div class=" col s12 m6">
+          <%= label_tag :email, 'E-mail', class: 'active' %>
+          <%= text_field_tag :email, nil, required: true, id:"new_email_field" %>
         </div>
-        <div class="input-field col s12 m6">
-          <%= label_tag 'Phone', nil, {id: 'new_phone'} %>
-          <%= text_field_tag :phone, nil, required: true , class: "phone"%>
+        <div class="col s12 m6">
+          <%= label_tag :phone, 'Phone', id: 'new_phone', class: 'active' %>
+          <%= text_field_tag :phone, nil, required: true , class: "phone" , id:"new_phone_field" %>
         </div>
       </div>
       

@@ -29,6 +29,7 @@ class Client < ApplicationRecord
       end
       begin
         Setting.create!([
+                            {namespace: "upload_dir", value: {"value"=>self.tenant_name}},
                             {namespace: "company_name", value: {"value"=>"Woffice"}},
                             {namespace: "client_end_order", value: {"value"=>true}},
                             {namespace: "send_grid_key", value: {"value"=>""}},

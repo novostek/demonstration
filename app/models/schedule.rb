@@ -44,27 +44,31 @@ class Schedule < ApplicationRecord
 
   #Método que envia os emails de confirmação dos schedules
   def self.send_schedule_mail
-    schedules = Schedule.where(send_mail: true, mail_sent: false)
-    #binding.pry
-
-    schedules.each do |s|
-      if s.from_order?
-        order = Order.find(s.origin_id)
-        customer = order.current_estimate.customer
-      else
-        estimate = Estimate.find(s.origin_id)
-        customer = estimate.customer
-      end
-
-      if customer.present?
-        email = customer.get_main_email
+    Client.all.each do |c|
+      Apartment::Tenant.switch(c.tenant_name) do
+        schedules = Schedule.where(send_mail: true, mail_sent: false)
         #binding.pry
-        if email.present?
-          DocumentMailer.with(schedule: s, customer: customer, emails: email.data["email"]).send_schedule_mail.deliver_now
-          s.update(mail_sent: true)
+
+        schedules.each do |s|
+          if s.from_order?
+            order = Order.find(s.origin_id)
+            customer = order.current_estimate.customer
+          else
+            estimate = Estimate.find(s.origin_id)
+            customer = estimate.customer
+          end
+
+          if customer.present?
+            email = customer.get_main_email
+            #binding.pry
+            if email.present?
+              DocumentMailer.with(schedule: s, customer: customer, emails: email.data["email"]).send_schedule_mail.deliver_now
+              s.update(mail_sent: true)
+            end
+          end
+
         end
       end
-
     end
   end
 
@@ -105,12 +109,12 @@ class Schedule < ApplicationRecord
       schedule.save
     rescue StandardError => e
       return {
-        :error => e.message,
-        :trace => e.inspect
+          :error => e.message,
+          :trace => e.inspect
       }
     else
       return {
-        :schedule => schedule
+          :schedule => schedule
       }
     end
   end

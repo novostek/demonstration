@@ -336,6 +336,9 @@ class EstimatesController < ApplicationController
       @templates = []
     end
 
+    add_breadcrumb I18n.t("activerecord.models.estimates"), estimates_path
+    add_breadcrumb I18n.t("breadcrumb.show"), "/estimates/#{params[:estimate_id]}/view"
+
     render :estimate_view
   end
 

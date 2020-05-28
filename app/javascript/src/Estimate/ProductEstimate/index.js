@@ -1,22 +1,42 @@
-import React from 'react'
+import React, { useContext } from 'react'
+import { EstimateContext } from '../../context/Estimate'
 
-const ProductEstimate = ({product, peIndex}) => {
+const ProductEstimate = ({product, peIndex, index}) => {
+  const {
+    productEstimate,
+    register,
+    schema,
+    errors,
+    updateProductList,
+    setMaProductListIndex,
+    handleChange,
+    removeProduct
+  } = useContext(EstimateContext)
+
   return (
     <div className="row">
       <div className="col s6 m3">
         <span className="left width-100 pt-1">Product</span>
         <div className="input-field mt-0 mb-0 products-search-field-box">
-          <a href="#product-add-modal" key={Math.random} className="btn-add-product modal-trigger tooltipped" data-tooltip="New product"><i className="material-icons">add</i></a>
+          <a href="#product-add-modal" className="btn-add-product modal-trigger tooltipped" data-tooltip="New product"><i className="material-icons">add</i></a>
           <input
             name={`measurement[${index}].products[${peIndex}].name`}
             ref={register}
-            onFocus={() => updateProductList()}
+            onFocus={() => {
+              updateProductList()
+              setMaProductListIndex(prev => {
+                const copy = {...prev}
+  
+                copy.maIndex = index
+                copy.productIndex = peIndex
+                
+                console.log(copy)
+                return copy
+              })
+            }}
             onChange={(e) => handleChange(index, peIndex, e.target.name, e.target.value)}
             defaultValue={productEstimate[index].products[peIndex].name}
             readOnly={productEstimate[index].products[peIndex].readOnly}
-            onClick={() => setMaProductListIndex(prev => {
-              return { ...prev, maIndex: index, productIndex: peIndex }
-            })}
             autoComplete="off" type="text" className="autocomplete autocomplete-products mt-1" />
           <input
             defaultValue={productEstimate[index].products[peIndex].product_id}

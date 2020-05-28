@@ -1,11 +1,19 @@
-import React, { useContext } from 'react'
+import React, { useContext, useRef } from 'react'
 import ProductEstimate from '../ProductEstimate'
 import { EstimateContext } from '../../context/Estimate'
+import Areas from '../Areas'
 
 const ProductEstimateProposal = () => {
   const {
     productEstimate,
-    estimate
+    estimate,
+    handleSubmit,
+    onSubmit,
+    register,
+    submitBtnRef,
+    suggestions,
+    addProduct,
+    addSuggestionsToProductList,
   } = useContext(EstimateContext)
 
   return (
@@ -15,14 +23,14 @@ const ProductEstimateProposal = () => {
           productEstimate.map((pe, index) => (
             <div className="row products-area-list pl-1 pr-1 mt-2" id="measurement_proposals" key={index}>
               <div className="product-area">
-                <Areas />
+                <Areas index={index} pe={pe} />
                 <div className="products-list">
                   <input type="hidden" ref={register} name={`measurement_area[${index}]`} value={index} />
                   {
                     pe.products.map((product, peIndex) => (
                       <div className="product" key={peIndex}>
                         <div className="row pl-1 pr-1 products-search">
-                          <ProductEstimate product={product} peIndex={peIndex} />
+                          <ProductEstimate product={product} peIndex={peIndex} index={index} submitBtnRef={submitBtnRef} />
                         </div>
                       </div>
                     ))

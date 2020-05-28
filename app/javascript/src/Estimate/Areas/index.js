@@ -2,8 +2,15 @@ import React, { useContext } from 'react'
 
 import { EstimateContext } from "../../context/Estimate";
 
-const Areas = () => {
-  const { productEstimate, setProductEstimate, estimate } = useContext(EstimateContext)
+const Areas = ({index, pe}) => {
+  const { 
+    productEstimate, 
+    setProductEstimate, 
+    estimate,
+    refreshArea,
+    selectArea,
+    removeArea
+  } = useContext(EstimateContext)
 
   return (
     <>

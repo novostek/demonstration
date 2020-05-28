@@ -1,14 +1,18 @@
 import React, { createContext, useState, useEffect, useRef } from 'react'
 import { useForm } from 'react-hook-form'
 import axios from 'axios'
-
+import Swal from 'sweetalert2'
 export const EstimateContext = createContext()
 
 export default function EstimateProvider({children}) {
+  const schema = {
+    requiredDecimal: { required: true, pattern: /^\d+(\.\d{1,2})?$/ }
+  }
+
   const node = document.getElementById('estimate_data')
   const estimateData = JSON.parse(node.getAttribute('data'))
 
-  let submitBtnRef = useRef()
+  const submitBtnRef = useRef()
 
   const [suggestions, setSuggestions] = useState([{
     area_id: 0,
@@ -217,6 +221,8 @@ export default function EstimateProvider({children}) {
 
           return copy
         })
+
+        console.log("Estimate", productEstimate)
       }
 
 
@@ -225,10 +231,6 @@ export default function EstimateProvider({children}) {
   }, [])
 
   useEffect(() => {
-
-    const node = document.getElementById('estimate_data')
-    // const products = JSON.parse(node.getAttribute('products'))
-
     const autoCompleteProductData = {}
 
     Array.isArray(productAutoComplete) && productAutoComplete.map(product => autoCompleteProductData[product.name] = null)
@@ -240,7 +242,6 @@ export default function EstimateProvider({children}) {
         setProductEstimate(productEstimate => {
           const copy = [...productEstimate]
           const id = productAutoComplete.filter(p => p.name === val)[0].id
-          console.log('autocomplete', maProductListIndex.maIndex)
           updateSuggestions(maProductListIndex.maIndex, id)
 
           copy[maProductListIndex.maIndex].products[maProductListIndex.productIndex].product_id = id
@@ -250,7 +251,6 @@ export default function EstimateProvider({children}) {
           if (productEstimate[maProductListIndex.maIndex].areas.length > 0)
             calculateProductLW(productEstimate[maProductListIndex.maIndex].areas, id)
               .then(result => {
-                console.log(result)
                 copy[maProductListIndex.maIndex].products[maProductListIndex.productIndex].name = result.name
                 copy[maProductListIndex.maIndex].products[maProductListIndex.productIndex].qty = result.qty
                 copy[maProductListIndex.maIndex].products[maProductListIndex.productIndex].total = result.total
@@ -385,7 +385,6 @@ export default function EstimateProvider({children}) {
   const refreshArea = (proposal_id) => {
     setProductEstimate(productEstimate => {
       const copy = [...productEstimate]
-      console.log(copy[proposal_id].products)
       copy[proposal_id].areas.length > 0
         &&
         copy[proposal_id].products.map((product, index) => {
@@ -556,14 +555,21 @@ export default function EstimateProvider({children}) {
         removeProduct,
         selectArea,
         remoteSubmit,
+        submitBtnRef,
         refreshArea,
         removeArea,
         productTotalPrice,
         productTotalQty,
         productTotalDiscount,
         create_product_estimate,
+        handleSubmit,
+        register,
         onSubmit,
-        handleChange
+        setValue, 
+        reset,
+        handleChange,
+        schema,
+        errors
       }}
     >
       {children}

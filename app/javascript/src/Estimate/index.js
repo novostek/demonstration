@@ -1,12 +1,9 @@
-import React, { useState, useRef, useEffect, useContext } from 'react'
-import { useForm } from "react-hook-form";
-import M from 'materialize-css'
-import * as yup from "yup";
+import React, { useContext } from 'react'
+
 import EstimateDetail from '../Estimate/EstimateDetail'
-import Swal from 'sweetalert2'
-import axios from 'axios'
-import Areas from './Areas';
+
 import { EstimateContext } from '../context/Estimate';
+import ProductEstimateProposal from './ProductEstimateProposal';
 
 const schema = {
   requiredDecimal: { required: true, pattern: /^\d+(\.\d{1,2})?$/ }
@@ -15,7 +12,9 @@ const schema = {
 const ProductComponent = () => {
   const {
     addArea,
-    estimate
+    estimate,
+    productEstimate,
+    remoteSubmit
   } = useContext(EstimateContext)
   
   return (
@@ -51,6 +50,8 @@ const ProductComponent = () => {
                 </li>
               </ul>
               
+              <ProductEstimateProposal />
+
               <div className="row mt-1">
                 <a onClick={addArea} className="btn btn-add-product-area"><i className="material-icons left">add</i> Add area</a>
               </div>

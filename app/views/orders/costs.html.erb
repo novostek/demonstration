@@ -238,8 +238,11 @@
                                   </div>
                                   <% p.document_files.each do |doc| %>
                                     <%= link_to doc.file.url, target:"_blank" do %>
-                                      <span class="chip grey lighten-3 green-text truncate"><%= doc.title %></span>
-                                    <% end if doc.file.present?  %>
+                                      <div class="document">
+                                        <span class="doc-date" title="Created at"><%= doc.created_at %></span>
+                                        <%= doc.title %>
+                                      </div>
+                                    <% end if doc.file.present?%>
                                   <% end %>
                                 </div>
                               </div>

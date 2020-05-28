@@ -295,6 +295,10 @@ export default function EstimateProvider({children}) {
       ]
     }
 
+    estimate.measurement_areas.map((ma) => {
+      area_product.areas.push(ma.id)
+    })
+
     setProductEstimate(productEstimate => [...productEstimate, area_product])
   }
 

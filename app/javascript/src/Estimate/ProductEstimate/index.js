@@ -15,8 +15,32 @@ const ProductEstimate = ({product, peIndex, index}) => {
 
   return (
     <div className="row">
-      <div className="col s6 m3">
-        <span className="left width-100 pt-1">Product</span>
+      <div className="col s6 m5">
+        <span className="left width-100 pt-1">
+          Product
+          <div className="switch right">
+            <label>
+              Tax
+              <input
+                name={`measurement[${index}].products[${peIndex}].tax`}
+                ref={register}
+                type="checkbox"
+                onChange={(e) => {
+                  const { checked } = e.target
+                  setProductEstimate(productEstimate => {
+                    const copy = [...productEstimate]
+                    console.log(checked)
+                    copy[index].products[peIndex].tax = checked
+
+                    return copy
+                  })
+                }}
+                defaultChecked={productEstimate[index].products[peIndex].tax}
+              />
+              <span className="lever"></span>
+            </label>
+          </div>
+        </span>
         <div className="input-field mt-0 mb-0 products-search-field-box">
           <a href="#product-add-modal" className="btn-add-product modal-trigger tooltipped" data-tooltip="New product"><i className="material-icons">add</i></a>
           <input
@@ -46,7 +70,7 @@ const ProductEstimate = ({product, peIndex, index}) => {
             type="hidden" />
         </div>
       </div>
-      <div className="col s6 m2 input-fields">
+      {/* <div className="col s6 m2 input-fields">
         <label >
           <input
             name={`measurement[${index}].products[${peIndex}].tax`}
@@ -66,7 +90,7 @@ const ProductEstimate = ({product, peIndex, index}) => {
           />
           <span style={{ marginTop: '30px' }} className="left width-10 pt-1">Tax</span>
         </label>
-      </div>
+      </div> */}
       <div className="col s6 m2 calc-fields">
         <span className="left width-100 pt-1">Qty.</span>
         <input

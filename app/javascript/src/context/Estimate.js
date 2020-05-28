@@ -26,6 +26,7 @@ export default function EstimateProvider({children}) {
       proposal_id: '',
       showSuggestions: false,
       areas: [],
+      toggleSelect: false,
       products: [
         {
           key: Math.random(),
@@ -176,6 +177,7 @@ export default function EstimateProvider({children}) {
                 if (mp.id !== indexHelper) {
                   mp.product_estimates.map((pe, peIndex) => {
                     copy[mpIndex].proposal_id = mp.id
+                    copy[mpIndex].toggleSelect = false
                     copy[mpIndex].products.push({
                       product_estimate_id: pe.id,
                       key: Math.random(),
@@ -194,19 +196,21 @@ export default function EstimateProvider({children}) {
                 indexHelper = mp.id
               } else {
                 mp.product_estimates.map((pe, peIndex) => {
-                  if (copy[mpIndex - 1])
-                  copy[mpIndex - 1].products.push({
-                    product_estimate_id: pe.id,
-                    key: Math.random(),
-                    name: pe.name,
-                    product_id: pe.product_id,
-                    qty: pe.quantity,
-                    price: pe.unitary_value,
-                    discount: pe.discount,
-                    tax: pe.tax,
-                    total: pe.value,
-                    readOnly: true
-                  })
+                  if (copy[mpIndex - 1]){                    
+                    copy[mpIndex].toggleSelect = false
+                    copy[mpIndex - 1].products.push({
+                      product_estimate_id: pe.id,
+                      key: Math.random(),
+                      name: pe.name,
+                      product_id: pe.product_id,
+                      qty: pe.quantity,
+                      price: pe.unitary_value,
+                      discount: pe.discount,
+                      tax: pe.tax,
+                      total: pe.value,
+                      readOnly: true
+                    })
+                  }
                 })
                 // console.log(copy[])
               }
@@ -281,6 +285,7 @@ export default function EstimateProvider({children}) {
     const area_product = {
       proposal_id: '',
       areas: [],
+      toggleSelect: false,
       products: [
         {
           key: Math.random(),
@@ -505,6 +510,29 @@ export default function EstimateProvider({children}) {
       .then(data => data.json())
   }
 
+  const toggleSelectAllAreas = (maIndex) => {
+    productEstimate[maIndex].toggleSelect
+    ?
+    setProductEstimate(productEstimate => {
+      const copy = [...productEstimate]
+      copy[maIndex].toggleSelect = false
+      estimate.measurement_areas.map((ma) => {
+        copy[maIndex].areas.push(ma.id)
+      })
+      return copy
+    })
+    // setProductEstimate(productEstimate => [...productEstimate.slice(0, maIndex), { ...productEstimate[maIndex], areas: [...productEstimate[maIndex].areas, area_id]}])
+    :
+    setProductEstimate(productEstimate => {
+      const copy = [...productEstimate]
+      copy[maIndex].toggleSelect = true
+      copy[maIndex].areas = []
+      return copy
+    })
+
+    
+  }
+
   const onSubmit = async data => {
     const copy = [...productEstimate]
     const results = copy.map(async (ma, index) => {
@@ -572,6 +600,7 @@ export default function EstimateProvider({children}) {
         setValue, 
         reset,
         handleChange,
+        toggleSelectAllAreas,
         schema,
         errors
       }}

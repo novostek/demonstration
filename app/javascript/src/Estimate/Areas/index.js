@@ -9,11 +9,19 @@ const Areas = ({index, pe}) => {
     estimate,
     refreshArea,
     selectArea,
-    removeArea
+    removeArea,
+    toggleSelectAllAreas,
   } = useContext(EstimateContext)
 
   return (
     <>
+      <a 
+        onClick={() => toggleSelectAllAreas(index)} 
+        style={{ cursor: 'pointer' }} 
+        key={Math.random()} 
+        className="select-all-areas mr-5">
+          {productEstimate[index].toggleSelect ? 'Select all' : 'Deselect all'}
+      </a>
       <a 
         onClick={() => refreshArea(index)} 
         style={{ cursor: 'pointer' }} 

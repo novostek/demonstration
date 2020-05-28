@@ -2,7 +2,7 @@
 #
 # Table name: measurement_proposals
 #
-#  id         :bigint           not null, primary key
+#  id         :uuid             not null, primary key
 #  notes      :text
 #  created_at :datetime         not null
 #  updated_at :datetime         not null

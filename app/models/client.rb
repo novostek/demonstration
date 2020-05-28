@@ -2,11 +2,12 @@
 #
 # Table name: public.clients
 #
-#  id           :bigint           not null, primary key
+#  id           :uuid             not null, primary key
 #  code         :string
 #  company_name :string
 #  email        :string
 #  name         :string
+#  pwd          :string
 #  tenant_name  :string
 #  created_at   :datetime         not null
 #  updated_at   :datetime         not null
@@ -23,7 +24,7 @@ class Client < ApplicationRecord
       begin
         User.create!([
 
-                         {email: self.email, password:"123456", password_confirmation: "123456", reset_password_token: nil, reset_password_sent_at: nil, remember_created_at: nil, name: self.company_name, active: true},
+                         {email: self.email, password:self.pwd, password_confirmation: self.pwd, reset_password_token: nil, reset_password_sent_at: nil, remember_created_at: nil, name: self.company_name, active: true},
                      ])
       rescue
       end
@@ -77,7 +78,6 @@ class Client < ApplicationRecord
                          {active: true, icon: "view_list", name: "Menu", url: "/menus", ancestry: "13", position: nil},
                          {active: true, icon: "person_add", name: "Users", url: "/users", ancestry: "13", position: nil},
                          {active: true, icon: "assignment_ind", name: "Profile", url: "/profiles", ancestry: "13", position: nil},
-
                          {active: true, icon: "description", name: "Documents", url: "/documents", ancestry: nil, position: 9},
                          {active: true, icon: "local_grocery_store", name: "Suppliers", url: "/suppliers", ancestry: nil, position: 8},
                          {active: true, icon: "monetization_on", name: "Transactions", url: "/transactions", ancestry: nil, position: 7},

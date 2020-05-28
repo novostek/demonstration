@@ -2,9 +2,9 @@
 #
 # Table name: product_suggestions
 #
-#  id            :bigint           not null, primary key
-#  product_id    :bigint
-#  suggestion_id :bigint
+#  id            :uuid             not null, primary key
+#  product_id    :uuid
+#  suggestion_id :uuid
 #
 # Indexes
 #

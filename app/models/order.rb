@@ -2,7 +2,7 @@
 #
 # Table name: orders
 #
-#  id            :bigint           not null, primary key
+#  id            :uuid             not null, primary key
 #  bpmn_instance :string
 #  code          :string
 #  end_at        :datetime

@@ -2,11 +2,11 @@
 #
 # Table name: profile_menus
 #
-#  id         :bigint           not null, primary key
+#  id         :uuid             not null, primary key
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
-#  menu_id    :bigint           not null
-#  profile_id :bigint           not null
+#  menu_id    :uuid             not null
+#  profile_id :uuid             not null
 #
 # Indexes
 #

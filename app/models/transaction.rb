@@ -2,7 +2,7 @@
 #
 # Table name: transactions
 #
-#  id                      :bigint           not null, primary key
+#  id                      :uuid             not null, primary key
 #  bpm_instance            :string
 #  category                :string
 #  due                     :date
@@ -15,11 +15,11 @@
 #  value                   :decimal(, )
 #  created_at              :datetime         not null
 #  updated_at              :datetime         not null
-#  order_id                :bigint
+#  order_id                :uuid
 #  origin_id               :integer
-#  purchase_id             :bigint
-#  transaction_account_id  :bigint
-#  transaction_category_id :bigint
+#  purchase_id             :uuid
+#  transaction_account_id  :uuid
+#  transaction_category_id :uuid
 #
 # Indexes
 #

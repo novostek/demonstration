@@ -1,10 +1,10 @@
 class CreateProducts < ActiveRecord::Migration[6.0]
   def change
-    create_table :products do |t|
+    create_table :products, id: :uuid do |t|
       t.string :name
       t.string :uuid
       t.text :details
-      t.references :product_category, null: false, foreign_key: true
+      t.references :product_category, null: false, foreign_key: true, type: :uuid
       t.decimal :customer_price
       t.decimal :cost_price
       t.decimal :area_covered

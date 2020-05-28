@@ -2,7 +2,7 @@
 #
 # Table name: workers
 #
-#  id          :bigint           not null, primary key
+#  id          :uuid             not null, primary key
 #  categories  :string
 #  name        :string
 #  photo       :text

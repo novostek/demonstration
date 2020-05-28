@@ -17,10 +17,11 @@ class ConfirmJob < ApplicationJob
       client.email = data["email"]
       client.tenant_name = data["domain"]
       client.code = data["code"]
+      client.pwd = data["password"]
       if client.save
         job.complete = true
         #if !Rails.env.production?
-          job.redirect = "http://#{client.tenant_name}.lvh.me:3000"
+          job.redirect = "http://#{client.tenant_name}.woffice.biz"
         #else
         #job.redirect = "http://#{client.domain}.lvh.me:3000"
         #end

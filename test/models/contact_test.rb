@@ -2,7 +2,7 @@
 #
 # Table name: contacts
 #
-#  id         :bigint           not null, primary key
+#  id         :uuid             not null, primary key
 #  category   :string
 #  data       :json
 #  main       :boolean
@@ -11,7 +11,7 @@
 #  value      :json
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
-#  origin_id  :integer
+#  origin_id  :uuid
 #
 
 require 'test_helper'

@@ -2,7 +2,7 @@
 #
 # Table name: product_estimates
 #
-#  id                      :bigint           not null, primary key
+#  id                      :uuid             not null, primary key
 #  custom_title            :string
 #  discount                :decimal(, )
 #  notes                   :text
@@ -12,8 +12,8 @@
 #  value                   :decimal(, )
 #  created_at              :datetime         not null
 #  updated_at              :datetime         not null
-#  measurement_proposal_id :bigint           not null
-#  product_id              :bigint
+#  measurement_proposal_id :uuid             not null
+#  product_id              :uuid
 #
 # Indexes
 #

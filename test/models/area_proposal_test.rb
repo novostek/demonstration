@@ -2,11 +2,11 @@
 #
 # Table name: area_proposals
 #
-#  id                      :bigint           not null, primary key
+#  id                      :uuid             not null, primary key
 #  created_at              :datetime         not null
 #  updated_at              :datetime         not null
-#  measurement_area_id     :bigint           not null
-#  measurement_proposal_id :bigint           not null
+#  measurement_area_id     :uuid             not null
+#  measurement_proposal_id :uuid             not null
 #
 # Indexes
 #

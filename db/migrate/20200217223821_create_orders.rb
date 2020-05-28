@@ -1,6 +1,6 @@
 class CreateOrders < ActiveRecord::Migration[6.0]
   def change
-    create_table :orders do |t|
+    create_table :orders, id: :uuid do |t|
       t.string :code
       t.string :status
       t.string :bpmn_instance

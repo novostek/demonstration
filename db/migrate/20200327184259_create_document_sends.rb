@@ -1,8 +1,8 @@
 class CreateDocumentSends < ActiveRecord::Migration[6.0]
   def change
-    create_table :document_sends do |t|
+    create_table :document_sends, id: :uuid do |t|
       t.string :origin
-      t.integer :origin_id
+      t.uuid :origin_id
       t.text :data
 
       t.timestamps

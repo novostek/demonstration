@@ -2,7 +2,7 @@
 #
 # Table name: leads
 #
-#  id          :bigint           not null, primary key
+#  id          :uuid             not null, primary key
 #  date        :datetime
 #  description :text
 #  email       :string
@@ -11,7 +11,7 @@
 #  via         :string
 #  created_at  :datetime         not null
 #  updated_at  :datetime         not null
-#  customer_id :bigint           not null
+#  customer_id :uuid             not null
 #
 # Indexes
 #

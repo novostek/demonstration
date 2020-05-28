@@ -2,7 +2,7 @@
 #
 # Table name: customers
 #
-#  id           :bigint           not null, primary key
+#  id           :uuid             not null, primary key
 #  birthdate    :date
 #  bpm_instance :string
 #  category     :string

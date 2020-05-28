@@ -1,10 +1,10 @@
 class CreateDocumentFiles < ActiveRecord::Migration[6.0]
   def change
-    create_table :document_files do |t|
+    create_table :document_files , id: :uuid do |t|
       t.string :title
       t.text :file
       t.string :origin
-      t.integer :origin_id
+      t.uuid :origin_id
       t.boolean :esign
       t.json :esign_data
       t.string :photo

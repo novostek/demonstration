@@ -2,11 +2,11 @@
 #
 # Table name: document_custom_fields
 #
-#  id          :bigint           not null, primary key
+#  id          :uuid             not null, primary key
 #  name        :string
 #  created_at  :datetime         not null
 #  updated_at  :datetime         not null
-#  document_id :bigint           not null
+#  document_id :uuid             not null
 #
 # Indexes
 #

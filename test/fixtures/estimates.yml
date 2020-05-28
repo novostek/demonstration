@@ -2,7 +2,7 @@
 #
 # Table name: estimates
 #
-#  id                 :bigint           not null, primary key
+#  id                 :uuid             not null, primary key
 #  bpmn_instance      :string
 #  category           :string           not null
 #  code               :string           not null
@@ -20,10 +20,10 @@
 #  total              :decimal(, )      not null
 #  created_at         :datetime         not null
 #  updated_at         :datetime         not null
-#  lead_id            :bigint
-#  order_id           :bigint
-#  sales_person_id    :bigint
-#  tax_calculation_id :bigint
+#  lead_id            :uuid
+#  order_id           :uuid
+#  sales_person_id    :uuid
+#  tax_calculation_id :uuid
 #
 # Indexes
 #

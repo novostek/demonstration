@@ -2,7 +2,7 @@
 #
 # Table name: documents
 #
-#  id            :bigint           not null, primary key
+#  id            :uuid             not null, primary key
 #  custom_fields :json
 #  data          :text
 #  description   :text

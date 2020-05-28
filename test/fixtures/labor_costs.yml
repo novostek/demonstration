@@ -2,14 +2,14 @@
 #
 # Table name: labor_costs
 #
-#  id          :bigint           not null, primary key
+#  id          :uuid             not null, primary key
 #  date        :date
 #  status      :string
 #  value       :decimal(, )
 #  created_at  :datetime         not null
 #  updated_at  :datetime         not null
-#  schedule_id :bigint           not null
-#  worker_id   :bigint           not null
+#  schedule_id :uuid             not null
+#  worker_id   :uuid             not null
 #
 # Indexes
 #

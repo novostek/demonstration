@@ -2,7 +2,7 @@
 #
 # Table name: users
 #
-#  id                     :bigint           not null, primary key
+#  id                     :uuid             not null, primary key
 #  active                 :boolean
 #  email                  :string           default(""), not null
 #  encrypted_password     :string           default(""), not null
@@ -12,7 +12,7 @@
 #  reset_password_token   :string
 #  created_at             :datetime         not null
 #  updated_at             :datetime         not null
-#  worker_id              :bigint
+#  worker_id              :uuid
 #
 # Indexes
 #

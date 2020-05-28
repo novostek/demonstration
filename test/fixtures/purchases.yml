@@ -2,14 +2,14 @@
 #
 # Table name: purchases
 #
-#  id           :bigint           not null, primary key
+#  id           :uuid             not null, primary key
 #  bpm_instance :string
 #  status       :string
 #  value        :decimal(, )
 #  created_at   :datetime         not null
 #  updated_at   :datetime         not null
-#  order_id     :bigint           not null
-#  supplier_id  :bigint
+#  order_id     :uuid             not null
+#  supplier_id  :uuid
 #
 # Indexes
 #

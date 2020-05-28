@@ -2,10 +2,10 @@
 #
 # Table name: product_categories
 #
-#  id          :bigint           not null, primary key
-#  name        :string
-#  description :text
+#  id          :uuid             not null, primary key
 #  color       :string
+#  description :text
+#  name        :string
 #  namespace   :string
 #  created_at  :datetime         not null
 #  updated_at  :datetime         not null

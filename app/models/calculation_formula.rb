@@ -2,7 +2,7 @@
 #
 # Table name: calculation_formulas
 #
-#  id          :bigint           not null, primary key
+#  id          :uuid             not null, primary key
 #  description :string
 #  formula     :string
 #  name        :string

@@ -2,14 +2,14 @@
 #
 # Table name: measurements
 #
-#  id                  :bigint           not null, primary key
+#  id                  :uuid             not null, primary key
 #  height              :decimal(, )
 #  length              :decimal(, )
 #  square_feet         :decimal(10, 2)
 #  width               :decimal(, )
 #  created_at          :datetime         not null
 #  updated_at          :datetime         not null
-#  measurement_area_id :bigint           not null
+#  measurement_area_id :uuid             not null
 #
 # Indexes
 #

@@ -1,6 +1,6 @@
 class CreateTransactionAccounts < ActiveRecord::Migration[6.0]
   def change
-    create_table :transaction_accounts do |t|
+    create_table :transaction_accounts, id: :uuid do |t|
       t.string :name
       t.text :description
       t.string :color

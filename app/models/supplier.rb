@@ -2,7 +2,7 @@
 #
 # Table name: suppliers
 #
-#  id          :bigint           not null, primary key
+#  id          :uuid             not null, primary key
 #  description :text
 #  name        :string           not null
 #  created_at  :datetime         not null

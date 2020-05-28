@@ -2,7 +2,7 @@
 #
 # Table name: product_purchases
 #
-#  id           :bigint           not null, primary key
+#  id           :uuid             not null, primary key
 #  custom_title :string
 #  quantity     :decimal(, )
 #  status       :string
@@ -11,8 +11,8 @@
 #  value        :decimal(, )
 #  created_at   :datetime         not null
 #  updated_at   :datetime         not null
-#  product_id   :bigint
-#  purchase_id  :bigint           not null
+#  product_id   :uuid
+#  purchase_id  :uuid             not null
 #
 # Indexes
 #

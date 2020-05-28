@@ -2,7 +2,7 @@
 #
 # Table name: products
 #
-#  id                     :bigint           not null, primary key
+#  id                     :uuid             not null, primary key
 #  area_covered           :decimal(, )
 #  bpm_purchase           :string
 #  cost_price             :decimal(, )
@@ -14,9 +14,9 @@
 #  uuid                   :string
 #  created_at             :datetime         not null
 #  updated_at             :datetime         not null
-#  calculation_formula_id :bigint           not null
-#  product_category_id    :bigint           not null
-#  supplier_id            :bigint           not null
+#  calculation_formula_id :uuid             not null
+#  product_category_id    :uuid             not null
+#  supplier_id            :uuid             not null
 #
 # Indexes
 #

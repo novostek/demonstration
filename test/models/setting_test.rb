@@ -2,7 +2,7 @@
 #
 # Table name: settings
 #
-#  id         :bigint           not null, primary key
+#  id         :uuid             not null, primary key
 #  namespace  :string
 #  value      :json
 #  created_at :datetime         not null

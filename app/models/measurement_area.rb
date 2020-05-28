@@ -2,13 +2,13 @@
 #
 # Table name: measurement_areas
 #
-#  id          :bigint           not null, primary key
+#  id          :uuid             not null, primary key
 #  cloned_from :integer
 #  description :text
 #  name        :string
 #  created_at  :datetime         not null
 #  updated_at  :datetime         not null
-#  estimate_id :bigint           not null
+#  estimate_id :uuid             not null
 #
 # Indexes
 #

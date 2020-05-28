@@ -16,27 +16,13 @@ const Areas = ({index, pe}) => {
   return (
     <>
       <a 
-        onClick={() => toggleSelectAllAreas(index)} 
-        style={{ cursor: 'pointer' }} 
-        key={Math.random()} 
-        className="select-all-areas mr-5">
-          {productEstimate[index].toggleSelect ? 'Select all' : 'Deselect all'}
-      </a>
-      <a 
-        onClick={() => refreshArea(index)} 
-        style={{ cursor: 'pointer' }} 
-        key={Math.random()} 
-        className="btn-refresh-product-area">
-          <i className="material-icons">refresh</i>
-      </a>
-      <a 
         onClick={() => removeArea(index, pe.proposal_id)} 
         style={{ cursor: 'pointer' }} 
         key={Math.random()} 
         className="btn-close-product-area">
           <i className="material-icons">close</i>
-      </a>
-      <div className="areas-available col ">
+      </a>      
+      <div className="areas-available col s12">
         <span>Areas:</span>
         {
           estimate.measurement_areas.map((ma, maIndex) => (
@@ -45,7 +31,22 @@ const Areas = ({index, pe}) => {
             </div>
           ))
         }
-        {/* <a href="#" className="select-all-areas">Select all</a> */}
+        <div class="areas-available-actions">
+          <a 
+            onClick={() => toggleSelectAllAreas(index)} 
+            style={{ cursor: 'pointer' }} 
+            key={Math.random()} 
+            className="select-all-areas">
+              {productEstimate[index].toggleSelect ? 'Select all' : 'Deselect all'}
+          </a>
+          <a 
+            onClick={() => refreshArea(index)} 
+            style={{ cursor: 'pointer' }} 
+            key={Math.random()} 
+            className="btn-refresh-product-area">
+              <i className="material-icons">refresh</i>
+          </a>
+        </div>
       </div>
     </>
   )

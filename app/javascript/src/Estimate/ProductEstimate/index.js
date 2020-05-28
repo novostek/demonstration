@@ -15,7 +15,7 @@ const ProductEstimate = ({product, peIndex, index}) => {
 
   return (
     <div className="row">
-      <div className="col s6 m5">
+      <div className="col s6 m4">
         <span className="left width-100 pt-1">
           Product
           <div className="switch right">
@@ -112,7 +112,7 @@ const ProductEstimate = ({product, peIndex, index}) => {
           className="product-value price" />
         {errors.price && <span>{errors.price.message}</span>}
       </div>
-      <div className="col s6 m1 calc-fields">
+      <div className="col s6 m2 calc-fields">
         <span className="left width-100 pt-1">Discount</span>
         <input type="text"
           name={`measurement[${index}].products[${peIndex}].discount`}

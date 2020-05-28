@@ -4,6 +4,7 @@ class EstimatesController < ApplicationController
   before_action :set_combos, only: [:step_one, :products]
   # skip_forgery_protection
   # GET /estimates
+
   def index
     @q = Estimate.all.order(created_at: :desc).ransack(params[:q])
     @estimates = @q.result.page(params[:page])
@@ -24,7 +25,6 @@ class EstimatesController < ApplicationController
     rescue
       @templates = []
     end
-
     render :estimate_view
   end
 
@@ -211,6 +211,8 @@ class EstimatesController < ApplicationController
     @worker = Worker.new
 
     @lead = Lead.find(params[:lead_id])
+    add_breadcrumb I18n.t("activerecord.models.estimates"), estimates_path
+    add_breadcrumb I18n.t("breadcrumbs.step_one"), "/estimates/step_one/#{params[:lead_id]}"
     render :step_1
   end
 
@@ -237,6 +239,8 @@ class EstimatesController < ApplicationController
     @estimate = Estimate.find(params[:id])
     @workers = Worker.all
     @schedules = Schedule.where('start_at >= ?', Time.now.strftime('%Y-%m-%d'))
+    add_breadcrumb I18n.t("activerecord.models.estimates"), estimates_path
+    add_breadcrumb I18n.t("activerecord.models.schedules"), schedule_estimate_path(@estimate)
     render :schedule
   end
 
@@ -276,6 +280,9 @@ class EstimatesController < ApplicationController
     @categories = ProductCategory.to_select
     @suppliers = Supplier.to_select
     @formulas = CalculationFormula.to_select
+
+    add_breadcrumb I18n.t("activerecord.models.estimates"), estimates_path
+    add_breadcrumb I18n.t("activerecord.models.products"), products_estimate_path(@estimate)
 
     render :products
   end

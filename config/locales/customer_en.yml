@@ -1,7 +1,7 @@
 en:
   activerecord:
     models:
-      customer: "Customer"
+      customers: "Customer"
     attributes:
       customer:
         name: "Name"

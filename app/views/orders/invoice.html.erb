@@ -8,11 +8,7 @@
         <div class="col s10 m6 l6">
           <h5 class="breadcrumbs-title mt-0 mb-0"><%= t('activerecord.attributes.order.invoice') %> - <%= t('activerecord.models.order') %> #<%= @order.code %></h5>
           <ol class="breadcrumbs mb-0">
-            <li class="breadcrumb-item"><a href="index.html"><%= t('home') %></a>
-            </li>
-            <li class="breadcrumb-item"><a href="#"><%= t('activerecord.models.order') %></a>
-            </li>
-            <li class="breadcrumb-item active"><%= t('activerecord.attributes.order.invoice') %></li>
+            <%= render_breadcrumbs :tag => :li, :separator => "" %>
           </ol>
         </div>
         <div class="col s2 m6 l6">

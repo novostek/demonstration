@@ -25,7 +25,7 @@ export default function EstimateProvider({children}) {
     {
       proposal_id: '',
       showSuggestions: false,
-      areas: [],
+      areas: estimate.measurement_areas.map(ma => ma.id),
       toggleSelect: false,
       products: [
         {

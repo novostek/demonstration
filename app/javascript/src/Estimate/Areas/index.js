@@ -31,7 +31,7 @@ const Areas = ({index, pe}) => {
             </div>
           ))
         }
-        <div class="areas-available-actions">
+        <div className="areas-available-actions">
           <a 
             onClick={() => toggleSelectAllAreas(index)} 
             style={{ cursor: 'pointer' }} 

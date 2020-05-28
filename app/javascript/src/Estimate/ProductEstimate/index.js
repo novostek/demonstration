@@ -10,7 +10,10 @@ const ProductEstimate = ({product, peIndex, index}) => {
     updateProductList,
     setMaProductListIndex,
     handleChange,
-    removeProduct
+    removeProduct,
+    productTotalQty,
+    productTotalPrice,
+    productTotalDiscount
   } = useContext(EstimateContext)
 
   return (

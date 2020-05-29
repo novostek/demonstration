@@ -4,7 +4,7 @@ class ConfirmJob < ApplicationJob
   def perform(code, job)
     # Do something later
     if Rails.env.production?
-      url = ""
+      url = "http://portal-woffice.herokuapp.com/clients/get_client?code=#{code}"
     else
       url = "http://localhost:3001/clients/get_client?code=#{code}"
     end
@@ -26,6 +26,7 @@ class ConfirmJob < ApplicationJob
         #job.redirect = "http://#{client.domain}.lvh.me:3000"
         #end
         job.save
+        RestClient.get "http://portal-woffice.herokuapp.com/clients/update_client?code=#{code}"
       end
     end
   end

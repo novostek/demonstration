@@ -29,7 +29,7 @@ module Woffice
 
     #apartment
     config.middleware.use Apartment::Elevators::Subdomain
-      #config.middleware.use Apartment::Elevators::HostHash, {'woffice.biz' => 'public'}
+      #config.middleware.use
 
 
   end

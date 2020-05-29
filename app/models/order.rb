@@ -54,7 +54,7 @@ class Order < ApplicationRecord
   end
 
   def get_current_estimate
-    self.estimates.where(current: true).last
+    self.estimates.where(current: true).includes(:lead).last
   end
 
   def set_code

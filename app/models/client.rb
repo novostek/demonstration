@@ -58,26 +58,37 @@ class Client < ApplicationRecord
         profile_purchase = Profile.create( name: "Purchase", description: "Purchase profiles", status: "t", permissions: {"CustomersController"=>{"cache_globals_settings"=>"true", "create"=>"true", "destroy"=>"true", "edit"=>"true", "home"=>"true", "index"=>"true", "new"=>"true", "new_contact"=>"true", "new_document"=>"true", "new_note"=>"true", "search_by_phone"=>"true", "search_customers"=>"true", "show"=>"true", "toastr"=>"true", "update"=>"true"}, "ContactsController"=>{"cache_globals_settings"=>"true", "create"=>"true", "destroy"=>"true", "edit"=>"true", "index"=>"true", "new"=>"true", "show"=>"true", "toastr"=>"true", "update"=>"true"}, "DocumentFilesController"=>{"cache_globals_settings"=>"true", "create"=>"true", "destroy"=>"true", "edit"=>"true", "index"=>"true", "new"=>"true", "show"=>"true", "toastr"=>"true", "update"=>"true"}, "NotesController"=>{"cache_globals_settings"=>"true", "create"=>"true", "destroy"=>"true", "edit"=>"true", "index"=>"true", "new"=>"true", "show"=>"true", "toastr"=>"true", "update"=>"true"}, "ProductCategoriesController"=>{"cache_globals_settings"=>"true", "create"=>"true", "destroy"=>"true", "edit"=>"true", "index"=>"true", "new"=>"true", "show"=>"true", "toastr"=>"true", "update"=>"true"}, "ProductsController"=>{"cache_globals_settings"=>"true", "create"=>"true", "destroy"=>"true", "edit"=>"true", "index"=>"true", "new"=>"true", "show"=>"true", "toastr"=>"true", "update"=>"true"}, "SuppliersController"=>{"cache_globals_settings"=>"true", "create"=>"true", "destroy"=>"true", "edit"=>"true", "index"=>"true", "new"=>"true", "new_contact"=>"true", "new_document"=>"true", "new_note"=>"true", "show"=>"true", "toastr"=>"true", "update"=>"true"}, "WorkersController"=>{"cache_globals_settings"=>"true", "create"=>"true", "destroy"=>"true", "edit"=>"true", "index"=>"true", "new"=>"true", "new_contact"=>"true", "new_document"=>"true", "new_note"=>"true", "show"=>"true", "toastr"=>"true", "update"=>"true"}})
 
 
-        leads = Menu.create(active: true, icon: "assignment", name: "Leads", url: "/leads", ancestry: nil, position: 1)
+
         customer = Menu.create(active: true, icon: "face", name: "Customer", url: "/customers", ancestry: nil, position: 4)
         workers = Menu.create(active: true, icon: "business_center", name: "Workers", url: "/workers", ancestry: nil, position: 5)
         estimates = Menu.create(active: true, icon: "assignment_turned_in", name: "Estimates", url: "/estimates", ancestry: nil, position: 2)
         schedules = Menu.create(active: true, icon: "event_note", name: "Schedules", url: "/schedules", ancestry: nil, position: 6)
         orders = Menu.create(active: true, icon: "assignment_ind", name: "Orders", url: "/orders", ancestry: nil, position: 3)
-        configuration = Menu.create(active: true, icon: "settings", name: "Configuration", url: "#", ancestry: nil, position: 10)
+        leads = Menu.create(active: true, icon: "assignment", name: "Leads", url: "/leads", ancestry: nil, position: 1)
+        configuration = Menu.create(active: true, icon: "settings", name: "Setting", url: "#", ancestry: nil, position: 10)
+        settings = Menu.create(active: true, icon: "add_to_queue", name: "System Configuration", url: "/settings", ancestry: configuration.id, position: 9)
         calculation_formula = Menu.create(active: true, icon: "local_atm", name: "Calculation Formula", url: "/calculation_formulas", ancestry: configuration.id, position: 1)
-        produc_category = Menu.create(active: true, icon: "shopping_basket", name: "Product Categories", url: "/product_categories", ancestry: configuration.id, position: 2)
-        transaction_categories = Menu.create( active: true, icon: "credit_card", name: "Transaction Categories", url: "/transaction_categories", ancestry: configuration.id, position: 6)
-        transaction_accounts = Menu.create(active: true, icon: "chrome_reader_mode", name: "Transactions Accounts", url: "/transaction_accounts", ancestry: configuration.id, position: 5)
-        setup = Menu.create(active: true, icon: "build", name: "Setup", url: "#", ancestry: nil, position: 11)
-        products = Menu.create(active: true, icon: "shopping_cart", name: "Products", url: "/products", ancestry: configuration.id, position: 3)
-        menus = Menu.create(active: true, icon: "view_list", name: "Menu", url: "/menus", ancestry: setup.id, position: nil)
-        users = Menu.create(active: true, icon: "person_add", name: "Users", url: "/users", ancestry: setup.id, position: nil)
-        profile = Menu.create(active: true, icon: "assignment_ind", name: "Profile", url: "/profiles", ancestry: setup.id, position: nil)
-        documents = Menu.create(active: true, icon: "description", name: "Documents", url: "/documents", ancestry: nil, position: 9)
-        suppliers = Menu.create(active: true, icon: "local_grocery_store", name: "Suppliers", url: "/suppliers", ancestry: nil, position: 8)
-        transactions = Menu.create(active: true, icon: "monetization_on", name: "Transactions", url: "/transactions", ancestry: nil, position: 7)
-        settings = Menu.create(active: true, icon: "add_to_queue", name: "Settings", url: "/settings", ancestry: nil, position: 9)
+        documents = Menu.create(active: true, icon: "description", name: "Documents", url: "/documents", ancestry: configuration.id, position: 9)
+        security = Menu.create(active: true, icon: "description", name: "Security", url: "#", ancestry: configuration.id, position: 9)
+        portifolio = Menu.create(active: true, icon: "description", name: "Portifolio", url: "#", ancestry: nil, position: 9)
+        products = Menu.create(active: true, icon: "shopping_cart", name: "Products", url: "/products", ancestry: portifolio.id, position: 3)
+        suppliers = Menu.create(active: true, icon: "local_grocery_store", name: "Suppliers", url: "/suppliers", ancestry: portifolio.id, position: 8)
+        produc_category = Menu.create(active: true, icon: "shopping_basket", name: "Categories", url: "/product_categories", ancestry: portifolio.id, position: 2)
+        finances = Menu.create(active: true, icon: "shopping_basket", name: "Finances", url: "#", ancestry: nil, position: 2)
+        transactions = Menu.create(active: true, icon: "monetization_on", name: "Transactions", url: "/transactions", ancestry: finances.id, position: 7)
+        transaction_accounts = Menu.create(active: true, icon: "chrome_reader_mode", name: "Accounts", url: "/transaction_accounts", ancestry: finances.id, position: 5)
+        transaction_categories = Menu.create( active: true, icon: "credit_card", name: "Categories", url: "/transaction_categories", ancestry: finances.id, position: 6)
+
+
+        users = Menu.create(active: true, icon: "person_add", name: "Users", url: "/users", ancestry: security.id, position: 1)
+        profile = Menu.create(active: true, icon: "assignment_ind", name: "Profile", url: "/profiles", ancestry: security.id, position: 2)
+        menus = Menu.create(active: true, icon: "view_list", name: "Menu Access", url: "/menus", ancestry: security.id, position: 3)
+
+
+
+
+
+
         finance = Menu.create(active: true, icon: "monetization_on", name: "Finance Dashboard", url: "/finances/dashboard", ancestry: nil, position: 11)
 
         ProfileMenu.create!([

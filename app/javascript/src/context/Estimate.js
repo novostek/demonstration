@@ -388,7 +388,9 @@ export default function EstimateProvider({children}) {
   }
 
   const remoteSubmit = () => {
-    submitBtnRef.current.click()
+    document.forms['tax_form'].reportValidity()
+    &&
+    submitBtnRef.current.click() 
   }
 
   const refreshArea = (proposal_id) => {

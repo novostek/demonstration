@@ -2,7 +2,13 @@ import React, { useEffect, useState, useContext } from 'react'
 import moment from 'moment'
 import { useForm } from "react-hook-form";
 import axios from 'axios';
+import * as yup from "yup";
 import { EstimateContext } from '../../context/Estimate';
+
+const schema = yup.object().shape({
+  tax_calculation: yup.string().required(),
+  ataxpayerge: yup.string().required(),
+});
 
 const EstimateDetail = () => {
   const { productEstimate, setProductEstimate, estimate } = useContext(EstimateContext)
@@ -10,14 +16,10 @@ const EstimateDetail = () => {
 
   const onChangeTax = async formData => {
     const data = await axios.put(`/estimates/${estimate.id}/tax_calculation`, { tax_calculation: formData.tax_calculation })
-
-    console.log(formData.tax_calculation)
   }
 
   const onChangeTaxPayer = async formData => {
     const data = await axios.put(`/estimates/${estimate.id}/taxpayer`, { taxpayer: formData.taxpayer })
-
-    console.log(formData.taxpayer)
   }
 
   const [taxes, setTaxes] = useState([{}])
@@ -58,14 +60,14 @@ const EstimateDetail = () => {
         </div>
         <div className="row mt-3">
           <div className="col s12">
-            <form>
+            <form name="tax_form">
               <div className="row">
                 <div className="input-field col s12 m3 l4">
                   {
                     taxes.length > 0
                     &&
                     <>
-                      <select name="tax_calculation" ref={register} onChange={handleSubmit(onChangeTax)}>
+                      <select name="tax_calculation" required ref={register} onChange={handleSubmit(onChangeTax)}>
                         <option value="">Select an option</option>
                         {
                           taxes.map(tax => (
@@ -79,7 +81,7 @@ const EstimateDetail = () => {
                 </div>
 
                 <div className="input-field col s12 m3 l3">
-                  <select name="taxpayer" onChange={handleSubmit(onChangeTaxPayer)} ref={register}>
+                  <select name="taxpayer" required onChange={handleSubmit(onChangeTaxPayer)} ref={register}>
                     <option value="">Select an option</option>
                     <option value="customer">Customer will pay</option>
                     <option value="company">We will pay</option>

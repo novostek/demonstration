@@ -43,13 +43,9 @@ class NotesController < ApplicationController
 
   # DELETE /notes/1
   def destroy
-
     @note.destroy
 
-    redirect_to params[:redirect], notice: t('notice.note.deleted')
-
-
-
+    redirect_back(fallback_location: root_path, notice: t('notice.note.deleted'))
   end
 
   private

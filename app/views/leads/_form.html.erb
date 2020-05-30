@@ -108,9 +108,9 @@
     let firstPhone = '';
     document.getElementById('new_customer').addEventListener('submit', () => {
 
-      const customer_name = document.getElementById('customer_name').value;
-      const customer_email = document.getElementById('email').value;
-      const customer_phone = document.getElementById('phone').value;
+      const customer_name = document.getElementById('new_name_field').value;
+      const customer_email = document.getElementById('new_email_field').value;
+      const customer_phone = document.getElementById('new_phone_field').value;
 
       const lead_customer = document.getElementById('lead_customer');
       const lead_phone = document.getElementById('lead_phone');
@@ -235,7 +235,7 @@
   <script>
     document.addEventListener('DOMContentLoaded', function() {
       document.getElementById('lead_customer').addEventListener('change', (e) => {
-        document.getElementById('customer_name').setAttribute('value', e.target.value);
+        document.getElementById('new_name_field').setAttribute('value', e.target.value);
         document.getElementById('customer_name_label').classList.add('active');
         document.getElementById('lead_email_label').classList.add('active');
       });

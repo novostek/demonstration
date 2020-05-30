@@ -2,9 +2,8 @@ import React, { useState, useRef, useEffect } from 'react'
 import ReactDOM from 'react-dom'
 import { useForm } from "react-hook-form";
 import M from 'materialize-css'
-import * as yup from "yup";
-import Swal from 'sweetalert2'
 import EstimateDetail from '../../../src/Estimate/EstimateDetail'
+import EstimateProvider from '../../../src/context/Estimate';
 
 const schema = {
   requiredDecimal: { required: true, pattern: /^\d+(\.\d{1,2})?$/ }
@@ -21,10 +20,9 @@ const ProductComponent = () => {
 
   const { register, handleSubmit, setValue, errors, reset } = useForm()
 
-  const node = document.getElementById('purchase_data')
+  const node = document.getElementById('data')
   const purchases = JSON.parse(node.getAttribute('purchases'))
-  const estimate = JSON.parse(node.getAttribute('estimate'))
-  const order = JSON.parse(node.getAttribute('data'))
+  const order = JSON.parse(node.getAttribute('order_data'))
 
   const [productPurchase, setProductPurchase] = useState([])
 
@@ -134,6 +132,8 @@ const ProductComponent = () => {
   }
 
   const remoteSubmit = () => {
+    document.forms['tax_form'].reportValidity()
+    &&
     submitBtnRef.current.click()
   }
 
@@ -201,7 +201,7 @@ const ProductComponent = () => {
 
   return (
     <>
-      <EstimateDetail estimate={estimate} />
+      <EstimateDetail />
       <div className="card">
         <div className="card-content">
           <ul className="stepper horizontal stepper-head-only">
@@ -223,7 +223,7 @@ const ProductComponent = () => {
           <div className="row products-area-list pl-1 pr-1" id="measurement_proposals" >
             <div className="product-area">
               <div className="products-list" >
-                <form onSubmit={handleSubmit(onSubmit)}>
+                <form onSubmit={handleSubmit(onSubmit)} name="order_form">
                   {
                     productPurchase.map((product_purchase, index) => {
                       return (
@@ -345,7 +345,9 @@ const ProductComponent = () => {
 // export default ProductComponent
 document.addEventListener('DOMContentLoaded', () => {
   ReactDOM.render(
-    <ProductComponent />,
+    <EstimateProvider>
+      <ProductComponent />
+    </EstimateProvider>,
     document.getElementById('react-component'),
   )
 })

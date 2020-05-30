@@ -18,7 +18,7 @@ const ProductEstimateProposal = () => {
 
   return (
     <>
-      <form onSubmit={handleSubmit(onSubmit)}>
+      <form onSubmit={handleSubmit(onSubmit)} name="estimate_form">
         {
           productEstimate.map((pe, index) => (
             <div className="row products-area-list pl-1 pr-1 mt-2" id="measurement_proposals" key={index}>

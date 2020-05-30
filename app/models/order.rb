@@ -54,7 +54,7 @@ class Order < ApplicationRecord
   end
 
   def get_current_estimate
-    self.estimates.where(current: true).last
+    self.estimates.where(current: true).includes(:lead).last
   end
 
   def set_code
@@ -71,6 +71,15 @@ class Order < ApplicationRecord
       :name => product.custom_title,
       :value => product.value.to_f
     } } }
+  end
+
+  def get_products
+    products = purchases.map { |purchase| purchase.product_purchases.where(:tax => false).map { |product| {
+      :id => product.id,
+      :name => product.product.present? ? product.product.name : product.custom_title
+    } } }
+
+    products.flatten
   end
 
   def self.get_new_orders_count

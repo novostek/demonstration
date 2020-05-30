@@ -6,14 +6,9 @@
 					<div class="row">
 						<div class="col s10 m6 l6">
 							<h5 class="breadcrumbs-title mt-0 mb-0">Costs - Order #56523</h5>
-							<ol class="breadcrumbs mb-0">
-								<li class="breadcrumb-item"><a href="index.html">Home</a>
-								</li>
-								<li class="breadcrumb-item"><a href="#">Orders</a>
-								</li>
-								<li class="breadcrumb-item active">Costs
-								</li>
-							</ol>
+              <ol class="breadcrumbs mb-0">
+                <%= render_breadcrumbs :tag => :li, :separator => "" %>
+              </ol>
 						</div>
 						<div class="col s2 m6 l6">
 							<!-- <a class="btn waves-effect waves-light breadcrumbs-btn right border-round dropdown-settings" href="#!" data-target='dropdown1'><i class="material-icons hide-on-med-and-up">attach_money</i><span class="hide-on-small-only">Order</span></a>
@@ -272,8 +267,11 @@
                                   </div>
                                   <% p.document_files.each do |doc| %>
                                     <%= link_to doc.file.url, target:"_blank" do %>
-                                      <span class="chip grey lighten-3 green-text truncate"><%= doc.title %></span>
-                                    <% end if doc.file.present?  %>
+                                      <div class="document">
+                                        <span class="doc-date" title="Created at"><%= doc.created_at %></span>
+                                        <%= doc.title %>
+                                      </div>
+                                    <% end if doc.file.present?%>
                                   <% end %>
                                 </div>
                               </div>

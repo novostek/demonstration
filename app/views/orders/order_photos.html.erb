@@ -12,12 +12,7 @@
         <div class="col s10 m6 l6">
           <h5 class="breadcrumbs-title mt-0 mb-0">Photos</h5>
           <ol class="breadcrumbs mb-0">
-            <li class="breadcrumb-item"><a href="index.html">Home</a>
-            </li>
-            <li class="breadcrumb-item"><a href="<%= order_path(@order) %>">Order</a>
-            </li>
-            <li class="breadcrumb-item active">Photos
-            </li>
+            <%= render_breadcrumbs :tag => :li, :separator => "" %>
           </ol>
         </div>
         <div class="col s2 m6 l6">

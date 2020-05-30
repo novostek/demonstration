@@ -1,0 +1,10 @@
+en:
+  breadcrumbs:
+    home: "Home"
+    show: "View"
+    edit: "Edit"
+    new: "New"
+    step_one: "Step 1"
+    costs: "Costs"
+    delivery: "Delivery"
+    invoice: "Invoice"

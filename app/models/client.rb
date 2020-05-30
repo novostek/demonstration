@@ -66,30 +66,24 @@ class Client < ApplicationRecord
         orders = Menu.create(active: true, icon: "assignment_ind", name: "Orders", url: "/orders", ancestry: nil, position: 3)
         leads = Menu.create(active: true, icon: "assignment", name: "Leads", url: "/leads", ancestry: nil, position: 1)
         configuration = Menu.create(active: true, icon: "settings", name: "Settings", url: "#", ancestry: nil, position: 10)
-        settings = Menu.create(active: true, icon: "add_to_queue", name: "System Configuration", url: "/settings", ancestry: configuration.id, position: 1)
-        calculation_formula = Menu.create(active: true, icon: "local_atm", name: "Calculation Formula", url: "/calculation_formulas", ancestry: configuration.id, position:2)
-        documents = Menu.create(active: true, icon: "description", name: "Documents", url: "/documents", ancestry: configuration.id, position: 3)
-        security = Menu.create(active: true, icon: "description", name: "Security", url: "#", ancestry: configuration.id, position: 4)
-        portifolio = Menu.create(active: true, icon: "description", name: "Portifolio", url: "#", ancestry: nil, position: 8)
-        products = Menu.create(active: true, icon: "shopping_cart", name: "Products", url: "/products", ancestry: portifolio.id, position: 1)
-        suppliers = Menu.create(active: true, icon: "local_grocery_store", name: "Suppliers", url: "/suppliers", ancestry: portifolio.id, position: 2)
-        produc_category = Menu.create(active: true, icon: "shopping_basket", name: "Categories", url: "/product_categories", ancestry: portifolio.id, position: 3)
-        finances = Menu.create(active: true, icon: "shopping_basket", name: "Finances", url: "#", ancestry: nil, position: 6)
-        transactions = Menu.create(active: true, icon: "monetization_on", name: "Transactions", url: "/transactions", ancestry: finances.id, position: 1)
-        transaction_accounts = Menu.create(active: true, icon: "chrome_reader_mode", name: "Accounts", url: "/transaction_accounts", ancestry: finances.id, position: 2)
-        transaction_categories = Menu.create( active: true, icon: "credit_card", name: "Categories", url: "/transaction_categories", ancestry: finances.id, position: 3)
+        settings = Menu.create(active: true, icon: "build", name: "System Configuration", url: "/settings", parent: configuration, position: 1)
+        calculation_formula = Menu.create(active: true, icon: "local_atm", name: "Calculation Formula", url: "/calculation_formulas", parent: configuration, position:2)
+        documents = Menu.create(active: true, icon: "description", name: "Documents", url: "/documents", parent: configuration, position: 3)
+        security = Menu.create(active: true, icon: "security", name: "Security", url: "#", parent: configuration, position: 4)
+        portifolio = Menu.create(active: true, icon: "chrome_reader_mode", name: "Portifolio", url: "#", ancestry: nil, position: 8)
+        products = Menu.create(active: true, icon: "local_grocery_store", name: "Products", url: "/products", parent: portifolio, position: 1)
+        suppliers = Menu.create(active: true, icon: "local_shipping", name: "Suppliers", url: "/suppliers", parent: portifolio, position: 2)
+        produc_category = Menu.create(active: true, icon: "widgets", name: "Categories", url: "/product_categories", parent: portifolio, position: 3)
+        finances = Menu.create(active: true, icon: "monetization_on", name: "Finances", url: "#", ancestry: nil, position: 6)
+        transactions = Menu.create(active: true, icon: "monetization_on", name: "Transactions", url: "/transactions", parent: finances, position: 1)
+        transaction_accounts = Menu.create(active: true, icon: "account_balance_wallet", name: "Accounts", url: "/transaction_accounts", parent: finances, position: 2)
+        transaction_categories = Menu.create( active: true, icon: "donut_small", name: "Categories", url: "/transaction_categories", parent: finances, position: 3)
 
 
         users = Menu.create(active: true, icon: "person_add", name: "Users", url: "/users", parent: security, position: 1)
-        profile = Menu.create(active: true, icon: "assignment_ind", name: "Profile", url: "/profiles", parent: security, position: 2)
+        profile = Menu.create(active: true, icon: "person_pin", name: "Profile", url: "/profiles", parent: security, position: 2)
         menus = Menu.create(active: true, icon: "view_list", name: "Menu Access", url: "/menus", parent: security, position: 3)
-
-        Menu.rebuild_depth_cache!
-
-
-
-
-        #finance = Menu.create(active: true, icon: "monetization_on", name: "Finance Dashboard", url: "/finances/dashboard", ancestry: nil, position: 11)
+        
 
         ProfileMenu.create!([
                                 #perfil administrator

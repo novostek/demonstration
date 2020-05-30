@@ -1,6 +1,7 @@
 class SettingsController < ApplicationController
   #load_and_authorize_resource
   before_action :set_setting, only: [:show, :edit, :update, :destroy]
+  before_action :get_logo, only: :company_logo
 
   # GET /settings
   def index
@@ -105,10 +106,12 @@ class SettingsController < ApplicationController
 
   #Render Company Logo
   def company_logo
-    #redirect_to Setting.logo
-    s = Setting.logo_object
-    data = open(s.file.url.gsub('https','http'))
-    send_data data.read, filename: s.file.filename, type: s.file.content_type, disposition: 'inline', stream: 'true', buffer_size: '4096'
+  end
+
+  def cached_logo
+    http_cache_forever(public: true) do
+      get_logo
+    end
   end
 
   #Render Company Banner
@@ -129,4 +132,14 @@ class SettingsController < ApplicationController
     def setting_params
       params.require(:setting).permit(:namespace, :value)
     end
+
+  def get_logo
+    begin
+      s = Setting.logo_object
+      data = open(s.file.url.gsub('https','http'))
+      send_data data.read, filename: s.file.filename, type: s.file.content_type, disposition: 'inline', stream: 'true', buffer_size: '4096'
+    rescue
+      send_file 'public/materialize/images/avatar/avatar-7.png', type: 'image/png', disposition: 'inline', stream: 'true', buffer_size: '4096'
+    end
+  end
 end

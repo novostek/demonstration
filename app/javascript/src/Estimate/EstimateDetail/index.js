@@ -1,9 +1,11 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useContext } from 'react'
 import moment from 'moment'
 import { useForm } from "react-hook-form";
 import axios from 'axios';
+import { EstimateContext } from '../../context/Estimate';
 
-const EstimateDetail = ({estimate}) => {
+const EstimateDetail = () => {
+  const { productEstimate, setProductEstimate, estimate } = useContext(EstimateContext)
   const { register, handleSubmit, setValue } = useForm()
 
   const onChangeTax = async formData => {
@@ -67,7 +69,7 @@ const EstimateDetail = ({estimate}) => {
                         <option value="">Select an option</option>
                         {
                           taxes.map(tax => (
-                            <option value={tax.id}>{tax.name}</option>
+                            <option key={Date.now} value={tax.id}>{tax.name}</option>
                           ))
                         }
                       </select>

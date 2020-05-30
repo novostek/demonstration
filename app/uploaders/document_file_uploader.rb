@@ -44,4 +44,9 @@ class DocumentFileUploader < CarrierWave::Uploader::Base
   # def filename
   #   "something.jpg" if original_filename
   # end
+  #
+  def cache_dir
+    '/tmp/woffice-cache'
+  end
+
 end

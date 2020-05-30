@@ -16,6 +16,7 @@ class ApplicationController < ActionController::Base
 
   def cache_globals_settings
     @company_name = Setting.get_value('company_name')
+    @last_logo_update = Setting.logo_object.updated_at.to_i
   end
 
   def set_smtp

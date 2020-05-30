@@ -1,39 +1,32 @@
-import React, { useState, useRef, useEffect } from 'react'
-import ReactDOM from 'react-dom'
-import { useForm } from "react-hook-form";
-import M from 'materialize-css'
-import * as yup from "yup";
-import EstimateDetail from '../EstimateDetail'
-import Swal from 'sweetalert2'
+import React, { createContext, useState, useEffect, useRef } from 'react'
+import { useForm } from 'react-hook-form'
 import axios from 'axios'
+import Swal from 'sweetalert2'
+export const EstimateContext = createContext()
 
-const schema = {
-  requiredDecimal: { required: true, pattern: /^\d+(\.\d{1,2})?$/ }
-}
-
-const ProductComponent = () => {
-  let submitBtnRef = useRef()
-
-  const [maProductListIndex, setMaProductListIndex] = useState({
-    maIndex: 0,
-    productIndex: 0
-  })
-  const { register, handleSubmit, setValue, reset, errors } = useForm({ mode: "onBlur", reValidateMode: "onSubmit" })
+export default function EstimateProvider({children}) {
+  const schema = {
+    requiredDecimal: { required: true, pattern: /^\d+(\.\d{1,2})?$/ }
+  }
 
   const node = document.getElementById('estimate_data')
-  const estimate = JSON.parse(node.getAttribute('data'))
-  // const productSuggestions = JSON.parse(node.getAttribute('suggestions'))
+  const estimateData = JSON.parse(node.getAttribute('data'))
+
+  const submitBtnRef = useRef()
 
   const [suggestions, setSuggestions] = useState([{
     area_id: 0,
     suggestions: []
   }])
 
+  const [estimate, setEstimate] = useState(estimateData)
+
   const [productEstimate, setProductEstimate] = useState([
     {
       proposal_id: '',
       showSuggestions: false,
-      areas: [],
+      areas: estimate.measurement_areas.map(ma => ma.id),
+      toggleSelect: false,
       products: [
         {
           key: Math.random(),
@@ -50,6 +43,13 @@ const ProductComponent = () => {
   ])
 
   const [productAutoComplete, setProductAutoComplete] = useState({})
+
+  const [maProductListIndex, setMaProductListIndex] = useState({
+    maIndex: 0,
+    productIndex: 0
+  })
+
+  const { register, handleSubmit, setValue, reset, errors } = useForm({ mode: "onBlur", reValidateMode: "onSubmit" })
 
   const updateProductList = async (index, peIndex, name, value) => {
     const { data: products } = await axios.get('/products.json')
@@ -143,7 +143,6 @@ const ProductComponent = () => {
 
     const initialLoad = async () => {
       const { data: products } = await axios.get('/products.json')
-      console.log(products)
       setProductAutoComplete(products)
       setSuggestions([{
         area_id: 999,
@@ -171,11 +170,14 @@ const ProductComponent = () => {
               const copy = [...productEstimate]
               if (mp.id !== indexHelper) {
                 copy.push({ areas: [], products: [] })
-                mp.measurement_area.map(area => copy[mpIndex].areas.push(area.id))
+                mp.measurement_area.map(area => {
+                  // selectArea(mpIndex, area.id, insert)
+                  copy[mpIndex].areas.push(area.id)
+                })
                 if (mp.id !== indexHelper) {
                   mp.product_estimates.map((pe, peIndex) => {
                     copy[mpIndex].proposal_id = mp.id
-                    console.log(copy[mpIndex].products)
+                    copy[mpIndex].toggleSelect = false
                     copy[mpIndex].products.push({
                       product_estimate_id: pe.id,
                       key: Math.random(),
@@ -194,20 +196,21 @@ const ProductComponent = () => {
                 indexHelper = mp.id
               } else {
                 mp.product_estimates.map((pe, peIndex) => {
-                  if (copy[mpIndex - 1])
-                    console.log(copy[mpIndex].products)
-                  copy[mpIndex - 1].products.push({
-                    product_estimate_id: pe.id,
-                    key: Math.random(),
-                    name: pe.name,
-                    product_id: pe.product_id,
-                    qty: pe.quantity,
-                    price: pe.unitary_value,
-                    discount: pe.discount,
-                    tax: pe.tax,
-                    total: pe.value,
-                    readOnly: true
-                  })
+                  if (copy[mpIndex - 1]){                    
+                    copy[mpIndex].toggleSelect = false
+                    copy[mpIndex - 1].products.push({
+                      product_estimate_id: pe.id,
+                      key: Math.random(),
+                      name: pe.name,
+                      product_id: pe.product_id,
+                      qty: pe.quantity,
+                      price: pe.unitary_value,
+                      discount: pe.discount,
+                      tax: pe.tax,
+                      total: pe.value,
+                      readOnly: true
+                    })
+                  }
                 })
                 // console.log(copy[])
               }
@@ -222,6 +225,8 @@ const ProductComponent = () => {
 
           return copy
         })
+
+        console.log("Estimate", productEstimate)
       }
 
 
@@ -230,10 +235,6 @@ const ProductComponent = () => {
   }, [])
 
   useEffect(() => {
-
-    const node = document.getElementById('estimate_data')
-    // const products = JSON.parse(node.getAttribute('products'))
-
     const autoCompleteProductData = {}
 
     Array.isArray(productAutoComplete) && productAutoComplete.map(product => autoCompleteProductData[product.name] = null)
@@ -245,7 +246,6 @@ const ProductComponent = () => {
         setProductEstimate(productEstimate => {
           const copy = [...productEstimate]
           const id = productAutoComplete.filter(p => p.name === val)[0].id
-          console.log('autocomplete', maProductListIndex.maIndex)
           updateSuggestions(maProductListIndex.maIndex, id)
 
           copy[maProductListIndex.maIndex].products[maProductListIndex.productIndex].product_id = id
@@ -255,7 +255,6 @@ const ProductComponent = () => {
           if (productEstimate[maProductListIndex.maIndex].areas.length > 0)
             calculateProductLW(productEstimate[maProductListIndex.maIndex].areas, id)
               .then(result => {
-                console.log(result)
                 copy[maProductListIndex.maIndex].products[maProductListIndex.productIndex].name = result.name
                 copy[maProductListIndex.maIndex].products[maProductListIndex.productIndex].qty = result.qty
                 copy[maProductListIndex.maIndex].products[maProductListIndex.productIndex].total = result.total
@@ -286,6 +285,7 @@ const ProductComponent = () => {
     const area_product = {
       proposal_id: '',
       areas: [],
+      toggleSelect: false,
       products: [
         {
           key: Math.random(),
@@ -299,6 +299,10 @@ const ProductComponent = () => {
         }
       ]
     }
+
+    estimate.measurement_areas.map((ma) => {
+      area_product.areas.push(ma.id)
+    })
 
     setProductEstimate(productEstimate => [...productEstimate, area_product])
   }
@@ -390,7 +394,6 @@ const ProductComponent = () => {
   const refreshArea = (proposal_id) => {
     setProductEstimate(productEstimate => {
       const copy = [...productEstimate]
-      console.log(copy[proposal_id].products)
       copy[proposal_id].areas.length > 0
         &&
         copy[proposal_id].products.map((product, index) => {
@@ -507,6 +510,29 @@ const ProductComponent = () => {
       .then(data => data.json())
   }
 
+  const toggleSelectAllAreas = (maIndex) => {
+    productEstimate[maIndex].toggleSelect
+    ?
+    setProductEstimate(productEstimate => {
+      const copy = [...productEstimate]
+      copy[maIndex].toggleSelect = false
+      estimate.measurement_areas.map((ma) => {
+        copy[maIndex].areas.push(ma.id)
+      })
+      return copy
+    })
+    // setProductEstimate(productEstimate => [...productEstimate.slice(0, maIndex), { ...productEstimate[maIndex], areas: [...productEstimate[maIndex].areas, area_id]}])
+    :
+    setProductEstimate(productEstimate => {
+      const copy = [...productEstimate]
+      copy[maIndex].toggleSelect = true
+      copy[maIndex].areas = []
+      return copy
+    })
+
+    
+  }
+
   const onSubmit = async data => {
     const copy = [...productEstimate]
     const results = copy.map(async (ma, index) => {
@@ -540,202 +566,46 @@ const ProductComponent = () => {
   }
 
   return (
-    <div className="row">
-      <div className="col s12">
-        <div className="container">
-          <a className="btn waves-effect waves-light modal-trigger breadcrumbs-btn right mr-2 indigo border-round btn-send-email"
-            href="#modal-areas">See Measurements</a>
-          <EstimateDetail estimate={estimate} />
-
-          <div className="card">
-            <div className="card-content">
-              <ul className="stepper horizontal stepper-head-only">
-                <li className="step">
-                  <a href={`/estimates/step_one/${estimate.id}`}>
-                    <div className="step-title waves-effect">Step 1</div>
-                  </a>
-                </li>
-                <li className="step ">
-                  <a href={`/estimates/${estimate.id}/schedule`}>
-                    <div className="step-title waves-effect">Schedule</div>
-                  </a>
-                </li>
-                <li className="step">
-                  <a href={`/estimates/${estimate.id}/measurements`}>
-                    <div className="step-title waves-effect">Measurements</div>
-                  </a>
-                </li>
-                <li className="step active">
-                  <a href={`/estimates/${estimate.id}/products`}>
-                    <div className="step-title waves-effect">Products</div>
-                  </a>
-                </li>
-              </ul>
-              <form onSubmit={handleSubmit(onSubmit)}>
-                {
-                  productEstimate.map((pe, index) => (
-                    <div className="row products-area-list pl-1 pr-1 mt-2" id="measurement_proposals" key={index}>
-                      <div className="product-area">
-                        <a onClick={() => removeArea(index, pe.proposal_id)} style={{ cursor: 'pointer' }} className="btn-close-product-area"><i className="material-icons">close</i></a>
-                        <a onClick={() => refreshArea(index)} style={{ cursor: 'pointer' }} key={Math.random} className="btn-refresh-product-area"><i className="material-icons">refresh</i></a>
-                        <div className="areas-available col s12">
-                          <span>Areas:</span>
-                          {
-                            estimate.measurement_areas.map((ma, maIndex) => (
-                              <div className={`chip ${productEstimate[index].areas.includes(ma.id) ? 'selected' : ''}`} key={Math.random()} onClick={() => !productEstimate[index].areas.includes(ma.id) ? selectArea(index, ma.id, true) : selectArea(index, ma.id, false)}>
-                                {ma.name}
-                              </div>
-                            ))
-                          }
-                          {/* <a href="#" className="select-all-areas">Select all</a> */}
-                        </div>
-                        <div className="products-list">
-
-                          <input type="hidden" ref={register} name={`measurement_area[${index}]`} value={index} />
-                          {
-                            pe.products.map((product, peIndex) => (
-                              <div className="product" key={peIndex}>
-                                <div className="row pl-1 pr-1 products-search">
-                                  <div className="row">
-                                    <div className="col s6 m3">
-                                      <span className="left width-100 pt-1">Product</span>
-                                      <div className="input-field mt-0 mb-0 products-search-field-box">
-                                        <a href="#product-add-modal" className="btn-add-product modal-trigger tooltipped" data-tooltip="New product"><i className="material-icons">add</i></a>
-                                        <input
-                                          name={`measurement[${index}].products[${peIndex}].name`}
-                                          ref={register}
-                                          onFocus={() => updateProductList()}
-                                          onChange={(e) => handleChange(index, peIndex, e.target.name, e.target.value)}
-                                          defaultValue={productEstimate[index].products[peIndex].name}
-                                          readOnly={productEstimate[index].products[peIndex].readOnly}
-                                          onClick={() => setMaProductListIndex(prev => {
-                                            return { ...prev, maIndex: index, productIndex: peIndex }
-                                          })}
-                                          autoComplete="off" type="text" className="autocomplete autocomplete-products mt-1" />
-                                        <input
-                                          defaultValue={productEstimate[index].products[peIndex].product_id}
-                                          name={`measurement[${index}].products[${peIndex}].product_id`}
-                                          ref={register}
-                                          autoComplete="off"
-                                          type="hidden" />
-                                      </div>
-                                    </div>
-                                    <div className="col s6 m2 input-fields">
-                                      <label >
-                                        <input
-                                          name={`measurement[${index}].products[${peIndex}].tax`}
-                                          ref={register}
-                                          type="checkbox"
-                                          onChange={(e) => {
-                                            const { checked } = e.target
-                                            setProductEstimate(productEstimate => {
-                                              const copy = [...productEstimate]
-                                              console.log(checked)
-                                              copy[index].products[peIndex].tax = checked
-
-                                              return copy
-                                            })
-                                          }}
-                                          defaultChecked={productEstimate[index].products[peIndex].tax}
-                                        />
-                                        <span style={{ marginTop: '30px' }} className="left width-10 pt-1">Tax</span>
-                                      </label>
-                                    </div>
-                                    <div className="col s6 m2 calc-fields">
-                                      <span className="left width-100 pt-1">Qty.</span>
-                                      <input
-                                        type="text"
-                                        name={`measurement[${index}].products[${peIndex}].qty`}
-                                        defaultValue={productEstimate[index].products[peIndex].qty}
-                                        onChange={(e) => productTotalQty(index, peIndex, e.target.value)}
-                                        ref={register(schema.requiredDecimal)} className="product-value qty" />
-                                      {errors.qty && <span>{errors.qty.message}</span>}
-                                    </div>
-                                    <div className="col s6 m2 calc-fields">
-                                      <span className="left width-100 pt-1">Prince un.</span>
-                                      <input
-                                        type="text"
-                                        name={`measurement[${index}].products[${peIndex}].price`}
-                                        ref={register(schema.requiredDecimal)}
-                                        defaultValue={productEstimate[index].products[peIndex].price}
-                                        onChange={(e) => productTotalPrice(index, peIndex, e.target.value)}
-                                        className="product-value price" />
-                                      {errors.price && <span>{errors.price.message}</span>}
-                                    </div>
-                                    <div className="col s6 m1 calc-fields">
-                                      <span className="left width-100 pt-1">Discount</span>
-                                      <input type="text"
-                                        name={`measurement[${index}].products[${peIndex}].discount`}
-                                        defaultValue={productEstimate[index].products[peIndex].discount}
-                                        onChange={(e) => productTotalDiscount(index, peIndex, e.target.value)}
-                                        ref={register(schema.requiredDecimal)}
-                                        className="product-value discount" />
-                                      {errors.discount && <span>{errors.discount.message}</span>}
-                                    </div>
-                                    <div className="col s6 m2 calc-fields">
-                                      <span className="left width-100 pt-1">Total</span>
-                                      <input
-                                        type="text"
-                                        name={`measurement[${index}].products[${peIndex}].total`}
-                                        defaultValue={parseFloat(productEstimate[index].products[peIndex].total).toFixed(2)}
-                                        ref={register(schema.requiredDecimal)}
-                                        className="product-value total" />
-                                      <a onClick={() => removeProduct(index, peIndex)} style={{ cursor: 'pointer' }} className="btn-remove-product"><i className="material-icons">delete</i></a>
-                                      {errors.total && <span>{errors.total.message}</span>}
-                                    </div>
-                                  </div>
-                                </div>
-                              </div>
-                            ))
-                          }
-                          <a onClick={() => addProduct(index)} style={{ height: '30px' }} className="product new-product">
-                          </a>
-                        </div>
-                        <div className="products-suggestions mt-2">
-                          {
-                            (productEstimate[index].showSuggestions && Array.isArray(suggestions) && suggestions.length > 0)
-                            &&
-                            <h6 className="suggestions-title">Suggestions</h6>
-                          }
-                          {
-                            // console.log(suggestions[index])
-                            (productEstimate[index].showSuggestions && suggestions[index] && Array.isArray(suggestions[index].suggestions))
-                            &&
-                            suggestions[index].suggestions.map((suggestion, s_index) => {
-                              return (
-                                <a key={s_index} onClick={() => addSuggestionsToProductList(index, suggestion)} style={{ cursor: 'pointer' }}> {suggestion.name}</a>
-                              )
-                            })
-                          }
-                        </div>
-
-                      </div>
-                    </div>
-                  ))
-                }
-                <button type="submit" style={{ display: 'none' }} ref={submitBtnRef}></button>
-              </form>
-              <div className="row mt-1">
-                <a onClick={addArea} className="btn btn-add-product-area"><i className="material-icons left">add</i> Add area</a>
-              </div>
-            </div>
-
-          </div>
-        </div>
-      </div>
-      <div className="col s12 pb-2 pr-0 pl-0" style={{ position: 'relative', zIndex: 1 }}>
-        <a className="btn grey lighten-5 grey-text waves-effect waves-light breadcrumbs-btn left save" href='measurements'><i className="material-icons left">arrow_back</i> Back</a>
-        <a className="btn indigo waves-effect waves-light breadcrumbs-btn right ml-1" onClick={() => remoteSubmit()}><i className="material-icons left">save</i> Save</a>
-      </div>
-    </div >
+    <EstimateContext.Provider
+      value={{
+        suggestions,
+        setSuggestions,
+        productEstimate,
+        setProductEstimate,
+        productAutoComplete,
+        setProductAutoComplete,
+        maProductListIndex, 
+        setMaProductListIndex,
+        estimate,
+        updateProductList,
+        updateSuggestions,
+        addSuggestionsToProductList,
+        calculateProductLW,
+        addArea,
+        addProduct,
+        setProductEstimate,
+        removeProduct,
+        selectArea,
+        remoteSubmit,
+        submitBtnRef,
+        refreshArea,
+        removeArea,
+        productTotalPrice,
+        productTotalQty,
+        productTotalDiscount,
+        create_product_estimate,
+        handleSubmit,
+        register,
+        onSubmit,
+        setValue, 
+        reset,
+        handleChange,
+        toggleSelectAllAreas,
+        schema,
+        errors
+      }}
+    >
+      {children}
+    </EstimateContext.Provider>
   )
 }
-
-// export default ProductComponent
-document.addEventListener('DOMContentLoaded', () => {
-  ReactDOM.render(
-    <ProductComponent />,
-    document.getElementById('react-component'),
-  )
-})
-

@@ -156,7 +156,11 @@ Rails.application.routes.draw do
 
   resources :menus
   resources :profiles
-  resources :products
+  resources :products do
+    collection do
+      post 'new_delivery'
+    end
+  end
   resources :document_files
   resources :calculation_formulas do
     collection do

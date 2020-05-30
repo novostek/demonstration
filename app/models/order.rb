@@ -73,6 +73,15 @@ class Order < ApplicationRecord
     } } }
   end
 
+  def get_products
+    products = purchases.map { |purchase| purchase.product_purchases.where(:tax => false).map { |product| {
+      :id => product.id,
+      :name => product.product.present? ? product.product.name : product.custom_title
+    } } }
+
+    products.flatten
+  end
+
   def self.get_new_orders_count
     where("created_at > now() - interval '30 day' AND status = 'new'").count
   end

@@ -1,0 +1,9 @@
+<div class="other-field col s12 m4 l4">
+  <%= order.label :start_at %>
+  <%= order.date_field :start_at %>
+</div>
+<div class="other-field col s12 m4 l4">
+  <%= order.label :worker %>
+  <%= order.select :worker_id, 
+      options_for_select(@workers, @workers),{:include_hidden => false},{ multiple: false, class: "select2-size-sm browser-default"} %>
+</div>

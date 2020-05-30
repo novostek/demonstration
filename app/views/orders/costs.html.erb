@@ -37,12 +37,28 @@
 				</div>
 			</div>
       <div id="modal_schedules" class="modal modal-fixed-footer">
-        <div class="modal-content">
-          
-        </div>
-        <div class="modal-footer">
-          
-        </div>
+        <%= form_with(model: @product, url: new_delivery_products_path(@order), remote: true) do |f| %>
+          <%= f.hidden_field :order_id, value: @order.id %>
+          <div class="modal-content">
+            <div id="product_schedules">
+              <%= f.fields_for :product_schedules do |product_schedule| %>
+                <%= render 'product_schedule_fields', {:f => product_schedule, :product => @product} %>
+              <% end %>
+            </div>
+            <div class="links">
+              <!-- COMENTÁRIO: O link_to_add_association é um helper provido pela gem -->
+              <%= link_to_add_association f, :product_schedules do %>
+                <span class="material-icons">add</span>
+              <% end %>
+              <br><br>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <%= f.button :submit, :value => "remote_save", class:"modal-action waves-effect waves-green btn-flat" do %>
+              <i class="material-icons left">save</i><%= t('buttons.customer.save') %>
+            <% end %>
+          </div>
+        <% end %>
       </div>
 
 			<div class="col s12">
@@ -825,6 +841,21 @@
 
       $("#product_purchase_value").val(parseFloat(value).toFixed(2))
     })
+    $(document).on('cocoon:after-insert', function(e) {
+      e.preventDefault()
+      $('.select2-size-sm').select2({
+        dropdownAutoWidth: true,
+        width: '100%',
+        containerCssClass: 'select-sm'
+      });
+    })
+
+    $(document).ready(function(){
+      $('.modal').modal({
+        dismissible: false,
+        onCloseEnd: () => console.log("Fechou")
+      });
+    });
   </script>
 
 <% end %>

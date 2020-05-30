@@ -80,6 +80,11 @@ class ProductsController < ApplicationController
     redirect_to products_url, notice: t('notice.product.deleted')
   end
 
+  def new_delivery
+    @schedule = Product.create(product_params)
+    # redirect_back(fallback_location: order_path(params[:order_id]))
+  end
+
   private
 
     #Método que carrega os objetos de seleção
@@ -96,6 +101,10 @@ class ProductsController < ApplicationController
 
     # Only allow a trusted parameter "white list" through.
     def product_params
-      params.require(:product).permit(:photo,:photo_cache,:calculation_formula_id,:supplier_id,:name, :uuid, :details, :product_category_id, :customer_price, :cost_price, :area_covered, :tax, :bpm_purchase, suggestion_ids: [])
+      params.require(:product).permit(
+        :photo,:photo_cache,:calculation_formula_id,:supplier_id,:name, :uuid, 
+        :details, :product_category_id, :customer_price, :cost_price, 
+        :area_covered, :tax, :bpm_purchase, suggestion_ids: [],
+        :product_schedules_attributes => [:product_ids, :schedules, :_destroy])
     end
 end

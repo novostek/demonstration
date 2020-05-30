@@ -212,7 +212,9 @@
             <% @estimate.schedules.each do |schedule| %>
               <div class="row border-radius-5 cyan lighten-5 mb-3">
                 <div class="col s3 pr-0 mt-2">
-                  <img src="<%= schedule.worker.photo.url ? schedule.worker.photo.url : "https://i.pravatar.cc/50"  %>" alt="users view avatar" class="circle avatar-md avatar-status left tooltipped" data-tooltip="<%= schedule.worker.name %>">
+                  <% if schedule.worker.photo.present? %>
+                    <img src="<%= schedule.worker.photo.url %>" alt="users view avatar" class="circle avatar-md avatar-status left tooltipped" data-tooltip="<%= schedule.worker.name %>">
+                  <% end %>
                 </div>
                 <div class="col s9 pl-0">
                   <p class="mt-2 mb-2"><a class="black-text" href="#"><strong>Schedule:</strong> <%= schedule.start_at.strftime("%m/%d/%Y") %><br><%= schedule.start_at.strftime("%I:%M") %></a></p>

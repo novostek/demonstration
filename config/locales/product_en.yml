@@ -1,7 +1,7 @@
 en:
   activerecord:
     models:
-      product: "Product"
+      products: "Product"
       product_category: "Product Category"
     attributes:
       product:

@@ -7,7 +7,8 @@ class OrdersController < ApplicationController
   #load_and_authorize_resource  except: [:deliver_products_sign,:doc_signature_mail,:doc_signature, :create_schedule, :delete_schedule, :view_invoice_customer]
 
   def order_photos
-
+    add_breadcrumb I18n.t("activerecord.models.orders"), orders_path
+    add_breadcrumb I18n.t("breadcrumb.show"), order_path(@order)
   end
 
   #Método utilizado para salvar um novo product purchase pela view de cost
@@ -67,6 +68,9 @@ class OrdersController < ApplicationController
     rescue
       @email_customer = ""
     end
+    add_breadcrumb I18n.t("activerecord.models.orders"), orders_path
+    add_breadcrumb I18n.t("breadcrumb.show"), order_path(@order)
+    add_breadcrumb I18n.t("breadcrumbs.invoice"), invoice_order_pathF(@order)
   end
 
   def change_payment_status_to_pendent
@@ -151,12 +155,18 @@ class OrdersController < ApplicationController
 
   #Método que inicializa a finalização da order pelo envio de fotos
   def finish_order
+    add_breadcrumb I18n.t("activerecord.models.orders"), orders_path
+    add_breadcrumb I18n.t("breadcrumb.show"), order_path(@order)
   end
 
   def deliver_products
 
     @purchases = @order.purchases
     @documents = Document.to_select
+
+    add_breadcrumb I18n.t("activerecord.models.orders"), orders_path
+    add_breadcrumb I18n.t("breadcrumb.show"), order_path(@order)
+    add_breadcrumb I18n.t("breadcrumbs.delivery"), deliver_products_order_path(@order)
   end
 
   def deliver_products_sign
@@ -359,6 +369,10 @@ class OrdersController < ApplicationController
     @purchases = @order.purchases
     @taxes = @order.product_purchases.where(product_purchases: { tax: true })
     @labor_costs = @order.labor_costs.order(date: :asc)
+
+    add_breadcrumb I18n.t("activerecord.models.orders"), orders_path
+    add_breadcrumb I18n.t("breadcrumb.show"), order_path(@order)
+    add_breadcrumb I18n.t("breadcrumbs.costs"), costs_order_path(@order)
   end
 
   def send_invoice_mail
@@ -482,7 +496,8 @@ class OrdersController < ApplicationController
     @schedules = @order.schedules
     @workers = Worker.all
     @estimate = @order.get_current_estimate
-
+    add_breadcrumb I18n.t("activerecord.models.orders"), orders_path
+    add_breadcrumb I18n.t("breadcrumb.show"), order_path(@order)
     render :order_schedules
   end
 
@@ -513,7 +528,8 @@ class OrdersController < ApplicationController
     rescue
       @email_customer = ""
     end
-
+    add_breadcrumb I18n.t("activerecord.models.orders"), orders_path
+    add_breadcrumb I18n.t("breadcrumb.show"), order_path(@order)
     render :order_payments
   end
 
@@ -521,7 +537,8 @@ class OrdersController < ApplicationController
     @products = Product.all
     @estimate = @order.get_current_estimate
     @purchases = Purchase.where(order_id: params[:id])
-
+    add_breadcrumb I18n.t("activerecord.models.orders"), orders_path
+    add_breadcrumb I18n.t("breadcrumb.show"), order_path(@order)
     render :product_purchase
   end
 

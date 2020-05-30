@@ -1,7 +1,7 @@
 en:
   activerecord:
     models:
-      supplier: "Supplier"
+      suppliers: "Supplier"
     attributes:
       supplier:
         name: "Name"

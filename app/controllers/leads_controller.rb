@@ -6,10 +6,12 @@ class LeadsController < ApplicationController
   def index
     @q = Lead.all.ransack(params[:q])
     @leads = @q.result.page(params[:page])
+      #add_breadcrumb I18n.t('activerecord.models.leads'), leads_path
   end
 
   # GET /leads/1
   def show
+    #add_breadcrumb I18n.t('breadcrumbs.view'), lead_path(@lead)
   end
 
   # GET /leads/new
@@ -17,12 +19,14 @@ class LeadsController < ApplicationController
     @lead = Lead.new
     @customer = Customer.new
 
+    #add_breadcrumb I18n.t('breadcrumbs.new'), new_lead_path
     return [@lead, @customer]
   end
 
   # GET /leads/1/edit
   def edit
     @customer = Customer.new
+      #add_breadcrumb I18n.t('breadcrumbs.edit'), edit_lead_path(@lead)
   end
 
   # POST /leads

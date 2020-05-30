@@ -1,0 +1,9 @@
+en:
+  activerecord:
+    models:
+      product_categories: "Product Category"
+  notice:
+    product_category:
+      created: "Product category was successfully created."
+      updated: "Product category was sucessfully updated."
+      deleted: "Product category was sucessfully deleted."

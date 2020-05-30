@@ -1,19 +1,13 @@
 <link href="/css/view-page.css" rel="stylesheet" type="text/css">
 <div class="row">
   <div class="content-wrapper-before woffice-color"></div>
-  <div class="breadcrumbs-lightpb-0 pt-4" id="breadcrumbs-wrapper">
+  <div class="breadcrumbs-light pb-0 pt-4" id="breadcrumbs-wrapper">
     <div class="container">
       <div class="row">
         <div class="col s10 m6 l6">
           <h5 class="breadcrumbs-title mt-0 mb-0">Estimate #<%= @estimate.code %></h5>
           <ol class="breadcrumbs mb-0">
-            <li class="breadcrumb-item"><a href="/">Home</a>
-            </li>
-            <li class="breadcrumb-item">
-              <%= link_to  t('activerecord.models.estimates'), estimates_path %>
-            </li>
-            <li class="breadcrumb-item"><a href="#">View</a>
-            </li>
+            <%= render_breadcrumbs :tag => :li, :separator => "" %>
           </ol>
         </div>
         <div class="col s2 m6 l6">
@@ -332,47 +326,8 @@
     </div>
   <% end %>
 </div>
+<%= render partial: 'layouts/sidenav_notes_docs', locals: {notes: @estimate.notes, documents: @estimate.document_files,  redirect_link: "/estimates/#{@estimate.id}/view"} %>
 
-<%= content_for :sidenav do %>
-  <aside id="right-sidebar-nav">
-    <div id="slide-out-right" class="slide-out-right-sidenav sidenav rightside-navigation">
-      <div class="row">
-        <div class="slide-out-right-title">
-          <div class="col s10 pl-3">
-            <h5>Notes</h5>
-          </div>
-          <div class="col s22">
-            <i class="material-icons "><a href="#" target="_self" class="sidenav-close">clear</a></i>
-          </div>
-        </div>
-      </div>
-      <div class="slide-out-right-body row pl-3 pr-3">
-        <% @estimate.notes.each do |note| %>
-          <div class="note">
-            <%= link_to note_path(note, redirect: "/estimates/#{@estimate.id}/view"), method: :delete, class:"btn-delete-note" do %>
-              <i class="material-icons">delete</i>
-            <% end %>
-            <h6 class="note-title"><%= note.title %></h6>
-            <p class="note-content"><%= note.text %></p>
-          </div>
-        <% end %>
-
-        <!-- Exemple document -->
-        <div class="col s12 pl-3">
-          <h5>Documents</h5>
-        </div>
-        <% @estimate.document_files.each do |doc| %>
-          <%= link_to doc.file.url, target:"_blank" do %>
-            <span class="chip grey lighten-3 green-text truncate"><%= doc.title %></span>
-          <% end if doc.file.present?  %>
-        <% end %>
-
-      </div>
-    </div>
-
-
-  </aside>
-<% end %>
 
 <%= render "layouts/add_button", contact: false %>
 

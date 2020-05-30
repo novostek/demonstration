@@ -65,65 +65,82 @@ class Client < ApplicationRecord
         schedules = Menu.create(active: true, icon: "event_note", name: "Schedules", url: "/schedules", ancestry: nil, position: 6)
         orders = Menu.create(active: true, icon: "assignment_ind", name: "Orders", url: "/orders", ancestry: nil, position: 3)
         leads = Menu.create(active: true, icon: "assignment", name: "Leads", url: "/leads", ancestry: nil, position: 1)
-        configuration = Menu.create(active: true, icon: "settings", name: "Setting", url: "#", ancestry: nil, position: 10)
-        settings = Menu.create(active: true, icon: "add_to_queue", name: "System Configuration", url: "/settings", ancestry: configuration.id, position: 9)
-        calculation_formula = Menu.create(active: true, icon: "local_atm", name: "Calculation Formula", url: "/calculation_formulas", ancestry: configuration.id, position: 1)
-        documents = Menu.create(active: true, icon: "description", name: "Documents", url: "/documents", ancestry: configuration.id, position: 9)
-        security = Menu.create(active: true, icon: "description", name: "Security", url: "#", ancestry: configuration.id, position: 9)
-        portifolio = Menu.create(active: true, icon: "description", name: "Portifolio", url: "#", ancestry: nil, position: 9)
-        products = Menu.create(active: true, icon: "shopping_cart", name: "Products", url: "/products", ancestry: portifolio.id, position: 3)
-        suppliers = Menu.create(active: true, icon: "local_grocery_store", name: "Suppliers", url: "/suppliers", ancestry: portifolio.id, position: 8)
-        produc_category = Menu.create(active: true, icon: "shopping_basket", name: "Categories", url: "/product_categories", ancestry: portifolio.id, position: 2)
-        finances = Menu.create(active: true, icon: "shopping_basket", name: "Finances", url: "#", ancestry: nil, position: 2)
-        transactions = Menu.create(active: true, icon: "monetization_on", name: "Transactions", url: "/transactions", ancestry: finances.id, position: 7)
-        transaction_accounts = Menu.create(active: true, icon: "chrome_reader_mode", name: "Accounts", url: "/transaction_accounts", ancestry: finances.id, position: 5)
-        transaction_categories = Menu.create( active: true, icon: "credit_card", name: "Categories", url: "/transaction_categories", ancestry: finances.id, position: 6)
+        configuration = Menu.create(active: true, icon: "settings", name: "Settings", url: "#", ancestry: nil, position: 10)
+        settings = Menu.create(active: true, icon: "add_to_queue", name: "System Configuration", url: "/settings", ancestry: configuration.id, position: 1)
+        calculation_formula = Menu.create(active: true, icon: "local_atm", name: "Calculation Formula", url: "/calculation_formulas", ancestry: configuration.id, position:2)
+        documents = Menu.create(active: true, icon: "description", name: "Documents", url: "/documents", ancestry: configuration.id, position: 3)
+        security = Menu.create(active: true, icon: "description", name: "Security", url: "#", ancestry: configuration.id, position: 4)
+        portifolio = Menu.create(active: true, icon: "description", name: "Portifolio", url: "#", ancestry: nil, position: 8)
+        products = Menu.create(active: true, icon: "shopping_cart", name: "Products", url: "/products", ancestry: portifolio.id, position: 1)
+        suppliers = Menu.create(active: true, icon: "local_grocery_store", name: "Suppliers", url: "/suppliers", ancestry: portifolio.id, position: 2)
+        produc_category = Menu.create(active: true, icon: "shopping_basket", name: "Categories", url: "/product_categories", ancestry: portifolio.id, position: 3)
+        finances = Menu.create(active: true, icon: "shopping_basket", name: "Finances", url: "#", ancestry: nil, position: 6)
+        transactions = Menu.create(active: true, icon: "monetization_on", name: "Transactions", url: "/transactions", ancestry: finances.id, position: 1)
+        transaction_accounts = Menu.create(active: true, icon: "chrome_reader_mode", name: "Accounts", url: "/transaction_accounts", ancestry: finances.id, position: 2)
+        transaction_categories = Menu.create( active: true, icon: "credit_card", name: "Categories", url: "/transaction_categories", ancestry: finances.id, position: 3)
 
 
-        users = Menu.create(active: true, icon: "person_add", name: "Users", url: "/users", ancestry: security.id, position: 1)
-        profile = Menu.create(active: true, icon: "assignment_ind", name: "Profile", url: "/profiles", ancestry: security.id, position: 2)
-        menus = Menu.create(active: true, icon: "view_list", name: "Menu Access", url: "/menus", ancestry: security.id, position: 3)
+        users = Menu.create(active: true, icon: "person_add", name: "Users", url: "/users", parent: security, position: 1)
+        profile = Menu.create(active: true, icon: "assignment_ind", name: "Profile", url: "/profiles", parent: security, position: 2)
+        menus = Menu.create(active: true, icon: "view_list", name: "Menu Access", url: "/menus", parent: security, position: 3)
+
+        Menu.rebuild_depth_cache!
 
 
 
 
-
-
-        finance = Menu.create(active: true, icon: "monetization_on", name: "Finance Dashboard", url: "/finances/dashboard", ancestry: nil, position: 11)
+        #finance = Menu.create(active: true, icon: "monetization_on", name: "Finance Dashboard", url: "/finances/dashboard", ancestry: nil, position: 11)
 
         ProfileMenu.create!([
-                                {menu_id: leads.id, profile_id: profile_admin.id},
+                                #perfil administrator
+
                                 {menu_id: customer.id, profile_id: profile_admin.id},
                                 {menu_id: workers.id, profile_id: profile_admin.id},
                                 {menu_id: estimates.id, profile_id: profile_admin.id},
                                 {menu_id: schedules.id, profile_id: profile_admin.id},
                                 {menu_id: orders.id, profile_id: profile_admin.id},
+                                {menu_id: leads.id, profile_id: profile_admin.id},
                                 {menu_id: configuration.id, profile_id: profile_admin.id},
+                                {menu_id: settings.id, profile_id: profile_admin.id},
                                 {menu_id: calculation_formula.id, profile_id: profile_admin.id},
-                                {menu_id: produc_category.id, profile_id: profile_admin.id},
-                                {menu_id: transaction_categories.id, profile_id: profile_admin.id},
-                                {menu_id: transaction_accounts.id, profile_id: profile_admin.id},
-                                {menu_id: setup.id, profile_id: profile_admin.id},
-                                {menu_id: products.id, profile_id: profile_admin.id},
+                                {menu_id: documents.id, profile_id: profile_admin.id},
+                                {menu_id: security.id, profile_id: profile_admin.id},
                                 {menu_id: menus.id, profile_id: profile_admin.id},
                                 {menu_id: users.id, profile_id: profile_admin.id},
                                 {menu_id: profile.id, profile_id: profile_admin.id},
-                                {menu_id: documents.id, profile_id: profile_admin.id},
+                                {menu_id: portifolio.id, profile_id: profile_admin.id},
+                                {menu_id: products.id, profile_id: profile_admin.id},
                                 {menu_id: suppliers.id, profile_id: profile_admin.id},
+                                {menu_id: produc_category.id, profile_id: profile_admin.id},
+                                {menu_id: finances.id, profile_id: profile_admin.id},
                                 {menu_id: transactions.id, profile_id: profile_admin.id},
-                                {menu_id: settings.id, profile_id: profile_admin.id},
-                                {menu_id: finance.id, profile_id: profile_admin.id},
+                                {menu_id: transaction_accounts.id, profile_id: profile_admin.id},
+                                {menu_id: transaction_categories.id, profile_id: profile_admin.id},
+
+
+                                #perfil finance
                                 {menu_id: customer.id, profile_id: profile_finance.id},
                                 {menu_id: leads.id, profile_id: profile_finance.id},
                                 {menu_id: orders.id, profile_id: profile_finance.id},
                                 {menu_id: workers.id, profile_id: profile_finance.id},
                                 {menu_id: estimates.id, profile_id: profile_finance.id},
-                                {menu_id: finance.id, profile_id: profile_finance.id},
+                                {menu_id: finances.id, profile_id: profile_finance.id},
+                                {menu_id: transactions.id, profile_id: profile_finance.id},
+                                {menu_id: transaction_categories.id, profile_id: profile_admin.id},
+                                {menu_id: transaction_accounts.id, profile_id: profile_admin.id},
+
+                                #perfil Worker
                                 {menu_id: estimates.id, profile_id: profile_worker.id},
+
+                                #Perfil purchase
                                 {menu_id: customer.id, profile_id: profile_purchase.id},
-                                {menu_id: orders.id, profile_id: profile_purchase.id},
                                 {menu_id: workers.id, profile_id: profile_purchase.id},
                                 {menu_id: estimates.id, profile_id: profile_purchase.id},
+                                {menu_id: schedules.id, profile_id: profile_purchase.id},
+                                {menu_id: orders.id, profile_id: profile_purchase.id},
+                                {menu_id: leads.id, profile_id: profile_purchase.id},
+                                {menu_id: portifolio.id, profile_id: profile_purchase.id},
+                                {menu_id: products.id, profile_id: profile_purchase.id}
 
                             ])
         ProfileUser.create(user_id: user.id, profile_id: profile_admin.id)

@@ -32,11 +32,11 @@ class Setting < ApplicationRecord
   end
 
   def self.logo_object
-    DocumentFile.where(origin: "Logo", origin_id: 1).first
+    DocumentFile.where(origin: "Logo", origin_id: '1e1e3f7b-92f7-4da4-8894-1bfbfb24d39b').first
   end
 
   def self.banner_object
-    DocumentFile.where(origin: "Banner", origin_id: 1).first
+    DocumentFile.where(origin: "Banner", origin_id: '893d3e36-2542-4fb3-bb70-754ddb97a64b').first
   end
 
   def self.logo

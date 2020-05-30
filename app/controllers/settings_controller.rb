@@ -40,7 +40,7 @@ class SettingsController < ApplicationController
 
     if params[:logo].present?
       #binding.pry
-      doc = DocumentFile.find_or_initialize_by(origin: "Logo", origin_id: 1)
+      doc = DocumentFile.find_or_initialize_by(origin: "Logo", origin_id: '1e1e3f7b-92f7-4da4-8894-1bfbfb24d39b')
       doc.title = "Logo"
       doc.file = params[:logo]
       doc.save
@@ -51,7 +51,7 @@ class SettingsController < ApplicationController
 
     if params[:banner].present?
       #binding.pry
-      doc = DocumentFile.find_or_initialize_by(origin: "Banner", origin_id: 1)
+      doc = DocumentFile.find_or_initialize_by(origin: "Banner", origin_id: '893d3e36-2542-4fb3-bb70-754ddb97a64b')
       doc.title = "Banner"
       doc.file = params[:banner]
       doc.save

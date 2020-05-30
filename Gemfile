@@ -70,6 +70,7 @@ gem 'devise'
 gem 'cancancan'
 gem 'rest-client'
 gem 'dentaku'
+gem "breadcrumbs_on_rails"
 
 #upload de arquivos
 gem 'carrierwave', '~> 2.0'

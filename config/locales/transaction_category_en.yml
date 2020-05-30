@@ -1,7 +1,7 @@
 en:
   activerecord:
     models:
-      transaction_category: "Transaction Category"
+      transaction_categories: "Transaction Category"
     attributes:
       transaction_category:
         name: "Name"

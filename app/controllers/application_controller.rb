@@ -9,6 +9,9 @@ class ApplicationController < ActionController::Base
 
   before_action :configure_permitted_parameters, if: :devise_controller?
 
+  add_breadcrumb I18n.t("breadcrumbs.home"), :root_path
+  before_action :set_default_breadcrumbs, only: [:index, :show, :edit, :new]
+
   def toastr(type, body)
     flash["#{type}"] = body
   end
@@ -30,6 +33,20 @@ class ApplicationController < ActionController::Base
     }
     #binding.pry
     #mail.delivery_method.settings.merge!(smtp_settings)
+  end
+
+  def set_default_breadcrumbs
+    add_breadcrumb I18n.t("activerecord.models.#{params[:controller]}"), "/#{params[:controller]}"
+    if params[:action] != "index"
+      if params[:action] == "show"
+        link = "/#{params[:controller]}/#{params[:id]}"
+      elsif params[:action] == "new"
+        link = "/#{params[:controller]}/new"
+      else
+        link = "/#{params[:controller]}/#{params[:id]}/#{params[:action]}"
+      end
+      add_breadcrumb I18n.t("breadcrumbs.#{params[:action]}"), link
+    end
   end
 
   protected

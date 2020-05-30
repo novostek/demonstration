@@ -9,12 +9,7 @@
       <div class="col s10 m6 l6">
         <h5 class="breadcrumbs-title mt-0 mb-0">Order #<%= @order.code %></h5>
         <ol class="breadcrumbs mb-0">
-          <li class="breadcrumb-item"><a href="/">Home</a>
-          </li>
-          <li class="breadcrumb-item"><%= link_to  "Order", order_path(@order) %>
-          </li>
-          <li class="breadcrumb-item active">Deliver
-          </li>
+          <%= render_breadcrumbs :tag => :li, :separator => "" %>
         </ol>
       </div>
       <div class="col s2 m6 l6">

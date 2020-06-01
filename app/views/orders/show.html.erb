@@ -143,63 +143,13 @@
 							</div>
 						</div>
 						<!-- Areas -->
-
-						<ul class="collapsible">
-							<li>
-								<div class="collapsible-header" tabindex="0"><i class="material-icons">select_all</i>Areas</div>
-								<div class="collapsible-body grey lighten-4 pl-2 pr-2 pt-2 pb-2">
-									<div class="row">
-										<% @order.get_current_estimate.measurement_areas.each do |ma| %>
-											<div class="col s12 l6">
-												<div class="card-panel pt-3 pb-3">
-													<div class="row center-align">
-														<h6
-															class="col s12 pl-0 pt-0 mt-0 font-weight-600 display-flex align-items-center justify-content-center">
-															<i class="material-icons left">event_seat</i>
-															<%= ma.name %>
-														</h6>
-														<%# <div class="row mb-2">
-                                      <div class="col s12">
-                                        Open kitchen included
-                                      </div>
-                                    </div> %>
-														<% if @hidden_fields['length'].present? %>
-															<div class="col">
-																<!-- length -->
-																<i class="material-icons left width-100">straighten</i><%= ma.measurements[0].length %>
-															</div>
-														<% end %>
-														<% if @hidden_fields['width'].present? %>
-															<div class="col">
-																<!-- width -->
-																<i class="material-icons left width-100" style="transform: rotate(-45deg)">straighten</i><%= ma.measurements[0].width %>
-															</div>
-														<% end %>
-														<% if @hidden_fields['height'].present? %>
-															<div class="col">
-																<!-- height -->
-																<i class="material-icons left width-100" style="transform: rotate(90deg)">straighten</i><%= ma.measurements[0].height %>
-															</div>
-														<% end %>
-														<% if @hidden_fields['square_feet'].present? %>
-															<div class="col">
-																<!-- height -->
-																<i class="left width-100">SqFt</i><%= ma.measurements[0].square_feet %>
-															</div>
-														<% end %>
-													</div>
-												</div>
-											</div>
-										<% end %>
-									</div>
-								</div>
-							</li>
-						</ul>
+            <%= render partial:'estimates/colapsible_area', locals: {estimate: @order.current_estimate} %>
 
 
 
 
-						<div class="card-panel">
+
+            <div class="card-panel">
 							<!-- Procuts and area -->
 							<% @order.get_current_estimate.measurement_proposals.distinct.each do |mp| %>
 								<div class="row">

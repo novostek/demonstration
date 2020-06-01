@@ -1,0 +1,25 @@
+<div class="nested-fields">
+  <div class="row">
+    <div class="other-field col s12 m4 l4">
+      <%= f.label :product %>
+      <%= f.select :product_id, 
+          options_for_select(@order_products.map{|a| [a[:name],a[:id]]}, @order_products.pluck(:id)),
+          {:include_hidden => false},{ multiple: true, class: "select2-size-sm browser-default"} %>
+    </div>
+    <%= f.fields_for :schedules do |schedule| %>
+      <%= render 'schedule_fields', order: schedule %>
+    <% end %>
+  </div>
+</div>
+
+<%=  content_for :scripts do %>
+  <script type="text/javascript" charset="utf-8">
+      $( document ).ready(function() {
+          $('.select2-size-sm').select2({
+            dropdownAutoWidth: true,
+            width: '100%',
+            containerCssClass: 'select-sm'
+          });
+      });
+  </script>
+<% end %>

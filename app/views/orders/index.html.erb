@@ -128,7 +128,9 @@
                           <td>
                             <%= link_to worker_path(order.get_current_estimate.worker) do %>
                               <div class="chip">
-                                <img src="<%= order.get_current_estimate.worker.photo.url || "https://i.pravatar.cc/50" %>" alt="Contact Person">
+																<% if order.get_current_estimate.worker.photo.present? %>
+                                	<img src="<%= order.get_current_estimate.worker.photo.url %>" alt="Contact Person">
+																<% end %>
                                 <%= order.get_current_estimate.worker %>
                               </div>
 

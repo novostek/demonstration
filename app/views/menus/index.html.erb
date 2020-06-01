@@ -52,6 +52,7 @@
       </thead>
       <tbody>
         <% @menus.each do |menu| %>
+
         <tr>
 
             <td><i class="material-icons left"><%= menu.icon %></i></td>
@@ -78,7 +79,9 @@
             </div>
           </td>
         </tr>
+
           <% menu.children.order(position: :asc).each do |m| %>
+
           <tr>
 
             <td><i class="material-icons left"><%= m.icon %></i></td>

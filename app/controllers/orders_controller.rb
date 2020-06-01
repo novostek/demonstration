@@ -70,7 +70,7 @@ class OrdersController < ApplicationController
     end
     add_breadcrumb I18n.t("activerecord.models.orders"), orders_path
     add_breadcrumb I18n.t("breadcrumb.show"), order_path(@order)
-    add_breadcrumb I18n.t("breadcrumbs.invoice"), invoice_order_pathF(@order)
+    add_breadcrumb I18n.t("breadcrumbs.invoice"), invoice_order_path(@order)
   end
 
   def change_payment_status_to_pendent

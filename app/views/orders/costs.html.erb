@@ -20,41 +20,10 @@
                 <i class="material-icons hide-on-med-and-up">arrow_back</i>
                 <span class="hide-on-small-only">Back to order</span>
               <% end %>
-							<a 
-                class="btn waves-effect waves-light breadcrumbs-btn right mr-2 text-lighten-5 border-round modal-trigger"
-                target="_self"
-                href="#modal_schedules">
-                <i class="material-icons hide-on-med-and-up">arrow_back</i>
-                <span class="hide-on-small-only">Schedule deliveries</span>
-              </a>
 						</div>
 					</div>
 				</div>
 			</div>
-      <div id="modal_schedules" class="modal modal-fixed-footer">
-        <%= form_with(model: @product, url: new_delivery_products_path(@order), remote: true) do |f| %>
-          <%= f.hidden_field :order_id, value: @order.id %>
-          <div class="modal-content">
-            <div id="product_schedules">
-              <%= f.fields_for :product_schedules do |product_schedule| %>
-                <%= render 'product_schedule_fields', {:f => product_schedule, :product => @product} %>
-              <% end %>
-            </div>
-            <div class="links">
-              <!-- COMENTÁRIO: O link_to_add_association é um helper provido pela gem -->
-              <%= link_to_add_association f, :product_schedules do %>
-                <span class="material-icons">add</span>
-              <% end %>
-              <br><br>
-            </div>
-          </div>
-          <div class="modal-footer">
-            <%= f.button :submit, :value => "remote_save", class:"modal-action waves-effect waves-green btn-flat" do %>
-              <i class="material-icons left">save</i><%= t('buttons.customer.save') %>
-            <% end %>
-          </div>
-        <% end %>
-      </div>
 
 			<div class="col s12">
 				<div class="container">

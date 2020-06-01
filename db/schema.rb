@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_05_15_171845) do
+ActiveRecord::Schema.define(version: 2020_05_29_231447) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -128,7 +128,7 @@ ActiveRecord::Schema.define(version: 2020_05_15_171845) do
 
   create_table "labor_costs", force: :cascade do |t|
     t.bigint "worker_id", null: false
-    t.bigint "schedule_id"
+    t.bigint "schedule_id", null: false
     t.date "date"
     t.decimal "value"
     t.string "status"
@@ -282,6 +282,15 @@ ActiveRecord::Schema.define(version: 2020_05_15_171845) do
     t.boolean "tax", default: false
     t.index ["product_id"], name: "index_product_purchases_on_product_id"
     t.index ["purchase_id"], name: "index_product_purchases_on_purchase_id"
+  end
+
+  create_table "product_schedules", force: :cascade do |t|
+    t.bigint "product_id", null: false
+    t.bigint "schedule_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["product_id"], name: "index_product_schedules_on_product_id"
+    t.index ["schedule_id"], name: "index_product_schedules_on_schedule_id"
   end
 
   create_table "product_suggestions", force: :cascade do |t|
@@ -483,6 +492,8 @@ ActiveRecord::Schema.define(version: 2020_05_15_171845) do
   add_foreign_key "product_estimates", "products"
   add_foreign_key "product_purchases", "products"
   add_foreign_key "product_purchases", "purchases"
+  add_foreign_key "product_schedules", "products"
+  add_foreign_key "product_schedules", "schedules"
   add_foreign_key "product_suggestions", "products"
   add_foreign_key "product_suggestions", "products", column: "suggestion_id"
   add_foreign_key "products", "calculation_formulas"

@@ -57,6 +57,8 @@
   <style>
 
   </style>
+  <script src="//app.helphero.co/embed/JcSqYBNlHEz"></script>
+
 </head>
 <!-- END: Head-->
 
@@ -132,5 +134,8 @@
 <%= toastr_flash %>
 <!-- END PAGE LEVEL JS-->
 <%= yield :scripts %>
+<script>
+    HelpHero.identify("<%= current_user.id  if user_signed_in?%>");
+</script>
 </body>
 </html>

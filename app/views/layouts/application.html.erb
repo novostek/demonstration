@@ -49,6 +49,7 @@
   <%= stylesheet_link_tag 'application', media: 'all' %> <!-- , 'data-turbolinks-track': 'reload' -->
   <%= javascript_pack_tag 'application' %> <!-- , 'data-turbolinks-track': 'reload' -->
   <%= yield :head_content %>
+  <script src="//app.helphero.co/embed/JcSqYBNlHEz"></script>
 
   <style>
     @media print{
@@ -158,5 +159,8 @@
 <!-- END PAGE LEVEL JS-->
 <%= yield :scripts %>
 <!-- END PAGE LEVEL JS-->
+<script>
+    HelpHero.identify("<%= current_user.id  if user_signed_in?%>");
+</script>
 </body>
 </html>

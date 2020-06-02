@@ -9,8 +9,8 @@ export default function EstimateProvider({children}) {
     requiredDecimal: { required: true, pattern: /^\d+(\.\d{1,2})?$/ }
   }
 
-  const node = document.getElementById('estimate_data')
-  const estimateData = JSON.parse(node.getAttribute('data'))
+  const node = document.getElementById('data')
+  const estimateData = JSON.parse(node.getAttribute('estimate_data'))
 
   const submitBtnRef = useRef()
 
@@ -388,7 +388,9 @@ export default function EstimateProvider({children}) {
   }
 
   const remoteSubmit = () => {
-    submitBtnRef.current.click()
+    document.forms['tax_form'].reportValidity()
+    &&
+    submitBtnRef.current.click() 
   }
 
   const refreshArea = (proposal_id) => {

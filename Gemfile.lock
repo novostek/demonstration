@@ -73,6 +73,12 @@ GEM
     annotate (3.1.0)
       activerecord (>= 3.2, < 7.0)
       rake (>= 10.4, < 14.0)
+    apartment (0.24.3)
+      activerecord (>= 3.1.2)
+      rack (>= 1.3.6)
+    apartment-activejob (0.0.1)
+      activesupport
+      apartment
     bcrypt (3.1.13)
     bindex (0.8.1)
     bootsnap (1.4.5)
@@ -387,6 +393,7 @@ PLATFORMS
 DEPENDENCIES
   ancestry
   annotate
+  apartment-activejob
   bootsnap (>= 1.4.2)
   breadcrumbs_on_rails
   bundler

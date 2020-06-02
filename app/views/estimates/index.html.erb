@@ -70,7 +70,9 @@
                   <%= link_to worker_path(estimate.worker) do %>
 
                   <div class="chip">
-                    <img src="<%= estimate.worker.photo.url ? estimate.worker.photo.url : "https://i.pravatar.cc/50"  %>" alt="Contact Person">
+                    <% if estimate.worker.photo.present? %>
+                      <img src="<%= estimate.worker.photo.url %>" alt="Contact Person">
+                    <% end %>
                     <%= estimate.worker.name.strip %>
                   </div></a>
                   <% end %>

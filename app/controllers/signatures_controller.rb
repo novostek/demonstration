@@ -54,7 +54,7 @@ class SignaturesController < ApplicationController
       p =  {}
       p[:signature] = params[:signature].to_enum.to_h.with_indifferent_access
       #binding.pry
-      SignatureJob.perform_later(@job,p)
+      SignatureJob.perform_now(@job,p)
       respond_to do |format|
         format.js { render 'create'}
       end

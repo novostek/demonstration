@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_05_28_211959) do
+ActiveRecord::Schema.define(version: 2020_05_29_231447) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -299,6 +299,15 @@ ActiveRecord::Schema.define(version: 2020_05_28_211959) do
     t.index ["purchase_id"], name: "index_product_purchases_on_purchase_id"
   end
 
+  create_table "product_schedules", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.uuid "product_id", null: false
+    t.uuid "schedule_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["product_id"], name: "index_product_schedules_on_product_id"
+    t.index ["schedule_id"], name: "index_product_schedules_on_schedule_id"
+  end
+
   create_table "product_suggestions", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.uuid "product_id"
     t.uuid "suggestion_id"
@@ -498,6 +507,8 @@ ActiveRecord::Schema.define(version: 2020_05_28_211959) do
   add_foreign_key "product_estimates", "products"
   add_foreign_key "product_purchases", "products"
   add_foreign_key "product_purchases", "purchases"
+  add_foreign_key "product_schedules", "products"
+  add_foreign_key "product_schedules", "schedules"
   add_foreign_key "product_suggestions", "products"
   add_foreign_key "product_suggestions", "products", column: "suggestion_id"
   add_foreign_key "products", "calculation_formulas"

@@ -40,6 +40,11 @@ class Product < ApplicationRecord
   has_many :products, :class_name => 'ProductSuggestion', :foreign_key => 'suggestion_id'
   has_many :product_suggestions, :class_name => 'ProductSuggestion', :foreign_key =>  'product_id'
   has_many :suggestions, through: :product_suggestions
+  has_many :product_schedules
+  has_many :schedules, through: :product_schedules, dependent: :destroy
+
+  accepts_nested_attributes_for :product_schedules
+  accepts_nested_attributes_for :schedules
 
   validates :name,  :customer_price, :cost_price, :area_covered, :calculation_formula_id, presence: true
 

@@ -24,9 +24,9 @@
 
         <div id="react-component"></div>
         <%= content_tag :div,
-          id: "purchase_data",
-          data: @order.to_json,
-          estimate: @estimate.to_json,
+          id: "data",
+          order_data: @order.to_json,
+          estimate_data: @estimate.to_json,
           purchases: @purchases.to_json,
           products: @products.to_json do %>
         <% end %>

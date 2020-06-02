@@ -16,12 +16,15 @@
 								<li><a class="grey-text text-darken-2" href="order-schedule.html"><i class="material-icons left">event</i> Schedule</a></li>
 								<li><a class="grey-text text-darken-2" href="order-deposit.html"><i class="material-icons left">archive</i> Deposit</a></li>
 							</ul> -->
-							<a class="btn waves-effect waves-light breadcrumbs-btn right mr-2 text-lighten-5 border-round" href="<%= order_path(@order) %>"><i class="material-icons hide-on-med-and-up">arrow_back</i><span class="hide-on-small-only">Back to order</span></a>
-							</a>
+              <%= link_to order_path(@order), class: 'btn waves-effect waves-light breadcrumbs-btn right mr-2 text-lighten-5 border-round' do %>
+                <i class="material-icons hide-on-med-and-up">arrow_back</i>
+                <span class="hide-on-small-only">Back to order</span>
+              <% end %>
 						</div>
 					</div>
 				</div>
 			</div>
+
 			<div class="col s12">
 				<div class="container">
 					<div class="row mt-1">
@@ -805,6 +808,21 @@
 
       $("#product_purchase_value").val(parseFloat(value).toFixed(2))
     })
+    $(document).on('cocoon:after-insert', function(e) {
+      e.preventDefault()
+      $('.select2-size-sm').select2({
+        dropdownAutoWidth: true,
+        width: '100%',
+        containerCssClass: 'select-sm'
+      });
+    })
+
+    $(document).ready(function(){
+      $('.modal').modal({
+        dismissible: false,
+        onCloseEnd: () => console.log("Fechou")
+      });
+    });
   </script>
 
 <% end %>

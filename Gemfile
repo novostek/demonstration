@@ -113,3 +113,6 @@ gem 'msgpack', '~> 1.3', '>= 1.3.3'
 
 #https://github.com/ambethia/recaptcha
 gem "recaptcha"
+
+#@ttps://github.com/influitive/apartment-activejob
+gem 'apartment-activejob'

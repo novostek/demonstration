@@ -20,7 +20,10 @@
       $.get("/running_jobs/"+id+"/is_complete", function(data, status){
           if(data.complete == false)
           {
-              setTimeout(verificar_status(id),5000);
+              setTimeout(function(){
+                      verificar_status(id);
+                  },5000
+              );
           }
           else
           {

@@ -79,7 +79,7 @@ class Transaction < ApplicationRecord
       self.transaction_category_id = Setting.get_value("labor_cost_transaction_category")
       self.value = self.value * -1
     elsif self.origin == 'ProductPurchase'
-      product_purchase = ProductPurchase.find self.origin_id
+      product_purchase = ProductPurchase.find(self.origin_id)
       if product_purchase.tax
         self.transaction_account_id = Setting.get_value("taxes_transaction_account")
         self.transaction_category_id = Setting.get_value("taxes_transaction_category")

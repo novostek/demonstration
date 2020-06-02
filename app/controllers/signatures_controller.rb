@@ -54,7 +54,7 @@ class SignaturesController < ApplicationController
       p =  {}
       p[:signature] = params[:signature].to_enum.to_h.with_indifferent_access
       #binding.pry
-      SignatureJob.perform_now(@job,p)
+      SignatureJob.perform_later(@job,p,Setting.get_value("upload_dir"))
       respond_to do |format|
         format.js { render 'create'}
       end
@@ -85,9 +85,9 @@ class SignaturesController < ApplicationController
       #cria o PDF
       #binding.pry
       if @signature.origin == "Estimate" and !params[:signature][:document].present?
-        file = WickedPdf.new.pdf_from_url("#{Setting.url.sub! "https", "http"}/estimates/#{@signature.origin_id}/estimate_signature?view=true", {page_width: 1550, viewport_size: "1920x1080",print_media_type: true})
+        file = WickedPdf.new.pdf_from_url("#{Setting.url.sub "https", "http"}/estimates/#{@signature.origin_id}/estimate_signature?view=true", {page_width: 1550, viewport_size: "1920x1080",print_media_type: true})
       else
-        file = WickedPdf.new.pdf_from_url("#{Setting.url.sub! "https", "http"}/orders/doc_signature?document=#{params[:document] || params[:signature][:document]}", {page_width: 1550,  viewport_size: "1920x1080",print_media_type: true})
+        file = WickedPdf.new.pdf_from_url("#{Setting.url.sub "https", "http"}/orders/doc_signature?document=#{params[:document] || params[:signature][:document]}", {page_width: 1550,  viewport_size: "1920x1080",print_media_type: true})
       end
 
       # Write it to tempfile

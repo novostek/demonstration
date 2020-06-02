@@ -21,7 +21,7 @@
     <h6 class="product-desc--supplier hide-on-med-and-up center-align"><%= t('activerecord.attributes.product.supplier_id') %>: <span><%= @product.supplier %></span> </h6>
     <div class="col s12 m4 xl3 product-pic-card">
       <div class="product-pic">
-        <% if !@product.photo.present? %>
+        <% if @product.photo.present? %>
           <img src="<%= @product.photo.url %>" alt="">
       <% else %>
           <img src="/not-found.png" alt="">

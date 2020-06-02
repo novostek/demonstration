@@ -51,7 +51,6 @@ class ProductPurchase < ApplicationRecord
   end
 
   def set_transaction
-    binding.pry
     transaction = Transaction.find_or_initialize_by(origin: 'ProductPurchase', origin_id: self.id)
     transaction.order_id = self.order.id
     transaction.status = (self.status == 'buyed' or self.status == 'delivered') ? 'paid' : 'pendent'

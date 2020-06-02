@@ -16,7 +16,7 @@
 #  created_at              :datetime         not null
 #  updated_at              :datetime         not null
 #  order_id                :uuid
-#  origin_id               :integer
+#  origin_id               :string
 #  purchase_id             :uuid
 #  transaction_account_id  :uuid
 #  transaction_category_id :uuid

@@ -454,7 +454,7 @@ ActiveRecord::Schema.define(version: 2020_05_29_231447) do
     t.datetime "updated_at", precision: 6, null: false
     t.json "square_data"
     t.uuid "purchase_id"
-    t.integer "origin_id"
+    t.string "origin_id"
     t.string "payment_method"
     t.string "email"
     t.string "status"

@@ -101,12 +101,7 @@ class Estimate < ApplicationRecord
   end
 
   def initialize_code
-    last_estimate = Estimate.last
-    if last_estimate.present?
-      self.code = last_estimate[:code].to_i + 1
-    else
-      self.code = "#{Time.now.strftime('%Y')}000000".to_i + 1
-    end
+    self.code = self.generate_code
   end
 
   def calculate_tax_values

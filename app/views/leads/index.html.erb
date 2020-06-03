@@ -51,7 +51,7 @@
           <% @leads.each do |lead| %>
             <tr>
               <td>
-                <%= link_to lead.id, lead_path(lead) %>
+                <%= link_to lead.code, lead_path(lead) %>
               </td>
               <td>
                 <%= lead.customer.name %> <br>

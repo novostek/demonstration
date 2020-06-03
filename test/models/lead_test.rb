@@ -3,6 +3,7 @@
 # Table name: leads
 #
 #  id          :uuid             not null, primary key
+#  code        :string
 #  date        :datetime
 #  description :text
 #  email       :string
@@ -15,6 +16,7 @@
 #
 # Indexes
 #
+#  index_leads_on_code         (code)
 #  index_leads_on_customer_id  (customer_id)
 #
 # Foreign Keys

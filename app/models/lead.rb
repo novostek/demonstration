@@ -3,6 +3,7 @@
 # Table name: leads
 #
 #  id          :uuid             not null, primary key
+#  code        :string
 #  date        :datetime
 #  description :text
 #  email       :string
@@ -15,6 +16,7 @@
 #
 # Indexes
 #
+#  index_leads_on_code         (code)
 #  index_leads_on_customer_id  (customer_id)
 #
 # Foreign Keys
@@ -23,12 +25,19 @@
 #
 
 class Lead < ApplicationRecord
+  after_create :initialize_code
+
   belongs_to :customer
   has_one :estimate
 
   extend Enumerize
 
   enumerize :status, in: [:new, :done, :contacted, :scheduled, :closed], predicates: true
+
+  def initialize_code
+    self.code = self.generate_code
+    self.save
+  end
 
   def as_json(options = {})
     s = super(options)

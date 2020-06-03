@@ -4,7 +4,7 @@ class LeadsController < ApplicationController
 
   # GET /leads
   def index
-    @q = Lead.all.ransack(params[:q])
+    @q = Lead.all.order(created_at: :desc).ransack(params[:q])
     @leads = @q.result.page(params[:page])
       #add_breadcrumb I18n.t('activerecord.models.leads'), leads_path
   end
@@ -69,6 +69,6 @@ class LeadsController < ApplicationController
 
     # Only allow a trusted parameter "white list" through.
     def lead_params
-      params.require(:lead).permit(:customer_id, :via, :description, :status, :date, :phone, :email)
+      params.require(:lead).permit(:customer_id, :via, :description, :status, :date, :phone, :email, :code)
     end
 end

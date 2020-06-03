@@ -172,7 +172,7 @@ Rails.application.routes.draw do
   resources :calculation_formulas do
     collection do
       get "taxes"
-      get "lxw/product/:product_id" => "calculation_formulas#calculate_product_qty_lw"
+      post "lxw/product/:product_id" => "calculation_formulas#calculate_product_qty_lw"
     end
   end
   resources :contacts

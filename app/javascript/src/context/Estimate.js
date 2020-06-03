@@ -277,7 +277,15 @@ export default function EstimateProvider({children}) {
   }, [productAutoComplete])
 
   const calculateProductLW = (areas_ids, product_id) => {
-    return fetch(`/calculation_formulas/lxw/product/${product_id}?areas_ids=[${areas_ids}]`)
+    const headers = new Headers()
+    headers.append("Content-Type", "application/json")
+    const init = {
+      method: 'POST',
+      headers,
+      body: JSON.stringify({areas : areas_ids})
+    }
+    console.log("AREA", areas_ids)
+    return fetch(`/calculation_formulas/lxw/product/${product_id}`, init)
       .then(data => data.json())
   }
 

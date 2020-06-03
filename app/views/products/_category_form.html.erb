@@ -1,0 +1,67 @@
+<div id="category-add-modal" class="modal modal-fixed-footer">
+  <%= form_for(product_category, authenticity_token: true, remote: true) do |f| %>
+    
+  <div class="modal-content">
+    <div class="row">
+      <div class="input-field col s12">
+        <%= f.label t :name %>
+        <%= f.text_field :name, {required: true} %>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="input-field col s12">
+        <%= f.label t :description %>
+        <%= f.text_area :description, class:"materialize-textarea" %>  
+      </div>
+    </div>
+
+    <div class="row">
+      <div id="colorpicker"></div>
+    </div>
+
+    <div class="row">
+      <div class="input-field col s12">
+        <%= f.label t :color, class: 'active' %>
+        <%= f.text_field :color, {id:"color", required:true} %>    
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="input-field col s12">
+        <%= f.label  t :namespace %>
+        <%= f.text_field :namespace %>
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <%= f.button :submit, :value => "remote_save", class:"modal-action modal-close waves-effect waves-green btn-flat" do %>
+      <i class="material-icons left">save</i><%= t('buttons.save') %>
+    <% end %>
+  </div>
+  <% end %>
+</div>
+
+<% content_for  :scripts do %>
+<script type="text/javascript">
+
+    $(document).ready(function() {
+
+        if($("#color").val())
+        {
+            $("#color").css("background",$("#color").val());
+        }
+
+        //$('#colorpicker').farbtastic('#color');
+        $('#colorpicker').farbtastic(function callback(color){
+            $("#color").val(color);
+
+            $('#color').trigger('input');
+            $('#color').trigger('focusin');
+            $("#color").css("background",color);
+        });
+
+    });
+
+</script>
+<% end %>

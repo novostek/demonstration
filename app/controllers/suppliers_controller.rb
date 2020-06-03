@@ -78,7 +78,9 @@ class SuppliersController < ApplicationController
     @supplier = Supplier.new(supplier_params)
 
     if @supplier.save
-      redirect_to @supplier, notice: t('notice.supplier.created')
+      if params[:button] != "remote_save"
+        redirect_to @supplier, notice: t('notice.supplier.created')
+      end
     else
       render :new
     end

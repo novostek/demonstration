@@ -26,7 +26,9 @@ class ProductCategoriesController < ApplicationController
     @product_category = ProductCategory.new(product_category_params)
 
     if @product_category.save
-      redirect_to @product_category, notice: t('notice.product_category.created')
+      if params[:button] != "remote_save"
+        redirect_to @product_category, notice: t('notice.product_category.created')
+      end
     else
       render :new
     end

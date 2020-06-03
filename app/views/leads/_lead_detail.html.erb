@@ -1,7 +1,7 @@
 <div class="card-panel">
   <div class="row">
     <div class="col s12 m5">
-      <h6>Lead #<%= lead.id %></h6>
+      <h6>Lead #<%= lead.code %></h6>
       <span>Customer: <%= lead.customer.name %></span>
       <br>
       <span>Email: <%= lead.customer.get_main_email.data['email'] unless lead.customer.get_main_email == nil %></span>

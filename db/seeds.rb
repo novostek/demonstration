@@ -96,5 +96,6 @@ ProfileMenu.create!([
 ProfileUser.create!([
   {user_id: 1, profile_id: 1},
 ])
+
 rescue
 end

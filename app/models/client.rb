@@ -172,6 +172,66 @@ class Client < ApplicationRecord
           {namespace: 'product_purchase_transaction_account', value: {"value"=>account.id}},
           {namespace: 'product_purchase_transaction_category', value: {"value"=>costs.id}},
         ])
+
+        square_feet = CalculationFormula.create(
+          name: 'Square Feet',
+          description: 'Calculate quantity based on square feet',
+          formula: 'roundup(area / area_covered)'
+        )
+
+        square_feet_waste = CalculationFormula.create(
+          name: 'Square Feet + 10% of waste',
+          description: 'Calculate quantity based on square feet with 10% of waste',
+          formula: 'roundup((area / area_covered) *1.1)'
+        )
+
+        linear_width_square_feet = CalculationFormula.create(
+          name: 'Linear width',
+          description: 'Calculate quantity based on linear width with 10% of waste',
+          formula: 'roundup(width / area_covered)'
+        )
+
+        linear_width_square_feet_waste = CalculationFormula.create(
+          name: 'Linear width + 10% of waste',
+          description: 'Calculate quantity based on linear width with 10% of waste',
+          formula: 'roundup((width / area_covered)*1.1)'
+        )
+
+        linear_length_square_feet = CalculationFormula.create(
+          name: 'Linear length',
+          description: 'Calculate quantity based on linear length with 10% of waste',
+          formula: 'roundup(length / area_covered)'
+        )
+
+        linear_length_square_feet_waste = CalculationFormula.create(
+          name: 'Linear length + 10% of waste',
+          description: 'Calculate quantity based on linear length with 10% of waste',
+          formula: 'roundup((length / area_covered)*1.1)'
+        )
+
+        linear_height_square_feet = CalculationFormula.create(
+          name: 'Linear height',
+          description: 'Calculate quantity based on linear height with 10% of waste',
+          formula: 'roundup(height / area_covered)'
+        )
+
+        linear_height_square_feet_waste = CalculationFormula.create(
+          name: 'Linear height + 10% of waste',
+          description: 'Calculate quantity based on linear height with 10% of waste',
+          formula: 'roundup((height / area_covered)*1.1)'
+        )
+
+        cubic_feet = CalculationFormula.create(
+          name: 'Cubic feet',
+          description: 'Calculate quantity based on cubic feet with 10% of waste',
+          formula: 'roundup((width*length*height) / area_covered)'
+        )
+
+        cubic_feet_waste = CalculationFormula.create(
+          name: 'Cubic feet + 10% of waste',
+          description: 'Calculate quantity based on cubic feet with 10% of waste',
+          formula: 'roundup(((width*length*height) / area_covered)*1.1)'
+        )
       rescue
       end
     end

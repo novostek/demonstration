@@ -14,7 +14,7 @@ const Areas = ({index, pe}) => {
   } = useContext(EstimateContext)
 
   return (
-    <>
+    <div>
       <a 
         onClick={() => removeArea(index, pe.proposal_id)} 
         style={{ cursor: 'pointer' }} 
@@ -48,7 +48,7 @@ const Areas = ({index, pe}) => {
           </a>
         </div>
       </div>
-    </>
+    </div>
   )
 }
 

@@ -17,7 +17,7 @@ const ProductEstimateProposal = () => {
   } = useContext(EstimateContext)
 
   return (
-    <>
+    <div>
       <form onSubmit={handleSubmit(onSubmit)} name="estimate_form">
         {
           productEstimate.map((pe, index) => (
@@ -62,7 +62,7 @@ const ProductEstimateProposal = () => {
         }
         <button type="submit" style={{ display: 'none' }} ref={submitBtnRef}></button>
       </form>
-    </>
+    </div>
   )
 }
 

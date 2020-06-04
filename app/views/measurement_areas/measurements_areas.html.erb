@@ -60,24 +60,25 @@
 								<% end %>
 							</li>
 						</ul>
-						<div class="m-area-list row pl-1 pr-1 measurement_areas">
+						<div class="m-area-list row pl-1 pr-1 measurement_areas" id="measurement_areas">
 							<%= form.fields_for :measurement_areas do |measurement_area_form| %>
 								<%= render 'measurement_area_fields', f: measurement_area_form %>
 							<% end %>
 						</div>
 						<div class="row mt-1">
-							<%= link_to_add_association form, :measurement_areas, class: 'btn btn-add-area' do %>
+							<%= link_to_add_association form, :measurement_areas, id: "add_area", class: 'btn btn-add-area' do %>
 								<i class="material-icons left">add</i> Add area
 							<% end %>
 						</div>								
 					</div>
 				</div>
 				<div class="col s12 pb-2 pr-0 pl-0">
+					<%= form.hidden_field :count, value: @estimate.measurement_areas.length, id: 'count_areas' %>
 					<%= link_to schedule_estimate_path(@estimate.id), target: '_self',
 						class:"btn grey lighten-5 grey-text waves-effect waves-light breadcrumbs-btn left save" do %>
 						Back <i class="material-icons left">arrow_back</i>
 					<% end %>
-					<%= form.button :submit, class:"btn indigo waves-effect waves-light breadcrumbs-btn right ml-1" do %>
+					<%= form.button :submit, id: "next_step", class:"btn indigo waves-effect waves-light breadcrumbs-btn right ml-1" do %>
 						Next: Products
 						<i class="material-icons right">arrow_forward</i>
 					<% end %>
@@ -86,6 +87,20 @@
 
 <%= content_for :scripts do %>
 	<script>
+			const next_button = $('#next_step')
+			let count_areas = $('#count_areas').val()
+			$(document).ready(function() {
+				
+
+				count_areas <=0 ? next_button.addClass('disabled') : next_button.removeClass('disabled')
+			}).on('cocoon:after-insert', function() {
+				count_areas++
+				count_areas <=0 ? next_button.addClass('disabled') : next_button.removeClass('disabled')
+			}).on('cocoon:after-remove', function() {
+				count_areas--
+				count_areas <=0 ? next_button.addClass('disabled') : next_button.removeClass('disabled')
+			})
+
 			function calc_square_feet(e) {
 				const { id, value } = e.target
 				const r = /\d+/

@@ -60,7 +60,7 @@
             <%= f.label :via, "Source" %>
           </div>
           <div class="input-field col s6 m4">
-            <%= f.text_field :date, value: Time.now.strftime('%m/%d/%Y %H:%M'), class: 'validate datepicker' %>
+            <%= f.text_field :date, class: 'validate datepicker' %>
             <%= f.label  :date %>
           </div>
           <div class="col s12 m4">
@@ -90,7 +90,9 @@
 
 			<%= render 'customer_form', customer: @customer %>
 </div>
-
+<%= javascript_tag do %>
+  var edit = <%= raw(@edit) %>
+<% end %>
 <% content_for :scripts do %>
   <script>
     const insert_value_to_field = (field_id, value) => {
@@ -234,6 +236,9 @@
 
   <script>
     document.addEventListener('DOMContentLoaded', function() {
+      if(window.edit) {
+        $(".other-fields, .save-buttons").fadeIn();
+      }
       document.getElementById('lead_customer').addEventListener('change', (e) => {
         document.getElementById('new_name_field').setAttribute('value', e.target.value);
         document.getElementById('customer_name_label').classList.add('active');

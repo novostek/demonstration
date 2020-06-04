@@ -17,6 +17,7 @@ class LeadsController < ApplicationController
   # GET /leads/new
   def new
     @lead = Lead.new
+    @lead.date = Time.now.strftime("%m/%d/%Y %H:%M")
     @customer = Customer.new
 
     #add_breadcrumb I18n.t('breadcrumbs.new'), new_lead_path
@@ -25,6 +26,8 @@ class LeadsController < ApplicationController
 
   # GET /leads/1/edit
   def edit
+    @edit = true
+    @lead.date = @lead.date.strftime("%m/%d/%Y %H:%M")
     @customer = Customer.new
       #add_breadcrumb I18n.t('breadcrumbs.edit'), edit_lead_path(@lead)
   end
@@ -48,6 +51,7 @@ class LeadsController < ApplicationController
 
   # PATCH/PUT /leads/1
   def update
+    params[:lead][:date] = DateTime.strptime(params[:lead][:date], "%m/%d/%Y %H:%M")
     if @lead.update(lead_params)
       redirect_to @lead, notice: t('notice.lead.updated')
     else

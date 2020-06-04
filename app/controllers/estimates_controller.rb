@@ -1,6 +1,6 @@
 class EstimatesController < ApplicationController
   #load_and_authorize_resource except: [:estimate_signature, :create_products_estimates, :create_step_one, :create_schedule,:delete_schedule]
-  before_action :set_estimate, only: [:show, :edit, :update, :destroy,:send_mail,:estimate_signature, :tax_calculation, :taxpayer, :create_products_estimates,:new_note, :new_document,:create_order]
+  before_action :set_estimate, only: [:send_grid_mail, :show, :edit, :update, :destroy,:send_mail,:estimate_signature, :tax_calculation, :taxpayer, :create_products_estimates,:new_note, :new_document,:create_order]
   before_action :set_combos, only: [:step_one, :products]
   # skip_forgery_protection
   # GET /estimates
@@ -99,7 +99,20 @@ class EstimatesController < ApplicationController
     render layout: "document"
   end
 
+  #Método que envia o email do estimate via woffice
   def send_mail
+    if !params[:subject].present? or !params[:emails].present?
+      redirect_to "/estimates/#{@estimate.id}/view", notice: t('notice.estimate.inform_all_fields')
+    else
+      @estimate.link = "#{Setting.url}/estimates/#{@estimate.id}/estimate_signature"
+      DocumentMailer.with(estimate: @estimate, emails: params[:emails]).send_estimate_mail.deliver_now
+      redirect_to "/estimates/#{@estimate.id}/view", notice: t('notice.estimate.mail_sent')
+    end
+
+  end
+
+  #Método que envia os emails utilizando o send-grid
+  def send_grid_mail
 
     if !params[:template].present? or !params[:subject].present? or !params[:emails].present?
       redirect_to "/estimates/#{@estimate.id}/view", notice: t('notice.estimate.inform_all_fields')
@@ -112,8 +125,9 @@ class EstimatesController < ApplicationController
         @estimate.link = "#{Setting.url}/estimates/#{@estimate.id}/estimate_signature"
       end
 
-      SendGridMail.send_mail(params[:template],[@estimate,@estimate.customer],params[:subject],params[:emails])
-      redirect_to "/estimates/#{@estimate.id}/view", notice: t('notice.estimate.mail_sent')
+      SendGridMail.send_mail(params[:template],[@estimate,@estimate.customer, @estimate.order],params[:subject],params[:emails])
+      #redirect_to "/estimates/#{@estimate.id}/view", notice: t('notice.estimate.mail_sent')
+      redirect_back(fallback_location: root_path,notice: t('notice.estimate.mail_sent'))
     end
   end
 

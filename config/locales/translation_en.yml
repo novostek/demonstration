@@ -18,6 +18,7 @@ en:
     new: "New"
     edit: "Edit"
     delete_schedule: "Delete Schedule"
+    send_mail: "Send by E-mail"
 
   false: "No"
   true: "Yes"
@@ -41,6 +42,7 @@ en:
   signin: "Sign in"
   is_required: "is required"
   upload_banner: "Upload new banner"
+  send_grid_warning: "This functionality allows to you send pre-configured emails through an integration with SendGrid. You can define a fully customized email, with the theme, colors and images. But first, you need to define the SendGrid key in the settings area. Click <a href='/settings'>here</a> to go to the settings page."
 
   send_mail_schedule: "Send Confirmation to Customer"
 

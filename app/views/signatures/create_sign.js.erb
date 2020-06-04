@@ -1,0 +1,18 @@
+
+verificar_status("<%= @job.id %>")
+function verificar_status(id)
+{
+    $.get("/running_jobs/"+id+"/is_complete", function(data, status){
+        if(data.complete == false)
+        {
+            setTimeout(function(){
+                    verificar_status(id);
+                },5000
+            );
+        }
+        else
+        {
+            window.location.href = data.redirect;
+        }
+    });
+}

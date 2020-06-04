@@ -47,7 +47,7 @@ class SendGridMail
     # end
 
     objects.each do |o|
-      template_data["#{o.class.name.downcase}"] = o.attributes
+      template_data["#{o.class.name.downcase}"] = o.attributes if o.present?
     end
 
     mail = Mail.new

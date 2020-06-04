@@ -101,6 +101,7 @@ Rails.application.routes.draw do
       get "schedule"
       get "products"
       get "send_mail"
+      get "send_grid_mail"
       get "estimate_signature"
       post "create_products_estimates"
       get "new_note"

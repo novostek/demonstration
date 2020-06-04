@@ -84,6 +84,21 @@
                 </div>
               </div>
 
+              <div class="row">
+                <div class="input-field col s12 l8">
+                  <p class="font-weight-600">Square Estimate text</p>
+                  <!--                  <input class="materialize-textarea" name="send_square_mail_text" id="send_square_mail_text" value="<%#= Setting.get_value("send_square_mail_text")  %>">-->
+                  <div id="froala-editor_send_estimate_mail_text">
+                    <% if !Setting.find_by(namespace: "send_estimate_mail_text").present? %>
+                      <h3>Click here to edit the content</h3>
+                      <p>Drag the image above or the text block to insert them in the editor.</p>
+                    <% else %>
+                      <%= Setting.get_value("send_estimate_mail_text").html_safe %>
+                    <% end %>
+                  </div>
+                  <span class="helper-text">This text is sent via Square.</span>
+                </div>
+              </div>
 
               <div class="row">
                 <div class="input-field col s12 l8">
@@ -206,12 +221,25 @@
               data = editor.html.get(true);
           });
 
-          $.post( "<%= atualiza_settings_settings_path %>", {send_schedule_mail_text: editor5.html.get(true) ,send_square_mail_text: editor.html.get(true), send_invoice_mail_text: editor2.html.get(true), send_document_mail_text: editor3.html.get(true), sign_order_mail_text: editor4.html.get(true) },function(data){
+          var editor6 = new FroalaEditor('#froala-editor_send_estimate_mail_text', {}, function () {
+              // Call the method inside the initialized event.
+              data = editor.html.get(true);
+          });
+
+          $.post( "<%= atualiza_settings_settings_path %>", {send_estimate_mail_text: editor6.html.get(true), send_schedule_mail_text: editor5.html.get(true) ,send_square_mail_text: editor.html.get(true), send_invoice_mail_text: editor2.html.get(true), send_document_mail_text: editor3.html.get(true), sign_order_mail_text: editor4.html.get(true) },function(data){
               M.toast({html: data["success"]});
           } );
 
 
       });
+
+      new FroalaEditor('div#froala-editor_send_estimate_mail_text', {
+          events: {
+              initialized: function () {
+                  var editor = this;
+              }
+          }
+      })
 
       new FroalaEditor('div#froala-editor_send_square_mail_text', {
           events: {

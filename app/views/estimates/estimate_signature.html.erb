@@ -175,6 +175,7 @@
           <br>
           <button id="clear" class="btn" type="button" ><%= t :clear %></button>
           <%= f.submit "Sign", class:"btn green", onclick:"loading_()" %>
+
         <% end %>
       <% else %>
         <img style="width: 688px; height: 80px" src="<%= $temp_img   %>" >
@@ -192,6 +193,8 @@
     {
         $.LoadingOverlay("show");//,{image: "/loading.gif",}
     }
+
+
       $(document).ready(function(){
 
           $('.chips').chips();

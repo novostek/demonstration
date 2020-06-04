@@ -440,9 +440,15 @@ class OrdersController < ApplicationController
     @documents = Document.to_select
     @hidden_fields = Setting.get_value('hidden_measurement_fields')
     begin
-      @email_customer = @estimate.customer.contacts.where(category: :email).first.data["email"]
+      @email_customer = @order.current_estimate.customer.contacts.where(category: :email).first.data["email"]
     rescue
       @email_customer = ""
+    end
+
+    begin
+      @templates = SendGridMail.get_templates["templates"].map{|a| [a["name"],a["id"]]}
+    rescue
+      @templates = []
     end
   end
 

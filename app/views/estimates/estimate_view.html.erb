@@ -35,7 +35,7 @@
             </li>
 
             <li>
-              <a class="grey-text text-darken-2 modal-trigger btn-send-email" href="#modal-mail"><i class="material-icons ">send</i>Send email</a>
+              <a class="grey-text text-darken-2 modal-trigger btn-send-email" href="#modal-mail"><i class="material-icons ">send</i>Custom Email</a>
             </li>
             <li>
               <a class="grey-text text-darken-2 modal-trigger btn-send-email" href="#modal-mail_document"><i class="material-icons ">send</i>Documents</a>
@@ -47,7 +47,7 @@
             </li>
 
           </ul>
-
+          <a href="#modal-mail-local" class="btn-secondary modal-trigger btn waves-effect waves-light breadcrumbs-btn right"><%= t "button.send_mail" %></a>
 
         </div>
       </div>
@@ -266,9 +266,38 @@
   </div>
 </div>
 
-<div id="modal-mail" class="modal">
+<div id="modal-mail-local" class="modal">
   <%= form_with url: send_mail_estimate_path(@estimate), method: :get, local: true do |f| %>
     <div class="modal-content">
+      <h4>Send email</h4>
+      <div class="row">
+
+        <div class="input-field">
+          <%= f.label :emails, "Emails" %>
+          <%= f.text_field :emails, value: @email_customer, required: true %>
+
+        </div>
+
+        <div class="input-field">
+          <%= f.label :subject %>
+          <%= f.text_field :subject, value:"#{Setting.get_value('company_name')} - Estimate ##{@estimate.code}", required: true %>
+        </div>
+
+      </div>
+    </div>
+    <div class="modal-footer">
+      <%= f.button :submit,  class:"modal-action modal-close waves-effect waves-green btn-flat btn-send", target:"_self" do %>
+        <i class="material-icons left">send</i> Send
+      <% end %>
+      <!--		<a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat btn-send"> <i class="material-icons left">send</i> Send</a>-->
+    </div>
+  <% end %>
+</div>
+
+<div id="modal-mail" class="modal">
+  <%= form_with url: send_grid_mail_estimate_path(@estimate), method: :get, local: true do |f| %>
+    <div class="modal-content">
+      <% if Setting.get_value("send_grid_key").present? %>
       <h4>Send email</h4>
       <div class="row">
         <div class="input-field">
@@ -287,11 +316,14 @@
         </div>
 
       </div>
+      <% else %>
+        <%= raw t :send_grid_warning %>
+      <% end %>
     </div>
     <div class="modal-footer">
       <%= f.button :submit,  class:"modal-action modal-close waves-effect waves-green btn-flat btn-send", target:"_self" do %>
         <i class="material-icons left">send</i> Send
-      <% end %>
+      <% end if Setting.get_value("send_grid_key").present? %>
       <!--		<a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat btn-send"> <i class="material-icons left">send</i> Send</a>-->
     </div>
   <% end %>

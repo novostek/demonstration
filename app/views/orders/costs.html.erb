@@ -86,7 +86,7 @@
 																<%= number_to_currency(p.value, :unit => '$') %>
 															</div>
 															<div class="item-status">
-																<%= select_tag :status, options_for_select(ProductPurchase.status.options, p.status), {id: "status_#{p.id}",onchange:"change_status(#{p.id})"} %>
+																<%= select_tag :status, options_for_select(ProductPurchase.status.options, p.status), {id: "status_#{p.id}",onchange:"change_status('#{p.id}')"} %>
 															</div>
 														</div>
 														<div class="oc-item-actions">
@@ -540,7 +540,7 @@
 															<%= number_to_currency(labor.value, :unit => '$') %>
 														</div>
 														<div class="item-status">
-															<%= select_tag :status, options_for_select(LaborCost.status.options, labor.status), {id: "status_#{labor.id}",onchange:"change_status_labor(#{labor.id})"} %>
+															<%= select_tag :status, options_for_select(LaborCost.status.options, labor.status), {id: "status_#{labor.id}",onchange:"change_status_labor('#{labor.id}')"} %>
 														</div>
 													</div>
 													<div class="oc-item-actions">

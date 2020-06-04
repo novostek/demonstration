@@ -16,7 +16,7 @@
 #  title         :string
 #  created_at    :datetime         not null
 #  updated_at    :datetime         not null
-#  origin_id     :integer
+#  origin_id     :uuid
 #  worker_id     :uuid             not null
 #
 # Indexes

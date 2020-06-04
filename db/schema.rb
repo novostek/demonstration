@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_06_02_225831) do
+ActiveRecord::Schema.define(version: 2020_06_04_220645) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -392,13 +392,13 @@ ActiveRecord::Schema.define(version: 2020_06_02_225831) do
     t.string "category"
     t.string "color"
     t.string "origin"
-    t.integer "origin_id"
     t.string "bpmn_instance"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.decimal "hour_cost"
     t.boolean "send_mail"
     t.boolean "mail_sent"
+    t.uuid "origin_id"
     t.index ["worker_id"], name: "index_schedules_on_worker_id"
   end
 

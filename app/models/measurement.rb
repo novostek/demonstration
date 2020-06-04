@@ -25,13 +25,35 @@ class Measurement < ApplicationRecord
   before_validation :set_default
 
   def self.square_meter areas_ids
-    square_meter = 0
+    area = 0
     measurements = self.where(measurement_area_id: areas_ids)
     measurements.each do |m|
-      square_meter += m.square_feet
+      if m.square_feet > 0
+        area += m.square_feet
+
+      elsif m.width > 0 and m.length > 0 and m.height > 0
+        area = area + (m.width * m.length * m.height)
+
+      elsif m.width > 0 and m.length > 0 
+        area = area + (m.width * m.length)
+      elsif m.width > 0 and m.height > 0
+        area = area + (m.width * m.height)
+
+      elsif m.width > 0 and m.length > 0 
+        area = area + (m.width * m.length)
+      elsif m.length > 0 and m.height > 0
+        area = area + (m.length * m.height)
+
+      elsif m.width > 0
+        area += m.width
+      elsif m.length > 0
+        area += m.length
+      elsif m.height > 0
+        area += m.height
+      end
     end
 
-    return square_meter.to_f
+    return area.to_f
   end
 
   def set_default

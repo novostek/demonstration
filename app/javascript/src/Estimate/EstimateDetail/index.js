@@ -66,7 +66,7 @@ const EstimateDetail = () => {
                   {
                     taxes.length > 0
                     &&
-                    <>
+                    <div>
                       <select name="tax_calculation" required ref={register} onChange={handleSubmit(onChangeTax)}>
                         <option value="">Select an option</option>
                         {
@@ -76,7 +76,7 @@ const EstimateDetail = () => {
                         }
                       </select>
                       <label>Taxes</label>
-                    </>
+                    </div>
                   }
                 </div>
 

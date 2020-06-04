@@ -68,8 +68,8 @@ class DocumentMailer < ApplicationMailer
         :address => Setting.get_value("mail_address").present? ? Setting.get_value("mail_address") : "smtp.gmail.com", :port => Setting.get_value("mail_port").present? ? Setting.get_value("mail_port").to_i : 587,
         #:domain => Setting.url,
         :authentication => 'plain',
-        :user_name => Setting.get_value("mail_user").present? ? Setting.get_value("mail_user") : 'wofficemail@gmail.com',
-        :password => Setting.get_value("mail_password").present? ? Setting.get_value("mail_password") : 'woffice_2020',
+        :user_name => Setting.get_value("mail_user").present? ? Setting.get_value("mail_user") : 'no-reply@woffice.app',
+        :password => Setting.get_value("mail_password").present? ? Setting.get_value("mail_password") : 'Woffice2020',
         :enable_starttls_auto => true
     }
     mail.delivery_method.settings.merge!(smtp_settings)

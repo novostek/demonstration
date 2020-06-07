@@ -64,7 +64,7 @@ class Client < ApplicationRecord
         estimates = Menu.create(active: true, icon: "assignment_turned_in", name: "Estimates", url: "/estimates", ancestry: nil, position: 2)
         schedules = Menu.create(active: true, icon: "event_note", name: "Schedules", url: "/schedules", ancestry: nil, position: 6)
         orders = Menu.create(active: true, icon: "assignment_ind", name: "Orders", url: "/orders", ancestry: nil, position: 3)
-        leads = Menu.create(active: true, icon: "assignment", name: "Leads", url: "/leads", ancestry: nil, position: 1)
+        leads = Menu.create(active: true, icon: "assignment", name: "Leads", url: "/leads/new", ancestry: nil, position: 1)
         configuration = Menu.create(active: true, icon: "settings", name: "Settings", url: "#", ancestry: nil, position: 10)
         settings = Menu.create(active: true, icon: "build", name: "System Configuration", url: "/settings", parent: configuration, position: 1)
         calculation_formula = Menu.create(active: true, icon: "local_atm", name: "Calculation Formula", url: "/calculation_formulas", parent: configuration, position:2)

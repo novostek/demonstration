@@ -21,7 +21,7 @@ class ConfirmJob < ApplicationJob
       if client.save
         job.complete = true
         #if !Rails.env.production?
-          job.redirect = "http://#{client.tenant_name}.woffice.biz"
+          job.redirect = "http://#{client.tenant_name}.#{ENV["DOMAIN_URL"]}"
         #else
         #job.redirect = "http://#{client.domain}.lvh.me:3000"
         #end

@@ -68,10 +68,10 @@ Rails.application.configure do
   config.action_mailer.default_url_options = { :host => "http://f5bbe7ed.ngrok.io" }
   config.action_mailer.asset_host = "http://f5bbe7ed.ngrok.io"
   config.action_mailer.smtp_settings = {
-      :address              => "smtp.gmail.com",
+      :address              => "smtp-relay.gmail.com",
       :port                 => 587,
-      :user_name            => 'wofficemail@gmail.com',
-      :password             => 'woffice_2020',
+      :user_name            => 'no-reply@woffice.app',
+      :password             => 'Woffice2020',
       :authentication       => "plain",
       :enable_starttls_auto => true
   }

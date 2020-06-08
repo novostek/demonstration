@@ -45,7 +45,7 @@ const ProductComponent = () => {
                 </li>
                 <li className="step active">
                   <a href={`/estimates/${estimate.id}/products`}>
-                    <div className="step-title waves-effect">Products</div>
+                    <div className="step-title waves-effect">Itens</div>
                   </a>
                 </li>
               </ul>
@@ -53,7 +53,7 @@ const ProductComponent = () => {
               <ProductEstimateProposal />
 
               <div className="row mt-1">
-                <a onClick={addArea} className="btn btn-add-product-area"><i className="material-icons left">add</i> Add area</a>
+                <a onClick={addArea} className="btn btn-add-product-area btn-secondary"><i className="material-icons left">add</i> Add Area Group</a>
               </div>
             </div>
 

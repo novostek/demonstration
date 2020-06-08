@@ -23,7 +23,7 @@ const Areas = ({index, pe}) => {
           <i className="material-icons">close</i>
       </a>      
       <div className="areas-available col s12">
-        <span>Areas:</span>
+        <span>Itens for: </span>
         {
           estimate.measurement_areas.map((ma, maIndex) => (
             <div className={`chip ${productEstimate[index].areas.includes(ma.id) ? 'selected' : ''}`} key={Math.random()} onClick={() => !productEstimate[index].areas.includes(ma.id) ? selectArea(index, ma.id, true) : selectArea(index, ma.id, false)}>

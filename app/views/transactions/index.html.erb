@@ -146,6 +146,11 @@
           </div>
 
           <div class="input-field">
+            <%= f.select :status_eq, Transaction.status.options, {include_blank: true}  %>
+            <%= f.label  :status %>
+          </div>
+
+          <div class="input-field">
             <%= f.date_field :due_gteq %>
             <%= f.label  :due, "Due >" %>
           </div>

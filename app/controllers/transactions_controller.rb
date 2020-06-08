@@ -5,10 +5,14 @@ class TransactionsController < ApplicationController
 
   # GET /transactions
   def index
-    @q = Transaction.all.order(id: :desc).ransack(params[:q])
+    @filtered = params[:q].present?
+    if @filtered and params[:q][:status_eq] == "cancelled"
+      @q = Transaction.unscoped.all.order(id: :desc).ransack(params[:q])
+    else
+      @q = Transaction.all.order(id: :desc).ransack(params[:q])
+    end
     @transactions = @q.result.page(params[:page]).per(10)
 
-    @filtered = params[:q].present?
 
     @overdue = Transaction.get_amount_of_overdue
     @open = Transaction.get_amount_of_open
@@ -112,11 +116,11 @@ class TransactionsController < ApplicationController
 
     # Use callbacks to share common setup or constraints between actions.
     def set_transaction
-      @transaction = Transaction.find(params[:id])
+      @transaction = Transaction.unscoped.find(params[:id])
     end
 
     # Only allow a trusted parameter "white list" through.
     def transaction_params
-      params.require(:transaction).permit(:category, :transaction_category_id, :transaction_account_id, :order_id, :origin, :due, :effective, :value, :bpm_instance)
+      params.require(:transaction).permit(:category, :transaction_category_id, :transaction_account_id, :order_id, :origin, :due, :effective, :value, :status)
     end
 end

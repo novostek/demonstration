@@ -22,6 +22,12 @@
     <%= f.label  :transaction_account_id %>
   </div>
 
+
+  <div class="input-field">
+    <%= f.select :status, Transaction.status.options, {prompt: true}  %>
+    <%= f.label  :status %>
+  </div>
+
   <div class="input-field">
 
 

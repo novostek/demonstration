@@ -1,0 +1,63 @@
+<div class="row" id="gradient-Analytics">
+
+  <div class="col s12 m6 l3 card-width">
+    <div class="card row blue-grey gradient-shadow white-text padding-4">
+      <div class="col s5 m5">
+        <i class="material-icons background-round mt-5 mb-5">format_list_numbered</i>
+        <p class="no-margin">Balance</p>
+      </div>
+      <div class="col s7 m7 right-align">
+        <h5 class="mb-0 white-text">
+          <%= @total_balance.present? ? number_to_currency(@total_balance[:value], :unit => '$') : '$0'%>
+        </h5>
+        <p class="no-margin">last 30 days</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="col s12 m6 l3 card-width">
+    <div class="card row deep-orange gradient-shadow white-text padding-4">
+      <div class="col s5 m5">
+        <i class="material-icons background-round mt-5 mb-5">alarm_off</i>
+        <p class="no-margin">Overdue</p>
+      </div>
+      <div class="col s7 m7 right-align">
+        <h5 class="mb-0 white-text">
+          <%= number_to_currency(@overdue, :unit => '$') %>
+        </h5>
+        <p class="no-margin">last 30 days</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="col s12 m6 l3 card-width">
+    <div class="card row blue darken-3 gradient-shadow white-text padding-4">
+      <div class="col s5 m5">
+        <i class="material-icons background-round mt-5 mb-5">receipt</i>
+        <p class="no-margin">Open</p>
+      </div>
+      <div class="col s7 m7 right-align">
+        <h5 class="mb-0 white-text">
+          <%= number_to_currency(@open, :unit => '$') %>
+        </h5>
+        <p class="no-margin">last 30 days</p>
+      </div>
+    </div>
+  </div>
+
+
+  <div class="col s12 m6 l3 card-width">
+    <div class="card row green gradient-shadow white-text padding-4">
+      <div class="col s5 m5">
+        <i class="material-icons background-round mt-5 mb-5">attach_money</i>
+        <p class="no-margin">Paid</p>
+      </div>
+      <div class="col s7 m7 right-align">
+        <h5 class="mb-0 white-text">
+          <%= number_to_currency(@paid, :unit => '$') %>
+        </h5>
+        <p class="no-margin">last 30 days</p>
+      </div>
+    </div>
+  </div>
+</div>

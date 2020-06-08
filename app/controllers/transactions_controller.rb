@@ -1,12 +1,15 @@
 class TransactionsController < ApplicationController
   #load_and_authorize_resource except: [:send_square]
   before_action :set_transaction, only: [:show, :edit, :update, :destroy,:send_square,:send_square_again, :paid]
-  before_action :set_combos, only: [:new,:edit,:create,:update]
+  before_action :set_combos, only: [:new,:edit,:create,:update, :index]
 
   # GET /transactions
   def index
     @q = Transaction.all.order(id: :desc).ransack(params[:q])
     @transactions = @q.result.page(params[:page]).per(10)
+
+    @filtered = params[:q].present?
+
     @overdue = Transaction.get_amount_of_overdue
     @open = Transaction.get_amount_of_open
     @paid = Transaction.get_amount_of_receivables
@@ -27,7 +30,6 @@ class TransactionsController < ApplicationController
     end
 
     @total_balance = @balance.reduce { |sum, num| sum[:value] + num[:value] }
-
   end
 
   #Método que reenvia o email com o checkout para o cliente

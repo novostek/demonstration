@@ -58,45 +58,48 @@ const EstimateDetail = () => {
             <span style={{width: '100%'}} className="right right-align">{moment(estimate.created_at).format("MM/DD/YYYY")}</span>
           </div>
         </div>
-        <div className="row mt-3">
-          <div className="col s12">
-            <form name="tax_form">
-              <div className="row">
-                <div className="input-field col s12 m3 l4">
-                  {
-                    taxes.length > 0
-                    &&
-                    <div>
-                      <select name="tax_calculation" required ref={register} onChange={handleSubmit(onChangeTax)}>
-                        <option value="">Select an option</option>
-                        {
-                          taxes.map(tax => (
-                            <option key={Date.now} value={tax.id}>{tax.name}</option>
-                          ))
-                        }
-                      </select>
-                      <label>Taxes</label>
-                    </div>
-                  }
-                </div>
+        
+        {
+          !window.location.pathname.includes('orders')
+          &&
+          <div className="row mt-3">
+            <div className="col s12">
+              <form name="tax_form">
+                <div className="row">
+                  <div className="input-field col s12 m3 l4">
+                    {
+                      taxes.length > 0
+                      &&
+                      <div>
+                        <select name="tax_calculation" required ref={register} onChange={handleSubmit(onChangeTax)}>
+                          <option value="">Select an option</option>
+                          {
+                            taxes.map(tax => (
+                              <option key={Date.now} value={tax.id}>{tax.name}</option>
+                            ))
+                          }
+                        </select>
+                        <label>Taxes</label>
+                      </div>
+                    }
+                  </div>
 
-                <div className="input-field col s12 m3 l3">
-                  <select name="taxpayer" required onChange={handleSubmit(onChangeTaxPayer)} ref={register}>
-                    <option value="">Select an option</option>
-                    <option value="customer">Customer will pay</option>
-                    <option value="company">We will pay</option>
-                  </select>
-                  <label>Taxpayer</label>
-                    {/* <%= f.select :taxpayer, Estimate.taxpayer.options, {prompt: true}, :selected => @estimate.taxpayer, required: true  %>
-                    <%= f.label  :taxpayer %> */}
-                </div>  
-              </div>    
-            </form>
+                  <div className="input-field col s12 m3 l3">
+                    <select name="taxpayer" required onChange={handleSubmit(onChangeTaxPayer)} ref={register}>
+                      <option value="">Select an option</option>
+                      <option value="customer">Customer will pay</option>
+                      <option value="company">We will pay</option>
+                    </select>
+                    <label>Taxpayer</label>
+                      {/* <%= f.select :taxpayer, Estimate.taxpayer.options, {prompt: true}, :selected => @estimate.taxpayer, required: true  %>
+                      <%= f.label  :taxpayer %> */}
+                  </div>  
+                </div>    
+              </form>
+            </div>
           </div>
-        <div>
+        }        
       </div>
-    </div>
-    </div>
     </div>
   )
 }

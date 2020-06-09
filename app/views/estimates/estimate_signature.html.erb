@@ -162,25 +162,26 @@
       <p> <b>Signed at <%= "#{DateTime.now}" %></b></p>
     <% end %>
     <div class="row">
+      <div class="col s12">
+        <% if !@view.present? %>
+          <%= form_with url: create_sign_signatures_path do |f| %>
 
-      <% if !@view.present? %>
-        <%= form_with url: create_sign_signatures_path do |f| %>
+            <%= f.hidden_field "signature[sign]", value: true %>
+            <%= f.hidden_field "signature[origin]", value: "Estimate" %>
+            <%= f.hidden_field "signature[origin_id]", value: @estimate.id %>
 
-          <%= f.hidden_field "signature[sign]", value: true %>
-          <%= f.hidden_field "signature[origin]", value: "Estimate" %>
-          <%= f.hidden_field "signature[origin_id]", value: @estimate.id %>
+            <input type="hidden" id="signature_file" value="" name="signature[file]">
+            <canvas id="signature-pad" class="signature-pad" width=700 height=200 style="border:1px solid #000000;"></canvas>
+            <br>
+            <button id="clear" class="btn" type="button" ><%= t :clear %></button>
+            <%= f.submit "Sign", class:"btn green", onclick:"loading_()" %>
 
-          <input type="hidden" id="signature_file" value="" name="signature[file]">
-          <canvas id="signature-pad" class="signature-pad" width=700 height=200 style="border:1px solid #000000;"></canvas>
-          <br>
-          <button id="clear" class="btn" type="button" ><%= t :clear %></button>
-          <%= f.submit "Sign", class:"btn green", onclick:"loading_()" %>
-
+          <% end %>
+        <% else %>
+          <img style="width: 688px; height: 80px" src="<%= $temp_img   %>" >
+          <!--          <p><%#= DateTime.now %></p>-->
         <% end %>
-      <% else %>
-        <img style="width: 688px; height: 80px" src="<%= $temp_img   %>" >
-        <!--          <p><%#= DateTime.now %></p>-->
-      <% end %>
+      </div>
     </div>
   </div>
 

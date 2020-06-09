@@ -316,13 +316,15 @@ class EstimatesController < ApplicationController
           ap.save()
         end
         pe["products"].each do |product|
-          p_estimate = !product["product_id"] == 0 ? ProductEstimate.find_or_initialize_by(product_id: product["product_id"], measurement_proposal_id: mp.id) : ProductEstimate.find_or_initialize_by(custom_title: product["name"], measurement_proposal_id: mp.id)
-          p_estimate.quantity = product["qty"].to_f
-          p_estimate.unitary_value = product["price"].to_f
-          p_estimate.discount = product["discount"].to_f
-          p_estimate.tax = product["tax"]
-          p_estimate.value = product["total"].to_f
-          p_estimate.save()
+          if !product['name'].empty?
+            p_estimate = !product["product_id"] == 0 ? ProductEstimate.find_or_initialize_by(product_id: product["product_id"], measurement_proposal_id: mp.id) : ProductEstimate.find_or_initialize_by(custom_title: product["name"], measurement_proposal_id: mp.id)
+            p_estimate.quantity = product["qty"].to_f
+            p_estimate.unitary_value = product["price"].to_f
+            p_estimate.discount = product["discount"].to_f
+            p_estimate.tax = product["tax"]
+            p_estimate.value = product["total"].to_f
+            p_estimate.save()
+          end
         end
       end
       

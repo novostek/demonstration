@@ -22,6 +22,9 @@ const ProductEstimateProposal = () => {
         {
           productEstimate.map((pe, index) => (
             <div className="row products-area-list pl-1 pr-1 mt-2" id="measurement_proposals" key={index}>
+              {
+                console.log("PE", pe)
+              }
               <div className="product-area">
                 <Areas index={index} pe={pe} />
                 <div className="products-list">

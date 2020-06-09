@@ -120,7 +120,6 @@ export default function EstimateProvider({children}) {
             setValue(`measurement[${area_index}].products[${product_index}]`, { total: result.total })
           })
       else {
-        console.log('Suggestion', suggestion)
         copy[area_index].products[product_index].product_id = suggestion.id
         copy[area_index].products[product_index].name = suggestion.name
         copy[area_index].products[product_index].qty = 0
@@ -225,8 +224,6 @@ export default function EstimateProvider({children}) {
 
           return copy
         })
-
-        console.log("Estimate", productEstimate)
       }
 
 
@@ -284,7 +281,6 @@ export default function EstimateProvider({children}) {
       headers,
       body: JSON.stringify({areas : areas_ids})
     }
-    console.log("AREA", areas_ids)
     return fetch(`/calculation_formulas/lxw/product/${product_id}`, init)
       .then(data => data.json())
   }
@@ -332,7 +328,6 @@ export default function EstimateProvider({children}) {
       copy[index].products.push(product)
       return copy
     })
-    console.log('area_length', productEstimate.length)
   }
 
   const removeProduct = (maIndex, peIndex) => {
@@ -355,7 +350,7 @@ export default function EstimateProvider({children}) {
         }
         productEstimate[maIndex].products[peIndex].product_estimate_id &&
           fetch(`/product_estimates/${productEstimate[maIndex].products[peIndex].product_estimate_id}`, init)
-            .then(res => console.log(res))
+            .then(res => {})
             .catch(error => console.log(error))
         Swal.fire(
           'Deleted',
@@ -451,7 +446,7 @@ export default function EstimateProvider({children}) {
         }
 
         fetch(`/measurement_proposals/${proposal_id}`, init)
-          .then(res => console.log(res))
+          .then(res => {})
           .catch(error => console.log(error))
         Swal.fire(
           'Deleted',
@@ -515,7 +510,6 @@ export default function EstimateProvider({children}) {
       headers,
       body: JSON.stringify(data)
     }
-    console.log('create', data)
     return fetch(`/estimates/${estimate.id}/create_products_estimates`, init)
       .then(data => data.json())
   }
@@ -546,7 +540,6 @@ export default function EstimateProvider({children}) {
   const onSubmit = async data => {
     const copy = [...productEstimate]
     const results = copy.map(async (ma, index) => {
-      console.log(data)
       const maCopy = { ...ma }
       maCopy.products = ma.products.map((pe, peIndex) => {
         return { ...pe, ...data.measurement[index].products[peIndex] }
@@ -558,7 +551,7 @@ export default function EstimateProvider({children}) {
 
       await setProductEstimate(res)
 
-    }).then(() => console.log(productEstimate))
+    }).then(() => {})
 
     create_product_estimate()
       .then(() => window.location = `/estimates/${estimate.id}/view`)

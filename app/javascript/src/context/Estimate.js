@@ -168,14 +168,15 @@ export default function EstimateProvider({children}) {
             setProductEstimate(productEstimate => {
               const copy = [...productEstimate]
               if (mp.id !== indexHelper) {
+                console.log("MP IF", mp.id)
                 copy.push({ areas: [], products: [] })
                 mp.measurement_area.map(area => {
                   // selectArea(mpIndex, area.id, insert)
                   copy[mpIndex].areas.push(area.id)
                 })
                 if (mp.id !== indexHelper) {
+                  copy[mpIndex].proposal_id = mp.id
                   mp.product_estimates.map((pe, peIndex) => {
-                    copy[mpIndex].proposal_id = mp.id
                     copy[mpIndex].toggleSelect = false
                     copy[mpIndex].products.push({
                       product_estimate_id: pe.id,
@@ -194,6 +195,7 @@ export default function EstimateProvider({children}) {
 
                 indexHelper = mp.id
               } else {
+                console.log("MP ELSE", mp.id)
                 mp.product_estimates.map((pe, peIndex) => {
                   if (copy[mpIndex - 1]){                    
                     copy[mpIndex].toggleSelect = false

@@ -1,12 +1,19 @@
 class TransactionsController < ApplicationController
   #load_and_authorize_resource except: [:send_square]
   before_action :set_transaction, only: [:show, :edit, :update, :destroy,:send_square,:send_square_again, :paid]
-  before_action :set_combos, only: [:new,:edit,:create,:update]
+  before_action :set_combos, only: [:new,:edit,:create,:update, :index]
 
   # GET /transactions
   def index
-    @q = Transaction.all.order(id: :desc).ransack(params[:q])
+    @filtered = params[:q].present?
+    if @filtered and params[:q][:status_eq] == "cancelled"
+      @q = Transaction.unscoped.all.order(id: :desc).ransack(params[:q])
+    else
+      @q = Transaction.all.order(id: :desc).ransack(params[:q])
+    end
     @transactions = @q.result.page(params[:page]).per(10)
+
+
     @overdue = Transaction.get_amount_of_overdue
     @open = Transaction.get_amount_of_open
     @paid = Transaction.get_amount_of_receivables
@@ -27,7 +34,6 @@ class TransactionsController < ApplicationController
     end
 
     @total_balance = @balance.reduce { |sum, num| sum[:value] + num[:value] }
-
   end
 
   #Método que reenvia o email com o checkout para o cliente
@@ -110,11 +116,11 @@ class TransactionsController < ApplicationController
 
     # Use callbacks to share common setup or constraints between actions.
     def set_transaction
-      @transaction = Transaction.find(params[:id])
+      @transaction = Transaction.unscoped.find(params[:id])
     end
 
     # Only allow a trusted parameter "white list" through.
     def transaction_params
-      params.require(:transaction).permit(:category, :transaction_category_id, :transaction_account_id, :order_id, :origin, :due, :effective, :value, :bpm_instance)
+      params.require(:transaction).permit(:category, :transaction_category_id, :transaction_account_id, :order_id, :origin, :due, :effective, :value, :status)
     end
 end

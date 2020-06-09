@@ -1,4 +1,4 @@
-<%= form_for(worker, authenticity_token: true) do |f| %>
+<%= form_for(worker, authenticity_token: true, :html => { :onsubmit => "clearFields()" }) do |f| %>
   <div id="worker-add-modal" class="modal modal-fixed-footer">
 		<div class="modal-content">
 			<h4>New worker</h4>
@@ -57,4 +57,16 @@
     <% end %>
   </div>
 </div>
+<% end %>
+
+<%= content_for :scripts do %>
+  <script>
+    function clearFields(e) {
+      e.preventDefault()
+      const form = document.getElementById("new_worker")
+      form.submit()
+      
+      form.reset()
+    }
+  </script>
 <% end %>

@@ -132,8 +132,6 @@ const ProductComponent = () => {
   }
 
   const remoteSubmit = () => {
-    document.forms['tax_form'].reportValidity()
-    &&
     submitBtnRef.current.click()
   }
 

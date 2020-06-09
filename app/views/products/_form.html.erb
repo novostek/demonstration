@@ -70,8 +70,8 @@
     </div>
   </div>
 
-  <div class="input-field col s12">
-    <%= f.select :calculation_formula_id, @formulas, {prompt: true} %>
+  <div class="other-field col s12">
+    <%= f.select :calculation_formula_id, @formulas, {prompt: true},class: 'select2 browser-default' %>
     <%= f.label  :calculation_formula_id %>
 
   </div>
@@ -137,6 +137,10 @@
 <%=  content_for :scripts do %>
   <script type="text/javascript" charset="utf-8">
       $( document ).ready(function() {
+          $('.select2').select2({
+              dropdownAutoWidth: true,
+              width: '100%'
+          });
           $('.select2-size-sm').select2({
               dropdownAutoWidth: true,
               width: '100%',

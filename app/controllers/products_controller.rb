@@ -21,6 +21,7 @@ class ProductsController < ApplicationController
   # GET /products/new
   def new
     @product = Product.new
+    @product.calculation_formula = CalculationFormula.find_by_namespace('default-formula')
     @supplier = Supplier.new
     @category = ProductCategory.new
   end

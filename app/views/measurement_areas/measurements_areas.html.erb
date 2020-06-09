@@ -53,10 +53,10 @@
 							<li class="step">
 								<% if @estimate.product_estimates.present? %>
 									<%= link_to products_estimate_path(@estimate) do %>
-										<div class="step-title waves-effect">Products</div>
+										<div class="step-title waves-effect">Itens</div>
 									<% end %>
 								<% else %>
-									<div class="step-title waves-effect">Products</div>
+									<div class="step-title waves-effect">Itens</div>
 								<% end %>
 							</li>
 						</ul>
@@ -66,8 +66,8 @@
 							<% end %>
 						</div>
 						<div class="row mt-1">
-							<%= link_to_add_association form, :measurement_areas, id: "add_area", class: 'btn btn-add-area' do %>
-								<i class="material-icons left">add</i> Add area
+							<%= link_to_add_association form, :measurement_areas, id: "add_area", class: 'btn btn-add-area btn-secondary' do %>
+								<i class="material-icons left">add</i> Add Area
 							<% end %>
 						</div>								
 					</div>
@@ -79,7 +79,7 @@
 						Back <i class="material-icons left">arrow_back</i>
 					<% end %>
 					<%= form.button :submit, id: "next_step", class:"btn indigo waves-effect waves-light breadcrumbs-btn right ml-1" do %>
-						Next: Products
+						Next: Itens
 						<i class="material-icons right">arrow_forward</i>
 					<% end %>
 				</div>

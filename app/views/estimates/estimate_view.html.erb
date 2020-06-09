@@ -69,7 +69,7 @@
           </div>
           <div class="col s12 m5">
             <span class="left width-100"><span class="font-weight-600 black-text">Price:</span> <%= number_to_currency @estimate.total %></span>
-            <span class="left width-100"><span class="font-weight-600 black-text">Tax:</span> <%= number_to_currency @estimate.tax %> (<%= t("enumerize.estimate.taxpayer.#{@estimate.taxpayer}") %>)</span>
+            <span class="left width-100"><span class="font-weight-600 black-text">Tax:</span> <%= number_to_currency @estimate.tax %> (<%= t("enumerize.estimate.taxpayer.#{@estimate.taxpayer}") if @estimate.taxpayer.present? %>)</span>
           </div>
           <div class="col s12 m2">
             <span class=" users-view-status display-inline chip green lighten-5 green-text right"><%= @estimate.status_text %></span>
@@ -82,53 +82,9 @@
 
         </div>
       </div>
+
       <!-- Areas -->
-      <ul class="collapsible">
-        <li>
-          <div class="collapsible-header" tabindex="0"><i class="material-icons">select_all</i>Areas</div>
-          <div class="collapsible-body grey lighten-4 pl-2 pr-2 pt-2 pb-2">
-            <div class="row">
-              <% @estimate.measurement_areas.each do |ma| %>
-                <div class="col s12 l6">
-                  <div class="card-panel pt-3 pb-3">
-                    <div class="row center-align">
-                      <h6
-                        class="col s12 pl-0 pt-0 mt-0 font-weight-600 display-flex align-items-center justify-content-center">
-                        <i class="material-icons left">event_seat</i>
-                        <%= ma.name %>
-                      </h6>
-                      <% if @hidden_fields['length'].present? %>
-                        <div class="col">
-                          <!-- length -->
-                          <i class="material-icons left width-100">straighten</i><%= ma.measurements[0].length %>
-                        </div>
-                      <% end %>
-                      <% if @hidden_fields['width'].present? %>
-                        <div class="col">
-                          <!-- length -->
-                          <i class="material-icons left width-100" style="transform: rotate(-45deg)">straighten</i><%= ma.measurements[0].width %>
-                        </div>
-                      <% end %>
-                      <% if @hidden_fields['height'].present? %>
-                        <div class="col">
-                          <!-- length -->
-                          <i class="material-icons left width-100" style="transform: rotate(-90deg)">straighten</i><%= ma.measurements[0].height %>
-                        </div>
-                      <% end %>
-                      <% if @hidden_fields['square_feet'].present? %>
-                        <div class="col">
-                          <!-- height -->
-                          <i class="left width-100">SqFt</i><%= ma.measurements[0].square_feet %>
-                        </div>
-                      <% end %>
-                    </div>
-                  </div>
-                </div>
-              <% end %>
-            </div>
-          </div>
-        </li>
-      </ul>
+      <%= render partial:'estimates/colapsible_area', locals: {estimate: @estimate} %>
 
 
       <div class="card-panel">
@@ -176,7 +132,7 @@
           <div class="col m4 s12">
             <!-- <p>Thanks for your business.</p> -->
           </div>
-          <div class="col xl6 m8 s12 offset-xl6">
+          <div class="col xl4 m7 s12 offset-xl3">
             <ul>
               <li class="display-flex justify-content-between">
                 <span class="invoice-subtotal-title">Subtotal</span>
@@ -187,7 +143,7 @@
                 <h6 class="mt-0">- <%= number_to_currency @estimate.discounts %></h6>
               </li>
               <li class="display-flex justify-content-between">
-                <span class="invoice-subtotal-title">Tax (<%= t("enumerize.estimate.taxpayer.#{@estimate.taxpayer}") %>)</span>
+                <span class="invoice-subtotal-title">Tax (<%= t("enumerize.estimate.taxpayer.#{@estimate.taxpayer}") if @estimate.taxpayer.present?%>)</span>
                 <h6 class="mt-0"> <%= number_to_currency @estimate.tax || 0 %></h6>
               </li>
               <li class="divider mt-2 mb-2"></li>

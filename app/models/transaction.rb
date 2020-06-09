@@ -43,13 +43,14 @@ class Transaction < ApplicationRecord
   extend Enumerize
 
   enumerize :payment_method, in: [:cash, :square_credit, :square_installments, :check], predicates: true
-  enumerize :status, in: [:paid, :pendent],predicates: true, default: :pendent
+  enumerize :status, in: [:paid, :pendent, :cancelled],predicates: true, default: :pendent
+
+  default_scope {where.not(status: 'cancelled' )}
 
   #validates :category, :effective, :value, presence: true
 
   after_create :send_square
-  before_create :set_default_categories
-
+  before_save :set_default_categories
 
   def send_square
     if self.due == Date.today
@@ -77,17 +78,17 @@ class Transaction < ApplicationRecord
     elsif self.origin == 'LaborCost'
       self.transaction_account_id = Setting.get_value("labor_cost_transaction_account")
       self.transaction_category_id = Setting.get_value("labor_cost_transaction_category")
-      self.value = self.value * -1
+      self.value = -(self.value)
     elsif self.origin == 'ProductPurchase'
       product_purchase = ProductPurchase.find(self.origin_id)
       if product_purchase.tax
+        self.value = -(self.value)
         self.transaction_account_id = Setting.get_value("taxes_transaction_account")
         self.transaction_category_id = Setting.get_value("taxes_transaction_category")
-        self.value = self.value * -1
       else
+        self.value = -(self.value)
         self.transaction_account_id = Setting.get_value("product_purchase_transaction_account")
         self.transaction_category_id = Setting.get_value("product_purchase_transaction_category")
-        self.value = self.value * -1
       end
     end
   end

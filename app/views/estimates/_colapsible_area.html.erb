@@ -1,0 +1,46 @@
+<ul class="collapsible exp collapsible-areas">
+  <li>
+    <div class="collapsible-header" tabindex="0"><i class="material-icons">select_all</i>Areas</div>
+    <div class="collapsible-body pl-2 pr-2 pt-2 pb-2">
+      <table class="responsive-table">
+        <thead>
+        <tr>
+          <th></th>
+          <% if @hidden_fields['length'].present? %>
+            <th><span class="hide-on-med-and-up">L</span> <span class="hide-on-small-only">Length</span></th>
+          <% end %>
+          <% if @hidden_fields['width'].present? %>
+            <th><span class="hide-on-med-and-up">W</span> <span class="hide-on-small-only">Width</span></th>
+          <% end %>
+          <% if @hidden_fields['height'].present? %>
+            <th><span class="hide-on-med-and-up">H</span> <span class="hide-on-small-only">Height</span></th>
+          <% end %>
+          <% if @hidden_fields['square_feet'].present? %>
+            <th><span class="hide-on-med-and-up">Sqft</span> <span class="hide-on-small-only">Square feet</span></th>
+          <% end %>
+        </tr>
+        </thead>
+        <tbody>
+        <% estimate.measurement_areas.each do |ma| %>
+          <tr>
+            <td><i class="material-icons left mr-4 amber-text">event_seat</i> <%= ma.name %> <br><small><%= ma.description %></small></td>
+            <% if @hidden_fields['length'].present? %>
+              <td><%= ma.measurements[0].length == 0 ? "--" : ma.measurements[0].length %></td>
+            <% end %>
+            <% if @hidden_fields['width'].present? %>
+              <td><%= ma.measurements[0].width == 0 ? "--" : ma.measurements[0].width %></td>
+            <% end %>
+            <% if @hidden_fields['height'].present? %>
+              <td><%= ma.measurements[0].height == 0 ? "--" : ma.measurements[0].height %></td>
+            <% end %>
+            <% if @hidden_fields['square_feet'].present? %>
+              <td><%= ma.measurements[0].square_feet %></td>
+            <% end %>
+          </tr>
+        <% end %>
+        </tbody>
+      </table>
+
+    </div>
+  </li>
+</ul>

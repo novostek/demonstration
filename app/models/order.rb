@@ -58,12 +58,7 @@ class Order < ApplicationRecord
   end
 
   def set_code
-    order = Order.last
-    if order.present?
-      self.code = order[:code].to_i + 1
-    else
-      self.code = "#{Time.now.strftime('%Y')}000000".to_i + 1
-    end
+    self.code = self.generate_code
   end
 
   def get_taxes

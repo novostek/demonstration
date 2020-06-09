@@ -70,7 +70,7 @@ class Client < ApplicationRecord
         calculation_formula = Menu.create(active: true, icon: "local_atm", name: "Calculation Formula", url: "/calculation_formulas", parent: configuration, position:2)
         documents = Menu.create(active: true, icon: "description", name: "Documents", url: "/documents", parent: configuration, position: 3)
         security = Menu.create(active: true, icon: "security", name: "Security", url: "#", parent: configuration, position: 4)
-        portifolio = Menu.create(active: true, icon: "chrome_reader_mode", name: "Portifolio", url: "#", ancestry: nil, position: 8)
+        portifolio = Menu.create(active: true, icon: "chrome_reader_mode", name: "Portfolio", url: "#", ancestry: nil, position: 8)
         products = Menu.create(active: true, icon: "local_grocery_store", name: "Products", url: "/products", parent: portifolio, position: 1)
         suppliers = Menu.create(active: true, icon: "local_shipping", name: "Suppliers", url: "/suppliers", parent: portifolio, position: 2)
         produc_category = Menu.create(active: true, icon: "widgets", name: "Categories", url: "/product_categories", parent: portifolio, position: 3)

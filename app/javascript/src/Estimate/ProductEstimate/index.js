@@ -97,17 +97,19 @@ const ProductEstimate = ({product, peIndex, index}) => {
       <div className="col s6 m2 calc-fields">
         <span className="left width-100 pt-1">Qty.</span>
         <input
-          type="text"
+          type="number"
           name={`measurement[${index}].products[${peIndex}].qty`}
+          min="0"
           defaultValue={productEstimate[index].products[peIndex].qty}
-          onChange={(e) => productTotalQty(index, peIndex, e.target.value)}
+          onChange={(e) => {}}
           ref={register(schema.requiredDecimal)} className="product-value qty" />
         {errors.qty && <span>{errors.qty.message}</span>}
       </div>
       <div className="col s6 m2 calc-fields">
         <span className="left width-100 pt-1">Prince un.</span>
         <input
-          type="text"
+          type="number"
+          min="0"
           name={`measurement[${index}].products[${peIndex}].price`}
           ref={register(schema.requiredDecimal)}
           defaultValue={productEstimate[index].products[peIndex].price}
@@ -117,7 +119,8 @@ const ProductEstimate = ({product, peIndex, index}) => {
       </div>
       <div className="col s6 m2 calc-fields">
         <span className="left width-100 pt-1">Discount</span>
-        <input type="text"
+        <input type="number"
+          min="0"
           name={`measurement[${index}].products[${peIndex}].discount`}
           defaultValue={productEstimate[index].products[peIndex].discount}
           onChange={(e) => productTotalDiscount(index, peIndex, e.target.value)}
@@ -128,7 +131,8 @@ const ProductEstimate = ({product, peIndex, index}) => {
       <div className="col s6 m2 calc-fields">
         <span className="left width-100 pt-1">Total</span>
         <input
-          type="text"
+          type="number"
+          min="0"
           name={`measurement[${index}].products[${peIndex}].total`}
           defaultValue={parseFloat(productEstimate[index].products[peIndex].total).toFixed(2)}
           ref={register(schema.requiredDecimal)}

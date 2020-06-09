@@ -6,7 +6,7 @@ import EstimateDetail from '../../../src/Estimate/EstimateDetail'
 import EstimateProvider from '../../../src/context/Estimate';
 
 const schema = {
-  requiredDecimal: { required: true, pattern: /^\d+(\.\d{1,2})?$/ }
+  requiredDecimal: { required: true, pattern: /^\d*\.?\d*$/ }
 }
 
 const ProductComponent = () => {
@@ -257,7 +257,8 @@ const ProductComponent = () => {
                               <div className="col s6 m2 calc-fields">
                                 <span className="left width-100 pt-1">Qty.</span>
                                 <input
-                                  type="text"
+                                  type="number"
+                                  min="0"
                                   name={`products[${index}].qty`}
                                   defaultValue={product_purchase.qty ? product_purchase.qty : 0.0}
                                   readOnly={!product_purchase.canDelete}
@@ -268,7 +269,8 @@ const ProductComponent = () => {
                               <div className="col s6 m3 calc-fields">
                                 <span className="left width-100 pt-1">Prince un.</span>
                                 <input
-                                  type="text"
+                                  type="number"
+                                  min="0"
                                   name={`products[${index}].price`}
                                   ref={register(schema.requiredDecimal)}
                                   defaultValue={product_purchase.price ? product_purchase.price : 0.0}
@@ -280,7 +282,8 @@ const ProductComponent = () => {
                               <div className="col s6 m3 calc-fields">
                                 <span className="left width-100 pt-1">Total</span>
                                 <input
-                                  type="text"
+                                  type="number"
+                                  min="0"
                                   name={`products[${index}].total`}
                                   defaultValue={product_purchase.total ? product_purchase.total : 0.0}
                                   readOnly={!product_purchase.canDelete}

@@ -6,7 +6,7 @@ export const EstimateContext = createContext()
 
 export default function EstimateProvider({children}) {
   const schema = {
-    requiredDecimal: { required: true, pattern: /^\d+(\.\d{1,2})?$/ }
+    requiredDecimal: { required: true, pattern: /^\d*\.?\d*$/ }
   }
 
   const node = document.getElementById('data')
@@ -479,15 +479,17 @@ export default function EstimateProvider({children}) {
   }
 
   const productTotalQty = async (maIndex, peIndex, value) => {
-    await setProductEstimate(productEstimate => {
-      const copy = [...productEstimate]
-      copy[maIndex].products[peIndex].qty = parseFloat(value)
-      copy[maIndex].products[peIndex].total = (parseFloat(value) * parseFloat(copy[maIndex].products[peIndex].price)) - parseFloat(copy[maIndex].products[peIndex].discount)
+    if (isNaN(value) || value < 0 || value === '0') {
+      await setProductEstimate(productEstimate => {
+        const copy = [...productEstimate]
+        copy[maIndex].products[peIndex].qty = parseFloat(value)
+        copy[maIndex].products[peIndex].total = (parseFloat(value) * parseFloat(copy[maIndex].products[peIndex].price)) - parseFloat(copy[maIndex].products[peIndex].discount)
 
-      setValue(`measurement[${maIndex}].products[${peIndex}].total`, copy[maIndex].products[peIndex].total ? parseFloat(copy[maIndex].products[peIndex].total).toFixed(2) : 0)
-      setValue(`measurement[${maIndex}].products[${peIndex}].qty`, value ? value : 0)
-      return copy
-    })
+        setValue(`measurement[${maIndex}].products[${peIndex}].total`, copy[maIndex].products[peIndex].total ? parseFloat(copy[maIndex].products[peIndex].total).toFixed(2) : 0)
+        setValue(`measurement[${maIndex}].products[${peIndex}].qty`, value ? value : 0)
+        return copy
+      })
+    }
   }
 
   const productTotalDiscount = async (maIndex, peIndex, value) => {

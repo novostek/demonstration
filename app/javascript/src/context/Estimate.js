@@ -168,7 +168,6 @@ export default function EstimateProvider({children}) {
             setProductEstimate(productEstimate => {
               const copy = [...productEstimate]
               if (mp.id !== indexHelper) {
-                console.log("MP IF", mp.id)
                 copy.push({ areas: [], products: [] })
                 mp.measurement_area.map(area => {
                   // selectArea(mpIndex, area.id, insert)
@@ -195,7 +194,6 @@ export default function EstimateProvider({children}) {
 
                 indexHelper = mp.id
               } else {
-                console.log("MP ELSE", mp.id)
                 mp.product_estimates.map((pe, peIndex) => {
                   if (copy[mpIndex - 1]){                    
                     copy[mpIndex].toggleSelect = false
@@ -479,17 +477,15 @@ export default function EstimateProvider({children}) {
   }
 
   const productTotalQty = async (maIndex, peIndex, value) => {
-    if (isNaN(value) || value < 0 || value === '0') {
-      await setProductEstimate(productEstimate => {
-        const copy = [...productEstimate]
-        copy[maIndex].products[peIndex].qty = parseFloat(value)
-        copy[maIndex].products[peIndex].total = (parseFloat(value) * parseFloat(copy[maIndex].products[peIndex].price)) - parseFloat(copy[maIndex].products[peIndex].discount)
+    await setProductEstimate(productEstimate => {
+      const copy = [...productEstimate]
+      copy[maIndex].products[peIndex].qty = parseFloat(value)
+      copy[maIndex].products[peIndex].total = (parseFloat(value) * parseFloat(copy[maIndex].products[peIndex].price)) - parseFloat(copy[maIndex].products[peIndex].discount)
 
-        setValue(`measurement[${maIndex}].products[${peIndex}].total`, copy[maIndex].products[peIndex].total ? parseFloat(copy[maIndex].products[peIndex].total).toFixed(2) : 0)
-        setValue(`measurement[${maIndex}].products[${peIndex}].qty`, value ? value : 0)
-        return copy
-      })
-    }
+      setValue(`measurement[${maIndex}].products[${peIndex}].total`, copy[maIndex].products[peIndex].total ? parseFloat(copy[maIndex].products[peIndex].total).toFixed(2) : 0)
+      setValue(`measurement[${maIndex}].products[${peIndex}].qty`, value ? value : 0)
+      return copy
+    })
   }
 
   const productTotalDiscount = async (maIndex, peIndex, value) => {

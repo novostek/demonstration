@@ -21,65 +21,61 @@ const ProductEstimate = ({product, peIndex, index}) => {
       <div className="row pl-1 pr-1 products-search">
         <div className="row">
           <div className="col s12">
-          <span className="left width-100 pt-1">
-            Product
-            <div className="switch right">
-              <label>
-                Tax
-                <input
-                  name={`measurement[${index}].products[${peIndex}].tax`}
-                  ref={register}
-                  type="checkbox"
-                  onChange={(e) => {
-                    const { checked } = e.target
-                    setProductEstimate(productEstimate => {
-                      const copy = [...productEstimate]
-                      console.log(checked)
-                      copy[index].products[peIndex].tax = checked
+            <span className="left width-100 pt-1">
+              Product
+              <div className="switch right">
+                <label>
+                  Tax
+                  <input
+                    name={`measurement[${index}].products[${peIndex}].tax`}
+                    ref={register}
+                    type="checkbox"
+                    onChange={(e) => {
+                      const { checked } = e.target
+                      setProductEstimate(productEstimate => {
+                        const copy = [...productEstimate]
+                        console.log(checked)
+                        copy[index].products[peIndex].tax = checked
 
-                      return copy
-                    })
-                  }}
-                  defaultChecked={productEstimate[index].products[peIndex].tax}
-                />
-                <span className="lever"></span>
-              </label>
+                        return copy
+                      })
+                    }}
+                    defaultChecked={productEstimate[index].products[peIndex].tax}
+                  />
+                  <span className="lever"></span>
+                </label>
+              </div>
+            </span>
+            <div className="input-field mt-0 mb-0 products-search-field-box">
+              <a href="#product-add-modal" className="btn-add-product modal-trigger tooltipped" data-tooltip="New product"><i className="material-icons">add</i></a>
+              <input
+                name={`measurement[${index}].products[${peIndex}].name`}
+                ref={register}
+                onFocus={() => {
+                  updateProductList()
+                  setMaProductListIndex(prev => {
+                    const copy = {...prev}
+      
+                    copy.maIndex = index
+                    copy.productIndex = peIndex
+                    
+                    console.log(copy)
+                    return copy
+                  })
+                }}
+                onChange={(e) => handleChange(index, peIndex, e.target.name, e.target.value)}
+                defaultValue={productEstimate[index].products[peIndex].name}
+                readOnly={productEstimate[index].products[peIndex].readOnly}
+                autoComplete="off" type="text" className="autocomplete autocomplete-products mt-1" />
+              <input
+                defaultValue={productEstimate[index].products[peIndex].product_id}
+                name={`measurement[${index}].products[${peIndex}].product_id`}
+                ref={register}
+                autoComplete="off"
+                type="hidden" />
             </div>
-          </span>
-          <div className="input-field mt-0 mb-0 products-search-field-box">
-            <a href="#product-add-modal" className="btn-add-product modal-trigger tooltipped" data-tooltip="New product"><i className="material-icons">add</i></a>
-            <input
-              name={`measurement[${index}].products[${peIndex}].name`}
-              ref={register}
-              onFocus={() => {
-                updateProductList()
-                setMaProductListIndex(prev => {
-                  const copy = {...prev}
-    
-                  copy.maIndex = index
-                  copy.productIndex = peIndex
-                  
-                  console.log(copy)
-                  return copy
-                })
-              }}
-              onChange={(e) => handleChange(index, peIndex, e.target.name, e.target.value)}
-              defaultValue={productEstimate[index].products[peIndex].name}
-              readOnly={productEstimate[index].products[peIndex].readOnly}
-              autoComplete="off" type="text" className="autocomplete autocomplete-products mt-1" />
-            <input
-              defaultValue={productEstimate[index].products[peIndex].product_id}
-              name={`measurement[${index}].products[${peIndex}].product_id`}
-              ref={register}
-              autoComplete="off"
-              type="hidden" />
-          </div>
           </div>
           <div className="calc-fields">
-            <div className="calc-field">
-              <a onClick={() => removeProduct(index, peIndex)} style={{ cursor: 'pointer' }} ><i className="material-icons">delete</i></a>
-                  {errors.total && <span>{errors.total.message}</span>}
-            </div>
             <div className="calc-field">
               <span className="left pt-1">Qty.</span>
               <input
@@ -87,7 +83,7 @@ const ProductEstimate = ({product, peIndex, index}) => {
                 name={`measurement[${index}].products[${peIndex}].qty`}
                 min="0"
                 defaultValue={productEstimate[index].products[peIndex].qty}
-                onChange={(e) => {}}
+                onChange={(e) => productTotalQty(index, peIndex, e.target.value)}
                 ref={register(schema.requiredDecimal)} className="product-value qty" />
               {errors.qty && <span>{errors.qty.message}</span>}
             </div>
@@ -122,7 +118,10 @@ const ProductEstimate = ({product, peIndex, index}) => {
                 name={`measurement[${index}].products[${peIndex}].total`}
                 defaultValue={parseFloat(productEstimate[index].products[peIndex].total).toFixed(2)}
                 ref={register(schema.requiredDecimal)}
-                className="product-value total" />                
+                className="product-value total" />
+              
+              <a onClick={() => removeProduct(index, peIndex)} style={{ cursor: 'pointer' }} className="btn-remove-product" ><i className="material-icons">delete</i></a>
+                  {errors.total && <span>{errors.total.message}</span>}
             </div>
           </div>
         </div>

@@ -10,17 +10,17 @@
       <div class="third" id="sq-expiration-date"></div>
       <div class="third" id="sq-cvv"></div>
       <div class="third" id="sq-postal-code"></div>
-      <button id="sq-creditcard" class="button-credit-card" onclick="onGetCardNonce(event)">Pay $1.00</button>
+      <button id="sq-creditcard" class="button-credit-card" onclick="onGetCardNonce(event)">Save</button>
     </div>
   </div>
-  <div class="col s12 l6">
-    <%= link_to "Checkout", checkout_square_api_index_path, class:"btn" %>
-  </div>
+
   </div>
 </div>
 
-<%= form_with url: process_payment_square_api_index_path, id:"nonce_form" do |f|%>
+<%= form_with url: add_card_square_api_index_path, id:"nonce_form" do |f|%>
   <%= f.hidden_field :nonce, id: "nonce" %>
+  <%= f.hidden_field :customer, value: @customer.square_id %>
+  <%= f.hidden_field :estimate, value: @estimate.id %>
 <% end %>
 <%= content_for :scripts do %>
   <script type="text/javascript" src="https://js.squareupsandbox.com/v2/paymentform">

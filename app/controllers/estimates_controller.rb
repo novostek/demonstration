@@ -88,15 +88,22 @@ class EstimatesController < ApplicationController
         end
 
       end
-
+      if @estimate.payment_approval
+        redirect_to nonce_square_api_index_path(estimate: @estimate.id)
+        return
+      end
     end
 
     #cria a assinatura para o formulário
     @signature = Signature.new
     @signature.origin = "Estimate"
     @signature.origin_id = @estimate.id
-    #render "estimate_signature_new", layout: "clean"
+    #render "estimate_signature_new", layout: "clean"]
+    #if @estimate.payment_approval
+
+      #else
     render layout: "document"
+      #end
   end
 
   #Método que envia o email do estimate via woffice

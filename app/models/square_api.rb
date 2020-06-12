@@ -98,7 +98,7 @@ class SquareApi
     result
   end
 
-  def self.get_customer
+  def self.get_customer(customer)
     client = Square::Client.new(
         access_token: Setting.get_value("square_oauth_access_token"),#SquareApi.renew_token,
         environment: Rails.configuration.woffice['square_env']
@@ -106,8 +106,8 @@ class SquareApi
 
     customers_api = client.customers
 
-    result = customers_api.retrieve_customer(customer_id: "5P290RM81WYYKB687A129BRYDW")
-    binding.pry
+    result = customers_api.retrieve_customer(customer_id: customer)
+
   end
 
   #Método que cria o customer na square

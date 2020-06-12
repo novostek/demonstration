@@ -45,6 +45,7 @@ class SquareApiController < ApplicationController
   def nonce
     @estimate = Estimate.find(params[:estimate])
     @customer = @estimate.customer
+    render layout: "document"
   end
 
   #Método que adiciona o cartão do customer na square

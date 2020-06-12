@@ -51,7 +51,7 @@
                   <i class="material-icons ">cancel</i><%= t "button.cancel" %>
                 <% end %>
               </li>
-            <% else !@estimate.order.present? and @estimate.status == 'cancelled' %>
+            <% elsif !@estimate.order.present? and @estimate.status == 'cancelled' %>
               <li>
                 <%= link_to reactivate_estimate_path(@estimate),  class: "grey-text text-darken-2" do %>
                   <i class="material-icons ">settings_backup_restore</i><%= t "button.reactivate" %>

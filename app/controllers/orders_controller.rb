@@ -609,6 +609,8 @@ class OrdersController < ApplicationController
 
   def cancel
     @order.status = :cancelled
+    @order.current_estimate.status = :cancelled
+    @order.current_estimate.save
     @order.save
 
     redirect_to order_path(@order), notice: "#{t 'notice.order.cancelled'}"
@@ -616,6 +618,8 @@ class OrdersController < ApplicationController
 
   def reactivate
     @order.status = :new
+    @order.current_estimate.status = :ordered
+    @order.current_estimate.save
     @order.save
 
     redirect_to order_path(@order), notice: "#{t 'notice.order.reactivated'}"

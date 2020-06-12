@@ -57,6 +57,19 @@
             <li>
               <a class="grey-text text-darken-2 modal-trigger btn-send-email" href="#modal-mail"><i class="material-icons ">send</i>Custom Email</a>
             </li>
+						<% if !@order.has_transaction_paid and @order.status != 'cancelled' %>
+              <li>
+                <%= link_to cancel_order_path(@order),  class: "grey-text text-darken-2" do %>
+                  <i class="material-icons ">cancel</i><%= t "button.cancel" %>
+                <% end %>
+              </li>
+            <% elsif !@order.has_transaction_paid and @order.status == 'cancelled' %>
+              <li>
+                <%= link_to reactivate_order_path(@order),  class: "grey-text text-darken-2" do %>
+                  <i class="material-icons ">settings_backup_restore</i><%= t "button.reactivate" %>
+                <% end %>
+              </li>
+            <% end %>
           </ul>
 				</div>
 			</div>

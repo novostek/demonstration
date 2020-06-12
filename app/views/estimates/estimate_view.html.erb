@@ -45,6 +45,19 @@
                 <i class="material-icons ">edit</i><%= t "button.edit" %>
               <% end %>
             </li>
+            <% if !@estimate.order.present? and @estimate.status != 'cancelled' %>
+              <li>
+                <%= link_to cancel_estimate_path(@estimate),  class: "grey-text text-darken-2" do %>
+                  <i class="material-icons ">cancel</i><%= t "button.cancel" %>
+                <% end %>
+              </li>
+            <% else !@estimate.order.present? and @estimate.status == 'cancelled' %>
+              <li>
+                <%= link_to reactivate_estimate_path(@estimate),  class: "grey-text text-darken-2" do %>
+                  <i class="material-icons ">settings_backup_restore</i><%= t "button.reactivate" %>
+                <% end %>
+              </li>
+            <% end %>
 
           </ul>
           <a href="#modal-mail-local" class="mr-2 btn-secondary modal-trigger btn waves-effect waves-light breadcrumbs-btn right"><%= t "button.send_mail" %></a>

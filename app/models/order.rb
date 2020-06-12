@@ -32,7 +32,7 @@ class Order < ApplicationRecord
   has_many :labor_costs, through: :schedules
   has_one :current_estimate, ->{where current: true}, class_name: "Estimate"
 
-  accepts_nested_attributes_for :transactions, reject_if: :all_blank, allow_destroy: true
+  accepts_nested_attributes_for :transactions, reject_if: :reject_payment, allow_destroy: true
 
   extend Enumerize
 

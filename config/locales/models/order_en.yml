@@ -16,6 +16,8 @@ en:
       created: "Order was successfully created."
       updated: "Order was sucessfully updated."
       deleted: "Order was sucessfully deleted."
+      cancelled: "Order was sucessfully cancelled."
+      reactivated: "Order was sucessfully reactivated."
       finished: "Order finished."
       mail_sent: "Mail sent."
       select_products: "Select one or more products."

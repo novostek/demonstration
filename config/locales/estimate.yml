@@ -29,6 +29,8 @@ en:
       created: "Estimate was successfully created."
       updated: "Estimate was sucessfully updated."
       deleted: "Estimate was sucessfully deleted."
+      cancelled: "Estimate was sucessfully cancelled."
+      reactivated: "Estimate was sucessfully reactivated."
       cloned: "Estimate was sucessfully cloned."
       clone_error: "There was an error while trying to duplicate the estimate. Please try again."
       already_ordered: "Estimate already ordered"

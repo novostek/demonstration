@@ -110,6 +110,8 @@ Rails.application.routes.draw do
       get "clone"
       put "tax_calculation"
       put "taxpayer"
+      get "cancel"
+      get "reactivate"
     end
     collection do
       get ":id/measurements", to: "measurement_areas#measurements", as: :measurement_view
@@ -153,6 +155,8 @@ Rails.application.routes.draw do
       put "change_transaction_value"
       put "change_payment_status_to_pendent"
       get "costs"
+      get "cancel"
+      get "reactivate"
     end
     collection do
       delete ":order_id/schedule/:schedule_id/delete", to: "orders#delete_schedule"

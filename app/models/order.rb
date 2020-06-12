@@ -49,6 +49,10 @@ class Order < ApplicationRecord
     s
   end
 
+  def has_transaction_paid
+    self.transactions.where(:status => :paid).length > 0
+  end
+
   def to_s
     self.code
   end

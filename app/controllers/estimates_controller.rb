@@ -1,6 +1,6 @@
 class EstimatesController < ApplicationController
   #load_and_authorize_resource except: [:estimate_signature, :create_products_estimates, :create_step_one, :create_schedule,:delete_schedule]
-  before_action :set_estimate, only: [:send_grid_mail, :show, :edit, :update, :destroy,:send_mail,:estimate_signature, :tax_calculation, :taxpayer, :create_products_estimates,:new_note, :new_document,:create_order]
+  before_action :set_estimate, only: [:send_grid_mail, :show, :edit, :update, :destroy, :cancel, :reactivate, :send_mail,:estimate_signature, :tax_calculation, :taxpayer, :create_products_estimates,:new_note, :new_document,:create_order]
   before_action :set_combos, only: [:step_one, :products]
   # skip_forgery_protection
   # GET /estimates
@@ -367,6 +367,20 @@ class EstimatesController < ApplicationController
   def taxpayer
     @estimate.taxpayer = params[:taxpayer]
     @estimate.save
+  end
+
+  def cancel
+    @estimate.status = :cancelled
+    @estimate.save
+
+    redirect_to view_estimates_path(@estimate), notice: "#{t 'notice.estimate.cancelled'}"
+  end
+
+  def reactivate
+    @estimate.status = :new
+    @estimate.save
+
+    redirect_to view_estimates_path(@estimate), notice: "#{t 'notice.estimate.reactivated'}"
   end
 
   private

@@ -1,5 +1,6 @@
 <div class="row deposit nested-fields">
   <div class="card-panel z-depth-0 border-radius-4">
+    <%= f.hidden_field :origin_id, value: @order.id %>
     <%= link_to_remove_association f, class: "btn-close-deposit" do %>
       <i class="material-icons">close</i>
     <% end %>

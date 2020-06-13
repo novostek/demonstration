@@ -37,7 +37,6 @@
       <div class="deposit-list" id="transactions">
         <%= form_for @order, local: true, url: order_path, method: :patch do |form| %>
           <%= form.hidden_field :origin, value: 'Order' %>
-          <%= form.hidden_field :origin_id, value: @order.id %>
           <%= form.fields_for :transactions do |transaction_form| %>
             <%= render 'transaction_fields', f: transaction_form %>
           <% end %>

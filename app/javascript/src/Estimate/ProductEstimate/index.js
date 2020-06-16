@@ -82,6 +82,7 @@ const ProductEstimate = ({product, peIndex, index}) => {
                 type="number"
                 name={`measurement[${index}].products[${peIndex}].qty`}
                 min="0"
+                step="0.01"
                 defaultValue={productEstimate[index].products[peIndex].qty}
                 onChange={(e) => productTotalQty(index, peIndex, e.target.value)}
                 ref={register(schema.requiredDecimal)} className="product-value qty" />
@@ -92,6 +93,7 @@ const ProductEstimate = ({product, peIndex, index}) => {
               <input
                 type="number"
                 min="0"
+                step="0.01"
                 name={`measurement[${index}].products[${peIndex}].price`}
                 ref={register(schema.requiredDecimal)}
                 defaultValue={productEstimate[index].products[peIndex].price}
@@ -103,6 +105,7 @@ const ProductEstimate = ({product, peIndex, index}) => {
               <span className="left pt-1">Discount</span>
               <input type="number"
                 min="0"
+                step="0.01"
                 name={`measurement[${index}].products[${peIndex}].discount`}
                 defaultValue={productEstimate[index].products[peIndex].discount}
                 onChange={(e) => productTotalDiscount(index, peIndex, e.target.value)}
@@ -115,6 +118,7 @@ const ProductEstimate = ({product, peIndex, index}) => {
               <input
                 type="number"
                 min="0"
+                step="0.01"
                 name={`measurement[${index}].products[${peIndex}].total`}
                 defaultValue={parseFloat(productEstimate[index].products[peIndex].total).toFixed(2)}
                 ref={register(schema.requiredDecimal)}

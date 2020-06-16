@@ -257,6 +257,7 @@ const ProductComponent = () => {
                                     <input
                                       type="number"
                                       min="0"
+                                      step="0.01"
                                       name={`products[${index}].qty`}
                                       defaultValue={product_purchase.qty ? product_purchase.qty : 0.0}
                                       readOnly={!product_purchase.canDelete}
@@ -269,6 +270,7 @@ const ProductComponent = () => {
                                     <input
                                       type="number"
                                       min="0"
+                                      step="0.01"
                                       name={`products[${index}].price`}
                                       ref={register(schema.requiredDecimal)}
                                       defaultValue={product_purchase.price ? product_purchase.price : 0.0}
@@ -282,6 +284,7 @@ const ProductComponent = () => {
                                     <input
                                       type="number"
                                       min="0"
+                                      step="0.01"
                                       name={`products[${index}].total`}
                                       defaultValue={product_purchase.total ? product_purchase.total : 0.0}
                                       readOnly={!product_purchase.canDelete}

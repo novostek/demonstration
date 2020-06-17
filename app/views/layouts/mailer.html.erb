@@ -1,12 +1,9 @@
 <!DOCTYPE html>
-<html lang="en" style="box-sizing: border-box;">
-
-<head style="box-sizing: border-box;">
+<html lang="en" style="box-sizing: border-box;"><head style="box-sizing: border-box;">
   <meta charset="UTF-8" style="box-sizing: border-box;">
   <meta name="viewport" content="width=device-width, initial-scale=1.0" style="box-sizing: border-box;">
   <title style="box-sizing: border-box;">Email</title>
-  <link href="https://fonts.googleapis.com/css?family=Muli:400,500&display=swap" rel="stylesheet"
-        style="box-sizing: border-box;">
+  <link href="https://fonts.googleapis.com/css?family=Muli:400,500&amp;display=swap" rel="stylesheet" style="box-sizing: border-box;">
   <style style="box-sizing: border-box;">
     *,
     *:before,
@@ -15,8 +12,14 @@
     }
 
     body {
-      background: #eef2f3;
-      font-family: 'Muli', Helvetica, Arial, sans-serif
+      background: #eef3f5;
+      color: #333;
+      font-family: "Muli", Helvetica, Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      font-size: 16px;
+      line-height: 21px;
+      overflow-x: hidden
     }
 
     body a {
@@ -24,46 +27,68 @@
       text-decoration: none
     }
 
-    body .email-wrapper {
-      width: 90%;
-      max-width: 800px;
-      margin: 0 auto;
-      padding: 40px 0
-    }
-
-    .email-header {
-      display: grid;
-      grid-template-columns: 40% 60%;
-      height: 60px;
-      align-items: center
-    }
-
-    .email-header--company {
-      display: inline-flex;
-      align-items: center;
+    body strong {
       font-weight: 600
     }
 
-    .email-header--company img {
-      width: 40px;
-      float: left
+    body .email-wrapper {
+      width: 90%;
+      margin: 40px auto 40px auto;
+      position: relative;
+      background: #fff;
+      box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+      border-radius: 6px;
+      z-index: 5
     }
 
-    .email-header--info {
-      color: #666;
-      font-size: 14px
+    @media screen and (max-width: 1000px) {
+      body .email-wrapper {
+        max-width: 950px
+      }
+    }
+
+    @media screen and (min-width: 1001px) {
+      body .email-wrapper {
+        max-width: 800px
+      }
+    }
+
+    .email-header {
+      height: 150px;
+      margin-bottom: -30px;
+      width: 100%;
+      overflow: hidden;
+      display: inline-flex;
+      justify-content: flex-start;
+      padding: 0 30px;
+      align-items: center;
+      border-radius: 6px 6px 0 0;
+      position: relative;
+      background-repeat: no-repeat;
+      background-size: contain;
+      background-position: top right
+    }
+
+    .email-header .woffice-logo {
+      width: 120px;
+      background: #fff;
+      display: flex;
+      justify-content: center;
+      align-items: center
+    }
+
+    .email-header .woffice-logo img {
+      width: 85%
     }
 
     .email-body {
-      background: #fff;
-      border: 1px solid rgba(0, 0, 0, 0.1);
-      border-top: 10px solid #f5b000;
-      border-radius: 4px;
-      padding: 40px
+      border-radius: 6px;
+      padding: 40px;
+      overflow: hidden
     }
 
     .email-body .greetings {
-      font-size: 22px;
+      font-size: 18px;
       margin: 0px
     }
 
@@ -93,6 +118,30 @@
 
     .email-body .btn.btn-secondary:hover {
       background: #ffd15c
+    }
+
+    .email-body .woffice-logo-footer {
+      width: 120px
+    }
+
+    .email-body .woffice-logo-footer .woffice-logo-footer-img {
+      width: 100%
+    }
+
+    .email-signature {
+      border-top: 1px solid #f5b000;
+      margin-top: 30px;
+      padding-top: 20px;
+      color: #555
+    }
+
+    .email-signature p {
+      margin: 2px 0
+    }
+
+    .email-signature .signature {
+      margin-top: 10px;
+      width: 130px
     }
 
     .email-footer {
@@ -162,7 +211,7 @@
     }
 
     table.highlight>tbody>tr {
-      transition: background-color .25s ease
+      transition: background-color 0.25s ease
     }
 
     table.highlight>tbody>tr:hover {
@@ -197,7 +246,7 @@
       }
 
       table.responsive-table td:empty:before {
-        content: '\00a0'
+        content: "\00a0"
       }
 
       table.responsive-table th,
@@ -259,9 +308,64 @@
       }
     }
   </style>
-</head>
+  <meta id="acfifjfajpekbmhmjppnmmjgmhjkildl"></head>
 
-<body style="box-sizing: border-box;background: #eef2f3;font-family: 'Muli', Helvetica, Arial, sans-serif;">
-    <%= yield %>
-  </body>
-</html>
+<body style="box-sizing: border-box;background: #eef3f5;color: #333;font-family: &quot;Muli&quot;, Helvetica, Arial, sans-serif;margin: 0;padding: 0;font-size: 16px;line-height: 21px;overflow-x: hidden;">
+<link rel="stylesheet" type="text/css" href="chrome-extension://bmicebkolhboilnckecejkcodkokkidi/assets/css/root.css"><conpassroot id="conpass-root" style="animation: none !important"></conpassroot><div class="email-wrapper" style="box-sizing: border-box;width: 90%;margin: 40px auto 40px auto;position: relative;background: #fff;box-shadow: 0 0 15px rgba(0,0,0,0.1);border-radius: 6px;z-index: 5;">
+  <table class="email-header" style="box-sizing: border-box;border: none;width: 100%;display: table;border-collapse: collapse;border-spacing: 0;background: white;border-color: white;height: 120px;overflow: hidden;padding: 0 30px;border-radius: 4px !important;position: relative;">
+    <tbody style="box-sizing: border-box;border: none;background: white;border-color: white;">
+    <tr style="box-sizing: border-box;border-bottom: 1px solid rgba(0,0,0,0.12);border: none;background: white;border-color: white;">
+      <td style="width: 50%;padding: 0 0 20px 40px;vertical-align: bottom;box-sizing: border-box;border: none;display: table-cell;text-align: left;border-radius: 2px;background: white;border-color: white;">
+        <table style="box-sizing: border-box;border: none;width: 100%;display: table;border-collapse: collapse;border-spacing: 0;background: white;border-color: white;border-radius: 4px !important;">
+          <tbody style="box-sizing: border-box;border: none;background: white;border-color: white;">
+          <tr style="box-sizing: border-box;border-bottom: 1px solid rgba(0,0,0,0.12);border: none;background: white;border-color: white;">
+            <td style="box-sizing: border-box;border: none;padding: 0;display: table-cell;text-align: left;vertical-align: middle;border-radius: 2px;background: white;border-color: white;">
+              <div class="woffice-logo" style="box-sizing: border-box;border: none;background: #fff;border-color: white;width: 50%;"><img src="<%= Setting.logo %>.png" alt="" style="box-sizing: border-box;border: none;background: white;border-color: white;width: 130px;"></div>
+            </td>
+          </tr>
+          </tbody>
+        </table>
+
+      </td>
+      <td style="width: 50%;padding: 0;vertical-align: top;box-sizing: border-box;border: none;display: table-cell;text-align: left;border-radius: 2px;background: white;border-color: white;">
+        <table style="box-sizing: border-box;border: none;width: 100%;display: table;border-collapse: collapse;border-spacing: 0;background: white;border-color: white;border-radius: 4px !important;">
+          <tbody style="box-sizing: border-box;border: none;background: white;border-color: white;">
+          <tr style="box-sizing: border-box;border-bottom: 1px solid rgba(0,0,0,0.12);border: none;background: white;border-color: white;">
+            <td style="box-sizing: border-box;border: none;padding: 0;display: table-cell;text-align: left;vertical-align: middle;border-radius: 2px;background: white;border-color: white;">
+              <div class="email-header--background" style="box-sizing: border-box;border: none;background: white;border-color: white;text-align: right;"><img src="https://jrochelly.bitbucket.io/bg-email.png" alt="" style="box-sizing: border-box;border: none;background: white;border-color: white;width: 240px;"></div>
+            </td>
+          </tr>
+          </tbody>
+        </table>
+      </td>
+
+
+    </tr>
+    </tbody>
+  </table>
+  <section class="email-body" style="box-sizing: border-box;border-radius: 6px;padding: 40px;overflow: hidden;">
+    <p>
+      <%= yield %>
+    </p>
+    <section class="email-signature" style="box-sizing: border-box;border-top: 1px solid #f5b000;margin-top: 30px;padding-top: 20px;color: #555;">
+      <p style="box-sizing: border-box;">Regards,</p>
+      <p style="box-sizing: border-box;"><b><%= Setting.get_value("company_full_name") %></b></p>
+      <p style="box-sizing: border-box;"><%= Setting.get_value("company_address") %></p>
+      <p style="box-sizing: border-box;"><%= Setting.get_value("company_email") %></p>
+      <p style="box-sizing: border-box;"><%= Setting.get_value("company_phone") %></p>
+      <p>&nbsp;</p>
+      <div class="woffice-logo-footer" style="box-sizing: border-box;">
+        Powered by: <br>
+        <a href="https://www.woffice.app">
+          <img src="http://public.woffice.site/woffice.png" alt="" class="woffice-logo-footer-img" style="box-sizing: border-box;">
+        </a>
+      </div>
+    </section>
+  </section>
+
+
+</div>
+
+
+
+</body></html>

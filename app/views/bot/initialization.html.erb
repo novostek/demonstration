@@ -1,0 +1,154 @@
+	<a href="#" class="logo">
+			<img src="woffice.svg" alt="Woffice">
+		</a>
+		<div class="wrapper">
+			<main class="content">
+
+				<section role="form">
+					<div class="form-outer">
+						<form id="form-wo" cf-form>
+
+							<cf-robot-message cf-questions="Hi!||Hello there!"></cf-robot-message>
+							<cf-robot-message cf-questions="Before we jump into action"></cf-robot-message>
+							<cf-robot-message cf-questions="I'd like to ask a few questions."></cf-robot-message>
+							<fieldset cf-questions="Do you upload your logo now?">
+								<input type="radio" name="up-logo" id="uplogo-yes" value="yes">
+								<label for="uplogo-yes">Yes</label>
+
+								<input type="radio" name="up-logo" id="uplogo-no" value="no">
+								<label for="uplogo-no">Not now</label>
+							</fieldset>
+
+							<input type="file" name="company_logo" id="company_logo" cf-conditional-up-logo="yes"
+								cf-questions="Send your logo" accept="image/jpeg, image/png" required />
+
+							<input type="text" name="company_name" id="company_name" minlength="1"
+								cf-questions="What's the company short name?" />
+
+							<input type="text" name="company_fullname" id="company_fullname" minlength="1"
+								cf-questions="What's {company_name} full name?" />
+
+							<input type="text" name="company_address" id="company_address"
+								cf-questions="Ok, where's {company_name} located?" required />
+							<input type="phone" name="company_phone" id="company_phone"
+								cf-questions="Nice, what's {company_name} phone number?" required />
+							<input type="email" name="company_email" id="company_email" cf-questions="What's the email?"
+								cf-error="Email is not right" required />
+
+							<input type="number" name="company_tax" id="company_tax"
+								cf-questions="What percentage (%) {company_name} pays in taxes?" required />
+							<fieldset cf-questions="What measures does {company_name} use?">
+								<input type="checkbox" name="measures" value="w" cf-label="Width" />
+								<input type="checkbox" name="measures" value="l" cf-label="Length" />
+								<input type="checkbox" name="measures" value="h" cf-label="Height" />
+								<input type="checkbox" name="measures" value="sqft" cf-label="Square feet" />
+							</fieldset>
+							<cf-robot-message cf-questions="Nice!||Alright!"></cf-robot-message>
+							<fieldset cf-questions="Do you want a custom name for your main account?">
+								<input type="radio" name="custom-account" id="ca-yes" value="yes">
+								<label for="ca-yes">Yes</label>
+
+								<input type="radio" name="custom-account" id="ca-no" value="no">
+								<label for="ca-no">No thanks</label>
+							</fieldset>
+							<input type="text" name="company_main_account" id="company_main_account"
+								cf-conditional-custom-account="yes" value="Main account"
+								cf-questions="What name your want to use for your new account?" required />
+						</form>
+
+					</div>
+				</section>
+
+
+			</main>
+		</div>
+
+<%= content_for :scripts do %>	
+	<script>
+		function redirect() {
+			setTimeout(function () {
+				window.location.href = '/'
+			}, 2000)
+		}
+
+		function initializeAutocomplete() {
+			const element = document.getElementsByClassName('inputWrapper')[1].children[0];
+			console.log(element)
+			<%# console.log("autocomplete google");
+			var element = document.getElementById(id);
+			%>
+			if (element) {
+					var autocomplete = new google.maps.places.Autocomplete(element, { types: ['geocode'], componentRestrictions: {country: 'us'} });
+					google.maps.event.addListener(autocomplete, 'place_changed', onPlaceChanged);
+					
+
+			}
+		}
+
+		function onPlaceChanged() {
+			console.log(this)
+			var place = this.getPlace();
+
+			console.log(place);
+
+			for (var i in place.address_components) {
+				var component = place.address_components[i];
+
+				for (var j in component.types) {  // Some types are ["country", "political"]
+					var type_element = document.getElementById(component.types[j]);
+					if (type_element) {
+						type_element.value = component.long_name;
+					}
+				}
+			}
+		}
+
+		document.addEventListener('DOMContentLoaded', () => {
+			//initializeAutocomplete('company_address');
+		})
+
+		window.onload = function () {
+			window.incrementedValue = 0;
+			var conversationalForm = window.cf.ConversationalForm.startTheConversation({
+				formEl: document.getElementById("form-wo"),
+				robotImage: "woffice-w.svg",
+				flowStepCallback: function(dto, success, error) {
+					console.log('DTO', dto)
+					console.log('current', dto.input._currentTag.id)
+					
+					if(dto.input._currentTag.id === 'company_fullname'){
+						initializeAutocomplete()
+					}
+					
+					success();
+				},
+				submitCallback: function () {
+					conversationalForm.addRobotChatResponse("Alright, you are done.");
+					conversationalForm.addRobotChatResponse("All these settings can be changed in the Settings menu.");
+					conversationalForm.addRobotChatResponse("Redirecting you to your home page...");
+					const formData = conversationalForm.getFormData(true)
+					
+					const headers = new Headers({
+						"Content-Type": "application/json",
+						"Accept": "application/json"
+					})
+
+					const fetchConfig = {
+						headers,
+						method: "POST",
+						body: JSON.stringify(formData)
+					}
+
+					fetch('/create_initialization', fetchConfig)
+						.then(data => data.json())
+						.then(result => redirect())
+						.catch(error => console.error(error))
+
+				}
+			});
+
+			
+		};
+
+	</script>
+<% end %>

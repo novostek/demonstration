@@ -4,8 +4,7 @@ class ApplicationController < ActionController::Base
   #load_and_authorize_resource except: [:doc_signature_mail,:doc_signature,:estimate_signature, :create_products_estimates, :process_payment, :create_step_one, :create_schedule, :delete_schedule, :callback, :calculate_product_qty_lw,:view_invoice_customer,:send_square]
 
   skip_before_action :verify_authenticity_token
-  # before_action :authenticate_user!
-
+  # before_action :startup_bot, if: :is_verified, except: [:initialization]
 
   before_action :configure_permitted_parameters, if: :devise_controller?
 
@@ -16,6 +15,13 @@ class ApplicationController < ActionController::Base
     flash["#{type}"] = body
   end
 
+  def is_verified
+    !Setting.get_value('verificated') and request.fullpath != '/users/sign_in'
+  end
+
+  def startup_bot
+    redirect_to initialization_bot_path
+  end
 
   def cache_globals_settings
     @company_name = Setting.get_value('company_name')

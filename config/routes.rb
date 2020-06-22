@@ -259,5 +259,8 @@ Rails.application.routes.draw do
 
   get 'finances/dashboard' => 'finances#dashboard', as: :finance_dashboard
 
+  get 'initialization' => 'bot#initialization', as: :initialization_bot
+  post 'create_initialization' => 'bot#create_initialization', as: :create_initialization
+
   root "users#home"
 end

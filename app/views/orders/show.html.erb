@@ -15,7 +15,6 @@
           <a class="btn dropdown-settings waves-effect waves-light breadcrumbs-btn right" href="#!" data-target="dropdown1"><i class="material-icons hide-on-med-and-up">settings</i><span class="hide-on-small-onl">Actions</span><i class="material-icons right">arrow_drop_down</i></a>
 
           <ul class="dropdown-content" id="dropdown1" tabindex="0">
-
             <% if !@order.finished? and !@order.cancelled?  %>
               <li>
                 <%= link_to schedule_order_path(@order), class: "grey-text text-darken-2" do %>
@@ -23,6 +22,11 @@
                 <% end %>
               </li>
             <% end %>
+            <li>
+              <%= link_to costs_order_path(@order),  class: "grey-text text-darken-2" do %>
+                <i class="material-icons ">money_off</i>Cost
+              <% end %>
+            </li>
             <li>
             <a class="grey-text text-darken-2" href="<%= invoice_order_path(@order) %>"><i class="material-icons  ">receipt</i><span >View invoice</span></a>
             </li>

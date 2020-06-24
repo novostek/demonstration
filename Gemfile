@@ -109,7 +109,7 @@ gem 'turnout'
 gem 'ros-apartment', require: 'apartment'
 
 #https://github.com/msgpack/msgpack-ruby
-gem 'msgpack', '~> 1.3', '>= 1.3.3'
+# gem 'msgpack', '~> 1.3', '>= 1.3.3'
 
 #https://github.com/ambethia/recaptcha
 gem "recaptcha"

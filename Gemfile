@@ -116,4 +116,4 @@ gem "recaptcha"
 
 #@ttps://github.com/influitive/apartment-activejob
 gem 'apartment-activejob'
-gem 'rqrcode'
+#gem 'rqrcode'

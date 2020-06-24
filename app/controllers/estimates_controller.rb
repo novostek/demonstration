@@ -383,6 +383,10 @@ class EstimatesController < ApplicationController
     redirect_to view_estimates_path(@estimate), notice: "#{t 'notice.estimate.reactivated'}"
   end
 
+  def see_price
+    #this is only to set permissions
+  end
+
   private
   #Método que carrega os objetos de seleção
   def set_combos

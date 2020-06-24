@@ -42,7 +42,7 @@ class Transaction < ApplicationRecord
 
   extend Enumerize
 
-  enumerize :payment_method, in: [:cash, :square_credit, :square_installments, :check], predicates: true
+  enumerize :payment_method, in: [:cash, :square_credit, :square_installments, :check, :woffice_pay], predicates: true
   enumerize :status, in: [:paid, :pendent, :cancelled],predicates: true, default: :pendent
 
   default_scope {where.not(status: 'cancelled' )}

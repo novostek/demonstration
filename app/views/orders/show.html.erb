@@ -1,17 +1,17 @@
 <link href="/css/customer.css" rel="stylesheet" type="text/css">
 <div class="row">
-	<div class="content-wrapper-before woffice-color"></div>
-	<div class="breadcrumbs-light pb-0 pt-4" id="breadcrumbs-wrapper">
-		<!-- Search for small screen-->
-		<div class="container">
-			<div class="row">
-				<div class="col s10 m6 l6">
-					<h5 class="breadcrumbs-title mt-0 mb-0">Order #<%= @order.code %></h5>
+  <div class="content-wrapper-before woffice-color"></div>
+  <div class="breadcrumbs-light pb-0 pt-4" id="breadcrumbs-wrapper">
+    <!-- Search for small screen-->
+    <div class="container">
+      <div class="row">
+        <div class="col s10 m6 l6">
+          <h5 class="breadcrumbs-title mt-0 mb-0">Order #<%= @order.code %></h5>
           <ol class="breadcrumbs mb-0">
             <%= render_breadcrumbs :tag => :li, :separator => "" %>
           </ol>
-				</div>
-				<div class="col s2 m6 l6">
+        </div>
+        <div class="col s2 m6 l6">
           <a class="btn dropdown-settings waves-effect waves-light breadcrumbs-btn right" href="#!" data-target="dropdown1"><i class="material-icons hide-on-med-and-up">settings</i><span class="hide-on-small-onl">Actions</span><i class="material-icons right">arrow_drop_down</i></a>
 
           <ul class="dropdown-content" id="dropdown1" tabindex="0">
@@ -19,25 +19,25 @@
             <% if !@order.finished? and !@order.cancelled?  %>
               <li>
                 <%= link_to schedule_order_path(@order), class: "grey-text text-darken-2" do %>
-                <i class="material-icons  ">edit</i><span >Edit</span>
+                  <i class="material-icons  ">edit</i><span >Edit</span>
                 <% end %>
               </li>
             <% end %>
             <li>
-            <a class="grey-text text-darken-2" href="<%= invoice_order_path(@order) %>"><i class="material-icons  ">receipt</i><span >View invoice</span></a>
+              <a class="grey-text text-darken-2" href="<%= invoice_order_path(@order) %>"><i class="material-icons  ">receipt</i><span >View invoice</span></a>
             </li>
             <!--					<a class="btn waves-effect waves-light modal-trigger breadcrumbs-btn right mr-2 indigo border-round btn-send-email" href="#modal-invoice"><i class="material-icons  ">send</i><span >Send invoice</span></a>-->
             <% if !@order.finished? and !@order.cancelled? %>
               <li>
                 <%= link_to change_order_order_path(@order), class: "grey-text text-darken-2" do %>
-                <i class="material-icons  ">edit</i><span >Change Order</span>
-                  <% end %>
+                  <i class="material-icons  ">edit</i><span >Change Order</span>
+                <% end %>
               </li>
             <% end  %>
             <% if !@order.finished? and !@order.cancelled? %>
               <li>
                 <%= link_to finish_order_order_path(@order), class: "grey-text text-darken-2" do %>
-                <i class="material-icons  ">edit</i><span >Finish Order</span>
+                  <i class="material-icons  ">edit</i><span >Finish Order</span>
                 <% end %>
               </li>
             <% end  %>
@@ -57,7 +57,7 @@
             <li>
               <a class="grey-text text-darken-2 modal-trigger btn-send-email" href="#modal-mail"><i class="material-icons ">send</i>Custom Email</a>
             </li>
-						<% if !@order.has_transaction_paid and @order.status != 'cancelled' %>
+            <% if !@order.has_transaction_paid and @order.status != 'cancelled' %>
               <li>
                 <%= link_to cancel_order_path(@order),  class: "grey-text text-darken-2" do %>
                   <i class="material-icons ">cancel</i><%= t "button.cancel" %>
@@ -71,257 +71,275 @@
               </li>
             <% end %>
           </ul>
-				</div>
-			</div>
-		</div>
-	</div>
-	<div class="col s12">
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col s12">
 
+    <% if can? :see_price, Order %>
 
-			<div class="row mt-1" id="gradient-Analytics">
-				<div class="col s12 m6 l3 card-width">
-					<a href="<%= costs_order_path(@order) %>">
-						<div class="card row gradient-45deg-red-pink gradient-shadow white-text padding-4 mt-5">
+      <div class="row mt-1" id="gradient-Analytics">
+        <div class="col s12 m6 l3 card-width">
+          <a href="<%= costs_order_path(@order) %>">
+            <div class="card row gradient-45deg-red-pink gradient-shadow white-text padding-4 mt-5">
 
-							<div class="col s5 m5">
-								<i class="material-icons background-round mt-5 mb-5 white-text">money_off</i>
-							</div>
-							<div class="col s7 m7 right-align">
-								<h5 class="mb-0 white-text"><%= number_to_currency(@order.total_cost) %></h5>
-								<p class="no-margin white-text">Cost</p>
-							</div>
+              <div class="col s5 m5">
+                <i class="material-icons background-round mt-5 mb-5 white-text">money_off</i>
+              </div>
+              <div class="col s7 m7 right-align">
+                <h5 class="mb-0 white-text"><%= number_to_currency(@order.total_cost) %></h5>
+                <p class="no-margin white-text">Cost</p>
+              </div>
 
-						</div>
-					</a>
-				</div>
-				<div class="col s12 m6 l3 card-width">
-					<div class="card row gradient-45deg-amber-amber gradient-shadow white-text padding-4 mt-5">
-						<div class="col s5 m5">
-							<i class="material-icons background-round mt-5 mb-5">timeline</i>
-						</div>
-						<div class="col s7 m7 right-align">
-							<h5 class="mb-0 white-text"><%= number_to_currency(@order.get_current_estimate.total ) %></h5>
-							<p class="no-margin">Price</p>
-						</div>
-					</div>
-				</div>
-				<div class="col s12 m6 l3 card-width">
-					<div class="card row gradient-45deg-indigo-light-blue gradient-shadow white-text padding-4 mt-5">
-						<div class="col s5 m5">
-							<i class="material-icons background-round mt-5 mb-5">update</i>
-						</div>
-						<div class="col s7 m7 right-align">
-							<h5 class="mb-0 white-text"><%= number_to_currency(@order.transactions.where(status: :paid).sum(:value) ) %></h5>
-							<p class="no-margin">Received</p>
-						</div>
-					</div>
-				</div>
+            </div>
+          </a>
+        </div>
+        <div class="col s12 m6 l3 card-width">
+          <div class="card row gradient-45deg-amber-amber gradient-shadow white-text padding-4 mt-5">
+            <div class="col s5 m5">
+              <i class="material-icons background-round mt-5 mb-5">timeline</i>
+            </div>
+            <div class="col s7 m7 right-align">
+              <h5 class="mb-0 white-text"><%= number_to_currency(@order.get_current_estimate.total ) %></h5>
+              <p class="no-margin">Price</p>
+            </div>
+          </div>
+        </div>
+        <div class="col s12 m6 l3 card-width">
+          <div class="card row gradient-45deg-indigo-light-blue gradient-shadow white-text padding-4 mt-5">
+            <div class="col s5 m5">
+              <i class="material-icons background-round mt-5 mb-5">update</i>
+            </div>
+            <div class="col s7 m7 right-align">
+              <h5 class="mb-0 white-text"><%= number_to_currency(@order.transactions.where(status: :paid).sum(:value) ) %></h5>
+              <p class="no-margin">Received</p>
+            </div>
+          </div>
+        </div>
 
-				<div class="col s12 m6 l3 card-width">
-					<div class="card row gradient-45deg-green-teal gradient-shadow white-text padding-4 mt-5">
-						<div class="col s5 m5">
-							<i class="material-icons background-round mt-5 mb-5">attach_money</i>
-						</div>
-						<div class="col s7 m7 right-align">
-							<h5 class="mb-0 white-text hide-numbers" id="profit-numbers"><%= number_to_currency(@profit) %></h5>
-							<p class="no-margin">Profit</p>
-						</div>
-					</div>
-				</div>
-			</div>
-			<div class="row">
-				<div class="col s12 l9 pl-0 pr-0">
+        <div class="col s12 m6 l3 card-width">
+          <div class="card row gradient-45deg-green-teal gradient-shadow white-text padding-4 mt-5">
+            <div class="col s5 m5">
+              <i class="material-icons background-round mt-5 mb-5">attach_money</i>
+            </div>
+            <div class="col s7 m7 right-align">
+              <h5 class="mb-0 white-text hide-numbers" id="profit-numbers"><%= number_to_currency(@profit) %></h5>
+              <p class="no-margin">Profit</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    <% end %>
+    <div class="row">
+      <div class="col s12 l9 pl-0 pr-0">
 
-					<div class="col s12 pl-1">
-						<div class="card-panel">
-							<div class="row">
-                <div class="col s12">
-                  <%= link_to @order.current_estimate.customer,@order.current_estimate.customer  %>
-                </div>
-								<div class="col s12 m5">
-									<span class="left width-100"><span class="font-weight-600 black-text">Created at:</span> <%= @order.created_at.strftime("%m/%d/%Y") %></span>
-									<span class="left width-100"><span class="font-weight-600 black-text">Location:</span> <%= @order.current_estimate.location %></span>
-									<span class="left width-100"><span class="font-weight-600 black-text">Category:</span> <%= @order.current_estimate.category_text %></span>
-								</div>
-                <div class="col s12 m5">
+        <div class="col s12 pl-1">
+          <div class="card-panel">
+            <div class="row">
+              <div class="col s12">
+                <%= link_to @order.current_estimate.customer,@order.current_estimate.customer  %>
+              </div>
+              <div class="col s12 m5">
+                <span class="left width-100"><span class="font-weight-600 black-text">Created at:</span> <%= @order.created_at.strftime("%m/%d/%Y") %></span>
+                <span class="left width-100"><span class="font-weight-600 black-text">Location:</span> <%= @order.current_estimate.location %></span>
+                <span class="left width-100"><span class="font-weight-600 black-text">Category:</span> <%= @order.current_estimate.category_text %></span>
+              </div>
+              <div class="col s12 m5">
+                <% if can? :see_price, Order %>
+
                   <span class="left width-100"><span class="font-weight-600 black-text">Price:</span> <%= number_to_currency @order.current_estimate.total %></span>
                   <span class="left width-100"><span class="font-weight-600 black-text">Tax:</span> <%= number_to_currency @order.current_estimate.tax %> (<%= t("enumerize.estimate.taxpayer.#{@order.current_estimate.taxpayer}") %>)</span>
+                <% end %>
+              </div>
+              <div class="col s12 m2">
+                <span class=" users-view-status display-inline chip green lighten-5 green-text right"><%= @order.status_text %></span>
+              </div>
+
+              <div class="col s12 mt-1">
+                <span><%= @order.get_current_estimate.description %></span>
+              </div>
+
+
+            </div>
+          </div>
+          <!-- Areas -->
+          <%= render partial:'estimates/colapsible_area', locals: {estimate: @order.current_estimate} %>
+
+
+
+
+
+          <div class="card-panel">
+            <!-- Procuts and area -->
+            <% @order.get_current_estimate.measurement_proposals.distinct.each do |mp| %>
+              <div class="row">
+                <div class="col s12">
+                  <div class="row pl-2 pr-2">
+                    <span class="mr-1">Selected areas:</span>
+                    <% mp.measurement_area.each do |ma| %>
+                      <div class="chip blue white-text"><%= ma.name %></div>
+                    <% end %>
+                  </div>
+                  <table class="striped responsive-table">
+                    <thead>
+                    <tr>
+                      <th>Product</th>
+
+                    <th>Qty</th>
+                      <% if can? :see_price, Order %>
+
+                    <th>Price Unity</th>
+                      <th>Discount</th>
+                      <th class="right-align">Subtotal</th>
+                        <% end %>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <% mp.product_estimates.each do |pe| %>
+                      <tr>
+                        <td><%= pe.product.present? ? pe.product.name : pe.custom_title %></td>
+                        <td><%= pe.quantity %></td>
+                        <% if can? :see_price, Order %>
+
+                      <td><%= pe.unitary_value %></td>
+                        <td><%= pe.discount %></td>
+                        <td class=" right-align"><%= number_to_currency pe.value %></td>
+                          <% end %>
+                      </tr>
+                    <% end %>
+                    <% if can? :see_price, Order %>
+
+                    <tr class="white">
+                      <td class="right-align" colspan="100"><strong>Subtotal area:</strong><br><%= number_to_currency mp.product_estimates.sum(:value) %></td>
+                    </tr>
+                      <% end %>
+                    </tbody>
+                  </table>
                 </div>
-								<div class="col s12 m2">
-									<span class=" users-view-status display-inline chip green lighten-5 green-text right"><%= @order.status_text %></span>
-								</div>
+              </div>
+              <div class="divider mb-3 mt-3"></div>
+            <% end %>
 
-								<div class="col s12 mt-1">
-									<span><%= @order.get_current_estimate.description %></span>
-								</div>
+            <div class="row">
+              <div class="col m5 s12">
+                <!-- <p>Thanks for your business.</p> -->
+              </div>
+              <div class="col xl6 m8 s12 offset-xl6">
+                <% if can? :see_price, Order %>
 
+              <ul>
+                  <li class="display-flex justify-content-between">
+                    <span class="invoice-subtotal-title">Subtotal</span>
+                    <h6 class="mt-0"><%= number_to_currency @order.current_estimate.subtotal %></h6>
+                  </li>
+                  <li class="display-flex justify-content-between">
+                    <span class="invoice-subtotal-title">Discount</span>
+                    <h6 class="mt-0">- <%= number_to_currency @order.current_estimate.discounts %></h6>
+                  </li>
+                  <li class="display-flex justify-content-between">
+                    <span class="invoice-subtotal-title">Tax (<%= t("enumerize.estimate.taxpayer.#{@order.current_estimate.taxpayer}") %>)</span>
+                    <h6 class="mt-0"> <%= number_to_currency @order.current_estimate.tax || 0 %></h6>
+                  </li>
+                  <li class="divider mt-2 mb-2"></li>
+                  <li class="display-flex justify-content-between">
+                    <span class="invoice-subtotal-title">Estimate Total</span>
+                    <h6 class="mt-0"><%= number_to_currency @order.current_estimate.total %></h6>
+                  </li>
+                </ul>
+                  <% end %>
+              </div>
+            </div>
+            <!--  End products area -->
+          </div>
+        </div>
+      </div>
+      <div class="col s12 l3 pl-0 pr-0">
+        <div class="row">
+          <div class="col s12 card-width">
+            <div class="card-panel pt-2 pl-4 pr-4">
 
-							</div>
-						</div>
-						<!-- Areas -->
-            <%= render partial:'estimates/colapsible_area', locals: {estimate: @order.current_estimate} %>
+              <h6 class="row mb-4 pl-4 pr-4">Schedule</h6>
+              <div class="estimate-schedule-list">
+                <% @order.schedules.each do |schedule| %>
+                  <div class="row border-radius-5 cyan lighten-5 mb-3">
+                    <div class="col s3 pr-0 mt-2">
+                      <% if schedule.worker.photo.present? %>
+                        <img src="<%= schedule.worker.photo.url %>" alt="users view avatar" class="circle avatar-md avatar-status left tooltipped" data-tooltip="<%= schedule.worker.name %>">
+                      <% end %>
+                    </div>
+                    <div class="col s9 pl-0">
+                      <p class="mt-2 mb-2"><a class="black-text" href="#"><strong>Schedule:</strong> <%= schedule.start_at.strftime("%m/%d/%Y") %><br><%= schedule.start_at.strftime("%I:%M") %></a></p>
+                    </div>
+                  </div>
+                <% end %>
+              </div>
+            </div>
+          </div>
+        </div>
 
+        <div class="row">
+          <div class="col s12 card-width">
+            <div class="card-panel estimates-order-list recent-orders-card animate fadeRight border-radius-5">
+              <h6 class="mb-0 mt-0 mb-5">Estimates</h6>
+              <ul class="collection estimate-schedule-list">
+                <% @order.estimates.order(current: :desc).each do |estimate| %>
+                  <li class="collection-item">
+                    <p class="font-weight-600 mb-0 mt-0">
+                      <%= link_to view_estimates_path(estimate) do %>
+                        #<%= estimate.code %> <span class="medium-small mt-0 mb-0"><%= estimate.current? ? '(current)' : '' %></span></p>
+                      <% end %>
+                      </p>
+                      </li>
+                <% end %>
+              </ul>
 
+            </div>
+          </div>
+        </div>
 
+        <div class="col s12 card-width">
+          <div class="card row black-text padding-4 mt-3">
+            <a href="#" class="sidenav-trigger" data-target="slide-out-right">
+              <div class="col s5 m5">
+                <i class="material-icons background-round mt-5 mb-5 green-text">description</i>
+                <!-- <p>Orders</p> -->
+              </div>
+              <div class="col s7 m7 right-align">
+                <h5 class="mb-0 black-text"><%= @order.document_files.count %></h5>
+                <p class="no-margin black-text">Documents</p>
+                <!-- <p>6,00,00</p> -->
+              </div>
+            </a>
+          </div>
+        </div>
 
+        <div class="col s12 l6 card-width pl-2">
+          <div class="card mt-4">
+            <a href="#" class="sidenav-trigger" data-target="slide-out-right">
+              <div class="card-content center-align">
+                <i class="material-icons amber-text small-ico-bg mb-5">note</i>
+                <h4 class="m-0"><b><%= @order.notes.count %></b></h4>
+                <p class="black-text">Notes</p>
+              </div>
+            </a>
+          </div>
+        </div>
+        <div class="col s12 l6 card-width pr-2">
+          <div class="card mt-4">
+            <a href="#">
+              <div class="card-content pr-2 pl-2 center-align">
+                <i class="material-icons blue-text small-ico-bg mb-5">settings</i>
+                <h4 class="m-0"><b>0</b></h4>
+                <p class="black-text">Processes</p>
+              </div>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
 
-            <div class="card-panel">
-							<!-- Procuts and area -->
-							<% @order.get_current_estimate.measurement_proposals.distinct.each do |mp| %>
-								<div class="row">
-									<div class="col s12">
-										<div class="row pl-2 pr-2">
-											<span class="mr-1">Selected areas:</span>
-											<% mp.measurement_area.each do |ma| %>
-												<div class="chip blue white-text"><%= ma.name %></div>
-											<% end %>
-										</div>
-										<table class="striped responsive-table">
-											<thead>
-											<tr>
-												<th>Product</th>
-												<th>Qty</th>
-												<th>Price Unity</th>
-												<th>Discount</th>
-												<th class="right-align">Subtotal</th>
-											</tr>
-											</thead>
-											<tbody>
-											<% mp.product_estimates.each do |pe| %>
-												<tr>
-													<td><%= pe.product.present? ? pe.product.name : pe.custom_title %></td>
-													<td><%= pe.quantity %></td>
-													<td><%= pe.unitary_value %></td>
-													<td><%= pe.discount %></td>
-													<td class=" right-align"><%= number_to_currency pe.value %></td>
-												</tr>
-											<% end %>
-											<tr class="white">
-												<td class="right-align" colspan="100"><strong>Subtotal area:</strong><br><%= number_to_currency mp.product_estimates.sum(:value) %></td>
-											</tr>
-											</tbody>
-										</table>
-									</div>
-								</div>
-								<div class="divider mb-3 mt-3"></div>
-							<% end %>
-
-							<div class="row">
-								<div class="col m5 s12">
-									<!-- <p>Thanks for your business.</p> -->
-								</div>
-                <div class="col xl6 m8 s12 offset-xl6">
-                  <ul>
-                    <li class="display-flex justify-content-between">
-                      <span class="invoice-subtotal-title">Subtotal</span>
-                      <h6 class="mt-0"><%= number_to_currency @order.current_estimate.subtotal %></h6>
-                    </li>
-                    <li class="display-flex justify-content-between">
-                      <span class="invoice-subtotal-title">Discount</span>
-                      <h6 class="mt-0">- <%= number_to_currency @order.current_estimate.discounts %></h6>
-                    </li>
-                    <li class="display-flex justify-content-between">
-                      <span class="invoice-subtotal-title">Tax (<%= t("enumerize.estimate.taxpayer.#{@order.current_estimate.taxpayer}") %>)</span>
-                      <h6 class="mt-0"> <%= number_to_currency @order.current_estimate.tax || 0 %></h6>
-                    </li>
-                    <li class="divider mt-2 mb-2"></li>
-                    <li class="display-flex justify-content-between">
-                      <span class="invoice-subtotal-title">Estimate Total</span>
-                      <h6 class="mt-0"><%= number_to_currency @order.current_estimate.total %></h6>
-                    </li>
-                  </ul>
-                </div>
-							</div>
-							<!--  End products area -->
-						</div>
-					</div>
-				</div>
-				<div class="col s12 l3 pl-0 pr-0">
-					<div class="row">
-						<div class="col s12 card-width">
-							<div class="card-panel pt-2 pl-4 pr-4">
-
-								<h6 class="row mb-4 pl-4 pr-4">Schedule</h6>
-								<div class="estimate-schedule-list">
-									<% @order.schedules.each do |schedule| %>
-										<div class="row border-radius-5 cyan lighten-5 mb-3">
-											<div class="col s3 pr-0 mt-2">
-												<% if schedule.worker.photo.present? %>
-													<img src="<%= schedule.worker.photo.url %>" alt="users view avatar" class="circle avatar-md avatar-status left tooltipped" data-tooltip="<%= schedule.worker.name %>">
-												<% end %>
-											</div>
-											<div class="col s9 pl-0">
-												<p class="mt-2 mb-2"><a class="black-text" href="#"><strong>Schedule:</strong> <%= schedule.start_at.strftime("%m/%d/%Y") %><br><%= schedule.start_at.strftime("%I:%M") %></a></p>
-											</div>
-										</div>
-									<% end %>
-								</div>
-							</div>
-						</div>
-					</div>
-
-					<div class="row">
-						<div class="col s12 card-width">
-							<div class="card-panel estimates-order-list recent-orders-card animate fadeRight border-radius-5">
-								<h6 class="mb-0 mt-0 mb-5">Estimates</h6>
-								<ul class="collection estimate-schedule-list">
-									<% @order.estimates.order(current: :desc).each do |estimate| %>
-										<li class="collection-item">
-											<p class="font-weight-600 mb-0 mt-0">
-												<%= link_to view_estimates_path(estimate) do %>
-													#<%= estimate.code %> <span class="medium-small mt-0 mb-0"><%= estimate.current? ? '(current)' : '' %></span></p>
-												<% end %>
-											</p>
-										</li>
-									<% end %>
-								</ul>
-						
-							</div>
-						</div>
-					</div>
-
-					<div class="col s12 card-width">
-						<div class="card row black-text padding-4 mt-3">
-							<a href="#" class="sidenav-trigger" data-target="slide-out-right">
-								<div class="col s5 m5">
-									<i class="material-icons background-round mt-5 mb-5 green-text">description</i>
-									<!-- <p>Orders</p> -->
-								</div>
-								<div class="col s7 m7 right-align">
-									<h5 class="mb-0 black-text"><%= @order.document_files.count %></h5>
-									<p class="no-margin black-text">Documents</p>
-									<!-- <p>6,00,00</p> -->
-								</div>
-							</a>
-						</div>
-					</div>
-
-					<div class="col s12 l6 card-width pl-2">
-						<div class="card mt-4">
-							<a href="#" class="sidenav-trigger" data-target="slide-out-right">
-								<div class="card-content center-align">
-									<i class="material-icons amber-text small-ico-bg mb-5">note</i>
-									<h4 class="m-0"><b><%= @order.notes.count %></b></h4>
-									<p class="black-text">Notes</p>
-								</div>
-							</a>
-						</div>
-					</div>
-					<div class="col s12 l6 card-width pr-2">
-						<div class="card mt-4">
-							<a href="#">
-								<div class="card-content pr-2 pl-2 center-align">
-									<i class="material-icons blue-text small-ico-bg mb-5">settings</i>
-									<h4 class="m-0"><b>0</b></h4>
-									<p class="black-text">Processes</p>
-								</div>
-							</a>
-						</div>
-					</div>
-				</div>
-			</div>
-
-	</div>
+  </div>
 
   <div id="modal-mail" class="modal">
     <%= form_with url: send_grid_mail_estimate_path(@order.current_estimate), method: :get, local: true do |f| %>
@@ -392,60 +410,60 @@
   <%= render partial: 'layouts/sidenav_notes_docs', locals: {notes: @order.notes, documents: @order.document_files,  redirect_link: "#{order_path(@order)}"} %>
 
 
-	<%= render "layouts/add_button", contact: false %>
+  <%= render "layouts/add_button", contact: false %>
 
-	<div id="modal_note" class="modal modal-fixed-footer">
-		<%= form_with url: new_note_order_path(@order),method: :get, local: true do |f| %>
-			<div class="modal-content">
-				<h4><%= t "button.new" %> <%= t "notes" %></h4>
-				<%= render "customers/notes_form", f: f %>
+  <div id="modal_note" class="modal modal-fixed-footer">
+    <%= form_with url: new_note_order_path(@order),method: :get, local: true do |f| %>
+      <div class="modal-content">
+        <h4><%= t "button.new" %> <%= t "notes" %></h4>
+        <%= render "customers/notes_form", f: f %>
 
-			</div>
-			<div class="modal-footer">
-				<%= f.button :submit, class:"modal-action modal-close waves-effect waves-green btn-flat" do %>
-					<i class="material-icons left">save</i><%= t "button.save" %>
-				<% end %>
-			</div>
-		<% end  %>
-	</div>
+      </div>
+      <div class="modal-footer">
+        <%= f.button :submit, class:"modal-action modal-close waves-effect waves-green btn-flat" do %>
+          <i class="material-icons left">save</i><%= t "button.save" %>
+        <% end %>
+      </div>
+    <% end  %>
+  </div>
 
-	<div id="modal_doc" class="modal modal-fixed-footer">
-		<%= form_with url: new_document_order_path(@order), local: true do |f| %>
-			<div class="modal-content">
-				<h4><%= t "button.new" %> <%= t "documents" %></h4>
-				<%= render "customers/document_file_fields", f: f %>
+  <div id="modal_doc" class="modal modal-fixed-footer">
+    <%= form_with url: new_document_order_path(@order), local: true do |f| %>
+      <div class="modal-content">
+        <h4><%= t "button.new" %> <%= t "documents" %></h4>
+        <%= render "customers/document_file_fields", f: f %>
 
-			</div>
-			<div class="modal-footer">
-				<%= f.button :submit, class:"modal-action modal-close waves-effect waves-green btn-flat" do %>
-					<i class="material-icons left">save</i><%= t "button.save" %>
-				<% end %>
-			</div>
-		<% end  %>
-	</div>
+      </div>
+      <div class="modal-footer">
+        <%= f.button :submit, class:"modal-action modal-close waves-effect waves-green btn-flat" do %>
+          <i class="material-icons left">save</i><%= t "button.save" %>
+        <% end %>
+      </div>
+    <% end  %>
+  </div>
 
-	<div id="modal_contact" class="modal modal-fixed-footer">
-		<%= form_with url: new_contact_order_path(@order),method: :get, local: true do |f| %>
-			<div class="modal-content">
-				<h4><%= t "button.new" %> <%= t "contacts" %></h4>
-				<%= render "customers/contact_fields", f: f %>
+  <div id="modal_contact" class="modal modal-fixed-footer">
+    <%= form_with url: new_contact_order_path(@order),method: :get, local: true do |f| %>
+      <div class="modal-content">
+        <h4><%= t "button.new" %> <%= t "contacts" %></h4>
+        <%= render "customers/contact_fields", f: f %>
 
-			</div>
-			<div class="modal-footer">
-				<%= f.button :submit, class:"modal-action modal-close waves-effect waves-green btn-flat" do %>
-					<i class="material-icons left">save</i><%= t "button.save" %>
-				<% end %>
-			</div>
-		<% end  %>
-	</div>
+      </div>
+      <div class="modal-footer">
+        <%= f.button :submit, class:"modal-action modal-close waves-effect waves-green btn-flat" do %>
+          <i class="material-icons left">save</i><%= t "button.save" %>
+        <% end %>
+      </div>
+    <% end  %>
+  </div>
 
-<%= content_for :scripts do %>
-	<script>
-			const profit = document.getElementById("profit-numbers")
-			
-			profit.addEventListener("click", function () {
-				profit.classList.toggle("hide-numbers")
-			})
-				
-	</script>
-<% end %>
+  <%= content_for :scripts do %>
+    <script>
+        const profit = document.getElementById("profit-numbers")
+
+        profit.addEventListener("click", function () {
+            profit.classList.toggle("hide-numbers")
+        })
+
+    </script>
+  <% end %>

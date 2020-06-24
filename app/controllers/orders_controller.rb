@@ -1,8 +1,12 @@
 class OrdersController < ApplicationController
-  before_action :set_order, only: [:new_labor_cost,:new_cost,:order_photos,:create_doc_for_signature,:deliver_products_sign,:deliver_products,:send_sign_mail,:finish,:finish_order_signature,:finish_order,
-                                   :show, :edit, :update,
+  before_action :set_order, only: [:new_labor_cost,:new_cost,:order_photos,:create_doc_for_signature,
+                                   :deliver_products_sign,:deliver_products,:send_sign_mail,:finish,
+                                   :finish_order_signature,:finish_order,
+                                   :show, :edit, :update, :pendent_payments,
                                    :destroy, :schedule, :create_schedule, :cancel, :reactivate,
-                                   :payments, :transaction, :product_purchase, :new_note,:new_document,:new_contact, :invoice,:invoice_add_payment,:send_invoice_mail,:view_invoice_customer,:costs,:change_order,:change_payment_status]
+                                   :payments, :transaction, :product_purchase, :new_note,:new_document,
+                                   :new_contact, :invoice,:invoice_add_payment,:send_invoice_mail,
+                                   :view_invoice_customer,:costs,:change_order,:change_payment_status]
   before_action :authenticate_user!, except: [:invoice,:deliver_products_sign,:doc_signature_mail,:doc_signature, :view_invoice_customer]
   #load_and_authorize_resource  except: [:deliver_products_sign,:doc_signature_mail,:doc_signature, :create_schedule, :delete_schedule, :view_invoice_customer]
 
@@ -623,6 +627,15 @@ class OrdersController < ApplicationController
     @order.save
 
     redirect_to order_path(@order), notice: "#{t 'notice.order.reactivated'}"
+  end
+
+  def pendent_payments
+    payments = @order.transactions.where(status: "pendent")
+    render json: payments
+  end
+
+  def see_price
+    #this is only to set permissions
   end
 
   private

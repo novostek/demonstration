@@ -81,8 +81,10 @@
             <span class="left width-100"><span class="font-weight-600 black-text">Category:</span> <%= @estimate.category_text %></span>
           </div>
           <div class="col s12 m5">
+            <% if can? :see_price, Estimate %>
             <span class="left width-100"><span class="font-weight-600 black-text">Price:</span> <%= number_to_currency @estimate.total %></span>
             <span class="left width-100"><span class="font-weight-600 black-text">Tax:</span> <%= number_to_currency @estimate.tax %> (<%= t("enumerize.estimate.taxpayer.#{@estimate.taxpayer}") if @estimate.taxpayer.present? %>)</span>
+            <% end %>
           </div>
           <div class="col s12 m2">
             <span class=" users-view-status display-inline chip green lighten-5 green-text right"><%= @estimate.status_text %></span>
@@ -116,9 +118,11 @@
                 <tr>
                   <th>Product</th>
                   <th>Qty</th>
-                  <th>Price Unity</th>
-                  <th>Discount</th>
-                  <th class="right-align">Subtotal</th>
+                  <% if can? :see_price, Estimate %>
+                    <th>Price Unity</th>
+                    <th>Discount</th>
+                    <th class="right-align">Subtotal</th>
+                  <% end %>
                 </tr>
                 </thead>
                 <tbody>
@@ -126,14 +130,18 @@
                   <tr>
                     <td><%= pe.product.present? ? pe.product.name : pe.custom_title %></td>
                     <td><%= pe.quantity %></td>
-                    <td><%= pe.unitary_value %></td>
-                    <td><%= pe.discount %></td>
-                    <td class=" right-align"><%= number_to_currency pe.value %></td>
+                    <% if can? :see_price, Estimate %>
+                      <td><%= pe.unitary_value %></td>
+                      <td><%= pe.discount %></td>
+                      <td class=" right-align"><%= number_to_currency pe.value %></td>
+                    <% end %>
                   </tr>
                 <% end %>
-                <tr class="white">
-                  <td class="right-align" colspan="100"><strong>Subtotal area:</strong><br><%= number_to_currency mp.product_estimates.sum(:value) %></td>
-                </tr>
+                <% if can? :see_price, Estimate %>
+                  <tr class="white">
+                    <td class="right-align" colspan="100"><strong>Subtotal area:</strong><br><%= number_to_currency mp.product_estimates.sum(:value) %></td>
+                  </tr>
+                <% end %>
                 </tbody>
               </table>
             </div>
@@ -145,27 +153,29 @@
           <div class="col m4 s12">
             <!-- <p>Thanks for your business.</p> -->
           </div>
-          <div class="col xl4 m7 s12 offset-xl3">
-            <ul>
-              <li class="display-flex justify-content-between">
-                <span class="invoice-subtotal-title">Subtotal</span>
-                <h6 class="mt-0"><%= number_to_currency @estimate.subtotal %></h6>
-              </li>
-              <li class="display-flex justify-content-between">
-                <span class="invoice-subtotal-title">Discount</span>
-                <h6 class="mt-0">- <%= number_to_currency @estimate.discounts %></h6>
-              </li>
-              <li class="display-flex justify-content-between">
-                <span class="invoice-subtotal-title">Tax (<%= t("enumerize.estimate.taxpayer.#{@estimate.taxpayer}") if @estimate.taxpayer.present?%>)</span>
-                <h6 class="mt-0"> <%= number_to_currency @estimate.tax || 0 %></h6>
-              </li>
-              <li class="divider mt-2 mb-2"></li>
-              <li class="display-flex justify-content-between">
-                <span class="invoice-subtotal-title">Estimate Total</span>
-                <h6 class="mt-0"><%= number_to_currency @estimate.total %></h6>
-              </li>
-            </ul>
-          </div>
+          <% if can? :see_price, Estimate %>
+            <div class="col xl4 m7 s12 offset-xl3">
+              <ul>
+                <li class="display-flex justify-content-between">
+                  <span class="invoice-subtotal-title">Subtotal</span>
+                  <h6 class="mt-0"><%= number_to_currency @estimate.subtotal %></h6>
+                </li>
+                <li class="display-flex justify-content-between">
+                  <span class="invoice-subtotal-title">Discount</span>
+                  <h6 class="mt-0">- <%= number_to_currency @estimate.discounts %></h6>
+                </li>
+                <li class="display-flex justify-content-between">
+                  <span class="invoice-subtotal-title">Tax (<%= t("enumerize.estimate.taxpayer.#{@estimate.taxpayer}") if @estimate.taxpayer.present?%>)</span>
+                  <h6 class="mt-0"> <%= number_to_currency @estimate.tax || 0 %></h6>
+                </li>
+                <li class="divider mt-2 mb-2"></li>
+                <li class="display-flex justify-content-between">
+                  <span class="invoice-subtotal-title">Estimate Total</span>
+                  <h6 class="mt-0"><%= number_to_currency @estimate.total %></h6>
+                </li>
+              </ul>
+            </div>
+          <% end %>
         </div>
         <!--  End products area -->
       </div>
@@ -267,24 +277,24 @@
   <%= form_with url: send_grid_mail_estimate_path(@estimate), method: :get, local: true do |f| %>
     <div class="modal-content">
       <% if Setting.get_value("send_grid_key").present? %>
-      <h4>Send email</h4>
-      <div class="row">
-        <div class="input-field">
-          <%= f.select :template, @templates, {prompt: true} %>
-          <%= f.label :template %>
-        </div>
-        <div class="input-field">
-          <%= f.label :emails, "Emails" %>
-          <%= f.text_field :emails, value: @email_customer, required: true %>
+        <h4>Send email</h4>
+        <div class="row">
+          <div class="input-field">
+            <%= f.select :template, @templates, {prompt: true} %>
+            <%= f.label :template %>
+          </div>
+          <div class="input-field">
+            <%= f.label :emails, "Emails" %>
+            <%= f.text_field :emails, value: @email_customer, required: true %>
+
+          </div>
+
+          <div class="input-field">
+            <%= f.label :subject %>
+            <%= f.text_field :subject, required: true %>
+          </div>
 
         </div>
-
-        <div class="input-field">
-          <%= f.label :subject %>
-          <%= f.text_field :subject, required: true %>
-        </div>
-
-      </div>
       <% else %>
         <%= raw t :send_grid_warning %>
       <% end %>

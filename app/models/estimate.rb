@@ -106,8 +106,8 @@ class Estimate < ApplicationRecord
 
   def calculate_tax_values
     calculator = Dentaku::Calculator.new
-    sub_total = self.product_estimates.sum(:value)
-    tax_products = self.product_estimates.where(tax: true).sum(:value)
+    sub_total = self.product_estimates.distinct(:id).sum(&:value)
+    tax_products = self.product_estimates.where(tax: true).sum(&:value)
     sub_total_taxes = calculator.evaluate(self.calculation_formula.formula, total: tax_products)
     discounts = self.product_estimates.sum(:discount)
     if self.taxpayer == 'customer'

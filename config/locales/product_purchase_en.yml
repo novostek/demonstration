@@ -1,0 +1,14 @@
+en:
+  product_purchase_status:
+    requested: Requested
+    buyed: Bought
+    delivered: Delivered
+    returned: Returned
+  activerecord:
+    models:
+      product_purchase: "Product Purchase"
+  notice:
+    product_purchase:
+      created: "Product purchase was successfully created."
+      updated: "Product purchase was sucessfully updated."
+      deleted: "Product purchase was sucessfully deleted."

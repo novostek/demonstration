@@ -1,7 +1,7 @@
 class ApiController < ApplicationController
   def woffice_pay_code
     @woffice_token = UserToken.create(user: current_user, active:true).id
-    @square_token = SquareApi.authorization_code
+    @square_token = SquareApi.get_mobile_token
     @domain = Setting.url
     result = {
         woffice_token: @woffice_token,

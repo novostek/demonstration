@@ -1,7 +1,7 @@
 class ApiController < ApplicationController
   def woffice_pay_code
     @woffice_token = UserToken.create(user: current_user, active:true).id
-    @square_token = SquareApi.get_mobile_token
+    @square_token = SquareApi.get_mobile_token.to_json
     @domain = Setting.url
     result = {
         woffice_token: @woffice_token,
@@ -36,9 +36,9 @@ class ApiController < ApplicationController
       else
         render json: {error: "not save"}, status: 422
       end
-    rescue
+      rescue
       render json:{error: "We have a problem"}, status: 500
-    end
+      end
   end
 
 end

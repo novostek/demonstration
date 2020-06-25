@@ -1,7 +1,7 @@
 source 'https://rubygems.org'
 git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
-ruby '2.5.1'
+ruby '2.5.0'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '~> 6.0.2', '>= 6.0.2.1'
@@ -109,7 +109,7 @@ gem 'turnout'
 gem 'ros-apartment', require: 'apartment'
 
 #https://github.com/msgpack/msgpack-ruby
-gem 'msgpack', '~> 1.3', '>= 1.3.3'
+# gem 'msgpack', '~> 1.3', '>= 1.3.3'
 
 #https://github.com/ambethia/recaptcha
 gem "recaptcha"

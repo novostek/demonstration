@@ -499,7 +499,7 @@
 
 										</div>
 										<div class="modal-footer">
-											<%= f.button :submit, class:"modal-action modal-close waves-effect waves-green btn-flat" do %>
+											<%= f.button :submit, class:"waves-effect waves-green btn-flat" do %>
 												<i class="material-icons left">save</i><%= t "button.save" %>
 											<% end %>
 										</div>
@@ -552,8 +552,8 @@
 																<i class="material-icons hide-on-med-and-up">remove_red_eye</i><span class="hide-on-small-only">View</span>
 															</a>
 														</div>
-									
-									
+
+
 														<div>
 															<a class="modal-trigger tooltipped" data-tooltip="<%= t 'label.edit' %>" href="#modal_edit_labor_<%= labor.id %>" >
 																<i class="material-icons">edit</i>
@@ -816,10 +816,14 @@
     })
 
     $(document).ready(function(){
+      // $('.modal').modal({
+      //   dismissible: false,
+      //   onCloseEnd: () => console.log("Fechou")
+      // });
       $('.modal').modal({
-        dismissible: false,
-        onCloseEnd: () => console.log("Fechou")
+          opacity: .8
       });
+
     });
   </script>
 

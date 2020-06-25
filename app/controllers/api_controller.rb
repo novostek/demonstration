@@ -1,7 +1,7 @@
 class ApiController < ApplicationController
   def woffice_pay_code
     @woffice_token = UserToken.create(user: current_user, active:true).id
-    @square_token = SquareApi.get_mobile_token.to_json
+    @square_token = SquareApi.get_mobile_token
     @domain = Setting.url
     result = {
         woffice_token: @woffice_token,
@@ -9,7 +9,7 @@ class ApiController < ApplicationController
         domain: @domain,
         company: @company_name
     }
-    qrcode = RQRCode::QRCode.new(result.to_s)
+    qrcode = RQRCode::QRCode.new(result.to_json)
     png = qrcode.as_png(
         bit_depth: 1,
         border_modules: 4,

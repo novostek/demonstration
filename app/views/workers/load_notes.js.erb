@@ -10,3 +10,4 @@ $("#delete_div").html("<%= escape_javascript(render partial:'schedules/delete_li
 $("#delete_avulso").html("<%= escape_javascript(render partial:'schedules/delete_avulso' )%>")
 $("#hour_cost").html("<%= escape_javascript(render partial:'schedules/hour_cost_fields' )%>")
 $("#scheduleLinks").html("<%= escape_javascript(render partial:'schedules/links', locals: {schedule: $schedule} )%>")
+$("#scheduleCustomer").html("<%= escape_javascript(render partial:'schedules/customer_details', locals: {schedule: $schedule} )%>")

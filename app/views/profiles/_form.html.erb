@@ -26,6 +26,13 @@
     
   </div>
 
+  <div class="row">
+    <div class="col">
+      <a id="check-all" href="javascript:void(0);">Check all</a>
+      <a id="uncheck-all" style='display: none' href="javascript:void(0);">Uncheck all</a> 
+    </div>
+  </div>
+
   <% @controllers.each do |c| %>
       <div class="card-panel">
         <div class="row">
@@ -50,4 +57,20 @@
   <div class="actions">
     <%= f.submit t('button.save'), class:"btn" %>
   </div>
+<% end %>
+<% content_for :scripts do %>
+  <script>
+    $(document).ready(function() {
+      $('#check-all').click(function(){
+        $(this).hide();
+        $('#uncheck-all').show();  
+        $("input:checkbox").attr('checked', true);
+      });
+      $('#uncheck-all').click(function(){
+        $(this).hide();
+        $('#check-all').show();  
+        $("input:checkbox").attr('checked', false);
+      });
+    });
+  </script>
 <% end %>

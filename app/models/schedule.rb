@@ -119,4 +119,18 @@ class Schedule < ApplicationRecord
       }
     end
   end
+
+  def estimate
+    begin
+      if self.origin == "Estimate"
+        return Estimate.find(self.origin_id)
+      elsif self.origin == "Order"
+        return Order.find(self.origin_id).current_estimate
+      else
+        return nil
+      end
+    rescue
+      return nil
+    end
+  end
 end

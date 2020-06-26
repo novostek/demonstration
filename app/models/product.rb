@@ -3,6 +3,7 @@
 # Table name: products
 #
 #  id                     :uuid             not null, primary key
+#  active                 :boolean          default(TRUE)
 #  area_covered           :decimal(, )
 #  bpm_purchase           :string
 #  cost_price             :decimal(, )
@@ -64,7 +65,7 @@ class Product < ApplicationRecord
   end
 
   def self.to_select
-    all.map{|a| [a.name,a.id]}
+    all.where(active: true).map{|a| [a.name,a.id]}
   end
 
 end

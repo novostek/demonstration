@@ -3,7 +3,7 @@ class SchedulesController < ApplicationController
   load_and_authorize_resource except: [:delete_schedule]
   def index
     @schedules = Schedule.all
-    @workers = Worker.all
+    @workers = Worker.where(active: true)
   end
 
   def update_hour_cost

@@ -3,6 +3,7 @@
 # Table name: workers
 #
 #  id          :uuid             not null, primary key
+#  active      :boolean          default(TRUE)
 #  categories  :string
 #  name        :string
 #  photo       :text
@@ -35,6 +36,6 @@ class Worker < ApplicationRecord
   end
 
   def self.to_select
-    all.map{|a| [a.name,a.id]}
+    all.where(active: true).map{|a| [a.name,a.id]}
   end
 end

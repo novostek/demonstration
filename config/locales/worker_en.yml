@@ -2,6 +2,7 @@ en:
   activerecord:
     models:
       worker: "Worker"
+      workers: "Workers"
     attributes:
       worker:
         name: "Name"

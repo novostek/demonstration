@@ -45,6 +45,8 @@ class OrdersController < ApplicationController
 
     if params[:end_at].to_datetime < params[:start_at].to_datetime
       redirect_to params[:redirect], notice: t(:check_dates)
+    #elsif params[:hour_cost].to_i < 0
+    #  redirect_to params[:redirect], notice: t(:hour_cost_negative)
     else
       schedule = Schedule.new
       schedule.origin = "Order"
@@ -58,7 +60,6 @@ class OrdersController < ApplicationController
       else
         redirect_to params[:redirect], alert: schedule.errors.full_messages.to_sentence
       end
-
     end
 
 

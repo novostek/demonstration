@@ -1,7 +1,7 @@
 class ProductEstimatesController < ApplicationController
   before_action :set_product_estimate, only: [:show, :edit, :update, :destroy]
   before_action :authenticate_user!, except: [:destroy]
-  #load_and_authorize_resource except: [:destroy]
+  load_and_authorize_resource except: [:destroy]
 
   # GET /product_estimates
   def index

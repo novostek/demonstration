@@ -443,7 +443,7 @@
                 </div>
 
 								<div id="modal_new_product" class="modal modal-fixed-footer">
-									<%= form_with url: new_cost_order_path(@order), method: :get, local: true do |f| %>
+									<%= form_with url: new_cost_order_path(@order), method: :get, id: "new_product", local: true do |f| %>
 										<%= f.hidden_field :redirect, value: costs_order_path(@order) %>
 										<div class="modal-content">
 											<h4><%= t "button.new" %> <%= t "activerecord.models.product_purchase" %></h4>
@@ -452,21 +452,21 @@
 													<%= f.select :product, @products, {prompt: true},{id:"product_select"} %>
 													<%= f.label :product %>
 												</div>
-												<div class="input-field">
+												<div class="input-field" id="div_custom_product">
 													<%= f.label :custom_product %>
-													<%= f.text_field :custom_product %>
+													<%= f.text_field :custom_product, required: true %>
 												</div>
 												<div class="input-field">
 													<%= f.label :quantity %>
-													<%= f.number_field :quantity, step: :any, id:"quantidade", onblur:"calcula_total()" %>
+													<%= f.number_field :quantity, step: :any, id:"quantidade", onblur:"calcula_total()", required: true %>
 												</div>
 												<div class="input-field" id="div_unity_value">
 													<%= f.label :unity_value %>
-													<%= f.number_field :unity_value, step: :any, id:"valor_unitario",onblur:"calcula_total()" %>
+													<%= f.number_field :unity_value, step: :any, id:"valor_unitario",onblur:"calcula_total()", required: true %>
 												</div>
 												<div class="input-field" id="div_value">
 													<%= f.label :value %>
-													<%= f.number_field :value, step: :any, id:"valor" %>
+													<%= f.number_field :value, step: :any, id:"valor", required: true %>
 												</div>
 												<div class="input">
 													<p>
@@ -502,7 +502,10 @@
 
 										</div>
 										<div class="modal-footer">
-											<%= f.button :submit, class:"modal-action modal-close waves-effect waves-green btn-flat" do %>
+                      <button class="left modal-action modal-close waves-effect waves-green btn-flat" type="button">
+                        <i class="material-icons left">close</i><%= t "button.close" %>
+                      </button>
+											<%= f.button :submit, class:"modal-action waves-effect waves-green btn-flat" do %>
 												<i class="material-icons left">save</i><%= t "button.save" %>
 											<% end %>
 										</div>
@@ -753,15 +756,33 @@
 		</div>
 <%= content_for :scripts do %>
   <script type="text/javascript" charset="utf-8">
+    $("#new_product").submit((e) => {
+      e.preventDefault();
+      
+      const form = document.getElementById("new_product");
+
+      if(form.checkValidity())
+        form.submit();
+    })
 
       $("#product_select").on("change", () => {
           if($("#product_select").val())
           {
-              $("#div_unity_value").addClass("hide");
-              $("#div_value").addClass("hide");
+            $("#div_custom_product").addClass("hide");
+            $("#div_unity_value").addClass("hide");
+            $("#div_value").addClass("hide");
+
+            $("#custom_product").removeAttr("required");
+            $("#valor_unitario").removeAttr("required");
+            $("#valor").removeAttr("required");
           }else {
+              $("#div_custom_product").removeClass("hide");
               $("#div_unity_value").removeClass("hide");
               $("#div_value").removeClass("hide");
+
+              $('#custom_product').attr('required');
+              $('#valor_unitario').attr('required');
+              $('#valor').attr('required');
           }
 
       });

@@ -107,24 +107,41 @@
       <input class="file-path validate" type="text">
     </div>
   </div>
-
-  <div class="input col s12">
-
-
-    <label>
-      <input type="checkbox" name="product[tax]" id="product_tax" />
-      <span><%= f.label  :tax %></span>
-    </label>
-
-    
+  <div class="other-field col s12 mb-2">
+    <%= f.label :suggestion_ids, "Suggestions" %>
+    <%= f.select :suggestion_ids, options_for_select(@products, product.suggestions.pluck(:suggestion_id)),{:include_hidden => false},{ multiple: true, class: "select2-size-sm browser-default"} %>
+  </div>
+  <div class="row">
+    <div class="col s10 m2">
+      <p class="font-weight-600 left mr-5">Tax</p>
+    </div>
+    <div class="col s2 m2">
+      <div class="switch">
+        <label>
+          <!--                            <input name="width" id="width" type="checkbox" checked>-->
+          <%= f.check_box :tax %>
+          <span class="lever"></span>
+        </label>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col s10 m2">
+      <p class="font-weight-600 left mr-5">Active</p>
+    </div>
+    <div class="col s2 m2">
+      <div class="switch">
+        <label>
+          <!--                            <input name="width" id="width" type="checkbox" checked>-->
+          <%= f.check_box :active %>
+          <span class="lever"></span>
+        </label>
+      </div>
+    </div>
   </div>
 
 
 
-    <div class="other-field col s12">
-      <%= f.label :suggestion_ids %>
-      <%= f.select :suggestion_ids, options_for_select(@products, product.suggestions.pluck(:suggestion_id)),{:include_hidden => false},{ multiple: true, class: "select2-size-sm browser-default"} %>
-    </div>
 
 </div>
   <div class="actions row mt-1">

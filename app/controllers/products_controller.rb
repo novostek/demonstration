@@ -10,7 +10,7 @@ class ProductsController < ApplicationController
     else
       limit = 50
     end
-    @q = Product.all.order(name: :asc).ransack(params[:q])
+    @q = Product.all.order(name: :asc).where(active: true).ransack(params[:q])
     @products = @q.result.page(params[:page]).per(limit)
   end
 
@@ -105,7 +105,7 @@ class ProductsController < ApplicationController
     # Only allow a trusted parameter "white list" through.
     def product_params
       params.require(:product).permit(
-        :photo,:photo_cache,:calculation_formula_id,:supplier_id,:name, :uuid, 
+        :photo,:photo_cache,:calculation_formula_id,:supplier_id,:name, :uuid, :active,
         :details, :product_category_id, :customer_price, :cost_price, 
         :area_covered, :tax, :bpm_purchase, suggestion_ids: [],
         :product_schedules_attributes => [:product_ids, :schedules, :_destroy])

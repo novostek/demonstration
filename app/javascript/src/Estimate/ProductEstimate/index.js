@@ -13,6 +13,7 @@ const ProductEstimate = ({product, peIndex, index}) => {
     removeProduct,
     productTotalQty,
     productTotalPrice,
+    setProductEstimate,
     productTotalDiscount
   } = useContext(EstimateContext)
 

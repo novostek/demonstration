@@ -45,6 +45,8 @@ class OrdersController < ApplicationController
 
     if params[:end_at].to_datetime < params[:start_at].to_datetime
       redirect_to params[:redirect], notice: t(:check_dates)
+    #elsif params[:hour_cost].to_i < 0
+    #  redirect_to params[:redirect], notice: t(:hour_cost_negative)
     else
       schedule = Schedule.new
       schedule.origin = "Order"
@@ -58,7 +60,6 @@ class OrdersController < ApplicationController
       else
         redirect_to params[:redirect], alert: schedule.errors.full_messages.to_sentence
       end
-
     end
 
 
@@ -631,7 +632,17 @@ class OrdersController < ApplicationController
 
   def pendent_payments
     payments = @order.transactions.where(status: "pendent")
-    render json: payments
+    result= {
+        order:{
+            code: @order.code,
+            customer: @order.current_estimate.customer,
+            price: @order.current_estimate.total,
+            total_paid: @order.total_paid,
+            balance: @order.balance
+        },
+        payments: payments
+    }
+    render json: result
   end
 
   def see_price

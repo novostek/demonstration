@@ -33,7 +33,9 @@ class ProductPurchase < ApplicationRecord
   has_many :document_files, -> { where origin: :ProductPurchase }, primary_key: :id, foreign_key: :origin_id
 
   extend Enumerize
-  enumerize :status, in: [:requested, :buyed, :delivered, :returned],predicates: true, default: :requested
+  #enumerize :status, in: [:requested, :buyed, :delivered, :returned],predicates: true, default: :requested
+  enumerize :status, in: %w(requested buyed delivered returned), i18n_scope: "product_purchase_status",
+            predicates: true, default: :requested
 
   after_save :update_order_total_cost
   after_save :set_transaction

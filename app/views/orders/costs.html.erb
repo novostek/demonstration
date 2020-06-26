@@ -823,6 +823,11 @@
         onCloseEnd: () => console.log("Fechou")
       });
     });
+
+      $(".item-status").on("click", function(){
+          $(".oc-item").removeClass("dropdown-activated");
+          $(this).parent().parent().addClass("dropdown-activated");
+      });
   </script>
 
 <% end %>

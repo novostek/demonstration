@@ -182,7 +182,7 @@
     </div>
   <% end  %>
 </div>
-
+<%= render partial: 'schedules/sidenav' %>
 <div id="modal_contact" class="modal modal-fixed-footer">
   <%= form_with url: new_contact_worker_path(@worker),method: :get, local: true do |f| %>
     <div class="modal-content">

@@ -104,46 +104,7 @@
   <% end  %>
 </div>
 
-<%= content_for :sidenav do %>
-  <aside id="right-sidebar-nav">
-    <div id="slide-out-right" style="width: 340px !important;" class="slide-out-right-sidenav sidenav rightside-navigation">
-
-      <div class="row">
-        <div class="slide-out-right-title">
-          <div id="div_title" class="col s10 pl-3">
-            <h5> </h5>
-          </div>
-          <div class="col s22">
-            <i class="material-icons "><a href="#" target="_self" onclick="close_side();" class="">clear</a></i>
-          </div>
-        </div>
-      </div>
-
-
-      <div class="slide-out-right-body row pl-3 pr-3">
-        <div id="scheduleCustomer">
-        </div>
-        <div id="scheduleLinks"></div>
-        <div class="col s12 pl-3">
-          <h5>Notes <a href="#modal_note" class="modal-trigger"><i class="material-icons ">add</i></a></h5>
-        </div>
-        <div id="notes">
-
-        </div>
-
-        <!-- Exemple document -->
-        <div class="col s12 pl-3">
-          <h5>Documents <a href="#modal_doc" class="modal-trigger"><i class="material-icons ">add</i></a></h5>
-        </div>
-        <div id="docs">
-
-        </div>
-
-
-      </div>
-    </div>
-  </aside>
-<% end %>
+<%= render partial: 'schedules/sidenav' %>
 
 <%= javascript_tag do %>
   var schedules = <%= raw(current_user.worker.schedules.to_json) %>

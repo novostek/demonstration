@@ -632,7 +632,17 @@ class OrdersController < ApplicationController
 
   def pendent_payments
     payments = @order.transactions.where(status: "pendent")
-    render json: payments
+    result= {
+        order:{
+            code: @order.code,
+            customer: @order.current_estimate.customer,
+            price: @order.current_estimate.total,
+            total_paid: @order.total_paid,
+            balance: @order.balance
+        },
+        payments: payments
+    }
+    render json: result
   end
 
   def see_price

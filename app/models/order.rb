@@ -104,4 +104,12 @@ class Order < ApplicationRecord
   def get_order_value
     self.product_purchases.sum(:value).to_f
   end
+
+  def balance
+    current_estimate.total - total_paid
+  end
+
+  def total_paid
+    transactions.where(status: :paid).sum(:value)
+  end
 end

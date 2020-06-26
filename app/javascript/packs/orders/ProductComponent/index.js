@@ -137,13 +137,15 @@ const ProductComponent = () => {
 
   const create_product_purchase = () => {
     const headers = new Headers()
+    headers.append("Accept", "application/json")
     headers.append("Content-Type", "application/json")
-    const data = { productPurchase: productPurchase }
+    const data = { product_purchase: productPurchase }
     const init = {
       method: 'POST',
       headers,
       body: JSON.stringify(data)
     }
+    console.log(data)
     return fetch('/product_purchases', init)
       .then(data => data.json())
   }

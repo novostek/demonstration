@@ -33,7 +33,7 @@ class Schedule < ApplicationRecord
   has_one :labor_cost, dependent: :destroy
   has_one :order,  primary_key: :origin_id, foreign_key: :id
 
-  validates :hour_cost, :numericality => { :greater_than_or_equal_to => 0 }
+  #validates :hour_cost, :numericality => { :greater_than_or_equal_to => 0 }
 
   after_save :set_labor_cost, if: :from_order?
   before_create :set_mail_sent

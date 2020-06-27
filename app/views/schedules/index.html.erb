@@ -86,7 +86,7 @@
   <% end  %>
 </div>
 
-<%= render partial: 'schedules/sidenav' %>
+<%= render partial: 'schedules/sidenav', locals: {avulso: true} %>
 <%= javascript_tag do %>
   var schedules = <%= raw(@schedules.to_json) %>
   var workers = <%= raw(@workers.to_json) %>

@@ -1,4 +1,15 @@
 <%= content_for :sidenav do %>
+  <%
+    begin
+      if avulso.present?
+        avulso = true
+      else
+          avulso = false
+      end
+    rescue
+      avulso = false
+    end
+  %>
   <aside id="right-sidebar-nav">
     <div id="slide-out-right" style="width: 340px !important;" class="slide-out-right-sidenav sidenav rightside-navigation schedule-nav">
 
@@ -14,9 +25,15 @@
                 <a class="btn-floating btn dropdown-settings waves-effect waves-light btn-flat black-text" href="#!" data-target="dropdown_schedule"><i class="material-icons black-text">more_vert</i></a>
                 <ul class="dropdown-content" id="dropdown_schedule" tabindex="0" style="">
                   <li tabindex="0">
+                    <% if avulso %>
                     <div class="col s12" id="delete_avulso">
 
                     </div>
+                    <% else %>
+                      <div class="col s12" id="delete_div">
+
+                      </div>
+                    <% end %>
                     <!--                <a class="grey-text text-darken-2" href="user-profile-page.html"><i class="material-icons">trash</i> Delete schedule<span class="new badge red">2</span></a></li>-->
                 </ul>
               </div>

@@ -14,6 +14,7 @@ class ApplicationController < ActionController::Base
     flash["#{type}"] = body
   end
 
+
   def api_authenticator
     if params[:access_token].present?
       token = UserToken.find_by_id(params[:access_token])
@@ -53,6 +54,13 @@ class ApplicationController < ActionController::Base
         link = "/#{params[:controller]}/#{params[:id]}/#{params[:action]}"
       end
       add_breadcrumb I18n.t("breadcrumbs.#{params[:action]}"), link
+    end
+  end
+
+  rescue_from CanCan::AccessDenied do |exception|
+    respond_to do |format|
+      format.json { head :forbidden }
+      format.html { render "pages/denied", layout: false }
     end
   end
 

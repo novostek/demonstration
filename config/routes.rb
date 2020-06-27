@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  get 'pages/denied'
   resources :testes
   resources :clients do
     collection do

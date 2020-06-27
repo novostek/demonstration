@@ -252,7 +252,7 @@ class EstimatesController < ApplicationController
   def schedule
     @estimate = Estimate.find(params[:id])
     @workers = Worker.where(active: true)
-    @schedules = Schedule.where('start_at >= ?', Time.now.strftime('%Y-%m-%d'))
+    @schedules = Schedule.where('start_at >= ?', (Time.now - 7.days).strftime('%Y-%m-%d'))
     add_breadcrumb I18n.t("activerecord.models.estimates"), estimates_path
     add_breadcrumb I18n.t("activerecord.models.schedules"), schedule_estimate_path(@estimate)
     render :schedule

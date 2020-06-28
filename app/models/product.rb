@@ -48,7 +48,7 @@ class Product < ApplicationRecord
   accepts_nested_attributes_for :schedules
 
   validates :name,  :customer_price, :cost_price, :cost_price, :calculation_formula_id, presence: true
-  #validates :customer_price, :cost_price, :cost_price, :numericality => { :greater_than_or_equal_to => 0 }
+  validates :customer_price, :cost_price, :area_covered, :numericality => { :greater_than_or_equal_to => 0 }
 
   before_save :set_uuid
 

@@ -121,15 +121,15 @@
                             <div class="row">
                               <div class="input-field">
                                 <%= f.label :quantity %>
-                                <%= f.number_field :quantity, step: :any %>
+                                <%= f.number_field :quantity, min: 0, step: :any %>
                               </div>
                               <div class="input-field">
                                 <%= f.label :unity_value %>
-                                <%= f.number_field :unity_value, step: :any %>
+                                <%= f.number_field :unity_value, min: 0, step: :any %>
                               </div>
                               <div class="input-field">
                                 <%= f.label :value %>
-                                <%= f.number_field :value, step: :any %>
+                                <%= f.number_field :value, min: 0, step: :any %>
                               </div>
                               <div class="input">
                                 <p>
@@ -165,7 +165,7 @@
 
                           </div>
                           <div class="modal-footer">
-                            <%= f.button :submit, class:"modal-action modal-close waves-effect waves-green btn-flat" do %>
+                            <%= f.button :submit, class:"waves-effect waves-green btn-flat" do %>
                               <i class="material-icons left">save</i><%= t "button.save" %>
                             <% end %>
                           </div>
@@ -455,15 +455,15 @@
                     </div>
                     <div class="input-field">
                       <%= f.label :quantity %>
-                      <%= f.number_field :quantity, step: :any, id:"quantidade", onblur:"calcula_total()", required: true %>
+                      <%= f.number_field :quantity, min: 0, step: :any, id:"quantidade", onblur:"calcula_total()", required: true %>
                     </div>
                     <div class="input-field" id="div_unity_value">
                       <%= f.label :unity_value %>
-                      <%= f.number_field :unity_value, step: :any, id:"valor_unitario",onblur:"calcula_total()", required: true %>
+                      <%= f.number_field :unity_value, min: 0, step: :any, id:"valor_unitario",onblur:"calcula_total()", required: true %>
                     </div>
                     <div class="input-field" id="div_value">
                       <%= f.label :value %>
-                      <%= f.number_field :value, step: :any, id:"valor", required: true %>
+                      <%= f.number_field :value, min: 0, step: :any, id:"valor", required: true %>
                     </div>
                     <div class="input">
                       <p>
@@ -510,7 +510,7 @@
             </div>
 
             <div class="card-panel">
-              <div class="row">
+              <div class="row">Labor Cost
                 <div class="order-cost-list oc-labor-cost">
                   <div class="oc-supplier">
                     <h6 class="oc-supplier-name">

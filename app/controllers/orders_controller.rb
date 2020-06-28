@@ -17,36 +17,42 @@ class OrdersController < ApplicationController
 
   #Método utilizado para salvar um novo product purchase pela view de cost
   def new_cost
-    if params[:product].present?
-      product = Product.find(params[:product])
-      purchase = Purchase.find_or_create_by(order_id: @order.id, supplier_id: product.supplier.id)
-      pp = ProductPurchase.new(product: product, purchase: purchase) #find_or_create_by
-      pp.unity_value =  product.cost_price
-      #binding.pry
-      begin
-        pp.quantity = pp.quantity + params[:quantity]
-      rescue
-        pp.quantity =  params[:quantity]
-      end
-
-      pp.value = pp.unity_value * pp.quantity
-      pp.custom_title = ""
-      pp.tax = false
-      pp.status = params[:status]
-      pp.save
+    if params[:quantity].to_i < 0 or
+        params[:unity_value].to_i < 0 or
+        params[:value].to_i < 0
+      redirect_to params[:redirect], notice: t(:fields_numeric_negatives)
     else
-      purchase = Purchase.find_or_create_by(order_id: @order.id, supplier_id: nil)
-      ProductPurchase.create(purchase: purchase, unity_value: params[:unity_value], quantity: params[:quantity], value: params[:value], custom_title: params[:custom_product],status: params[:status])
+      if params[:product].present?
+        product = Product.find(params[:product])
+        purchase = Purchase.find_or_create_by(order_id: @order.id, supplier_id: product.supplier.id)
+        pp = ProductPurchase.new(product: product, purchase: purchase) #find_or_create_by
+        pp.unity_value =  product.cost_price
+        #binding.pry
+        begin
+          pp.quantity = pp.quantity + params[:quantity]
+        rescue
+          pp.quantity =  params[:quantity]
+        end
+
+        pp.value = pp.unity_value * pp.quantity
+        pp.custom_title = ""
+        pp.tax = false
+        pp.status = params[:status]
+        pp.save
+      else
+        purchase = Purchase.find_or_create_by(order_id: @order.id, supplier_id: nil)
+        ProductPurchase.create(purchase: purchase, unity_value: params[:unity_value], quantity: params[:quantity], value: params[:value], custom_title: params[:custom_product],status: params[:status])
+      end
+      redirect_to params[:redirect], notice: t(:cost_saved)
     end
-    redirect_to params[:redirect], notice: t(:cost_saved)
   end
   #Método utilizado para salvar um novo labor cost pela view de cost
   def new_labor_cost
 
     if params[:end_at].to_datetime < params[:start_at].to_datetime
       redirect_to params[:redirect], notice: t(:check_dates)
-    #elsif params[:hour_cost].to_i < 0
-    #  redirect_to params[:redirect], notice: t(:hour_cost_negative)
+    elsif params[:hour_cost].to_i < 0
+      redirect_to params[:redirect], notice: t(:hour_cost_negative)
     else
       schedule = Schedule.new
       schedule.origin = "Order"

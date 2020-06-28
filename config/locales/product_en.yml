@@ -2,6 +2,7 @@ en:
   activerecord:
     models:
       products: "Product"
+      product: "Product"
       product_category: "Product Category"
     attributes:
       product:

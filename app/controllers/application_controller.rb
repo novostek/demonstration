@@ -1,6 +1,6 @@
 class ApplicationController < ActionController::Base
   before_action :cache_globals_settings
-  before_action :api_authenticator, if: :format_js?
+  before_action :api_authenticator, if: :has_token?
   before_action :authenticate_user!, except: [:company_banner,:company_logo,:oauth,:doc_signature_mail,:doc_signature,:estimate_signature, :create_products_estimates, :process_payment, :create_step_one, :create_schedule, :delete_schedule, :callback, :calculate_product_qty_lw,:view_invoice_customer,:send_square]
   #load_and_authorize_resource except: [:doc_signature_mail,:doc_signature,:estimate_signature, :create_products_estimates, :process_payment, :create_step_one, :create_schedule, :delete_schedule, :callback, :calculate_product_qty_lw,:view_invoice_customer,:send_square]
 
@@ -13,7 +13,6 @@ class ApplicationController < ActionController::Base
   def toastr(type, body)
     flash["#{type}"] = body
   end
-
 
   def cache_globals_settings
     @company_name = Setting.get_value('company_name')
@@ -61,9 +60,6 @@ class ApplicationController < ActionController::Base
   end
 
   private
-  def format_js?
-    request.format.symbol == :json
-  end
 
   def api_authenticator
     if params[:access_token].present?
@@ -73,4 +69,9 @@ class ApplicationController < ActionController::Base
       end
     end
   end
+
+  def has_token?
+    params[:access_token].present?
+  end
+
 end

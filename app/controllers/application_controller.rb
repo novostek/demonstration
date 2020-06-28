@@ -15,16 +15,6 @@ class ApplicationController < ActionController::Base
   end
 
 
-  def api_authenticator
-    if params[:access_token].present?
-      token = UserToken.find_by_id(params[:access_token])
-      if token.present? and token.active
-        sign_in(token.user)
-      end
-    end
-  end
-
-
   def cache_globals_settings
     @company_name = Setting.get_value('company_name')
     @last_logo_update = Setting.logo_object.present? ? Setting.logo_object.updated_at.to_i : 0
@@ -73,5 +63,14 @@ class ApplicationController < ActionController::Base
   private
   def format_js?
     request.format.symbol == :json
+  end
+
+  def api_authenticator
+    if params[:access_token].present?
+      token = UserToken.find_by_id(params[:access_token])
+      if token.present? and token.active
+        sign_in(token.user)
+      end
+    end
   end
 end

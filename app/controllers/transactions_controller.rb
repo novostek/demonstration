@@ -1,5 +1,5 @@
 class TransactionsController < ApplicationController
-  load_and_authorize_resource except: [:send_square]
+  load_and_authorize_resource except: [:send_square, :show, :edit, :update]
   before_action :set_transaction, only: [:show, :edit, :update, :destroy,:send_square,:send_square_again, :paid]
   before_action :set_combos, only: [:new,:edit,:create,:update, :index]
 
@@ -117,6 +117,17 @@ class TransactionsController < ApplicationController
     # Use callbacks to share common setup or constraints between actions.
     def set_transaction
       @transaction = Transaction.unscoped.find(params[:id])
+      if ["show", "edit", "update"].include? params[:action]
+        if params[:action] == 'show'
+          if cannot? :show, Transaction
+            render "pages/denied", layout: false
+          end
+        else
+          if cannot? :update, Transaction
+            render "pages/denied", layout: false
+          end
+        end
+      end
     end
 
     # Only allow a trusted parameter "white list" through.

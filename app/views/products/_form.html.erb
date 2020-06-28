@@ -79,21 +79,21 @@
   <div class="input-field col s6">
 
     <%= f.label  :customer_price %>
-    <%= f.number_field :customer_price, step: :any%>
+    <%= f.number_field :customer_price, min: 0, step: :any, required: true%>
     
   </div>
 
   <div class="input-field col s6">
 
     <%= f.label  :cost_price %>
-    <%= f.number_field :cost_price, step: :any%>
+    <%= f.number_field :cost_price, min: 0, step: :any, required: true%>
     
   </div>
 
   <div class="input-field col s12">
 
     <%= f.label  :area_covered %>
-    <%= f.number_field :area_covered , step: :any%>
+    <%= f.number_field :area_covered , min: 0, step: :any, required: true%>
     
   </div>
 

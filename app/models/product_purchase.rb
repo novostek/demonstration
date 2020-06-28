@@ -37,6 +37,8 @@ class ProductPurchase < ApplicationRecord
   enumerize :status, in: %w(requested buyed delivered returned), i18n_scope: "product_purchase_status",
             predicates: true, default: :requested
 
+  validates :quantity, :unity_value, :value, :numericality => { :greater_than_or_equal_to => 0 }
+
   after_save :update_order_total_cost
   after_save :set_transaction
 

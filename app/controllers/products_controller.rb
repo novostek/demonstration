@@ -2,6 +2,8 @@ class ProductsController < ApplicationController
   load_and_authorize_resource
   before_action :set_product, only: [:show, :edit, :update, :destroy]
   before_action :set_combos, only: [:new,:edit,:create,:update]
+  before_action :init_entity_modal, only: [:new,:edit,:create,:update]
+
 
   # GET /products
   def index
@@ -22,8 +24,6 @@ class ProductsController < ApplicationController
   def new
     @product = Product.new
     @product.calculation_formula = CalculationFormula.find_by_namespace('default-formula')
-    @supplier = Supplier.new
-    @category = ProductCategory.new
   end
 
   # GET /products/1/edit
@@ -89,6 +89,10 @@ class ProductsController < ApplicationController
   end
 
   private
+    def init_entity_modal
+      @supplier = Supplier.new
+      @category = ProductCategory.new
+    end
 
     #Método que carrega os objetos de seleção
     def set_combos

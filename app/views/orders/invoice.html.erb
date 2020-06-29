@@ -65,6 +65,7 @@
                     <th>Payment method</th>
                     <th>Status</th>
                     <th class="right-align">Amount</th>
+                     <th></th>
                   </tr>
                   </thead>
                   <tbody>
@@ -89,6 +90,13 @@
                         <% end  %>
                       </td>
                       <td class="right-align" onclick="change_payment_value(<%= t.value %>, '<%= @order.id %>', '<%= t.id %>')"><%= number_to_currency(t.value) %></td>
+                      <td>
+                        <% if t.pendent? %>
+                          <a href="wofficepay://woffice/orders/<%= @order.id %>/payments/<%= t.id %>?value=<%= t.value %>&orderCode=<%= @order.code %>">
+                            <i class="material-icons">phonelink_ring</i>
+                          </a>
+                        <% end %>
+                      </td>
                     </tr>
 
                     <div id="modal-send_payment_<%= t.id %>" class="modal">
@@ -297,7 +305,7 @@
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
 <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
   <script type="text/javascript" charset="utf-8">
-    <% if current_user.present? %>
+
       function payment_method_change()
       {
           if($("#payment_method").val() == "square_credit")
@@ -445,7 +453,7 @@
             }
           }
       }
-    <% end %>
+
 
   </script>
 <% end %>

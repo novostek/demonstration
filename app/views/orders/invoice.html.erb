@@ -271,7 +271,7 @@
             </div>
             <div class="input-field col s12 m4">
               <%= f.select :payment_method,
-                           options_for_select(Transaction.payment_method.options.map { |op| [op[0], op[1], {'data-icon': op[0].include?("Square") ? image_path('square.svg') : '' }] }),
+                           options_for_select(Transaction.payment_method.options(except: [:square_card_on_file]).map { |op| [op[0], op[1], {'data-icon': op[0].include?("Square") ? image_path('square.svg') : '' }] }),
                            {class: 'icons' }, {id:"payment_method", onchange:"payment_method_change()"} %>
               <%= f.label :payment_method %>
             </div>
@@ -279,6 +279,12 @@
               <i class="material-icons prefix">today</i>
               <%= f.date_field :due, class: "deposit-due", required: true %>
               <%= f.label  :due %>
+            </div>
+          </div>
+          <div class="row hide card_div" id="card">
+            <div class="input-field">
+              <%= f.label :square_card_id, class:"active" %>
+              <%= f.select :square_card_id, @cards.map{|a| [ "#{a[:card_brand]} - #{a[:last_4]}", a[:id]]}  %>
             </div>
           </div>
           <div class="row hide email_div" id="email">
@@ -306,8 +312,27 @@
 <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
   <script type="text/javascript" charset="utf-8">
 
+    $(document).ready(function(){
+        var cards = JSON.parse('<%= @cards.to_json.to_s.html_safe %>');
+       if( cards.length > 0)
+       {
+          $("#payment_method").append("<option data-icon='/square.svg' value='square_card_on_file'>Square (Card on File)</option>");
+           $("select").formSelect();
+       }
+    });
+
       function payment_method_change()
       {
+
+          if($("#payment_method").val() == "square_card_on_file")
+          {
+              $("#card").removeClass("hide");
+          }
+          else
+          {
+              $("#card").addClass("hide");
+          }
+
           if($("#payment_method").val() == "square_credit")
           {
               $("#email").removeClass("hide");

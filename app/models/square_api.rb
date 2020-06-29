@@ -82,6 +82,38 @@ class SquareApi
     end
   end
 
+  def self.add_payment(customer, card, transaction)
+    client = Square::Client.new(
+        access_token: Setting.get_value("square_oauth_access_token"),#SquareApi.renew_token,
+        environment: Rails.configuration.woffice['square_env']
+    )
+
+    payments_api = client.payments
+
+    body = {}
+    body[:source_id] = card
+    body[:idempotency_key] = SecureRandom.uuid
+    body[:amount_money] = {}
+    body[:amount_money][:amount] = (transaction.value*100).to_i
+    body[:amount_money][:currency] = 'USD'
+    #body[:app_fee_money] = {}
+    #body[:app_fee_money][:amount] = 10
+    #body[:app_fee_money][:currency] = 'USD'
+    body[:autocomplete] = true
+    body[:customer_id] = customer
+    body[:location_id] = SquareApi.locations.first[:id]
+    body[:reference_id] = transaction.id
+    #body[:note] = 'Brief description'
+
+    result = payments_api.create_payment(body: body)
+
+    if result.success?
+      return true, result.data
+    elsif result.error?
+      return false, result.errors
+    end
+  end
+
   def self.add_card(customer, nonce)
 
     client = Square::Client.new(

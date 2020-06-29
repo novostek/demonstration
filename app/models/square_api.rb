@@ -166,4 +166,19 @@ class SquareApi
 
   end
 
+  def self.get_mobile_token
+    client = Square::Client.new(
+        access_token: Setting.get_value("square_oauth_access_token"),
+        environment: Rails.configuration.woffice['square_env']
+    )
+    body = {}
+    body[:location_id] = SquareApi.locations.first[:id]
+    result = client.mobile_authorization.create_mobile_authorization_code(body: body)
+    if result.success?
+      return result.data
+    elsif result.error?
+      warn result.errors
+    end
+  end
+
 end

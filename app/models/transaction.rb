@@ -42,7 +42,7 @@ class Transaction < ApplicationRecord
 
   extend Enumerize
 
-  enumerize :payment_method, in: [:cash, :square_credit, :square_installments, :check], predicates: true
+  enumerize :payment_method, in: [:cash, :square_credit, :square_installments, :check, :woffice_pay], predicates: true
   enumerize :status, in: [:paid, :pendent, :cancelled],predicates: true, default: :pendent
 
   default_scope {where.not(status: 'cancelled' )}
@@ -73,8 +73,14 @@ class Transaction < ApplicationRecord
         self.effective = Time.now
         self.status = :paid
       end
-      self.transaction_account_id = Setting.get_value("#{self.payment_method}_transaction_account")
-      self.transaction_category_id = Setting.get_value("#{self.payment_method}_transaction_category")
+      if self.payment_method == "woffice_pay"
+        self.transaction_account_id = Setting.get_value("square_credit_transaction_account")
+        self.transaction_category_id = Setting.get_value("square_credit_transaction_category")
+      else
+        self.transaction_account_id = Setting.get_value("#{self.payment_method}_transaction_account")
+        self.transaction_category_id = Setting.get_value("#{self.payment_method}_transaction_category")
+      end
+
     elsif self.origin == 'LaborCost'
       self.transaction_account_id = Setting.get_value("labor_cost_transaction_account")
       self.transaction_category_id = Setting.get_value("labor_cost_transaction_category")

@@ -232,6 +232,13 @@ class Client < ApplicationRecord
           description: 'Calculate quantity based on cubic feet with 10% of waste',
           formula: 'roundup(((width*length*height) / area_covered)*1.1)'
         )
+
+        unitary_value = CalculationFormula.create(
+          name: 'Default unitary value formula',
+          namespace: 'default-formula',
+          description: 'Default unitary value formula',
+          formula: '1'
+        )
       rescue
       end
     end

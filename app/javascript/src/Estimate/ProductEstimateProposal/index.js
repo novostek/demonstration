@@ -22,17 +22,16 @@ const ProductEstimateProposal = () => {
         {
           productEstimate.map((pe, index) => (
             <div className="row products-area-list pl-1 pr-1 mt-2" id="measurement_proposals" key={index}>
+              {
+                console.log("PE", pe)
+              }
               <div className="product-area">
                 <Areas index={index} pe={pe} />
                 <div className="products-list">
                   <input type="hidden" ref={register} name={`measurement_area[${index}]`} value={index} />
                   {
                     pe.products.map((product, peIndex) => (
-                      <div className="product" key={peIndex}>
-                        <div className="row pl-1 pr-1 products-search">
-                          <ProductEstimate product={product} peIndex={peIndex} index={index} submitBtnRef={submitBtnRef} />
-                        </div>
-                      </div>
+                      <ProductEstimate product={product} key={peIndex} peIndex={peIndex} index={index} submitBtnRef={submitBtnRef} />
                     ))
                   }
                   <a onClick={() => addProduct(index)} style={{ height: '30px' }} className="product new-product">

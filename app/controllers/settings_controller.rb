@@ -1,5 +1,5 @@
 class SettingsController < ApplicationController
-  #load_and_authorize_resource
+  load_and_authorize_resource
   before_action :set_setting, only: [:show, :edit, :update, :destroy]
   before_action :get_logo, only: :company_logo
 

@@ -43,6 +43,8 @@ en:
         - contractor
   buttons:
     save: "Save"
+    cancel: 'Cancel'
+    reactivate: 'Reactivate'
   
   label:
     edit: 'Edit'

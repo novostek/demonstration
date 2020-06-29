@@ -1,10 +1,10 @@
 class WorkersController < ApplicationController
-  #load_and_authorize_resource
+  load_and_authorize_resource
   before_action :set_worker, only: [:show, :edit, :update, :destroy,:new_note,:new_document,:new_contact,:update_contact]
 
   # GET /workers
   def index
-    @q = Worker.all.order(name: :asc).ransack(params[:q])
+    @q = Worker.all.order(name: :asc).where(active: true).ransack(params[:q])
     @workers = @q.result.page(params[:page])
   end
 
@@ -120,7 +120,7 @@ class WorkersController < ApplicationController
 
     # Only allow a trusted parameter "white list" through.
     def worker_params
-      params.require(:worker).permit(:name, :photo, :document_id, :categories,:time_value,
+      params.require(:worker).permit(:name, :photo, :document_id, :categories,:time_value, :active,
                                      notes_attributes:[:id,:origin,:origin_id,:private,:text,:title,:_destroy],
                                      document_files_attributes:[:description,:id,:title,:file,:origin, :origin_id,:esign,:esign_data,:photo,:photo_date,:photo_description,:_destroy],
                                      contacts_attributes:[:id, :category,:origin, :origin_id,:title,{data:[:address,:zipcode,:zipcode,:state,:lat,:lng,:city,:email, :ddd,:phone]},:_destroy])

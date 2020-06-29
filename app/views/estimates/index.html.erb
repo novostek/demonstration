@@ -62,7 +62,7 @@
                 <%= truncate(estimate.location || " ") %> <br>
                 <small><%= truncate(estimate.title || " ") %></small>
               </td>
-              <td><%= number_to_currency estimate.total %></td>
+              <td><%= number_to_currency(estimate.total) if can? :see_price, Estimate %></td>
               <td><span class="chip lighten-5 green green-text"><%= estimate.status %></span></td>
               
               <td>

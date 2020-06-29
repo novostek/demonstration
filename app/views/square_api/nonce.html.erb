@@ -1,26 +1,73 @@
 <%= content_for :head_content do %>
   <link rel="stylesheet" type="text/css" href="/css/mysqpaymentform.css">
+  <link rel="stylesheet" type="text/css" href="/css/woffice-style.css">
 <% end %>
 
 <div class="card-panel">
+
   <div class="row">
-  <div class="col s12 l6">
-    <div id="form-container">
-      <div id="sq-card-number"></div>
-      <div class="third" id="sq-expiration-date"></div>
-      <div class="third" id="sq-cvv"></div>
-      <div class="third" id="sq-postal-code"></div>
-      <button id="sq-creditcard" class="button-credit-card" onclick="onGetCardNonce(event)">Save</button>
+    <div class="col s12">
+      <h4>Card Capture</h4>
+      <p>Woffice works better integrated with Square. We highly recommend your to sign up if you’re not already.</p>
+      <div id="form-container">
+        <div class="cards">
+          <div class="card-front">
+            <div class="card-logo"><img src="/woffice_w.svg" alt=""></div>
+            <div id="sq-card-number"></div>
+            <div class="third" id="sq-expiration-date"></div>
+            <div class="third" id="sq-postal-code"></div>
+            <div class="third" id="sq-cvv"></div>
+          </div>
+          <div class="card-back">
+
+          </div>
+        </div>
+
+        <br><br>
+        <a href="#" id="sq-creditcard" class="border-round  waves-effect btn-flat indigo white-text btn-nonce-payment" onclick="onGetCardNonce(event)"><i class="material-icons left">payment</i>Save Card</a>
+      </div>
     </div>
   </div>
 
-  </div>
+  <% if @from.present? and @from == "customer" %>
+    <a href="#modal-mail-local" class="mr-2 btn-secondary modal-trigger btn waves-effect waves-light breadcrumbs-btn right"><%= t "button.send_mail" %></a>
+  <% end %>
 </div>
 
+<div id="modal-mail-local" class="modal">
+  <%= form_with url: mail_card_customer_path(@customer), method: :get, local: true do |f| %>
+    <div class="modal-content">
+      <h4>Send email</h4>
+      <div class="row">
+
+        <div class="input-field">
+          <%= f.label :emails, "Emails" %>
+          <%= f.text_field :emails, value: @customer.get_main_email_f, required: true %>
+
+        </div>
+
+        <div class="input-field">
+          <%= f.label :subject %>
+          <%= f.text_field :subject, required: true %>
+        </div>
+
+      </div>
+    </div>
+    <div class="modal-footer">
+      <%= f.button :submit,  class:"modal-action modal-close waves-effect waves-green btn-flat btn-send", target:"_self" do %>
+        <i class="material-icons left">send</i> Send
+      <% end %>
+      <!--		<a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat btn-send"> <i class="material-icons left">send</i> Send</a>-->
+    </div>
+  <% end %>
+</div>
 <%= form_with url: add_card_square_api_index_path, id:"nonce_form" do |f|%>
   <%= f.hidden_field :nonce, id: "nonce" %>
   <%= f.hidden_field :customer, value: @customer.square_id %>
-  <%= f.hidden_field :estimate, value: @estimate.id %>
+  <%= f.hidden_field :customer_woffice, value: @customer.id %>
+  <%= f.hidden_field :from, value: @from %>
+  <%= f.hidden_field :estimate, value: @estimate.id if @estimate.present? %>
+
 <% end %>
 <%= content_for :scripts do %>
   <script type="text/javascript" src="https://js.squareupsandbox.com/v2/paymentform">
@@ -60,7 +107,7 @@
           },
           postalCode: {
               elementId: 'sq-postal-code',
-              placeholder: 'Postal'
+              placeholder: 'Zip Code'
           },
           // SqPaymentForm callback functions
           callbacks: {

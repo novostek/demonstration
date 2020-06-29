@@ -9,6 +9,15 @@ class DocumentMailer < ApplicationMailer
     mail(to: params[:emails], subject: params[:subject])
   end
 
+  #Método que envia o email solicitando o cadastro do cartão
+  def mail_card
+    @customer = params[:customer]
+    @link = params[:link]
+
+    attachments.inline['logo.png'] = File.read("#{Rails.root}/public/woffice.png")
+    mail(to: params[:emails], subject: params[:subject])#,delivery_method_options: smtp_settings
+  end
+
   #Método de envio do email com os documentos
   def send_document
 

@@ -43,9 +43,20 @@ class SquareApiController < ApplicationController
 
   #Método utilizado para capiturar o cartão do cliente
   def nonce
-    @estimate = Estimate.find(params[:estimate])
-    @customer = @estimate.customer
-    render layout: "document"
+
+    @from = params[:from]
+    @success = params[:success]
+
+    if params[:estimate].present?
+      @estimate = Estimate.find(params[:estimate])
+      @customer = @estimate.customer
+      render layout: "document"
+    else
+      @customer = Customer.find(params[:customer])
+    end
+    if @from.present? and @from == "email"
+      render layout: "document"
+    end
   end
 
   #Método que adiciona o cartão do customer na square
@@ -53,9 +64,21 @@ class SquareApiController < ApplicationController
     result = SquareApi.add_card(params[:customer],params[:nonce])
 
     if result.success?
-      redirect_to nonce_square_api_index_path(estimate: params[:estimate]), notice: "Card add successful"
+      if params[:estimate].present?
+        redirect_to nonce_square_api_index_path(estimate: params[:estimate], success:  true), notice: "Card add successful"
+      else
+        if params[:from].present? and params[:from] == "email"
+          redirect_to nonce_square_api_index_path(customer:params[:customer_woffice], from: "email", success:  true ), notice: "Card add successful"
+          return
+        end
+        redirect_to customer_path(params[:customer_woffice]), notice: "Card add successful"
+      end
     elsif result.error?
-      redirect_to nonce_square_api_index_path(estimate: params[:estimate]), notice: result.errors
+      if params[:estimate].present?
+        redirect_to nonce_square_api_index_path(estimate: params[:estimate]), notice: result.errors
+      else
+        redirect_to customer_path(params[:customer_woffice]), notice: result.errors
+      end
     end
   end
 

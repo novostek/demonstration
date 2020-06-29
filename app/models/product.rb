@@ -3,6 +3,7 @@
 # Table name: products
 #
 #  id                     :uuid             not null, primary key
+#  active                 :boolean          default(TRUE)
 #  area_covered           :decimal(, )
 #  bpm_purchase           :string
 #  cost_price             :decimal(, )
@@ -46,7 +47,8 @@ class Product < ApplicationRecord
   accepts_nested_attributes_for :product_schedules
   accepts_nested_attributes_for :schedules
 
-  validates :name,  :customer_price, :cost_price, :area_covered, :calculation_formula_id, presence: true
+  validates :name,  :customer_price, :cost_price, :cost_price, :calculation_formula_id, presence: true
+  validates :customer_price, :cost_price, :area_covered, :numericality => { :greater_than_or_equal_to => 0 }
 
   before_save :set_uuid
 
@@ -64,7 +66,7 @@ class Product < ApplicationRecord
   end
 
   def self.to_select
-    all.map{|a| [a.name,a.id]}
+    all.where(active: true).map{|a| [a.name,a.id]}
   end
 
 end

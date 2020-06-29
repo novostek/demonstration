@@ -83,6 +83,7 @@ class SquareApi
   end
 
   def self.add_card(customer, nonce)
+
     client = Square::Client.new(
         access_token: Setting.get_value("square_oauth_access_token"),#SquareApi.renew_token,
         environment: Rails.configuration.woffice['square_env']
@@ -223,6 +224,21 @@ class SquareApi
       end
     end
 
+  end
+
+  def self.get_mobile_token
+    client = Square::Client.new(
+        access_token: Setting.get_value("square_oauth_access_token"),
+        environment: Rails.configuration.woffice['square_env']
+    )
+    body = {}
+    body[:location_id] = SquareApi.locations.first[:id]
+    result = client.mobile_authorization.create_mobile_authorization_code(body: body)
+    if result.success?
+      return result.data
+    elsif result.error?
+      warn result.errors
+    end
   end
 
 end

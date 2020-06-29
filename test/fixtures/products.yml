@@ -3,6 +3,7 @@
 # Table name: products
 #
 #  id                     :uuid             not null, primary key
+#  active                 :boolean          default(TRUE)
 #  area_covered           :decimal(, )
 #  bpm_purchase           :string
 #  cost_price             :decimal(, )

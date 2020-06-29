@@ -79,6 +79,8 @@ document.getElementById('new_worker').addEventListener('submit', () => {
         // $("#estimate_sales_person_id").trigger('contentChanged')
 
         instanceModal.close()
+        const form = document.getElementById("new_worker")
+        form.reset()
       })
   }, 300)
 })

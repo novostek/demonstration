@@ -1,8 +1,4 @@
-$('#slide-out-right').css('transform', 'translateX(105%)');
-$('#slide-out-right').css('transform', 'translateX(80%)');
-$('#slide-out-right').css('transform', 'translateX(50%)');
-$('#slide-out-right').css('transform', 'translateX(30%)');
-$('#slide-out-right').css('transform', 'translateX(0%)');
+$('.schedule-nav').sidenav('open')
 $("#notes").html("<%= escape_javascript(render partial:'workers/schedule_notes', locals:{notes: @notes} )%>");
 $("#docs").html("<%= escape_javascript(render partial:'workers/schedule_docs', locals:{documents: @documents} )%>");
 $("#div_title").html("<p><h5><%= $schedule.title %></h5></p><p> <%= $schedule.start_at %> </p><p> Hour Cost: <%= number_to_currency($schedule.hour_cost) %></p>")
@@ -10,3 +6,4 @@ $("#delete_div").html("<%= escape_javascript(render partial:'schedules/delete_li
 $("#delete_avulso").html("<%= escape_javascript(render partial:'schedules/delete_avulso' )%>")
 $("#hour_cost").html("<%= escape_javascript(render partial:'schedules/hour_cost_fields' )%>")
 $("#scheduleLinks").html("<%= escape_javascript(render partial:'schedules/links', locals: {schedule: $schedule} )%>")
+$("#scheduleCustomer").html("<%= escape_javascript(render partial:'schedules/customer_details', locals: {schedule: $schedule} )%>")

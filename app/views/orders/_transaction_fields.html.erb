@@ -1,13 +1,12 @@
 <div class="row deposit nested-fields">
   <div class="card-panel z-depth-0 border-radius-4">
-    <%= f.hidden_field :origin, value: 'Order' %>
     <%= f.hidden_field :origin_id, value: @order.id %>
     <%= link_to_remove_association f, class: "btn-close-deposit" do %>
       <i class="material-icons">close</i>
     <% end %>
     <div class="row">
       <div class="input-field col s12 m4">
-        <%= f.text_field :value, class: "validade value" %>
+        <%= f.number_field :value, min: 0, class: "validade value" %>
         <%= f.label  :value %>
       </div>
       <div class="input-field col s12 m4">
@@ -47,6 +46,11 @@
               $("#email"+index).addClass("hide");
           }
       }
+      $(document).ready(function () {
+          $('select').formSelect();
+          $(".select2").select2({
+              width: 'resolve',
+          });
+        })
   </script>
 <% end %>
-

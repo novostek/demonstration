@@ -334,6 +334,7 @@ ActiveRecord::Schema.define(version: 2020_06_12_174505) do
     t.uuid "supplier_id", null: false
     t.uuid "calculation_formula_id", null: false
     t.text "photo"
+    t.boolean "active", default: true
     t.index ["calculation_formula_id"], name: "index_products_on_calculation_formula_id"
     t.index ["product_category_id"], name: "index_products_on_product_category_id"
     t.index ["supplier_id"], name: "index_products_on_supplier_id"
@@ -424,6 +425,7 @@ ActiveRecord::Schema.define(version: 2020_06_12_174505) do
     t.text "description"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.boolean "active", default: true
   end
 
   create_table "transaction_accounts", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
@@ -468,6 +470,14 @@ ActiveRecord::Schema.define(version: 2020_06_12_174505) do
     t.index ["transaction_category_id"], name: "index_transactions_on_transaction_category_id"
   end
 
+  create_table "user_tokens", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.uuid "user_id", null: false
+    t.boolean "active"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["user_id"], name: "index_user_tokens_on_user_id"
+  end
+
   create_table "users", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.string "email", default: "", null: false
     t.string "encrypted_password", default: "", null: false
@@ -492,6 +502,7 @@ ActiveRecord::Schema.define(version: 2020_06_12_174505) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.decimal "time_value"
+    t.boolean "active", default: true
   end
 
   add_foreign_key "area_proposals", "measurement_areas"
@@ -529,5 +540,6 @@ ActiveRecord::Schema.define(version: 2020_06_12_174505) do
   add_foreign_key "transactions", "purchases"
   add_foreign_key "transactions", "transaction_accounts"
   add_foreign_key "transactions", "transaction_categories"
+  add_foreign_key "user_tokens", "users"
   add_foreign_key "users", "workers"
 end

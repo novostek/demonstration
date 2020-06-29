@@ -3,6 +3,7 @@
 # Table name: workers
 #
 #  id          :uuid             not null, primary key
+#  active      :boolean          default(TRUE)
 #  categories  :string
 #  name        :string
 #  photo       :text

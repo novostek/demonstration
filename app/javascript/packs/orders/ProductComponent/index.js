@@ -6,7 +6,7 @@ import EstimateDetail from '../../../src/Estimate/EstimateDetail'
 import EstimateProvider from '../../../src/context/Estimate';
 
 const schema = {
-  requiredDecimal: { required: true, pattern: /^\d+(\.\d{1,2})?$/ }
+  requiredDecimal: { required: true, pattern: /^\d*\.?\d*$/ }
 }
 
 const ProductComponent = () => {
@@ -137,13 +137,15 @@ const ProductComponent = () => {
 
   const create_product_purchase = () => {
     const headers = new Headers()
+    headers.append("Accept", "application/json")
     headers.append("Content-Type", "application/json")
-    const data = { productPurchase: productPurchase }
+    const data = { product_purchase: productPurchase }
     const init = {
       method: 'POST',
       headers,
       body: JSON.stringify(data)
     }
+    console.log(data)
     return fetch('/product_purchases', init)
       .then(data => data.json())
   }
@@ -229,12 +231,10 @@ const ProductComponent = () => {
                         <div className="product" key={index}>
                           <div className="row pl-1 pr-1 products-search">
                             <div className="row">
-                              <div className="col s6 m4">
+                              <div className="col s12">
                                 <span className="left width-100 pt-1">Product</span>
                                 <div 
-                                  className="input-field mt-0 mb-0 products-search-field-box tooltipped"
-                                  data-position="bottom"
-                                  data-tooltip={product_purchase.name}>
+                                  className="input-field mt-0 mb-0 products-search-field-box">
                                   {/* <a href="#" className="btn-add-product tooltipped" data-tooltip="New product"><i className="material-icons">add</i></a> */}
                                   <input
                                     name={`products[${index}].name`}
@@ -253,45 +253,54 @@ const ProductComponent = () => {
                                     autoComplete="off"
                                     type="hidden" />
                                 </div>
+                                <div className="calc-fields">
+                                  <div className="calc-field">
+                                    <span className="left width-100 pt-1">Qty.</span>
+                                    <input
+                                      type="number"
+                                      min="0"
+                                      step="0.01"
+                                      name={`products[${index}].qty`}
+                                      defaultValue={product_purchase.qty ? product_purchase.qty : 0.0}
+                                      readOnly={!product_purchase.canDelete}
+                                      onBlur={(e) => productTotalQty(index, e.target.value)}
+                                      ref={register(schema.requiredDecimal)} className="product-value qty" />
+                                    {errors.qty && <span>{errors.qty.message}</span>}
+                                  </div>
+                                  <div className="calc-field">
+                                    <span className="left width-100 pt-1">Prince un.</span>
+                                    <input
+                                      type="number"
+                                      min="0"
+                                      step="0.01"
+                                      name={`products[${index}].price`}
+                                      ref={register(schema.requiredDecimal)}
+                                      defaultValue={product_purchase.price ? product_purchase.price : 0.0}
+                                      readOnly={!product_purchase.canDelete}
+                                      onBlur={(e) => productTotalPrice(index, e.target.value)}
+                                      className="product-value price" />
+                                    {errors.price && <span>{errors.price.message}</span>}
+                                  </div>
+                                  <div className="calc-field">
+                                    <span className="left width-100 pt-1">Total</span>
+                                    <input
+                                      type="number"
+                                      min="0"
+                                      step="0.01"
+                                      name={`products[${index}].total`}
+                                      defaultValue={product_purchase.total ? product_purchase.total : 0.0}
+                                      readOnly={!product_purchase.canDelete}
+                                      ref={register(schema.requiredDecimal)}
+                                      className="product-value total" />
+                                    {
+                                      product_purchase.canDelete &&
+                                      <a onClick={() => removeProduct(index, product_purchase.key)} style={{ cursor: 'pointer' }} className="btn-remove-product"><i className="material-icons">delete</i></a>
+                                    }
+                                    {errors.total && <span>{errors.total.message}</span>}
+                                  </div>
+                                </div>
                               </div>
-                              <div className="col s6 m2 calc-fields">
-                                <span className="left width-100 pt-1">Qty.</span>
-                                <input
-                                  type="text"
-                                  name={`products[${index}].qty`}
-                                  defaultValue={product_purchase.qty ? product_purchase.qty : 0.0}
-                                  readOnly={!product_purchase.canDelete}
-                                  onBlur={(e) => productTotalQty(index, e.target.value)}
-                                  ref={register(schema.requiredDecimal)} className="product-value qty" />
-                                {errors.qty && <span>{errors.qty.message}</span>}
-                              </div>
-                              <div className="col s6 m3 calc-fields">
-                                <span className="left width-100 pt-1">Prince un.</span>
-                                <input
-                                  type="text"
-                                  name={`products[${index}].price`}
-                                  ref={register(schema.requiredDecimal)}
-                                  defaultValue={product_purchase.price ? product_purchase.price : 0.0}
-                                  readOnly={!product_purchase.canDelete}
-                                  onBlur={(e) => productTotalPrice(index, e.target.value)}
-                                  className="product-value price" />
-                                {errors.price && <span>{errors.price.message}</span>}
-                              </div>
-                              <div className="col s6 m3 calc-fields">
-                                <span className="left width-100 pt-1">Total</span>
-                                <input
-                                  type="text"
-                                  name={`products[${index}].total`}
-                                  defaultValue={product_purchase.total ? product_purchase.total : 0.0}
-                                  readOnly={!product_purchase.canDelete}
-                                  ref={register(schema.requiredDecimal)}
-                                  className="product-value total" />
-                                {
-                                  product_purchase.canDelete &&
-                                  <a onClick={() => removeProduct(index, product_purchase.key)} style={{ cursor: 'pointer' }} className="btn-remove-product"><i className="material-icons">delete</i></a>
-                                }
-                                {errors.total && <span>{errors.total.message}</span>}
-                              </div>
+                              
                             </div>
                           </div>
                         </div>

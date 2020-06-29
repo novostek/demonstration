@@ -32,7 +32,7 @@ class Order < ApplicationRecord
   has_many :labor_costs, through: :schedules
   has_one :current_estimate, ->{where current: true}, class_name: "Estimate"
 
-  accepts_nested_attributes_for :transactions, reject_if: :all_blank, allow_destroy: true
+  accepts_nested_attributes_for :transactions, reject_if: :reject_payment, allow_destroy: true
 
   extend Enumerize
 
@@ -47,6 +47,10 @@ class Order < ApplicationRecord
     s[:product_estimates] = self.get_current_estimate.product_estimates.distinct(:id)
     # s[:measurement_proposals] = self.measurement_areas.measurement_proposals
     s
+  end
+
+  def has_transaction_paid
+    self.transactions.where(:status => :paid).length > 0
   end
 
   def to_s
@@ -99,5 +103,13 @@ class Order < ApplicationRecord
 
   def get_order_value
     self.product_purchases.sum(:value).to_f
+  end
+
+  def balance
+    current_estimate.total - total_paid
+  end
+
+  def total_paid
+    transactions.where(status: :paid).sum(:value)
   end
 end

@@ -1,12 +1,10 @@
 class ApplicationController < ActionController::Base
   before_action :cache_globals_settings
-  before_action :authenticate_user!, except: [:company_banner,:company_logo,:oauth,:doc_signature_mail,:doc_signature,:estimate_signature, :create_products_estimates, :process_payment, :create_step_one, :create_schedule, :delete_schedule, :callback, :calculate_product_qty_lw,:view_invoice_customer,:send_square]
+  before_action :api_authenticator, if: :has_token?
+  before_action :authenticate_user!, except: [:add_card,:nonce,:checkout,:company_banner,:company_logo,:oauth,:doc_signature_mail,:doc_signature,:estimate_signature, :create_products_estimates, :process_payment, :create_step_one, :create_schedule, :delete_schedule, :callback, :calculate_product_qty_lw,:view_invoice_customer,:send_square]
   #load_and_authorize_resource except: [:doc_signature_mail,:doc_signature,:estimate_signature, :create_products_estimates, :process_payment, :create_step_one, :create_schedule, :delete_schedule, :callback, :calculate_product_qty_lw,:view_invoice_customer,:send_square]
 
   skip_before_action :verify_authenticity_token
-  # before_action :authenticate_user!
-
-
   before_action :configure_permitted_parameters, if: :devise_controller?
 
   add_breadcrumb I18n.t("breadcrumbs.home"), :root_path
@@ -15,7 +13,6 @@ class ApplicationController < ActionController::Base
   def toastr(type, body)
     flash["#{type}"] = body
   end
-
 
   def cache_globals_settings
     @company_name = Setting.get_value('company_name')
@@ -49,9 +46,32 @@ class ApplicationController < ActionController::Base
     end
   end
 
+  rescue_from CanCan::AccessDenied do |exception|
+    respond_to do |format|
+      format.json { head :forbidden }
+      format.html { render "pages/denied", layout: false }
+    end
+  end
+
   protected
 
   def configure_permitted_parameters
     devise_parameter_sanitizer.permit(:sign_up, keys: [:name,:email,:worker_id])
   end
+
+  private
+
+  def api_authenticator
+    if params[:access_token].present?
+      token = UserToken.find_by_id(params[:access_token])
+      if token.present? and token.active
+        sign_in(token.user)
+      end
+    end
+  end
+
+  def has_token?
+    params[:access_token].present?
+  end
+
 end

@@ -6,7 +6,7 @@ export const EstimateContext = createContext()
 
 export default function EstimateProvider({children}) {
   const schema = {
-    requiredDecimal: { required: true, pattern: /^\d+(\.\d{1,2})?$/ }
+    requiredDecimal: { required: true, pattern: /^\d*\.?\d*$/ }
   }
 
   const node = document.getElementById('data')
@@ -174,8 +174,8 @@ export default function EstimateProvider({children}) {
                   copy[mpIndex].areas.push(area.id)
                 })
                 if (mp.id !== indexHelper) {
+                  copy[mpIndex].proposal_id = mp.id
                   mp.product_estimates.map((pe, peIndex) => {
-                    copy[mpIndex].proposal_id = mp.id
                     copy[mpIndex].toggleSelect = false
                     copy[mpIndex].products.push({
                       product_estimate_id: pe.id,

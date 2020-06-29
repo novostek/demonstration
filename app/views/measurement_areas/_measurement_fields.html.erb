@@ -2,25 +2,25 @@
 <div class="m-area--measures nested-fields">
   <% if @hidden_fields['length'].present? %>
     <div class="input-field">
-      <%= m.text_field :length, onkeyup: "calc_square_feet(event)",  class: "validade" %>
+      <%= m.number_field :length, min: 0, onkeyup: "calc_square_feet(event)",  class: "validade" %>
       <%= m.label  :length %>
     </div>
   <% end %>
   <% if @hidden_fields['width'].present? %>
     <div class="input-field">
-      <%= m.text_field :width, onkeyup: "calc_square_feet(event)",  class: "validade" %>
+      <%= m.number_field :width, min: 0, onkeyup: "calc_square_feet(event)",  class: "validade" %>
       <%= m.label  :width %>
     </div>
   <% end %>
   <% if @hidden_fields['height'].present? %>
     <div class="input-field">
-      <%= m.text_field :height, onkeyup: "calc_square_feet(event)",  class: "validade" %>
+      <%= m.number_field :height, min: 0, onkeyup: "calc_square_feet(event)",  class: "validade" %>
       <%= m.label  :height %>
     </div>
   <% end %>
   <% if @hidden_fields['square_feet'].present? %>
     <div class="input-field">
-      <%= m.text_field :square_feet, class: "validade" %>
+      <%= m.number_field :square_feet, min: 0, class: "validade" %>
       <%= m.label  :square_feet, class: "active" %>
     </div>
   <% end %>

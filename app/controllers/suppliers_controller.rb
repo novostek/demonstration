@@ -1,5 +1,5 @@
 class SuppliersController < ApplicationController
-  #load_and_authorize_resource
+  load_and_authorize_resource
   before_action :set_supplier, only: [:show, :edit, :update, :destroy,:new_note,:new_document,:new_contact]
 
   #Método que insere uma nota
@@ -53,7 +53,7 @@ class SuppliersController < ApplicationController
 
   # GET /suppliers
   def index
-    @q = Supplier.all.order(name: :asc).ransack(params[:q])
+    @q = Supplier.all.order(name: :asc).where(active:true).ransack(params[:q])
     @suppliers = @q.result.page(params[:page])
   end
 
@@ -109,7 +109,7 @@ class SuppliersController < ApplicationController
 
     # Only allow a trusted parameter "white list" through.
     def supplier_params
-      params.require(:supplier).permit(:name, :description, notes_attributes:[:id,:origin,:origin_id,:private,:text,:title,:_destroy],
+      params.require(:supplier).permit(:name, :active, :description, notes_attributes:[:id,:origin,:origin_id,:private,:text,:title,:_destroy],
                                        document_files_attributes:[:description,:id,:title,:file,:origin, :origin_id,:esign,:esign_data,:photo,:photo_date,:photo_description,:_destroy],
                                        contacts_attributes:[:id, :category,:origin, :origin_id,:title,{data:[:address,:zipcode,:zipcode,:state,:lat,:lng,:city,:email, :ddd,:phone]},:_destroy])
     end

@@ -16,3 +16,8 @@
 </div>
 
 <%= render 'form', product: @product %>
+<%= render 'supplier_form', supplier: @supplier %>
+<%= render 'category_form', product_category: @category %>
+
+<%= javascript_pack_tag 'estimate/supplier_form'  %>
+<%= javascript_pack_tag 'estimate/category_form'  %>

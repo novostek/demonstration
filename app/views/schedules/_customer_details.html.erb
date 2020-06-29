@@ -1,0 +1,13 @@
+<% if schedule.estimate.present? %>
+<ul class="collection">
+  <li class="collection-item">
+    <span class="title"><%= link_to schedule.estimate.customer.name, schedule.estimate.customer %></span>
+    <p><%= schedule.estimate.customer.get_main_phone_f %><br>
+      <%= schedule.estimate.location %>
+    </p>
+  </li>
+  <li>
+    <a href="https://www.google.com/maps/dir//<%= schedule.estimate.location %>" target="_blank"><i class="material-icons">map</i>Get Directions</a>
+  </li>
+</ul>
+<% end %>

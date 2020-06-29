@@ -12,3 +12,4 @@ en:
       created: "Product purchase was successfully created."
       updated: "Product purchase was sucessfully updated."
       deleted: "Product purchase was sucessfully deleted."
+  fields_numeric_negatives: The numeric fields on this form do not accept negative values

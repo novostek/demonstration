@@ -23,7 +23,7 @@ class Document < ApplicationRecord
   enumerize :doc_type, in: [:estimate, :custom], predicates: true
   enumerize :sub_type, in: [:approval, :conclusion, :other], predicates: true
 
-
+  validates :name, :description, :doc_type, presence: true
 
   #Método que retorna o nome da categoria
   def to_s

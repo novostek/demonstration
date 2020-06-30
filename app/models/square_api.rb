@@ -103,7 +103,7 @@ class SquareApi
     body[:customer_id] = customer
     body[:location_id] = SquareApi.locations.first[:id]
     body[:reference_id] = transaction.id
-    #body[:note] = 'Brief description'
+    body[:note] = "Payemnt of Order N* #{transaction.order.code}"
 
     result = payments_api.create_payment(body: body)
 

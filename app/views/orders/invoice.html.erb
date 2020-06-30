@@ -266,13 +266,19 @@
 
           <div class="row">
             <div class="input-field col s12 m4">
-              <%= f.text_field :value, class: "validade", required: true %>
+              <%= f.number_field :value, class: "validade",min: 0, step: :any, required: true %>
               <%= f.label  :value %>
             </div>
             <div class="input-field col s12 m4">
-              <%= f.select :payment_method,
+              <% if @cards.size > 0 %>
+                <%= f.select :payment_method,
+                             options_for_select(Transaction.payment_method.options.map { |op| [op[0], op[1], {'data-icon': op[0].include?("Square") ? image_path('square.svg') : '' }] }),
+                             {class: 'icons' }, {id:"payment_method", onchange:"payment_method_change()"} %>
+              <% else %>
+                <%= f.select :payment_method,
                            options_for_select(Transaction.payment_method.options(except: [:square_card_on_file]).map { |op| [op[0], op[1], {'data-icon': op[0].include?("Square") ? image_path('square.svg') : '' }] }),
                            {class: 'icons' }, {id:"payment_method", onchange:"payment_method_change()"} %>
+              <% end %>
               <%= f.label :payment_method %>
             </div>
             <div class="input-field col s12 m4">
@@ -312,14 +318,7 @@
 <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
   <script type="text/javascript" charset="utf-8">
 
-    $(document).ready(function(){
-        var cards = JSON.parse('<%= @cards.to_json.to_s.html_safe %>');
-       if( cards.length > 0)
-       {
-          $("#payment_method").append("<option data-icon='/square.svg' value='square_card_on_file'>Square (Card on File)</option>");
-           $("select").formSelect();
-       }
-    });
+
 
       function payment_method_change()
       {

@@ -9,6 +9,7 @@ en:
         description: "Description"
         tax: "Tax"
         namespace: "Namespace"
+        payment_aprroval: "Automatic Payment Approval"
   enumerize:
     estimate:
       taxpayer:
@@ -24,6 +25,7 @@ en:
         cancelled: "Cancelled"
   sign: "Sign"
   measurements: "Measurements"
+  payment_aprroval_text: "Automatic Payment Approval"
   notice:
     estimate:
       created: "Estimate was successfully created."

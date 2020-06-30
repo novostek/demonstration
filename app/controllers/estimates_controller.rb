@@ -246,6 +246,7 @@ class EstimatesController < ApplicationController
     estimate.latitude = params[:estimate][:latitude]
     estimate.longitude = params[:estimate][:longitude]
     estimate.sales_person_id = params[:estimate][:sales_person_id]
+    estimate.payment_approval = params[:estimate][:payment_approval]
     estimate.lead_id = params[:lead_id]
     estimate.status = 'new'
     estimate.total = 0.0
@@ -409,7 +410,7 @@ class EstimatesController < ApplicationController
   # Only allow a trusted parameter "white list" through.
   def estimate_params
     params.require(:estimate).permit(
-        :code, :title, :worker_id, :status, :description, :location,
+        :code, :title,:payment_approval, :worker_id, :status, :description, :location,
         :latitude, :longitude, :category, :order_id, :price, :tax,
         :tax_calculation, :lead_id, :bpmn_instance, :current, :total, :taxpayer,
         measurement_areas_attributes: [

@@ -563,7 +563,7 @@ class OrdersController < ApplicationController
     rescue
       @cards = []
     end
-    
+
     add_breadcrumb I18n.t("activerecord.models.orders"), orders_path
     add_breadcrumb I18n.t("breadcrumb.show"), order_path(@order)
     render :order_payments

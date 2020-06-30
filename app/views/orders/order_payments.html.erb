@@ -95,19 +95,14 @@
             sum += Number($(this).val());
         });
         $("#value_total").html("$ "+sum);
+
+
+
       $('#transactions').on('cocoon:after-insert', function(e, insertedItem) {
          $('.datepicker').datepicker({
           format: 'yyyy-mm-dd',
           autoClose: true
         });
-
-          var cards = JSON.parse('<%= @cards.to_json.to_s.html_safe %>');
-          console.log("cards ",cards.length);
-          if( cards.length > 0)
-          {
-              $(".payment_select").append("<option data-icon='/square.svg' value='square_card_on_file'>Square (Card on File)</option>");
-              $("select").formSelect();
-          }
 
           update_value();
 

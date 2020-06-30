@@ -87,6 +87,7 @@ class ProductPurchasesController < ApplicationController
 
   # PATCH/PUT /product_purchases/1
   def update
+    #binding.pry
     if @product_purchase.update(product_purchase_params)
       redirect = params[:redirect] || params[:product_purchase][:redirect]
       redirect_to redirect, notice: t('notice.product_purchase.updated')
@@ -109,6 +110,6 @@ class ProductPurchasesController < ApplicationController
 
     # Only allow a trusted parameter "white list" through.
     def product_purchase_params
-      params.permit(:product_id, :purchase_id, :unity_value, :quantity, :value, :status, :custom_title)
+      params.require(:product_purchase).permit(:product_id, :purchase_id, :unity_value, :quantity, :value, :status, :custom_title)
     end
 end

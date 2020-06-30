@@ -52,13 +52,7 @@ class LeadsController < ApplicationController
   def update
     # params[:lead][:date] = DateTime.strptime(params[:lead][:date], "%m/%d/%Y %H:%M")
     if @lead.update(lead_params)
-      if params[:button] == "save_n_estimate"
-        @lead.status = 'closed'
-        @lead.save
-        redirect_to step_one_estimates_path(@lead.id)
-      else
-        redirect_to @lead, notice: t('notice.lead.updated')
-      end
+      redirect_to @lead, notice: t('notice.lead.updated')
     else
       render :edit
     end

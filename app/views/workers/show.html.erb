@@ -13,9 +13,9 @@
       </div>
       <div class="col s2 m6 l6">
         <%= link_to t('button.all'), workers_path, class:"btn waves-effect waves-light breadcrumbs-btn right" %>
-        <%= link_to edit_worker_path(@worker) , class: "btn-flat waves-effect waves-light breadcrumbs-btn right" do %>
+        <a href="<%= edit_worker_path(@worker) %>" class="mr-2 btn-secondary modal-trigger btn waves-effect waves-light breadcrumbs-btn right">
           <i class="material-icons">edit</i>
-        <% end %>
+        </a>
       </div>
     </div>
   </div>

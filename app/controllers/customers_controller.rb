@@ -1,6 +1,6 @@
 class CustomersController < ApplicationController
   load_and_authorize_resource
-  before_action :set_customer, only: [:show, :edit, :update, :destroy,:new_note,:new_document,:new_contact]
+  before_action :set_customer, only: [:add_card,:mail_card,:show, :edit, :update, :destroy,:new_note,:new_document,:new_contact]
   #skip_before_action :authenticate_user!, only: [:process_payment]
 
 
@@ -16,10 +16,24 @@ class CustomersController < ApplicationController
     else
       redirect_to @customer, alert: "#{note.errors.full_messages.to_sentence}"
     end
-
-
   end
 
+  #Método que adiciona o cartão do customer na square
+  def add_card
+    result = SquareApi.add_card(@customer.square_id,params[:nonce])
+
+    if result.success?
+      redirect_to customer_path(@customer), notice: "Card add successful"
+    elsif result.error?
+      redirect_to customer_path(@customer), notice: result.errors
+    end
+  end
+
+  #Método que envia o email solicitando o cadastro do cartão
+  def mail_card
+    DocumentMailer.with(subject: params[:subject] , emails: params[:emails], customer: @customer, link: "#{Setting.url}#{nonce_square_api_index_path(customer: @customer.id, from: "email")}").mail_card.deliver_later
+    redirect_back(fallback_location: nonce_square_api_index_path(customer: @customer.id),notice: t('notice.estimate.mail_sent'))
+  end
 
 
   #método que insere um novo documento

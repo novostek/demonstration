@@ -31,6 +31,7 @@
       </div>
     </div>
 
+
     <div class="col s12 m2 l2 display-flex pt-2 justify-content-start">
       <!-- Mo dal Trigger -->
       <a 
@@ -41,6 +42,16 @@
           <i class="material-icons">person_add</i>
       </a>
     </div>
+  <div class="col s12 m4 l3">
+    <div class="input-field">
+      <p>
+        <label>
+          <%= f.check_box :payment_approval %>
+          <span><%= t "activerecord.attributes.estimates.payment_aprroval" %></span>
+        </label>
+      </p>
+    </div>
+  </div>
 
     
 </div>

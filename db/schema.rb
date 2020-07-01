@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_06_26_194552) do
+ActiveRecord::Schema.define(version: 2020_06_29_220202) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -69,6 +69,7 @@ ActiveRecord::Schema.define(version: 2020_06_26_194552) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.string "bpm_instance"
+    t.string "square_id"
   end
 
   create_table "document_custom_fields", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
@@ -132,6 +133,7 @@ ActiveRecord::Schema.define(version: 2020_06_26_194552) do
     t.datetime "updated_at", precision: 6, null: false
     t.text "link"
     t.string "taxpayer"
+    t.boolean "payment_approval"
     t.index ["lead_id"], name: "index_estimates_on_lead_id"
     t.index ["order_id"], name: "index_estimates_on_order_id"
     t.index ["sales_person_id"], name: "index_estimates_on_sales_person_id"
@@ -462,6 +464,7 @@ ActiveRecord::Schema.define(version: 2020_06_26_194552) do
     t.string "payment_method"
     t.string "email"
     t.string "status"
+    t.string "square_card_id"
     t.index ["order_id"], name: "index_transactions_on_order_id"
     t.index ["purchase_id"], name: "index_transactions_on_purchase_id"
     t.index ["transaction_account_id"], name: "index_transactions_on_transaction_account_id"

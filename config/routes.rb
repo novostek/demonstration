@@ -79,7 +79,8 @@ Rails.application.routes.draw do
     collection do
       get "oauth"
       get "callback"
-      get "teste_pagamento"
+      get "nonce"
+      post "add_card"
       post "process_payment"
       get "checkout"
     end
@@ -195,6 +196,8 @@ Rails.application.routes.draw do
       get "new_note"
       post "new_document"
       get "new_contact"
+      get "add_card"
+      get "mail_card"
     end
     collection do
       get "search_customers"

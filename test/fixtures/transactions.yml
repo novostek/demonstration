@@ -18,6 +18,7 @@
 #  order_id                :uuid
 #  origin_id               :string
 #  purchase_id             :uuid
+#  square_card_id          :string
 #  transaction_account_id  :uuid
 #  transaction_category_id :uuid
 #

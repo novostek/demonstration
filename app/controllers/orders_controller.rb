@@ -79,6 +79,13 @@ class OrdersController < ApplicationController
     rescue
       @email_customer = ""
     end
+
+    begin
+      dados = SquareApi.get_customer(@order.customer.square_id)
+      @cards  = dados.body.customer[:cards]
+    rescue
+      @cards = []
+    end
     add_breadcrumb I18n.t("activerecord.models.orders"), orders_path
     add_breadcrumb I18n.t("breadcrumb.show"), order_path(@order)
     add_breadcrumb I18n.t("breadcrumbs.invoice"), invoice_order_path(@order)
@@ -434,6 +441,7 @@ class OrdersController < ApplicationController
     transaction.payment_method = params[:payment_method]
     transaction.due = params[:due]
     transaction.email = params[:email]
+    transaction.square_card_id = params[:square_card_id]
     transaction.order = @order
     if transaction.save
       redirect_to invoice_order_path(@order),notice: t('notice.order.payment_added')
@@ -548,6 +556,14 @@ class OrdersController < ApplicationController
     rescue
       @email_customer = ""
     end
+
+    begin
+      dados = SquareApi.get_customer(@order.customer.square_id)
+      @cards  = dados.body.customer[:cards]
+    rescue
+      @cards = []
+    end
+
     add_breadcrumb I18n.t("activerecord.models.orders"), orders_path
     add_breadcrumb I18n.t("breadcrumb.show"), order_path(@order)
     render :order_payments
@@ -666,7 +682,7 @@ class OrdersController < ApplicationController
     params.require(:order).permit(
         :id, :code, :status, :bpmn_instance, :start_at, :end_at, {photos: []},
         transactions_attributes: [
-            :id, :origin, :origin_id, :value, :payment_method, :due,:email, :_destroy
+            :id, :origin, :origin_id, :value, :payment_method, :due,:email,:square_card_id, :_destroy
         ])
   end
 end

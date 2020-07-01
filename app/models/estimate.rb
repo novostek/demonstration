@@ -12,6 +12,7 @@
 #  link               :text
 #  location           :string           not null
 #  longitude          :decimal(, )      not null
+#  payment_approval   :boolean
 #  price              :decimal(, )
 #  status             :string           not null
 #  tax                :decimal(, )

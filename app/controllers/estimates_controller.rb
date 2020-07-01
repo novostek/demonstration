@@ -88,15 +88,22 @@ class EstimatesController < ApplicationController
         end
 
       end
-
+      if @estimate.payment_approval
+        redirect_to nonce_square_api_index_path(estimate: @estimate.id)
+        return
+      end
     end
 
     #cria a assinatura para o formulário
     @signature = Signature.new
     @signature.origin = "Estimate"
     @signature.origin_id = @estimate.id
-    #render "estimate_signature_new", layout: "clean"
+    #render "estimate_signature_new", layout: "clean"]
+    #if @estimate.payment_approval
+
+      #else
     render layout: "document"
+      #end
   end
 
   #Método que envia o email do estimate via woffice
@@ -239,6 +246,7 @@ class EstimatesController < ApplicationController
     estimate.latitude = params[:estimate][:latitude]
     estimate.longitude = params[:estimate][:longitude]
     estimate.sales_person_id = params[:estimate][:sales_person_id]
+    estimate.payment_approval = params[:estimate][:payment_approval]
     estimate.lead_id = params[:lead_id]
     estimate.status = 'new'
     estimate.total = 0.0
@@ -402,7 +410,7 @@ class EstimatesController < ApplicationController
   # Only allow a trusted parameter "white list" through.
   def estimate_params
     params.require(:estimate).permit(
-        :code, :title, :worker_id, :status, :description, :location,
+        :code, :title,:payment_approval, :worker_id, :status, :description, :location,
         :latitude, :longitude, :category, :order_id, :price, :tax,
         :tax_calculation, :lead_id, :bpmn_instance, :current, :total, :taxpayer,
         measurement_areas_attributes: [

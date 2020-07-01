@@ -18,6 +18,7 @@
 #  order_id                :uuid
 #  origin_id               :string
 #  purchase_id             :uuid
+#  square_card_id          :string
 #  transaction_account_id  :uuid
 #  transaction_category_id :uuid
 #
@@ -39,19 +40,36 @@ class Transaction < ApplicationRecord
   belongs_to :transaction_category, optional:  true
   belongs_to :transaction_account, optional:  true
   belongs_to :order, optional:  true
+  has_one :customer, through: :order
 
   extend Enumerize
 
-  enumerize :payment_method, in: [:cash, :square_credit, :square_installments, :check, :woffice_pay], predicates: true
+  enumerize :payment_method, in: [:cash, :square_credit, :square_installments, :square_card_on_file, :check, :woffice_pay], predicates: true
   enumerize :status, in: [:paid, :pendent, :cancelled],predicates: true, default: :pendent
 
   default_scope {where.not(status: 'cancelled' )}
 
   #validates :category, :effective, :value, presence: true
 
-  after_create :send_square
+  after_create :send_square, :square_payment
   before_save :set_default_categories
 
+  #Método que realiza a cobrança do pagamento no cartão do cliente
+  def square_payment
+    if self.due == Date.today
+      if self.square_card_on_file?
+        status,  payment_data = SquareApi.add_payment(self.customer.square_id, self.square_card_id, self)
+
+        if status
+          self.mark_as_paid
+          update(square_data: payment_data)
+        end
+
+      end
+    end
+  end
+
+  #Método que envia o checkout por email para o cliente
   def send_square
     if self.due == Date.today
       if self.square_credit?

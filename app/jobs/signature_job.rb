@@ -15,14 +15,14 @@ class SignatureJob < ApplicationJob
     temp = base64_to_file(signature_params[:signature][:file])
     $temp_img = "/#{temp.path.split("/").last}"
 
-
+    url = Setting.url.sub "https", "http"
 
     #cria o PDF
     #binding.pry
     if signature_params[:signature][:origin] == "Estimate" and !signature_params[:signature][:document].present?
-      file = WickedPdf.new.pdf_from_url("#{Setting.url.sub "https", "http"}/estimates/#{signature_params[:signature][:origin_id]}/estimate_signature?view=true", {page_width: 1550, viewport_size: "1920x1080",print_media_type: true})
+      file = WickedPdf.new.pdf_from_url("#{url}/estimates/#{signature_params[:signature][:origin_id]}/estimate_signature?view=true", {page_width: 1550, viewport_size: "1920x1080",print_media_type: true})
     else
-      file = WickedPdf.new.pdf_from_url("#{Setting.url.sub "https", "http"}/orders/doc_signature?document=#{signature_params[:document] || signature_params[:signature][:document]}", {page_width: 1550,  viewport_size: "1920x1080",print_media_type: true})
+      file = WickedPdf.new.pdf_from_url("#{url}/orders/doc_signature?document=#{signature_params[:document] || signature_params[:signature][:document]}", {page_width: 1550,  viewport_size: "1920x1080",print_media_type: true})
     end
 
     # Write it to tempfile

@@ -12,6 +12,7 @@
 #  created_at   :datetime         not null
 #  updated_at   :datetime         not null
 #  document_id  :string
+#  square_id    :string
 #
 
 class Customer < ApplicationRecord
@@ -33,6 +34,26 @@ class Customer < ApplicationRecord
   validates :name, :category, presence: true
 
   before_save :set_code
+
+  after_create :create_customer_square
+
+  #Método que cria o customer na square
+  def create_customer_square
+    if Setting.get_value("square_oauth_access_token").present?
+      SquareApi.create_customer(self)
+    end
+  end
+
+  #Método que cria os customers na square para aqueles que ainda não possuem
+  def create_square_customers
+    Client.all.each do |c|
+      Apartment::Tenant.switch(c.tenant_name) do
+        Customer.where(square_id: nil).each do (customer)
+          customer.create_customer_square
+        end
+      end
+    end
+  end
 
   def to_s
     self.name

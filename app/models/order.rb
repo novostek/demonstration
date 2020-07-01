@@ -31,6 +31,7 @@ class Order < ApplicationRecord
   has_many :schedules, -> { where origin: :Order }, primary_key: :id, foreign_key: :origin_id
   has_many :labor_costs, through: :schedules
   has_one :current_estimate, ->{where current: true}, class_name: "Estimate"
+  has_one :customer, through: :current_estimate
 
   accepts_nested_attributes_for :transactions, reject_if: :reject_payment, allow_destroy: true
 

@@ -5,7 +5,7 @@ module SettingsHelper
   end
 
   def company_name
-    Setting.find_by(namespace: 'company_name').value['value']
+    Setting.get_value('company_name')
   end
 
 end

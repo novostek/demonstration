@@ -80,8 +80,100 @@ class SquareApi
     elsif result.error?
       return false, result.errors
     end
+  end
 
+  def self.add_payment(customer, card, transaction)
+    client = Square::Client.new(
+        access_token: Setting.get_value("square_oauth_access_token"),#SquareApi.renew_token,
+        environment: Rails.configuration.woffice['square_env']
+    )
 
+    payments_api = client.payments
+
+    body = {}
+    body[:source_id] = card
+    body[:idempotency_key] = SecureRandom.uuid
+    body[:amount_money] = {}
+    body[:amount_money][:amount] = (transaction.value*100).to_i
+    body[:amount_money][:currency] = 'USD'
+    #body[:app_fee_money] = {}
+    #body[:app_fee_money][:amount] = 10
+    #body[:app_fee_money][:currency] = 'USD'
+    body[:autocomplete] = true
+    body[:customer_id] = customer
+    body[:location_id] = SquareApi.locations.first[:id]
+    body[:reference_id] = transaction.id
+    body[:note] = "Payemnt of Order N* #{transaction.order.code}"
+
+    result = payments_api.create_payment(body: body)
+
+    if result.success?
+      return true, result.data
+    elsif result.error?
+      return false, result.errors
+    end
+  end
+
+  def self.add_card(customer, nonce)
+
+    client = Square::Client.new(
+        access_token: Setting.get_value("square_oauth_access_token"),#SquareApi.renew_token,
+        environment: Rails.configuration.woffice['square_env']
+    )
+
+    customers_api = client.customers
+
+    body = {}
+    body[:card_nonce] = nonce
+
+    result = customers_api.create_customer_card(customer_id: customer, body: body)
+
+    result
+  end
+
+  def self.get_customer(customer)
+    client = Square::Client.new(
+        access_token: Setting.get_value("square_oauth_access_token"),#SquareApi.renew_token,
+        environment: Rails.configuration.woffice['square_env']
+    )
+
+    customers_api = client.customers
+
+    result = customers_api.retrieve_customer(customer_id: customer)
+
+  end
+
+  #Método que cria o customer na square
+  def self.create_customer(customer)
+    client = Square::Client.new(
+        access_token: Setting.get_value("square_oauth_access_token"),#SquareApi.renew_token,
+        environment: Rails.configuration.woffice['square_env']
+    )
+
+    customers_api = client.customers
+
+    body = {}
+    body[:given_name] = customer.name
+    #body[:family_name] = 'Earhart'
+    body[:email_address] = customer.get_main_email_f
+    #body[:address] = {}
+    #body[:address][:address_line_1] = '500 Electric Ave'
+    #body[:address][:address_line_2] = 'Suite 600'
+    #body[:address][:locality] = 'New York'
+    #body[:address][:administrative_district_level_1] = 'NY'
+    #body[:address][:postal_code] = '10003'
+    #body[:address][:country] = 'US'
+    body[:phone_number] = customer.get_main_phone_f
+    body[:reference_id] = customer.id
+      #body[:note] = 'a customer'
+
+    result = customers_api.create_customer(body: body)
+
+    if result.success?
+      customer.update(square_id: result.data.customer[:id])
+    elsif result.error?
+      warn result.errors
+    end
   end
 
   def self.create_checkout(order, transaction)

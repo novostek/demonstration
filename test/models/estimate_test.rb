@@ -8,10 +8,10 @@
 #  code               :string           not null
 #  current            :boolean
 #  description        :text             not null
-#  latitude           :decimal(, )      not null
+#  latitude           :decimal(, )
 #  link               :text
 #  location           :string           not null
-#  longitude          :decimal(, )      not null
+#  longitude          :decimal(, )
 #  payment_approval   :boolean
 #  price              :decimal(, )
 #  status             :string           not null

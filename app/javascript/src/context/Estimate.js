@@ -90,14 +90,6 @@ export default function EstimateProvider({children}) {
 
         temp[area_index].suggestions = temp[area_index].suggestions.filter(s => s.id !== suggestion.id)
 
-        // temp[area_index].suggestions.filter(s => {
-        //   console.log(s.id, suggestion.id)
-
-        //   return s.id !== suggestion.id
-        // })
-
-        // console.log(temp)
-
         return temp
       })
 

@@ -82,9 +82,28 @@
   <script>
     document.addEventListener('DOMContentLoaded', function () {
       var elemsModal = document.getElementById('product-add-modal');
-
+      
       instanceModal = M.Modal.init(elemsModal, {})
     });
+
+    document.getElementById("new_product").addEventListener("submit", function () {
+      $("#product_name").val("")
+      $("#product_uuid").val("")
+      $("#product_details").val("")
+      $("#product_product_category_id").val("").change()
+      $("#product_product_category_id").formSelect()
+      $("#product_supplier_id").val("").change()
+      $("#product_supplier_id").val("").formSelect()
+      $("#product_calculation_formula_id").val("").change()
+      $("#product_calculation_formula_id").val("").formSelect()
+      $("#product_customer_price").val("")
+      $("#product_cost_price").val("")
+      $("#product_area_covered").val("")
+      $("#product_photo").val("")
+      $("#product_tax").val("")
+      $("#product_bpm_purchase").val("")
+    });
+  
     // $(document).ready(function(){
       
 

@@ -35,7 +35,6 @@ const ProductEstimate = ({product, peIndex, index}) => {
                       const { checked } = e.target
                       setProductEstimate(productEstimate => {
                         const copy = [...productEstimate]
-                        console.log(checked)
                         copy[index].products[peIndex].tax = checked
 
                         return copy
@@ -60,7 +59,6 @@ const ProductEstimate = ({product, peIndex, index}) => {
                     copy.maIndex = index
                     copy.productIndex = peIndex
                     
-                    console.log(copy)
                     return copy
                   })
                 }}

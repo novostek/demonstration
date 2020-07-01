@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_06_29_220202) do
+ActiveRecord::Schema.define(version: 2020_07_01_224726) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -118,8 +118,8 @@ ActiveRecord::Schema.define(version: 2020_06_29_220202) do
     t.string "status", null: false
     t.text "description", null: false
     t.string "location", null: false
-    t.decimal "latitude", null: false
-    t.decimal "longitude", null: false
+    t.decimal "latitude"
+    t.decimal "longitude"
     t.string "category", null: false
     t.uuid "order_id"
     t.decimal "price"

@@ -70,7 +70,7 @@
 
 <% end %>
 <%= content_for :scripts do %>
-  <script type="text/javascript" src="https://js.squareupsandbox.com/v2/paymentform">
+  <script type="text/javascript" src="<%= Rails.configuration.woffice['js_square_url'] %>/v2/paymentform">
   </script>
 
 

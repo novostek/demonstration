@@ -244,11 +244,14 @@ export default function EstimateProvider({children}) {
           if (productEstimate[maProductListIndex.maIndex].areas.length > 0)
             calculateProductLW(productEstimate[maProductListIndex.maIndex].areas, id)
               .then(result => {
+                console.log(result)
+                copy[maProductListIndex.maIndex].products[maProductListIndex.productIndex].product_id = result.id
                 copy[maProductListIndex.maIndex].products[maProductListIndex.productIndex].name = result.name
                 copy[maProductListIndex.maIndex].products[maProductListIndex.productIndex].qty = result.qty
                 copy[maProductListIndex.maIndex].products[maProductListIndex.productIndex].total = result.total
                 copy[maProductListIndex.maIndex].products[maProductListIndex.productIndex].price = result.price
                 copy[maProductListIndex.maIndex].products[maProductListIndex.productIndex].tax = result.tax
+                setValue(`measurement[${maProductListIndex.maIndex}].products[${maProductListIndex.productIndex}]`, { product_id: result.id })
                 setValue(`measurement[${maProductListIndex.maIndex}].products[${maProductListIndex.productIndex}]`, { name: result.name })
                 setValue(`measurement[${maProductListIndex.maIndex}].products[${maProductListIndex.productIndex}]`, { qty: result.qty })
                 setValue(`measurement[${maProductListIndex.maIndex}].products[${maProductListIndex.productIndex}]`, { price: result.price })
@@ -538,13 +541,13 @@ export default function EstimateProvider({children}) {
       })
       return maCopy
     })
-
+    
     await Promise.all(results).then(async res => {
 
       await setProductEstimate(res)
 
     }).then(() => {})
-
+    console.log('Data', productEstimate)
     create_product_estimate()
       .then(() => window.location = `/estimates/${estimate.id}/view`)
   }

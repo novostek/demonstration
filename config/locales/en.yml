@@ -45,7 +45,7 @@ en:
     save: "Save"
     cancel: 'Cancel'
     reactivate: 'Reactivate'
-  
+
   label:
     edit: 'Edit'
     remove: 'Remove'

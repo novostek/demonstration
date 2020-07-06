@@ -64,13 +64,13 @@
             <% if !@order.has_transaction_paid and @order.status != 'cancelled' %>
               <li>
                 <%= link_to cancel_order_path(@order),  class: "grey-text text-darken-2" do %>
-                  <i class="material-icons ">cancel</i><%= t "button.cancel" %>
+                  <i class="material-icons ">cancel</i><%= t "buttons.cancel" %>
                 <% end %>
               </li>
             <% elsif !@order.has_transaction_paid and @order.status == 'cancelled' %>
               <li>
                 <%= link_to reactivate_order_path(@order),  class: "grey-text text-darken-2" do %>
-                  <i class="material-icons ">settings_backup_restore</i><%= t "button.reactivate" %>
+                  <i class="material-icons ">settings_backup_restore</i><%= t "buttons.reactivate" %>
                 <% end %>
               </li>
             <% end %>

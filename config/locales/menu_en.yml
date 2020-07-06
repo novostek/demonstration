@@ -17,3 +17,4 @@ en:
       created: "Menu was successfully created."
       updated: "Menu was sucessfully updated."
       deleted: "Menu was sucessfully deleted."
+  new_child_menu: New child menu

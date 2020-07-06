@@ -13,5 +13,6 @@ en:
   global_schedule: "Global Schedule"
   global: "Global"
   hour_cost_negative: "Hour cost must be greater than or equal to 0"
+  no_schedule_yet: No schedule yet
 
 

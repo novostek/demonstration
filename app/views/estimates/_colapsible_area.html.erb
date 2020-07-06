@@ -1,7 +1,8 @@
 <ul class="collapsible exp collapsible-areas">
   <li>
     <div class="collapsible-header" tabindex="0"><i class="material-icons">select_all</i>Areas</div>
-    <div class="collapsible-body pl-2 pr-2 pt-2 pb-2">
+    <% if estimate.measurement_areas.any? %>
+      <div class="collapsible-body pl-2 pr-2 pt-2 pb-2">
       <table class="responsive-table">
         <thead>
         <tr>
@@ -42,5 +43,10 @@
       </table>
 
     </div>
+    <% else %>
+      <div class="collapsible-body center">
+        <p><%= t 'no_area_yet' %></p>
+      </div>
+    <% end %>
   </li>
 </ul>

@@ -194,7 +194,8 @@
         <div class="card-panel pt-2 pl-4 pr-4">
 
           <h6 class="row mb-4 pl-4 pr-4">Schedule</h6>
-          <div class="estimate-schedule-list">
+          <% if @estimate.schedules.any? %>
+            <div class="estimate-schedule-list">
             <% @estimate.schedules.each do |schedule| %>
               <div class="row border-radius-5 cyan lighten-5 mb-3">
                 <div class="col s3 pr-0 mt-2">
@@ -208,6 +209,11 @@
               </div>
             <% end %>
           </div>
+          <% else %>
+            <div class="center">
+              <p>No schedule yet</p>
+            </div>
+          <% end %>
         </div>
       </div>
     </div>

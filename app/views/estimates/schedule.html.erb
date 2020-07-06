@@ -127,7 +127,9 @@
   <%= form_with url: new_document_schedules_path, local: true do |f| %>
     <%= f.hidden_field :redirect, value: "/estimates/#{@estimate.id}/schedule" %>
     <div class="modal-content">
+      <div class="row">
       <h4><%= t "button.new" %> <%= t "documents" %></h4>
+      </div>
       <%= render "customers/document_file_fields", f: f %>
 
     </div>

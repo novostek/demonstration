@@ -208,7 +208,9 @@
 <div id="modal_doc" class="modal modal-fixed-footer">
   <%= form_with url: new_document_customer_path(@customer), local: true do |f| %>
     <div class="modal-content">
+      <div class="row">
       <h4><%= t "button.new" %> <%= t "documents" %></h4>
+      </div>
       <%= render "customers/document_file_fields", f: f %>
 
     </div>

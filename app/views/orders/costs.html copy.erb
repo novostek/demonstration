@@ -206,7 +206,9 @@
                           <div id="modal_doc_<%= p.id %>" class="modal modal-fixed-footer">
                             <%= form_with url: new_document_product_purchase_path(p), local: true do |f| %>
                               <div class="modal-content">
+                                <div class="row">
                                 <h4><%= t "button.new" %> <%= t "documents" %></h4>
+                                </div>
                                 <%= render "customers/document_file_fields", f: f %>
 
                               </div>
@@ -475,7 +477,9 @@
                           <div id="modal_doc_labor_<%= labor.id %>" class="modal modal-fixed-footer">
                             <%= form_with url: new_document_labor_cost_path(labor), local: true do |f| %>
                               <div class="modal-content">
+                                <div class="row">
                                 <h4><%= t "button.new" %> <%= t "documents" %></h4>
+                                </div>
                                 <%= render "customers/document_file_fields", f: f %>
 
                               </div>
@@ -677,7 +681,9 @@
                               <div id="modal_doc_<%= p.id %>" class="modal modal-fixed-footer">
                                 <%= form_with url: new_document_product_purchase_path(p), local: true do |f| %>
                                   <div class="modal-content">
+                                    <div class="row">
                                     <h4><%= t "button.new" %> <%= t "documents" %></h4>
+                                    </div>
                                     <%= render "customers/document_file_fields", f: f %>
 
                                   </div>

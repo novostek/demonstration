@@ -1,5 +1,6 @@
 class ApplicationController < ActionController::Base
   before_action :cache_globals_settings
+  before_action :set_cache_headers
   before_action :api_authenticator, if: :has_token?
   before_action :authenticate_user!, except: [:add_card,:nonce,:checkout,:company_banner,:company_logo,:oauth,:doc_signature_mail,:doc_signature,:estimate_signature, :create_products_estimates, :process_payment, :create_step_one, :create_schedule, :delete_schedule, :callback, :calculate_product_qty_lw,:view_invoice_customer,:send_square]
   #load_and_authorize_resource except: [:doc_signature_mail,:doc_signature,:estimate_signature, :create_products_estimates, :process_payment, :create_step_one, :create_schedule, :delete_schedule, :callback, :calculate_product_qty_lw,:view_invoice_customer,:send_square]
@@ -72,6 +73,12 @@ class ApplicationController < ActionController::Base
 
   def has_token?
     params[:access_token].present?
+  end
+
+  def set_cache_headers
+    response.headers["Cache-Control"] = "no-cache, no-store"
+    response.headers["Pragma"] = "no-cache"
+    response.headers["Expires"] = "Mon, 01 Jan 1990 00:00:00 GMT"
   end
 
 end

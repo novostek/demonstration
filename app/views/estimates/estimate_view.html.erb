@@ -12,7 +12,10 @@
         </div>
         <div class="col s2 m6 l6">
 
-          <a class="btn dropdown-settings waves-effect waves-light breadcrumbs-btn right" href="#!" data-target="dropdown1"><i class="material-icons hide-on-med-and-up">settings</i><span class="hide-on-small-onl">Actions</span><i class="material-icons right">arrow_drop_down</i></a>
+          <a class="btn dropdown-settings waves-effect waves-light breadcrumbs-btn right" href="#!" data-target="dropdown1">
+            <i class="material-icons hide-on-med-and-up">settings</i>
+            <span class="hide-on-small-only">Actions<i class="material-icons right">arrow_drop_down</i></span>
+          </a>
           <ul class="dropdown-content" id="dropdown1" tabindex="0">
             <% if @estimate.order.present? %>
               <li>
@@ -48,19 +51,22 @@
             <% if !@estimate.order.present? and @estimate.status != 'cancelled' %>
               <li>
                 <%= link_to cancel_estimate_path(@estimate),  class: "grey-text text-darken-2" do %>
-                  <i class="material-icons ">cancel</i><%= t "button.cancel" %>
+                  <i class="material-icons ">cancel</i><%= t "buttons.cancel" %>
                 <% end %>
               </li>
             <% elsif !@estimate.order.present? and @estimate.status == 'cancelled' %>
               <li>
                 <%= link_to reactivate_estimate_path(@estimate),  class: "grey-text text-darken-2" do %>
-                  <i class="material-icons ">settings_backup_restore</i><%= t "button.reactivate" %>
+                  <i class="material-icons ">settings_backup_restore</i><%= t "buttons.reactivate" %>
                 <% end %>
               </li>
             <% end %>
 
           </ul>
-          <a href="#modal-mail-local" class="mr-2 btn-secondary modal-trigger btn waves-effect waves-light breadcrumbs-btn right"><%= t "button.send_mail" %></a>
+          <a href="#modal-mail-local" class="mr-2 btn-secondary modal-trigger btn waves-effect waves-light breadcrumbs-btn right">
+            <i class="material-icons hide-on-med-and-up">mail</i>
+            <span class="hide-on-small-only"><%= t "button.send_mail" %></span>
+          </a>
 
         </div>
       </div>

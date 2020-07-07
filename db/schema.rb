@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_07_01_224726) do
+ActiveRecord::Schema.define(version: 2020_07_07_204046) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -134,6 +134,7 @@ ActiveRecord::Schema.define(version: 2020_07_01_224726) do
     t.text "link"
     t.string "taxpayer"
     t.boolean "payment_approval"
+    t.decimal "discount", precision: 10, scale: 2, default: "0.0"
     t.index ["lead_id"], name: "index_estimates_on_lead_id"
     t.index ["order_id"], name: "index_estimates_on_order_id"
     t.index ["sales_person_id"], name: "index_estimates_on_sales_person_id"

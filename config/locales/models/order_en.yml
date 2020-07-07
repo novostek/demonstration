@@ -17,6 +17,7 @@ en:
       updated: "Order was sucessfully updated."
       deleted: "Order was sucessfully deleted."
       cancelled: "Order was sucessfully cancelled."
+      cancelled_error: "An unexpected error has occurred."
       reactivated: "Order was sucessfully reactivated."
       finished: "Order finished."
       mail_sent: "Mail sent."

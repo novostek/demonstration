@@ -63,7 +63,8 @@
             </li>
             <% if !@order.has_transaction_paid and @order.status != 'cancelled' %>
               <li>
-                <%= link_to cancel_order_path(@order),  class: "grey-text text-darken-2" do %>
+                <%#= link_to cancel_order_path(@order),  class: "grey-text text-darken-2" do %>
+                <%= link_to '#',  class: "grey-text text-darken-2", onclick: 'confirm_cancel_order()' do %>
                   <i class="material-icons ">cancel</i><%= t "buttons.cancel" %>
                 <% end %>
               </li>
@@ -479,12 +480,56 @@
   </div>
 
   <%= content_for :scripts do %>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+
     <script>
         const profit = document.getElementById("profit-numbers")
 
         profit.addEventListener("click", function () {
             profit.classList.toggle("hide-numbers")
         })
+
+        function confirm_cancel_order(){
+            // debugger
+            Swal.fire({
+                title: 'Do you really want to cancel this order?',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Yes I want!',
+                cancelButtonText: 'No, cancel!',
+                reverseButtons: true
+            }).then(async (result) => {
+                if (result.value) {
+                    const url = "<%= cancel_order_path(@order) %>";
+                    debugger
+                    $.ajax({
+                        url: url,
+                        method: "GET",
+                        dataType: 'json',
+                        success: function () {
+                            // debugger
+                            Swal.fire(
+                                'Canceled!',
+                                'The order was canceled successfully!',
+                                'success'
+                            ).then((result) => {
+                                if (result.value) {
+                                    document.location.reload(true)
+                                }
+                            })
+                        },
+
+                        error: function () {
+                            // debugger
+                            M.toast({
+                                html: 'Não é possível excluir. Item vinculado em outro cadastro!'
+                            });
+                        }
+                    });
+                }
+            })
+        }
 
     </script>
   <% end %>

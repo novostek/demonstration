@@ -95,7 +95,7 @@
               <%= form_with model: @estimate, url: apply_discount_estimate_path(@estimate), method: :post, local: true do |f| %>
                 <div style="display: inline-flex; align-items: center;">
                   <span class="font-weight-600 black-text mr-4">Discount:</span>
-                  <%= f.number_field :discount, step: 0.1, min: 0.0, class: 'mb-0', style: 'height: 25px;   padding: 0 5px;' %>
+                  <%= f.number_field :discount, step: 0.1, min: 0.0, required: true, class: 'mb-0', style: 'height: 25px;   padding: 0 5px;' %>
                 </div>
               <% end %>
             </div>

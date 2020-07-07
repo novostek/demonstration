@@ -113,6 +113,7 @@ Rails.application.routes.draw do
       put "taxpayer"
       get "cancel"
       get "reactivate"
+      post "apply_discount"
     end
     collection do
       get ":id/measurements", to: "measurement_areas#measurements", as: :measurement_view

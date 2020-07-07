@@ -8,6 +8,7 @@
 #  code               :string           not null
 #  current            :boolean
 #  description        :text             not null
+#  discount           :decimal(10, 2)   default(0.0)
 #  latitude           :decimal(, )
 #  link               :text
 #  location           :string           not null
@@ -186,6 +187,22 @@ class Estimate < ApplicationRecord
     end
 
 
+  end
+
+  def apply_discount discount
+    if self.discount == 0.0
+      self.discount = discount
+      self.price -= self.discount
+    elsif discount > self.discount
+      discount_diff = (discount - self.discount)
+      self.discount += discount_diff
+      self.price -= discount_diff
+    elsif discount < self.discount
+      discount_diff = (self.discount - discount)
+      self.discount -= discount_diff
+      self.price += discount_diff
+    end
+    self.save
   end
 
   def discounts

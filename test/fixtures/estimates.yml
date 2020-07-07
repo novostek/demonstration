@@ -8,6 +8,7 @@
 #  code               :string           not null
 #  current            :boolean
 #  description        :text             not null
+#  discount           :decimal(10, 2)   default(0.0)
 #  latitude           :decimal(, )
 #  link               :text
 #  location           :string           not null

@@ -234,15 +234,17 @@
   <div id="modal-invoice" class="modal">
     <%= form_with url: send_invoice_mail_order_path(@order), method: :get, local: true do |f| %>
       <div class="modal-content">
-        <h4>Send Invoice</h4>
         <div class="row">
-          <div class="input-field">
-            <%= f.label :emails, "Emails" %>
-            <%= f.text_field :emails, value: @email_customer, required: true %>
-          </div>
+        <h4>Send Invoice</h4>
+        </div>
+        <div class="row">
           <div class="input-field">
             <%= f.label :subject %>
             <%= f.text_field :subject, required: true %>
+          </div>
+          <div class="input-field">
+            <%= f.label :emails, "Emails" %>
+            <%= f.text_field :emails, value: @email_customer, required: true %>
           </div>
         </div>
       </div>

@@ -85,22 +85,25 @@
           <div class="col s12 m6 xl7">
             <span class="font-weight-600 black-text">Customer:</span> <%= link_to @estimate.customer, @estimate.customer %>
             <span class="left width-100"><span class="font-weight-600 black-text">Category:</span>  <%= @estimate.category_text %></span>
+            <span class="left width-100"><span class="font-weight-600 black-text">Location:</span> <%= @estimate.location %></span>
           </div>
           <div class="col s12 m6 xl5">
             <% if can? :see_price, Estimate %>
               <span class="left width-100"><span class="font-weight-600 black-text">Price:</span> <%= number_to_currency @estimate.total %></span>
               <span class="left width-100"><span class="font-weight-600 black-text">Tax:</span> <%= number_to_currency @estimate.tax %> (<%= t("enumerize.estimate.taxpayer.#{@estimate.taxpayer}") if @estimate.taxpayer.present? %>)</span>
+              <div class="left width-100">
+              <%= form_with model: @estimate, url: apply_discount_estimate_path(@estimate), method: :post, local: true do |f| %>
+                <div style="display: inline-flex; align-items: center;">
+                  <span class="font-weight-600 black-text mr-4">Discount:</span>
+                  <%= f.number_field :discount, step: 0.1, min: 0.0, class: 'mb-0', style: 'height: 25px;   padding: 0 5px;' %>
+                </div>
+              <% end %>
+            </div>
             <% end %>
           </div>
-          <div class="col s12">
-            <span class="left width-100"><span class="font-weight-600 black-text">Location:</span> <%= @estimate.location %></span>
-          </div>
-
-
           <div class="col s12 mt-1">
-            <span><%= @estimate.description %></span>
+            <span class="font-weight-600 black-text">Description:</span><br><span><%= @estimate.description %></span>
           </div>
-
 
         </div>
       </div>

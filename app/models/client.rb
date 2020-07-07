@@ -59,7 +59,7 @@ class Client < ApplicationRecord
 
 
 
-        customer = Menu.create(active: true, icon: "face", name: "Customer", url: "/customers", ancestry: nil, position: 4)
+        customer = Menu.create(active: true, icon: "face", name: "Customers", url: "/customers", ancestry: nil, position: 4)
         workers = Menu.create(active: true, icon: "business_center", name: "Workers", url: "/workers", ancestry: nil, position: 5)
         estimates = Menu.create(active: true, icon: "assignment_turned_in", name: "Estimates", url: "/estimates", ancestry: nil, position: 2)
         schedules = Menu.create(active: true, icon: "event_note", name: "Schedules", url: "/schedules", ancestry: nil, position: 6)

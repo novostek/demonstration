@@ -37,7 +37,7 @@
   <div class="input-field">
 
 
-    <%= f.date_field :since %>
+    <%= f.date_field :since, value: customer.new_record? ? Time.now.strftime('%Y-%m-%d') : customer.since.strftime('%Y-%m-%d') %>
     <%= f.label :since %>
     
   </div>

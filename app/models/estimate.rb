@@ -189,6 +189,22 @@ class Estimate < ApplicationRecord
 
   end
 
+  def apply_discount discount
+    if self.discount == 0.0
+      self.discount = discount
+      self.price -= self.discount
+    elsif discount > self.discount
+      discount_diff = (discount - self.discount)
+      self.discount += discount_diff
+      self.price -= discount_diff
+    elsif discount < self.discount
+      discount_diff = (self.discount - discount)
+      self.discount -= discount_diff
+      self.price += discount_diff
+    end
+    self.save
+  end
+
   def discounts
     product_estimates.sum(:discount)
   end

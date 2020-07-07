@@ -1,6 +1,6 @@
 class EstimatesController < ApplicationController
   load_and_authorize_resource except: [:estimate_signature, :create_products_estimates, :create_step_one, :create_schedule,:delete_schedule]
-  before_action :set_estimate, only: [:send_grid_mail, :show, :edit, :update, :destroy, :cancel, :reactivate, :send_mail,:estimate_signature, :tax_calculation, :taxpayer, :create_products_estimates,:new_note, :new_document,:create_order]
+  before_action :set_estimate, only: [:send_grid_mail, :show, :edit, :update, :destroy, :cancel, :reactivate, :send_mail,:estimate_signature, :tax_calculation, :taxpayer, :create_products_estimates,:new_note, :new_document,:create_order,:apply_discount]
   before_action :set_combos, only: [:step_one, :products]
   # skip_forgery_protection
   # GET /estimates
@@ -62,6 +62,16 @@ class EstimatesController < ApplicationController
     @estimate.create_order
     @estimate.update(status: :ordered)
     redirect_to schedule_order_path(@estimate.order)
+  end
+
+  def apply_discount
+    discount = params[:estimate][:discount].to_f
+    if @estimate.price >= discount
+      @estimate.apply_discount(discount)
+      redirect_back(fallback_location: view_estimates_path(@estimate), notice: t('notice.estimate.discount_applied'))
+    else
+      redirect_back(fallback_location: view_estimates_path(@estimate), notice: t('notice.estimate.discount_invalid'))
+    end
   end
 
   def estimate_signature

@@ -27,3 +27,4 @@ en:
       payment_added: "Payment successfully added."
       update_error: "There was an error while trying to update the order."
       change_order_created: "Change order was successfully created."
+  empty_gallery: Empty gallery

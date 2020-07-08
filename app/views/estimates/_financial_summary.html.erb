@@ -1,0 +1,21 @@
+<!-- Financial summary of an estimate -->
+  <ul>
+    <li class="display-flex justify-content-between">
+      <span class="invoice-subtotal-title">Subtotal</span>
+      <h6 class="mt-0"><%= number_to_currency estimate.subtotal %></h6>
+    </li>
+    <li class="display-flex justify-content-between">
+      <span class="invoice-subtotal-title">Discount</span>
+      <h6 class="mt-0">- <%= number_to_currency estimate.discounts %></h6>
+    </li>
+    <li class="display-flex justify-content-between">
+      <span class="invoice-subtotal-title">Tax (<%= t("enumerize.estimate.taxpayer.#{estimate.taxpayer}") if estimate.taxpayer.present?%>)</span>
+      <h6 class="mt-0"> <%= number_to_currency estimate.tax || 0 %></h6>
+    </li>
+    <li class="divider mt-2 mb-2"></li>
+    <li class="display-flex justify-content-between">
+      <span class="invoice-subtotal-title">Estimate Total</span>
+      <h6 class="mt-0"><%= number_to_currency estimate.total %></h6>
+    </li>
+  </ul>
+<!--</div>-->

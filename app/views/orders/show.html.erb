@@ -181,83 +181,24 @@
 
           <div class="card-panel">
             <!-- Procuts and area -->
-            <% @order.get_current_estimate.measurement_proposals.distinct.each do |mp| %>
-              <div class="row">
-                <div class="col s12">
-                  <div class="row pl-2 pr-2">
-                    <span class="mr-1">Selected areas:</span>
-                    <% mp.measurement_area.each do |ma| %>
-                      <div class="chip blue white-text"><%= ma.name %></div>
-                    <% end %>
-                  </div>
-                  <table class="striped responsive-table">
-                    <thead>
-                    <tr>
-                      <th>Product</th>
-
-                    <th>Qty</th>
-                      <% if can? :see_price, Order %>
-
-                    <th>Price Unity</th>
-                      <th>Discount</th>
-                      <th class="right-align">Subtotal</th>
-                        <% end %>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <% mp.product_estimates.each do |pe| %>
-                      <tr>
-                        <td><%= pe.product.present? ? pe.product.name : pe.custom_title %></td>
-                        <td><%= pe.quantity %></td>
-                        <% if can? :see_price, Order %>
-
-                      <td><%= pe.unitary_value %></td>
-                        <td><%= pe.discount %></td>
-                        <td class=" right-align"><%= number_to_currency pe.value %></td>
-                          <% end %>
-                      </tr>
-                    <% end %>
-                    <% if can? :see_price, Order %>
-
-                    <tr class="white">
-                      <td class="right-align" colspan="100"><strong>Subtotal area:</strong><br><%= number_to_currency mp.product_estimates.sum(:value) %></td>
-                    </tr>
-                      <% end %>
-                    </tbody>
-                  </table>
-                </div>
-              </div>
-              <div class="divider mb-3 mt-3"></div>
-            <% end %>
+            <%= render partial:'estimates/areas_and_products', locals: {estimate: @order.get_current_estimate} %>
 
             <div class="row">
-              <div class="col m5 s12">
-                <!-- <p>Thanks for your business.</p> -->
-              </div>
-              <div class="col xl6 m8 s12 offset-xl6">
-                <% if can? :see_price, Order %>
-
-              <ul>
-                  <li class="display-flex justify-content-between">
-                    <span class="invoice-subtotal-title">Subtotal</span>
-                    <h6 class="mt-0"><%= number_to_currency @order.current_estimate.subtotal %></h6>
-                  </li>
-                  <li class="display-flex justify-content-between">
-                    <span class="invoice-subtotal-title">Discount</span>
-                    <h6 class="mt-0">- <%= number_to_currency @order.current_estimate.discounts %></h6>
-                  </li>
-                  <li class="display-flex justify-content-between">
-                    <span class="invoice-subtotal-title">Tax (<%= t("enumerize.estimate.taxpayer.#{@order.current_estimate.taxpayer}") %>)</span>
-                    <h6 class="mt-0"> <%= number_to_currency @order.current_estimate.tax || 0 %></h6>
-                  </li>
-                  <li class="divider mt-2 mb-2"></li>
-                  <li class="display-flex justify-content-between">
-                    <span class="invoice-subtotal-title">Estimate Total</span>
-                    <h6 class="mt-0"><%= number_to_currency @order.current_estimate.total %></h6>
-                  </li>
-                </ul>
-                  <% end %>
-              </div>
+              <% if @order.get_current_estimate.measurement_areas.any? %>
+                <div class="col m4 s12">
+                  <!-- <p>Thanks for your business.</p> -->
+                </div>
+                <div class="col xl6 m8 s12 offset-xl6">
+                  <% if can? :see_price, Order %>
+                    <!--resumo-->
+                    <%= render partial: 'estimates/financial_summary', locals: {estimate: @order.current_estimate} %>
+                    <% end %>
+                </div>
+              <% else %>
+                <div class="center">
+                  <p><%= t 'no_area_yet' %></p>
+                </div>
+              <% end %>
             </div>
             <!--  End products area -->
           </div>

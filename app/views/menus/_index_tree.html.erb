@@ -9,16 +9,16 @@
   <td><%= m.position %></td>
   <td>
     <div class="invoice-action right-align">
-      <%= link_to new_menu_path(pai: m.id), class: "invoice-action-view mr-4" do %>
+      <%= link_to new_menu_path(pai: m.id), class: "invoice-action-view mr-4 tooltipped", "data-position" => "top", "data-tooltip" => t('new_child_menu') do %>
         <i class="material-icons">playlist_add</i>
       <% end %>
-      <%= link_to m, class: "invoice-action-view mr-4" do %>
+      <%= link_to m, class: "invoice-action-view mr-4 tooltipped", "data-position" => "top", "data-tooltip" => t('button.show') do %>
         <i class="material-icons">remove_red_eye</i>
       <% end %>
-      <%= link_to edit_menu_path(m) , class: "invoice-action-edit mr-4" do %>
+      <%= link_to edit_menu_path(m) , class: "invoice-action-edit mr-4 tooltipped", "data-position" => "top", "data-tooltip" => t('button.edit') do %>
         <i class="material-icons">edit</i>
       <% end %>
-      <%= link_to m, method: :delete,data: { confirm: "#{t :will_delete}" } ,target:"_self", class: "invoice-action-edit mr-4" do %>
+      <%= link_to m, method: :delete,data: { confirm: "#{t :will_delete}" } ,target:"_self", class: "invoice-action-edit mr-4 tooltipped", "data-position" => "top", "data-tooltip" => t('button.delete') do %>
         <i class="material-icons">delete</i>
       <% end %>
     </div>

@@ -25,7 +25,7 @@ end
 desc "Cria os customers na square"
 task :square_customer => :environment do
 
-  Customeer.create_square_customers
+  Customer.create_square_customers
 
 end
 

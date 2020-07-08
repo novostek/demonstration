@@ -45,7 +45,7 @@ class Customer < ApplicationRecord
   end
 
   #Método que cria os customers na square para aqueles que ainda não possuem
-  def create_square_customers
+  def self.create_square_customers
     Client.all.each do |c|
       Apartment::Tenant.switch(c.tenant_name) do
         Customer.where(square_id: nil).each do (customer)

@@ -55,10 +55,10 @@
             <td><%= transaction_account.namespace %></td>
           <td>
             <div class="invoice-action right-align">
-              <%= link_to transaction_account, class: "invoice-action-view mr-4" do %>
-                <i class="material-icons">remove_red_eye</i>
-              <% end %>
-              <%= link_to edit_transaction_account_path(transaction_account) , class: "invoice-action-edit mr-4" do %>
+              <%#= link_to transaction_account, class: "invoice-action-view mr-4" do %>
+<!--                <i class="material-icons">remove_red_eye</i>-->
+              <%# end %>
+              <%= link_to edit_transaction_account_path(transaction_account) , class: "invoice-action-edit mr-4 btn btn-small btn-secondary mr-2 white-text" do %>
                 <i class="material-icons">edit</i>
               <% end %>
             </div>

@@ -6,7 +6,7 @@ en:
       customer:
         name: "Name"
         since: "Since"
-        document_id: "DocumentID"
+        document_id: "Document ID"
         category: "Category"
         code: "Code"
         birthdate: "Birthdate"

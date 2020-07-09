@@ -70,9 +70,7 @@
                 <% end %>
               </td>
               <td>
-                <span class="chip lighten-5 green green-text">
-                  <%= lead.status %>
-                </span>
+                <%= render partial: 'status', locals: {lead: lead} %>
               </td>
             </tr>
           <% end %>

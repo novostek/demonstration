@@ -333,6 +333,8 @@ GEM
       rubyzip (>= 1.2.2)
     sendgrid-ruby (6.2.1)
       ruby_http_client (~> 3.4)
+    sentry-raven (2.13.0)
+      faraday (>= 0.7.6, < 1.0)
     slop (3.6.0)
     spring (2.1.0)
     spring-watcher-listen (2.0.1)
@@ -435,6 +437,7 @@ DEPENDENCIES
   seed_dump
   selenium-webdriver
   sendgrid-ruby
+  sentry-raven
   spring
   spring-watcher-listen (~> 2.0.0)
   square.rb

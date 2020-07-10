@@ -1,6 +1,5 @@
 class SchedulesController < ApplicationController
-
-  load_and_authorize_resource except: [:delete_schedule, :create]
+  load_and_authorize_resource
   def index
     @schedules = Schedule.all
     @workers = Worker.where(active: true)
@@ -94,7 +93,22 @@ class SchedulesController < ApplicationController
     else
       redirect_to params[:redirect], alert: "#{schedule.errors.full_messages.to_sentence}"
     end
+  end
 
+  private
+
+  def schedule_params
+    params.require(:schedule).permit(
+      :title,
+      :schedule_id,
+      :category,
+      :description,
+      :start_at,
+      :end_at,
+      :color,
+      :worker_id,
+      :send_mail
+    )
   end
 
 end

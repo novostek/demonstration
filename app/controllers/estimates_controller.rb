@@ -112,7 +112,7 @@ class EstimatesController < ApplicationController
       redirect_to "/estimates/#{@estimate.id}/view", notice: t('notice.estimate.inform_all_fields')
     else
       @estimate.link = "#{Setting.url}/estimates/#{@estimate.id}/estimate_signature"
-      DocumentMailer.with(estimate: @estimate, emails: params[:emails]).send_estimate_mail.deliver_now
+      DocumentMailer.with(estimate: @estimate, emails: params[:emails], subject: params[:subject]).send_estimate_mail.deliver_now
       redirect_to "/estimates/#{@estimate.id}/view", notice: t('notice.estimate.mail_sent')
     end
 

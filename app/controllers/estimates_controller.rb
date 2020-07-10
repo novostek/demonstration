@@ -73,6 +73,8 @@ class EstimatesController < ApplicationController
       if @estimate.estimate?
         @estimate.create_order
         @estimate.update(status: :ordered)
+        # Envia email para empresa avisando que o cliente assinou o estimate
+        DocumentMailer.with(estimate: @estimate).send_signed_estimate_mail.deliver_now
       else #change_order
         @estimate.update(status: :ordered)
         @estimate.order.estimates.where.not(id: @estimate.id).update_all(status: :cancelled)
@@ -346,6 +348,7 @@ class EstimatesController < ApplicationController
 
   def view_estimate
     @estimate = Estimate.find(params[:estimate_id])
+    DocumentMailer.with(estimate: @estimate).send_signed_estimate_mail.deliver_now
     @hidden_fields = Setting.get_value('hidden_measurement_fields')
     @documents = Document.to_select
     begin

@@ -1,5 +1,9 @@
 <div style="bottom: 50px; right: 19px;" class="fixed-action-btn direction-top"><a class="btn-floating btn-large gradient-45deg-indigo-blue gradient-shadow"><i class="material-icons">add</i></a>
   <ul>
+    <% if defined?(card) %>
+      <li><a href="<%= nonce_square_api_index_path(customer: @customer.id, from: "customer") %>"  class="btn-floating blue tooltipped" target="_self" data-position="left" data-tooltip="<%= t 'button.new' %> <%= "Card" %>" style="opacity: 0; transform: scale(0.4) translateY(40px) translateX(0px);"><i class="material-icons">credit_card</i></a></li>
+    <% end %>
+
     <li><a href="#modal_note" class="btn-floating blue modal-trigger tooltipped" target="_self" data-position="left" data-tooltip="<%= t 'button.new' %> <%= t('activerecord.models.note') %>" style="opacity: 0; transform: scale(0.4) translateY(40px) translateX(0px);"><i class="material-icons">note</i></a></li>
     <li><a href="#modal_doc" class="btn-floating red modal-trigger tooltipped" target="_self" data-position="left" data-tooltip="<%= t 'button.new' %> <%= t('activerecord.models.document') %>" style="opacity: 0; transform: scale(0.4) translateY(40px) translateX(0px);"><i class="material-icons">description</i></a></li>
     <% if contact %>

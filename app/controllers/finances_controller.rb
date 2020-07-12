@@ -14,7 +14,7 @@ class FinancesController < ApplicationController
       if cost.present? and income[:month] == cost[:month]
         @balance.push({
           :month => income[:month],
-          :value => income[:value] - cost[:value]
+          :value => income[:value] - (cost[:value] * -1)
         })
       end
     end

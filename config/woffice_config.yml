@@ -2,7 +2,9 @@ development:
   url: "http://localhost:3000"
   oauth_square_url: "https://connect.squareupsandbox.com/oauth2/authorize?"
   square_env: "sandbox"
+  js_square_url: "https://js.squareupsandbox.com"
 production:
   url: "http://woodoffice.herokuapp.com"
   oauth_square_url: "https://connect.squareup.com/oauth2/authorize?"
   square_env: "production"
+  js_square_url: "https://js.squareup.com"

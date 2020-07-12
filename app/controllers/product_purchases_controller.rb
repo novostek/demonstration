@@ -1,7 +1,8 @@
 class ProductPurchasesController < ApplicationController
-  #load_and_authorize_resource
+  load_and_authorize_resource except: [:create]
   before_action :set_product_purchase, only: [:show, :edit, :update, :destroy,:new_note,:new_document,:change_status]
   before_action :authenticate_user!, except: [:create]
+  
   # GET /product_purchases
   def index
     @q = ProductPurchase.all.ransack(params[:q])
@@ -64,7 +65,7 @@ class ProductPurchasesController < ApplicationController
 
   # POST /product_purchases
   def create
-    product_purchase = params[:productPurchase]
+    product_purchase = params[:product_purchase]
 
     begin
       product_purchase.each do |pp|
@@ -82,17 +83,11 @@ class ProductPurchasesController < ApplicationController
     else
       render json: {status: :ok  }
     end
-    # @product_purchase = ProductPurchase.new(product_purchase_params)
-
-    # if @product_purchase.save
-    #   redirect_to @product_purchase, notice: 'Product purchase foi criado com sucesso'
-    # else
-    #   render :new
-    # end
   end
 
   # PATCH/PUT /product_purchases/1
   def update
+    #binding.pry
     if @product_purchase.update(product_purchase_params)
       redirect = params[:redirect] || params[:product_purchase][:redirect]
       redirect_to redirect, notice: t('notice.product_purchase.updated')

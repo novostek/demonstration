@@ -1,5 +1,5 @@
 Rails.application.routes.draw do
-
+  get 'pages/denied'
   resources :testes
   resources :clients do
     collection do
@@ -79,7 +79,8 @@ Rails.application.routes.draw do
     collection do
       get "oauth"
       get "callback"
-      get "teste_pagamento"
+      get "nonce"
+      post "add_card"
       post "process_payment"
       get "checkout"
     end
@@ -112,6 +113,7 @@ Rails.application.routes.draw do
       put "taxpayer"
       get "cancel"
       get "reactivate"
+      post "apply_discount"
     end
     collection do
       get ":id/measurements", to: "measurement_areas#measurements", as: :measurement_view
@@ -195,6 +197,8 @@ Rails.application.routes.draw do
       get "new_note"
       post "new_document"
       get "new_contact"
+      get "add_card"
+      get "mail_card"
     end
     collection do
       get "search_customers"
@@ -261,6 +265,13 @@ Rails.application.routes.draw do
 
   get 'initialization' => 'bot#initialization', as: :initialization_bot
   post 'create_initialization' => 'bot#create_initialization', as: :create_initialization
+  #Api
+  get 'api/woffice_pay_code'
+  get 'api/orders' => "orders#index", as: :api_orders
+  get 'api/orders/:id' => "orders#show", as: :api_order
+  get 'api/orders/:id/payments' => "orders#pendent_payments", as: :api_order_payments
+  post 'api/payment/:id/pay' => "api#order_paid", as: :api_payment_pay
+
 
   root "users#home"
 end

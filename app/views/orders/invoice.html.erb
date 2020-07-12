@@ -65,6 +65,7 @@
                     <th>Payment method</th>
                     <th>Status</th>
                     <th class="right-align">Amount</th>
+                     <th></th>
                   </tr>
                   </thead>
                   <tbody>
@@ -88,7 +89,14 @@
                           <% end %>
                         <% end  %>
                       </td>
-                      <td class="right-align" onclick="change_payment_value(<%= t.value %>, <%= @order.id %>, <%= t.id %>)"><%= number_to_currency(t.value) %></td>
+                      <td class="right-align" onclick="change_payment_value(<%= t.value %>, '<%= @order.id %>', '<%= t.id %>')"><%= number_to_currency(t.value) %></td>
+                      <td>
+                        <% if t.pendent? %>
+                          <a href="wofficepay://woffice/orders/<%= @order.id %>/payments/<%= t.id %>?value=<%= t.value %>&orderCode=<%= @order.code %>">
+                            <i class="material-icons">phonelink_ring</i>
+                          </a>
+                        <% end %>
+                      </td>
                     </tr>
 
                     <div id="modal-send_payment_<%= t.id %>" class="modal">
@@ -183,10 +191,16 @@
                 <% end %>
 
               </div>
-              <div class="invoice-action-btn">
+              <div class="invoice-action-btn mb-4">
                 <a href="#modal_payment" class="modal-trigger btn waves-effect waves-light display-flex align-items-center justify-content-center">
                   <i class="material-icons mr-3">attach_money</i>
                   <span class="text-nowrap">Add Payment</span>
+                </a>
+              </div>
+              <div class="invoice-action-btn">
+                <a onclick="get_woffice_code();" class=" btn waves-effect waves-light display-flex align-items-center justify-content-center">
+                  <i class="material-icons mr-3">devices</i>
+                  <span class="text-nowrap">Woffice Pay</span>
                 </a>
               </div>
             </div>
@@ -220,7 +234,7 @@
   <div id="modal-invoice" class="modal">
     <%= form_with url: send_invoice_mail_order_path(@order), method: :get, local: true do |f| %>
       <div class="modal-content">
-        <h4>Send invoice</h4>
+        <h4>Send Invoice</h4>
         <div class="row">
           <div class="input-field">
             <%= f.label :emails, "Emails" %>
@@ -252,19 +266,31 @@
 
           <div class="row">
             <div class="input-field col s12 m4">
-              <%= f.text_field :value, class: "validade", required: true %>
+              <%= f.number_field :value, class: "validade",min: 0, step: :any, required: true %>
               <%= f.label  :value %>
             </div>
             <div class="input-field col s12 m4">
-              <%= f.select :payment_method,
-                           options_for_select(Transaction.payment_method.options.map { |op| [op[0], op[1], {'data-icon': op[0].include?("Square") ? image_path('square.svg') : '' }] }),
+              <% if @cards.size > 0 %>
+                <%= f.select :payment_method,
+                             options_for_select(Transaction.payment_method.options.map { |op| [op[0], op[1], {'data-icon': op[0].include?("Square") ? image_path('square.svg') : '' }] }),
+                             {class: 'icons' }, {id:"payment_method", onchange:"payment_method_change()"} %>
+              <% else %>
+                <%= f.select :payment_method,
+                           options_for_select(Transaction.payment_method.options(except: [:square_card_on_file]).map { |op| [op[0], op[1], {'data-icon': op[0].include?("Square") ? image_path('square.svg') : '' }] }),
                            {class: 'icons' }, {id:"payment_method", onchange:"payment_method_change()"} %>
+              <% end %>
               <%= f.label :payment_method %>
             </div>
             <div class="input-field col s12 m4">
               <i class="material-icons prefix">today</i>
               <%= f.date_field :due, class: "deposit-due", required: true %>
               <%= f.label  :due %>
+            </div>
+          </div>
+          <div class="row hide card_div" id="card">
+            <div class="input-field">
+              <%= f.label :square_card_id, class:"active" %>
+              <%= f.select :square_card_id, @cards.map{|a| [ "#{a[:card_brand]} - #{a[:last_4]}", a[:id]]}  %>
             </div>
           </div>
           <div class="row hide email_div" id="email">
@@ -284,11 +310,7 @@
     <% end %>
   </div>
 
-
-
-
-
-</div>
+  <%= render '/layouts/woffice_pay_modal' %></div>
 <!--</div>-->
 
 <%= content_for :scripts do %>
@@ -296,8 +318,20 @@
 <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
   <script type="text/javascript" charset="utf-8">
 
+
+
       function payment_method_change()
       {
+
+          if($("#payment_method").val() == "square_card_on_file")
+          {
+              $("#card").removeClass("hide");
+          }
+          else
+          {
+              $("#card").addClass("hide");
+          }
+
           if($("#payment_method").val() == "square_credit")
           {
               $("#email").removeClass("hide");
@@ -401,7 +435,7 @@
           footer: `
             <button 
               class="swal2-cancel swal2-styled" 
-              onclick="delete_transaction(${transaction_id})"
+              onclick="delete_transaction('${transaction_id}')"
               style="display: inline-block; background-color: rgb(221, 51, 51);">
               Excluir
             </button>`,
@@ -443,5 +477,7 @@
             }
           }
       }
+
+
   </script>
 <% end %>

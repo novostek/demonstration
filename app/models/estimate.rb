@@ -8,10 +8,12 @@
 #  code               :string           not null
 #  current            :boolean
 #  description        :text             not null
-#  latitude           :decimal(, )      not null
+#  discount           :decimal(10, 2)   default(0.0)
+#  latitude           :decimal(, )
 #  link               :text
 #  location           :string           not null
-#  longitude          :decimal(, )      not null
+#  longitude          :decimal(, )
+#  payment_approval   :boolean
 #  price              :decimal(, )
 #  status             :string           not null
 #  tax                :decimal(, )
@@ -106,8 +108,8 @@ class Estimate < ApplicationRecord
 
   def calculate_tax_values
     calculator = Dentaku::Calculator.new
-    sub_total = self.product_estimates.sum(:value)
-    tax_products = self.product_estimates.where(tax: true).sum(:value)
+    sub_total = self.product_estimates.distinct(:id).sum(&:value)
+    tax_products = self.product_estimates.where(tax: true).sum(&:value)
     sub_total_taxes = calculator.evaluate(self.calculation_formula.formula, total: tax_products)
     discounts = self.product_estimates.sum(:discount)
     if self.taxpayer == 'customer'
@@ -185,6 +187,22 @@ class Estimate < ApplicationRecord
     end
 
 
+  end
+
+  def apply_discount discount
+    if self.discount == 0.0
+      self.discount = discount
+      self.price -= self.discount
+    elsif discount > self.discount
+      discount_diff = (discount - self.discount)
+      self.discount += discount_diff
+      self.price -= discount_diff
+    elsif discount < self.discount
+      discount_diff = (self.discount - discount)
+      self.discount -= discount_diff
+      self.price += discount_diff
+    end
+    self.save
   end
 
   def discounts

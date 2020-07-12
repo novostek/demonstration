@@ -9,6 +9,7 @@ en:
         description: "Description"
         tax: "Tax"
         namespace: "Namespace"
+        payment_aprroval: "Automatic Payment Approval"
   enumerize:
     estimate:
       taxpayer:
@@ -24,6 +25,7 @@ en:
         cancelled: "Cancelled"
   sign: "Sign"
   measurements: "Measurements"
+  payment_aprroval_text: "Automatic Payment Approval"
   notice:
     estimate:
       created: "Estimate was successfully created."
@@ -36,3 +38,5 @@ en:
       already_ordered: "Estimate already ordered"
       mail_sent: "Mail Sent"
       inform_all_fields: "All fields must be filled"
+      discount_applied: "Discount was sucessfully applied to the estimate."
+      discount_invalid: "The discount value is greater than the value of the estimate."

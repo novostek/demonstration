@@ -3,6 +3,7 @@
 # Table name: suppliers
 #
 #  id          :uuid             not null, primary key
+#  active      :boolean          default(TRUE)
 #  description :text
 #  name        :string           not null
 #  created_at  :datetime         not null
@@ -27,7 +28,7 @@ class Supplier < ApplicationRecord
 
   #Método que retorna um array dos objetos para usar nos combos
   def self.to_select
-    all.map{|a| [a.name,a.id]}
+    all.where(active: true).map{|a| [a.name,a.id]}
   end
 end
 

@@ -1,5 +1,5 @@
 class AccountsController  < ApplicationController
-  #load_and_authorize_resource
+  load_and_authorize_resource
   before_action :set_combos, only: [:new, :edit, :update, :create]
   before_action :set_account, only: [:show, :edit, :update, :destroy]
 

@@ -1,6 +1,6 @@
 class EstimatesController < ApplicationController
-  #load_and_authorize_resource except: [:estimate_signature, :create_products_estimates, :create_step_one, :create_schedule,:delete_schedule]
-  before_action :set_estimate, only: [:send_grid_mail, :show, :edit, :update, :destroy, :cancel, :reactivate, :send_mail,:estimate_signature, :tax_calculation, :taxpayer, :create_products_estimates,:new_note, :new_document,:create_order]
+  load_and_authorize_resource except: [:estimate_signature, :create_products_estimates, :create_step_one, :create_schedule,:delete_schedule]
+  before_action :set_estimate, only: [:send_grid_mail, :show, :edit, :update, :destroy, :cancel, :reactivate, :send_mail,:estimate_signature, :tax_calculation, :taxpayer, :create_products_estimates,:new_note, :new_document,:create_order,:apply_discount]
   before_action :set_combos, only: [:step_one, :products]
   # skip_forgery_protection
   # GET /estimates
@@ -64,6 +64,16 @@ class EstimatesController < ApplicationController
     redirect_to schedule_order_path(@estimate.order)
   end
 
+  def apply_discount
+    discount = params[:estimate][:discount].to_f
+    if @estimate.price >= discount
+      @estimate.apply_discount(discount)
+      redirect_back(fallback_location: view_estimates_path(@estimate), notice: t('notice.estimate.discount_applied'))
+    else
+      redirect_back(fallback_location: view_estimates_path(@estimate), notice: t('notice.estimate.discount_invalid'))
+    end
+  end
+
   def estimate_signature
     @view = params[:view]
     @hidden_fields = Setting.get_value('hidden_measurement_fields')
@@ -88,15 +98,22 @@ class EstimatesController < ApplicationController
         end
 
       end
-
+      if @estimate.payment_approval
+        redirect_to nonce_square_api_index_path(estimate: @estimate.id)
+        return
+      end
     end
 
     #cria a assinatura para o formulário
     @signature = Signature.new
     @signature.origin = "Estimate"
     @signature.origin_id = @estimate.id
-    #render "estimate_signature_new", layout: "clean"
+    #render "estimate_signature_new", layout: "clean"]
+    #if @estimate.payment_approval
+
+      #else
     render layout: "document"
+      #end
   end
 
   #Método que envia o email do estimate via woffice
@@ -239,6 +256,7 @@ class EstimatesController < ApplicationController
     estimate.latitude = params[:estimate][:latitude]
     estimate.longitude = params[:estimate][:longitude]
     estimate.sales_person_id = params[:estimate][:sales_person_id]
+    estimate.payment_approval = params[:estimate][:payment_approval]
     estimate.lead_id = params[:lead_id]
     estimate.status = 'new'
     estimate.total = 0.0
@@ -251,8 +269,8 @@ class EstimatesController < ApplicationController
 
   def schedule
     @estimate = Estimate.find(params[:id])
-    @workers = Worker.all
-    @schedules = Schedule.where('start_at >= ?', Time.now.strftime('%Y-%m-%d'))
+    @workers = Worker.where(active: true)
+    @schedules = Schedule.where('start_at >= ?', (Time.now - 7.days).strftime('%Y-%m-%d'))
     add_breadcrumb I18n.t("activerecord.models.estimates"), estimates_path
     add_breadcrumb I18n.t("activerecord.models.schedules"), schedule_estimate_path(@estimate)
     render :schedule
@@ -317,7 +335,7 @@ class EstimatesController < ApplicationController
         end
         pe["products"].each do |product|
           if !product['name'].empty?
-            p_estimate = !product["product_id"] == 0 ? ProductEstimate.find_or_initialize_by(product_id: product["product_id"], measurement_proposal_id: mp.id) : ProductEstimate.find_or_initialize_by(custom_title: product["name"], measurement_proposal_id: mp.id)
+            p_estimate = product["product_id"].empty? ? ProductEstimate.find_or_initialize_by(custom_title: product["name"], measurement_proposal_id: mp.id) : ProductEstimate.find_or_initialize_by(product_id: product["product_id"], measurement_proposal_id: mp.id)
             p_estimate.quantity = product["qty"].to_f
             p_estimate.unitary_value = product["price"].to_f
             p_estimate.discount = product["discount"].to_f
@@ -383,6 +401,10 @@ class EstimatesController < ApplicationController
     redirect_to view_estimates_path(@estimate), notice: "#{t 'notice.estimate.reactivated'}"
   end
 
+  def see_price
+    #this is only to set permissions
+  end
+
   private
   #Método que carrega os objetos de seleção
   def set_combos
@@ -398,7 +420,7 @@ class EstimatesController < ApplicationController
   # Only allow a trusted parameter "white list" through.
   def estimate_params
     params.require(:estimate).permit(
-        :code, :title, :worker_id, :status, :description, :location,
+        :code, :title,:payment_approval, :worker_id, :status, :description, :location,
         :latitude, :longitude, :category, :order_id, :price, :tax,
         :tax_calculation, :lead_id, :bpmn_instance, :current, :total, :taxpayer,
         measurement_areas_attributes: [

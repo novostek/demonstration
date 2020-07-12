@@ -1,7 +1,9 @@
 class ProductsController < ApplicationController
-  #load_and_authorize_resource
+  load_and_authorize_resource
   before_action :set_product, only: [:show, :edit, :update, :destroy]
   before_action :set_combos, only: [:new,:edit,:create,:update]
+  before_action :init_entity_modal, only: [:new,:edit,:create,:update]
+
 
   # GET /products
   def index
@@ -10,7 +12,7 @@ class ProductsController < ApplicationController
     else
       limit = 50
     end
-    @q = Product.all.order(name: :asc).ransack(params[:q])
+    @q = Product.all.order(name: :asc).where(active: true).ransack(params[:q])
     @products = @q.result.page(params[:page]).per(limit)
   end
 
@@ -22,8 +24,6 @@ class ProductsController < ApplicationController
   def new
     @product = Product.new
     @product.calculation_formula = CalculationFormula.find_by_namespace('default-formula')
-    @supplier = Supplier.new
-    @category = ProductCategory.new
   end
 
   # GET /products/1/edit
@@ -89,6 +89,10 @@ class ProductsController < ApplicationController
   end
 
   private
+    def init_entity_modal
+      @supplier = Supplier.new
+      @category = ProductCategory.new
+    end
 
     #Método que carrega os objetos de seleção
     def set_combos
@@ -105,7 +109,7 @@ class ProductsController < ApplicationController
     # Only allow a trusted parameter "white list" through.
     def product_params
       params.require(:product).permit(
-        :photo,:photo_cache,:calculation_formula_id,:supplier_id,:name, :uuid, 
+        :photo,:photo_cache,:calculation_formula_id,:supplier_id,:name, :uuid, :active,
         :details, :product_category_id, :customer_price, :cost_price, 
         :area_covered, :tax, :bpm_purchase, suggestion_ids: [],
         :product_schedules_attributes => [:product_ids, :schedules, :_destroy])

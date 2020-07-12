@@ -1,7 +1,8 @@
 
+<div id="product-add-modal" class="modal modal-fixed-footer">
 <%= form_for product, remote: true do |f| %>
-  <div id="product-add-modal" class="modal modal-fixed-footer">
     <div class="modal-content">
+      <h4><%= t "button.new" %> <%= t "activerecord.models.product" %></h4>
       <% if product.errors.any? %>
         <div id="error_explanation" class="card-panel red white-text">
           <h5><%= t('errors.template.header')  %>:</h5>
@@ -75,5 +76,5 @@
         <i class="material-icons left">save</i><%= t('buttons.save') %>
       <% end %>
     </div>
-  </div>
 <% end %>
+  </div>

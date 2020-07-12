@@ -41,6 +41,47 @@ class SquareApiController < ApplicationController
 
   end
 
+  #Método utilizado para capiturar o cartão do cliente
+  def nonce
+
+    @from = params[:from]
+    @success = params[:success]
+
+    if params[:estimate].present?
+      @estimate = Estimate.find(params[:estimate])
+      @customer = @estimate.customer
+      render layout: "document"
+    else
+      @customer = Customer.find(params[:customer])
+    end
+    if @from.present? and @from == "email"
+      render layout: "document"
+    end
+  end
+
+  #Método que adiciona o cartão do customer na square
+  def add_card
+    result = SquareApi.add_card(params[:customer],params[:nonce])
+
+    if result.success?
+      if params[:estimate].present?
+        redirect_to nonce_square_api_index_path(estimate: params[:estimate], success:  true), notice: "Card add successful"
+      else
+        if params[:from].present? and params[:from] == "email"
+          redirect_to nonce_square_api_index_path(customer:params[:customer_woffice], from: "email", success:  true ), notice: "Card add successful"
+          return
+        end
+        redirect_to customer_path(params[:customer_woffice]), notice: "Card add successful"
+      end
+    elsif result.error?
+      if params[:estimate].present?
+        redirect_to nonce_square_api_index_path(estimate: params[:estimate]), notice: result.errors
+      else
+        redirect_to customer_path(params[:customer_woffice]), notice: result.errors
+      end
+    end
+  end
+
   def process_payment
     #binding.pry
     result = SquareApi.create_payment(params[:nonce],1000)

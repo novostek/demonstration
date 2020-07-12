@@ -2,347 +2,348 @@
   <link href='/css/settings.css' rel='stylesheet' type='text/css' />
 <% end %>
 <%= form_with url: atualiza_settings_settings_path, local: true do |f| %>
-<section class="invoice-list-wrapper section">
-  <%= f.hidden_field  :redirect,  value: "/settings"%>
-  <!-- create invoice button-->
-  <div class="content-wrapper-before woffice-color"></div>
-  <div class="pb-0 pt-4" id="breadcrumbs-wrapper">
-    <!-- Search for small screen-->
-    <div class="container">
-      <div class="row">
-        <div class="col s10 m6 l6">
-          <h5 class="breadcrumbs-title mt-0 mb-0"><span>Settings</span></h5>
-<!--          <ol class="breadcrumbs mb-0">-->
-<!--            <li class="breadcrumb-item"><a href="/"><%#= t('home') %></a>-->
-<!--            </li>-->
-<!--            <li class="breadcrumb-item"><a href="/settings">Settings</a>-->
-<!--            </li>-->
-<!--            <li class="breadcrumb-item active">Company-->
-<!--            </li>-->
-<!--          </ol>-->
+  <section class="invoice-list-wrapper section">
+    <%= f.hidden_field  :redirect,  value: "/settings"%>
+    <!-- create invoice button-->
+    <div class="content-wrapper-before woffice-color"></div>
+    <div class="pb-0 pt-4" id="breadcrumbs-wrapper">
+      <!-- Search for small screen-->
+      <div class="container">
+        <div class="row">
+          <div class="col s10 m6 l6">
+            <h5 class="breadcrumbs-title mt-0 mb-0"><span>Settings</span></h5>
+            <!--          <ol class="breadcrumbs mb-0">-->
+            <!--            <li class="breadcrumb-item"><a href="/"><%#= t('home') %></a>-->
+            <!--            </li>-->
+            <!--            <li class="breadcrumb-item"><a href="/settings">Settings</a>-->
+            <!--            </li>-->
+            <!--            <li class="breadcrumb-item active">Company-->
+            <!--            </li>-->
+            <!--          </ol>-->
+          </div>
+          <!-- <div class="col s2 m6 l6"><a class="btn dropdown-settings waves-effect waves-light breadcrumbs-btn right" href="#!" data-target="dropdown1"><i class="material-icons hide-on-med-and-up">settings</i><span class="hide-on-small-onl">Settings</span><i class="material-icons right">arrow_drop_down</i></a>
+              <ul class="dropdown-content" id="dropdown1" tabindex="0">
+                  <li tabindex="0"><a class="grey-text text-darken-2" href="user-profile-page.html">Profile<span class="new badge red">2</span></a></li>
+                  <li tabindex="0"><a class="grey-text text-darken-2" href="app-contacts.html">Contacts</a></li>
+                  <li tabindex="0"><a class="grey-text text-darken-2" href="page-faq.html">FAQ</a></li>
+                  <li class="divider" tabindex="-1"></li>
+                  <li tabindex="0"><a class="grey-text text-darken-2" href="user-login.html">Logout</a></li>
+              </ul>
+          </div> -->
         </div>
-        <!-- <div class="col s2 m6 l6"><a class="btn dropdown-settings waves-effect waves-light breadcrumbs-btn right" href="#!" data-target="dropdown1"><i class="material-icons hide-on-med-and-up">settings</i><span class="hide-on-small-onl">Settings</span><i class="material-icons right">arrow_drop_down</i></a>
-            <ul class="dropdown-content" id="dropdown1" tabindex="0">
-                <li tabindex="0"><a class="grey-text text-darken-2" href="user-profile-page.html">Profile<span class="new badge red">2</span></a></li>
-                <li tabindex="0"><a class="grey-text text-darken-2" href="app-contacts.html">Contacts</a></li>
-                <li tabindex="0"><a class="grey-text text-darken-2" href="page-faq.html">FAQ</a></li>
-                <li class="divider" tabindex="-1"></li>
-                <li tabindex="0"><a class="grey-text text-darken-2" href="user-login.html">Logout</a></li>
-            </ul>
-        </div> -->
       </div>
     </div>
-  </div>
-  <div class="col s12">
-    <div class="container settings_container">
-      <div class="section">
-        <ul class="tabs">
-          <li class="tab"><a target="_self" class="active " href="#">Company</a></li>
-          <li class="tab"><a target="_self"  href="/settings/email">Emails</a></li>
-          <li class="tab"><a target="_self"  href="/settings/estimate">Estimates</a></li>
-          <li class="tab"><a target="_self"  href="/settings/transactions">Transactions</a></li>
-        </ul>
-        <div class="card">
-          <div class="card-content">
-            <div class="row">
-              <div class="col s12 m4 mb-3">
-                <div class="card-title black-text">Company logo</div>
-              </div>
-              <div class="col s12 m8">
-                <div class="row">
-                  <div class="col s12 m4 company_logo">
-<!--                    <img src="https://i.ibb.co/sVQ03Sk/Whats-App-Image-2020-04-02-at-12-51-26.jpg" alt="Company logo">-->
-                    <img src="<%= Setting.logo %>" alt="Company logo">
-                  </div>
-                  <div class="file-field input-field col s12 l8">
-                    <div class="btn">
-                      <span>Upload new logo</span>
-<!--                      <input type="file" name="logo" id="logo">-->
-                      <%= f.file_field :logo %>
+    <div class="col s12">
+      <div class="container settings_container">
+        <div class="section">
+          <ul class="tabs">
+            <li class="tab"><a target="_self" class="active " href="#">Company</a></li>
+            <li class="tab"><a target="_self"  href="/settings/email">Emails</a></li>
+            <li class="tab"><a target="_self"  href="/settings/estimate">Estimates</a></li>
+            <li class="tab"><a target="_self"  href="/settings/transactions">Transactions</a></li>
+          </ul>
+          <div class="card">
+            <div class="card-content">
+              <div class="row">
+                <div class="col s12 m4 mb-3">
+                  <div class="card-title black-text">Company logo</div>
+                </div>
+                <div class="col s12 m8">
+                  <div class="row">
+                    <div class="col s12 m4 company_logo">
+                      <!--                    <img src="https://i.ibb.co/sVQ03Sk/Whats-App-Image-2020-04-02-at-12-51-26.jpg" alt="Company logo">-->
+                      <img src="<%= Setting.logo %>" alt="Company logo">
                     </div>
-                    <div class="file-path-wrapper">
-                      <input class="file-path validate" type="text">
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="divider mt-2 mb-3"></div>
-            <div class="row">
-              <div class="col s12 m4 mb-3">
-                <div class="card-title black-text">Company info</div>
-                <p>The information here will appear to your clients.</p>
-              </div>
-              <div class="col s12 m8">
-                <div class="row">
-                  <div class="input-field col s12 l8">
-                    <p class="font-weight-600">Company name</p>
-                    <input name="company_name" id="company_name" type="text"
-                           value="<%= Setting.get_value('company_name') %>">
-                    <!-- <span class="helper-text" data-error="wrong" data-success="right">Helper Text</span> -->
-                  </div>
-                </div>
-                <div class="row">
-                  <div class="input-field col s12 l8">
-                    <p class="font-weight-600">Company fullname</p>
-                    <input name="company_full_name" id="company_full_name" type="text"
-                           value="<%= Setting.get_value('company_full_name') %>">
-                    <!-- <span class="helper-text" data-error="wrong" data-success="right">Helper Text</span> -->
-                  </div>
-                </div>
-                <div class="row">
-                  <div class="input-field col s12 l8">
-                    <p class="font-weight-600">Address</p>
-                    <input name="company_address" id="company_address" type="text"
-                           value="<%= Setting.get_value('company_address') %>">
-                  </div>
-                </div>
-                <div class="row">
-                  <div class="input-field col s12 l8">
-                    <p class="font-weight-600">Phone</p>
-                    <input name="company_phone" id="company_phone" class="phone" type="tel"
-                           value="<%= Setting.get_value('company_phone') %>">
-                  </div>
-                </div>
-                <div class="row">
-                  <div class="input-field col s12 l8">
-                    <p class="font-weight-600">Email</p>
-                    <input name="company_email" id="company_email" type="email"
-                           value="<%= Setting.get_value('company_email') %>">
-                  </div>
-                </div>
-                <div class="row">
-                  <div class="input-field col s12 l8">
-                    <p class="font-weight-600">Url</p>
-                    <input name="url_app" id="url_app" type="text"
-                           value="<%= Setting.get_value('url_app') %>">
-                  </div>
-                </div>
-
-              </div>
-            </div>
-            <div class="divider mt-2 mb-3"></div>
-            <div class="row">
-              <div class="col s12 m4 mb-3">
-                <div class="card-title black-text">Order</div>
-                <!-- <p>The information here will appear to your clients.</p> -->
-              </div>
-              <div class="col s12 m8">
-                <div class="row">
-                  <div class="col s12 l8">
-                    <div class="row">
-                      <div class="col s10">
-                        <p class="font-weight-600 left mr-5">Client end order</p>
+                    <div class="file-field input-field col s12 l8">
+                      <div class="btn">
+                        <span>Upload new logo</span>
+                        <!--                      <input type="file" name="logo" id="logo">-->
+                        <%= f.file_field :logo %>
                       </div>
-                      <div class="col s2">
-                        <div class="switch">
-                          <label>
+                      <div class="file-path-wrapper">
+                        <input class="file-path validate" type="text">
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="divider mt-2 mb-3"></div>
+              <div class="row">
+                <div class="col s12 m4 mb-3">
+                  <div class="card-title black-text">Company info</div>
+                  <p>The information here will appear to your clients.</p>
+                </div>
+                <div class="col s12 m8">
+                  <div class="row">
+                    <div class="input-field col s12 l8">
+                      <p class="font-weight-600">Company name</p>
+                      <input name="company_name" id="company_name" type="text"
+                             value="<%= Setting.get_value('company_name') %>">
+                      <!-- <span class="helper-text" data-error="wrong" data-success="right">Helper Text</span> -->
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="input-field col s12 l8">
+                      <p class="font-weight-600">Company fullname</p>
+                      <input name="company_full_name" id="company_full_name" type="text"
+                             value="<%= Setting.get_value('company_full_name') %>">
+                      <!-- <span class="helper-text" data-error="wrong" data-success="right">Helper Text</span> -->
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="input-field col s12 l8">
+                      <p class="font-weight-600">Address</p>
+                      <input name="company_address" id="company_address" type="text"
+                             value="<%= Setting.get_value('company_address') %>">
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="input-field col s12 l8">
+                      <p class="font-weight-600">Phone</p>
+                      <input name="company_phone" id="company_phone" class="phone" type="tel"
+                             value="<%= Setting.get_value('company_phone') %>">
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="input-field col s12 l8">
+                      <p class="font-weight-600">Email</p>
+                      <input name="company_email" id="company_email" type="email"
+                             value="<%= Setting.get_value('company_email') %>">
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="input-field col s12 l8">
+                      <p class="font-weight-600">Url</p>
+                      <input name="url_app" id="url_app" type="text"
+                             value="<%= Setting.get_value('url_app') %>">
+                    </div>
+                  </div>
 
-<!--                            <input name="client_end_order" id="client_end_order" type="checkbox">-->
-                            <%= f.check_box :client_end_order, checked: Setting.get_value("client_end_order") %>
-                            <span class="lever"></span>
-
-                          </label>
+                </div>
+              </div>
+              <div class="divider mt-2 mb-3"></div>
+              <div class="row">
+                <div class="col s12 m4 mb-3">
+                  <div class="card-title black-text">Order</div>
+                  <!-- <p>The information here will appear to your clients.</p> -->
+                </div>
+                <div class="col s12 m8">
+                  <div class="row">
+                    <div class="col s12 l8">
+                      <div class="row">
+                        <div class="col s10">
+                          <p class="font-weight-600 left mr-5">Client end order</p>
                         </div>
-                      </div>
-                      <div class="col s12">
-                        <div class="input-field mt-3">
+                        <div class="col s2">
+                          <div class="switch">
+                            <label>
+
+                              <!--                            <input name="client_end_order" id="client_end_order" type="checkbox">-->
+                              <%= f.check_box :client_end_order, checked: Setting.get_value("client_end_order") %>
+                              <span class="lever"></span>
+
+                            </label>
+                          </div>
+                        </div>
+                        <div class="col s12">
+                          <div class="input-field mt-3">
                                                             <span class="helper-text" data-error="wrong"
                                                                   data-success="right">The order will end when the client confirms.</span>
+                          </div>
                         </div>
                       </div>
                     </div>
                   </div>
-                </div>
 
-                <div class="row">
-                  <div class="col s12 l8">
-                    <div class="row">
-                      <div class="col s10">
-                        <p class="font-weight-600 left mr-5">Take photos</p>
-                      </div>
-                      <div class="col s2">
-                        <div class="switch">
-                          <label>
-
-<!--                            <input name="take_photo" id="take_photo" type="checkbox">-->
-                            <%= f.check_box :take_photo, checked: Setting.get_value("take_photo") %>
-                            <span class="lever"></span>
-
-                          </label>
+                  <div class="row">
+                    <div class="col s12 l8">
+                      <div class="row">
+                        <div class="col s10">
+                          <p class="font-weight-600 left mr-5">Take photos</p>
                         </div>
-                      </div>
-                      <div class="col s12">
-                        <div class="input-field mt-3">
-                          <span class="helper-text" data-error="wrong" data-success="right">The order will end only after photos are added.</span>
+                        <div class="col s2">
+                          <div class="switch">
+                            <label>
+
+                              <!--                            <input name="take_photo" id="take_photo" type="checkbox">-->
+                              <%= f.check_box :take_photo, checked: Setting.get_value("take_photo") %>
+                              <span class="lever"></span>
+
+                            </label>
+                          </div>
                         </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-                <div class="row">
-                  <div class="col s12 l8">
-                    <div class="row">
-                      <div class="col s10">
-                        <p class="font-weight-600 left mr-5">Order needs signature</p>
-                      </div>
-                      <div class="col s2">
-                        <div class="switch">
-                          <label>
-
-<!--                            <input name="order_need_sign" id="order_need_sign" type="checkbox" checked>-->
-                            <%= f.check_box :order_need_sign, checked: Setting.get_value("order_need_sign") %>
-                            <span class="lever"></span>
-
-                          </label>
-                        </div>
-                      </div>
-                      <div class="col s12">
-                        <div class="input-field mt-3">
-                          <span class="helper-text" data-error="wrong" data-success="right">The order needs the client signature to be able to end.</span>
+                        <div class="col s12">
+                          <div class="input-field mt-3">
+                            <span class="helper-text" data-error="wrong" data-success="right">The order will end only after photos are added.</span>
+                          </div>
                         </div>
                       </div>
                     </div>
                   </div>
+
+                  <div class="row">
+                    <div class="col s12 l8">
+                      <div class="row">
+                        <div class="col s10">
+                          <p class="font-weight-600 left mr-5">Order needs signature</p>
+                        </div>
+                        <div class="col s2">
+                          <div class="switch">
+                            <label>
+
+                              <!--                            <input name="order_need_sign" id="order_need_sign" type="checkbox" checked>-->
+                              <%= f.check_box :order_need_sign, checked: Setting.get_value("order_need_sign") %>
+                              <span class="lever"></span>
+
+                            </label>
+                          </div>
+                        </div>
+                        <div class="col s12">
+                          <div class="input-field mt-3">
+                            <span class="helper-text" data-error="wrong" data-success="right">The order needs the client signature to be able to end.</span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+
+
                 </div>
-
-
-
               </div>
-            </div>
-            <div class="divider mt-2 mb-3"></div>
-            <div class="row">
-              <div class="col s12 m4 mb-3">
-                <div class="card-title black-text">Measurements</div>
-                <p>Set which fields will be used for the estimates and orders.</p>
+              <div class="divider mt-2 mb-3"></div>
+              <div class="row">
+                <div class="col s12 m4 mb-3">
+                  <div class="card-title black-text">Measurements</div>
+                  <p>Set which fields will be used for the estimates and orders.</p>
+                </div>
+                <div class="col s12 m8">
+                  <div class="row mb-3">
+                    <div class="col s12 l8">
+                      <div class="row">
+                        <div class="col s10">
+                          <p class="font-weight-600 left mr-5">Width</p>
+                        </div>
+                        <div class="col s2">
+                          <div class="switch">
+                            <label>
+                              <!--                            <input name="width" id="width" type="checkbox" checked>-->
+                              <%= f.check_box :width, checked: Setting.get_value("hidden_measurement_fields")["width"] %>
+                              <span class="lever"></span>
+                            </label>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="row mb-3">
+                    <div class="col s12 l8">
+                      <div class="row">
+                        <div class="col s10">
+                          <p class="font-weight-600 left mr-5">Length</p>
+                        </div>
+                        <div class="col s2">
+                          <div class="switch">
+                            <label>
+                              <!--                            <input name="length" id="length" type="checkbox" checked>-->
+                              <%= f.check_box :length, checked: Setting.get_value("hidden_measurement_fields")["length"] %>
+                              <span class="lever"></span>
+                            </label>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="row  mb-3">
+                    <div class="col s12 l8">
+                      <div class="row">
+                        <div class="col s10">
+                          <p class="font-weight-600 left mr-5">Height</p>
+                        </div>
+                        <div class="col s2">
+                          <div class="switch">
+                            <label>
+                              <!--                            <input name="height" id="height" type="checkbox" checked>-->
+                              <%= f.check_box :height, checked: Setting.get_value("hidden_measurement_fields")["height"] %>
+                              <span class="lever"></span>
+                            </label>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="row  mb-3">
+                    <div class="col s12 l8">
+                      <div class="row">
+                        <div class="col s10">
+                          <p class="font-weight-600 left mr-5">Square feet</p>
+                        </div>
+                        <div class="col s2">
+                          <div class="switch">
+                            <label>
+                              <!--                            <input name="sqft" id="sqft" type="checkbox" checked>-->
+                              <%= f.check_box :square_feet , checked: Setting.get_value("hidden_measurement_fields")["square_feet"] %>
+                              <span class="lever"></span>
+                            </label>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                </div>
               </div>
-              <div class="col s12 m8">
-                <div class="row mb-3">
-                  <div class="col s12 l8">
-                    <div class="row">
-                      <div class="col s10">
-                        <p class="font-weight-600 left mr-5">Width</p>
-                      </div>
-                      <div class="col s2">
-                        <div class="switch">
-                          <label>
-<!--                            <input name="width" id="width" type="checkbox" checked>-->
-                            <%= f.check_box :width, checked: Setting.get_value("hidden_measurement_fields")["width"] %>
-                            <span class="lever"></span>
-                          </label>
-                        </div>
-                      </div>
+              <div class="divider mt-2 mb-3"></div>
+              <div class="row">
+                <div class="col s12 m4 mb-3">
+                  <div class="card-title black-text">Third-parties</div>
+                  <p>These keys allow the communication with third-party apps.</p>
+                </div>
+                <div class="col s12 m8">
+                  <div class="row">
+                    <div class="input-field col s12 l8">
+                      <p class="font-weight-600">Send grid Key</p>
+                      <textarea class="materialize-textarea" name="send_grid_key" id="send_grid_key"><%= Setting.get_value("send_grid_key") %></textarea>
                     </div>
                   </div>
-                </div>
+                  <div class="row">
+                    <div class="input-field col s12 l8">
 
-                <div class="row mb-3">
-                  <div class="col s12 l8">
-                    <div class="row">
-                      <div class="col s10">
-                        <p class="font-weight-600 left mr-5">Length</p>
-                      </div>
-                      <div class="col s2">
-                        <div class="switch">
-                          <label>
-<!--                            <input name="length" id="length" type="checkbox" checked>-->
-                            <%= f.check_box :length, checked: Setting.get_value("hidden_measurement_fields")["length"] %>
-                            <span class="lever"></span>
-                          </label>
-                        </div>
-                      </div>
+                      <% if Setting.get_value("square_oauth_code").present? %>
+                        <p class="font-weight-600">Square key</p>
+                        <span><%= Setting.get_value("square_oauth_code") %></span>
+                        <p class="font-weight-600">Refresh Square Account</p><br>
+                        <a href="https://wofficeauth.herokuapp.com/square_apis/square_oauth?redirect=<%= Setting.get_value("url_app")%>/square_api/oauth">
+                          <img src="/square_name.svg" alt="">
+                        </a>
+                      <% else %>
+                        <p class="font-weight-600">Link Square Account</p><br>
+                        <a href="https://wofficeauth.herokuapp.com/square_apis/square_oauth?redirect=<%= Setting.get_value("url_app")%>/square_api/oauth">
+                          <img src="/square_name.svg" alt="">
+                        </a>
+                      <% end %>
                     </div>
                   </div>
-                </div>
+                  <!--                <div class="row">-->
+                  <!--                  <div class="input-field col s12 l8">-->
+                  <!--                    <p class="font-weight-600">Square App ID</p>-->
+                  <!--                    <input class="materialize-textarea" name="square_app_id" id="square_app_id"-->
+                  <!--                           value="sandbox-sq0idb-g75z4FJpMVE0s9qUn7GTmQ">-->
+                  <!--                  </div>-->
+                  <!--                </div>-->
 
-                <div class="row  mb-3">
-                  <div class="col s12 l8">
-                    <div class="row">
-                      <div class="col s10">
-                        <p class="font-weight-600 left mr-5">Height</p>
-                      </div>
-                      <div class="col s2">
-                        <div class="switch">
-                          <label>
-<!--                            <input name="height" id="height" type="checkbox" checked>-->
-                            <%= f.check_box :height, checked: Setting.get_value("hidden_measurement_fields")["height"] %>
-                            <span class="lever"></span>
-                          </label>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
                 </div>
-
-                <div class="row  mb-3">
-                  <div class="col s12 l8">
-                    <div class="row">
-                      <div class="col s10">
-                        <p class="font-weight-600 left mr-5">Square feet</p>
-                      </div>
-                      <div class="col s2">
-                        <div class="switch">
-                          <label>
-<!--                            <input name="sqft" id="sqft" type="checkbox" checked>-->
-                            <%= f.check_box :square_feet , checked: Setting.get_value("hidden_measurement_fields")["square_feet"] %>
-                            <span class="lever"></span>
-                          </label>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-              </div>
-            </div>
-            <div class="divider mt-2 mb-3"></div>
-            <div class="row">
-              <div class="col s12 m4 mb-3">
-                <div class="card-title black-text">Third-parties</div>
-                <p>These keys allow the communication with third-party apps.</p>
-              </div>
-              <div class="col s12 m8">
-                <div class="row">
-                  <div class="input-field col s12 l8">
-                    <p class="font-weight-600">Send grid Key</p>
-                    <textarea class="materialize-textarea" name="send_grid_key" id="send_grid_key"><%= Setting.get_value("send_grid_key") %></textarea>
-                  </div>
-                </div>
-                <div class="row">
-                  <div class="input-field col s12 l8">
-
-                    <% if Setting.get_value("square_oauth_code").present? %>
-                      <p class="font-weight-600">Square key</p>
-                      <span><%= Setting.get_value("square_oauth_code") %></span>
-                    <% else %>
-                      <p class="font-weight-600">Link Square Account</p><br>
-<!--                      <a href="<%#= Rails.configuration.woffice['oauth_square_url'] %>client_id=<%#= Setting.get_value('square_app_id') %>&scope=ORDERS_WRITE PAYMENTS_WRITE MERCHANT_PROFILE_READ PAYMENTS_READ">-->
-<!--                        <img src="/square_name.svg" alt="">-->
-<!--                      </a>-->
-                      <a href="https://wofficeauth.herokuapp.com/square_apis/square_oauth?redirect=<%= Setting.get_value("url_app")%>/square_api/oauth">
-                        <img src="/square_name.svg" alt="">
-                      </a>
-                    <% end %>
-                  </div>
-                </div>
-<!--                <div class="row">-->
-<!--                  <div class="input-field col s12 l8">-->
-<!--                    <p class="font-weight-600">Square App ID</p>-->
-<!--                    <input class="materialize-textarea" name="square_app_id" id="square_app_id"-->
-<!--                           value="sandbox-sq0idb-g75z4FJpMVE0s9qUn7GTmQ">-->
-<!--                  </div>-->
-<!--                </div>-->
-
               </div>
             </div>
           </div>
         </div>
+        <%= f.submit "Save", class:"btn" %>
       </div>
-      <%= f.submit "Save", class:"btn" %>
+      <div class="content-overlay"></div>
     </div>
-    <div class="content-overlay"></div>
-  </div>
-</section>
+  </section>
 
 <% end %>

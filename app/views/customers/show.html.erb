@@ -1,4 +1,9 @@
 <!--<link href="/css/customer.css" rel="stylesheet" type="text/css">-->
+<style>
+  .sq-input{
+    z-index: 9999 !important;
+  }
+</style>
 <link href="/css/view-page.css" rel="stylesheet" type="text/css">
 
 <div class="breadcrumbs-light pb-0 pt-4" id="breadcrumbs-wrapper">
@@ -183,7 +188,7 @@
 
 <%= render partial: 'layouts/sidenav_notes_docs', locals: {notes: @customer.notes, documents: @customer.document_files,  redirect_link: customer_path(@customer)} %>
 
-<%= render "layouts/add_button", contact: true %>
+<%= render "layouts/add_button", contact: true, card: true %>
 
 <div id="modal_note" class="modal modal-fixed-footer">
   <%= form_with url: new_note_customer_path(@customer),method: :get, local: true do |f| %>
@@ -229,7 +234,6 @@
     </div>
   <% end  %>
 </div>
-
 
 <%= content_for :scripts do %>
   <!--  <script src="/materialize/vendors/fullcalendar/lib/moment.min.js"></script>-->
@@ -292,3 +296,5 @@
       });
   </script>
 <% end %>
+
+

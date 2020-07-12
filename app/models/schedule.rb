@@ -33,6 +33,7 @@ class Schedule < ApplicationRecord
   has_one :labor_cost, dependent: :destroy
   has_one :order,  primary_key: :origin_id, foreign_key: :id
 
+  #validates :hour_cost, :numericality => { :greater_than_or_equal_to => 0 }
 
   after_save :set_labor_cost, if: :from_order?
   before_create :set_mail_sent
@@ -89,7 +90,7 @@ class Schedule < ApplicationRecord
   def self.new_schedule object
 
     begin
-      schedule = self.find_or_create_by( origin_id: object[:origin_id], worker_id: object[:worker_id], id: object[:schedule_id])
+      schedule = self.find_or_create_by(origin_id: object[:origin_id], worker_id: object[:worker_id], id: object[:schedule_id])
       schedule.title = object[:title]
       schedule.category = object[:category]
       schedule.description = object[:description]
@@ -116,6 +117,20 @@ class Schedule < ApplicationRecord
       return {
           :schedule => schedule
       }
+    end
+  end
+
+  def estimate
+    begin
+      if self.origin == "Estimate"
+        return Estimate.find(self.origin_id)
+      elsif self.origin == "Order"
+        return Order.find(self.origin_id).current_estimate
+      else
+        return nil
+      end
+    rescue
+      return nil
     end
   end
 end

@@ -8,19 +8,14 @@
       <div class="col s10 m6 l6">
         <h5 class="breadcrumbs-title mt-0 mb-0"><span><%= @worker %></span></h5>
         <ol class="breadcrumbs mb-0">
-          <li class="breadcrumb-item"><a href="/"><%= t('home') %></a>
-          </li>
-          <li class="breadcrumb-item"><a href="#"><%= t('activerecord.models.worker') %></a>
-          </li>
-          <li class="breadcrumb-item active"><%= t('breadcrumb.show') %>
-          </li>
+          <%= render_breadcrumbs :tag => :li, :separator => "" %>
         </ol>
       </div>
       <div class="col s2 m6 l6">
         <%= link_to t('button.all'), workers_path, class:"btn waves-effect waves-light breadcrumbs-btn right" %>
-        <%= link_to edit_worker_path(@worker) , class: "btn-flat waves-effect waves-light breadcrumbs-btn right" do %>
+        <a href="<%= edit_worker_path(@worker) %>" class="mr-2 btn-secondary modal-trigger btn waves-effect waves-light breadcrumbs-btn right">
           <i class="material-icons">edit</i>
-        <% end %>
+        </a>
       </div>
     </div>
   </div>
@@ -182,7 +177,7 @@
     </div>
   <% end  %>
 </div>
-
+<%= render partial: 'schedules/sidenav' %>
 <div id="modal_contact" class="modal modal-fixed-footer">
   <%= form_with url: new_contact_worker_path(@worker),method: :get, local: true do |f| %>
     <div class="modal-content">

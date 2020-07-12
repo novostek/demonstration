@@ -95,6 +95,9 @@
             sum += Number($(this).val());
         });
         $("#value_total").html("$ "+sum);
+
+
+
       $('#transactions').on('cocoon:after-insert', function(e, insertedItem) {
          $('.datepicker').datepicker({
           format: 'yyyy-mm-dd',

@@ -1,6 +1,6 @@
 <div class="collection">
   <% if schedule.origin.present? and schedule.origin_id.present? %>
-    <%= link_to "#{t('breadcrumb.show')} #{t(schedule.origin)}", "#{schedule.origin.tableize}/#{schedule.origin_id}", class: "collection-item" %>
+    <%= link_to "#{t('breadcrumb.show')} #{t(schedule.origin)}", "/#{schedule.origin.tableize}/#{schedule.origin_id}", class: "collection-item" %>
 
     <% if schedule.origin == "Estimate" %>
       <%= link_to t('estimate.measurements'), "#{schedule.origin.tableize}/#{schedule.origin_id}/measurements", class: "collection-item" %>

@@ -638,9 +638,16 @@ class OrdersController < ApplicationController
     @order.status = :cancelled
     @order.current_estimate.status = :cancelled
     @order.current_estimate.save
-    @order.save
 
-    redirect_to order_path(@order), notice: "#{t 'notice.order.cancelled'}"
+    respond_to do |format|
+      if @order.save
+          format.html { redirect_to order_path(@order), notice: "#{t 'notice.order.cancelled'}" }
+          format.json { render json: nil, status: :ok }
+      else
+          format.html { redirect_to order_path(@order), notice: "#{t 'notice.order.cancelled_error'}" }
+          format.json { render json: nil, status: :internal_server_error }
+      end
+    end
   end
 
   def reactivate

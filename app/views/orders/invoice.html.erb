@@ -234,7 +234,9 @@
   <div id="modal-invoice" class="modal">
     <%= form_with url: send_invoice_mail_order_path(@order), method: :get, local: true do |f| %>
       <div class="modal-content">
+        <div class="row">
         <h4>Send Invoice</h4>
+        </div>
         <div class="row">
           <div class="input-field">
             <%= f.label :emails, "Emails" %>

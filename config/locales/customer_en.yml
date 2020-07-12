@@ -6,10 +6,10 @@ en:
       customer:
         name: "Name"
         since: "Since"
-        document_id: "DocumentID"
+        document_id: "Document ID"
         category: "Category"
         code: "Code"
-        birthdate: "BirthDate"
+        birthdate: "Birthdate"
   enumerize:
     customer:
       category:
@@ -23,3 +23,7 @@ en:
       created: "Customer was successfully created."
       updated: "Customer was sucessfully updated."
       deleted: "Customer was sucessfully deleted."
+  no_phones: No phone
+  no_emails: No email
+  no_address: No address
+  no_estimates: No estimates

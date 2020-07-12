@@ -70,6 +70,13 @@ class DocumentMailer < ApplicationMailer
     mail(to: params[:emails], subject: "Schedule confirmation")
   end
 
+  #Método de envio do estimate assinado pelo cliente
+  def send_signed_estimate_mail
+    @estimate = params[:estimate]
+    mail(to: Setting.get_value("mail_address").present? ? Setting.get_value("company_email") : "smtp.gmail.com",
+         subject: "#{@estimate.customer.name.split.first} approved the estimate nº #{@estimate.code}")
+  end
+
   private
 
   def set_smtp

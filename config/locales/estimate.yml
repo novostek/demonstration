@@ -25,6 +25,7 @@ en:
         cancelled: "Cancelled"
   sign: "Sign"
   measurements: "Measurements"
+  no_area_yet: No area yet
   payment_aprroval_text: "Automatic Payment Approval"
   notice:
     estimate:

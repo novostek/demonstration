@@ -31,12 +31,20 @@
               <div class="popup-gallery">
                 <div class="gallery-sizer"></div>
                 <div class="row">
-                  <% @order.photos.each do |photo| %>
-                    <div class="col s12 m6 l4 xl2">
-                      <div>
-                        <a href="<%= photo.url %>" title="Finishig Order">
-                          <img src="<%= photo.url %>" class="responsive-img mb-10" alt="">
-                        </a>
+                  <% if @order.photos.any? %>
+                    <% @order.photos.each do |photo| %>
+                      <div class="col s12 m6 l4 xl2">
+                        <div>
+                          <a href="<%= photo.url %>" title="Finishig Order">
+                            <img src="<%= photo.url %>" class="responsive-img mb-10" alt="">
+                          </a>
+                        </div>
+                      </div>
+                    <% end %>
+                  <% else %>
+                    <div class="row card min-height-300 pt-8">
+                      <div class="center">
+                        <p><%= t 'empty_gallery' %></p>
                       </div>
                     </div>
                   <% end %>

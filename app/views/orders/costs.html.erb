@@ -117,7 +117,9 @@
                         <%= form_for  p do |f| %>
                           <%= f.hidden_field :redirect, value: costs_order_path(@order) %>
                           <div class="modal-content">
+                            <div class="row">
                             <h4><%= t "button.edit" %> <%= "Product Purchase - #{p.product || p.custom_title}" %></h4>
+                            </div>
                             <div class="row">
                               <div class="input-field">
                                 <%= f.label :quantity %>
@@ -190,7 +192,9 @@
                       <div id="modal_doc_<%= p.id %>" class="modal modal-fixed-footer">
                         <%= form_with url: new_document_product_purchase_path(p), local: true do |f| %>
                           <div class="modal-content">
+                            <div class="row">
                             <h4><%= t "button.new" %> <%= t "documents" %></h4>
+                            </div>
                             <%= render "customers/document_file_fields", f: f %>
 
                           </div>
@@ -308,7 +312,9 @@
                       <%= form_for  tax do |f| %>
                         <%= f.hidden_field :redirect, value: costs_order_path(@order) %>
                         <div class="modal-content">
+                          <div class="row">
                           <h4><%= t "button.edit" %> <%= "Product Purchase - #{tax.product || tax.custom_title}" %></h4>
+                          </div>
                           <div class="row">
                             <div class="input-field">
                               <%= f.label :quantity %>
@@ -381,7 +387,9 @@
                     <div id="modal_doc_<%= tax.id %>" class="modal modal-fixed-footer">
                       <%= form_with url: new_document_product_purchase_path(tax), local: true do |f| %>
                         <div class="modal-content">
+                          <div class="row">
                           <h4><%= t "button.new" %> <%= t "documents" %></h4>
+                          </div>
                           <%= render "customers/document_file_fields", f: f %>
 
                         </div>
@@ -443,7 +451,9 @@
               <%= form_with url: new_cost_order_path(@order), method: :get, id: "new_product", local: true do |f| %>
                 <%= f.hidden_field :redirect, value: costs_order_path(@order) %>
                 <div class="modal-content">
+                  <div class="row">
                   <h4><%= t "button.new" %> <%= t "activerecord.models.product_purchase" %></h4>
+                  </div>
                   <div class="row">
                     <div class="input-field">
                       <%= f.select :product, @products, {prompt: true},{id:"product_select"} %>
@@ -572,7 +582,9 @@
                       <%= form_for  labor do |f| %>
                         <%= f.hidden_field :redirect, value: costs_order_path(@order) %>
                         <div class="modal-content">
+                          <div class="row">
                           <h4><%= t "button.edit" %> <%= "Labor Cost - #{labor.worker}" %></h4>
+                          </div>
                           <div class="row">
                             <div class="input-field">
                               <%= f.label :date %>
@@ -629,7 +641,9 @@
                     <div id="modal_doc_labor_<%= labor.id %>" class="modal modal-fixed-footer">
                       <%= form_with url: new_document_labor_cost_path(labor), local: true do |f| %>
                         <div class="modal-content">
+                          <div class="row">
                           <h4><%= t "button.new" %> <%= t "documents" %></h4>
+                          </div>
                           <%= render "customers/document_file_fields", f: f %>
 
                         </div>
@@ -695,7 +709,9 @@
               <%= form_with  url: new_labor_cost_order_path(@order), method: :get, local: true do |f| %>
                 <%= f.hidden_field :redirect, value: costs_order_path(@order) %>
                 <div class="modal-content">
+                  <div class="row">
                   <h4><%= t 'button.new' %> <%= t('activerecord.models.labor_cost') %></h4>
+                  </div>
                   <div class="row">
                     <div class="input-field">
 

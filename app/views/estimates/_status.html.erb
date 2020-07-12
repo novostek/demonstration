@@ -1,0 +1,12 @@
+<% case estimate.status %>
+<% when 'new' %>
+  <span class="chip lighten-5 green green-text"><%= estimate.status_text %></span>
+<% when 'waiting_approval' %>
+  <span class="chip lighten-5 amber amber-text"><%= estimate.status_text %></span>
+<% when 'ordered' %>
+  <span class="chip lighten-5 blue blue-text"><%= estimate.status_text %></span>
+<% when 'cancelled' %>
+  <span class="chip lighten-5 green green-text"><%= estimate.status_text %></span>
+<% else %>
+  <span class="chip lighten-5 green green-text"><%= estimate.status_text %></span>
+<% end %>

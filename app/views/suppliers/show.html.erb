@@ -12,7 +12,7 @@
       </div>
       <div class="col s2 m6 l6">
         <%= link_to t('button.all'), suppliers_path, class:"btn waves-effect waves-light breadcrumbs-btn right" %>
-        <%= link_to edit_supplier_path(@supplier) , class: "btn-flat waves-effect waves-light breadcrumbs-btn right" do %>
+        <%= link_to edit_supplier_path(@supplier) , class: "btn-flat waves-effect waves-light breadcrumbs-btn right btn-secondary mr-2 white-text" do %>
           <i class="material-icons">edit</i>
         <% end %>
       </div>
@@ -164,7 +164,9 @@
 <div id="modal_doc" class="modal modal-fixed-footer">
   <%= form_with url: new_document_supplier_path(@supplier), local: true do |f| %>
     <div class="modal-content">
+      <div class="row">
       <h4><%= t "button.new" %> <%= t "documents" %></h4>
+      </div>
       <%= render "customers/document_file_fields", f: f %>
 
     </div>

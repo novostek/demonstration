@@ -1,0 +1,14 @@
+<% case lead.status %>
+<% when 'new' %>
+  <span class="chip lighten-5 green green-text"><%= lead.status_text %></span>
+<% when 'done' %>
+  <span class="chip lighten-5 green green-text"><%= lead.status_text %></span>
+<% when 'contacted' %>
+  <span class="chip lighten-5 green green-text"><%= lead.status_text %></span>
+<% when 'scheduled' %>
+  <span class="chip lighten-5 green green-text"><%= lead.status_text %></span>
+<% when 'closed' %>
+  <span class="chip lighten-5 red red-text"><%= lead.status_text %></span>
+<% else %>
+  <span class="chip lighten-5 green green-text"><%= lead.status_text %></span>
+<% end %>

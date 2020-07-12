@@ -66,7 +66,7 @@ class EstimatesController < ApplicationController
 
   def apply_discount
     discount = params[:estimate][:discount].to_f
-    if @estimate.price >= discount
+    if @estimate.price || 0 >= discount
       @estimate.apply_discount(discount)
       redirect_back(fallback_location: view_estimates_path(@estimate), notice: t('notice.estimate.discount_applied'))
     else

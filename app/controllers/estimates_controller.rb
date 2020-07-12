@@ -348,7 +348,6 @@ class EstimatesController < ApplicationController
 
   def view_estimate
     @estimate = Estimate.find(params[:estimate_id])
-    DocumentMailer.with(estimate: @estimate).send_signed_estimate_mail.deliver_now
     @hidden_fields = Setting.get_value('hidden_measurement_fields')
     @documents = Document.to_select
     begin

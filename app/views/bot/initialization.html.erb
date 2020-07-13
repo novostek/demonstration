@@ -38,10 +38,10 @@
 							<input type="number" name="company_tax" id="company_tax"
 								cf-questions="What percentage (%) {company_name} pays in taxes?" required />
 							<fieldset cf-questions="What measures does {company_name} use?">
-								<input type="checkbox" name="measures" value="w" cf-label="Width" />
-								<input type="checkbox" name="measures" value="l" cf-label="Length" />
-								<input type="checkbox" name="measures" value="h" cf-label="Height" />
-								<input type="checkbox" name="measures" value="sqft" cf-label="Square feet" />
+								<input type="checkbox" name="measures[]" value="w" cf-label="Width" />
+								<input type="checkbox" name="measures[]" value="l" cf-label="Length" />
+								<input type="checkbox" name="measures[]" value="h" cf-label="Height" />
+								<input type="checkbox" name="measures[]" value="sqft" cf-label="Square feet" />
 							</fieldset>
 							<cf-robot-message cf-questions="Nice!||Alright!"></cf-robot-message>
 							<fieldset cf-questions="Do you want a custom name for your main account?">
@@ -73,15 +73,9 @@
 
 		function initializeAutocomplete() {
 			const element = document.getElementsByClassName('inputWrapper')[1].children[0];
-			console.log(element)
-			<%# console.log("autocomplete google");
-			var element = document.getElementById(id);
-			%>
 			if (element) {
 					var autocomplete = new google.maps.places.Autocomplete(element, { types: ['geocode'], componentRestrictions: {country: 'us'} });
 					google.maps.event.addListener(autocomplete, 'place_changed', onPlaceChanged);
-					
-
 			}
 		}
 
@@ -126,21 +120,18 @@
 					conversationalForm.addRobotChatResponse("Alright, you are done.");
 					conversationalForm.addRobotChatResponse("All these settings can be changed in the Settings menu.");
 					conversationalForm.addRobotChatResponse("Redirecting you to your home page...");
-					const formData = conversationalForm.getFormData(true)
+					const formData = conversationalForm.getFormData()
 					
 					const headers = new Headers({
-						"Content-Type": "application/json",
-						"Accept": "application/json"
+						"Content-Type": "multipart/form-data"
 					})
 
 					const fetchConfig = {
-						headers,
 						method: "POST",
-						body: JSON.stringify(formData)
+						body: formData
 					}
 
-					fetch('/create_initialization', fetchConfig)
-						.then(data => data.json())
+					fetch('/initialization', fetchConfig)
 						.then(result => redirect())
 						.catch(error => console.error(error))
 

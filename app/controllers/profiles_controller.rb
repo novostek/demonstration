@@ -63,6 +63,7 @@ class ProfilesController < ApplicationController
       #@controllers = ApplicationController.subclasses.map{|a| {controller: a, metodos: a.action_methods} if !["DeviseController"].include? a.to_s  }
       # ApplicationController.subclasses.map{|a| {controller: a, metodos: a.action_methods}}
       contrl = [
+                BotController,
                 CalculationFormulasController,
                 ContactsController,
                 CustomersController,

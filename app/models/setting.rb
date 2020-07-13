@@ -21,8 +21,10 @@ class Setting < ApplicationRecord
     s = Setting.find_by_namespace(namespace)
     if s.present?
       return s.value['value']
+    else
+      false
     end
-    ''
+    
   end
 
   def format_value

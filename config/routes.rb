@@ -263,13 +263,14 @@ Rails.application.routes.draw do
 
   get 'finances/dashboard' => 'finances#dashboard', as: :finance_dashboard
 
+  get 'initialization' => 'bot#initialization', as: :initialization_bot
+  post 'initialization' => 'bot#create_initialization', as: :create_initialization
   #Api
   get 'api/woffice_pay_code'
   get 'api/orders' => "orders#index", as: :api_orders
   get 'api/orders/:id' => "orders#show", as: :api_order
   get 'api/orders/:id/payments' => "orders#pendent_payments", as: :api_order_payments
   post 'api/payment/:id/pay' => "api#order_paid", as: :api_payment_pay
-
 
   root "users#home"
 end

@@ -1,0 +1,27 @@
+	<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, minimal-ui">
+		<meta name="description" content="Woffice is a powerful business management tool.">
+		<meta name="keywords" content="woffice management square crm erp">
+		<meta name="author" content="ThemeSelect">
+		<title><%= "#{ yield :title }  Woffice " %></title>
+		
+
+		<%= stylesheet_link_tag 'conversational-form-docs.min' %>
+		<%= stylesheet_link_tag 'bot' %>
+
+		<script type="text/javascript"
+			src="https://cdn.jsdelivr.net/gh/space10-community/conversational-form@1.0.1/dist/conversational-form.min.js"
+			crossorigin></script>
+		<script data-turbolinks-eval="false" type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAuo1c-9BiXODXuM5L3n26CRdukjlnlUpU&libraries=places"></script>
+
+	</head>
+  <body>
+    <%= yield %>
+    <%= yield :scripts %>
+  </body>
+</html>

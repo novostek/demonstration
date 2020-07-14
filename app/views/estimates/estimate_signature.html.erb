@@ -135,8 +135,12 @@
             <h6 class="mt-0"><%= number_to_currency @estimate.subtotal %></h6>
           </li>
           <li class="display-flex justify-content-between">
-            <span class="invoice-subtotal-title">Discount:</span>
+            <span class="invoice-subtotal-title">Discount (Products):</span>
             <h6 class="mt-0">- <%= number_to_currency @estimate.discounts %></h6>
+          </li>
+          <li class="display-flex justify-content-between">
+            <span class="invoice-subtotal-title">Other Discounts:</span>
+            <h6 class="mt-0">- <%= number_to_currency @estimate.discount %></h6>
           </li>
           <% if @estimate.customer? %>
           <li class="display-flex justify-content-between">

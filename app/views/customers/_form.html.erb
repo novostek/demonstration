@@ -20,7 +20,7 @@
       <div class="col s12 m4">
         <%= f.label :category %>
         <p>
-          <% Customer.category.options.each_with_index do |category| %>
+          <% Customer.category.options.each do |category| %>
             <label class="mr-5">
               <%= f.radio_button :category, category[1], id: category[1] %>
               <span><%= category[0] %></span>

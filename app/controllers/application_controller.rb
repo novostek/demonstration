@@ -17,10 +17,6 @@ class ApplicationController < ActionController::Base
     flash["#{type}"] = body
   end
 
-  def is_verified
-    !Setting.get_value('verified')
-  end
-
   def startup_bot
     redirect_to initialization_bot_path
   end
@@ -89,6 +85,10 @@ class ApplicationController < ActionController::Base
     response.headers["Cache-Control"] = "no-cache, no-store"
     response.headers["Pragma"] = "no-cache"
     response.headers["Expires"] = "Mon, 01 Jan 1990 00:00:00 GMT"
+  end
+
+  def is_verified
+    user_signed_in? and !Setting.get_value('verified')
   end
 
 end

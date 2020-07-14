@@ -314,6 +314,7 @@ class EstimatesController < ApplicationController
     @categories = ProductCategory.to_select
     @suppliers = Supplier.to_select
     @formulas = CalculationFormula.to_select
+    @hidden_fields = Setting.get_value('hidden_measurement_fields')
 
     add_breadcrumb I18n.t("activerecord.models.estimates"), estimates_path
     add_breadcrumb I18n.t("activerecord.models.products"), products_estimate_path(@estimate)

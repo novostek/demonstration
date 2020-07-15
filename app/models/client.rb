@@ -172,6 +172,7 @@ class Client < ApplicationRecord
           {namespace: 'product_purchase_transaction_account', value: {"value"=>account.id}},
           {namespace: 'product_purchase_transaction_category', value: {"value"=>costs.id}},
           {namespace: 'verificated', value: {"value"=>false}},
+          {namespace: 'welcome', value: {"value"=>false}},
         ])
 
         square_feet = CalculationFormula.create(

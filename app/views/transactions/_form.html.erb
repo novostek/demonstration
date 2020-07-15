@@ -1,56 +1,68 @@
 <%= form_for(transaction) do |f| %>
   <% if transaction.errors.any? %>
     <div id="error_explanation" class="card-panel red white-text">
-      <h5><%= t('errors.template.header')  %>:</h5>
+      <h5><%= t('errors.template.header') %>:</h5>
 
       <ul>
-      <% transaction.errors.full_messages.each do |message| %>
-        <li><%= message %></li>
-      <% end %>
+        <% transaction.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
       </ul>
     </div>
   <% end %>
-<div class="card-panel">
+  <div class="card-panel">
+    <div class="row">
+      <div class="col s12 m4 l3">
 
-  <div class="input-field">
-    <%= f.select :transaction_category_id, @categories,{ prompt: true}  %>
-    <%= f.label  :transaction_category_id %>
+        <div class="row">
+          <div class="input-field">
+            <%= f.label :value %>
+            <%= f.number_field :value, required: true, step: "0.01" %>
+          </div>
+
+          <div class="input-field">
+            <%= f.date_field :due %>
+            <%= f.label :due %>
+          </div>
+
+          <div class="input">
+            <%= f.label :effective %>
+            <%= f.datetime_field :effective %>
+          </div>
+        </div>
+      </div>
+
+      <div class="col s12 m8 l9">
+        <div class="input-field">
+          <%= f.select :transaction_category_id, @categories, {prompt: true} %>
+          <%= f.label :transaction_category_id %>
+        </div>
+
+        <div class="input-field">
+          <%= f.select :transaction_account_id, @accounts, {prompt: true} %>
+          <%= f.label :transaction_account_id %>
+        </div>
+
+        <div class="row">
+          <div class="col s12">
+            <%= f.label :status %>
+          </div>
+          <div class="col s12 chip-selection">
+            <% Transaction.status.options.each do |status| %>
+              <label>
+                <% value = transaction.status.nil? ? 'paid' : transaction.status %>
+                <%= f.radio_button :status, status[1], id: status[1], class: 'transaction_status filled-in', checked: status[1].eql?(value) %>
+                <span><%= status[0] %></span>
+              </label>
+            <% end %>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 
-  <div class="input-field">
-    <%= f.select :transaction_account_id, @accounts, {prompt: true}  %>
-    <%= f.label  :transaction_account_id %>
-  </div>
 
-
-  <div class="input-field">
-    <%= f.select :status, Transaction.status.options, {prompt: true}  %>
-    <%= f.label  :status %>
-  </div>
-
-  <div class="input-field">
-
-
-    <%= f.date_field :due %>
-    <%= f.label  :due %>
-  </div>
-
-  <div class="input">
-    <%= f.label  :effective %>
-    <%= f.datetime_field :effective %>
-
-  </div>
-
-  <div class="input-field">
-
-    <%= f.label  :value %>
-    <%= f.number_field :value, required: true, step: "0.01" %>
-    
-  </div>
-
-
-</div>
   <div class="actions">
-    <%= f.submit t('button.save'), class:"btn" %>
+    <%= f.submit t('button.save'), class: "btn right" %>
   </div>
 <% end %>

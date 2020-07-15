@@ -65,10 +65,10 @@ class SquareApiController < ApplicationController
 
     if result.success?
       if params[:estimate].present?
-        redirect_to nonce_square_api_index_path(estimate: params[:estimate], success:  true), notice: "Card add successful"
+        redirect_to nonce_success_square_apis_path(estimate: params[:estimate], success:  true), notice: "Card add successful"
       else
         if params[:from].present? and params[:from] == "email"
-          redirect_to nonce_square_api_index_path(customer:params[:customer_woffice], from: "email", success:  true ), notice: "Card add successful"
+          redirect_to nonce_success_square_apis_path(customer:params[:customer_woffice], from: "email", success:  true ), notice: "Card add successful"
           return
         end
         redirect_to customer_path(params[:customer_woffice]), notice: "Card add successful"
@@ -85,6 +85,10 @@ class SquareApiController < ApplicationController
   def process_payment
     #binding.pry
     result = SquareApi.create_payment(params[:nonce],1000)
+  end
+
+  def nonce_success
+    render layout: "document"
   end
 
 end

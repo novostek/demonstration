@@ -104,7 +104,7 @@
                   <i class="material-icons prefix">attach_money</i>
                   <%= f.number_field :discount, step: 0.1, min: 0.0, required: true, class: 'mb-0', style: 'height: 25px;   padding: 0 5px;' %>
                 </div>
-              <% end %>
+              <% end if !@estimate.order.present? %>
             </div>
             <% end %>
           </div>

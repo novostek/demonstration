@@ -210,7 +210,7 @@ class Estimate < ApplicationRecord
   end
 
   def subtotal
-    value =  (self.price || 0 ) + discounts
+    value =  (self.price || 0 ) + discounts + self.discount
   end
 
   def total

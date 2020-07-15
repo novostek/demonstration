@@ -18,47 +18,55 @@
   <div id="modal-areas" class="modal modal-fixed-footer">
 
       <div class="modal-content">
-        <ul class="">
+        <ul class="collapsible-areas">
           <li>
-            <div class=" grey lighten-4 pl-2 pr-2 pt-2 pb-2">
-              <div class="row">
-                <% @estimate.measurement_areas.each do |ma| %>
-                  <div class="col s12 l6">
-                    <div class="card-panel pt-3 pb-3">
-                      <div class="row center-align">
-                        <h6
-                          class="col s12 pl-0 pt-0 mt-0 font-weight-600 display-flex align-items-center justify-content-center">
-                          <i class="material-icons left">event_seat</i>
-                          <%= ma.name %>
-                        </h6>
-                        <%# <div class="row mb-2">
-															<div class="col s12">
-																Open kitchen included
-															</div>
-														</div> %>
-                        <div class="col s3">
-                          <!-- length -->
-                          <i class="material-icons left width-100">straighten</i><%= ma.measurements[0].length %>
-                        </div>
-                        <div class="col s3">
-                          <!-- width -->
-                          <i class="material-icons left width-100" style="transform: rotate(-45deg)">straighten</i><%= ma.measurements[0].width %>
-                        </div>
-                        <div class="col s4">
-                          <!-- height -->
-                          <i class="left width-100">SqFt</i><%= ma.measurements[0].square_feet %>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                <% end %>
+            <% if @estimate.measurement_areas.any? %>
+              <div class=" pl-2 pr-2 pt-2 pb-2">
+                <table class="responsive-table">
+                  <thead>
+                  <tr>
+                    <th></th>
+                    <% if @hidden_fields['length'].present? %>
+                      <th><span class="hide-on-med-and-up">L</span> <span class="hide-on-small-only">Length</span></th>
+                    <% end %>
+                    <% if @hidden_fields['width'].present? %>
+                      <th><span class="hide-on-med-and-up">W</span> <span class="hide-on-small-only">Width</span></th>
+                    <% end %>
+                    <% if @hidden_fields['height'].present? %>
+                      <th><span class="hide-on-med-and-up">H</span> <span class="hide-on-small-only">Height</span></th>
+                    <% end %>
+                    <% if @hidden_fields['square_feet'].present? %>
+                      <th><span class="hide-on-med-and-up">Sqft</span> <span class="hide-on-small-only">Square feet</span></th>
+                    <% end %>
+                  </tr>
+                  </thead>
+                  <tbody>
+                  <% @estimate.measurement_areas.each do |ma| %>
+                    <tr>
+                      <td><i class="material-icons left mr-4 amber-text">event_seat</i> <%= ma.name %> <br><small><%= ma.description %></small></td>
+                      <% if @hidden_fields['length'].present? %>
+                        <td><%= ma.measurements[0].length == 0 ? "--" : ma.measurements[0].length %></td>
+                      <% end %>
+                      <% if @hidden_fields['width'].present? %>
+                        <td><%= ma.measurements[0].width == 0 ? "--" : ma.measurements[0].width %></td>
+                      <% end %>
+                      <% if @hidden_fields['height'].present? %>
+                        <td><%= ma.measurements[0].height == 0 ? "--" : ma.measurements[0].height %></td>
+                      <% end %>
+                      <% if @hidden_fields['square_feet'].present? %>
+                        <td><%= ma.measurements[0].square_feet %></td>
+                      <% end %>
+                    </tr>
+                  <% end %>
+                  </tbody>
+                </table>
+
               </div>
-            </div>
-              <div class="row">
-                <div class="col s12">
-                  <h6 class="font-weight-600">Total Square Feet: <%= @estimate.sum_square_feet[0].total %></h6>
-                </div>
+            <% else %>
+              <div class="collapsible-body center">
+                <p><%= t 'no_area_yet' %></p>
               </div>
+            <% end %>
           </li>
         </ul>
       </div>

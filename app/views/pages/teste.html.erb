@@ -1,0 +1,66 @@
+<%= content_for :head_content do %>
+  <script type="text/javascript" src="https://js.squareupsandbox.com/v2/paymentform">
+  </script>
+<% end %>
+<a class="btn waves-effect waves-light modal-trigger breadcrumbs-btn right mr-2 indigo border-round" href="#modal-mail"><i class="material-icons hide-on-med-and-up ">payment</i><span class="hide-on-small-only">Payment</span></a>
+
+<div id="modal-mail" class="modal" tabindex="0">
+  <div class="modal-content">
+    <h4>Modal title</h4>
+    <p>Woffice works better integrated with Square. We highly recommend your to sign up if you’re not already.</p>
+    <div class="row">
+      <form action="/">
+        <div class="cards">
+          <div class="card-front">
+            <div class="card-logo"><img src="woffice-w.svg" alt=""></div>
+            <div id="sq-card-number"></div>
+            <div id="sq-expiration-date"></div>
+            <div id="sq-postal-code"></div>
+          </div>
+          <div class="card-back">
+            <div id="sq-cvv"></div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+  <div class="row center-align pb-2">
+    <a href="#!" class="modal-action border-round modal-close waves-effect btn-flat indigo white-text btn-nonce-payment"> <i class="material-icons left">payment</i> Save card</a>
+  </div>
+</div>
+
+<%= content_for :scripts do %>
+
+  <script type="text/javascript">
+      const paymentForm = new SqPaymentForm({
+
+
+          cardNumber: {
+              elementId: 'sq-card-number',
+              placeholder: 'Card Number'
+          },
+          cvv: {
+              elementId: 'sq-cvv',
+              placeholder: 'CVV'
+          },
+          expirationDate: {
+              elementId: 'sq-expiration-date',
+              placeholder: 'MM/YY'
+          },
+          postalCode: {
+              elementId: 'sq-postal-code',
+              placeholder: 'Postal'
+          },
+          applicationId: "sandbox-sq0idb-bqaU_xd7Pj_mRq38U28xtQ",
+          inputClass: 'card-cvv',
+          // SqPaymentForm callback functions
+          callbacks: {
+              cardNonceResponseReceived: function (errors, nonce, cardData) {
+
+
+                  alert(`The generated nonce is:\n${nonce}`);
+              }
+          }
+      });
+  </script>
+<% end %>

@@ -189,17 +189,25 @@ class SquareApi
     body = {}
     body[:access_token] = Setting.get_value("square_oauth_access_token")
     body[:idempotency_key] = SecureRandom.uuid
-    body[:order] = {}
-    body[:order][:reference_id] = "#{order.id}"
-    body[:order][:line_items] = []
+    body[:order] =  {
+        "idempotency_key": SecureRandom.uuid,
+        order:{
+            "location_id": location_id,
+            "customer_id": order.customer.square_id,
+            "reference_id": "#{order.id}",
+            "line_items": [
+                {
+                    name: "Payemnt of Order N* #{order.code}",
+                    quantity: '1',
+                    base_price_money: {
+                        amount: (transaction.value*100).to_i,
+                        currency: 'USD'
+                    },
 
-
-    body[:order][:line_items][0] = {}
-    body[:order][:line_items][0][:name] = "Payemnt of Order N* #{order.code}"
-    body[:order][:line_items][0][:quantity] = '1'
-    body[:order][:line_items][0][:base_price_money] = {}
-    body[:order][:line_items][0][:base_price_money][:amount] = (transaction.value*100).to_i
-    body[:order][:line_items][0][:base_price_money][:currency] = 'USD'
+                }
+            ]
+        }
+    }
 
     if Rails.env.production?
       body[:redirect_url] = "#{Setting.get_value("url_app")}/square_api/callback?transaction=#{transaction.id}"

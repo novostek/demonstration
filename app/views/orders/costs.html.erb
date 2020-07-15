@@ -241,12 +241,16 @@
                               <% p.document_files.each do |doc| %>
                                 <%= link_to doc.file.url, target:"_blank" do %>
                                   <div class="document">
+                                    <span class="doc-type"><%= doc.file.file.extension %></span>
                                     <span class="doc-date" title="Created at"><%= doc.created_at %></span>
                                     <%= doc.title %>
                                   </div>
-                                <% end if doc.file.present?%>
+                                <% end if doc.file.present? %>
                               <% end %>
-                            </div>
+
+                              <% if p.document_files.blank? %>
+                                <p class="document">No Documents Registered!</p>
+                              <% end %>
                           </div>
                         </aside>
                       <% end %>

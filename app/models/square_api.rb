@@ -190,20 +190,23 @@ class SquareApi
     body[:access_token] = Setting.get_value("square_oauth_access_token")
     body[:idempotency_key] = SecureRandom.uuid
     body[:order] =  {
-        "location_id": location_id,
-        "customer_id": order.customer.square_id,
-        "reference_id": "#{order.id}",
-        "line_items": [
-            {
-                name: "Payemnt of Order N* #{order.code}",
-                quantity: '1',
-                base_price_money: {
-                    amount: (transaction.value*100).to_i,
-                    currency: 'USD'
-                },
+        "idempotency_key": SecureRandom.uuid,
+        order:{
+            "location_id": location_id,
+            "customer_id": order.customer.square_id,
+            "reference_id": "#{order.id}",
+            "line_items": [
+                {
+                    name: "Payemnt of Order N* #{order.code}",
+                    quantity: '1',
+                    base_price_money: {
+                        amount: (transaction.value*100).to_i,
+                        currency: 'USD'
+                    },
 
-            }
-        ]
+                }
+            ]
+        }
     }
 
     if Rails.env.production?

@@ -32,7 +32,7 @@ module Woffice
 
     if ENV['RAILS_ENV'] == 'production'
       config.to_prepare do
-        Devise::SessionsController.skip_before_action :startup_bot
+        #Devise::SessionsController.skip_before_action :startup_bot
       end
     end
       #config.middleware.use

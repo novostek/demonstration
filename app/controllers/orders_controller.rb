@@ -82,7 +82,7 @@ class OrdersController < ApplicationController
 
     begin
       dados = SquareApi.get_customer(@order.customer.square_id)
-      @cards  = dados.body.customer[:cards]
+      @cards  = dados.body.customer[:cards] || []
     rescue
       @cards = []
     end
@@ -559,7 +559,7 @@ class OrdersController < ApplicationController
 
     begin
       dados = SquareApi.get_customer(@order.customer.square_id)
-      @cards  = dados.body.customer[:cards]
+      @cards  = dados.body.customer[:cards] || []
     rescue
       @cards = []
     end

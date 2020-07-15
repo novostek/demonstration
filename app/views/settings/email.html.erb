@@ -43,10 +43,12 @@
       <div class="card">
         <div class="card-content">
           <div class="row">
-            <div class="col s12 m4 mb-3">
+
+            <div class="col s12 m3 mb-3">
               <div class="card-title black-text">Template email</div>
               <p>Set the email messages that are sent.</p>
             </div>
+
             <div class="col s12 m8">
               <div class="row">
                 <div class="input-field col s12 l8">
@@ -83,113 +85,117 @@
                   <!-- <span class="helper-text" data-error="wrong" data-success="right">Helper Text</span> -->
                 </div>
               </div>
+            </div>
 
-              <div class="row">
-                <div class="input-field col s12 l8">
-                  <p class="font-weight-600">Square Estimate text</p>
-                  <!--                  <input class="materialize-textarea" name="send_square_mail_text" id="send_square_mail_text" value="<%#= Setting.get_value("send_square_mail_text")  %>">-->
-                  <div id="froala-editor_send_estimate_mail_text">
-                    <% if !Setting.find_by(namespace: "send_estimate_mail_text").present? %>
-                      <h3>Click here to edit the content</h3>
-                      <p>Drag the image above or the text block to insert them in the editor.</p>
-                    <% else %>
-                      <%= Setting.get_value("send_estimate_mail_text").html_safe %>
-                    <% end %>
-                  </div>
-                  <span class="helper-text">This text is sent via Square.</span>
-                </div>
-              </div>
 
-              <div class="row">
-                <div class="input-field col s12 l8">
-                  <p class="font-weight-600">Square mail text</p>
-<!--                  <input class="materialize-textarea" name="send_square_mail_text" id="send_square_mail_text" value="<%#= Setting.get_value("send_square_mail_text")  %>">-->
-                  <div id="froala-editor_send_square_mail_text">
-                    <% if !Setting.find_by(namespace: "send_square_mail_text").present? %>
-                      <h3>Click here to edit the content</h3>
-                      <p>Drag the image above or the text block to insert them in the editor.</p>
-                    <% else %>
-                      <%= Setting.get_value("send_square_mail_text").html_safe %>
-                    <% end %>
-                  </div>
-                  <span class="helper-text">This text is sent via Square.</span>
-                </div>
-              </div>
-              <div class="row">
-                <div class="input-field col s12 l8">
-                  <p class="font-weight-600">Invoice mail</p>
-<!--                  <input class="materialize-textarea" name="send_invoice_mail_text" id="send_invoice_mail_text" value="<%#= Setting.get_value("send_invoice_mail_text")  %>">-->
-                  <div id="froala-editor_send_invoice_mail_text">
-                    <% if !Setting.find_by(namespace: "send_invoice_mail_text").present? %>
-                      <h3>Click here to edit the content</h3>
-                      <p>Drag the image above or the text block to insert them in the editor.</p>
-                    <% else %>
-                      <%= Setting.get_value("send_invoice_mail_text").html_safe %>
-                    <% end %>
-                  </div>
-                </div>
-              </div>
-              <div class="row">
-                <div class="input-field col s12 l8">
-                  <p class="font-weight-600">Document mail</p>
-<!--                  <input class="materialize-textarea" name="send_document_mail_text" id="send_document_mail_text" value="<%#= Setting.get_value("send_document_mail_text")  %>">-->
-                  <div id="froala-editor_send_document_mail_text">
-                    <% if !Setting.find_by(namespace: "send_document_mail_text").present? %>
-                      <h3>Click here to edit the content</h3>
-                      <p>Drag the image above or the text block to insert them in the editor.</p>
-                    <% else %>
-                      <%= Setting.get_value("send_document_mail_text").html_safe %>
-                    <% end %>
-                  </div>
-                </div>
-              </div>
-              <div class="row">
-                <div class="input-field col s12 l8">
-                  <p class="font-weight-600">Sign order mail</p>
-<!--                  <input class="materialize-textarea" name="sign_order_mail_text" id="sign_order_mail_text" value="<%#= Setting.get_value("sign_order_mail_text")  %>">-->
-                  <div id="froala-editor_sign_order_mail_text">
-                    <% if !Setting.find_by(namespace: "sign_order_mail_text").present? %>
-                      <h3>Click here to edit the content</h3>
-                      <p>Drag the image above or the text block to insert them in the editor.</p>
-                    <% else %>
-                      <%= Setting.get_value("sign_order_mail_text").html_safe %>
-                    <% end %>
-                  </div>
-                </div>
-              </div>
+          </div>
 
-              <div class="row">
-                <div class="input-field col s12 l8">
-                  <p class="font-weight-600">Schedule mail</p>
-                  <!--                  <input class="materialize-textarea" name="sign_order_mail_text" id="sign_order_mail_text" value="<%#= Setting.get_value("sign_order_mail_text")  %>">-->
-                  <div id="froala-editor_send_schedule_mail_text">
-                    <% if !Setting.find_by(namespace: "send_schedule_mail_text").present? %>
-                      <h3>Click here to edit the content</h3>
-                      <p>Drag the image above or the text block to insert them in the editor.</p>
-                    <% else %>
-                      <%= Setting.get_value("send_schedule_mail_text").html_safe %>
-                    <% end %>
-                  </div>
+          <div class="row">
+            <div class="row">
+              <div class="input-field col s12">
+                <p class="font-weight-600">Square Estimate text</p>
+                <!--                  <input class="materialize-textarea" name="send_square_mail_text" id="send_square_mail_text" value="<%#= Setting.get_value("send_square_mail_text")  %>">-->
+                <div id="froala-editor_send_estimate_mail_text">
+                  <% if !Setting.find_by(namespace: "send_estimate_mail_text").present? %>
+                    <h3>Click here to edit the content</h3>
+                    <p>Drag the image above or the text block to insert them in the editor.</p>
+                  <% else %>
+                    <%= Setting.get_value("send_estimate_mail_text").html_safe %>
+                  <% end %>
+                </div>
+                <span class="helper-text">This text is sent via Square.</span>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="input-field col s12">
+                <p class="font-weight-600">Square mail text</p>
+                <!--                  <input class="materialize-textarea" name="send_square_mail_text" id="send_square_mail_text" value="<%#= Setting.get_value("send_square_mail_text")  %>">-->
+                <div id="froala-editor_send_square_mail_text">
+                  <% if !Setting.find_by(namespace: "send_square_mail_text").present? %>
+                    <h3>Click here to edit the content</h3>
+                    <p>Drag the image above or the text block to insert them in the editor.</p>
+                  <% else %>
+                    <%= Setting.get_value("send_square_mail_text").html_safe %>
+                  <% end %>
+                </div>
+                <span class="helper-text">This text is sent via Square.</span>
+              </div>
+            </div>
+            <div class="row">
+              <div class="input-field col s12">
+                <p class="font-weight-600">Invoice mail</p>
+                <!--                  <input class="materialize-textarea" name="send_invoice_mail_text" id="send_invoice_mail_text" value="<%#= Setting.get_value("send_invoice_mail_text")  %>">-->
+                <div id="froala-editor_send_invoice_mail_text">
+                  <% if !Setting.find_by(namespace: "send_invoice_mail_text").present? %>
+                    <h3>Click here to edit the content</h3>
+                    <p>Drag the image above or the text block to insert them in the editor.</p>
+                  <% else %>
+                    <%= Setting.get_value("send_invoice_mail_text").html_safe %>
+                  <% end %>
                 </div>
               </div>
-
-              <div class="row">
-                <div class="input-field col s12 l8">
-                  <p class="font-weight-600">Card mail</p>
-                  <!--                  <input class="materialize-textarea" name="sign_order_mail_text" id="sign_order_mail_text" value="<%#= Setting.get_value("sign_order_mail_text")  %>">-->
-                  <div id="froala-editor_send_card_mail_text">
-                    <% if !Setting.find_by(namespace: "card_mail_text").present? %>
-                      <h3>Click here to edit the content</h3>
-                      <p>Drag the image above or the text block to insert them in the editor.</p>
-                    <% else %>
-                      <%= Setting.get_value("card_mail_text").html_safe %>
-                    <% end %>
-                  </div>
+            </div>
+            <div class="row">
+              <div class="input-field col s12">
+                <p class="font-weight-600">Document mail</p>
+                <!--                  <input class="materialize-textarea" name="send_document_mail_text" id="send_document_mail_text" value="<%#= Setting.get_value("send_document_mail_text")  %>">-->
+                <div id="froala-editor_send_document_mail_text">
+                  <% if !Setting.find_by(namespace: "send_document_mail_text").present? %>
+                    <h3>Click here to edit the content</h3>
+                    <p>Drag the image above or the text block to insert them in the editor.</p>
+                  <% else %>
+                    <%= Setting.get_value("send_document_mail_text").html_safe %>
+                  <% end %>
                 </div>
               </div>
+            </div>
+            <div class="row">
+              <div class="input-field col s12">
+                <p class="font-weight-600">Sign order mail</p>
+                <!--                  <input class="materialize-textarea" name="sign_order_mail_text" id="sign_order_mail_text" value="<%#= Setting.get_value("sign_order_mail_text")  %>">-->
+                <div id="froala-editor_sign_order_mail_text">
+                  <% if !Setting.find_by(namespace: "sign_order_mail_text").present? %>
+                    <h3>Click here to edit the content</h3>
+                    <p>Drag the image above or the text block to insert them in the editor.</p>
+                  <% else %>
+                    <%= Setting.get_value("sign_order_mail_text").html_safe %>
+                  <% end %>
+                </div>
+              </div>
+            </div>
 
+            <div class="row">
+              <div class="input-field col s12">
+                <p class="font-weight-600">Schedule mail</p>
+                <!--                  <input class="materialize-textarea" name="sign_order_mail_text" id="sign_order_mail_text" value="<%#= Setting.get_value("sign_order_mail_text")  %>">-->
+                <div id="froala-editor_send_schedule_mail_text">
+                  <% if !Setting.find_by(namespace: "send_schedule_mail_text").present? %>
+                    <h3>Click here to edit the content</h3>
+                    <p>Drag the image above or the text block to insert them in the editor.</p>
+                  <% else %>
+                    <%= Setting.get_value("send_schedule_mail_text").html_safe %>
+                  <% end %>
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="input-field col s12">
+                <p class="font-weight-600">Card mail</p>
+                <!--                  <input class="materialize-textarea" name="sign_order_mail_text" id="sign_order_mail_text" value="<%#= Setting.get_value("sign_order_mail_text")  %>">-->
+                <div id="froala-editor_send_card_mail_text">
+                  <% if !Setting.find_by(namespace: "card_mail_text").present? %>
+                    <h3>Click here to edit the content</h3>
+                    <p>Drag the image above or the text block to insert them in the editor.</p>
+                  <% else %>
+                    <%= Setting.get_value("card_mail_text").html_safe %>
+                  <% end %>
+                </div>
+              </div>
             </div>
           </div>
+
         </div>
       </div>
     </div>

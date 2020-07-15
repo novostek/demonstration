@@ -20,7 +20,11 @@
       <!--photo-->
       <div class="col s12 m3">
         <div class="current_photo">
-          <img src="https://daiane.woffice.biz/materialize/images/avatar/avatar-7.png" alt="avatar">
+          <% if worker.photo.present? %>
+            <img src="<%= worker.photo.url %>" alt="avatar">
+          <% else %>
+            <img src="https://daiane.woffice.biz/materialize/images/avatar/avatar-7.png" alt="avatar">
+          <% end %>
         </div>
 
         <div class="file-field input-field col s12">

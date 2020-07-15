@@ -272,5 +272,7 @@ Rails.application.routes.draw do
   get 'api/orders/:id/payments' => "orders#pendent_payments", as: :api_order_payments
   post 'api/payment/:id/pay' => "api#order_paid", as: :api_payment_pay
 
+  get 'welcome' => 'welcome#index'
+
   root "users#home"
 end

@@ -18,7 +18,7 @@ class BotController < ApplicationController
     company_email.value = {"value": params[:company_email]}
     company_email.save
     
-    company_fullname = Setting.find_or_initialize_by(namespace: 'company_fullname')
+    company_fullname = Setting.find_or_initialize_by(namespace: 'company_full_name')
     company_fullname.value = {"value": params[:company_fullname]}
     company_fullname.save
     
@@ -30,7 +30,7 @@ class BotController < ApplicationController
     company_phone.value = {"value": params[:company_phone]}
     company_phone.save
 
-    doc = DocumentFile.find_or_initialize_by(origin: "Logo", origin_id: SecureRandom.uuid)
+    doc = DocumentFile.find_or_initialize_by(origin: "Logo", origin_id: '1e1e3f7b-92f7-4da4-8894-1bfbfb24d39b')
     doc.title = "Logo"
     doc.file = params[:company_logo]
     doc.save
@@ -54,7 +54,7 @@ class BotController < ApplicationController
     end
 
     measures = Setting.find_or_initialize_by(namespace: 'hidden_measurement_fields')
-    measures.value = {"value": value.to_json}
+    measures.value = {"value": value}
     measures.save
     
     if params['custom-account'][0] == 'yes'
@@ -65,9 +65,11 @@ class BotController < ApplicationController
       transaction_account.save
     end
     
-    company_phone = CalculationFormula.find_or_initialize_by(namespace: 'default-tax-formula')
-    company_phone.formula = "total * #{params[:company_tax].to_f / 100}"
-    company_phone.save
+    tax_formula = CalculationFormula.find_or_initialize_by(namespace: 'tax-formula')
+    tax_formula.name = "Tax formula"
+    tax_formula.tax = true
+    tax_formula.formula = "total * #{params[:company_tax].to_f / 100}"
+    tax_formula.save
 
     verified = Setting.find_or_initialize_by(namespace: 'verified')
     verified.value = {"value": true}

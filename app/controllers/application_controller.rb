@@ -9,6 +9,7 @@ class ApplicationController < ActionController::Base
   before_action :startup_bot, if: :is_verified, except: [:initialization, :create_initialization]
 
   before_action :configure_permitted_parameters, if: :devise_controller?
+  before_action :verify_welcome, if: :is_verified
 
   add_breadcrumb I18n.t("breadcrumbs.home"), :root_path
   before_action :set_default_breadcrumbs, only: [:index, :show, :edit, :new]
@@ -23,6 +24,14 @@ class ApplicationController < ActionController::Base
 
   def startup_bot
     redirect_to initialization_bot_path
+  end
+
+  def verify_welcome
+    if !Setting.get_value('welcome')
+      redirect_to '/welcome'
+    else
+      redirect_to '/'
+    end
   end
 
   def cache_globals_settings

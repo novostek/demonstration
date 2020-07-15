@@ -30,7 +30,7 @@
 
 							<input type="text" name="company_address" id="company_address"
 								cf-questions="Ok, where's {company_name} located?" required />
-							<input type="phone" name="company_phone" id="company_phone"
+							<input id="phone" type="phone" name="company_phone" id="company_phone"
 								cf-questions="Nice, what's {company_name} phone number?" required />
 							<input type="email" name="company_email" id="company_email" cf-questions="What's the email?"
 								cf-error="Email is not right" required />
@@ -62,7 +62,6 @@
 
 			</main>
 		</div>
-
 <%= content_for :scripts do %>	
 	<script>
 		function redirect() {
@@ -102,20 +101,21 @@
 		})
 
 		window.onload = function () {
+			let dispatcher = new cf.EventDispatcher();
+			dispatcher.addEventListener(cf.FlowEvents.FLOW_UPDATE, function(event) {
+				if (event.detail.tag.name === 'company_phone') {
+					let phone_tag = $('input').not("input[type=file]")
+					console.log(phone_tag)
+					$(phone_tag).mask("(000) 000-0000", {reverse: true});
+				} else {
+					$('input').unmask();
+				}
+			}, false);
+
 			window.incrementedValue = 0;
 			var conversationalForm = window.cf.ConversationalForm.startTheConversation({
 				formEl: document.getElementById("form-wo"),
 				robotImage: "woffice-w.svg",
-				flowStepCallback: function(dto, success, error) {
-					console.log('DTO', dto)
-					console.log('current', dto.input._currentTag.id)
-					
-					if(dto.input._currentTag.id === 'company_fullname'){
-						initializeAutocomplete()
-					}
-					
-					success();
-				},
 				submitCallback: function () {
 					conversationalForm.addRobotChatResponse("Alright, you are done.");
 					conversationalForm.addRobotChatResponse("All these settings can be changed in the Settings menu.");

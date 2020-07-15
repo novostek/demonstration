@@ -23,7 +23,7 @@
           <% Customer.category.options.each do |category| %>
             <label class="mr-5">
               <% value = customer.category.nil? ? 'company' : customer.category %>
-              <%= f.radio_button :category, category[1], id: category[1], class: 'customer_category', checked: category.second.eql?(value) %>
+              <%= f.radio_button :category, category[1], id: category[1], class: 'customer_category', checked: category[1].eql?(value) %>
               <span><%= category[0] %></span>
             </label>
           <% end %>

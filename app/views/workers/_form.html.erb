@@ -1,76 +1,87 @@
+<% content_for :head_content do %>
+  <link rel="stylesheet" type="text/css" href="/css/woffice-style.css">
+<% end %>
+
 <%= form_for(worker) do |f| %>
   <% if worker.errors.any? %>
     <div id="error_explanation" class="card-panel red white-text">
-      <h5><%= t('errors.template.header')  %>:</h5>
+      <h5><%= t('errors.template.header') %>:</h5>
 
       <ul>
-      <% worker.errors.full_messages.each do |message| %>
-        <li><%= message %></li>
-      <% end %>
+        <% worker.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
       </ul>
     </div>
   <% end %>
-<div class="card-panel">
-  
-  <div class="input-field">
 
-    <%= f.label :name %>
-    <%= f.text_field :name, required: true %>
-    
-  </div>
+  <div class="card-panel">
+    <div class="row">
+      <!--photo-->
+      <div class="col s12 m3">
+        <div class="current_photo">
+          <img src="https://daiane.woffice.biz/materialize/images/avatar/avatar-7.png" alt="avatar">
+        </div>
 
-  <div class="file-field input-field">
-    <div class="btn">
-      <span><%= f.label  :photo %></span>
-      <%= f.file_field :photo %>
-      <%= f.hidden_field :photo_cache %>
-    </div>
-    <div class="file-path-wrapper">
-      <input class="file-path validate" type="text">
-    </div>
-  </div>
-
-  <div class="input-field">
-
-    <%= f.label :document_id %>
-    <%= f.text_field :document_id %>
-    
-  </div>
-
-  <div class="input-field">
+        <div class="file-field input-field col s12">
+          <div class="btn">
+            <span><%= f.label :photo %></span>
+            <%= f.file_field :photo %>
+            <%= f.hidden_field :photo_cache %>
+          </div>
+          <div class="file-path-wrapper">
+            <input class="file-path validate" type="text">
+          </div>
+        </div>
+      </div>
 
 
-    <%= f.select :categories, Worker.categories.options, {required: true, prompt: true} %>
-    <%= f.label :categories %>
-  </div>
+      <!--fields -->
+      <div class="col s12 m9">
+        <div class="input-field col s12 m8">
+          <%= f.label :name %>
+          <%= f.text_field :name, required: true %>
+        </div>
 
-  <div class="input-field">
+        <div class="input-field col s12 m4">
+          <%= f.label :document_id %>
+          <%= f.text_field :document_id %>
+        </div>
 
-    <%= f.label :time_value %>
-    <%= f.number_field :time_value, step: :any %>
+        <div class="input-field col s12 m6">
+          <%= f.select :categories, Worker.categories.options, {required: true, prompt: true} %>
+          <%= f.label :categories %>
+        </div>
 
-  </div>
+        <div class="input-field col s12 m6">
+          <%= f.label :time_value %>
+          <%= f.number_field :time_value, step: :any %>
+        </div>
 
-  <div class="row">
-    <div class="col s10 m2">
-      <p class="font-weight-600 left mr-5">Active</p>
-    </div>
-    <div class="col s2 m2">
-      <div class="switch">
-        <label>
-          <!--                            <input name="width" id="width" type="checkbox" checked>-->
-          <%= f.check_box :active %>
-          <span class="lever"></span>
-        </label>
+        <div class="col s12 m6 offset-m6">
+          <div class="right">
+
+            <div class="col s10 m6">
+              <p class="font-weight-600 left mr-5">Active</p>
+            </div>
+            <div class="col s2 m2 pt-4">
+              <div class="switch">
+                <label>
+                  <%= f.check_box :active %>
+                  <span class="lever"></span>
+                </label>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
       </div>
     </div>
   </div>
 
-
-
-</div>
   <div class="actions">
-    <%= f.submit t('button.save'), class:"btn" %>
+    <%= f.submit t('button.save'), class: "btn right border-round" %>
   </div>
 <% end %>
 

@@ -1,0 +1,23 @@
+<%= content_for :head_content do %>
+  <link rel="stylesheet" type="text/css" href="/css/mysqpaymentform.css">
+  <link rel="stylesheet" type="text/css" href="/css/woffice-style.css">
+<% end %>
+
+<div class="card-panel">
+
+  <div class="row">
+    <div class="col s12">
+      <h4>Thank You!</h4>
+      <p>Your data has been successfully recorded securely and our team has already been informed that you have completed all the steps.</p>
+      <p>We would like to remind you that we will not have access to your credit card details. All data is securely recorded by Square.</p>
+      <p>If you have any questions please contact us</p>
+      <p>Thank you for doing business with us!</p>
+      <p></p>
+      <p>Best regards,</p>
+      <p><%= Setting.get_value('company_name') %></p>
+    </div>
+  </div>
+</div>
+
+<div class="center">Powered by <a href="https://www.woffice.app"><img src="/woffice.svg" alt="" width="60px"></a> with Partnership with
+  <a href="https://squareup.com/t/f_partnerships/p_Novostek/l_us?route=signup"><img src="/square_name.svg" alt="" width="60px"></a> </div>

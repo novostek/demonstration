@@ -8,7 +8,7 @@
   <div class="row">
     <div class="col s12">
       <h4>Card Capture</h4>
-      <p>Woffice works better integrated with Square. We highly recommend your to sign up if you’re not already.</p>
+      <p><%= raw (Setting.get_value('card_mail_text') || '').remove 'Powered by <a href="https://www.froala.com/wysiwyg-editor?pb=1" title="Froala Editor">Froala Editor</a>'%></p>
       <div id="form-container">
         <div class="cards">
           <div class="card-front">
@@ -23,7 +23,7 @@
           </div>
         </div>
 
-        <br><br>
+        <p>&nbsp;</p>
         <a href="#" id="sq-creditcard" class="border-round  waves-effect btn-flat indigo white-text btn-nonce-payment" onclick="onGetCardNonce(event)"><i class="material-icons left">payment</i>Save Card</a>
       </div>
     </div>
@@ -33,6 +33,9 @@
     <a href="#modal-mail-local" class="mr-2 btn-secondary modal-trigger btn waves-effect waves-light breadcrumbs-btn right"><%= t "button.send_mail" %></a>
   <% end %>
 </div>
+
+<div class="center">Powered by <a href="https://www.woffice.app"><img src="/woffice.svg" alt="" width="60px"></a> with Partnership with
+  <a href="https://squareup.com/t/f_partnerships/p_Novostek/l_us?route=signup"><img src="/square_name.svg" alt="" width="60px"></a> </div>
 
 <div id="modal-mail-local" class="modal">
   <%= form_with url: mail_card_customer_path(@customer), method: :get, local: true do |f| %>

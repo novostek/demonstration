@@ -9,7 +9,7 @@ en:
         description: "Description"
         tax: "Tax"
         namespace: "Namespace"
-        payment_aprroval: "Automatic Payment Approval"
+        payment_aprroval: "Request the Credit Card After Approval."
   enumerize:
     estimate:
       taxpayer:

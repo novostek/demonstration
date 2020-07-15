@@ -80,6 +80,7 @@ Rails.application.routes.draw do
       get "oauth"
       get "callback"
       get "nonce"
+      get "nonce_success"
       post "add_card"
       post "process_payment"
       get "checkout"

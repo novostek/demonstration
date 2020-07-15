@@ -12,7 +12,7 @@ class WelcomeController < ApplicationController
   private
 
   def verify_welcome
-    redirect_to '/' if Setting.get_value('welcome')
+    redirect_to finance_dashboard_path if Setting.get_value('welcome')
   end
 
 end

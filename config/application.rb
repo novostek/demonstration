@@ -37,10 +37,8 @@ module Woffice
     end
     # end
       #config.middleware.use
-    if ENV['RAILS_ENV'] == 'production'
-      Raven.configure do |config|
-        config.dsn = 'https://ac044efa7c4749e0b30c6922fb1d64d8:10139fb5f6fd4be6b04e7df9b8eda104@o418477.ingest.sentry.io/5321448'
-      end
+    Raven.configure do |config|
+      config.dsn = 'https://ac044efa7c4749e0b30c6922fb1d64d8:10139fb5f6fd4be6b04e7df9b8eda104@o418477.ingest.sentry.io/5321448'
     end
   end
 end

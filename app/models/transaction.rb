@@ -53,6 +53,8 @@ class Transaction < ApplicationRecord
 
   after_create :send_square, :square_payment
   before_save :set_default_categories
+  after_save :send_transaction_paid_customer, :send_square_paid_company
+
 
   #Método que realiza a cobrança do pagamento no cartão do cliente
   def square_payment
@@ -83,6 +85,34 @@ class Transaction < ApplicationRecord
         end
       end
     end
+  end
+
+  # Método que envia email para empresa confirmando que recebeu pagamento via square
+  def send_square_paid_company
+
+    if self.payment_method.present?
+      # verifica se é square
+      if  self.payment_method.square_credit? or
+          self.payment_method.square_installments? or
+          self.payment_method.square_card_on_file?
+
+        # verifica se status pago
+        if self.status.paid?
+
+          # envia email
+          DocumentMailer.with(transaction: self).send_square_paid_company.deliver_now
+        end
+
+      end
+    end
+
+  end
+
+  # Método que envia email para o cliente informando que um pagamento foi efetuado (marcado como pago)
+  def send_transaction_paid_customer
+    # verifica se status paid
+
+    # envia email
   end
 
   def set_default_categories
@@ -157,14 +187,14 @@ class Transaction < ApplicationRecord
 
   def self.get_day_finances type
     where(
-      "effective::date = ? AND value #{type == 'income' ? '>' : '<'} 0", 
+      "effective::date = ? AND value #{type == 'income' ? '>' : '<'} 0",
       Time.now.strftime('%Y-%m-%d')
     ).sum(:value).to_f
   end
 
   def self.get_balance
     credit = where(
-      'extract(year from effective) = ? AND value > 0', 
+      'extract(year from effective) = ? AND value > 0',
       Time.now.year
     ).group('extract(month from effective)').sum(:value).map { |t| {
       'month': Date::MONTHNAMES[t[0]],
@@ -172,13 +202,13 @@ class Transaction < ApplicationRecord
     } }
 
     debit = where(
-      'extract(year from effective) = ? AND value < 0', 
+      'extract(year from effective) = ? AND value < 0',
       Time.now.year
     ).group('extract(month from effective)').sum(:value).map { |t| {
       'month': Date::MONTHNAMES[t[0]],
       'value': t[1].to_f
     } }
-    
+
     return {
       'debit' => debit,
       'credit' => credit
@@ -187,7 +217,7 @@ class Transaction < ApplicationRecord
 
   def self.get_thirty_days_balance
     credit = where(
-      'effective > now() - interval \'30 day\' AND value > 0', 
+      'effective > now() - interval \'30 day\' AND value > 0',
       Time.now.year
     ).group('extract(month from effective)').sum(:value).map { |t| {
       'month': Date::MONTHNAMES[t[0]],
@@ -195,13 +225,13 @@ class Transaction < ApplicationRecord
     } }
 
     debit = where(
-      'effective > now() - interval \'30 day\' AND value < 0', 
+      'effective > now() - interval \'30 day\' AND value < 0',
       Time.now.year
     ).group('extract(month from effective)').sum(:value).map { |t| {
       'month': Date::MONTHNAMES[t[0]],
       'value': t[1].to_f
     } }
-    
+
     return {
       'debit' => debit,
       'credit' => credit
@@ -215,11 +245,11 @@ class Transaction < ApplicationRecord
   def self.get_amount_of_overdue
     where('due > now() - interval \'30 day\' AND value > 0 AND status = \'pendent\'').sum(:value).to_f
   end
-  
+
   def self.get_amount_of_open
     where('due < now() - interval \'30 day\' AND value > 0 AND status = \'pendent\'').sum(:value).to_f
   end
-  
+
   def self.get_material_costs
     where('created_at > now() - interval \'30 day\' AND value < 0 AND origin = \'ProductPurchase\'').sum(:value).to_f
   end

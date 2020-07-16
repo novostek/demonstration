@@ -77,6 +77,14 @@ class DocumentMailer < ApplicationMailer
          subject: "#{@estimate.customer.name.split.first} approved the estimate nº #{@estimate.code}")
   end
 
+  # Método que envia email para empresa confirmando que recebeu pagamento via square
+  def send_square_paid_company
+    #binding.pry
+    @transaction = params[:transaction]
+    mail(to: Setting.get_value("mail_address").present? ? Setting.get_value("company_email") : "smtp.gmail.com",
+         subject: "Payment Received by Square")
+  end
+
   private
 
   def set_smtp

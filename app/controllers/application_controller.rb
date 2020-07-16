@@ -23,7 +23,7 @@ class ApplicationController < ActionController::Base
   end
 
   def verify_welcome
-    if !Setting.get_value('welcome')
+    if user_signed_in? and !Setting.get_value('welcome') and !is_verified
       redirect_to '/welcome'
     end
   end

@@ -19,7 +19,7 @@ class LeadsController < ApplicationController
     @lead = Lead.new
     @lead.date = Time.now
     @customer = Customer.new
-
+    @edit = false
     #add_breadcrumb I18n.t('breadcrumbs.new'), new_lead_path
     return [@lead, @customer]
   end
@@ -35,6 +35,9 @@ class LeadsController < ApplicationController
   # POST /leads
   def create
     @lead = Lead.new(lead_params)
+    if @lead.customer.blank?
+      @lead.customer = Customer.search_by_phone(params[:phone]).first
+    end
     if @lead.save
       if params[:button] == "save_n_estimate"
         @lead.status = 'closed'
@@ -44,6 +47,7 @@ class LeadsController < ApplicationController
         redirect_to @lead, notice: t('notice.lead.created')
       end
     else
+      @customer = Customer.new
       render :new
     end
   end

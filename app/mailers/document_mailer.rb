@@ -85,6 +85,14 @@ class DocumentMailer < ApplicationMailer
          subject: "Payment Received by Square")
   end
 
+  def send_transaction_paid_customer
+    @transaction = params[:transaction]
+    @customer = @transaction.customer
+
+    mail(to: @customer.get_main_email_f,
+         subject: "Your payment has been registered with the woffice")
+  end
+
   private
 
   def set_smtp

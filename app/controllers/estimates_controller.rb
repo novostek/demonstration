@@ -113,9 +113,9 @@ class EstimatesController < ApplicationController
     #render "estimate_signature_new", layout: "clean"]
     #if @estimate.payment_approval
 
-      #else
+    #else
     render layout: "document"
-      #end
+    #end
   end
 
   #Método que envia o email do estimate via woffice
@@ -206,17 +206,17 @@ class EstimatesController < ApplicationController
 
 
       estimate.measurement_areas.each do |ma|
-         #duplica measurement_areas
-         new_ma = ma.dup
-         new_ma.estimate_id = new_estimate.id
-         new_ma.save
- 
-         #cria as measurements
-         ma.measurements.each do |m|
-           new_m = m.dup
-           new_m.measurement_area_id = new_ma.id
-           new_m.save
-         end
+        #duplica measurement_areas
+        new_ma = ma.dup
+        new_ma.estimate_id = new_estimate.id
+        new_ma.save
+
+        #cria as measurements
+        ma.measurements.each do |m|
+          new_m = m.dup
+          new_m.measurement_area_id = new_ma.id
+          new_m.save
+        end
       end
 
       redirect_to products_estimate_path( new_estimate.id), notice: t('notice.estimate.cloned')
@@ -327,28 +327,31 @@ class EstimatesController < ApplicationController
     product_estimate = params[:productEstimate]
 
     begin
-      product_estimate.each do |pe|
+      product_estimate.map do |pe|
         mp = MeasurementProposal.find_or_initialize_by(id: pe['proposal_id'])
         mp.save()
-        pe["areas"].each do |area|
+        pe["areas"].map do |area|
           ap = AreaProposal.find_or_initialize_by(measurement_area_id: area, measurement_proposal_id: mp.id)
           ap.measurement_area_id = area
           ap.measurement_proposal_id = mp.id
           ap.save()
         end
-        pe["products"].each do |product|
-          if !product['name'].empty?
-            p_estimate = product["product_id"].empty? ? ProductEstimate.find_or_initialize_by(custom_title: product["name"], measurement_proposal_id: mp.id) : ProductEstimate.find_or_initialize_by(product_id: product["product_id"], measurement_proposal_id: mp.id)
-            p_estimate.quantity = product["qty"].to_f
-            p_estimate.unitary_value = product["price"].to_f
-            p_estimate.discount = product["discount"].to_f
-            p_estimate.tax = product["tax"]
-            p_estimate.value = product["total"].to_f
-            p_estimate.save()
+        pe["products"].map do |product|
+          if product['name'].present? and !product['name'].empty?
+            begin
+              p_estimate = product["product_id"].blank? ? ProductEstimate.find_or_initialize_by(custom_title: product["name"], measurement_proposal_id: mp.id) : ProductEstimate.find_or_initialize_by(product_id: product["product_id"], measurement_proposal_id: mp.id)
+              p_estimate.quantity = product["qty"].to_f
+              p_estimate.unitary_value = product["price"].to_f
+              p_estimate.discount = product["discount"].to_f
+              p_estimate.tax = product["tax"]
+              p_estimate.value = product["total"].to_f
+              p_estimate.save()
+            rescue
+            end
           end
         end
       end
-      
+
       @estimate.calculate_tax_values
     rescue StandardError => e
       render json: {status: :internal_server_error, message: e.backtrace.inspect  }

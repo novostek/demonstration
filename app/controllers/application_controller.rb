@@ -11,7 +11,7 @@ class ApplicationController < ActionController::Base
   before_action :configure_permitted_parameters, if: :devise_controller?
   before_action :verify_welcome
 
-  add_breadcrumb I18n.t("breadcrumbs.home"), :root_path
+  add_breadcrumb I18n.t("home"), :root_path
   before_action :set_default_breadcrumbs, only: [:index, :show, :edit, :new]
 
   def toastr(type, body)

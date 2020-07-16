@@ -1,9 +1,4 @@
 en:
-  breadcrumb:
-    show: "View"
-    list: "List"
-    edit: "Edit"
-    dashboard: "Dashboard"
   find_customer: "Find a Customer"
   placeholder:
     search: "Search ..."
@@ -20,7 +15,6 @@ en:
     delete_schedule: "Delete Schedule"
     send_mail: "Send by E-mail"
     show: Show
-
   false: "No"
   true: "Yes"
   created_at: "Created At"

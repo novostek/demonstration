@@ -30,13 +30,15 @@ class BotController < ApplicationController
     company_phone.value = {"value": params[:company_phone]}
     company_phone.save
 
-    doc = DocumentFile.find_or_initialize_by(origin: "Logo", origin_id: '1e1e3f7b-92f7-4da4-8894-1bfbfb24d39b')
-    doc.title = "Logo"
-    doc.file = params[:company_logo]
-    doc.save
-    s = Setting.find_or_initialize_by(namespace: "logo")
-    s.value = {"value": doc.file.url }
-    s.save
+    if params['up-logo'] == 'yes'
+      doc = DocumentFile.find_or_initialize_by(origin: "Logo", origin_id: '1e1e3f7b-92f7-4da4-8894-1bfbfb24d39b')
+      doc.title = "Logo"
+      doc.file = params[:company_logo]
+      doc.save
+      s = Setting.find_or_initialize_by(namespace: "logo")
+      s.value = {"value": doc.file.url }
+      s.save
+    end
 
     # {"value":{"width":false,"length":false,"height":false,"square_feet":true}}
     measures = params[:measures]

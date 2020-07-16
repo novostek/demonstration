@@ -72,6 +72,15 @@
 }
 
 // Workers
+.current_photo{
+	float: left;
+	width: 100%;
+	text-align: center;
+	img{
+		width: 100%;
+		max-width: 200px;
+	}
+}
 .worker-tasks{
 	.collection-item.avatar{
 		&:hover{

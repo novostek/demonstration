@@ -1,0 +1,76 @@
+<h6 class="greetings">Hi, <%= @customer %>!</h6>
+<br>
+
+<p>
+  <%= raw (Setting.get_value("payment_registered_to_customer") || "").remove 'Powered by <a href="https://www.froala.com/wysiwyg-editor?pb=1" title="Froala Editor">Froala Editor</a>'  %>
+</p>
+
+<!--<table style="width:100%; margin-top: 40px; margin-bottom: 40px;">-->
+<!--  <tr>-->
+<!--    <th>Source</th>-->
+<!--    <td>-->
+      <%# if @transaction.payment_method.present? %>
+        <%# if @transaction.payment_method.include?('square_credit') or @transaction.payment_method.include?('square_installments') %>
+          <%#= image_tag('square_name.svg', class: "square-logo") %>
+        <%# else %>
+          <%#= t(@transaction.payment_method) %>
+        <%# end %>
+      <%# else %>
+<!--        --->
+      <%# end %>
+<!--    </td>-->
+<!--  </tr>-->
+<!--  <tr>-->
+<!--    <th>Transaction Category</th>-->
+<!--    <td>-->
+      <%# if @transaction.transaction_category.present? %>
+        <%#= @transaction.transaction_category %>
+      <%# else %>
+<!--        --->
+      <%# end %>
+<!--    </td>-->
+<!--  </tr>-->
+<!--  <tr>-->
+<!--    <th>Account</th>-->
+<!--    <td>-->
+      <%# if @transaction.transaction_account.present? %>
+        <%#= @transaction.transaction_account %>
+      <%# else %>
+<!--        --->
+      <%# end %>
+<!--    </td>-->
+<!--  </tr>-->
+<!--  <tr>-->
+<!--    <th>Origin</th>-->
+<!--    <td>-->
+      <%# if @transaction.order.present? %>
+<!--        Order #<%#= @transaction.order %>-->
+      <%# else %>
+<!--        --->
+      <%# end %>
+<!--    </td>-->
+<!--  </tr>-->
+<!--  <tr>-->
+<!--    <th>Due</th>-->
+<!--    <td>-->
+      <%#= @transaction.due.present? ? @transaction.due.strftime("%m/%d/%Y") : '-' %>
+<!--    </td>-->
+<!--  </tr>-->
+<!--  <tr>-->
+<!--    <th>Effective</th>-->
+<!--    <td>-->
+      <%#= @transaction.effective.present? ? @transaction.effective.strftime("%m/%d/%Y") : '-' %>
+<!--    </td>-->
+<!--  </tr>-->
+<!--  <tr>-->
+<!--    <th>Status</th>-->
+<!--    <td>-->
+      <%#= @transaction.status %>
+<!--    </td>-->
+<!--  </tr>-->
+<!--  <tr>-->
+<!--    <th>Value</th>-->
+<!--    <td><%#= number_to_currency(@transaction.value, :unit => '$') %></td>-->
+<!--  </tr>-->
+<!--</table>-->
+

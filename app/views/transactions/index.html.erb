@@ -93,7 +93,7 @@
                     <% if transaction.transaction_account.present? %>
                       <% if transaction.value.present? %>
                         <% if transaction.value > 0 %>
-                            <span class="badge green-text lighten-5 green transaction-value"><i class="material-icons">keyboard_arrow_up</i>
+                            <span class="badge green-text lighten-5 green text-darken-2 transaction-value"><i class="material-icons">keyboard_arrow_up</i>
                               <%= number_to_currency(transaction.value, :unit => '$') %>
                             </span>
                         <% else %>
@@ -105,9 +105,11 @@
                     <% end %>
                   </td>
                   <td>
-                    <%= link_to edit_transaction_path(transaction) do %>
-                      <i class="material-icons">edit</i>
-                    <% end %>
+                    <div class="invoice-action right-align">
+                      <%= link_to edit_transaction_path(transaction), class: 'invoice-action-edit mr-4' do %>
+                        <i class="material-icons">edit</i>
+                      <% end %>
+                    </div>
                   </td>
 
                 </tr>
@@ -116,8 +118,8 @@
             </table>
           </div>
         </div>
+        <%= paginate(@transactions) %>
       </div>
-      <%= paginate(@transactions) %>
     </div>
   </div>
 </div>
@@ -136,41 +138,49 @@
       <div class="slide-out-right-body row pl-3 pr-3 ps">
         <%= search_form_for @q, url: request.env['PATH_INFO'] do |f|  %>
           <div class="input-field">
-            <%= f.select :transaction_category_id_eq, @categories,{ include_blank: true}  %>
+            <%= f.select :transaction_category_id_eq, @categories,{ include_blank: 'All'}, {}  %>
             <%= f.label  :transaction_category_id %>
           </div>
 
           <div class="input-field">
-            <%= f.select :transaction_account_id_eq, @accounts, {include_blank: true}  %>
+            <%= f.select :transaction_account_id_eq, @accounts, {include_blank: 'All'}, {}  %>
             <%= f.label  :transaction_account_id %>
           </div>
 
-          <div class="input-field">
-            <%= f.select :status_eq, Transaction.status.options, {include_blank: true}  %>
-            <%= f.label  :status %>
+          <div class="row">
+            <%= f.label :status %>
+          </div>
+          <div class="row chip-selection mb-3">
+            <% Transaction.status.options.each do |status| %>
+              <label>
+                <%= f.radio_button :status_eq, status[1], id: status[1], class: 'transaction_status filled-in' %>
+                <span><%= status[0] %></span>
+              </label>
+            <% end %>
           </div>
 
-          <div class="input-field">
+          <div class="input-field col s6">
             <%= f.date_field :due_gteq %>
             <%= f.label  :due, "Due >" %>
           </div>
 
-          <div class="input-field">
+          <div class="input-field col s6">
             <%= f.date_field :due_lteq %>
             <%= f.label  :due_lteq , "Due <"%>
           </div>
 
-          <div class="input-field">
+          <div class="input-field col s6">
             <%= f.date_field :effective_gteq %>
             <%= f.label  :effective, "Effective >" %>
           </div>
 
-          <div class="input-field">
+          <div class="input-field col s6">
             <%= f.date_field :effective_lteq %>
             <%= f.label  :effective_lteq , "Effective <"%>
           </div>
+
           <div class="actions">
-            <%= f.submit "Filter", class:"btn border-round" %>
+            <%= f.submit "Filter", class:"btn border-round right" %>
             <%= link_to "Clear", transactions_path, class: "btn-flat" %>
           </div>
       <% end %>

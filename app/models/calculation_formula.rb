@@ -39,8 +39,12 @@ class CalculationFormula < ApplicationRecord
   end
 
   def calculate (areas, area_covered)
+    begin
     calculator = Dentaku::Calculator.new
     area = Measurement.square_meter(areas)
     calculator.evaluate(self.formula, area: area, area_covered: area_covered).to_f
+    rescue
+      0.0
+    end 
   end
 end

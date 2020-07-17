@@ -217,6 +217,16 @@
                           </ul>
                       </div>
                   </div>
+                <div class="card animate fadeRight">
+                  <div class="card-content">
+                    <h4 class="card-title mb-0">Conversion Ratio</h4>
+                    <div class="conversion-ration-container mt-8">
+                      <div id="conversion-ration-bar-chart" class="conversion-ration-shadow"></div>
+                    </div>
+                    <p class="medium-small center-align">This month conversion ratio</p>
+                    <h5 class="center-align mb-0 mt-0"><%= @conversion_rate %>%</h5>
+                  </div>
+                </div>
               </div>
           </div>
       </div>
@@ -656,7 +666,7 @@
         d = new Date(today.getFullYear(), today.getMonth() - i, 1);
         month = months[d.getMonth()];
         year = d.getFullYear();
-        
+
         if(!elem.some(value => value.month === month)){
             // month && console.log(month, elem.some(value => String(value.month) === String(month)))
             month && elem.unshift({
@@ -937,6 +947,99 @@
               })
           ]
       })
+
+        // Conversion Ratio
+        var ConversionRatioBarChart = new Chartist.Bar(
+            "#conversion-ration-bar-chart",
+            {
+                labels: ["Count"],
+                series: [
+                    { name: "Orders", data: [<%= @new_orders %>]},
+                    { name: "Estimates", data: [<%= @new_estimates %>]},
+                    { name: "Leads", data: [<%= @new_leads %>]}
+
+                ]
+            },
+            {
+                stackBars: true,
+                chartPadding: {
+                    top: 0,
+                    right: 50,
+                    bottom: 0,
+                    left: 0
+                },
+                axisX: {
+                    showLabel: false,
+                    showGrid: false
+                },
+                axisY: {
+                    showGrid: false,
+                    showLabel: false,
+                },
+                plugins: [
+                    Chartist.plugins.tooltip({
+                        class: "user-statistics-tooltip",
+                        appendToBody: true
+                    })
+                ]
+            }
+        )
+        ConversionRatioBarChart.on("draw", function (data) {
+            if (data.type === "bar") {
+                data.element.attr({
+                    style: "stroke-width: 40px",
+                    x1: data.x1 + 0.001
+                })
+                data.group.append(
+                    new Chartist.Svg("circle", {
+                        cx: data.x2,
+                        cy: data.y2
+                    })
+                )
+
+            }
+        })
+
+        ConversionRatioBarChart.on("created", function (data) {
+            var defs = data.svg.querySelector("defs") || data.svg.elem("defs")
+            defs
+                .elem("linearGradient", {
+                    id: "barGradient1",
+                    x1: 0,
+                    y1: 0,
+                    x2: 0,
+                    y2: 1
+                })
+                .elem("stop", {
+                    offset: 0,
+                    "stop-color": "#4fc3f7"
+                })
+                .parent()
+                .elem("stop", {
+                    offset: 1,
+                    "stop-color": "#3949ab"
+                })
+
+            defs
+                .elem("linearGradient", {
+                    id: "barGradient2",
+                    x1: 0,
+                    y1: 0,
+                    x2: 0,
+                    y2: 1
+                })
+                .elem("stop", {
+                    offset: 0,
+                    "stop-color": "#2962ff"
+                })
+                .parent()
+                .elem("stop", {
+                    offset: 1,
+                    "stop-color": "#3949ab"
+                })
+            return defs
+        })
+
 
     })(window, document, jQuery)
   </script>

@@ -39,6 +39,10 @@ class Lead < ApplicationRecord
     self.save
   end
 
+  def self.get_new_leads_count
+    where("created_at > now() - interval '30 day' AND status = 'new'").count
+  end
+
   def as_json(options = {})
     s = super(options)
     s[:customer] = self.customer

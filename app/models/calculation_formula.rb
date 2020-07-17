@@ -45,6 +45,6 @@ class CalculationFormula < ApplicationRecord
     calculator.evaluate(self.formula, area: area, area_covered: area_covered).to_f
     rescue
       0.0
-    end 
+    end
   end
 end

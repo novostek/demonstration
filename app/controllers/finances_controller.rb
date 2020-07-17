@@ -33,6 +33,8 @@ class FinancesController < ApplicationController
     @labor_costs = Transaction.get_labor_costs
 
     @new_orders = Order.get_new_orders_count
+    @new_leads = Lead.get_new_leads_count
+    @new_estimates = Estimate.get_new_estimates_count
     @finished_orders = Order.get_finished_orders_count
     @cancelled_orders = Order.get_cancelled_orders_count
     @latest_orders = Order.get_latest_orders 4
@@ -43,6 +45,12 @@ class FinancesController < ApplicationController
 
     if @total_balance.blank?
       @total_balance= {value: 0}
+    end
+
+    begin
+      @conversion_rate = ((@new_orders) / @new_leads * 100).round(2)
+    rescue
+      @conversion_rate = 0
     end
   end
 

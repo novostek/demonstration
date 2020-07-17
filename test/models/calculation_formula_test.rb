@@ -3,6 +3,8 @@
 # Table name: calculation_formulas
 #
 #  id          :uuid             not null, primary key
+#  col_name    :string
+#  default     :boolean
 #  description :string
 #  formula     :string
 #  name        :string

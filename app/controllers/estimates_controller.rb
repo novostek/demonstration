@@ -315,6 +315,8 @@ class EstimatesController < ApplicationController
     @suppliers = Supplier.to_select
     @formulas = CalculationFormula.to_select
     @hidden_fields = Setting.get_value('hidden_measurement_fields')
+    @calculation_formula = CalculationFormula.formula_default
+
 
     add_breadcrumb I18n.t("activerecord.models.estimates"), estimates_path
     add_breadcrumb I18n.t("activerecord.models.products"), products_estimate_path(@estimate)
@@ -363,6 +365,7 @@ class EstimatesController < ApplicationController
   def view_estimate
     @estimate = Estimate.find(params[:estimate_id])
     @hidden_fields = Setting.get_value('hidden_measurement_fields')
+    @calculation_formula = CalculationFormula.formula_default
     @documents = Document.to_select
     begin
       @email_customer = @estimate.customer.contacts.where(category: :email).first.data["email"]

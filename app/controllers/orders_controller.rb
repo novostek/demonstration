@@ -458,6 +458,8 @@ class OrdersController < ApplicationController
     @profit = @order.current_estimate.get_total_value - (@order.total_cost || 0)
     @documents = Document.to_select
     @hidden_fields = Setting.get_value('hidden_measurement_fields')
+    @calculation_formula = CalculationFormula.formula_default
+
     begin
       @email_customer = @order.current_estimate.customer.contacts.where(category: :email).first.data["email"]
     rescue

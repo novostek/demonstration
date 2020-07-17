@@ -4,50 +4,76 @@
       <h5><%= t('errors.template.header')  %>:</h5>
 
       <ul>
-      <% calculation_formula.errors.full_messages.each do |message| %>
-        <li><%= message %></li>
-      <% end %>
+        <% calculation_formula.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
       </ul>
     </div>
   <% end %>
-<div class="card-panel">
-  
-  <div class="input-field">
+  <div class="card-panel">
 
-    <%= f.label :name %>
-    <%= f.text_field :name %>
-    
+    <div class="input-field">
+
+      <%= f.label :name %>
+      <%= f.text_field :name %>
+
+    </div>
+    <p>
+
+    <div class="input-field">
+
+      <%= f.label :formula %>
+      <%= f.text_field :formula %>
+
+    </div>
+
+    <div class="input-field">
+
+      <%= f.label :description %>
+      <%= f.text_field :description %>
+
+    </div>
+
+    <div class="input-field">
+
+      <%= f.label :namespace %>
+      <%= f.text_field :namespace %>
+
+    </div>
+
+    <div class="input-field">
+
+      <%= f.label :col_name, "Column Name" %>
+      <%= f.text_field :col_name %>
+
+    </div>
+
+    <p>
+    <div class="switch">
+      Default
+      <label>
+
+        <!--                            <input name="order_need_sign" id="order_need_sign" type="checkbox" checked>-->
+        <%= f.check_box :default %>
+        <span class="lever"></span>
+
+      </label>
+    </div>
+    </p>
+    <div class="switch">
+      Formula for Tax
+      <label>
+
+        <!--                            <input name="order_need_sign" id="order_need_sign" type="checkbox" checked>-->
+        <%= f.check_box :tax %>
+        <span class="lever"></span>
+
+      </label>
+    </div>
+    </p>
+
+
   </div>
-
-  <div class="input-field">
-
-    <%= f.label :formula %>
-    <%= f.text_field :formula %>
-    
-  </div>
-
-  <div class="input-field">
-
-    <%= f.label :description %>
-    <%= f.text_field :description %>
-    
-  </div>
-
-  <p>
-    <label>
-      <%= f.check_box :tax %>
-      <span><%= t "tax" %></span>
-    </label>
-  </p>
-
-  <div class="input-field">
-
-    <%= f.label :namespace %>
-    <%= f.text_field :namespace %>
-    
-  </div>
-
-</div>
   <div class="actions">
     <%= f.submit t('button.save'), class:"btn" %>
   </div>

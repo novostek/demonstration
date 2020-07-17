@@ -38,6 +38,9 @@
                     <% if @hidden_fields['square_feet'].present? %>
                       <th><span class="hide-on-med-and-up">Sqft</span> <span class="hide-on-small-only">Square feet</span></th>
                     <% end %>
+                    <% if @calculation_formula.present? %>
+                      <th><span class="hide-on-med-and-up">T</span> <span class="hide-on-small-only"><%= @calculation_formula.col_name %></span></th>
+                    <% end %>
                   </tr>
                   </thead>
                   <tbody>
@@ -55,6 +58,29 @@
                       <% end %>
                       <% if @hidden_fields['square_feet'].present? %>
                         <td><%= ma.measurements[0].square_feet %></td>
+                      <% end %>
+                      <% if @calculation_formula.present? %>
+                        <td><%= @calculation_formula.calculate([ma.id], 1) %></td>
+                      <% end %>
+                    </tr>
+                  <% end %>
+                  <% if @calculation_formula.present? %>
+                    <tr>
+                      <td><i class="material-icons left mr-4 amber-text">home</i> Total <br><small></small></td>
+                      <% if @hidden_fields['length'].present? %>
+                        <td><%= @estimate.sum_of_measure('length') %></td>
+                      <% end %>
+                      <% if @hidden_fields['width'].present? %>
+                        <td><%= @estimate.sum_of_measure('width') %></td>
+                      <% end %>
+                      <% if @hidden_fields['height'].present? %>
+                        <td><%= @estimate.sum_of_measure('height') %></td>
+                      <% end %>
+                      <% if @hidden_fields['square_feet'].present? %>
+                        <td><%= @estimate.sum_of_measure('square_feet') %></td>
+                      <% end %>
+                      <% if @calculation_formula.present? %>
+                        <td><%= @calculation_formula.calculate(@estimate.measurement_areas.map{|a| a.id}, 1) %></td>
                       <% end %>
                     </tr>
                   <% end %>

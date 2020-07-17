@@ -223,4 +223,12 @@ class Estimate < ApplicationRecord
   def sum_square_feet
     self.measurement_areas.joins(:measurements).select("sum(measurements.square_feet) as total")
   end
+
+  def sum_of_measure(measure)
+    value = 0
+    measurement_areas.map do |ma|
+      value += ma.measurements.sum(measure)
+    end
+    value
+  end
 end

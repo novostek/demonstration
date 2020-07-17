@@ -76,6 +76,6 @@ class CalculationFormulasController < ApplicationController
 
     # Only allow a trusted parameter "white list" through.
     def calculation_formula_params
-      params.require(:calculation_formula).permit(:name, :formula, :description, :tax, :namespace)
+      params.require(:calculation_formula).permit(:name, :formula, :description, :tax, :namespace, :default, :col_name)
     end
 end

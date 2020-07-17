@@ -31,10 +31,7 @@ module Woffice
     config.middleware.use Apartment::Elevators::Subdomain
 
     # if ENV['RAILS_ENV'] == 'production'
-    config.to_prepare do
-      Devise::SessionsController.skip_before_action :startup_bot
-      Devise::SessionsController.skip_before_action :verify_welcome
-    end
+
     # end
       #config.middleware.use
     Raven.configure do |config|

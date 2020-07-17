@@ -3,46 +3,73 @@
     <div class="collapsible-header" tabindex="0"><i class="material-icons">select_all</i>Areas</div>
     <% if estimate.measurement_areas.any? %>
       <div class="collapsible-body pl-2 pr-2 pt-2 pb-2">
-      <table class="responsive-table">
-        <thead>
-        <tr>
-          <th></th>
-          <% if @hidden_fields['length'].present? %>
-            <th><span class="hide-on-med-and-up">L</span> <span class="hide-on-small-only">Length</span></th>
-          <% end %>
-          <% if @hidden_fields['width'].present? %>
-            <th><span class="hide-on-med-and-up">W</span> <span class="hide-on-small-only">Width</span></th>
-          <% end %>
-          <% if @hidden_fields['height'].present? %>
-            <th><span class="hide-on-med-and-up">H</span> <span class="hide-on-small-only">Height</span></th>
-          <% end %>
-          <% if @hidden_fields['square_feet'].present? %>
-            <th><span class="hide-on-med-and-up">Sqft</span> <span class="hide-on-small-only">Square feet</span></th>
-          <% end %>
-        </tr>
-        </thead>
-        <tbody>
-        <% estimate.measurement_areas.each do |ma| %>
+        <table class="responsive-table">
+          <thead>
           <tr>
-            <td><i class="material-icons left mr-4 amber-text">event_seat</i> <%= ma.name %> <br><small><%= ma.description %></small></td>
+            <th></th>
             <% if @hidden_fields['length'].present? %>
-              <td><%= ma.measurements[0].length == 0 ? "--" : ma.measurements[0].length %></td>
+              <th><span class="hide-on-med-and-up">L</span> <span class="hide-on-small-only">Length</span></th>
             <% end %>
             <% if @hidden_fields['width'].present? %>
-              <td><%= ma.measurements[0].width == 0 ? "--" : ma.measurements[0].width %></td>
+              <th><span class="hide-on-med-and-up">W</span> <span class="hide-on-small-only">Width</span></th>
             <% end %>
             <% if @hidden_fields['height'].present? %>
-              <td><%= ma.measurements[0].height == 0 ? "--" : ma.measurements[0].height %></td>
+              <th><span class="hide-on-med-and-up">H</span> <span class="hide-on-small-only">Height</span></th>
             <% end %>
             <% if @hidden_fields['square_feet'].present? %>
-              <td><%= ma.measurements[0].square_feet %></td>
+              <th><span class="hide-on-med-and-up">Sqft</span> <span class="hide-on-small-only">Square feet</span></th>
+            <% end %>
+            <% if @calculation_formula.present? %>
+              <th><span class="hide-on-med-and-up">T</span> <span class="hide-on-small-only"><%= @calculation_formula.col_name %></span></th>
             <% end %>
           </tr>
-        <% end %>
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+          <% estimate.measurement_areas.each do |ma| %>
+            <tr>
+              <td><i class="material-icons left mr-4 amber-text">event_seat</i> <%= ma.name %> <br><small><%= ma.description %></small></td>
+              <% if @hidden_fields['length'].present? %>
+                <td><%= ma.measurements[0].length == 0 ? "--" : ma.measurements[0].length %></td>
+              <% end %>
+              <% if @hidden_fields['width'].present? %>
+                <td><%= ma.measurements[0].width == 0 ? "--" : ma.measurements[0].width %></td>
+              <% end %>
+              <% if @hidden_fields['height'].present? %>
+                <td><%= ma.measurements[0].height == 0 ? "--" : ma.measurements[0].height %></td>
+              <% end %>
+              <% if @hidden_fields['square_feet'].present? %>
+                <td><%= ma.measurements[0].square_feet %></td>
+              <% end %>
+              <% if @calculation_formula.present? %>
+                <td><%= @calculation_formula.calculate([ma.id], 1) %></td>
+              <% end %>
+            </tr>
+          <% end %>
+          <% if @calculation_formula.present? %>
+            <tr>
+              <td><i class="material-icons left mr-4 amber-text">home</i> Total <br><small></small></td>
+              <% if @hidden_fields['length'].present? %>
+                <td><%= estimate.sum_of_measure('length') %></td>
+              <% end %>
+              <% if @hidden_fields['width'].present? %>
+                <td><%= estimate.sum_of_measure('width') %></td>
+              <% end %>
+              <% if @hidden_fields['height'].present? %>
+                <td><%= estimate.sum_of_measure('height') %></td>
+              <% end %>
+              <% if @hidden_fields['square_feet'].present? %>
+                <td><%= estimate.sum_of_measure('square_feet') %></td>
+              <% end %>
+              <% if @calculation_formula.present? %>
+                <td><%= @calculation_formula.calculate(estimate.measurement_areas.map{|a| a.id}, 1) %></td>
+              <% end %>
+            </tr>
+          <% end %>
+          </tbody>
 
-    </div>
+        </table>
+
+      </div>
     <% else %>
       <div class="collapsible-body center">
         <p><%= t 'no_area_yet' %></p>

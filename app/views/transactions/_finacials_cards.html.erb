@@ -8,7 +8,7 @@
       </div>
       <div class="col s7 m7 l9 right-align">
         <h5 class="mb-0 white-text">
-          <%= @total_balance.present? ? number_to_currency(@total_balance, :unit => '$') : '$0'%>
+          <%= @total_balance.present? ? number_to_currency(@total_balance[:value], :unit => '$') : '$0'%>
         </h5>
         <p class="no-margin">last 30 days</p>
       </div>

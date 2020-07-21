@@ -134,66 +134,8 @@
   <% end  %>
 </div>
 
-<%= content_for :sidenav do %>
-  <aside id="right-sidebar-nav">
-    <div id="slide-out-right" style="width: 340px !important;" class="slide-out-right-sidenav sidenav rightside-navigation">
+<%= render partial: 'schedules/sidenav' %>
 
-      <div class="row">
-        <div class="slide-out-right-title">
-          <div id="div_title" class="col s8 pl-3">
-
-          </div>
-          <div class="col s4 right-align mt-1">
-            <div class="row">
-              <div class="col s6">
-                <a class="btn-floating btn dropdown-settings waves-effect waves-light btn-flat black-text" href="#!" data-target="dropdown_schedule"><i class="material-icons black-text">more_vert</i></a>
-                <ul class="dropdown-content" id="dropdown_schedule" tabindex="0" style="">
-                  <li tabindex="0">
-                    <div class="col s12" id="delete_div">
-
-                    </div>
-                    <!--                <a class="grey-text text-darken-2" href="user-profile-page.html"><i class="material-icons">trash</i> Delete schedule<span class="new badge red">2</span></a></li>-->
-                  </li>
-                  <li tabindex="0">
-                    <div class="col s12">
-                      <a href="#modal_hour_cost" class="modal-trigger">Change Hour Cost</a>
-                    </div>
-                  </li>
-                </ul>
-              </div>
-              <div class="col s6">
-                <a href="#" target="_self" onclick="close_side();" class="btn-floating btn btn-flat"><i class="material-icons black-text">clear</i></a>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col s12" id="delete_div">
-
-        </div>
-      </div>
-      <div class="slide-out-right-body row pl-3 pr-3">
-
-        <div class="col s12 pl-3">
-          <h5>Notes <a href="#modal_note" class="modal-trigger"><i class="material-icons ">add</i></a></h5>
-        </div>
-        <div id="notes">
-
-        </div>
-
-        <!-- Exemple document -->
-        <div class="col s12 pl-3">
-          <h5>Documents <a href="#modal_doc" class="modal-trigger"><i class="material-icons ">add</i></a></h5>
-        </div>
-        <div id="docs">
-
-        </div>
-
-      </div>
-    </div>
-  </aside>
-<% end %>
 
 <div id="modal_hour_cost" class="modal modal-fixed-footer">
   <%= form_with url: update_hour_cost_schedules_path,method: :get, local: true do |f| %>

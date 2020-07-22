@@ -26,8 +26,12 @@ class OrdersController < ApplicationController
         product = Product.find(params[:product])
         purchase = Purchase.find_or_create_by(order_id: @order.id, supplier_id: product.supplier.id)
         pp = ProductPurchase.new(product: product, purchase: purchase) #find_or_create_by
-        pp.unity_value =  product.cost_price
         #binding.pry
+        if params[:unity_value].blank?
+          pp.unity_value =  product.cost_price
+        else
+          pp.unity_value =  params[:unity_value]
+        end
         begin
           pp.quantity = pp.quantity + params[:quantity]
         rescue

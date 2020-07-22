@@ -37,7 +37,6 @@ en:
       category:
         - company
         - person
-      
       worker_category:
         - employee
         - contractor
@@ -45,11 +44,11 @@ en:
     save: "Save"
     cancel: 'Cancel'
     reactivate: 'Reactivate'
-
   label:
     edit: 'Edit'
     remove: 'Remove'
-
-  tax: 'Taxes'
   breadcrumbs:
     home: Home
+  errors:
+    template:
+      header: Solve the following problems

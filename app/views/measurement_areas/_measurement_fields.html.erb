@@ -22,6 +22,20 @@
     <div class="input-field">
       <%= m.number_field :square_feet, min: 0, class: "validade", step: 0.001 %>
       <%= m.label  :square_feet, class: "active" %>
+      <a class="waves-effect waves-light btn right modal-trigger" href="#area_modal">Calculate Areas</a>
     </div>
+    <div id="area_modal" class="modal">
+      <div class="modal-content">
+        <h4>Calculate your areas</h4>
+        <% if @estimate.measurement_areas %>
+          
+        <% end %>
+        <%= number_field_tag 'width[]'%>
+      </div>
+      <div class="modal-footer">
+        <a href="#!" class="modal-close waves-effect waves-green btn-flat">Agree</a>
+      </div>
+    </div>
+    <%= m.hidden_field :measures %>
   <% end %>
 </div>

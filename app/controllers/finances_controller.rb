@@ -49,7 +49,7 @@ class FinancesController < ApplicationController
     end
 
     begin
-      @conversion_rate = ((@new_orders) / @new_leads * 100).round(2)
+      @conversion_rate = ((@lasted_orders) / @new_leads * 100).round(2)
     rescue
       @conversion_rate = 0
     end

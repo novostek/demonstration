@@ -86,6 +86,10 @@ class Order < ApplicationRecord
     where("created_at > now() - interval '30 day' AND status = 'new'").count
   end
 
+  def self.get_lasted_orders_count
+    where("created_at > now() - interval '30 day'").count
+  end
+
   def self.get_finished_orders_count
     where("created_at > now() - interval '30 day'  AND status = 'finished'").count
   end

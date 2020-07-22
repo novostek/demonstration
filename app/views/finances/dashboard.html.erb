@@ -954,7 +954,7 @@
             {
                 labels: ["Count"],
                 series: [
-                    { name: "Orders", data: [<%= @new_orders %>]},
+                    { name: "Orders", data: [<%= @lasted_orders %>]},
                     { name: "Estimates", data: [<%= @new_estimates %>]},
                     { name: "Leads", data: [<%= @new_leads %>]}
 
@@ -1012,12 +1012,12 @@
                 })
                 .elem("stop", {
                     offset: 0,
-                    "stop-color": "#4fc3f7"
+                    "stop-color": "#ffca28"
                 })
                 .parent()
                 .elem("stop", {
                     offset: 1,
-                    "stop-color": "#3949ab"
+                    "stop-color": "#ff6f00"
                 })
 
             defs
@@ -1030,12 +1030,12 @@
                 })
                 .elem("stop", {
                     offset: 0,
-                    "stop-color": "#2962ff"
+                    "stop-color": "#bf360c"
                 })
                 .parent()
                 .elem("stop", {
                     offset: 1,
-                    "stop-color": "#3949ab"
+                    "stop-color": "#f57c00"
                 })
             return defs
         })

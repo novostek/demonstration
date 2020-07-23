@@ -88,7 +88,7 @@ const ProductEstimate = ({product, peIndex, index}) => {
               {errors.qty && <span>{errors.qty.message}</span>}
             </div>
             <div className="calc-field">
-              <span className="left pt-1">Prince un.</span>
+              <span className="left pt-1">Price un.</span>
               <input
                 type="number"
                 min="0"

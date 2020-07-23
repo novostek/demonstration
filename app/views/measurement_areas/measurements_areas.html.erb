@@ -82,34 +82,186 @@
 			<i class="material-icons right">arrow_forward</i>
 		<% end %>
 	</div>
+	<div id="area_modal" class="modal modal-fixed-footer">
+    <div class="modal-content">
+      <h4>Calculate your areas</h4>
+      <span id="measure_container">
+			</span>
+			<a href="#" class="btn right" onclick="add_calculate_area()">add areas</a>
+    </div>
+    <div class="modal-footer">
+      <a href="#!" class="modal-close waves-effect waves-green btn-flat" onclick="calculate_sqft(event)">Calculate</a>
+    </div>
+  </div>
 <% end %>
 
 <%= content_for :scripts do %>
 	<script>
-			const next_button = $('#next_step')
-			let count_areas = $('#count_areas').val()
-			$(document).ready(function() {
-				
+		function remove_calculate_area(event) {
+			const measure_container = document.getElementById('measure_container');
+			const measures = Array.prototype.slice.call(measure_container.children)
+		}
 
-				count_areas <=0 ? next_button.addClass('disabled') : next_button.removeClass('disabled')
-			}).on('cocoon:after-insert', function() {
-				count_areas++
-				count_areas <=0 ? next_button.addClass('disabled') : next_button.removeClass('disabled')
-			}).on('cocoon:after-remove', function() {
-				count_areas--
-				count_areas <=0 ? next_button.addClass('disabled') : next_button.removeClass('disabled')
-			})
-
-			function calc_square_feet(e) {
-				const { id, value } = e.target
-				const r = /\d+/
-
-				const length = parseFloat(document.getElementById(`estimate_measurement_areas_attributes_${id.match(r)}_measurements_attributes_0_length`).value)
-				const width = parseFloat(document.getElementById(`estimate_measurement_areas_attributes_${id.match(r)}_measurements_attributes_0_width`).value)
-				const square_feet = document.getElementById(`estimate_measurement_areas_attributes_${id.match(r)}_measurements_attributes_0_square_feet`)
-				square_feet.nextElementSibling.classList.add('active')
-
-				square_feet.value = parseFloat(length * width)
+		function calculate_sqft(event) {
+			const measure_container = document.getElementById('measure_container');
+			const measures = Array.prototype.slice.call(measure_container.children)
+			const square_feet_id = measure_container.getAttribute('square_feet_id')
+			const square_feet_input = document.getElementById(square_feet_id)
+			const measures_id = measure_container.getAttribute('measures_id')
+			const measures_input = document.getElementById(measures_id)
+			let square_feet = 0
+			let width = 0
+			let length = 0
+			const measure_json = {
+				"value": []
 			}
+			measures.map((measure, index) => {
+				if(index %2){
+					width = Array.prototype.slice.call(measures[index - 1].children).shift().value
+					length = Array.prototype.slice.call(measure.children).shift().value
+					measure_json.value.push({
+						width,
+						length
+					})
+					square_feet = square_feet + (width*length)
+				}
+			})
+			square_feet_input.value = square_feet
+			measures_input.value = JSON.stringify(measure_json)
+		}
+
+		function add_calculate_area() {
+			const measure_container = document.getElementById('measure_container');
+			const index = measure_container.children.length/2;
+
+			const divWidth = document.createElement("div");
+			divWidth.setAttribute("class", "input-field col s12 m5");
+
+			const inputWidth = document.createElement("input");
+			inputWidth.setAttribute("name", `measures[${index}][width]`)
+			inputWidth.setAttribute("id", `width[${index}]`)
+			inputWidth.setAttribute("value", '0.0')
+			inputWidth.setAttribute("type", "number")
+			inputWidth.setAttribute("step", "0.01")
+			divWidth.appendChild(inputWidth);
+
+			const labelWidth = document.createElement("label");
+			labelWidth.setAttribute("for", `width[${index}]`)
+			labelWidth.setAttribute("class", "active")
+			labelWidth.innerHTML = "Width"
+			divWidth.appendChild(labelWidth)
+
+			const divLength = document.createElement("div");
+			divLength.setAttribute("class", "input-field col s12 m5");
+
+			const inputLength = document.createElement("input");
+			inputLength.setAttribute("name", `measures[${index}][length]`)
+			inputLength.setAttribute("id", `length[${index}]`)
+			inputLength.setAttribute("value", '0.0')
+			inputLength.setAttribute("type", "number")
+			inputLength.setAttribute("step", "0.01")
+			divLength.appendChild(inputLength);
+			
+			const labelLength = document.createElement("label");
+			labelLength.setAttribute("for", `length[${index}]`)
+			labelLength.setAttribute("class", "active")
+			labelLength.innerHTML = "Length"
+			divLength.appendChild(labelLength)
+
+			const aRemove = document.createElement("a")
+			aRemove.setAttribute("href", "#")
+			aRemove.setAttribute("class", "col right s12 m2")
+			const iconRemove = document.createElement("i")
+			iconRemove.setAttribute("class", "material-icons")
+			iconRemove.innerHTML = "close"
+			aRemove.appendChild(iconRemove)
+
+			measure_container.appendChild(divWidth)
+			measure_container.appendChild(divLength)
+			measure_container.appendChild(aRemove)
+		}
+
+		function calculate_areas(event) {
+			const regex = /=>/gi;
+			const measures = JSON.parse(String(event.target.parentElement.parentElement.children[1].value).replace(regex, ":"));
+			const measure_container = document.getElementById('measure_container');
+			measure_container.setAttribute("square_feet_id", event.target.parentElement.parentElement.children[0].children[0].id)
+			measure_container.setAttribute("measures_id", event.target.parentElement.parentElement.children[1].id)
+			measure_container.innerHTML = '';
+			
+			measures.value.map((measure, index) => {
+				const divWidth = document.createElement("div");
+				divWidth.setAttribute("class", "input-field col s12 m5");
+
+				const inputWidth = document.createElement("input");
+				inputWidth.setAttribute("name", `measures[${index}][width]`)
+				inputWidth.setAttribute("id", `width[${index}]`)
+				inputWidth.setAttribute("value", measure.width)
+				inputWidth.setAttribute("type", "number")
+				inputWidth.setAttribute("step", "0.01")
+				divWidth.appendChild(inputWidth);
+
+				const labelWidth = document.createElement("label");
+				labelWidth.setAttribute("for", `width[${index}]`)
+				labelWidth.setAttribute("class", "active")
+				labelWidth.innerHTML = "Width"
+				divWidth.appendChild(labelWidth)
+
+				const divLength = document.createElement("div");
+				divLength.setAttribute("class", "input-field col s12 m5");
+
+				const inputLength = document.createElement("input");
+				inputLength.setAttribute("name", `measures[${index}][length]`)
+				inputLength.setAttribute("id", `length[${index}]`)
+				inputLength.setAttribute("value", measure.length)
+				inputLength.setAttribute("type", "number")
+				inputLength.setAttribute("step", "0.01")
+				divLength.appendChild(inputLength);
+				
+				const labelLength = document.createElement("label");
+				labelLength.setAttribute("for", `length[${index}]`)
+				labelLength.setAttribute("class", "active")
+				labelLength.innerHTML = "Length"
+				divLength.appendChild(labelLength)
+				
+				const aRemove = document.createElement("a")
+				aRemove.setAttribute("href", "#")
+				aRemove.setAttribute("class", "col right s12 m2")
+				const iconRemove = document.createElement("i")
+				iconRemove.setAttribute("class", "material-icons")
+				iconRemove.innerHTML = "close"
+				aRemove.appendChild(iconRemove)
+
+				measure_container.appendChild(divWidth)
+				measure_container.appendChild(divLength)
+				measure_container.appendChild(aRemove)
+			})
+		}
+
+		const next_button = $('#next_step')
+		let count_areas = $('#count_areas').val()
+		$(document).ready(function() {
+			
+
+			count_areas <=0 ? next_button.addClass('disabled') : next_button.removeClass('disabled')
+		}).on('cocoon:after-insert', function() {
+			count_areas++
+			count_areas <=0 ? next_button.addClass('disabled') : next_button.removeClass('disabled')
+		}).on('cocoon:after-remove', function() {
+			count_areas--
+			count_areas <=0 ? next_button.addClass('disabled') : next_button.removeClass('disabled')
+		})
+
+		function calc_square_feet(e) {
+			const { id, value } = e.target
+			const r = /\d+/
+
+			const length = parseFloat(document.getElementById(`estimate_measurement_areas_attributes_${id.match(r)}_measurements_attributes_0_length`).value)
+			const width = parseFloat(document.getElementById(`estimate_measurement_areas_attributes_${id.match(r)}_measurements_attributes_0_width`).value)
+			const square_feet = document.getElementById(`estimate_measurement_areas_attributes_${id.match(r)}_measurements_attributes_0_square_feet`)
+			square_feet.nextElementSibling.classList.add('active')
+
+			square_feet.value = parseFloat(length * width)
+		}
 	</script>
 <% end %>

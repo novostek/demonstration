@@ -54,7 +54,9 @@ class ProductsController < ApplicationController
         end
       end
       if @product.update(product_params)
-        redirect_to @product, notice: t('notice.product.created')
+        if params[:remote].nil?
+          redirect_to @product, notice: t('notice.product.created')
+        end
       else
         render :new
       end

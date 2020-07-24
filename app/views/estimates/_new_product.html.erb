@@ -1,6 +1,7 @@
 
 <div id="product-add-modal" class="modal modal-fixed-footer">
-<%= form_for product, remote: true do |f| %>
+  <%= form_for product, remote: true do |f| %>
+    <%= hidden_field_tag :remote, "remote" %>
     <div class="modal-content">
       <h4><%= t "button.new" %> <%= t "activerecord.models.product" %></h4>
       <% if product.errors.any? %>
@@ -72,9 +73,9 @@
       </div>
     </div>
     <div class="modal-footer">
-      <%= f.button :submit, :value => "remote_save", class:"modal-action modal-close waves-effect waves-green btn-flat" do %>
+      <%= f.button :button, :value => "remote_save", onclick: "submitNewProduct(event)", class:"modal-action modal-close waves-effect waves-green btn-flat" do %>
         <i class="material-icons left">save</i><%= t('buttons.save') %>
       <% end %>
     </div>
-<% end %>
-  </div>
+  <% end %>
+</div>

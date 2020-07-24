@@ -435,7 +435,7 @@ class EstimatesController < ApplicationController
         measurement_areas_attributes: [
             :id, :estimate_id, :name, :description, :_destroy,
             measurements_attributes: [
-                :id, :length, :width, :height, :square_feet, :_destroy
+                :id, :length, :width, :height, :square_feet, :measures, :_destroy
             ]
         ])
   end

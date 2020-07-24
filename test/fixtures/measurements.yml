@@ -5,6 +5,7 @@
 #  id                  :uuid             not null, primary key
 #  height              :decimal(, )
 #  length              :decimal(, )
+#  measures            :json
 #  square_feet         :decimal(10, 2)
 #  width               :decimal(, )
 #  created_at          :datetime         not null

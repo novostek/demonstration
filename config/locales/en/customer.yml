@@ -23,7 +23,12 @@ en:
       created: "Customer was successfully created."
       updated: "Customer was sucessfully updated."
       deleted: "Customer was sucessfully deleted."
+
+  # messages
   no_phones: No phone
   no_emails: No email
   no_address: No address
   no_estimates: No estimates
+
+  # Labels
+  main_address: Customer address

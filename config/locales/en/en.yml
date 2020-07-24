@@ -62,7 +62,8 @@ en:
     remove: 'Remove'
     send_email: Send email
     send_document: Send Document
-  total: Total
+    total: Total
+    close: Close
 
   # buttons
   button:
@@ -85,6 +86,8 @@ en:
     send: Send
     next: Next
     select_all: Select all
+    confirm: Confirm
+    confirm_signature: Confirm signature
 
   #
   false: "No"

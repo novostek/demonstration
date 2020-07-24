@@ -57,7 +57,7 @@ class ApplicationController < ActionController::Base
       else
         link = "/#{params[:controller]}/#{params[:id]}/#{params[:action]}"
       end
-      add_breadcrumb I18n.t("breadcrumbs.#{params[:action]}"), link
+      add_breadcrumb I18n.t("breadcrumb.#{params[:action]}"), link
     end
   end
 

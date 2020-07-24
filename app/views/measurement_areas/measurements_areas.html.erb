@@ -1,5 +1,4 @@
 <div class="row">
-	<div class="content-wrapper-before woffice-color"></div>
 	<div class="breadcrumbs-light pb-0 pt-4" id="breadcrumbs-wrapper">
 		<!-- Search for small screen-->
 		<div class="container">
@@ -22,95 +21,268 @@
 		</div>
 	</div>
 </div>
-			<%= render 'estimates/estimate_detail' %>
-			<%= form_for @estimate, local: true, url: estimate_path, method: :patch do |form| %>
-				<div class="card">
-					<div class="card-content">
-						<ul class="stepper horizontal stepper-head-only">
-							<li class="step">
-								<%= link_to step_one_estimates_path(@estimate.lead) do %>
-									<div class="step-title waves-effect">Step 1</div>
-								<% end %>
-							</li>
-							<li class="step ">
-								<% if @estimate.schedules.present? %>
-									<%= link_to schedule_estimate_path(@estimate) do %>
-										<div class="step-title waves-effect">Schedule</div>
-									<% end %>
-								<% else %>
-									<div class="step-title waves-effect">Schedule</div>
-								<% end %>
-							</li>
-							<li class="step active">
-								<% if @estimate.measurements.present? %>
-									<%= link_to measurement_view_estimates_path(@estimate) do %>
-										<div class="step-title waves-effect">Measurements</div>
-									<% end %>
-								<% else %>
-										<div class="step-title waves-effect">Measurements</div>
-								<% end %>
-							</li>
-							<li class="step">
-								<% if @estimate.product_estimates.present? %>
-									<%= link_to products_estimate_path(@estimate) do %>
-										<div class="step-title waves-effect">Itens</div>
-									<% end %>
-								<% else %>
-									<div class="step-title waves-effect">Itens</div>
-								<% end %>
-							</li>
-						</ul>
-						<div class="m-area-list row pl-1 pr-1 measurement_areas" id="measurement_areas">
-							<%= form.fields_for :measurement_areas do |measurement_area_form| %>
-								<%= render 'measurement_area_fields', f: measurement_area_form %>
-							<% end %>
-						</div>
-						<div class="row mt-1">
-							<%= link_to_add_association form, :measurement_areas, id: "add_area", class: 'btn btn-add-area btn-secondary' do %>
-								<i class="material-icons left">add</i> Add Area
-							<% end %>
-						</div>								
-					</div>
-				</div>
-				<div class="col s12 pb-2 pr-0 pl-0">
-					<%= form.hidden_field :count, value: @estimate.measurement_areas.length, id: 'count_areas' %>
-					<%= link_to schedule_estimate_path(@estimate.id), target: '_self',
-						class:"btn grey lighten-5 grey-text waves-effect waves-light breadcrumbs-btn left save" do %>
-						Back <i class="material-icons left">arrow_back</i>
+<%= render 'estimates/estimate_detail' %>
+<%= form_for @estimate, local: true, url: estimate_path, method: :patch do |form| %>
+	<div class="card">
+		<div class="card-content">
+			<ul class="stepper horizontal stepper-head-only">
+				<li class="step">
+					<%= link_to step_one_estimates_path(@estimate.lead) do %>
+						<div class="step-title waves-effect">Step 1</div>
 					<% end %>
-					<%= form.button :submit, id: "next_step", class:"btn indigo waves-effect waves-light breadcrumbs-btn right ml-1" do %>
-						Next: Itens
-						<i class="material-icons right">arrow_forward</i>
+				</li>
+				<li class="step ">
+					<% if @estimate.schedules.present? %>
+						<%= link_to schedule_estimate_path(@estimate) do %>
+							<div class="step-title waves-effect">Schedule</div>
+						<% end %>
+					<% else %>
+						<div class="step-title waves-effect">Schedule</div>
 					<% end %>
-				</div>
-			<% end %>
+				</li>
+				<li class="step active">
+					<% if @estimate.measurements.present? %>
+						<%= link_to measurement_view_estimates_path(@estimate) do %>
+							<div class="step-title waves-effect">Measurements</div>
+						<% end %>
+					<% else %>
+							<div class="step-title waves-effect">Measurements</div>
+					<% end %>
+				</li>
+				<li class="step">
+					<% if @estimate.product_estimates.present? %>
+						<%= link_to products_estimate_path(@estimate) do %>
+							<div class="step-title waves-effect">Itens</div>
+						<% end %>
+					<% else %>
+						<div class="step-title waves-effect">Itens</div>
+					<% end %>
+				</li>
+			</ul>
+			<div class="m-area-list row pl-1 pr-1 measurement_areas" id="measurement_areas">
+				<%= form.fields_for :measurement_areas do |measurement_area_form| %>
+					<%= render 'measurement_area_fields', f: measurement_area_form %>
+				<% end %>
+			</div>
+			<div class="row mt-1">
+				<%= link_to_add_association form, :measurement_areas, id: "add_area", class: 'btn btn-add-area btn-secondary' do %>
+					<i class="material-icons left">add</i> Add Area
+				<% end %>
+			</div>								
+		</div>
+	</div>
+	<div class="col s12 pb-2 pr-0 pl-0">
+		<%= form.hidden_field :count, value: @estimate.measurement_areas.length, id: 'count_areas' %>
+		<%= link_to schedule_estimate_path(@estimate.id), target: '_self',
+			class:"btn grey lighten-5 grey-text waves-effect waves-light breadcrumbs-btn left save" do %>
+			Back <i class="material-icons left">arrow_back</i>
+		<% end %>
+		<%= form.button :submit, id: "next_step", class:"btn indigo waves-effect waves-light breadcrumbs-btn right ml-1" do %>
+			Next: Itens
+			<i class="material-icons right">arrow_forward</i>
+		<% end %>
+	</div>
+	<div id="area_modal" class="modal modal-fixed-footer">
+    <div class="modal-content">
+      <h4>Calculate your areas</h4>
+      <span id="measure_container">
+			</span>
+			<a href="#" class="btn right" onclick="add_calculate_area()">add areas</a>
+    </div>
+    <div class="modal-footer">
+      <a href="#!" class="modal-close waves-effect waves-green btn-flat" onclick="calculate_sqft(event)">Calculate</a>
+    </div>
+  </div>
+<% end %>
 
 <%= content_for :scripts do %>
 	<script>
-			const next_button = $('#next_step')
-			let count_areas = $('#count_areas').val()
-			$(document).ready(function() {
-				
+		function remove_calculate_area(event) {
+			const measure_container = document.getElementById('measure_container');
+			const measures = Array.prototype.slice.call(measure_container.children)
+		}
 
-				count_areas <=0 ? next_button.addClass('disabled') : next_button.removeClass('disabled')
-			}).on('cocoon:after-insert', function() {
-				count_areas++
-				count_areas <=0 ? next_button.addClass('disabled') : next_button.removeClass('disabled')
-			}).on('cocoon:after-remove', function() {
-				count_areas--
-				count_areas <=0 ? next_button.addClass('disabled') : next_button.removeClass('disabled')
-			})
-
-			function calc_square_feet(e) {
-				const { id, value } = e.target
-				const r = /\d+/
-
-				const length = parseFloat(document.getElementById(`estimate_measurement_areas_attributes_${id.match(r)}_measurements_attributes_0_length`).value)
-				const width = parseFloat(document.getElementById(`estimate_measurement_areas_attributes_${id.match(r)}_measurements_attributes_0_width`).value)
-				const square_feet = document.getElementById(`estimate_measurement_areas_attributes_${id.match(r)}_measurements_attributes_0_square_feet`)
-				square_feet.nextElementSibling.classList.add('active')
-
-				square_feet.value = parseFloat(length * width)
+		function calculate_sqft(event) {
+			const measure_container = document.getElementById('measure_container');
+			const measures = Array.prototype.slice.call(measure_container.children)
+			const square_feet_id = measure_container.getAttribute('square_feet_id')
+			const square_feet_input = document.getElementById(square_feet_id)
+			const measures_id = measure_container.getAttribute('measures_id')
+			const measures_input = document.getElementById(measures_id)
+			let square_feet = 0
+			let width = 0
+			let length = 0
+			const measure_json = {
+				"value": []
 			}
+			measures.map((divs) => {
+				const measureRow = Array.prototype.slice.call(divs.children)
+				measureRow.map((measure, index) => {
+					if(index %2 && index != measureRow.length - 1){
+						width = measures[index - 1].children[0].children[0].value
+						length = measure.children[0].value
+						measure_json.value.push({
+							width,
+							length
+						})
+						square_feet = square_feet + (width*length)
+					}
+				})
+			})
+			square_feet_input.value = square_feet
+			measures_input.value = JSON.stringify(measure_json)
+		}
+
+		function add_calculate_area() {
+			const divRow = document.createElement("div");
+			divRow.setAttribute("class", "display-flex align-items-center justify-content-between");
+
+			const measure_container = document.getElementById('measure_container');
+			const index = measure_container.children.length/2;
+
+			const divWidth = document.createElement("div");
+			divWidth.setAttribute("class", "input-field col s12");
+
+			const inputWidth = document.createElement("input");
+			inputWidth.setAttribute("name", `measures[${index}][width]`)
+			inputWidth.setAttribute("id", `width[${index}]`)
+			inputWidth.setAttribute("value", '0.0')
+			inputWidth.setAttribute("type", "number")
+			inputWidth.setAttribute("step", "0.01")
+			divWidth.appendChild(inputWidth);
+
+			const labelWidth = document.createElement("label");
+			labelWidth.setAttribute("for", `width[${index}]`)
+			labelWidth.setAttribute("class", "active")
+			labelWidth.innerHTML = "Width"
+			divWidth.appendChild(labelWidth)
+
+			const divLength = document.createElement("div");
+			divLength.setAttribute("class", "input-field col s12");
+
+			const inputLength = document.createElement("input");
+			inputLength.setAttribute("name", `measures[${index}][length]`)
+			inputLength.setAttribute("id", `length[${index}]`)
+			inputLength.setAttribute("value", '0.0')
+			inputLength.setAttribute("type", "number")
+			inputLength.setAttribute("step", "0.01")
+			divLength.appendChild(inputLength);
+			
+			const labelLength = document.createElement("label");
+			labelLength.setAttribute("for", `length[${index}]`)
+			labelLength.setAttribute("class", "active")
+			labelLength.innerHTML = "Length"
+			divLength.appendChild(labelLength)
+
+			const aRemove = document.createElement("a")
+			aRemove.setAttribute("href", "#")
+			aRemove.setAttribute("class", "col right")
+			aRemove.onclick = function () {
+				this.parentElement.remove();
+			}
+			const iconRemove = document.createElement("i")
+			iconRemove.setAttribute("class", "material-icons")
+			iconRemove.innerHTML = "close"
+			aRemove.appendChild(iconRemove)
+
+			divRow.appendChild(divWidth)
+			divRow.appendChild(divLength)
+			divRow.appendChild(aRemove)
+
+			measure_container.appendChild(divRow)
+		}
+
+		function calculate_areas(event) {
+			const regex = /=>/gi;
+			const measures = JSON.parse(String(event.target.parentElement.parentElement.children[1].value).replace(regex, ":"));
+			const measure_container = document.getElementById('measure_container');
+			measure_container.setAttribute("square_feet_id", event.target.parentElement.parentElement.children[0].children[0].id)
+			measure_container.setAttribute("measures_id", event.target.parentElement.parentElement.children[1].id)
+			measure_container.innerHTML = '';
+
+			
+			measures.value.map((measure, index) => {
+				const divRow = document.createElement("div");
+				divRow.setAttribute("class", "display-flex align-items-center justify-content-between");
+
+				const divWidth = document.createElement("div");
+				divWidth.setAttribute("class", "input-field col s12");
+
+				const inputWidth = document.createElement("input");
+				inputWidth.setAttribute("name", `measures[${index}][width]`)
+				inputWidth.setAttribute("id", `width[${index}]`)
+				inputWidth.setAttribute("value", measure.width)
+				inputWidth.setAttribute("type", "number")
+				inputWidth.setAttribute("step", "0.01")
+				divWidth.appendChild(inputWidth);
+
+				const labelWidth = document.createElement("label");
+				labelWidth.setAttribute("for", `width[${index}]`)
+				labelWidth.setAttribute("class", "active")
+				labelWidth.innerHTML = "Width"
+				divWidth.appendChild(labelWidth)
+
+				const divLength = document.createElement("div");
+				divLength.setAttribute("class", "input-field col s12");
+
+				const inputLength = document.createElement("input");
+				inputLength.setAttribute("name", `measures[${index}][length]`)
+				inputLength.setAttribute("id", `length[${index}]`)
+				inputLength.setAttribute("value", measure.length)
+				inputLength.setAttribute("type", "number")
+				inputLength.setAttribute("step", "0.01")
+				divLength.appendChild(inputLength);
+				
+				const labelLength = document.createElement("label");
+				labelLength.setAttribute("for", `length[${index}]`)
+				labelLength.setAttribute("class", "active")
+				labelLength.innerHTML = "Length"
+				divLength.appendChild(labelLength)
+				
+				const aRemove = document.createElement("a")
+				aRemove.setAttribute("href", "#")
+				aRemove.setAttribute("class", "col right")
+				aRemove.onclick = function () {
+					this.parentElement.remove();
+				}
+
+				const iconRemove = document.createElement("i")
+				iconRemove.setAttribute("class", "material-icons")
+				iconRemove.innerHTML = "close"
+				aRemove.appendChild(iconRemove)
+
+				divRow.appendChild(divWidth)
+				divRow.appendChild(divLength)
+				divRow.appendChild(aRemove)
+
+				measure_container.appendChild(divRow)
+			})
+		}
+
+		const next_button = $('#next_step')
+		let count_areas = $('#count_areas').val()
+		$(document).ready(function() {
+			
+
+			count_areas <=0 ? next_button.addClass('disabled') : next_button.removeClass('disabled')
+		}).on('cocoon:after-insert', function() {
+			count_areas++
+			count_areas <=0 ? next_button.addClass('disabled') : next_button.removeClass('disabled')
+		}).on('cocoon:after-remove', function() {
+			count_areas--
+			count_areas <=0 ? next_button.addClass('disabled') : next_button.removeClass('disabled')
+		})
+
+		function calc_square_feet(e) {
+			const { id, value } = e.target
+			const r = /\d+/
+
+			const length = parseFloat(document.getElementById(`estimate_measurement_areas_attributes_${id.match(r)}_measurements_attributes_0_length`).value)
+			const width = parseFloat(document.getElementById(`estimate_measurement_areas_attributes_${id.match(r)}_measurements_attributes_0_width`).value)
+			const square_feet = document.getElementById(`estimate_measurement_areas_attributes_${id.match(r)}_measurements_attributes_0_square_feet`)
+			square_feet.nextElementSibling.classList.add('active')
+
+			square_feet.value = parseFloat(length * width)
+		}
 	</script>
 <% end %>

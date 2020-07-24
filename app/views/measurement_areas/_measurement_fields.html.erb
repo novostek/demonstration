@@ -22,6 +22,13 @@
     <div class="input-field">
       <%= m.number_field :square_feet, min: 0, class: "validade", step: 0.001 %>
       <%= m.label  :square_feet, class: "active" %>
+      <a class="waves-effect waves-light btn right modal-trigger" onclick="calculate_areas(event)" href="#area_modal">Calculate Areas</a>
     </div>
+    <%# TODO
+      Só é preciso uma única div
+      Carregar o form da div a partir do hidden de measures
+      salvar todos os dados de uma vez ao der o "OK" na modal
+     %>
+    <%= m.hidden_field :measures %>
   <% end %>
 </div>

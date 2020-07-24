@@ -97,7 +97,7 @@ en:
 
   send_mail_schedule: "Send Confirmation to Customer"
 
-  #atributes
+  # atributes
   name: "Name"
   description: "Description"
   color: "Color"

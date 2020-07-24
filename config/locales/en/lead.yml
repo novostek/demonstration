@@ -11,6 +11,7 @@ en:
         description: "Description"
         status: "Status"
         date: "Date"
+        email: Email
   enumerize:
     lead:
       status:
@@ -28,3 +29,6 @@ en:
       created: "Lead was successfully created."
       updated: "Lead was sucessfully updated."
       deleted: "Lead was sucessfully deleted."
+
+  # label
+  client_since: Client since

@@ -1,6 +1,7 @@
 en:
   activerecord:
     models:
+      estimate: "Estimate"
       estimates: "Estimates"
     attributes:
       estimates:

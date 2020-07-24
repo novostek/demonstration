@@ -4,7 +4,7 @@
 				<div class="container">
 					<div class="row">
 						<div class="col s10 m6 l6">
-							<h5 class="breadcrumbs-title mt-0 mb-0">Lead #<%= @lead.code %></h5>
+							<h5 class="breadcrumbs-title mt-0 mb-0"><%= t 'activerecord.models.lead'  %> #<%= @lead.code %></h5>
               <ol class="breadcrumbs mb-0">
                 <%= render_breadcrumbs :tag => :li, :separator => "" %>
               </ol>
@@ -13,10 +13,10 @@
 
 							<%# <a class="btn waves-effect waves-light breadcrumbs-btn right mr-2 pink lighten-4 pink-text border-round" href="lead-add.html"><i class="material-icons hide-on-med-and-up ">edit</i><span class="hide-on-small-only">Edit</span></a> %>
               <%= link_to step_one_estimates_path(@lead.id), class:"btn waves-effect waves-light breadcrumbs-btn right border-round" do %>
-                <i class="material-icons hide-on-med-and-up">add</i><span class="hide-on-small-only">Estimate</span>
+                <i class="material-icons hide-on-med-and-up">add</i><span class="hide-on-small-only"><%= t 'activerecord.models.estimate' %></span>
               <% end %>
 							<%= link_to edit_lead_path(@lead.id), class:"btn waves-effect waves-light breadcrumbs-btn right border-round mr-2" do %>
-								<i class="material-icons hide-on-med-and-up">edit</i><span class="hide-on-small-only">Edit</span>
+								<i class="material-icons hide-on-med-and-up">edit</i><span class="hide-on-small-only"><%= t 'button.edit' %></span>
 							<% end %>
 						</div>
 					</div>
@@ -30,35 +30,35 @@
 							<div class="card-panel">
 								<div class="row">
 									<div class="col s12 m4">
-										<h6>Date</h6>
+										<h6><%= t 'activerecord.attributes.leads.date' %></h6>
 										<span><%= @lead.date %></span>
 									</div>
 									<div class="col s12 m4">
-										<h6>Via</h6>
+										<h6><%= t 'activerecord.attributes.leads.status' %></h6>
 										<span><%= @lead.via %></span>
 									</div>
 									<div class="col s12 m4">
-										<h6>Status</h6>
+										<h6><%= t 'activerecord.attributes.leads.status' %></h6>
 										<span class=" users-view-status chip green lighten-5 green-text"><%= @lead.status %></span>
 									</div>
 								</div>
 								<div class="row">
 									<div class="col s12 m4">
-										<h6>Description</h6>
+										<h6><%= t 'activerecord.attributes.leads.description' %></h6>
 										<span><%= @lead.description %></span>
 									</div>
 									<div class="col s12 m4">
-										<h6>Phone</h6>
+										<h6><%= t 'activerecord.attributes.leads.phone' %></h6>
 										<span><%= @lead.customer.get_main_phone.data['phone'] %></span>
 									</div>
 									<div class="col s12 m4">
-										<h6>Email</h6>
+										<h6><%= t 'activerecord.attributes.leads.email' %></h6>
 										<span><%= @lead.email %></span>
 									</div>
 								</div>
 								<div class="row">
 									<div class="col s12">
-										<h6>Customer address</h6>
+										<h6><%= t 'main_address' %></h6>
 										<span><%= @lead.customer.get_main_address.present? ? @lead.customer.get_main_address.data['address'] : '' %></span>
 									</div>
 								</div>
@@ -70,17 +70,17 @@
 								<table class="striped">
 									<tbody>
 										<tr>
-											<td>Customer:</td>
+											<td><%= t 'activerecord.attributes.leads.customer' %>:</td>
 											<td>
 												<%= link_to @lead.customer, customer_path(@lead.customer) %>
 											</td>
 										</tr>
 										<tr>
-											<td>Document:</td>
+											<td><%= t 'activerecord.attributes.customer.document_id' %>:</td>
 											<td><%= @lead.customer.document_id %></td>
 										</tr>
 										<tr>
-											<td>Client since:</td>
+											<td><%= t 'client_since' %>:</td>
 											<td><%= @lead.customer.since %></td>
 										</tr>
 									</tbody>

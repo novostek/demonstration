@@ -115,27 +115,33 @@
 			const measure_json = {
 				"value": []
 			}
-			measures.map((measure, index) => {
-				if(index %2){
-					width = Array.prototype.slice.call(measures[index - 1].children).shift().value
-					length = Array.prototype.slice.call(measure.children).shift().value
-					measure_json.value.push({
-						width,
-						length
-					})
-					square_feet = square_feet + (width*length)
-				}
+			measures.map((divs) => {
+				const measureRow = Array.prototype.slice.call(divs.children)
+				measureRow.map((measure, index) => {
+					if(index %2 && index != measureRow.length - 1){
+						width = measures[index - 1].children[0].children[0].value
+						length = measure.children[0].value
+						measure_json.value.push({
+							width,
+							length
+						})
+						square_feet = square_feet + (width*length)
+					}
+				})
 			})
 			square_feet_input.value = square_feet
 			measures_input.value = JSON.stringify(measure_json)
 		}
 
 		function add_calculate_area() {
+			const divRow = document.createElement("div");
+			divRow.setAttribute("class", "display-flex align-items-center justify-content-between");
+
 			const measure_container = document.getElementById('measure_container');
 			const index = measure_container.children.length/2;
 
 			const divWidth = document.createElement("div");
-			divWidth.setAttribute("class", "input-field col s12 m5");
+			divWidth.setAttribute("class", "input-field col s12");
 
 			const inputWidth = document.createElement("input");
 			inputWidth.setAttribute("name", `measures[${index}][width]`)
@@ -152,7 +158,7 @@
 			divWidth.appendChild(labelWidth)
 
 			const divLength = document.createElement("div");
-			divLength.setAttribute("class", "input-field col s12 m5");
+			divLength.setAttribute("class", "input-field col s12");
 
 			const inputLength = document.createElement("input");
 			inputLength.setAttribute("name", `measures[${index}][length]`)
@@ -170,15 +176,20 @@
 
 			const aRemove = document.createElement("a")
 			aRemove.setAttribute("href", "#")
-			aRemove.setAttribute("class", "col right s12 m2")
+			aRemove.setAttribute("class", "col right")
+			aRemove.onclick = function () {
+				this.parentElement.remove();
+			}
 			const iconRemove = document.createElement("i")
 			iconRemove.setAttribute("class", "material-icons")
 			iconRemove.innerHTML = "close"
 			aRemove.appendChild(iconRemove)
 
-			measure_container.appendChild(divWidth)
-			measure_container.appendChild(divLength)
-			measure_container.appendChild(aRemove)
+			divRow.appendChild(divWidth)
+			divRow.appendChild(divLength)
+			divRow.appendChild(aRemove)
+
+			measure_container.appendChild(divRow)
 		}
 
 		function calculate_areas(event) {
@@ -188,10 +199,14 @@
 			measure_container.setAttribute("square_feet_id", event.target.parentElement.parentElement.children[0].children[0].id)
 			measure_container.setAttribute("measures_id", event.target.parentElement.parentElement.children[1].id)
 			measure_container.innerHTML = '';
+
 			
 			measures.value.map((measure, index) => {
+				const divRow = document.createElement("div");
+				divRow.setAttribute("class", "display-flex align-items-center justify-content-between");
+
 				const divWidth = document.createElement("div");
-				divWidth.setAttribute("class", "input-field col s12 m5");
+				divWidth.setAttribute("class", "input-field col s12");
 
 				const inputWidth = document.createElement("input");
 				inputWidth.setAttribute("name", `measures[${index}][width]`)
@@ -208,7 +223,7 @@
 				divWidth.appendChild(labelWidth)
 
 				const divLength = document.createElement("div");
-				divLength.setAttribute("class", "input-field col s12 m5");
+				divLength.setAttribute("class", "input-field col s12");
 
 				const inputLength = document.createElement("input");
 				inputLength.setAttribute("name", `measures[${index}][length]`)
@@ -226,15 +241,21 @@
 				
 				const aRemove = document.createElement("a")
 				aRemove.setAttribute("href", "#")
-				aRemove.setAttribute("class", "col right s12 m2")
+				aRemove.setAttribute("class", "col right")
+				aRemove.onclick = function () {
+					this.parentElement.remove();
+				}
+
 				const iconRemove = document.createElement("i")
 				iconRemove.setAttribute("class", "material-icons")
 				iconRemove.innerHTML = "close"
 				aRemove.appendChild(iconRemove)
 
-				measure_container.appendChild(divWidth)
-				measure_container.appendChild(divLength)
-				measure_container.appendChild(aRemove)
+				divRow.appendChild(divWidth)
+				divRow.appendChild(divLength)
+				divRow.appendChild(aRemove)
+
+				measure_container.appendChild(divRow)
 			})
 		}
 

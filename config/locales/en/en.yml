@@ -47,6 +47,11 @@ en:
     list: "List"
     edit: "Edit"
     dashboard: "Dashboard"
+    new: "New"
+    step_one: "Step 1"
+    costs: "Costs"
+    delivery: "Delivery"
+    invoice: "Invoice"
 
   placeholder:
     search: "Search ..."
@@ -77,6 +82,7 @@ en:
     custom_email: Custom Email
     documents: Documents
     send: Send
+    next: Next
 
   #
   false: "No"

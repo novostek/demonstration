@@ -6,8 +6,8 @@
         <span><%= @estimate.description %></span>
       </div>
       <div class="col s5">
-        <span style="width: 100%" class="left">Customer: <a href="customer-view.html"><%= @estimate.lead.customer.name %></a></span>
-        <span style="width: 100%" class="left">Location: <%= @estimate.location %></span>
+        <span style="width: 100%" class="left"><%= t 'activerecord.models.customer' %>: <a href="customer-view.html"><%= @estimate.lead.customer.name %></a></span>
+        <span style="width: 100%" class="left"><%= t 'activerecord.attributes.estimate.location' %>: <%= @estimate.location %></span>
         <span style="width: 100%" class="left"><%= @estimate.category %></span>
       </div>
       <div class="col s2">

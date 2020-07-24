@@ -23,34 +23,34 @@
       <ul class="stepper horizontal stepper-head-only">
         <li class="step active">
           <%= link_to step_one_estimates_path(@estimate.lead) do %>
-            <div class="step-title waves-effect">Step 1</div>
+            <div class="step-title waves-effect"><%= t 'breadcrumb.step_one' %></div>
           <% end %>
         </li>
         <li class="step ">
           <% if @estimate.schedules.present? %>
             <%= link_to schedule_estimate_path(@estimate) do %>
-              <div class="step-title waves-effect">Schedule</div>
+              <div class="step-title waves-effect"><%= t 'activerecord.models.schedule' %></div>
             <% end %>
           <% else %>
-            <div class="step-title waves-effect">Schedule</div>
+            <div class="step-title waves-effect"><%= t 'activerecord.models.schedule' %></div>
           <% end %>
         </li>
         <li class="step">
           <% if @estimate.measurements.present? %>
             <%= link_to measurement_view_estimates_path(@estimate) do %>
-              <div class="step-title waves-effect">Measurements</div>
+              <div class="step-title waves-effect"><%= t 'measurements' %></div>
             <% end %>
           <% else %>
-              <div class="step-title waves-effect">Measurements</div>
+              <div class="step-title waves-effect"><%= t 'measurements' %></div>
           <% end %>
         </li>
         <li class="step">
           <% if @estimate.product_estimates.present? %>
             <%= link_to products_estimate_path(@estimate) do %>
-              <div class="step-title waves-effect">Itens</div>
+              <div class="step-title waves-effect"><%= t 'itens' %></div>
             <% end %>
           <% else %>
-            <div class="step-title waves-effect">Itens</div>
+            <div class="step-title waves-effect"><%= t 'itens' %></div>
           <% end %>
         </li>
       </ul>
@@ -58,7 +58,7 @@
         <%= render 'step_one_form', estimate: @estimate, f: f %>
         <div class="col s12 pb-2 pr-0 pl-0 mt-5">
           <%= f.button :submit, class:"btn indigo waves-effect waves-light breadcrumbs-btn right ml-1", target: '_self' do %>
-            Next: Schedule
+            <%= t 'button.next' %>: <%= t 'activerecord.models.schedule' %>
             <i class="material-icons right">arrow_forward</i>
           <% end %>
         </div>

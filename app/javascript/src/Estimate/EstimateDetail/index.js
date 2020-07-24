@@ -75,7 +75,7 @@ const EstimateDetail = () => {
                           <option value="">Select an option</option>
                           {
                             taxes.map(tax => (
-                              <option key={Date.now} value={tax.id}>{tax.name}</option>
+                              <option key={tax.id} value={tax.id}>{tax.name}</option>
                             ))
                           }
                         </select>

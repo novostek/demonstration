@@ -30,10 +30,8 @@
 # available at https://guides.rubyonrails.org/i18n.html.
 
 
-# Aqui ficam coisas genéricas
+# Here are generic things
 en:
-  home: "Home"
-  hello: "Hello world"
   faker:
     name:
       category:
@@ -42,20 +40,25 @@ en:
       worker_category:
         - employee
         - contractor
+
   breadcrumb:
     home: "Home"
     show: "View"
     list: "List"
     edit: "Edit"
     dashboard: "Dashboard"
-  find_customer: "Find a Customer"
+
   placeholder:
     search: "Search ..."
-  add:  "Add"
 
+  # labels/titles generics
   label:
     edit: 'Edit'
     remove: 'Remove'
+    send_email: Send email
+    send_document: Send Document
+
+  # buttons
   button:
     back: "Back"
     all: "View all"
@@ -70,13 +73,16 @@ en:
     show: "Show"
     cancel: "Cancel"
     reactivate: "Reactivate"
+    actions: Actions
+    custom_email: Custom Email
+    documents: Documents
+    send: Send
 
+  #
   false: "No"
   true: "Yes"
-  created_at: "Created At"
-  finished_at: "Ended At"
-  start_time: "Starts At"
 
+  # times
   year: "year"
   years: "years"
   month: "month"
@@ -88,6 +94,7 @@ en:
   second: "second"
   seconds: "seconds"
 
+  # messages generics
   will_delete: "Are you sure?"
   remember: "Remember Me"
   signin: "Sign in"
@@ -95,9 +102,7 @@ en:
   upload_banner: "Upload new banner"
   send_grid_warning: "This functionality allows to you send pre-configured emails through an integration with SendGrid. You can define a fully customized email, with the theme, colors and images. But first, you need to define the SendGrid key in the settings area. Click <a href='/settings'>here</a> to go to the settings page."
 
-  send_mail_schedule: "Send Confirmation to Customer"
-
-  # atributes
+  # atributes generics
   name: "Name"
   description: "Description"
   color: "Color"
@@ -105,11 +110,22 @@ en:
   notes: "Notes"
   documents: "Documents"
   contacts: "Contact"
-  see_all: "See All"
   cost_saved: "Cost Saved"
   check_dates: "Check dates"
+  created_at: "Created At"
+  updated_at: Updated At
+  finished_at: "Ended At"
+  start_time: "Starts At"
 
+  # errors generics
   errors:
     format: "%{attribute} %{message} "
     template:
       header: "Solve the following problems"
+
+  # others
+  home: "Home"
+  hello: "Hello world"
+  send_mail_schedule: "Send Confirmation to Customer"
+  see_all: "See All"
+  find_customer: "Find a Customer"

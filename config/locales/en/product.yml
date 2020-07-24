@@ -1,8 +1,8 @@
 en:
   activerecord:
     models:
-      products: "Product"
       product: "Product"
+      products: "Products"
       product_category: "Product Category"
     attributes:
       product:
@@ -26,3 +26,6 @@ en:
       created: "Product category was successfully created."
       updated: "Product category was sucessfully updated."
       deleted: "Product category was sucessfully deleted."
+
+  tooltip:
+    new_product: New product

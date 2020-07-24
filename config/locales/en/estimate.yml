@@ -6,6 +6,8 @@ en:
     attributes:
       estimate:
         name: "Name"
+        code: Code
+        title: Title
         formula: "Formula"
         description: "Description"
         tax: "Tax"
@@ -24,6 +26,7 @@ en:
         bpmn_instance: BPMN instance
         current: Current
         total: Total
+
   enumerize:
     estimate:
       taxpayer:
@@ -64,6 +67,19 @@ en:
   itens: Itens
   title_step_shedules_estimate: Schedule estimate
   remove_after_drop: Remove After Drop
+  itens_for: Itens for
+  subtotal: Subtotal
+  discount_products: Discount (Products)
+  other_discounts: Other Discounts
+  estimate_total: Estimate Total
+  selected_areas: Selected areas
+  subtotal_area: Subtotal area
+  new_worker: New worker
+  job_location: Job Location
+  products_or_services_label: Products/Services
+
+  button:
+    add_product: Add product
 
 
 

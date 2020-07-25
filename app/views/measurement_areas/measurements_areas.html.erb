@@ -105,31 +105,32 @@
 		function calculate_sqft(event) {
 			const measure_container = document.getElementById('measure_container');
 			const measures = Array.prototype.slice.call(measure_container.children)
-			const square_feet_id = measure_container.getAttribute('square_feet_id')
-			const square_feet_input = document.getElementById(square_feet_id)
+			const square_feet_total_id = measure_container.getAttribute('square_feet_id')
+			const square_feet_total_input = document.getElementById(square_feet_total_id)
 			const measures_id = measure_container.getAttribute('measures_id')
 			const measures_input = document.getElementById(measures_id)
 			let square_feet = 0
-			let width = 0
-			let length = 0
 			const measure_json = {
 				"value": []
 			}
 			measures.map((divs) => {
 				const measureRow = Array.prototype.slice.call(divs.children)
 				measureRow.map((measure, index) => {
-					if(index %2 && index != measureRow.length - 1){
-						width = measures[index - 1].children[0].children[0].value
-						length = measure.children[0].value
+					if(index %3 == 0 && index != measureRow.length - 1){
+						console.log(measure)
+						const width = measure.children[0].value
+						const length = measure.nextSibling.children[0].value
+						const sqft = measure.nextSibling.nextSibling.children[0].value
 						measure_json.value.push({
 							width,
-							length
+							length,
+							"square_feet": sqft
 						})
-						square_feet = square_feet + (width*length)
+						square_feet = Number(square_feet) + Number(sqft)
 					}
 				})
 			})
-			square_feet_input.value = square_feet
+			square_feet_total_input.value = square_feet
 			measures_input.value = JSON.stringify(measure_json)
 		}
 
@@ -138,7 +139,7 @@
 			divRow.setAttribute("class", "display-flex align-items-center justify-content-between");
 
 			const measure_container = document.getElementById('measure_container');
-			const index = measure_container.children.length/2;
+			const index = measure_container.children.length;
 
 			const divWidth = document.createElement("div");
 			divWidth.setAttribute("class", "input-field col s12");
@@ -149,6 +150,12 @@
 			inputWidth.setAttribute("value", '0.0')
 			inputWidth.setAttribute("type", "number")
 			inputWidth.setAttribute("step", "0.01")
+			inputWidth.setAttribute("min", "0")
+			inputWidth.onchange = function () {
+				const width = this.value;
+				const length = this.parentElement.nextSibling.children[0].value
+				this.parentElement.parentElement.children[2].children[0].value = width * length
+			}
 			divWidth.appendChild(inputWidth);
 
 			const labelWidth = document.createElement("label");
@@ -166,6 +173,12 @@
 			inputLength.setAttribute("value", '0.0')
 			inputLength.setAttribute("type", "number")
 			inputLength.setAttribute("step", "0.01")
+			inputLength.setAttribute("min", "0")
+			inputLength.onchange = function () {
+				const length = this.value;
+				const width = this.parentElement.previousSibling.children[0].value
+				this.parentElement.parentElement.children[2].children[0].value = width * length
+			}
 			divLength.appendChild(inputLength);
 			
 			const labelLength = document.createElement("label");
@@ -173,6 +186,24 @@
 			labelLength.setAttribute("class", "active")
 			labelLength.innerHTML = "Length"
 			divLength.appendChild(labelLength)
+
+			const divSqft = document.createElement("div");
+			divSqft.setAttribute("class", "input-field col s12");
+
+			const inputSqft = document.createElement("input");
+			inputSqft.setAttribute("name", `measures[${index}][square_feet]`)
+			inputSqft.setAttribute("id", `square_feet[${index}]`)
+			inputSqft.setAttribute("value", '0.0')
+			inputSqft.setAttribute("type", "number")
+			inputSqft.setAttribute("step", "0.01")
+			inputSqft.setAttribute("min", "0")
+			divSqft.appendChild(inputSqft);
+			
+			const labelsQFT = document.createElement("label");
+			labelsQFT.setAttribute("for", `square_feet[${index}]`)
+			labelsQFT.setAttribute("class", "active")
+			labelsQFT.innerHTML = "Square feet"
+			divSqft.appendChild(labelsQFT)
 
 			const aRemove = document.createElement("a")
 			aRemove.setAttribute("href", "#")
@@ -187,6 +218,7 @@
 
 			divRow.appendChild(divWidth)
 			divRow.appendChild(divLength)
+			divRow.appendChild(divSqft)
 			divRow.appendChild(aRemove)
 
 			measure_container.appendChild(divRow)
@@ -214,6 +246,12 @@
 				inputWidth.setAttribute("value", measure.width)
 				inputWidth.setAttribute("type", "number")
 				inputWidth.setAttribute("step", "0.01")
+				inputWidth.setAttribute("min", "0")
+				inputWidth.onchange = function () {
+					const width = this.value;
+					const length = this.parentElement.nextSibling.children[0].value
+					this.parentElement.parentElement.children[2].children[0].value = width * length
+				}
 				divWidth.appendChild(inputWidth);
 
 				const labelWidth = document.createElement("label");
@@ -231,6 +269,12 @@
 				inputLength.setAttribute("value", measure.length)
 				inputLength.setAttribute("type", "number")
 				inputLength.setAttribute("step", "0.01")
+				inputLength.setAttribute("min", "0")
+				inputLength.onchange = function () {
+					const length = this.value;
+					const width = this.parentElement.previousSibling.children[0].value
+					this.parentElement.parentElement.children[2].children[0].value = width * length
+				}
 				divLength.appendChild(inputLength);
 				
 				const labelLength = document.createElement("label");
@@ -238,6 +282,24 @@
 				labelLength.setAttribute("class", "active")
 				labelLength.innerHTML = "Length"
 				divLength.appendChild(labelLength)
+
+				const divSqft = document.createElement("div");
+				divSqft.setAttribute("class", "input-field col s12");
+
+				const inputSqft = document.createElement("input");
+				inputSqft.setAttribute("name", `measures[${index}][square_feet]`)
+				inputSqft.setAttribute("id", `square_feet[${index}]`)
+				inputSqft.setAttribute("value", measure.square_feet)
+				inputSqft.setAttribute("type", "number")
+				inputSqft.setAttribute("step", "0.01")
+				inputSqft.setAttribute("min", "0")
+				divSqft.appendChild(inputSqft);
+				
+				const labelsQFT = document.createElement("label");
+				labelsQFT.setAttribute("for", `square_feet[${index}]`)
+				labelsQFT.setAttribute("class", "active")
+				labelsQFT.innerHTML = "Square feet"
+				divSqft.appendChild(labelsQFT)
 				
 				const aRemove = document.createElement("a")
 				aRemove.setAttribute("href", "#")
@@ -253,6 +315,7 @@
 
 				divRow.appendChild(divWidth)
 				divRow.appendChild(divLength)
+				divRow.appendChild(divSqft)
 				divRow.appendChild(aRemove)
 
 				measure_container.appendChild(divRow)

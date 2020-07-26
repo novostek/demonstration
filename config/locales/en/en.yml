@@ -88,6 +88,9 @@ en:
     select_all: Select all
     confirm: Confirm
     confirm_signature: Confirm signature
+    new_note: New note
+    new_doc: New document
+    view: View
 
   #
   false: "No"
@@ -128,6 +131,7 @@ en:
   updated_at: Updated At
   finished_at: "Ended At"
   start_time: "Starts At"
+  status: Status
 
   # errors generics
   errors:

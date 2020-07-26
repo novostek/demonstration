@@ -5,7 +5,7 @@
     <div class="container">
       <div class="row">
         <div class="col s10 m6 l6">
-          <h5 class="breadcrumbs-title mt-0 mb-0">Costs - Order #<%= @order.code %></h5>
+          <h5 class="breadcrumbs-title mt-0 mb-0"><%= t 'costs_order_title' %> #<%= @order.code %></h5>
           <ol class="breadcrumbs mb-0">
             <%= render_breadcrumbs :tag => :li, :separator => "" %>
           </ol>
@@ -33,14 +33,14 @@
             <div class="card-panel">
               <div class="row">
                 <div class="col s12 m5">
-                  <span class="left width-100"><span class="font-weight-600 black-text">Creeted at:</span> <%= @order.created_at.strftime("%m/%d/%Y") %></span>
-                  <span class="left width-100"><span class="font-weight-600 black-text">Location:</span> <%= @order.get_current_estimate.location %></span>
-                  <span class="left width-100"><span class="font-weight-600 black-text">Category:</span> <%= @order.get_current_estimate.category_text %></span>
+                  <span class="left width-100"><span class="font-weight-600 black-text"><%= t 'created_at' %>:</span> <%= @order.created_at.strftime("%m/%d/%Y") %></span>
+                  <span class="left width-100"><span class="font-weight-600 black-text"><%= t 'activerecord.attributes.estimate.location' %>:</span> <%= @order.get_current_estimate.location %></span>
+                  <span class="left width-100"><span class="font-weight-600 black-text"><%= t 'activerecord.attributes.estimate.category' %>:</span> <%= @order.get_current_estimate.category_text %></span>
                 </div>
                 <div class="col s12 m5">
-                  <span class="left width-100"><span class="font-weight-600 black-text">Price:</span> <%= number_to_currency(@order.product_purchases.sum(:value).to_f, :unit => '$') %></span>
-                  <span class="left width-100"><span class="font-weight-600 black-text">Tax:</span> $ <%= number_to_currency(@order.get_current_estimate.tax.to_f, :unit => '$') %></span>
-                  <span class="left width-100"><span class="font-weight-600 black-text">Price + Tax:</span>$ <%= number_to_currency(@order.product_purchases.sum(:value).to_f + @order.get_current_estimate.tax.to_f, :unit => '$') %></span>
+                  <span class="left width-100"><span class="font-weight-600 black-text"><%= t 'activerecord.attributes.estimate.price' %>:</span> <%= number_to_currency(@order.product_purchases.sum(:value).to_f, :unit => '$') %></span>
+                  <span class="left width-100"><span class="font-weight-600 black-text"><%= t 'activerecord.attributes.estimate.tax' %>:</span> $ <%= number_to_currency(@order.get_current_estimate.tax.to_f, :unit => '$') %></span>
+                  <span class="left width-100"><span class="font-weight-600 black-text"><%= t 'activerecord.attributes.estimate.price' %> + <%= t 'activerecord.attributes.estimate.tax' %>:</span>$ <%= number_to_currency(@order.product_purchases.sum(:value).to_f + @order.get_current_estimate.tax.to_f, :unit => '$') %></span>
                 </div>
                 <div class="col s12 m2">
                   <span class=" users-view-status display-inline chip green lighten-5 green-text right"><%= @order.status_text %></span>
@@ -64,11 +64,11 @@
                       </div>
                     </div>
                     <div class="oc-items-header">
-                      <div class="header-qty">Qty</div>
-                      <div class="header-product">Product</div>
-                      <div class="header-price">Price</div>
-                      <div class="header-subtotal">Subtotal</div>
-                      <div class="header-status">Status</div>
+                      <div class="header-qty"><%= t 'activerecord.attributes.product_estimate.quantity' %></div>
+                      <div class="header-product"><%= t 'activerecord.models.product' %></div>
+                      <div class="header-price"><%= t 'activerecord.attributes.estimate.price' %></div>
+                      <div class="header-subtotal"><%= t 'subtotal' %></div>
+                      <div class="header-status"><%= t 'status' %></div>
                     </div>
                     <% purchase.product_purchases.where(tax: false).each do |p| %>
                       <div class="oc-item">
@@ -92,13 +92,13 @@
                         <div class="oc-item-actions">
                           <div>
                             <a href="#modal_note_<%= p.id %>" class="invoice-action-view modal-trigger" target="_self">
-                              <i class="material-icons hide-on-med-and-up">note</i><span class="hide-on-small-only">New note</span>
+                              <i class="material-icons hide-on-med-and-up">note</i><span class="hide-on-small-only"><%= t 'button.new_note' %></span>
                             </a>
                             <a href="#modal_doc_<%= p.id %>" class="invoice-action-view modal-trigger" target="_self">
-                              <i class="material-icons hide-on-med-and-up">description</i><span class="hide-on-small-only">New document</span>
+                              <i class="material-icons hide-on-med-and-up">description</i><span class="hide-on-small-only"><%= t 'button.new_doc' %></span>
                             </a>
                             <a class="sidenav-trigger" href="#" data-target="slide-out-right_<%= p.id %>">
-                              <i class="material-icons hide-on-med-and-up">remove_red_eye</i><span class="hide-on-small-only">View</span>
+                              <i class="material-icons hide-on-med-and-up">remove_red_eye</i><span class="hide-on-small-only"><%= t 'button.view' %></span>
                             </a>
                           </div>
 
@@ -118,7 +118,7 @@
                           <%= f.hidden_field :redirect, value: costs_order_path(@order) %>
                           <div class="modal-content">
                             <div class="row">
-                            <h4><%= t "button.edit" %> <%= "Product Purchase - #{p.product || p.custom_title}" %></h4>
+                            <h4><%= t "button.edit" %> <%= "#{t 'activerecord.models.product_purchase'} - #{p.product || p.custom_title}" %></h4>
                             </div>
                             <div class="row">
                               <div class="input-field">
@@ -137,7 +137,7 @@
                                 <p>
                                   <label>
                                     <%= f.radio_button :status, "requested" , :checked => p.requested? %>
-                                    <span>Requested</span>
+                                    <span>Requested <%= t '' %></span>
                                   </label>
                                 </p>
                                 <p>

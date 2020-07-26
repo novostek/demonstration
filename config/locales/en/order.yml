@@ -11,6 +11,14 @@ en:
         status: "Status"
         invoice: "Invoice"
   create_order: "Create Order"
+  enumerize:
+    order:
+      status:
+        new: New
+        finished: Finished
+        cancelled: Cancelled
+        awaiting_change_approval: Awaiting change approval
+        change_approved: Change approved
   notice:
     order:
       created: "Order was successfully created."
@@ -28,3 +36,4 @@ en:
       update_error: "There was an error while trying to update the order."
       change_order_created: "Change order was successfully created."
   empty_gallery: Empty gallery
+  costs_order_title: Costs - Order

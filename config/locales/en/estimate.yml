@@ -26,7 +26,6 @@ en:
         bpmn_instance: BPMN instance
         current: Current
         total: Total
-
   enumerize:
     estimate:
       taxpayer:
@@ -63,7 +62,6 @@ en:
   discount: Discount
 
   # labels
-  emails: Emails
   itens: Itens
   title_step_shedules_estimate: Schedule estimate
   remove_after_drop: Remove After Drop
@@ -78,6 +76,7 @@ en:
   job_location: Job Location
   products_or_services_label: Products/Services
   estimate_products_label: Estimate Products
+  estimate_description_label: Estimate description
 
   button:
     add_product: Add product

@@ -26,3 +26,5 @@ en:
       created: "Document was successfully created."
       updated: "Document was sucessfully updated."
       deleted: "Document was sucessfully deleted."
+
+  no_document_registred: No Documents Registered!

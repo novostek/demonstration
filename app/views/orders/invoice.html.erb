@@ -18,7 +18,7 @@
                           <li><a class="grey-text text-darken-2" href="order-deposit.html"><i class="material-icons left">archive</i> Deposit</a></li>
                       </ul> -->
           <% if current_user.present? %>
-            <a class="btn btn-default waves-effect display-flex align-items-center justify-content-center waves-light breadcrumbs-btn right mr-2  text-lighten-5 border-round" href="<%= order_path(@order) %>"><i class="material-icons hide-on-med-and-up">arrow_back</i><span class="hide-on-small-only">Back to order</span></a>
+            <a class="btn btn-default waves-effect display-flex align-items-center justify-content-center waves-light breadcrumbs-btn right mr-2  text-lighten-5 border-round" href="<%= order_path(@order) %>"><i class="material-icons hide-on-med-and-up">arrow_back</i><span class="hide-on-small-only"><%= t 'button.back_to_order' %></span></a>
           <% end %>
           </a>
         </div>
@@ -35,12 +35,12 @@
           <div class="card-content invoice-print-area">
             <div class="row">
               <div class="col s12 m5">
-                <span class="left width-100"><span class="font-weight-600 black-text">Created at:</span> <%= @order.created_at %></span>
-                <span class="left width-100"><span class="font-weight-600 black-text">Location:</span> <%= @order.get_current_estimate.location || "" %></span>
-                <span class="left width-100"><span class="font-weight-600 black-text">Category:</span> <%= @order.get_current_estimate.category_text || "" %></span>
+                <span class="left width-100"><span class="font-weight-600 black-text"><%= t 'created_at' %>:</span> <%= @order.created_at %></span>
+                <span class="left width-100"><span class="font-weight-600 black-text"><%= t 'activerecord.attributes.estimate.location' %>:</span> <%= @order.get_current_estimate.location || "" %></span>
+                <span class="left width-100"><span class="font-weight-600 black-text"><%= t 'activerecord.attributes.estimate.category' %>:</span> <%= @order.get_current_estimate.category_text || "" %></span>
               </div>
               <div class="col s12 m5">
-                <span class="left width-100"><span class="font-weight-600 black-text">Price:</span> <%= number_to_currency(@order.current_estimate.get_total_value)  %></span>
+                <span class="left width-100"><span class="font-weight-600 black-text"><%= t 'activerecord.attributes.estimate.price' %>:</span> <%= number_to_currency(@order.current_estimate.get_total_value)  %></span>
 
               </div>
               <div class="col s12 m2">
@@ -60,11 +60,11 @@
                 <table class="striped responsive-table">
                   <thead>
                   <tr>
-                    <th>Id</th>
-                    <th>Date</th>
-                    <th>Payment method</th>
-                    <th>Status</th>
-                    <th class="right-align">Amount</th>
+                    <th><%= t 'id' %></th>
+                    <th><%= t 'date' %></th>
+                    <th><%= t 'activerecord.attributes.transaction.payment_method' %></th>
+                    <th><%= t 'activerecord.attributes.transaction.status' %></th>
+                    <th class="right-align"><%= t 'amount' %></th>
                      <th></th>
                   </tr>
                   </thead>
@@ -103,8 +103,8 @@
                       <div class="row">
                         <div class="col s12">
                           <ul class="tabs">
-                            <li class="tab col m6"><a class="active" href="#request_<%= t.id %>">Request a Payment</a></li>
-                            <li class="tab col m6"><a href="#mark_<%= t.id %>">Mark as Paid</a></li>
+                            <li class="tab col m6"><a class="active" href="#request_<%= t.id %>"><%= t 'button.request_a_payment' %></a></li>
+                            <li class="tab col m6"><a href="#mark_<%= t.id %>"><%= t 'button.mark_as_paid' %></a></li>
                           </ul>
                         </div>
                         <div id="request_<%= t.id %>" class="col s12">
@@ -116,7 +116,7 @@
                                   <%= f.text_field :emails, value: @email_customer, required: true %>
                                 </div>
                                 <%= f.button :submit,  class:"modal-action modal-close waves-effect waves-green btn btn-default btn-send", target:"_self" do %>
-                                  <i class="material-icons left">send</i> Send
+                                  <i class="material-icons left">send</i> <%= t 'button.send' %>
                                 <% end %>
                               </div>
                               <!--		<a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat btn-send"> <i class="material-icons left">send</i> Send</a>-->
@@ -126,7 +126,7 @@
                         <div id="mark_<%= t.id %>" class="col s12">
                             <div class="modal-content">
                               <div class="row">
-                                <h5>Would you like to mark as paid?</h5>
+                                <h5><%= t 'question_mark_as_paid' %></h5>
                                 <%= link_to "Yes, it's paid", paid_transaction_path(t), class: "btn btn-default", remote: true %>
                               </div>
                           </div>
@@ -155,15 +155,15 @@
                 <ul>
 
                   <li class="display-flex justify-content-between">
-                    <span class="invoice-subtotal-title">Invoice Total</span>
+                    <span class="invoice-subtotal-title"><%= t 'activerecord.attributes.order.invoice' %> <%= t 'total' %></span>
                     <h6 class="invoice-subtotal-value"><%= number_to_currency(@transactions.sum(:value)) %></h6>
                   </li>
                   <li class="display-flex justify-content-between">
-                    <span class="invoice-subtotal-title">Paid</span>
+                    <span class="invoice-subtotal-title"><%= t 'paid' %></span>
                     <h6 class="invoice-subtotal-value"><%= number_to_currency(@transactions.where(status: :paid).sum(:value)) %></h6>
                   </li>
                   <li class="display-flex justify-content-between">
-                    <span class="invoice-subtotal-title">Balance</span>
+                    <span class="invoice-subtotal-title"><%= t 'balance' %></span>
                     <h6 class="invoice-subtotal-value"><%= number_to_currency(@order.current_estimate.total - @transactions.where(status: :paid).sum(:value)) %></h6>
                   </li>
                 </ul>

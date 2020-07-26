@@ -4,7 +4,7 @@ en:
       transaction: "Transaction"
       transactions: "Transactions"
     attributes:
-      transaction_account:
+      transaction:
         bpm_instance: "BPM Instance"
         category: "Category"
         due: "Payment due"
@@ -12,6 +12,14 @@ en:
         origin: "Origin"
         value: "Value"
         order_id: "Order"
+
+        transaction_category_id: Transaction Category
+        transaction_account_id: Transaction account
+        square_data: Square data
+        purchase_id: Purchase id
+        payment_method: Payment method
+        square_card_id: Square card
+        status: Status
   enumerize:
     transaction:
       payment_method:

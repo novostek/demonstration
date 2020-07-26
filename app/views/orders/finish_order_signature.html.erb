@@ -7,13 +7,13 @@
     <div class="container">
       <div class="row">
         <div class="col s10 m6 l6">
-          <h5 class="breadcrumbs-title mt-0 mb-0">Finish order #<%= @order.code %></h5>
+          <h5 class="breadcrumbs-title mt-0 mb-0"><%= t 'finish_order_title' %> #<%= @order.code %></h5>
           <ol class="breadcrumbs mb-0">
-            <li class="breadcrumb-item"><a href="/">Home</a>
+            <li class="breadcrumb-item"><a href="/"><%= t 'breadcrumb.home' %></a>
             </li>
-            <li class="breadcrumb-item"><a href="#">Orders</a>
+            <li class="breadcrumb-item"><a href="#"><%= t 'activerecord.models.orders' %></a>
             </li>
-            <li class="breadcrumb-item active">Finish
+            <li class="breadcrumb-item active"><%= t 'breadcrumb.finish' %>
             </li>
           </ol>
         </div>
@@ -35,7 +35,7 @@
 
                 <div class="finish-order-step signature">
 
-                  <div class="step-title"><span class="step-icon"></span>Customer signature
+                  <div class="step-title"><span class="step-icon"></span><%= t 'customer_signature_label' %>
                   </div>
                   <div class="step-content">
 
@@ -54,13 +54,13 @@
                         <div class="row">
                           <div class="col s12 l6">
                             <div class="input">
-                              <label for="">Document</label>
+                              <label for=""><%= t 'activerecord.models.document' %></label>
                               <%= select_tag :document, options_for_select(@documents) %>
                             </div>
                           </div>
                           <div class="left col s12 l6">
                             <a class="btn waves-effect waves-light right mr-2" href="#" onclick="preview_document();" >
-                              <i class="material-icons hide-on-med-and-up">save</i><span class="hide-on-small-only">Preview Document</span>
+                              <i class="material-icons hide-on-med-and-up">save</i><span class="hide-on-small-only"><%= t 'button.preview_document' %></span>
                             </a>
                           </div>
                         </div>
@@ -87,15 +87,15 @@
 <!--          <i class="material-icons hide-on-med-and-up">save</i><span class="hide-on-small-only">Sign and Finish</span>-->
         <%# end %>
         <a class="btn waves-effect waves-light right mr-2 modal-trigger" href="#" onclick="sign();" >
-          <i class="material-icons hide-on-med-and-up">save</i><span class="hide-on-small-only">Sign and Finish</span>
+          <i class="material-icons hide-on-med-and-up">save</i><span class="hide-on-small-only"><%= t 'button.sign_and_finish' %></span>
         </a>
         <% if !Setting.get_value("order_need_sign") and !Setting.get_value("take_photo")  %>
           <a class="btn waves-effect waves-light right mr-2" href="<%= finish_order_path(@order) %>" >
-            <i class="material-icons hide-on-med-and-up">save</i><span class="hide-on-small-only">Finish Order</span>
+            <i class="material-icons hide-on-med-and-up">save</i><span class="hide-on-small-only"><%= t 'button.finish_order' %></span>
           </a>
         <% end %>
         <a class="btn waves-effect waves-light right mr-2 modal-trigger" href="#modal-mail" onclick="get_document();" >
-          <i class="material-icons hide-on-med-and-up">save</i><span class="hide-on-small-only">Send Mail</span>
+          <i class="material-icons hide-on-med-and-up">save</i><span class="hide-on-small-only"><%= t 'button.send_email' %></span>
         </a>
 
       </div>
@@ -116,15 +116,15 @@
   <%= form_with url: preview_documents_path, method: :get, local: true do |f| %>
     <%= f.hidden_field :estimate, value: @order.current_estimate.id %>
     <%= f.hidden_field :send_mail, value: true %>
-    <%= f.hidden_field :from, value: "Order" %>
+    <%= f.hidden_field :from, value: t('activerecord.models.order') %>
     <%= f.hidden_field :customer_sign, value: true %>
     <div class="modal-content">
       <div class="row">
-        <h4>Send email</h4>
+        <h4><%= t 'send_email' %></h4>
       </div>
       <div class="row">
         <div class="input-field">
-          <%= f.label :emails, "Emails" %>
+          <%= f.label :emails, t('emails') %>
           <%= f.text_field :emails, value: @email_customer, required: true %>
 
         </div>
@@ -139,7 +139,7 @@
     </div>
     <div class="modal-footer">
       <%= f.button :submit,  class:"modal-action modal-close waves-effect waves-green btn-flat btn-send", target:"_self" do %>
-        <i class="material-icons lefmodal-mailt">send</i> Send
+        <i class="material-icons lefmodal-mailt">send</i> <%= t 'button.send' %>
       <% end %>
     </div>
   <% end %>

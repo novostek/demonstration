@@ -9,7 +9,7 @@
     <div class="container">
       <div class="row">
         <div class="col s10 m6 l6">
-          <h5 class="breadcrumbs-title mt-0 mb-0">Finish order #<%= @order.code %></h5>
+          <h5 class="breadcrumbs-title mt-0 mb-0"><%= t 'finish_order_title' %> #<%= @order.code %></h5>
           <ol class="breadcrumbs mb-0">
             <%= render_breadcrumbs :tag => :li, :separator => "" %>
           </ol>
@@ -29,11 +29,11 @@
             <div class="card-panel">
               <div class="finish-order-steps">
                 <div class="finish-order-step photos">
-                  <div class="step-title"><span class="step-icon"></span>Upload photos</div>
+                  <div class="step-title"><span class="step-icon"></span><%= t 'upload_photos' %></div>
                   <div class="step-content">
                     <div class="file-field input-field">
                       <div class="btn right">
-                        <span>File</span>
+                        <span><%= t 'file' %></span>
 <!--                        <input type="file" name="order[photos][]" id="order_photos" accept="image/*" multiple required>-->
                         <%= f.file_field :photos, multiple: true, required: true %>
                       </div>
@@ -52,14 +52,14 @@
       </div>
       <div class="save-buttons col s12 pb-2 pr-0">
         <%= f.button :submit, class:"btn waves-effect waves-light right mr-2", onclick:"save(false);" do %>
-          <i class="material-icons hide-on-med-and-up">save</i><span class="hide-on-small-only">Save and Signature</span>
+          <i class="material-icons hide-on-med-and-up">save</i><span class="hide-on-small-only"><%= t 'button.save_and_signature' %></span>
         <% end %>
 <!--        <a class="btn waves-effect waves-light right mr-2" href="#" onclick="save(false);">-->
 <!--          <i class="material-icons hide-on-med-and-up">save</i><span class="hide-on-small-only">Save and Signature</span>-->
 <!--        </a>-->
         <% if !Setting.get_value("order_need_sign") and Setting.get_value("take_photo") %>
           <%= f.button :submit, class:"btn waves-effect waves-light right mr-2", onclick:"save(true);" do %>
-            <i class="material-icons hide-on-med-and-up">save</i><span class="hide-on-small-only">Save and Finish</span>
+            <i class="material-icons hide-on-med-and-up">save</i><span class="hide-on-small-only"><%= t 'button.save_and_finish' %></span>
           <% end %>
 <!--          <a class="btn waves-effect waves-light right mr-2" href="#" onclick="save(true);">-->
 <!--            <i class="material-icons hide-on-med-and-up">save</i><span class="hide-on-small-only">Save and Finish</span>-->
@@ -67,12 +67,12 @@
         <% end %>
         <% if !Setting.get_value("take_photo")  %>
           <a class="btn waves-effect waves-light right mr-2" href="<%= finish_order_signature_order_path(@order) %>" >
-            <i class="material-icons hide-on-med-and-up">save</i><span class="hide-on-small-only">Get Signature</span>
+            <i class="material-icons hide-on-med-and-up">save</i><span class="hide-on-small-only"><%= t 'button.get_signature' %></span>
           </a>
         <% end %>
         <% if !Setting.get_value("order_need_sign") and !Setting.get_value("take_photo")  %>
           <a class="btn waves-effect waves-light right mr-2" href="<%= finish_order_path(@order) %>" >
-            <i class="material-icons hide-on-med-and-up">save</i><span class="hide-on-small-only">Finish Order</span>
+            <i class="material-icons hide-on-med-and-up">save</i><span class="hide-on-small-only"><%= t 'button.finish_order' %></span>
           </a>
         <% end %>
       </div>

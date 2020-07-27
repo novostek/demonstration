@@ -26,52 +26,52 @@
                 <table class="responsive-table">
                   <tbody>
                   <tr>
-                    <td><%= t "#{'activerecord.attributes.contact.category'}:" %></td>
+                    <td><%= t 'activerecord.attributes.contact.category' %>:</td>
                     <td><%= doc.category_text %></td>
                   </tr>
                   <tr>
-                    <td><%= t "#{'activerecord.attributes.contact.title'}:" %></td>
+                    <td><%= t 'activerecord.attributes.contact.title' %>:</td>
                     <td><%= doc.title %></td>
                   </tr>
                   <% if doc.category.address? %>
                     <tr>
-                      <td><%= t "#{'json_data.address'}:" %></td>
+                      <td><%= t 'json_data.address' %>:</td>
                       <td><%= doc.data["address"] %></td>
                     </tr>
                     <tr>
-                      <td><%= t "#{'json_data.city'}:" %></td>
+                      <td><%= t 'json_data.city' %>:</td>
                       <td><%= doc.data["city"] %></td>
                     </tr>
                     <tr>
-                      <td><%= t "#{'json_data.state'}:" %></td>
+                      <td><%= t 'json_data.state' %>:</td>
                       <td><%= doc.data["state"] %></td>
                     </tr>
                     <tr>
-                      <td><%= t "#{'json_data.zipcode'}:" %></td>
+                      <td><%= t 'json_data.zipcode' %>:</td>
                       <td><%= doc.data["zipcode"] %></td>
                     </tr>
                     <tr>
-                      <td><%= t "#{'json_data.lat'}:" %></td>
+                      <td><%= t 'json_data.lat' %>:</td>
                       <td><%= doc.data["lat"] %></td>
                     </tr>
                     <tr>
-                      <td><%= t "#{'json_data.lng'}:" %></td>
+                      <td><%= t 'json_data.lng' %>:</td>
                       <td><%= doc.data["lng"] %></td>
                     </tr>
                   <% end %>
                   <% if doc.category.phone? %>
                     <tr>
-                      <td><%= t "#{'json_data.ddd'}:" %></td>
+                      <td><%= t 'json_data.ddd' %>:</td>
                       <td><%= doc.data["ddd"] %></td>
                     </tr>
                     <tr>
-                      <td><%= t "#{'json_data.phone'}:" %></td>
+                      <td><%= t 'json_data.phone' %>:</td>
                       <td><%= doc.data["phone"] %></td>
                     </tr>
                   <% end %>
                   <% if doc.category.email? %>
                     <tr>
-                      <td><%= t "#{'json_data.email'}:" %></td>
+                      <td><%= t 'json_data.email' %>:</td>
                       <td><%= doc.data["email"] %></td>
                     </tr>
 

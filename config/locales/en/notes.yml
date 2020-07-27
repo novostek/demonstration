@@ -3,6 +3,10 @@ en:
     models:
       note: "Note"
       ntoes: "Notes"
+    attributes:
+      note:
+        title: Title
+        text: Text
   notice:
     note:
       created: "Note was successfully created."

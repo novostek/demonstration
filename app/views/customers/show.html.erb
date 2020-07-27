@@ -104,7 +104,7 @@
 
       <div class="card-panel">
 <!--        <div class="row">-->
-          <h6>Estimates</h6>
+          <h6><%= t 'activerecord.models.estimates' %></h6>
 <!--        </div>-->
         <!-- Estimate list -->
         <% estimates = @customer.estimates %>
@@ -115,10 +115,10 @@
                 <thead>
                 <tr>
                   <th>#</th>
-                  <th>Location</th>
-                  <th>Price <br> <small>Paid</small></th>
-                  <th>Receivable <br> <small>Overdue</small></th>
-                  <th>Status</th>
+                  <th><%= t 'activerecord.attributes.estimate.location' %></th>
+                  <th><%= t 'activerecord.attributes.estimate.price' %> <br> <small><%= t 'titles.paid' %></small></th>
+                  <th><%= t 'titles.receivable' %> <br> <small><%= t 'titles.overdue' %></small></th>
+                  <th><%= t 'status' %></th>
                   <th></th>
                 </tr>
                 </thead>
@@ -160,22 +160,22 @@
                       <a class="dropdown-trigger waves-effect" href="#!" data-target="estimate<%= estimate.id %>"><i class="material-icons right">arrow_drop_down</i></a>
                       <ul id="estimate<%= estimate.id %>" class="dropdown-content" tabindex="0" style="">
                         <li tabindex="0">
-                          <%= link_to "View", estimate %>
+                          <%= link_to t('button.view'), estimate %>
                         </li>
                         <% if estimate.order.present? %>
                           <li tabindex="0">
-                            <%= link_to "Order", estimate.order %>
+                            <%= link_to t('activerecord.models.order'), estimate.order %>
                           </li>
                         <% else %>
                           <li tabindex="0">
-                            <%= link_to "Edit", step_one_estimates_path(estimate.lead.id) %>
+                            <%= link_to t('button.edit'), step_one_estimates_path(estimate.lead.id) %>
                           </li>
                           <li tabindex="0">
-                            <%= link_to "Measure", "/estimates/#{estimate.id}/measurements" %>
+                            <%= link_to t('button.measure'), "/estimates/#{estimate.id}/measurements" %>
                           </li>
                         <% end %>
                         <li tabindex="0">
-                          <%= link_to "Clone", clone_estimate_path(estimate.id) %>
+                          <%= link_to t('button.clone'), clone_estimate_path(estimate.id) %>
                         </li>
                       </ul>
 
@@ -206,7 +206,7 @@
           </div>
           <div class="col s7 m7 right-align">
             <h5 class="mb-0 black-text"><%= @customer.document_files.count %></h5>
-            <p class="no-margin black-text">Documents</p>
+            <p class="no-margin black-text"><%= t 'documents' %></p>
             <!-- <p>6,00,00</p> -->
           </div>
         </a>
@@ -221,7 +221,7 @@
           </div>
           <div class="col s7 m7 right-align">
             <h5 class="mb-0 black-text"><%= @customer.notes.count %></h5>
-            <p class="no-margin black-text">Notes</p>
+            <p class="no-margin black-text"><%= t 'notes' %></p>
             <!-- <p>6,00,00</p> -->
           </div>
         </a>

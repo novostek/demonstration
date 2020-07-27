@@ -107,6 +107,7 @@
 			const measures = Array.prototype.slice.call(measure_container.children)
 			const square_feet_total_id = measure_container.getAttribute('square_feet_id')
 			const square_feet_total_input = document.getElementById(square_feet_total_id)
+			console.log(square_feet_total_input)
 			const measures_id = measure_container.getAttribute('measures_id')
 			const measures_input = document.getElementById(measures_id)
 			let square_feet = 0
@@ -154,7 +155,8 @@
 			inputWidth.onchange = function () {
 				const width = this.value;
 				const length = this.parentElement.nextSibling.children[0].value
-				this.parentElement.parentElement.children[2].children[0].value = width * length
+				//this.parentElement.parentElement.children[2].children[0].value = width * length
+				this.parentElement.parentElement.getElementsByClassName("square_feet")[0].value = width * length
 			}
 			divWidth.appendChild(inputWidth);
 
@@ -177,7 +179,7 @@
 			inputLength.onchange = function () {
 				const length = this.value;
 				const width = this.parentElement.previousSibling.children[0].value
-				this.parentElement.parentElement.children[2].children[0].value = width * length
+				this.parentElement.parentElement.getElementsByClassName("square_feet")[0].value = width * length
 			}
 			divLength.appendChild(inputLength);
 			
@@ -193,6 +195,7 @@
 			const inputSqft = document.createElement("input");
 			inputSqft.setAttribute("name", `measures[${index}][square_feet]`)
 			inputSqft.setAttribute("id", `square_feet[${index}]`)
+			inputSqft.setAttribute("class", 'square_feet')
 			inputSqft.setAttribute("value", '0.0')
 			inputSqft.setAttribute("type", "number")
 			inputSqft.setAttribute("step", "0.01")
@@ -226,10 +229,11 @@
 
 		function calculate_areas(event) {
 			const regex = /=>/gi;
-			const measures = JSON.parse(String(event.target.parentElement.parentElement.children[1].value).replace(regex, ":"));
+			console.log(event.target.parentElement.children[0].id)
+			const measures = JSON.parse(String(event.target.parentElement.nextSibling.nextSibling.value).replace(regex, ":"));
 			const measure_container = document.getElementById('measure_container');
-			measure_container.setAttribute("square_feet_id", event.target.parentElement.parentElement.children[0].children[0].id)
-			measure_container.setAttribute("measures_id", event.target.parentElement.parentElement.children[1].id)
+			measure_container.setAttribute("square_feet_id", event.target.parentElement.children[0].id)
+			measure_container.setAttribute("measures_id", event.target.parentElement.nextSibling.nextSibling.id)
 			measure_container.innerHTML = '';
 
 			
@@ -250,7 +254,7 @@
 				inputWidth.onchange = function () {
 					const width = this.value;
 					const length = this.parentElement.nextSibling.children[0].value
-					this.parentElement.parentElement.children[2].children[0].value = width * length
+					this.parentElement.parentElement.getElementsByClassName("square_feet")[0].value = width * length
 				}
 				divWidth.appendChild(inputWidth);
 
@@ -273,7 +277,7 @@
 				inputLength.onchange = function () {
 					const length = this.value;
 					const width = this.parentElement.previousSibling.children[0].value
-					this.parentElement.parentElement.children[2].children[0].value = width * length
+					this.parentElement.parentElement.getElementsByClassName("square_feet")[0].value = width * length
 				}
 				divLength.appendChild(inputLength);
 				
@@ -290,6 +294,7 @@
 				inputSqft.setAttribute("name", `measures[${index}][square_feet]`)
 				inputSqft.setAttribute("id", `square_feet[${index}]`)
 				inputSqft.setAttribute("value", measure.square_feet)
+				inputSqft.setAttribute("class", 'square_feet')
 				inputSqft.setAttribute("type", "number")
 				inputSqft.setAttribute("step", "0.01")
 				inputSqft.setAttribute("min", "0")

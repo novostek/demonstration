@@ -26,22 +26,28 @@ en:
     search: "Search ..."
 
   # labels/titles generics
-  edit: 'Edit'
-  remove: 'Remove'
-  send_email: Send email
-  send_document: Send Document
-  total: Total
-  close: Close
-  taxes: Taxes
-  quantity: Quantity
-  upload_photos: Upload photos
-  emails: Emails
-  growth: Growth
-  pending: Pending
-  profit: Profit
-  date: Date
-  amount: Amount
-  paid: Paid
+  titles:
+    send_email: Send email
+    send_document: Send Document
+    total: Total
+    close: Close
+    taxes: Taxes
+    quantity: Quantity
+    upload_photos: Upload photos
+    emails: Emails
+    growth: Growth
+    pending: Pending
+    profit: Profit
+    date: Date
+    amount: Amount
+    paid: Paid
+    payment: Payment
+
+    photos: Photos
+    processes: Processes
+    payments: Payments
+    pay_this: Pay This
+
 
   # buttons
   button:
@@ -70,6 +76,12 @@ en:
     new_doc: New Document
     view: View
     close: Close
+    remove: Remove
+    change: Change
+    deliver: Deliver
+    yes_change: Yes, change it!
+    yes_i_want: Yes, I want!
+    cancel_sweetalert: No, cancel!
 
     # Order
     back_to_order: Back to Order
@@ -82,7 +94,12 @@ en:
     send_email: Send Email
     request_a_payment: Request a Payment
     mark_as_paid: Mark as Paid
-
+    send_invoice: Send Invoice
+    print: Print
+    add_payment: Add Payment
+    woffice_pay: Woffice Pay
+    view_invoice: View Invoice
+    change_order: Change Order
 
   #
   false: "No"
@@ -135,6 +152,7 @@ en:
     template:
       header: "Solve the following problems"
 
+
   # others
   home: "Home"
   hello: "Hello world"
@@ -142,5 +160,10 @@ en:
   see_all: "See All"
   find_customer: "Find a Customer"
   for: For
+
+  notice:
+    success: Success
+    error: Error
+    canceled: Canceled
 
 

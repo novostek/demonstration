@@ -40,3 +40,15 @@ en:
       mail_sent: "Mail sent"
       error: "Error"
       swal_error: "Something went wrong, try again later."
+
+      # Orders > Invoice
+      question_want_change_this_payment_to_pendent: Do you want to change this payment to pendent?
+      error_change_payment_value: There was an error while trying to change the payment value, please, try again.
+      payment_value_been_changed: The payment value has been changed
+      erro_change_payment_status: There was an erro while trying to change the payment status, please, try again.
+      payment_status_been_changed: The payment status has been changed.
+      question_want_delete_payment: Do you want to delete this payment?'
+      action_irreversible: This action cannot be reverted.
+      error_delete_payment: There was an error while trying to delete the payment value, please, try again.
+      paymente_value_deleted: The payment value has been deleted.
+      write_something: You need to write something.

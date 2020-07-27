@@ -41,7 +41,7 @@
 										</div>
 										<div class="col s7 m7 right-align">
 											<h5 class="mb-0 white-text"><%= @crecimento.round(2) %>%</h5>
-											<p class="no-margin"><%= t 'growth' %></p>
+											<p class="no-margin"><%= t 'titles.growth' %></p>
 											<p><%= number_to_currency(@resultado) %></p>
 										</div>
 									</div>
@@ -50,7 +50,7 @@
 									<div class="card row gradient-45deg-indigo-light-blue gradient-shadow white-text padding-4 mt-5">
 										<div class="col s5 m5">
 											<i class="material-icons background-round mt-5 mb-5">perm_identity</i>
-											<p><%= t 'pending' %></p>
+											<p><%= t 'titles.pending' %></p>
 										</div>
 										<div class="col s7 m7 right-align">
 											<h5 class="mb-0 white-text"><%= @transactions.size %></h5>
@@ -64,7 +64,7 @@
 									<div class="card row gradient-45deg-green-teal gradient-shadow white-text padding-4 mt-5">
 										<div class="col s5 m5">
 											<i class="material-icons background-round mt-5 mb-5">attach_money</i>
-											<p><%= t 'profit' %></p>
+											<p><%= t 'titles.profit' %></p>
 										</div>
 										<div class="col s7 m7 right-align">
 											<h5 class="mb-0 white-text hide-numbers" id="profit-numbers"><%= number_to_currency(@profit) %></h5>

@@ -10,7 +10,7 @@ en:
   activerecord:
     models:
       product_purchase: "Product Purchase"
-      product_purchases: "Products Purchases"
+      products_purchase: "Products Purchase"
     attributes:
       product_purchase:
         product_id: Product

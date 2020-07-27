@@ -47,7 +47,7 @@
           <% end %>
           <% if @calculation_formula.present? %>
             <tr>
-              <td><i class="material-icons left mr-4 amber-text">home</i> <%= t 'total' %> <br><small></small></td>
+              <td><i class="material-icons left mr-4 amber-text">home</i> <%= t 'titles.total' %> <br><small></small></td>
               <% if @hidden_fields['length'].present? %>
                 <td><%= estimate.sum_of_measure('length') %></td>
               <% end %>

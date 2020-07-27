@@ -268,7 +268,7 @@
                 <div class="order-cost-list">
                   <div class="oc-supplier">
                     <h6 class="oc-supplier-name">
-                      <%= t 'taxes' %>
+                      <%= t 'titles.taxes' %>
                     </h6>
                     <div class="oc-supplier-total">
                       <%= number_to_currency(@taxes.sum(:value)) %>
@@ -572,10 +572,10 @@
 
 
                         <div>
-                          <a class="modal-trigger tooltipped" data-tooltip="<%= t 'edit' %>" href="#modal_edit_labor_<%= labor.id %>" >
+                          <a class="modal-trigger tooltipped" data-tooltip="<%= t 'button.edit' %>" href="#modal_edit_labor_<%= labor.id %>" >
                             <i class="material-icons">edit</i>
                           </a>
-                          <%= link_to labor_cost_path(labor, redirect: costs_order_path(@order)), method: :delete,data: { confirm: "#{t :will_delete}", tooltip: t('remove') } ,target:"_self", class: "invoice-action-edit tooltipped" do %>
+                          <%= link_to labor_cost_path(labor, redirect: costs_order_path(@order)), method: :delete,data: { confirm: "#{t :will_delete}", tooltip: t('button.remove') } ,target:"_self", class: "invoice-action-edit tooltipped" do %>
                             <i class="material-icons">delete</i>
                           <% end %>
                         </div>

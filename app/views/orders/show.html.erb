@@ -6,60 +6,60 @@
     <div class="container">
       <div class="row">
         <div class="col s10 m6 l6">
-          <h5 class="breadcrumbs-title mt-0 mb-0">Order #<%= @order.code %></h5>
+          <h5 class="breadcrumbs-title mt-0 mb-0"><%= t 'activerecord.models.order' %> #<%= @order.code %></h5>
           <ol class="breadcrumbs mb-0">
             <%= render_breadcrumbs :tag => :li, :separator => "" %>
           </ol>
         </div>
         <div class="col s2 m6 l6">
-          <a class="btn dropdown-settings waves-effect waves-light breadcrumbs-btn right" href="#!" data-target="dropdown1"><i class="material-icons hide-on-med-and-up">settings</i><span class="hide-on-small-onl">Actions</span><i class="material-icons right">arrow_drop_down</i></a>
+          <a class="btn dropdown-settings waves-effect waves-light breadcrumbs-btn right" href="#!" data-target="dropdown1"><i class="material-icons hide-on-med-and-up">settings</i><span class="hide-on-small-onl"><%= t 'button.actions' %></span><i class="material-icons right">arrow_drop_down</i></a>
 
           <ul class="dropdown-content" id="dropdown1" tabindex="0">
             <% if !@order.finished? and !@order.cancelled?  %>
               <li>
                 <%= link_to schedule_order_path(@order), class: "grey-text text-darken-2" do %>
-                  <i class="material-icons  ">edit</i><span >Edit</span>
+                  <i class="material-icons  ">edit</i><span ><%= t 'button.edit' %></span>
                 <% end %>
               </li>
             <% end %>
             <li>
               <%= link_to costs_order_path(@order),  class: "grey-text text-darken-2" do %>
-                <i class="material-icons ">money_off</i>Cost
+                <i class="material-icons ">money_off</i><%= t 'titles.order.cost' %>
               <% end %>
             </li>
             <li>
-            <a class="grey-text text-darken-2" href="<%= invoice_order_path(@order) %>"><i class="material-icons  ">receipt</i><span >View Invoice</span></a>
+            <a class="grey-text text-darken-2" href="<%= invoice_order_path(@order) %>"><i class="material-icons  ">receipt</i><span ><%= t 'button.view_invoice' %></span></a>
             </li>
             <!--					<a class="btn waves-effect waves-light modal-trigger breadcrumbs-btn right mr-2 indigo border-round btn-send-email" href="#modal-invoice"><i class="material-icons  ">send</i><span >Send invoice</span></a>-->
             <% if !@order.finished? and !@order.cancelled? %>
               <li>
                 <%= link_to change_order_order_path(@order), class: "grey-text text-darken-2" do %>
-                  <i class="material-icons  ">edit</i><span >Change Order</span>
+                  <i class="material-icons  ">edit</i><span ><%= t 'button.change' %> <%= t 'activerecord.models.order' %></span>
                 <% end %>
               </li>
             <% end  %>
             <% if !@order.finished? and !@order.cancelled? %>
               <li>
                 <%= link_to finish_order_order_path(@order), class: "grey-text text-darken-2" do %>
-                  <i class="material-icons  ">edit</i><span >Finish Order</span>
+                  <i class="material-icons  ">edit</i><span ><%= t 'button.finish_order' %></span>
                 <% end %>
               </li>
             <% end  %>
             <li>
               <%= link_to deliver_products_order_path(@order), class: "grey-text text-darken-2" do %>
-                <i class="material-icons  ">local_shipping</i><span >Deliver Products</span>
+                <i class="material-icons  ">local_shipping</i><span ><%= t 'button.deliver' %> <%= t 'activerecord.models.products' %></span>
               <% end %>
             </li>
             <li>
               <%= link_to order_photos_order_path(@order), class: "grey-text text-darken-2" do %>
-                <i class="material-icons  ">photo_library</i><span >Photos</span>
+                <i class="material-icons  ">photo_library</i><span ><%= t 'titles.photos' %></span>
               <% end %>
             </li>
             <li>
-              <a class="grey-text text-darken-2 modal-trigger btn-send-email" href="#modal-mail_document"><i class="material-icons ">send</i>Documents</a>
+              <a class="grey-text text-darken-2 modal-trigger btn-send-email" href="#modal-mail_document"><i class="material-icons ">send</i><%= t 'documents' %></a>
             </li>
             <li>
-              <a class="grey-text text-darken-2 modal-trigger btn-send-email" href="#modal-mail"><i class="material-icons ">send</i>Custom Email</a>
+              <a class="grey-text text-darken-2 modal-trigger btn-send-email" href="#modal-mail"><i class="material-icons ">send</i><%= t 'button.custom_email' %></a>
             </li>
             <% if !@order.has_transaction_paid and @order.status != 'cancelled' %>
               <li>
@@ -94,7 +94,7 @@
               </div>
               <div class="col s7 m7 right-align">
                 <h5 class="mb-0 white-text"><%= number_to_currency(@order.total_cost) %></h5>
-                <p class="no-margin white-text">Cost</p>
+                <p class="no-margin white-text"><%= t 'titles.order.cost' %></p>
               </div>
 
             </div>
@@ -107,7 +107,7 @@
             </div>
             <div class="col s7 m7 right-align">
               <h5 class="mb-0 white-text"><%= number_to_currency(@order.get_current_estimate.total ) %></h5>
-              <p class="no-margin">Price</p>
+              <p class="no-margin"><%= t 'activerecord.attributes.estimate.price' %></p>
             </div>
           </div>
         </div>
@@ -118,7 +118,7 @@
             </div>
             <div class="col s7 m7 right-align">
               <h5 class="mb-0 white-text"><%= number_to_currency(@order.transactions.where(status: :paid).sum(:value) ) %></h5>
-              <p class="no-margin">Received</p>
+              <p class="no-margin"><%= t 'titles.order.received' %></p>
             </div>
           </div>
         </div>
@@ -129,7 +129,7 @@
             </div>
             <div class="col s7 m7 right-align">
               <h5 class="mb-0 white-text hide-numbers" id="profit-numbers"><%= number_to_currency(@profit) %></h5>
-              <p class="no-margin">Profit</p>
+              <p class="no-margin">Profit<%= t 'titles.profit' %></p>
             </div>
           </div>
         </div>
@@ -143,24 +143,24 @@
             <div class="row">
               <div class="left width-100">
                 <div class="col s12 m8">
-                  <span class="left width-100"><span class="font-weight-600 black-text">Created at:</span> <%= @order.created_at %></span>
+                  <span class="left width-100"><span class="font-weight-600 black-text"><%= t 'created_at' %>:</span> <%= @order.created_at %></span>
                 </div>
                 <div class="col s12 m4">
                   <span class=" users-view-status display-inline chip green lighten-5 green-text right mt-0"><%= @order.status_text %></span>
                 </div>
               </div>
               <div class="col s12 m6 xl7">
-                <span class="font-weight-600 black-text">Customer:</span> <%= link_to @order.current_estimate.customer, @order.current_estimate.customer %>
-                <span class="left width-100"><span class="font-weight-600 black-text">Category:</span>  <%= @order.current_estimate.category_text %></span>
+                <span class="font-weight-600 black-text"><%= t 'activerecord.models.customer' %>:</span> <%= link_to @order.current_estimate.customer, @order.current_estimate.customer %>
+                <span class="left width-100"><span class="font-weight-600 black-text"><%= t 'activerecord.attributes.estimate.category' %>:</span>  <%= @order.current_estimate.category_text %></span>
               </div>
               <div class="col s12 m6 xl5">
                 <% if can? :see_price, Order %>
-                  <span class="left width-100"><span class="font-weight-600 black-text">Price:</span> <%= number_to_currency @order.current_estimate.total %></span>
-                  <span class="left width-100"><span class="font-weight-600 black-text">Tax:</span> <%= number_to_currency @order.current_estimate.tax %> (<%= t("enumerize.estimate.taxpayer.#{@order.current_estimate.taxpayer}") if @order.current_estimate.taxpayer.present? %>)</span>
+                  <span class="left width-100"><span class="font-weight-600 black-text"><%= t 'activerecord.attributes.estimate.price' %>:</span> <%= number_to_currency @order.current_estimate.total %></span>
+                  <span class="left width-100"><span class="font-weight-600 black-text"><%= t 'activerecord.attributes.estimate.tax' %>:</span> <%= number_to_currency @order.current_estimate.tax %> (<%= t("enumerize.estimate.taxpayer.#{@order.current_estimate.taxpayer}") if @order.current_estimate.taxpayer.present? %>)</span>
                 <% end %>
               </div>
               <div class="col s12">
-                <span class="left width-100"><span class="font-weight-600 black-text">Location:</span> <%= @order.current_estimate.location %></span>
+                <span class="left width-100"><span class="font-weight-600 black-text"><%= t 'activerecord.attributes.estimate.location' %>:</span> <%= @order.current_estimate.location %></span>
               </div>
 
 
@@ -208,7 +208,7 @@
           <div class="col s12 card-width">
             <div class="card-panel pt-2 pl-4 pr-4">
 
-              <h6 class="row mb-4 pl-4 pr-4">Schedule</h6>
+              <h6 class="row mb-4 pl-4 pr-4"><%= t 'activerecord.models.schedule' %></h6>
               <% if @order.schedules.any? %>
                 <div class="estimate-schedule-list">
                   <% @order.schedules.each do |schedule| %>
@@ -219,7 +219,7 @@
                         <% end %>
                       </div>
                       <div class="col s9 pl-0">
-                        <p class="mt-2 mb-2"><a class="black-text" href="#"><strong>Schedule:</strong> <%= schedule.start_at.strftime("%m/%d/%Y") %><br><%= schedule.start_at.strftime("%I:%M") %></a></p>
+                        <p class="mt-2 mb-2"><a class="black-text" href="#"><strong><%= t 'activerecord.models.schedule' %>:</strong> <%= schedule.start_at.strftime("%m/%d/%Y") %><br><%= schedule.start_at.strftime("%I:%M") %></a></p>
                       </div>
                     </div>
                   <% end %>
@@ -236,7 +236,7 @@
         <div class="row">
           <div class="col s12 card-width">
             <div class="card-panel estimates-order-list recent-orders-card animate fadeRight border-radius-5">
-              <h6 class="mb-0 mt-0 mb-5">Estimates</h6>
+              <h6 class="mb-0 mt-0 mb-5"><%= t 'activerecord.models.estimates' %></h6>
               <ul class="collection estimate-schedule-list">
                 <% @order.estimates.order(current: :desc).each do |estimate| %>
                   <li class="collection-item">
@@ -262,7 +262,7 @@
               </div>
               <div class="col s7 m7 right-align">
                 <h5 class="mb-0 black-text"><%= @order.document_files.count %></h5>
-                <p class="no-margin black-text">Documents</p>
+                <p class="no-margin black-text"><%= t 'documents' %></p>
                 <!-- <p>6,00,00</p> -->
               </div>
             </a>
@@ -275,7 +275,7 @@
               <div class="card-content center-align">
                 <i class="material-icons amber-text small-ico-bg mb-5">note</i>
                 <h4 class="m-0"><b><%= @order.notes.count %></b></h4>
-                <p class="black-text">Notes</p>
+                <p class="black-text"><%= t 'notes' %></p>
               </div>
             </a>
           </div>
@@ -286,7 +286,7 @@
               <div class="card-content pr-2 pl-2 center-align">
                 <i class="material-icons blue-text small-ico-bg mb-5">settings</i>
                 <h4 class="m-0"><b>0</b></h4>
-                <p class="black-text">Processes</p>
+                <p class="black-text"><%= t 'titles.processes' %></p>
               </div>
             </a>
           </div>
@@ -301,7 +301,7 @@
       <div class="modal-content">
         <% if Setting.get_value("send_grid_key").present? %>
           <div class="row">
-            <h4>Send email</h4>
+            <h4><%= t 'titles.send_email' %></h4>
           </div>
           <div class="row">
             <div class="input-field">
@@ -309,7 +309,7 @@
               <%= f.label :template %>
             </div>
             <div class="input-field">
-              <%= f.label :emails, "Emails" %>
+              <%= f.label :emails, t('titles.emails') %>
               <%= f.text_field :emails, value: @email_customer, required: true %>
             </div>
             <div class="input-field">
@@ -323,7 +323,7 @@
       </div>
       <div class="modal-footer">
         <%= f.button :submit,  class:"modal-action modal-close waves-effect waves-green btn-flat btn-send", target:"_self" do %>
-          <i class="material-icons left">send</i> Send
+          <i class="material-icons left">send</i> <%= t 'button.send' %>
         <% end if Setting.get_value("send_grid_key").present? %>
         <!--		<a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat btn-send"> <i class="material-icons left">send</i> Send</a>-->
       </div>
@@ -334,18 +334,18 @@
     <%= form_with url: preview_documents_path, method: :get, local: true do |f| %>
       <div class="modal-content">
         <div class="row">
-        <h4>Send Document</h4>
+        <h4><%= t 'titles.send_document' %></h4>
         </div>
         <%= f.hidden_field :estimate, value: @order.current_estimate.id %>
         <%= f.hidden_field :send_mail, value: true %>
-        <%= f.hidden_field :from, value: "Order" %>
+        <%= f.hidden_field :from, value: t('activerecord.models.order') %>
         <div class="row">
           <div class="input-field">
             <%= f.select :document, @documents, {prompt: true} %>
             <%= f.label :document %>
           </div>
           <div class="input-field">
-            <%= f.label :emails, "Emails" %>
+            <%= f.label :emails, t('titles.emails') %>
             <%= f.text_field :emails, value: @email_customer, required: true %>
           </div>
           <div class="input-field">
@@ -357,7 +357,7 @@
       </div>
       <div class="modal-footer">
         <%= f.button :submit,  class:"modal-action modal-close waves-effect waves-green btn-flat btn-send", target:"_self" do %>
-          <i class="material-icons left">send</i> Send
+          <i class="material-icons left">send</i> <%= t 'button.send' %>
         <% end %>
         <!--		<a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat btn-send"> <i class="material-icons left">send</i> Send</a>-->
       </div>
@@ -429,11 +429,11 @@
         function confirm_cancel_order(){
             // debugger
             Swal.fire({
-                title: 'Do you really want to cancel this order?',
+                title: <%= t 'notice.order.confirme_cancel_order' %>,
                 icon: 'warning',
                 showCancelButton: true,
-                confirmButtonText: 'Yes I want!',
-                cancelButtonText: 'No, cancel!',
+                confirmButtonText: <%= t 'button.yes_i_want' %>,
+                cancelButtonText: <%= t 'button.cancel_sweetalert' %>,
                 reverseButtons: true
             }).then(async (result) => {
                 if (result.value) {
@@ -446,8 +446,8 @@
                         success: function () {
                             // debugger
                             Swal.fire(
-                                'Canceled!',
-                                'The order was canceled successfully!',
+                                '<%= t 'notice.canceled' %>!',
+                                <%= t 'notice.order.cancelled' %>,
                                 'success'
                             ).then((result) => {
                                 if (result.value) {
@@ -459,7 +459,7 @@
                         error: function () {
                             // debugger
                             M.toast({
-                                html: 'Não é possível excluir. Item vinculado em outro cadastro!'
+                                html: '<%= t 'notice.order.cancelled_error' %>'
                             });
                         }
                     });

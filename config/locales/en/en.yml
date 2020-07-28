@@ -52,6 +52,9 @@ en:
     search: Search
     receivable: Receivable
     overdue: Overdue
+    active: Active
+    hour_cost: Hour Cost
+    avatar: Avatar
 
 
   # buttons

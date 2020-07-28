@@ -31,7 +31,7 @@ export default function EstimateProvider({children}) {
         {
           key: Math.random(),
           name: '',
-          product_id: 0,
+          product_id: '',
           qty: 0,
           price: 0,
           discount: 0,
@@ -289,7 +289,7 @@ export default function EstimateProvider({children}) {
         {
           key: Math.random(),
           name: '',
-          product_id: 0,
+          product_id: '',
           qty: 0,
           price: 0.0,
           discount: 0.0,
@@ -505,6 +505,7 @@ export default function EstimateProvider({children}) {
       headers,
       body: JSON.stringify(data)
     }
+    // console.log("Data", init)
     return fetch(`/estimates/${estimate.id}/create_products_estimates`, init)
       .then(data => data.json())
   }
@@ -547,7 +548,7 @@ export default function EstimateProvider({children}) {
       await setProductEstimate(res)
 
     }).then(() => {})
-    console.log('Data', productEstimate)
+    // console.log('Data', productEstimate)
     create_product_estimate()
       .then(() => window.location = `/estimates/${estimate.id}/view`)
   }

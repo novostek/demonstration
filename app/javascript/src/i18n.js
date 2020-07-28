@@ -7,8 +7,9 @@ i18n.use(Backend).use(LanguageDetector).use(initReactI18next).init({
   fallbackLng: 'en',
   debug: true,
   detection: {
-    order: ['queryString', 'cookie'],
-    cache: ['cookie']
+    order: ['querystring', 'cookie'],
+    cache: ['cookie'],
+    lookupQuerystring: 'locale'
   },
   interpolation: {
     escapeValue: false

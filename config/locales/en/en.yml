@@ -25,7 +25,7 @@ en:
   placeholder:
     search: "Search ..."
 
-  # labels/titles generics
+  # texts/labels/titles generics
   titles:
     send_email: Send email
     send_document: Send Document
@@ -55,6 +55,16 @@ en:
     active: Active
     hour_cost: Hour Cost
     avatar: Avatar
+    unbilled: Unbilled
+    last_30_days: last 30 days
+    open: Open
+    filtered: Filtered
+    source: Source
+    origin: Origin
+    due: Due
+    value: Value
+
+    all: All
 
 
   # buttons
@@ -112,6 +122,8 @@ en:
     # customer
     measure: Measure
     clone: Clone
+
+    filter: Filter
 
   #
   false: "No"

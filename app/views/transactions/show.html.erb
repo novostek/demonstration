@@ -31,12 +31,12 @@
   </p>
 
   <p>
-    <strong><%= t('activerecord.attributes.transaction.transaction_account') %>:</strong>
+    <strong><%= t('activerecord.attributes.transaction.transaction_account_id') %>:</strong>
   <div class="chip white-text" style="background-color:<%= @transaction.transaction_account.color if @transaction.transaction_account.present? %>"><%= @transaction.transaction_account %></div>
   </p>
 
   <p>
-    <strong><%= t('activerecord.attributes.transaction.order') %>:</strong>
+    <strong><%= t('activerecord.attributes.transaction.order_id') %>:</strong>
     <%= @transaction.order %>
   </p>
 

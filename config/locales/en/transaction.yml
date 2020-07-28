@@ -13,6 +13,7 @@ en:
         value: "Value"
         order_id: "Order"
 
+        transaction_category: Transaction Category
         transaction_category_id: Transaction Category
         transaction_account_id: Transaction account
         square_data: Square data

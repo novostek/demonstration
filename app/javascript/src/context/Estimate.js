@@ -167,6 +167,7 @@ export default function EstimateProvider({children}) {
                 })
                 if (mp.id !== indexHelper) {
                   copy[mpIndex].proposal_id = mp.id
+                  copy[mpIndex].title = mp.title
                   mp.product_estimates.map((pe, peIndex) => {
                     copy[mpIndex].toggleSelect = false
                     copy[mpIndex].products.push({
@@ -246,12 +247,14 @@ export default function EstimateProvider({children}) {
               .then(result => {
                 console.log(result)
                 copy[maProductListIndex.maIndex].products[maProductListIndex.productIndex].product_id = result.id
+                copy[maProductListIndex.maIndex].products[maProductListIndex.productIndex].title = result.title
                 copy[maProductListIndex.maIndex].products[maProductListIndex.productIndex].name = result.name
                 copy[maProductListIndex.maIndex].products[maProductListIndex.productIndex].qty = result.qty
                 copy[maProductListIndex.maIndex].products[maProductListIndex.productIndex].total = result.total
                 copy[maProductListIndex.maIndex].products[maProductListIndex.productIndex].price = result.price
                 copy[maProductListIndex.maIndex].products[maProductListIndex.productIndex].tax = result.tax
                 setValue(`measurement[${maProductListIndex.maIndex}].products[${maProductListIndex.productIndex}]`, { product_id: result.id })
+                setValue(`measurement[${maProductListIndex.maIndex}].products[${maProductListIndex.productIndex}]`, { title: result.title })
                 setValue(`measurement[${maProductListIndex.maIndex}].products[${maProductListIndex.productIndex}]`, { name: result.name })
                 setValue(`measurement[${maProductListIndex.maIndex}].products[${maProductListIndex.productIndex}]`, { qty: result.qty })
                 setValue(`measurement[${maProductListIndex.maIndex}].products[${maProductListIndex.productIndex}]`, { price: result.price })
@@ -283,6 +286,7 @@ export default function EstimateProvider({children}) {
   const addArea = () => {
     const area_product = {
       proposal_id: '',
+      title: '',
       areas: [],
       toggleSelect: false,
       products: [
@@ -564,6 +568,17 @@ export default function EstimateProvider({children}) {
     })
   }
 
+  const handleTitleChange = (index, name, value) => {
+    setProductEstimate(productEstimate => {
+      const copy = [...productEstimate]
+
+      copy[index].title = value
+      setValue(name, value)
+
+      return copy
+    })
+  }
+
   return (
     <EstimateContext.Provider
       value={{
@@ -599,6 +614,7 @@ export default function EstimateProvider({children}) {
         setValue, 
         reset,
         handleChange,
+        handleTitleChange,
         toggleSelectAllAreas,
         schema,
         errors

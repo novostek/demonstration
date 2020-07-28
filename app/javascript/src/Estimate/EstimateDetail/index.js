@@ -4,6 +4,7 @@ import { useForm } from "react-hook-form";
 import axios from 'axios';
 import * as yup from "yup";
 import { EstimateContext } from '../../context/Estimate';
+import { useTranslation } from 'react-i18next';
 
 const schema = yup.object().shape({
   tax_calculation: yup.string().required(),
@@ -13,6 +14,7 @@ const schema = yup.object().shape({
 const EstimateDetail = () => {
   const { productEstimate, setProductEstimate, estimate } = useContext(EstimateContext)
   const { register, handleSubmit, setValue } = useForm()
+  const { t } = useTranslation()
 
   const onChangeTax = async formData => {
     const data = await axios.put(`/estimates/${estimate.id}/tax_calculation`, { tax_calculation: formData.tax_calculation })
@@ -49,8 +51,8 @@ const EstimateDetail = () => {
             <span>{estimate.description}</span>
           </div>
           <div className="col s5">
-            <span style={{width: '100%'}} className="left">Customer: {estimate.lead.customer.name}</span>
-            <span style={{width: '100%'}} className="left">Location: {estimate.location}</span>
+            <span style={{width: '100%'}} className="left">{t("estimate.detail.labels.customer")}: {estimate.lead.customer.name}</span>
+            <span style={{width: '100%'}} className="left">{t("estimate.detail.labels.location")}: {estimate.location}</span>
             <span style={{width: '100%'}} className="left">{estimate.category}</span>
           </div>
           <div className="col s2">
@@ -72,25 +74,25 @@ const EstimateDetail = () => {
                       &&
                       <div>
                         <select name="tax_calculation" required ref={register} onChange={handleSubmit(onChangeTax)}>
-                          <option value="">Select an option</option>
+                          <option value="">{t("estimate.detail.select.select_option")}</option>
                           {
                             taxes.map(tax => (
                               <option key={tax.id} value={tax.id}>{tax.name}</option>
                             ))
                           }
                         </select>
-                        <label>Taxes</label>
+                        <label>{t("estimate.detail.labels.tax")}</label>
                       </div>
                     }
                   </div>
 
                   <div className="input-field col s12 m3 l3">
                     <select name="taxpayer" required onChange={handleSubmit(onChangeTaxPayer)} ref={register}>
-                      <option value="">Select an option</option>
-                      <option value="customer">Customer will pay</option>
-                      <option value="company">We will pay</option>
+                      <option value="">{t("estimate.detail.select.select_option")}</option>
+                      <option value="customer">{t("estimate.detail.select.customer_pay")}</option>
+                      <option value="company">{t("estimate.detail.select.we_pay")}</option>
                     </select>
-                    <label>Taxpayer</label>
+                    <label>{t("estimate.detail.labels.taxpayer")}</label>
                       {/* <%= f.select :taxpayer, Estimate.taxpayer.options, {prompt: true}, :selected => @estimate.taxpayer, required: true  %>
                       <%= f.label  :taxpayer %> */}
                   </div>  

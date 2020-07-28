@@ -1,5 +1,6 @@
 import React, { useContext } from 'react'
 import { EstimateContext } from '../../context/Estimate'
+import { useTranslation } from 'react-i18next'
 
 const ProductEstimate = ({product, peIndex, index}) => {
   const {
@@ -17,16 +18,18 @@ const ProductEstimate = ({product, peIndex, index}) => {
     productTotalDiscount
   } = useContext(EstimateContext)
 
+  const { t } = useTranslation()
+
   return (
     <div className="product">
       <div className="row pl-1 pr-1 products-search">
         <div className="row">
           <div className="col s12">
             <span className="left width-100 pt-1">
-              Product
+              {t("estimate.products.product")}
               <div className="switch right">
                 <label>
-                  Tax
+                {t("estimate.products.tax")}
                   <input
                     name={`measurement[${index}].products[${peIndex}].tax`}
                     ref={register}
@@ -76,7 +79,7 @@ const ProductEstimate = ({product, peIndex, index}) => {
           </div>
           <div className="calc-fields">
             <div className="calc-field">
-              <span className="left pt-1">Qty.</span>
+              <span className="left pt-1">{t("estimate.products.qty")}</span>
               <input
                 type="number"
                 name={`measurement[${index}].products[${peIndex}].qty`}
@@ -88,7 +91,7 @@ const ProductEstimate = ({product, peIndex, index}) => {
               {errors.qty && <span>{errors.qty.message}</span>}
             </div>
             <div className="calc-field">
-              <span className="left pt-1">Prince un.</span>
+              <span className="left pt-1">{t("estimate.products.price_un")}</span>
               <input
                 type="number"
                 min="0"
@@ -101,7 +104,7 @@ const ProductEstimate = ({product, peIndex, index}) => {
               {errors.price && <span>{errors.price.message}</span>}
             </div>
             <div className="calc-field">
-              <span className="left pt-1">Discount</span>
+              <span className="left pt-1">{t("estimate.products.discount")}</span>
               <input type="number"
                 min="0"
                 step="0.01"
@@ -113,7 +116,7 @@ const ProductEstimate = ({product, peIndex, index}) => {
               {errors.discount && <span>{errors.discount.message}</span>}
             </div>
             <div className="calc-field">
-              <span className="left pt-1 mr-2">Total</span>
+              <span className="left pt-1 mr-2">{t("estimate.products.total")}</span>
               <input
                 type="number"
                 min="0"

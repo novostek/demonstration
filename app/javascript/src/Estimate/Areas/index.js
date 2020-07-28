@@ -1,6 +1,7 @@
 import React, { useContext } from 'react'
 
 import { EstimateContext } from "../../context/Estimate";
+import { useTranslation } from 'react-i18next';
 
 const Areas = ({index, pe}) => {
   const { 
@@ -15,6 +16,8 @@ const Areas = ({index, pe}) => {
     toggleSelectAllAreas,
   } = useContext(EstimateContext)
 
+  const { t } = useTranslation();
+
   return (
     <div>
       <a 
@@ -25,7 +28,7 @@ const Areas = ({index, pe}) => {
           <i className="material-icons">close</i>
       </a>
       <div className="title">
-        <label htmlFor="title">Title</label>
+        <label htmlFor="title">{t('estimate.areas.title')}</label>
         <input 
           type="text" 
           name={`measurement[${index}].title`} 
@@ -34,7 +37,7 @@ const Areas = ({index, pe}) => {
           onChange={(e) => handleTitleChange(index, e.target.name, e.target.value)}/>
       </div>
       <div className="areas-available col">
-        <span>Itens for: </span>
+        <span>{t('estimate.areas.items_for')}</span>
         {
           estimate.measurement_areas.map((ma, maIndex) => (
             <div 

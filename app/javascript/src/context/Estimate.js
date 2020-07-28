@@ -2,6 +2,7 @@ import React, { createContext, useState, useEffect, useRef } from 'react'
 import { useForm } from 'react-hook-form'
 import axios from 'axios'
 import Swal from 'sweetalert2'
+import { useTranslation } from 'react-i18next'
 export const EstimateContext = createContext()
 
 export default function EstimateProvider({children}) {
@@ -18,6 +19,8 @@ export default function EstimateProvider({children}) {
     area_id: 0,
     suggestions: []
   }])
+
+  const { t } = useTranslation()
 
   const [estimate, setEstimate] = useState(estimateData)
 
@@ -331,12 +334,12 @@ export default function EstimateProvider({children}) {
 
   const removeProduct = (maIndex, peIndex) => {
     Swal.fire({
-      title: 'Are you sure?',
-      text: "You won't be able to revert this!",
+      title: t("estimate.swal.title"),
+      text: t("estimate.swal.text"),
       icon: 'warning',
       showCancelButton: true,
-      confirmButtonText: 'Yes, remove it!',
-      cancelButtonText: 'No, cancel!',
+      confirmButtonText: t("estimate.swal.confirm"),
+      cancelButtonText: t("estimate.swal.cancel"),
       reverseButtons: true
     }).then((result) => {
       if (result.value) {
@@ -352,8 +355,8 @@ export default function EstimateProvider({children}) {
             .then(res => {})
             .catch(error => console.log(error))
         Swal.fire(
-          'Deleted',
-          'Your product has been removed from list.',
+          t("estimate.swal.delete.title"),
+          t("estimate.swal.delete.text"),
           'success'
         )
         setProductEstimate(productEstimate => {

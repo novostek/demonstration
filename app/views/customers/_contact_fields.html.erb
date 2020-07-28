@@ -13,7 +13,7 @@
     <p>
       <label>
         <input type="checkbox" name="main" />
-        <span><%= t :main %></span>
+        <span><%= t 'titles.main' %></span>
       </label>
     </p>
 
@@ -49,7 +49,7 @@ $(document).ready(function(){
 
     <%= f.fields_for :data do |field| %>
         <div class="input active">
-          <label for="" >Search</label>
+          <label for="" >Search<%= t 'titles.search' %></label>
           <input type="text" id="autocomplete_address">
         </div>
         <div class="input-field" style="display: none">

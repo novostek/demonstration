@@ -88,7 +88,7 @@ class OrdersController < ApplicationController
     end
     add_breadcrumb I18n.t("activerecord.models.orders"), orders_path
     add_breadcrumb I18n.t("breadcrumb.show"), order_path(@order)
-    add_breadcrumb I18n.t("breadcrumbs.invoice"), invoice_order_path(@order)
+    add_breadcrumb I18n.t("breadcrumb.invoice"), invoice_order_path(@order)
   end
 
   def change_payment_status_to_pendent
@@ -184,7 +184,7 @@ class OrdersController < ApplicationController
 
     add_breadcrumb I18n.t("activerecord.models.orders"), orders_path
     add_breadcrumb I18n.t("breadcrumb.show"), order_path(@order)
-    add_breadcrumb I18n.t("breadcrumbs.delivery"), deliver_products_order_path(@order)
+    add_breadcrumb I18n.t("breadcrumb.delivery"), deliver_products_order_path(@order)
   end
 
   def deliver_products_sign
@@ -393,7 +393,7 @@ class OrdersController < ApplicationController
 
     add_breadcrumb I18n.t("activerecord.models.orders"), orders_path
     add_breadcrumb I18n.t("breadcrumb.show"), order_path(@order)
-    add_breadcrumb I18n.t("breadcrumbs.costs"), costs_order_path(@order)
+    add_breadcrumb I18n.t("breadcrumb.costs"), costs_order_path(@order)
   end
 
   def send_invoice_mail

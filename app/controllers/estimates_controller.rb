@@ -245,7 +245,7 @@ class EstimatesController < ApplicationController
 
     @lead = Lead.find(params[:lead_id])
     add_breadcrumb I18n.t("activerecord.models.estimates"), estimates_path
-    add_breadcrumb I18n.t("breadcrumbs.step_one"), "/estimates/step_one/#{params[:lead_id]}"
+    add_breadcrumb I18n.t("breadcrumb.step_one"), "/estimates/step_one/#{params[:lead_id]}"
     render :step_1
   end
 

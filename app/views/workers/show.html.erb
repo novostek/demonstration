@@ -29,7 +29,7 @@
     <div class="col s12 pl-1">
       <div class="card-panel pb-0">
         <div class="row">
-          <div class="col s12 m2 pr-0"><span class="avatar-status avatar-online avatar-md width-70"><img src="<%= @worker.photo.present? ? @worker.photo.url : '/materialize/images/avatar/unnamed.png' %>" alt="avatar" /></span></div>
+          <div class="col s12 m2 pr-0"><span class="avatar-status avatar-online avatar-md width-70"><img src="<%= @worker.photo.present? ? @worker.photo.url : '/materialize/images/avatar/unnamed.png' %>" alt="<%= t 'titles.avatar' %>" /></span></div>
           <div class="col s12 m6 pl-0"><span class="left width-100"><span class="font-weight-600 black-text"><%= t("activerecord.attributes.worker.document_id") %>:</span><%= @worker.document_id %></span>
             <span class="left width-100"><span class="font-weight-600 black-text"><%= t("activerecord.attributes.worker.categories") %>:</span><%= @worker.categories %></span>
             <span class="left width-100"><span class="font-weight-600 black-text"><%= t("activerecord.attributes.worker.time_value") %>:</span> <%= @worker.time_value %></span>
@@ -114,7 +114,7 @@
           </div>
           <div class="col s7 m7 right-align">
             <h5 class="mb-0 black-text"><%= @worker.document_files.count %></h5>
-            <p class="no-margin black-text">Documents</p>
+            <p class="no-margin black-text"><%= t 'documents' %></p>
             <!-- <p>6,00,00</p> -->
           </div>
         </a>
@@ -129,7 +129,7 @@
           </div>
           <div class="col s7 m7 right-align">
             <h5 class="mb-0 black-text"><%= @worker.notes.count %></h5>
-            <p class="no-margin black-text">Notes</p>
+            <p class="no-margin black-text"><%= t 'notes' %></p>
             <!-- <p>6,00,00</p> -->
           </div>
         </a>

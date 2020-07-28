@@ -4,12 +4,13 @@ en:
       schedule: "Schedule"
       schedules: "Schedules"
     attributes:
-      contact:
+      schedule:
         category: "Category"
         title: "Title"
         value: "Value"
         origin: "Origin"
         origin_id: "Origin ID"
+
   global_schedule: "Global Schedule"
   global: "Global"
   hour_cost_negative: "Hour cost must be greater than or equal to 0"

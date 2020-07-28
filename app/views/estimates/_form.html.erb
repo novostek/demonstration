@@ -17,16 +17,16 @@
     <div class="card-content">
       <ul class="stepper horizontal stepper-head-only">
         <li class="step active">
-          <div class="step-title waves-effect">Step 1</div>
+          <div class="step-title waves-effect"><%= t 'breadcrumb.step_one' %></div>
         </li>
         <li class="step">
-          <div class="step-title waves-effect">Schedule</div>
+          <div class="step-title waves-effect"><%= t 'activerecord.models.schedule' %></div>
         </li>
         <li class="step">
-          <div class="step-title waves-effect">Measurements</div>
+          <div class="step-title waves-effect"><%= t 'activerecord.models.measurements' %></div>
         </li>
         <li class="step">
-          <div class="step-title waves-effect">Itens</div>
+          <div class="step-title waves-effect"><%= t 'itens' %></div>
         </li>
       </ul>
       <div class="row">
@@ -34,32 +34,32 @@
 
           <div class="input-field col s12 m3">
             <input placeholder="" id="code" type="text" value="123098" class="validate" disabled="true">
-            <label for="code">Code</label>
+            <label for="code"><%= t 'activerecord.attributes.estimate.code' %></label>
           </div>
 
           <div class="input-field col s12 m9">
             <input placeholder="" id="title" type="text" class="validate" autofocus>
-            <label for="title">Title</label>
+            <label for="title"><%= t 'activerecord.attributes.estimate.title' %></label>
           </div>
           <div class="input-field col s12 m4">
             <i class="material-icons prefix">location_on</i>
             <input placeholder="" id="title" type="text" class="autocomplete autocomplete-location">
-            <label for="location">Location</label>
+            <label for="location"><%= t 'activerecord.attributes.estimate.location' %></label>
           </div>
           <div class="input-field col s12 m8">
             <textarea name="description" class="materialize-textarea"></textarea>
-            <label for="via">Description</label>
+            <label for="via"><%= t 'description' %></label>
           </div>
           
           <div class="col s12 m4">
             <div class="input-field">
               <select class="select2 browser-default">
-                <option value="square" disabled selected>Choose</option>
+                <option value="square" disabled selected><%= t 'choose' %></option>
                 <option value="square">Tim Robbinson</option>
                 <option value="rectangle">Marta Francis</option>
                 <option value="rombo">Mark Adams</option>
               </select>
-              <label for="">Sales Person</label>
+              <label for=""><%= t 'activerecord.attributes.estimate.sales_person' %></label>
             </div>
           </div>
 
@@ -68,7 +68,7 @@
     </div>
   </div>
   <div class="col s12 pb-2 pr-0 pl-0">
-    <a class="btn indigo waves-effect waves-light breadcrumbs-btn right ml-1" href="estimate-schedule.html">Next: Schedule <i class="material-icons right">arrow_forward</i></a>
+    <a class="btn indigo waves-effect waves-light breadcrumbs-btn right ml-1" href="estimate-schedule.html"><%= t 'button.next' %>: <%= t 'activerecord.models.schedule' %> <i class="material-icons right">arrow_forward</i></a>
   </div>
 </div>
 <% end %>

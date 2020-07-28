@@ -15,7 +15,7 @@
 
     <%= f.fields_for :data, OpenStruct.new(f.object.data) do |field| %>
         <div class="input-field">
-          <label for="">Search</label>
+          <label for=""><%= t 'titles.search' %></label>
           <input type="text" id="autocomplete_address_<%= f.index %>_">
         </div>
         <div class="input-field">

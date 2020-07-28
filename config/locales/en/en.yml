@@ -1,39 +1,5 @@
-# Files in the config/locales directory are used for internationalization
-# and are automatically loaded by Rails. If you want to use locales other
-# than English, add the necessary files in this directory.
-#
-# To use the locales, use `I18n.t`:
-#
-#     I18n.t 'hello'
-#
-# In views, this is aliased to just `t`:
-#
-#     <%= t('hello') %>
-#
-# To use a different locale, set it with `I18n.locale`:
-#
-#     I18n.locale = :es
-#
-# This would use the information in config/locales/es.yml.
-#
-# The following keys must be escaped otherwise they will not be retrieved by
-# the default I18n backend:
-#
-# true, false, on, off, yes, no
-#
-# Instead, surround them with single quotes.
-#
-# en:
-#   'true': 'foo'
-#
-# To learn more, please read the Rails Internationalization guide
-# available at https://guides.rubyonrails.org/i18n.html.
-
-
-# Aqui ficam coisas genéricas
+# Here are generic things
 en:
-  home: "Home"
-  hello: "Hello world"
   faker:
     name:
       category:
@@ -42,20 +8,56 @@ en:
       worker_category:
         - employee
         - contractor
+
   breadcrumb:
     home: "Home"
     show: "View"
     list: "List"
     edit: "Edit"
     dashboard: "Dashboard"
-  find_customer: "Find a Customer"
+    new: "New"
+    step_one: "Step 1"
+    costs: "Costs"
+    delivery: "Delivery"
+    invoice: "Invoice"
+    finish: Finish
+
   placeholder:
     search: "Search ..."
-  add:  "Add"
 
-  label:
-    edit: 'Edit'
-    remove: 'Remove'
+  # labels/titles generics
+  titles:
+    send_email: Send email
+    send_document: Send Document
+    total: Total
+    close: Close
+    taxes: Taxes
+    quantity: Quantity
+    upload_photos: Upload photos
+    emails: Emails
+    growth: Growth
+    pending: Pending
+    profit: Profit
+    date: Date
+    amount: Amount
+    paid: Paid
+    payment: Payment
+
+    photos: Photos
+    processes: Processes
+    payments: Payments
+    pay_this: Pay This
+
+    main: Main
+    search: Search
+    receivable: Receivable
+    overdue: Overdue
+    active: Active
+    hour_cost: Hour Cost
+    avatar: Avatar
+
+
+  # buttons
   button:
     back: "Back"
     all: "View all"
@@ -70,13 +72,52 @@ en:
     show: "Show"
     cancel: "Cancel"
     reactivate: "Reactivate"
+    actions: Actions
+    custom_email: Custom Email
+    documents: Documents
+    send: Send
+    next: Next
+    select_all: Select All
+    confirm: Confirm
+    confirm_signature: Confirm Signature
+    new_note: New Note
+    new_doc: New Document
+    view: View
+    close: Close
+    remove: Remove
+    change: Change
+    deliver: Deliver
+    yes_change: Yes, change it!
+    yes_i_want: Yes, I want!
+    cancel_sweetalert: No, cancel!
 
+    # Order
+    back_to_order: Back to Order
+    preview_document: Preview Document
+    save_and_signature: Save and Signature
+    save_and_finish: Save and Finish
+    get_signature: Get Signature
+    finish_order: Finish Order
+    sign_and_finish: Sing and Finish
+    send_email: Send Email
+    request_a_payment: Request a Payment
+    mark_as_paid: Mark as Paid
+    send_invoice: Send Invoice
+    print: Print
+    add_payment: Add Payment
+    woffice_pay: Woffice Pay
+    view_invoice: View Invoice
+    change_order: Change Order
+
+    # customer
+    measure: Measure
+    clone: Clone
+
+  #
   false: "No"
   true: "Yes"
-  created_at: "Created At"
-  finished_at: "Ended At"
-  start_time: "Starts At"
 
+  # times
   year: "year"
   years: "years"
   month: "month"
@@ -88,16 +129,18 @@ en:
   second: "second"
   seconds: "seconds"
 
+  # messages generics
   will_delete: "Are you sure?"
   remember: "Remember Me"
   signin: "Sign in"
   is_required: "is required"
   upload_banner: "Upload new banner"
   send_grid_warning: "This functionality allows to you send pre-configured emails through an integration with SendGrid. You can define a fully customized email, with the theme, colors and images. But first, you need to define the SendGrid key in the settings area. Click <a href='/settings'>here</a> to go to the settings page."
+  choose: Choose
+  question_mark_as_paid: Would you like to mark as paid?
 
-  send_mail_schedule: "Send Confirmation to Customer"
-
-  # atributes
+  # atributes generics
+  id: Id
   name: "Name"
   description: "Description"
   color: "Color"
@@ -105,11 +148,34 @@ en:
   notes: "Notes"
   documents: "Documents"
   contacts: "Contact"
-  see_all: "See All"
   cost_saved: "Cost Saved"
   check_dates: "Check dates"
+  created_at: "Created At"
+  updated_at: Updated At
+  finished_at: "Ended At"
+  start_time: "Starts At"
+  status: Status
+  file: File
 
+
+  # errors generics
   errors:
     format: "%{attribute} %{message} "
     template:
       header: "Solve the following problems"
+
+
+  # others
+  home: "Home"
+  hello: "Hello world"
+  send_mail_schedule: "Send Confirmation to Customer"
+  see_all: "See All"
+  find_customer: "Find a Customer"
+  for: For
+
+  notice:
+    success: Success
+    error: Error
+    canceled: Canceled
+
+

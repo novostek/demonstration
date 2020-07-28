@@ -5,7 +5,7 @@
     <div class="container">
       <div class="row">
         <div class="col s10 m6 l6">
-          <h5 class="breadcrumbs-title mt-0 mb-0">Estimate #<%= @estimate.code %></h5>
+          <h5 class="breadcrumbs-title mt-0 mb-0"><%= t 'activerecord.models.estimate' %> #<%= @estimate.code %></h5>
           <ol class="breadcrumbs mb-0">
             <%= render_breadcrumbs :tag => :li, :separator => "" %>
           </ol>
@@ -14,7 +14,7 @@
 
           <a class="btn dropdown-settings waves-effect waves-light breadcrumbs-btn right" href="#!" data-target="dropdown1">
             <i class="material-icons hide-on-med-and-up">settings</i>
-            <span class="hide-on-small-only">Actions<i class="material-icons right">arrow_drop_down</i></span>
+            <span class="hide-on-small-only"><%= t 'button.actions' %><i class="material-icons right">arrow_drop_down</i></span>
           </a>
           <ul class="dropdown-content" id="dropdown1" tabindex="0">
             <% if @estimate.order.present? %>
@@ -38,10 +38,10 @@
             </li>
 
             <li>
-              <a class="grey-text text-darken-2 modal-trigger btn-send-email" href="#modal-mail"><i class="material-icons ">send</i>Custom Email</a>
+              <a class="grey-text text-darken-2 modal-trigger btn-send-email" href="#modal-mail"><i class="material-icons ">send</i><%= t 'button.custom_email' %></a>
             </li>
             <li>
-              <a class="grey-text text-darken-2 modal-trigger btn-send-email" href="#modal-mail_document"><i class="material-icons ">send</i>Documents</a>
+              <a class="grey-text text-darken-2 modal-trigger btn-send-email" href="#modal-mail_document"><i class="material-icons ">send</i><%= t 'button.documents' %></a>
             </li>
             <li>
               <%= link_to step_one_estimates_path(@estimate.lead.id),  class: "grey-text text-darken-2" do %>
@@ -51,7 +51,7 @@
             <% if !@estimate.order.present? and @estimate.status != 'cancelled' %>
               <li>
                 <%= link_to cancel_estimate_path(@estimate),  class: "grey-text text-darken-2" do %>
-                  <i class="material-icons ">cancel</i><%= t "buttons.cancel" %>
+                  <i class="material-icons ">cancel</i><%= t "button.cancel" %>
                 <% end %>
               </li>
             <% elsif !@estimate.order.present? and @estimate.status == 'cancelled' %>
@@ -82,25 +82,25 @@
         <div class="row">
           <div class="left width-100">
             <div class="col s12 m8">
-              <span class="left width-100"><span class="font-weight-600 black-text">Created at:</span> <%= @estimate.created_at %></span>
+              <span class="left width-100"><span class="font-weight-600 black-text"><%= t 'created_at' %>:</span> <%= @estimate.created_at %></span>
             </div>
             <div class="col s12 m4">
               <span class=" users-view-status display-inline chip green lighten-5 green-text right mt-0"><%= @estimate.status_text %></span>
             </div>
           </div>
           <div class="col s12 m6 xl7">
-            <span class="font-weight-600 black-text">Customer:</span> <%= link_to @estimate.customer, @estimate.customer %>
-            <span class="left width-100"><span class="font-weight-600 black-text">Category:</span>  <%= @estimate.category_text %></span>
-            <span class="left width-100"><span class="font-weight-600 black-text">Location:</span> <%= @estimate.location %></span>
+            <span class="font-weight-600 black-text"><%= t 'activerecord.models.customer' %>:</span> <%= link_to @estimate.customer, @estimate.customer %>
+            <span class="left width-100"><span class="font-weight-600 black-text"><%= t 'activerecord.attributes.estimate.category' %>:</span>  <%= @estimate.category_text %></span>
+            <span class="left width-100"><span class="font-weight-600 black-text"><%= t 'activerecord.attributes.estimate.location' %>:</span> <%= @estimate.location %></span>
           </div>
           <div class="col s12 m6 xl5">
             <% if can? :see_price, Estimate %>
-              <span class="left width-100"><span class="font-weight-600 black-text">Price:</span> <%= number_to_currency @estimate.total %></span>
-              <span class="left width-100"><span class="font-weight-600 black-text">Tax:</span> <%= number_to_currency @estimate.tax %> (<%= t("enumerize.estimate.taxpayer.#{@estimate.taxpayer}") if @estimate.taxpayer.present? %>)</span>
+              <span class="left width-100"><span class="font-weight-600 black-text"><%= t 'activerecord.attributes.estimate.price' %>:</span> <%= number_to_currency @estimate.total %></span>
+              <span class="left width-100"><span class="font-weight-600 black-text"><%= t 'activerecord.attributes.estimate.tax' %>:</span> <%= number_to_currency @estimate.tax %> (<%= t("enumerize.estimate.taxpayer.#{@estimate.taxpayer}") if @estimate.taxpayer.present? %>)</span>
               <div class="left width-100">
               <%= form_with model: @estimate, url: apply_discount_estimate_path(@estimate), method: :post, local: true do |f| %>
                 <div style="display: inline-flex; align-items: center;">
-                  <span class="font-weight-600 black-text mr-4">Discount:</span>
+                  <span class="font-weight-600 black-text mr-4"><%= t 'discount' %>:</span>
                   <i class="material-icons prefix">attach_money</i>
                   <%= f.number_field :discount, step: 0.1, min: 0.0, required: true, class: 'mb-0', style: 'height: 25px;   padding: 0 5px;' %>
                 </div>
@@ -109,7 +109,7 @@
             <% end %>
           </div>
           <div class="col s12 mt-1">
-            <span class="font-weight-600 black-text">Description:</span><br><span><%= @estimate.description %></span>
+            <span class="font-weight-600 black-text"><%= t 'description' %>:</span><br><span><%= @estimate.description %></span>
           </div>
 
         </div>
@@ -142,7 +142,7 @@
       <div class="col s12 card-width">
         <div class="card-panel pt-2 pl-4 pr-4">
 
-          <h6 class="row mb-4 pl-4 pr-4">Schedule</h6>
+          <h6 class="row mb-4 pl-4 pr-4"><%= t 'activerecord.models.schedules' %></h6>
           <% if @estimate.schedules.any? %>
             <div class="estimate-schedule-list">
             <% @estimate.schedules.each do |schedule| %>
@@ -153,7 +153,7 @@
                   <% end %>
                 </div>
                 <div class="col s9 pl-0">
-                  <p class="mt-2 mb-2"><a class="black-text" href="#"><strong>Schedule:</strong> <%= schedule.start_at.strftime("%m/%d/%Y") %><br><%= schedule.start_at.strftime("%I:%M") %></a></p>
+                  <p class="mt-2 mb-2"><a class="black-text" href="#"><strong><%= t 'activerecord.models.schedule' %>:</strong> <%= schedule.start_at.strftime("%m/%d/%Y") %><br><%= schedule.start_at.strftime("%I:%M") %></a></p>
                 </div>
               </div>
             <% end %>
@@ -175,7 +175,7 @@
           </div>
           <div class="col s7 m7 right-align">
             <h5 class="mb-0 black-text"><%= @estimate.document_files.count %></h5>
-            <p class="no-margin black-text">Documents</p>
+            <p class="no-margin black-text"><%= t 'documents' %></p>
             <!-- <p>6,00,00</p> -->
           </div>
         </a>
@@ -188,7 +188,7 @@
           <div class="card-content center-align">
             <i class="material-icons amber-text small-ico-bg mb-5">note</i>
             <h4 class="m-0"><b><%= @estimate.notes.count %></b></h4>
-            <p class="black-text">Notes</p>
+            <p class="black-text"><%= t 'notes' %></p>
           </div>
         </a>
       </div>
@@ -214,21 +214,21 @@
       <div class="row">
 
         <div class="input-field">
-          <%= f.label :emails, "Emails" %>
+          <%= f.label :emails, t('titles.emails') %>
           <%= f.text_field :emails, value: @email_customer, required: true %>
 
         </div>
 
         <div class="input-field">
           <%= f.label :subject %>
-          <%= f.text_field :subject, value:"#{Setting.get_value('company_name')} - Estimate ##{@estimate.code}", required: true %>
+          <%= f.text_field :subject, value:"#{Setting.get_value('company_name')} - #{t 'activerecord.models.estimate'} ##{@estimate.code}", required: true %>
         </div>
 
       </div>
     </div>
     <div class="modal-footer">
       <%= f.button :submit,  class:"modal-action modal-close waves-effect waves-green btn-flat btn-send", target:"_self" do %>
-        <i class="material-icons left">send</i> Send
+        <i class="material-icons left">send</i> <%= t 'button.send' %>
       <% end %>
       <!--		<a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat btn-send"> <i class="material-icons left">send</i> Send</a>-->
     </div>
@@ -239,7 +239,7 @@
   <%= form_with url: send_grid_mail_estimate_path(@estimate), method: :get, local: true do |f| %>
     <div class="modal-content">
       <% if Setting.get_value("send_grid_key").present? %>
-        <h4>Send email</h4>
+        <h4><%= t 'titles.send_email' %></h4>
         <div class="row">
           <div class="input-field">
             <%= f.select :template, @templates, {prompt: true} %>
@@ -263,7 +263,7 @@
     </div>
     <div class="modal-footer">
       <%= f.button :submit,  class:"modal-action modal-close waves-effect waves-green btn-flat btn-send", target:"_self" do %>
-        <i class="material-icons left">send</i> Send
+        <i class="material-icons left">send</i> <%= t 'button.send' %>
       <% end if Setting.get_value("send_grid_key").present? %>
       <!--		<a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat btn-send"> <i class="material-icons left">send</i> Send</a>-->
     </div>
@@ -273,7 +273,7 @@
 <div id="modal-mail_document" class="modal">
   <%= form_with url: preview_documents_path, method: :get, local: true do |f| %>
     <div class="modal-content">
-      <h4>Send Document</h4>
+      <h4><%= t 'titles.send_document' %></h4>
       <%= f.hidden_field :estimate, value: @estimate.id %>
       <%= f.hidden_field :send_mail, value: true %>
       <%= f.hidden_field :from, value: "Estimate" %>
@@ -295,7 +295,7 @@
     </div>
     <div class="modal-footer">
       <%= f.button :submit,  class:"modal-action modal-close waves-effect waves-green btn-flat btn-send", target:"_self" do %>
-        <i class="material-icons left">send</i> Send
+        <i class="material-icons left">send</i> <%= t 'button.send' %>
       <% end %>
       <!--		<a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat btn-send"> <i class="material-icons left">send</i> Send</a>-->
     </div>

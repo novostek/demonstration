@@ -7,10 +7,13 @@ en:
         origin: "Origin"
         origin_id: "Origin ID"
         file: "File"
-  clear: "Clear"
   notice:
     signature:
       created: "Signature was successfully created."
       updated: "Signature was sucessfully updated."
       deleted: "Signature was sucessfully deleted."
       signed: "The document was successfully signed."
+
+  clear: Clear
+  signed_at: Signed at
+  customer_signature_label: Customer signature

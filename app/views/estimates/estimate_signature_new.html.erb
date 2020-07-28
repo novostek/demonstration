@@ -75,11 +75,11 @@
               <table class="striped responsive-table">
                 <thead>
                 <tr>
-                  <th>Product</th>
-                  <th>Qty</th>
-                  <th>Price Unity</th>
-                  <th>Discount</th>
-                  <th class="right-align">Subtotal</th>
+                  <th><%= t 'activerecord.models.product' %></th>
+                  <th><%= t 'activerecord.attributes.product_estimate.quantity' %></th>
+                  <th><%= t 'activerecord.attributes.product_estimate.unitary_value' %></th>
+                  <th><%= t 'activerecord.attributes.product_estimate.discount' %></th>
+                  <th class="right-align"><%= t 'subtotal' %></th>
                 </tr>
                 </thead>
                 <tbody>
@@ -93,7 +93,7 @@
                   </tr>
                 <% end %>
                 <tr class="white">
-                  <td class="right-align" colspan="100"><strong>Subtotal area:</strong><br>$<%= mp.product_estimates.sum(:value) %></td>
+                  <td class="right-align" colspan="100"><strong><%= t 'subtotal_area' %>:</strong><br>$<%= mp.product_estimates.sum(:value) %></td>
                 </tr>
                 </tbody>
               </table>
@@ -109,20 +109,20 @@
           <div class="col xl4 m7 s12 offset-xl3">
             <ul>
               <li class="display-flex justify-content-between">
-                <span class="invoice-subtotal-title">Subtotal</span>
+                <span class="invoice-subtotal-title"><%= t 'subtotal' %></span>
                 <h6 class="mt-0">$<%= @estimate.product_estimates.sum(:value).to_f %></h6>
               </li>
               <li class="display-flex justify-content-between">
-                <span class="invoice-subtotal-title">Discount</span>
+                <span class="invoice-subtotal-title"><%= t 'discount' %></span>
                 <h6 class="mt-0">$ <%= @estimate.product_estimates.sum(:discount).to_f %></h6>
               </li>
               <li class="display-flex justify-content-between">
-                <span class="invoice-subtotal-title">Tax</span>
+                <span class="invoice-subtotal-title"><%= t 'activerecord.attributes.estimate.tax' %></span>
                 <h6 class="mt-0">$ <%= @estimate.tax.to_f %></h6>
               </li>
               <li class="divider mt-2 mb-2"></li>
               <li class="display-flex justify-content-between">
-                <span class="invoice-subtotal-title">Estimate Total</span>
+                <span class="invoice-subtotal-title"><%= t 'estimate_total' %></span>
                 <h6 class="mt-0">$ <%= @estimate.get_total_value %></h6>
               </li>
             </ul>
@@ -132,7 +132,7 @@
       </div>
 
       <div class="card-panel">
-        <h4>Signature</h4>
+        <h4><%= t 'activerecord.models.signature' %></h4>
         <div class="row">
           <% if !@estimate.signatures.last.present? %>
             <%= form_for(@signature) do |f| %>
@@ -144,7 +144,7 @@
               <input type="hidden" id="signature_file" value="" name="signature[file]">
               <canvas id="signature-pad" class="signature-pad" width=800 height=200 style="border:1px solid #000000;"></canvas>
               <br>
-              <button id="clear" class="btn" type="button" ><%= t :clear %></button>
+              <button id="clear" class="btn" type="button" ><%= t 'clear' %></button>
               <%= f.submit "sign", class:"btn green" %>
             <% end %>
           <% else %>
@@ -160,7 +160,7 @@
 
 <% if !@estimate.signatures.last.present? %>
   <div class="confirm">
-    <a href="#modal-signature" class="btn-confirm modal-trigger waves-effect" >Confirm</a>
+    <a href="#modal-signature" class="btn-confirm modal-trigger waves-effect" ><%= t 'button.confirm' %></a>
   </div>
 <% end %>
 
@@ -184,7 +184,7 @@
     </div>
     <div class="modal-footer">
       <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat btn-send"> <i
-        class="material-icons left">send</i> Confirm signature</a>
+        class="material-icons left">send</i><%= t 'button.confirm_signature' %> </a>
     </div>
   <% end %>
 

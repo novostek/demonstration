@@ -40,11 +40,11 @@
         <thead>
           <tr>
             <th>#</th>
-            <th>Customer</th>
-            <th>Location</th>
-            <th>Price</th>
-            <th>Status</th>
-            <th>Sales person</th>
+            <th><%= t 'activerecord.attributes.leads.customer' %></th>
+            <th><%= t 'activerecord.attributes.estimates.location' %></th>
+            <th><%= t 'activerecord.attributes.estimates.price' %></th>
+            <th><%= t 'activerecord.attributes.estimates.status' %></th>
+            <th><%= t 'activerecord.attributes.estimates.sales_person' %></th>
           </tr>
         </thead>
         <tbody>
@@ -73,7 +73,7 @@
 
                   <div class="chip">
                     <% if estimate.worker.photo.present? %>
-                      <img src="<%= estimate.worker.photo.url %>" alt="Contact Person">
+                      <img src="<%= estimate.worker.photo.url %>" alt="<%= t 'alt.contact_person' %>">
                     <% end %>
                     <%= estimate.worker.name.strip %>
                   </div></a>

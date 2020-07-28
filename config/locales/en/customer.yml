@@ -1,7 +1,8 @@
 en:
   activerecord:
     models:
-      customers: "Customer"
+      customer: "Customer"
+      customers: "Customers"
     attributes:
       customer:
         name: "Name"
@@ -10,6 +11,7 @@ en:
         category: "Category"
         code: "Code"
         birthdate: "Birthdate"
+        contact: Contact
   enumerize:
     customer:
       category:
@@ -30,5 +32,5 @@ en:
   no_address: No address
   no_estimates: No estimates
 
-  # Labels
+  # labels
   main_address: Customer address

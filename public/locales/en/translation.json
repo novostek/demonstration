@@ -1,6 +1,7 @@
 {
   "estimate": {
     "see_measurements": "See Measurements",
+    "readonly_products": "You cannot change a product you already saved, but you can delete them and add a new one",
     "steps": {
       "one": "Step 1",
       "two": "Schedule",

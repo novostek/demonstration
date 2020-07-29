@@ -18,7 +18,7 @@
                           <li><a class="grey-text text-darken-2" href="order-deposit.html"><i class="material-icons left">archive</i> Deposit</a></li>
                       </ul> -->
           <% if current_user.present? %>
-            <a class="btn btn-default waves-effect display-flex align-items-center justify-content-center waves-light breadcrumbs-btn right mr-2  text-lighten-5 border-round" href="<%= order_path(@order) %>"><i class="material-icons hide-on-med-and-up">arrow_back</i><span class="hide-on-small-only">Back to order</span></a>
+            <a class="btn btn-default waves-effect display-flex align-items-center justify-content-center waves-light breadcrumbs-btn right mr-2  text-lighten-5 border-round" href="<%= order_path(@order) %>"><i class="material-icons hide-on-med-and-up">arrow_back</i><span class="hide-on-small-only"><%= t 'button.back_to_order' %></span></a>
           <% end %>
           </a>
         </div>
@@ -35,12 +35,12 @@
           <div class="card-content invoice-print-area">
             <div class="row">
               <div class="col s12 m5">
-                <span class="left width-100"><span class="font-weight-600 black-text">Created at:</span> <%= @order.created_at %></span>
-                <span class="left width-100"><span class="font-weight-600 black-text">Location:</span> <%= @order.get_current_estimate.location || "" %></span>
-                <span class="left width-100"><span class="font-weight-600 black-text">Category:</span> <%= @order.get_current_estimate.category_text || "" %></span>
+                <span class="left width-100"><span class="font-weight-600 black-text"><%= t 'created_at' %>:</span> <%= @order.created_at %></span>
+                <span class="left width-100"><span class="font-weight-600 black-text"><%= t 'activerecord.attributes.estimate.location' %>:</span> <%= @order.get_current_estimate.location || "" %></span>
+                <span class="left width-100"><span class="font-weight-600 black-text"><%= t 'activerecord.attributes.estimate.category' %>:</span> <%= @order.get_current_estimate.category_text || "" %></span>
               </div>
               <div class="col s12 m5">
-                <span class="left width-100"><span class="font-weight-600 black-text">Price:</span> <%= number_to_currency(@order.current_estimate.get_total_value)  %></span>
+                <span class="left width-100"><span class="font-weight-600 black-text"><%= t 'activerecord.attributes.estimate.price' %>:</span> <%= number_to_currency(@order.current_estimate.get_total_value)  %></span>
 
               </div>
               <div class="col s12 m2">
@@ -60,11 +60,11 @@
                 <table class="striped responsive-table">
                   <thead>
                   <tr>
-                    <th>Id</th>
-                    <th>Date</th>
-                    <th>Payment method</th>
-                    <th>Status</th>
-                    <th class="right-align">Amount</th>
+                    <th><%= t 'id' %></th>
+                    <th><%= t 'titles.date' %></th>
+                    <th><%= t 'activerecord.attributes.transaction.payment_method' %></th>
+                    <th><%= t 'activerecord.attributes.transaction.status' %></th>
+                    <th class="right-align"><%= t 'titles.amount' %></th>
                      <th></th>
                   </tr>
                   </thead>
@@ -103,8 +103,8 @@
                       <div class="row">
                         <div class="col s12">
                           <ul class="tabs">
-                            <li class="tab col m6"><a class="active" href="#request_<%= t.id %>">Request a Payment</a></li>
-                            <li class="tab col m6"><a href="#mark_<%= t.id %>">Mark as Paid</a></li>
+                            <li class="tab col m6"><a class="active" href="#request_<%= t.id %>"><%= t 'button.request_a_payment' %></a></li>
+                            <li class="tab col m6"><a href="#mark_<%= t.id %>"><%= t 'button.mark_as_paid' %></a></li>
                           </ul>
                         </div>
                         <div id="request_<%= t.id %>" class="col s12">
@@ -116,7 +116,7 @@
                                   <%= f.text_field :emails, value: @email_customer, required: true %>
                                 </div>
                                 <%= f.button :submit,  class:"modal-action modal-close waves-effect waves-green btn btn-default btn-send", target:"_self" do %>
-                                  <i class="material-icons left">send</i> Send
+                                  <i class="material-icons left">send</i> <%= t 'button.send' %>
                                 <% end %>
                               </div>
                               <!--		<a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat btn-send"> <i class="material-icons left">send</i> Send</a>-->
@@ -126,7 +126,7 @@
                         <div id="mark_<%= t.id %>" class="col s12">
                             <div class="modal-content">
                               <div class="row">
-                                <h5>Would you like to mark as paid?</h5>
+                                <h5><%= t 'question_mark_as_paid' %></h5>
                                 <%= link_to "Yes, it's paid", paid_transaction_path(t), class: "btn btn-default", remote: true %>
                               </div>
                           </div>
@@ -155,15 +155,15 @@
                 <ul>
 
                   <li class="display-flex justify-content-between">
-                    <span class="invoice-subtotal-title">Invoice Total</span>
+                    <span class="invoice-subtotal-title"><%= t 'activerecord.attributes.order.invoice' %> <%= t 'titles.total' %></span>
                     <h6 class="invoice-subtotal-value"><%= number_to_currency(@transactions.sum(:value)) %></h6>
                   </li>
                   <li class="display-flex justify-content-between">
-                    <span class="invoice-subtotal-title">Paid</span>
+                    <span class="invoice-subtotal-title"><%= t 'titles.paid' %></span>
                     <h6 class="invoice-subtotal-value"><%= number_to_currency(@transactions.where(status: :paid).sum(:value)) %></h6>
                   </li>
                   <li class="display-flex justify-content-between">
-                    <span class="invoice-subtotal-title">Balance</span>
+                    <span class="invoice-subtotal-title"><%= t 'balance' %></span>
                     <h6 class="invoice-subtotal-value"><%= number_to_currency(@order.current_estimate.total - @transactions.where(status: :paid).sum(:value)) %></h6>
                   </li>
                 </ul>
@@ -181,26 +181,26 @@
               <div class="invoice-action-btn mb-4">
                 <a href="#modal-invoice" class="btn modal-trigger indigo waves-effect waves-light display-flex align-items-center justify-content-center">
                   <i class="material-icons mr-4">check</i>
-                  <span class="text-nowrap">Send Invoice</span>
+                  <span class="text-nowrap"><%= t 'button.send_invoice' %></span>
                 </a>
               </div>
               <div class="invoice-action-btn mb-4">
                 <%= link_to view_invoice_customer_order_path(@order, print: true), class: "btn indigo waves-effect waves-light display-flex align-items-center justify-content-center", target: :_blank do %>
                   <i class="material-icons mr-4">print</i>
-                  <span class="text-nowrap">Print</span>
+                  <span class="text-nowrap"><%= t 'button.print' %></span>
                 <% end %>
 
               </div>
               <div class="invoice-action-btn mb-4">
                 <a href="#modal_payment" class="modal-trigger btn waves-effect waves-light display-flex align-items-center justify-content-center">
                   <i class="material-icons mr-3">attach_money</i>
-                  <span class="text-nowrap">Add Payment</span>
+                  <span class="text-nowrap"><%= t 'button.add_payment' %></span>
                 </a>
               </div>
               <div class="invoice-action-btn">
                 <a onclick="get_woffice_code();" class=" btn waves-effect waves-light display-flex align-items-center justify-content-center">
                   <i class="material-icons mr-3">devices</i>
-                  <span class="text-nowrap">Woffice Pay</span>
+                  <span class="text-nowrap"><%= t 'button.woffice_pay' %></span>
                 </a>
               </div>
             </div>
@@ -214,7 +214,7 @@
   <div id="modal-change-payment" class="modal">
     <%= form_with url: change_transaction_value_order_path(@order), method: :post, local: true do |f| %>
       <div class="modal-content">
-        <h4>Change payment</h4>
+        <h4><%= t 'titles.order.change_payment' %></h4>
         <div class="row">
           <div class="input-field">
             <%= f.label :value, "Value" %>
@@ -224,7 +224,7 @@
       </div>
       <div class="modal-footer">
         <%= f.button :submit,  class:"modal-action modal-close waves-effect waves-green btn-flat btn-send", target:"_self" do %>
-          <i class="material-icons left">send</i> Send
+          <i class="material-icons left">send</i> <%= t 'button.send' %>
         <% end %>
       </div>
     <% end %>
@@ -235,11 +235,11 @@
     <%= form_with url: send_invoice_mail_order_path(@order), method: :get, local: true do |f| %>
       <div class="modal-content">
         <div class="row">
-        <h4>Send Invoice</h4>
+        <h4><%= t 'titles.order.send_invoice' %></h4>
         </div>
         <div class="row">
           <div class="input-field">
-            <%= f.label :emails, "Emails" %>
+            <%= f.label :emails, t('titles.emails') %>
             <%= f.text_field :emails, value: @email_customer, required: true %>
           </div>
           <div class="input-field">
@@ -250,7 +250,7 @@
       </div>
       <div class="modal-footer">
         <%= f.button :submit,  class:"modal-action modal-close waves-effect waves-green btn-flat btn-send", target:"_self" do %>
-          <i class="material-icons left">send</i> Send
+          <i class="material-icons left">send</i> <%= t 'button.send' %>
         <% end %>
         <!--		<a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat btn-send"> <i class="material-icons left">send</i> Send</a>-->
       </div>
@@ -261,9 +261,9 @@
   <div id="modal_payment" class="modal">
     <%= form_with url: invoice_add_payment_order_path(@order), method: :get, local: true do |f| %>
       <div class="modal-content">
-        <h4>New Payment</h4>
+        <h4><%= t 'titles.order.new_payment' %></h4>
         <div class="card-panel z-depth-0 border-radius-4">
-          <%= f.hidden_field :origin, value: 'Order' %>
+          <%= f.hidden_field :origin, value: t('activerecord.models.order') %>
           <%= f.hidden_field :origin_id, value: @order.id %>
 
           <div class="row">
@@ -305,7 +305,7 @@
       </div>
       <div class="modal-footer">
         <%= f.button :submit,  class:"modal-action modal-close waves-effect waves-green btn-flat btn-send", target:"_self" do %>
-          <i class="material-icons left">send</i> Send
+          <i class="material-icons left">send</i> <%= t 'button.send' %>
         <% end %>
         <!--		<a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat btn-send"> <i class="material-icons left">send</i> Send</a>-->
       </div>
@@ -346,11 +346,11 @@
 
       function change_payment_status (order_id, transaction_id) {
         Swal.fire({
-          title: 'Do you want to change this payment to pendent?',
+          title: <%= t 'notice.transaction.question_want_change_this_payment_to_pendent' %>,
           icon: 'warning',
           showCancelButton: true,
-          confirmButtonText: 'Yes, change it!',
-          cancelButtonText: 'No, cancel!',
+          confirmButtonText: <%= t 'button.yes_change' %>,
+          cancelButtonText: <%= t 'button.cancel_sweetalert' %>,
           reverseButtons: true
         }).then(async (result) => {
           if (result.value) {
@@ -372,14 +372,14 @@
               await axios(options)
             } catch (error) {
               Swal.fire(
-                'Error',
-                'There was an erro while trying to change the payment status, please, try again.',
+                <%= t 'notice.error' %>,
+                <%= t 'notice.transaction.error_change_payment_value' %>,
                 'warning'
               )
             } finally {
               Swal.fire(
-                'Success!',
-                'The payment status has been changed.',
+                '<%= t 'notice.success' %>!',
+                <%= t 'notice.transaction.payment_status_been_changed' %>,
                 'success'
               ).then((result => location.reload()))
             }
@@ -398,13 +398,13 @@
           }
 
           Swal.fire({
-            title: 'Do you want to delete this payment?',
+            title: <%= t 'notice.transaction.question_want_delete_payment' %>,
             icon: 'warning',
-            text: 'This action cannot be reverted.',
+            text: <%= t 'notice.transaction.action_irreversible' %>,
             showCancelButton: true,
-            confirmButtonText: 'Yes, delete it!',
+            confirmButtonText: <%= t 'button.yes_change' %>,
             confirmButtonColor: '#d33',
-            cancelButtonText: 'No, cancel!',
+            cancelButtonText: <%= t 'button.cancel_sweetalert' %>,
             reverseButtons: true
           }).then(async (result) => {
             if (result.value) {
@@ -412,14 +412,14 @@
                 await axios(options)
               } catch (error) {
                 Swal.fire(
-                  'Error',
-                  'There was an error while trying to delete the payment value, please, try again.',
+                  <%= t 'notice.error' %>,
+                  <%= t 'notice.transaction.error_delete_payment' %>,
                   'warning'
                 )
               } finally {
                 Swal.fire(
-                  'Success!',
-                  'The payment value has been deleted.',
+                  '<%= t 'notice.success' %>!',
+                  <%= t 'notice.transaction.paymente_value_deleted' %>,
                   'success'
                 ).then((result => location.reload()))
               }
@@ -443,7 +443,7 @@
             </button>`,
           inputValidator: (value) => {
             if(!value)
-              return 'You need to write something.'
+              return '<%= t 'notice.transaction.write_something' %>';
           }
         })
 
@@ -466,14 +466,14 @@
               await axios(options)
             } catch (error) {
               Swal.fire(
-                'Error',
-                'There was an error while trying to change the payment value, please, try again.',
+                <%= t 'notice.error' %>,
+                <%= t 'notice.transaction.error_change_payment_value' %>,
                 'warning'
               )
             } finally {
               Swal.fire(
-                'Success!',
-                'The payment value has been changed.',
+                '<%= t 'notice.success' %>!',
+                <%= t 'notice.transaction.payment_value_been_changed' %>,
                 'success'
               ).then((result => location.reload()))
             }

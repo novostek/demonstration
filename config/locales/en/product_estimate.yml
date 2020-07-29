@@ -2,6 +2,13 @@ en:
   activerecord:
     models:
       product_estimate: "Product Estimate"
+    attributes:
+      product_estimate:
+        quantity: Qty.
+        unitary_value: Prince un.
+        discount: Discount
+        value: Total
+        tax: Tax
   notice:
     product_estimate:
       created: "Product estimate was successfully created."

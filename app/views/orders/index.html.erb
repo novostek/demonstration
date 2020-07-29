@@ -4,7 +4,7 @@
 				<div class="container">
 					<div class="row">
 						<div class="col s10 m6 l6">
-							<h5 class="breadcrumbs-title mt-0 mb-0">Order</h5>
+							<h5 class="breadcrumbs-title mt-0 mb-0"><%= t 'activerecord.models.order' %></h5>
               <ol class="breadcrumbs mb-0">
                 <%= render_breadcrumbs :tag => :li, :separator => "" %>
               </ol>
@@ -24,11 +24,11 @@
 									<div class="card row gradient-45deg-amber-amber gradient-shadow white-text padding-4 mt-5">
 										<div class="col s5 m5">
 											<i class="material-icons background-round mt-5 mb-5">add_shopping_cart</i>
-											<p>Orders</p>
+											<p><%= t 'activerecord.models.orders' %></p>
 										</div>
 										<div class="col s7 m7 right-align">
 											<h5 class="mb-0 white-text"><%= @orders_month.size %></h5>
-											<p class="no-margin">New</p>
+											<p class="no-margin"><%= t 'button.new' %></p>
 											<p><%= number_to_currency(@total_atual) %></p>
 										</div>
 									</div>
@@ -41,7 +41,7 @@
 										</div>
 										<div class="col s7 m7 right-align">
 											<h5 class="mb-0 white-text"><%= @crecimento.round(2) %>%</h5>
-											<p class="no-margin">Growth</p>
+											<p class="no-margin"><%= t 'titles.growth' %></p>
 											<p><%= number_to_currency(@resultado) %></p>
 										</div>
 									</div>
@@ -50,11 +50,11 @@
 									<div class="card row gradient-45deg-indigo-light-blue gradient-shadow white-text padding-4 mt-5">
 										<div class="col s5 m5">
 											<i class="material-icons background-round mt-5 mb-5">perm_identity</i>
-											<p>Pending</p>
+											<p><%= t 'titles.pending' %></p>
 										</div>
 										<div class="col s7 m7 right-align">
 											<h5 class="mb-0 white-text"><%= @transactions.size %></h5>
-											<p class="no-margin">New</p>
+											<p class="no-margin"><%= t 'button.new' %></p>
 											<p><%= number_to_currency(@transactions.sum(:value)) %></p>
 										</div>
 									</div>
@@ -64,7 +64,7 @@
 									<div class="card row gradient-45deg-green-teal gradient-shadow white-text padding-4 mt-5">
 										<div class="col s5 m5">
 											<i class="material-icons background-round mt-5 mb-5">attach_money</i>
-											<p>Profit</p>
+											<p><%= t 'titles.profit' %></p>
 										</div>
 										<div class="col s7 m7 right-align">
 											<h5 class="mb-0 white-text hide-numbers" id="profit-numbers"><%= number_to_currency(@profit) %></h5>
@@ -99,11 +99,11 @@
 										<thead>
 											<tr>
 												<th>#</th>
-												<th>Customer</th>
-												<th>Location</th>
-												<th>Price</th>
-												<th>Status</th>
-												<th>Sales person</th>
+												<th><%= t 'activerecord.models.customer' %></th>
+												<th><%= t 'activerecord.attributes.estimate.location' %></th>
+												<th><%= t 'activerecord.attributes.estimate.price' %></th>
+												<th><%= t 'activerecord.attributes.order.status' %></th>
+												<th><%= t 'activerecord.attributes.estimate.sales_person' %></th>
 											</tr>
 										</thead>
 										<tbody>

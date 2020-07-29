@@ -1,13 +1,13 @@
 <link href="/css/worker.css" rel="stylesheet" type="text/css">
 <link href="/css/view-page.css" rel="stylesheet" type="text/css">
 <link rel="stylesheet" type="text/css" href="/css/order.css">
-<div class="content-wrapper-before <li class="breadcrumb-item"><a href="/">Home</a>"></div>
+<div class="content-wrapper-before""> <li class="breadcrumb-item"><a href="/"><%= t 'breadcrumb.home' %></a></li></div>
 <div class="breadcrumbs-light pb-0 pt-4" id="breadcrumbs-wrapper">
   <!-- Search for small screen-->
   <div class="container">
     <div class="row">
       <div class="col s10 m6 l6">
-        <h5 class="breadcrumbs-title mt-0 mb-0">Order #<%= @order.code %></h5>
+        <h5 class="breadcrumbs-title mt-0 mb-0"><%= t 'activerecord.models.order' %> #<%= @order.code %></h5>
         <ol class="breadcrumbs mb-0">
           <%= render_breadcrumbs :tag => :li, :separator => "" %>
         </ol>
@@ -17,7 +17,7 @@
         <!--          <i class="material-icons hide-on-med-and-up ">edit</i><span class="hide-on-small-only">Edit</span>-->
         <%# end %>
         <!--        <a class="btn waves-effect waves-light breadcrumbs-btn right pink mr-2 lighten-4 pink-text border-round" href="<%#= invoice_order_path(@order) %>"><i class="material-icons hide-on-med-and-up ">receipt</i><span class="hide-on-small-only">View invoice</span></a>-->
-        <a class="btn btn-default waves-effect display-flex align-items-center justify-content-center waves-light breadcrumbs-btn right mr-2  text-lighten-5 border-round" href="<%= order_path(@order) %>"><i class="material-icons hide-on-med-and-up">arrow_back</i><span class="hide-on-small-only">Back to order</span></a>
+        <a class="btn btn-default waves-effect display-flex align-items-center justify-content-center waves-light breadcrumbs-btn right mr-2  text-lighten-5 border-round" href="<%= order_path(@order) %>"><i class="material-icons hide-on-med-and-up">arrow_back</i><span class="hide-on-small-only"><%= t 'button.back_to_order' %></span></a>
         </a>
       </div>
     </div>
@@ -37,9 +37,9 @@
             <div class="row">
 <!--              <div class="card-panel">-->
                 <div class="col s12 m5">
-                    <span class="left width-100"><span class="font-weight-600 black-text">Created at:</span> <%= @order.created_at.strftime("%m/%d/%Y") %></span>
-                    <span class="left width-100"><span class="font-weight-600 black-text">Location:</span> <%= @order.get_current_estimate.location %></span>
-                    <span class="left width-100"><span class="font-weight-600 black-text">Category:</span> <%= @order.get_current_estimate.category %></span>
+                    <span class="left width-100"><span class="font-weight-600 black-text"><%= t 'created_at' %>:</span> <%= @order.created_at.strftime("%m/%d/%Y") %></span>
+                    <span class="left width-100"><span class="font-weight-600 black-text"><%= t 'activerecord.attributes.estimate.location' %>:</span> <%= @order.get_current_estimate.location %></span>
+                    <span class="left width-100"><span class="font-weight-600 black-text"><%= t 'activerecord.attributes.estimate.category' %>:</span> <%= @order.get_current_estimate.category %></span>
                 </div>
                 <div class="col s12 m5">
               <!--                <span class="left width-100"><span class="font-weight-600 black-text">Price:</span> $ <%#= @order.product_purchases.sum(:value).to_f %></span>-->
@@ -53,12 +53,12 @@
                 </div>
 
                 <div class="col s12 mt-1">
-                  <span class="font-weight-600 black-text">Estimate description: </span>
+                  <span class="font-weight-600 black-text"><%= t 'estimate_description_label' %>: </span>
                   <span><%= @order.get_current_estimate.description %></span>
                 </div>
                 <br>
                 <div class="col s12 right-align">
-                  <a class="sidenav-trigger btn" href="#" data-target="slide-out-right">Documents</a>
+                  <a class="sidenav-trigger btn" href="#" data-target="slide-out-right"><%= t 'documents' %></a>
                 </div>
               </div>
 <!--            </div>-->
@@ -127,7 +127,7 @@
 
                   <div class="finish-order-step signature">
 
-                    <div class="step-title"><span class="step-icon"></span>Customer signature
+                    <div class="step-title"><span class="step-icon"></span><%= t 'customer_signature_label' %>
                     </div>
                     <div class="step-content">
 
@@ -137,13 +137,13 @@
                         <div class="row">
                           <div class="col s12 l6">
                             <div class="input">
-                              <label for="">Document</label>
+                              <label for=""><%= t 'activerecord.models.document' %></label>
                               <%= f.select :document, options_for_select(@documents) %>
                             </div>
                           </div>
                           <div class="left col s12 l6">
                             <a class="btn waves-effect waves-light right mr-2" href="#" onclick="preview_document();" >
-                              <i class="material-icons hide-on-med-and-up">save</i><span class="hide-on-small-only">Preview Document</span>
+                              <i class="material-icons hide-on-med-and-up">save</i><span class="hide-on-small-only"><%= t 'button.preview_document' %></span>
                             </a>
                           </div>
                         </div>
@@ -151,7 +151,7 @@
                         <canvas id="signature-pad" class="signature-pad"></canvas>
                       </div>
                       <div class="signature-actions">
-                        <a href="#" id="clear" class="clear-signature"><i class="material-icons">clear</i> Clear</a>
+                        <a href="#" id="clear" class="clear-signature"><i class="material-icons">clear</i> <%= t 'clear' %></a>
                         <!--                        <a href="#" class="save-signature" ><i class="material-icons">save</i> Save signature</a>-->
                       </div>
 

@@ -245,7 +245,7 @@ class EstimatesController < ApplicationController
 
     @lead = Lead.find(params[:lead_id])
     add_breadcrumb I18n.t("activerecord.models.estimates"), estimates_path
-    add_breadcrumb I18n.t("breadcrumbs.step_one"), "/estimates/step_one/#{params[:lead_id]}"
+    add_breadcrumb I18n.t("breadcrumb.step_one"), "/estimates/step_one/#{params[:lead_id]}"
     render :step_1
   end
 
@@ -331,6 +331,7 @@ class EstimatesController < ApplicationController
     begin
       product_estimate.map do |pe|
         mp = MeasurementProposal.find_or_initialize_by(id: pe['proposal_id'])
+        mp.title = pe['title']
         mp.save()
         pe["areas"].map do |area|
           ap = AreaProposal.find_or_initialize_by(measurement_area_id: area, measurement_proposal_id: mp.id)

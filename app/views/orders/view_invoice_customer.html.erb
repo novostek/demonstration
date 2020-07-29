@@ -1,7 +1,7 @@
 <div class="card-panel">
   <%= render 'layouts/document_top' %>
   <div class="invoice-title-bar">
-    <h6>Invoice</h6>
+    <h6><%= t 'breadcrumb.invoice' %></h6>
     <div class="invoice-title-details">
       <span>Nº #<%= @order.code %></span><br>
       <span><%= @order.created_at %></span>
@@ -17,18 +17,18 @@
 
       <img src="/materialize/images/icon/dolly-solid.svg" alt="">
     </div>
-    <h6>Products/Services:</h6>
+    <h6><%= t 'products_or_services_label' %>:</h6>
   </div>
   <div class="row">
     <div class="col s12">
       <table class="responsive-table">
         <thead>
         <tr>
-          <th>Product</th>
-          <th>Qty</th>
-          <th>Unit Price</th>
-          <th>Discount</th>
-          <th class="right-align">Subtotal</th>
+          <th><%= t 'activerecord.models.product' %></th>
+          <th><%= t 'activerecord.attributes.product_estimate.quantity' %></th>
+          <th><%= t 'activerecord.attributes.product_estimate.unitary_value' %></th>
+          <th><%= t 'activerecord.attributes.product_estimate.discount' %></th>
+          <th class="right-align"><%= t 'subtotal' %></th>
         </tr>
         </thead>
         <tbody>
@@ -52,7 +52,7 @@
 
       <img src="/square.svg" alt="">
     </div>
-    <h6>Payments:</h6>
+    <h6><%= t 'titles.payments' %>:</h6>
   </div>
 
   <div class="row">
@@ -60,11 +60,11 @@
       <table class="striped responsive-table">
         <thead>
         <tr>
-          <th>Id</th>
-          <th>Date</th>
-          <th>Payment method</th>
-          <th>Status</th>
-          <th class="right-align">Amount</th>
+          <th><%= t 'id' %></th>
+          <th><%= t 'titles.date' %></th>
+          <th><%= t 'activerecord.attributes.transaction.payment_method' %></th>
+          <th><%= t 'activerecord.attributes.transaction.status' %></th>
+          <th class="right-align"><%= t 'titles.amount' %></th>
         </tr>
         </thead>
         <tbody>
@@ -78,7 +78,7 @@
                 <div class="chip green lighten-5 green-text"><%= t.status_text %></div>
               <% else %>
                 <%= link_to send_square_transaction_path(t) do %>
-                  <div class="chip blue white-text"> Pay This</div>
+                  <div class="chip blue white-text"><%= t 'titles.pay_this' %></div>
                 <% end %>
               <% end  %>
             </td>
@@ -99,15 +99,15 @@
       <ul>
 
         <li class="display-flex justify-content-between">
-          <span class="invoice-subtotal-title">Invoice Total</span>
+          <span class="invoice-subtotal-title"><%= t 'breadcrumb.invoice' %> <%= t 'titles.total' %></span>
           <h6 class="invoice-subtotal-value"><%= number_to_currency(@order.current_estimate.get_total_value) %></h6>
         </li>
         <li class="display-flex justify-content-between">
-          <span class="invoice-subtotal-title">Paid</span>
+          <span class="invoice-subtotal-title"><%= t 'titles.paid' %></span>
           <h6 class="invoice-subtotal-value"><%= number_to_currency(@transactions.where(status: :paid).sum(:value)) %></h6>
         </li>
         <li class="display-flex justify-content-between">
-          <span class="invoice-subtotal-title">Balance</span>
+          <span class="invoice-subtotal-title"><%= t 'balance' %></span>
           <h6 class="invoice-subtotal-value"><%= number_to_currency(@order.current_estimate.get_total_value - @transactions.where(status: :paid).sum(:value)) %></h6>
         </li>
       </ul>

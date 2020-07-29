@@ -64,7 +64,7 @@
           <td><%= menu.position %></td>
           <td>
             <div class="invoice-action right-align">
-              <%= link_to new_menu_path(pai: menu.id), class: "invoice-action-view mr-4 tooltipped", "data-position" => "top", "data-tooltip" => t('new_child_menu') do %>
+              <%= link_to new_menu_path(pai: menu.id), class: "invoice-action-view mr-4 tooltipped", "data-position" => "top", "data-tooltip" => t('tooltip.new_child_menu') do %>
                   <i class="material-icons">playlist_add</i>
               <% end %>
               <%= link_to menu, class: "invoice-action-view mr-4 tooltipped", "data-position" => "top", "data-tooltip" => t('button.show') do %>

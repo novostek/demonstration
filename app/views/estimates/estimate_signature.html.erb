@@ -2,7 +2,7 @@
   <div class="card-panel">
     <%= render 'layouts/document_top' %>
     <div class="invoice-title-bar">
-      <h6>Estimate</h6>
+      <h6><%= t 'activerecord.models.estimate' %></h6>
       <div class="invoice-title-details">
         <span>Nº #<%= @estimate.code %></span><br>
         <span><%= @estimate.created_at %></span>
@@ -19,7 +19,7 @@
 
         <img src="/materialize/images/icon/map-marked-alt-solid.svg" alt="">
       </div>
-      <h6>Job Location:</h6>
+      <h6><%= t 'job_location' %>:</h6>
     </div>
     <div class="row">
       <div class="col s12">
@@ -34,24 +34,24 @@
 
         <img src="/materialize/images/icon/ruler-combined-solid.svg" alt="">
       </div>
-      <h6>Measurements:</h6>
+      <h6><%= t 'activerecord.models.measurements' %>:</h6>
     </div>
     <div class="row">
       <div class="col s12">
         <table>
           <thead>
-          <th>Area</th>
+          <th><%= t 'area' %></th>
           <% if @hidden_fields['length'].present? %>
-            <th>Length</th>
+            <th><%= t 'activerecord.attributes.measurements.length' %></th>
           <% end %>
           <% if @hidden_fields['width'].present? %>
-            <th>Width</th>
+            <th><%= t 'activerecord.attributes.measurements.width' %></th>
           <% end %>
           <% if @hidden_fields['height'].present? %>
-            <th>Height</th>
+            <th><%= t 'activerecord.attributes.measurements.height' %></th>
           <% end %>
           <% if @hidden_fields['square_feet'].present? %>
-            <th>Square Ft</th>
+            <th><%= t 'activerecord.attributes.measurements.square_feet' %></th>
           <% end %>
           </thead>
           <tbody>
@@ -82,13 +82,13 @@
 
         <img src="/materialize/images/icon/dolly-solid.svg" alt="">
       </div>
-      <h6>Products/Services:</h6>
+      <h6><%= t 'products_or_services_label' %>:</h6>
     </div>
     <% @estimate.measurement_proposals.distinct(:id).each do |mp| %>
       <div class="row">
         <div class="col s12">
           <div class="row pl-2 pr-2">
-            <span class="mr-1">Selected areas:</span>
+            <span class="mr-1"><%= t 'selected_areas' %>:</span>
             <% mp.measurement_area.each do |ma| %>
               <div class="chip"><%= ma.name %></div>
             <% end %>
@@ -96,11 +96,11 @@
           <table class="responsive-table">
             <thead>
             <tr>
-              <th>Product</th>
-              <th>Qty</th>
-              <th>Unit Price</th>
-              <th>Discount</th>
-              <th class="right-align">Subtotal</th>
+              <th><%= t 'activerecord.models.product' %></th>
+              <th><%= t 'activerecord.attributes.product_estimate.quantity' %></th>
+              <th><%= t 'activerecord.attributes.product_estimate.unitary_value' %></th>
+              <th><%= t 'activerecord.attributes.product_estimate.discount' %></th>
+              <th class="right-align"><%= t 'subtotal' %></th>
             </tr>
             </thead>
             <tbody>
@@ -114,7 +114,7 @@
               </tr>
             <% end %>
             <tr class="white">
-              <td class="right-align" colspan="100"><strong>Subtotal Area:</strong> <br> <%= number_to_currency(mp.product_estimates.sum(:value)) %></td>
+              <td class="right-align" colspan="100"><strong><%= t 'subtotal_area' %>:</strong> <br> <%= number_to_currency(mp.product_estimates.sum(:value)) %></td>
             </tr>
             </tbody>
           </table>
@@ -131,26 +131,26 @@
       <div class="col xl4 m7 s12 offset-xl3">
         <ul>
           <li class="display-flex justify-content-between">
-            <span class="invoice-subtotal-title">Subtotal:</span>
+            <span class="invoice-subtotal-title"><%= t 'subtotal' %>:</span>
             <h6 class="mt-0"><%= number_to_currency @estimate.subtotal %></h6>
           </li>
           <li class="display-flex justify-content-between">
-            <span class="invoice-subtotal-title">Discount (Products):</span>
+            <span class="invoice-subtotal-title"><%= t 'discount_products' %>:</span>
             <h6 class="mt-0">- <%= number_to_currency @estimate.discounts %></h6>
           </li>
           <li class="display-flex justify-content-between">
-            <span class="invoice-subtotal-title">Other Discounts:</span>
+            <span class="invoice-subtotal-title"><%= t 'other_discounts' %>:</span>
             <h6 class="mt-0">- <%= number_to_currency @estimate.discount %></h6>
           </li>
           <% if @estimate.customer? %>
           <li class="display-flex justify-content-between">
-            <span class="invoice-subtotal-title">Tax:</span>
+            <span class="invoice-subtotal-title"><%= t 'activerecord.attributes.estimate.tax' %>:</span>
             <h6 class="mt-0"><%= @estimate.tax %></h6>
           </li>
           <% end %>
           <li class="divider mt-2 mb-2"></li>
           <li class="display-flex justify-content-between">
-            <span class="invoice-subtotal-title">Estimate Total:</span>
+            <span class="invoice-subtotal-title"><%= t 'estimate_total' %>:</span>
             <h6 class="mt-0"><%= number_to_currency @estimate.total %></h6>
           </li>
         </ul>
@@ -161,9 +161,9 @@
   </div>
   <div class="card-panel">
     <% if !@view.present? %>
-      <p> <b>Signature</b></p>
+      <p> <b><%= t 'activerecord.models.signature' %></b></p>
     <% else %>
-      <p> <b>Signed at <%= "#{DateTime.now}" %></b></p>
+      <p> <b><%= t 'signed_at' %> <%= "#{DateTime.now}" %></b></p>
     <% end %>
     <div class="row">
       <div class="col s12">
@@ -177,7 +177,7 @@
             <input type="hidden" id="signature_file" value="" name="signature[file]">
             <canvas id="signature-pad" class="signature-pad" width=700 height=200 style="border:1px solid #000000;"></canvas>
             <br>
-            <button id="clear" class="btn" type="button" ><%= t :clear %></button>
+            <button id="clear" class="btn" type="button" ><%= t 'clear' %></button>
             <%= f.submit "Sign", class:"btn green", onclick:"loading_()" %>
 
           <% end %>

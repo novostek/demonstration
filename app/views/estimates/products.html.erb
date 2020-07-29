@@ -4,7 +4,7 @@
     <div class="container">
       <div class="row">
         <div class="col s10 m6 l6">
-          <h5 class="breadcrumbs-title mt-0 mb-0">Estimate Products</h5>
+          <h5 class="breadcrumbs-title mt-0 mb-0"><%= t 'estimate_products_label' %></h5>
           <ol class="breadcrumbs mb-0">
             <%= render_breadcrumbs :tag => :li, :separator => "" %>
           </ol>
@@ -27,16 +27,16 @@
                   <tr>
                     <th></th>
                     <% if @hidden_fields['length'].present? %>
-                      <th><span class="hide-on-med-and-up">L</span> <span class="hide-on-small-only">Length</span></th>
+                      <th><span class="hide-on-med-and-up">L</span> <span class="hide-on-small-only"><%= t 'activerecord.attributes.measurements.length' %></span></th>
                     <% end %>
                     <% if @hidden_fields['width'].present? %>
-                      <th><span class="hide-on-med-and-up">W</span> <span class="hide-on-small-only">Width</span></th>
+                      <th><span class="hide-on-med-and-up">W</span> <span class="hide-on-small-only"><%= t 'activerecord.attributes.measurements.width' %></span></th>
                     <% end %>
                     <% if @hidden_fields['height'].present? %>
-                      <th><span class="hide-on-med-and-up">H</span> <span class="hide-on-small-only">Height</span></th>
+                      <th><span class="hide-on-med-and-up">H</span> <span class="hide-on-small-only"><%= t 'activerecord.attributes.measurements.height' %></span></th>
                     <% end %>
                     <% if @hidden_fields['square_feet'].present? %>
-                      <th><span class="hide-on-med-and-up">Sqft</span> <span class="hide-on-small-only">Square feet</span></th>
+                      <th><span class="hide-on-med-and-up">Sqft</span> <span class="hide-on-small-only"><%= t 'activerecord.attributes.measurements.square_feet' %></span></th>
                     <% end %>
                     <% if @calculation_formula.present? %>
                       <th><span class="hide-on-med-and-up">T</span> <span class="hide-on-small-only"><%= @calculation_formula.col_name %></span></th>
@@ -66,7 +66,7 @@
                   <% end %>
                   <% if @calculation_formula.present? %>
                     <tr>
-                      <td><i class="material-icons left mr-4 amber-text">home</i> Total <br><small></small></td>
+                      <td><i class="material-icons left mr-4 amber-text">home</i> <%= t 'titles.total' %> <br><small></small></td>
                       <% if @hidden_fields['length'].present? %>
                         <td><%= @estimate.sum_of_measure('length') %></td>
                       <% end %>
@@ -97,7 +97,7 @@
         </ul>
       </div>
     <div class="modal-footer">
-      <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat">Close</a>
+      <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat"><%= t 'titles.close' %></a>
     </div>
   </div>
 </div>

@@ -1,3 +1,25 @@
 en:
-
-
+  enumerize:
+#    product_purchase:
+#      status:
+#        new: New
+#        finished: Finished
+#        cancelled: Cancelled
+#        awaiting_change_approval: Awaiting change approval
+#        change_approved: Change approved
+  activerecord:
+    models:
+      product_purchase: "Product Purchase"
+      products_purchase: "Products Purchase"
+    attributes:
+      product_purchase:
+        product_id: Product
+        quantity: Qty
+        status: Status
+        tax: Tax
+        price: Price
+  product_purchase_status:
+    requested: Requested
+    buyed: Buyed
+    delivered: Delivered
+    returned: Returned

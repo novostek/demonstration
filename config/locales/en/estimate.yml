@@ -4,13 +4,28 @@ en:
       estimate: "Estimate"
       estimates: "Estimates"
     attributes:
-      estimates:
+      estimate:
         name: "Name"
+        code: Code
+        title: Title
         formula: "Formula"
         description: "Description"
         tax: "Tax"
         namespace: "Namespace"
         payment_aprroval: "Request the Credit Card After Approval."
+        location: Location
+        latitude: Latitude
+        longitude: Longitude
+        category: Category
+        price: Price
+        status: Status
+        sales_person: Sales person
+        order: Order
+        tax_calculation: Tax calculation
+        lead: Lead
+        bpmn_instance: BPMN instance
+        current: Current
+        total: Total
   enumerize:
     estimate:
       taxpayer:
@@ -42,3 +57,30 @@ en:
       inform_all_fields: "All fields must be filled"
       discount_applied: "Discount was sucessfully applied to the estimate."
       discount_invalid: "The discount value is greater than the value of the estimate."
+  alt:
+    contact_person: Contact Person
+  discount: Discount
+
+  # labels
+  itens: Itens
+  title_step_shedules_estimate: Schedule estimate
+  remove_after_drop: Remove After Drop
+  itens_for: Itens for
+  subtotal: Subtotal
+  discount_products: Discount (Products)
+  other_discounts: Other Discounts
+  estimate_total: Estimate Total
+  selected_areas: Selected areas
+  title_areas: Title
+  subtotal_area: Subtotal area
+  new_worker: New worker
+  job_location: Job Location
+  products_or_services_label: Products/Services
+  estimate_products_label: Estimate Products
+  estimate_description_label: Estimate description
+
+  button:
+    add_product: Add product
+
+
+

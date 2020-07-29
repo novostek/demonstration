@@ -4,6 +4,9 @@ import { useForm } from "react-hook-form";
 import M from 'materialize-css'
 import EstimateDetail from '../../../src/Estimate/EstimateDetail'
 import EstimateProvider from '../../../src/context/Estimate';
+import { useTranslation } from 'react-i18next';
+
+import '../../../src/i18n'
 
 const schema = {
   requiredDecimal: { required: true, pattern: /^\d*\.?\d*$/ }
@@ -15,6 +18,8 @@ const ProductComponent = () => {
   const [productIndex, setProductIndex] = useState({
     productIndex: 0
   })
+
+  const { t } = useTranslation()
 
   const [orderValues, setOrderValues] = useState({})
 
@@ -207,17 +212,17 @@ const ProductComponent = () => {
           <ul className="stepper horizontal stepper-head-only">
             <li className="step ">
               <a href={`/orders/${order.id}/schedule`}>
-                <div className="step-title waves-effect">Schedule</div>
+              <div className="step-title waves-effect">{t("estimate.steps.order_one")}</div>
               </a>
             </li>
 
             <li className="step">
               <a href={`/orders/${order.id}/payments`}>
-                <div className="step-title waves-effect">Payment</div>
+                <div className="step-title waves-effect">{t("estimate.steps.order_two")}</div>
               </a>
             </li>
             <li className="step active">
-              <div className="step-title waves-effect">Products purchase</div>
+              <div className="step-title waves-effect">{t("estimate.steps.order_three")}</div>
             </li>
           </ul>
           <div className="row products-area-list pl-1 pr-1" id="measurement_proposals" >
@@ -232,7 +237,7 @@ const ProductComponent = () => {
                           <div className="row pl-1 pr-1 products-search">
                             <div className="row">
                               <div className="col s12">
-                                <span className="left width-100 pt-1">Product</span>
+                                <span className="left width-100 pt-1">{t("estimate.products.product")}</span>
                                 <div 
                                   className="input-field mt-0 mb-0 products-search-field-box">
                                   {/* <a href="#" className="btn-add-product tooltipped" data-tooltip="New product"><i className="material-icons">add</i></a> */}
@@ -255,7 +260,7 @@ const ProductComponent = () => {
                                 </div>
                                 <div className="calc-fields">
                                   <div className="calc-field">
-                                    <span className="left width-100 pt-1">Qty.</span>
+                                    <span className="left width-100 pt-1">{t("estimate.products.qty")}</span>
                                     <input
                                       type="number"
                                       min="0"
@@ -268,7 +273,7 @@ const ProductComponent = () => {
                                     {errors.qty && <span>{errors.qty.message}</span>}
                                   </div>
                                   <div className="calc-field">
-                                    <span className="left width-100 pt-1">Prince un.</span>
+                                    <span className="left width-100 pt-1">{t("estimate.products.price_un")}</span>
                                     <input
                                       type="number"
                                       min="0"
@@ -282,7 +287,7 @@ const ProductComponent = () => {
                                     {errors.price && <span>{errors.price.message}</span>}
                                   </div>
                                   <div className="calc-field">
-                                    <span className="left width-100 pt-1">Total</span>
+                                    <span className="left width-100 pt-1">{t("estimate.products.total")}</span>
                                     <input
                                       type="number"
                                       min="0"
@@ -321,16 +326,16 @@ const ProductComponent = () => {
             <div className="col xl4 m7 s12 offset-xl3">
               <ul>
                 <li className="display-flex justify-content-between">
-                  <span className="invoice-subtotal-title">Subtotal</span>
+                  <span className="invoice-subtotal-title">{t("estimate.detail.labels.subtotal")}</span>
                   <h6 className="mt-0 subtotal-all">$ {parseFloat(orderValues.subTotal).toFixed(2)}</h6>
                 </li>
                 <li className="display-flex justify-content-between">
-                  <span className="invoice-subtotal-title">Tax</span>
+                  <span className="invoice-subtotal-title">{t("estimate.detail.labels.tax_single")}</span>
                   <h6 className="mt-0 tax-whole">$ {(orderValues.tax ? parseFloat(orderValues.tax).toFixed(2) : 0.0)}</h6>
                 </li>
                 <li className="divider mt-2 mb-2"></li>
                 <li className="display-flex justify-content-between">
-                  <span className="invoice-subtotal-title">Order Total</span>
+                  <span className="invoice-subtotal-title">{t("estimate.detail.labels.order_total")}</span>
                   <h6 className="mt-0 order-total">$ {parseFloat(orderValues.subTotal + (orderValues.tax ? orderValues.tax : 0)).toFixed(2)}</h6>
                 </li>
               </ul>
@@ -342,8 +347,8 @@ const ProductComponent = () => {
       <div className="col s12 pb-2 pr-0 pl-0" style={{ position: 'relative', zIndex: 1 }}>
         <a
           className="btn grey lighten-5 grey-text waves-effect waves-light breadcrumbs-btn left save"
-          href={`/orders/${order.id}/payments`}><i className="material-icons left">arrow_back</i> Back</a>
-        <a className="btn indigo waves-effect waves-light breadcrumbs-btn right ml-1" onClick={() => remoteSubmit()}><i className="material-icons left">shopping_cart</i> Place Order</a>
+          href={`/orders/${order.id}/payments`}><i className="material-icons left">arrow_back</i> {t("estimate.buttons.back")}</a>
+        <a className="btn indigo waves-effect waves-light breadcrumbs-btn right ml-1" onClick={() => remoteSubmit()}><i className="material-icons left">shopping_cart</i>{t("estimate.buttons.place_order")}</a>
       </div>
     </>
   )

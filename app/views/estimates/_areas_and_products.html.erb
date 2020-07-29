@@ -2,8 +2,12 @@
 <% estimate.measurement_proposals.distinct.each do |mp| %>
   <div class="row">
     <div class="col s12">
-      <div class="row pl-2 pr-2">
-        <span class="mr-1">Selected areas:</span>
+      <div class="row pl-1 pr-2 mb-2">
+        <span class="mr-1"><%= t 'title_areas' %>:</span>
+        <span><%= mp.title %></span>
+      </div>
+      <div class="row pl-1 pr-2">
+        <span class="mr-1"><%= t 'selected_areas' %>:</span>
         <% mp.measurement_area.each do |ma| %>
           <div class="chip blue white-text"><%= ma.name %></div>
         <% end %>
@@ -11,12 +15,12 @@
       <table class="striped responsive-table">
         <thead>
         <tr>
-          <th>Product</th>
-          <th>Qty</th>
+          <th><%= t 'activerecord.models.product' %></th>
+          <th><%= t 'activerecord.attributes.product_estimate.quantity' %></th>
           <% if can? :see_price, Estimate %>
-            <th>Price Unity</th>
-            <th>Discount</th>
-            <th class="right-align">Subtotal</th>
+            <th><%= t 'activerecord.attributes.product_estimate.unitary_value' %></th>
+            <th><%= t 'activerecord.attributes.product_estimate.discount' %></th>
+            <th class="right-align"><%= t 'subtotal' %></th>
           <% end %>
         </tr>
         </thead>
@@ -34,7 +38,7 @@
         <% end %>
         <% if can? :see_price, Estimate %>
           <tr class="white">
-            <td class="right-align" colspan="100"><strong>Subtotal area:</strong><br><%= number_to_currency mp.product_estimates.sum(:value) %></td>
+            <td class="right-align" colspan="100"><strong><%= t 'subtotal_area' %>:</strong><br><%= number_to_currency mp.product_estimates.sum(:value) %></td>
           </tr>
         <% end %>
         </tbody>

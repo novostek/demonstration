@@ -1,24 +1,24 @@
 <!-- Financial summary of an estimate -->
 <ul>
   <li class="display-flex justify-content-between">
-    <span class="invoice-subtotal-title">Subtotal</span>
+    <span class="invoice-subtotal-title"><%= t 'subtotal' %></span>
     <h6 class="mt-0"><%= number_to_currency estimate.subtotal %></h6>
   </li>
   <li class="display-flex justify-content-between">
-    <span class="invoice-subtotal-title">Discount (Products)</span>
+    <span class="invoice-subtotal-title"><%= t 'discount_products' %></span>
     <h6 class="mt-0">- <%= number_to_currency estimate.discounts %></h6>
   </li>
   <li class="display-flex justify-content-between">
-    <span class="invoice-subtotal-title">Other Discounts</span>
+    <span class="invoice-subtotal-title"><%= t 'other_discounts' %></span>
     <h6 class="mt-0"> - <%= number_to_currency estimate.discount %></h6>
   </li>
   <li class="display-flex justify-content-between">
-    <span class="invoice-subtotal-title">Tax (<%= t("enumerize.estimate.taxpayer.#{estimate.taxpayer}") if estimate.taxpayer.present?%>)</span>
+    <span class="invoice-subtotal-title"><%= t 'activerecord.attributes.estimate.tax' %> (<%= t("enumerize.estimate.taxpayer.#{estimate.taxpayer}") if estimate.taxpayer.present?%>)</span>
     <h6 class="mt-0"> <%= number_to_currency estimate.tax || 0 %></h6>
   </li>
   <li class="divider mt-2 mb-2"></li>
   <li class="display-flex justify-content-between">
-    <span class="invoice-subtotal-title">Estimate Total</span>
+    <span class="invoice-subtotal-title"><%= t 'estimate_total' %></span>
     <h6 class="mt-0"><%= number_to_currency estimate.total %></h6>
   </li>
 </ul>

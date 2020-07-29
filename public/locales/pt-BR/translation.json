@@ -1,0 +1,61 @@
+{
+  "estimate": {
+    "see_measurements": "See Measurements",
+    "readonly_products": "You cannot change a product you already saved, but you can delete them and add a new one",
+    "steps": {
+      "one": "Step 1",
+      "two": "Schedule",
+      "three": "Measurements",
+      "four": "Items",
+      "order_one": "Schedule",
+      "order_two": "Payment",
+      "order_three": "Products purchase"
+    },
+    "detail": {
+      "labels": {
+        "tax": "Taxes",
+        "taxpayer": "Taxpayer",
+        "customer": "Customer",
+        "location": "Location",
+        "subtotal": "Subtotal",
+        "tax_single": "Tax",
+        "order_total": "Order Total"
+      },
+      "tax_select": "Select an option",
+      "select": {
+        "select_option": "Select an option",
+        "customer_pay": "Customer will pay",
+        "we_pay": "We will pay"
+      }
+    },
+    "areas": {
+      "title": "Title",
+      "items_for": "Items for:"
+    },
+    "products": {
+      "deselect_all": "Deselect all",
+      "product": "Product",
+      "tax": "Tax",
+      "qty": "Qty.",
+      "price_un": "Price un.",
+      "discount": "Discount",
+      "total": "Total"
+    },
+    "buttons": {
+      "add_area_group": "Add Area Group",
+      "save": "Save",
+      "back": "Back",
+      "place_order": "Place Order"
+    },
+    "swal": {
+      "title": "Are you sure?",
+      "text": "You won't be able to revert this!",
+      "confirm": "Yes, remove it!",
+      "cancel": "No, cancel!",
+      "delete": {
+        "title": "Deleted",
+        "text": "Your product has been removed from list."
+      }
+    }
+  }
+}

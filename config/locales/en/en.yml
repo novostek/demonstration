@@ -75,6 +75,7 @@ en:
     url: Url
     cash: Cash
     select_one: Select one
+    check: Check
 
   # buttons
   button:

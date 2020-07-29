@@ -67,3 +67,9 @@ en:
       order_payments: Order payments
       select_default_value_receive_order_payment: Select a default value for when you receive an order payment by
 
+      square_credit: Square (credit)
+      square_installments: Square (installments)
+
+      select_default_value_pay_labor_costs: Select a default value for when you pay your labor costs
+      select_default_value_pay_taxes: Select a default value for when pay your taxes
+      select_default_value_buy_product: Select a default value for when buy a product

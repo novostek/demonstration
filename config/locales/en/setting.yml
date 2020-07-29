@@ -34,3 +34,36 @@ en:
       card_mail: Card mail
       mail_payment_registered: Mail payment registered
       text_sent_to_customer_payment_registered: Text of the email sent to the customer when their payment was registered.
+
+      estimate_notes: Estimate notes
+      information_appear_your_clients: The information here will appear to your clients.
+
+      company_logo: Company logo
+      upload_new_logo: Upload new logo
+      company_info: Company info
+      company_name: Company name
+      company_fullname: Company fullname
+
+      client_and_order: Client and order
+      order_end_when_client_confirm: The order will end when the client confirms.
+
+      take_photos: Take photos
+      order_end_only_after_photos_added: The order will end only after photos are added.
+
+      order_needs_signature: Order needs signature
+      order_needs_client_signature_to_end: The order needs the client signature to be able to end.
+      se_fields_will_be_used: Set which fields will be used for the estimates and orders.
+
+      third_parties: Third-parties
+      keys_communication_third_party_apps: These keys allow the communication with third-party apps.
+      send_grid_key: Send grid Key
+      square_key: Square key
+      refresh_square_account: Refresh Square Account
+      link_square_account: Link Square Account
+
+      transaction_defaults: Transaction defaults
+      define_default_values_your_transactions: Define the default values for your transactions
+
+      order_payments: Order payments
+      select_default_value_receive_order_payment: Select a default value for when you receive an order payment by
+

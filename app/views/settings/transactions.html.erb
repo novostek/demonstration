@@ -11,7 +11,7 @@
     <div class="container">
       <div class="row">
         <div class="col s10 m6 l6">
-          <h5 class="breadcrumbs-title mt-0 mb-0"><span>Settings</span></h5>
+          <h5 class="breadcrumbs-title mt-0 mb-0"><span><%= t 'activerecord.models.settings' %></span></h5>
         </div>
       </div>
     </div>
@@ -20,42 +20,42 @@
     <div class="settings_container">
       <div class="section">
         <ul class="tabs">
-          <li class="tab"><a target="_self" href="/settings">Company</a></li>
-          <li class="tab"><a target="_self" href="/settings/email">Emails</a></li>
-          <li class="tab"><a target="_self" href="/settings/estimate">Estimates</a></li>
-          <li class="tab"><a target="_self" class="active " href="/settings/transactions">Transactions</a></li>
+          <li class="tab"><a target="_self" href="/settings"><%= t 'texts.company' %></a></li>
+          <li class="tab"><a target="_self" href="/settings/email"><%= t 'texts.emails' %></a></li>
+          <li class="tab"><a target="_self" href="/settings/estimate"><%= t 'activerecord.models.estimates' %></a></li>
+          <li class="tab"><a target="_self" class="active " href="/settings/transactions"><%= t 'activerecord.models.transactions' %></a></li>
         </ul>
         <div class="card">
           <div class="card-content">
             <div class="row mb-3">
               <div class="col s12">
                 <div class="card-title black-text">
-                  <h5>Transaction defaults</h5>
+                  <h5><%= t 'texts.settings.transaction_defaults' %></h5>
                 </div>
-                <p>Define the default values for your transactions</p>
+                <p><%= t 'texts.settings.define_default_values_your_transactions' %></p>
               </div>
             </div>
 
             <!-- Settings for order payments -->
             <div class="row mb-3">
               <div class="col s12 m6">
-                <p class="card-title  black-text">Order payments</p>
-                <span class="helper-text">Select a default value for when you receive an order payment by:</span>
+                <p class="card-title  black-text"><%= t 'texts.settings.order_payments' %></p>
+                <span class="helper-text"><%= t 'texts.settings.select_default_value_receive_order_payment' %>:</span>
               </div>
             </div>
             <div class="container">
               <div class="row">
                 <div class="col s12 m3">
-                  <p class="card-title  black-text">Cash</p>
+                  <p class="card-title  black-text"><%= t 'texts.cash' %></p>
                 </div>
                 <div class="col s12 m9">
                   <div class="row">
                     <div class="input-field col s12 m6">
-                      <%= select_tag :cash_transaction_account, options_from_collection_for_select(@accounts, 'id', 'name', Setting.get_value('cash_transaction_account')), {prompt: 'Select one'}  %>
+                      <%= select_tag :cash_transaction_account, options_from_collection_for_select(@accounts, 'id', 'name', Setting.get_value('cash_transaction_account')), {prompt: t('texts.select_one')}  %>
                       <%= label_tag  :cash_transaction_account %>
                     </div>
                     <div class="input-field col s12 m6">
-                      <%= select_tag :cash_transaction_category, options_from_collection_for_select(@categories, 'id', 'name', Setting.get_value('cash_transaction_category')), {prompt: 'Select one'}  %>
+                      <%= select_tag :cash_transaction_category, options_from_collection_for_select(@categories, 'id', 'name', Setting.get_value('cash_transaction_category')), {prompt: t('texts.select_one')}  %>
                       <%= label_tag  :cash_transaction_category %>
                     </div>
                   </div>

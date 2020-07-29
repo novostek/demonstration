@@ -58,7 +58,8 @@ en:
       discount_applied: "Discount was sucessfully applied to the estimate."
       discount_invalid: "The discount value is greater than the value of the estimate."
   alt:
-    contact_person: Contact Person
+    estimate:
+      contact_person: Contact Person
   discount: Discount
 
   # labels

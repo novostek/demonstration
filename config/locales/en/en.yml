@@ -35,6 +35,7 @@ en:
     quantity: Quantity
     upload_photos: Upload photos
     emails: Emails
+    email: Email
     growth: Growth
     pending: Pending
     profit: Profit
@@ -68,6 +69,12 @@ en:
     price: Price
     more_info: More info
     company: Company
+
+    address: Address
+    phone: Phone
+    url: Url
+    cash: Cash
+    select_one: Select one
 
   # buttons
   button:

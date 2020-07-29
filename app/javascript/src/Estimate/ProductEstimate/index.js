@@ -52,7 +52,12 @@ const ProductEstimate = ({product, peIndex, index}) => {
               </div>
             </span>
             <div className="input-field mt-0 mb-0 products-search-field-box">
-              <a href="#product-add-modal" className="btn-add-product modal-trigger tooltipped" data-tooltip="New product"><i className="material-icons">add</i></a>
+              {
+                productEstimate[index].products[peIndex].readOnly 
+                ? (<a href="#" className="btn-add-product"><i className="material-icons">not_interested</i></a>)
+                : (<a href="#product-add-modal" className="btn-add-product modal-trigger tooltipped" data-tooltip="New product"><i className="material-icons">add</i></a>)
+              }
+              
               <input
                 name={`measurement[${index}].products[${peIndex}].name`}
                 ref={register}
@@ -72,7 +77,7 @@ const ProductEstimate = ({product, peIndex, index}) => {
                 readOnly={productEstimate[index].products[peIndex].readOnly}
                 autoComplete="off" 
                 type="text" 
-                className="autocomplete autocomplete-products mt-1"
+                className={`autocomplete autocomplete-products mt-1`}
                 data-tip={productEstimate[index].products[peIndex].readOnly ? t("estimate.readonly_products") : ''}
                 style={{cursor: productEstimate[index].products[peIndex].readOnly ? 'not-allowed' : 'text'}} />
               <input

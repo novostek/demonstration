@@ -331,6 +331,7 @@ class EstimatesController < ApplicationController
     begin
       product_estimate.map do |pe|
         mp = MeasurementProposal.find_or_initialize_by(id: pe['proposal_id'])
+        mp.title = pe['title']
         mp.save()
         pe["areas"].map do |area|
           ap = AreaProposal.find_or_initialize_by(measurement_area_id: area, measurement_proposal_id: mp.id)

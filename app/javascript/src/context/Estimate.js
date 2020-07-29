@@ -2,6 +2,7 @@ import React, { createContext, useState, useEffect, useRef } from 'react'
 import { useForm } from 'react-hook-form'
 import axios from 'axios'
 import Swal from 'sweetalert2'
+import { useTranslation } from 'react-i18next'
 export const EstimateContext = createContext()
 
 export default function EstimateProvider({children}) {
@@ -19,6 +20,8 @@ export default function EstimateProvider({children}) {
     suggestions: []
   }])
 
+  const { t } = useTranslation()
+
   const [estimate, setEstimate] = useState(estimateData)
 
   const [productEstimate, setProductEstimate] = useState([
@@ -31,7 +34,7 @@ export default function EstimateProvider({children}) {
         {
           key: Math.random(),
           name: '',
-          product_id: 0,
+          product_id: '',
           qty: 0,
           price: 0,
           discount: 0,
@@ -167,6 +170,7 @@ export default function EstimateProvider({children}) {
                 })
                 if (mp.id !== indexHelper) {
                   copy[mpIndex].proposal_id = mp.id
+                  copy[mpIndex].title = mp.title
                   mp.product_estimates.map((pe, peIndex) => {
                     copy[mpIndex].toggleSelect = false
                     copy[mpIndex].products.push({
@@ -246,12 +250,14 @@ export default function EstimateProvider({children}) {
               .then(result => {
                 console.log(result)
                 copy[maProductListIndex.maIndex].products[maProductListIndex.productIndex].product_id = result.id
+                copy[maProductListIndex.maIndex].products[maProductListIndex.productIndex].title = result.title
                 copy[maProductListIndex.maIndex].products[maProductListIndex.productIndex].name = result.name
                 copy[maProductListIndex.maIndex].products[maProductListIndex.productIndex].qty = result.qty
                 copy[maProductListIndex.maIndex].products[maProductListIndex.productIndex].total = result.total
                 copy[maProductListIndex.maIndex].products[maProductListIndex.productIndex].price = result.price
                 copy[maProductListIndex.maIndex].products[maProductListIndex.productIndex].tax = result.tax
                 setValue(`measurement[${maProductListIndex.maIndex}].products[${maProductListIndex.productIndex}]`, { product_id: result.id })
+                setValue(`measurement[${maProductListIndex.maIndex}].products[${maProductListIndex.productIndex}]`, { title: result.title })
                 setValue(`measurement[${maProductListIndex.maIndex}].products[${maProductListIndex.productIndex}]`, { name: result.name })
                 setValue(`measurement[${maProductListIndex.maIndex}].products[${maProductListIndex.productIndex}]`, { qty: result.qty })
                 setValue(`measurement[${maProductListIndex.maIndex}].products[${maProductListIndex.productIndex}]`, { price: result.price })
@@ -283,13 +289,14 @@ export default function EstimateProvider({children}) {
   const addArea = () => {
     const area_product = {
       proposal_id: '',
+      title: '',
       areas: [],
       toggleSelect: false,
       products: [
         {
           key: Math.random(),
           name: '',
-          product_id: 0,
+          product_id: '',
           qty: 0,
           price: 0.0,
           discount: 0.0,
@@ -327,12 +334,12 @@ export default function EstimateProvider({children}) {
 
   const removeProduct = (maIndex, peIndex) => {
     Swal.fire({
-      title: 'Are you sure?',
-      text: "You won't be able to revert this!",
+      title: t("estimate.swal.title"),
+      text: t("estimate.swal.text"),
       icon: 'warning',
       showCancelButton: true,
-      confirmButtonText: 'Yes, remove it!',
-      cancelButtonText: 'No, cancel!',
+      confirmButtonText: t("estimate.swal.confirm"),
+      cancelButtonText: t("estimate.swal.cancel"),
       reverseButtons: true
     }).then((result) => {
       if (result.value) {
@@ -348,8 +355,8 @@ export default function EstimateProvider({children}) {
             .then(res => {})
             .catch(error => console.log(error))
         Swal.fire(
-          'Deleted',
-          'Your product has been removed from list.',
+          t("estimate.swal.delete.title"),
+          t("estimate.swal.delete.text"),
           'success'
         )
         setProductEstimate(productEstimate => {
@@ -505,6 +512,7 @@ export default function EstimateProvider({children}) {
       headers,
       body: JSON.stringify(data)
     }
+    // console.log("Data", init)
     return fetch(`/estimates/${estimate.id}/create_products_estimates`, init)
       .then(data => data.json())
   }
@@ -547,7 +555,7 @@ export default function EstimateProvider({children}) {
       await setProductEstimate(res)
 
     }).then(() => {})
-    console.log('Data', productEstimate)
+    // console.log('Data', productEstimate)
     create_product_estimate()
       .then(() => window.location = `/estimates/${estimate.id}/view`)
   }
@@ -557,6 +565,17 @@ export default function EstimateProvider({children}) {
       const copy = [...productEstimate]
 
       copy[index].products[peIndex].name = value
+      setValue(name, value)
+
+      return copy
+    })
+  }
+
+  const handleTitleChange = (index, name, value) => {
+    setProductEstimate(productEstimate => {
+      const copy = [...productEstimate]
+
+      copy[index].title = value
       setValue(name, value)
 
       return copy
@@ -598,6 +617,7 @@ export default function EstimateProvider({children}) {
         setValue, 
         reset,
         handleChange,
+        handleTitleChange,
         toggleSelectAllAreas,
         schema,
         errors

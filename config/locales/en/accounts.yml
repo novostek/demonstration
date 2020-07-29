@@ -19,7 +19,7 @@ en:
         debits: "Debits"
         credits: "Credits"
   enumerize:
-    customer:
+    account:
       category:
         company: "Company"
         person: "Person"

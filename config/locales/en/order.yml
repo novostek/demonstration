@@ -38,7 +38,7 @@ en:
 
       confirme_cancel_order: Do you really want to cancel this order?
 
-  titles:
+  texts:
     order:
       change_payment: Change payment
       send_invoice: Send Invoice
@@ -49,7 +49,6 @@ en:
       products_purchase: Products purchase
       cost: Cost
       received: Received
-
 
   empty_gallery: Empty gallery
   costs_order_title: Costs - Order

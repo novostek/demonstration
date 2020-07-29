@@ -2,8 +2,35 @@ en:
   activerecord:
     models:
       setting: "Setting"
+      settings: Settings
   notice:
     setting:
       created: "Setting was successfully created."
       updated: "Setting was sucessfully updated."
       deleted: "Setting was sucessfully deleted."
+  texts:
+    settings:
+      template_email: Template email
+      set_email_messages_that_are_sent: Set the email messages that are sent.
+
+      smtp_address: SMTP Address
+      smtp_port: SMTP Port
+      smtp_username: SMTP Username
+      smtp_password: SMTP Password
+
+      click_here: Click here to edit the content
+      drag_the_image_or_text_block: Drag the image above or the text block to insert them in the editor.
+
+      square_estimate_text: Square Estimate text
+      this_text_is_sent_via_square: This text is sent via Square.
+
+      square_mail_text: Square mail text
+
+      invoice_mail: Invoice mail
+      document_mail: Document mail
+      sign_order_mail: Sign order mail
+
+      schedule_mail: Schedule mail
+      card_mail: Card mail
+      mail_payment_registered: Mail payment registered
+      text_sent_to_customer_payment_registered: Text of the email sent to the customer when their payment was registered.

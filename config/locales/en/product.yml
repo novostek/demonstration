@@ -9,6 +9,7 @@ en:
         name: "Name"
         uuid: "UUID"
         product_category_id: "Category"
+        product_category: "Category"
         customer_price: "Customer Price"
         cost_price: "Cost Price"
         area_covered: "Area Covered"
@@ -17,6 +18,7 @@ en:
         supplier_id: "Supplier"
         calculation_formula_id: "Calculation Formula"
         photo: "Photo"
+        suggestion_ids: Suggestions
   notice:
     product:
       created: "Product was successfully created."

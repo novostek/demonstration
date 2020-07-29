@@ -7,7 +7,7 @@
         <h5 class="breadcrumbs-title mt-0 mb-0">
           <span><%= t('activerecord.models.transactions') %></span>
           <% if @filtered %>
-            <span class="chip amber white-text"><%= t('titles.filtered').upcase %></span>
+            <span class="chip amber white-text"><%= t('texts.filtered').upcase %></span>
           <% end %>
         </h5>
         <ol class="breadcrumbs mb-0">
@@ -34,10 +34,10 @@
             <table class="responsive-table transactions-table">
               <thead>
               <tr>
-                <th><%= t 'titles.source' %></th>
+                <th><%= t 'texts.source' %></th>
                 <th><%= t 'activerecord.attributes.transaction.transaction_category' %></th>
                 <th><%= t 'activerecord.models.account' %></th>
-                <th><%= t 'titles.origin' %></th>
+                <th><%= t 'texts.origin' %></th>
                 <th><%= t 'bpm.due' %></th>
                 <th><%= t 'activerecord.attributes.transaction.effective' %></th>
                 <th><%= t 'status' %></th>
@@ -138,12 +138,12 @@
       <div class="slide-out-right-body row pl-3 pr-3 ps">
         <%= search_form_for @q, url: request.env['PATH_INFO'] do |f|  %>
           <div class="input-field">
-            <%= f.select :transaction_category_id_eq, @categories,{ include_blank: t('titles.all')}, {}  %>
+            <%= f.select :transaction_category_id_eq, @categories,{ include_blank: t('texts.all')}, {}  %>
             <%= f.label  :transaction_category_id %>
           </div>
 
           <div class="input-field">
-            <%= f.select :transaction_account_id_eq, @accounts, {include_blank: t('titles.all')}, {}  %>
+            <%= f.select :transaction_account_id_eq, @accounts, {include_blank: t('texts.all')}, {}  %>
             <%= f.label  :transaction_account_id %>
           </div>
 
@@ -161,12 +161,12 @@
 
           <div class="input-field col s6">
             <%= f.date_field :due_gteq %>
-            <%= f.label  :due, "#{t'titles.due'} >" %>
+            <%= f.label  :due, "#{t'texts.due'} >" %>
           </div>
 
           <div class="input-field col s6">
             <%= f.date_field :due_lteq %>
-            <%= f.label  :due_lteq , "#{t'titles.due'} <"%>
+            <%= f.label  :due_lteq , "#{t'texts.due'} <"%>
           </div>
 
           <div class="input-field col s6">

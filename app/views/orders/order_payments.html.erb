@@ -26,7 +26,7 @@
           <% end %>
         </li>
         <li class="step active">
-          <div class="step-title waves-effect"><%= t 'titles.payment' %></div>
+          <div class="step-title waves-effect"><%= t 'texts.payment' %></div>
         </li>
         <li class="step">
           <%= link_to product_purchase_order_path(@order) do %>
@@ -47,11 +47,11 @@
             <div id="soma" class="right">
               <ul>
                 <li class="justify-content-between">
-                  <span class="invoice-subtotal-title"><%= t 'titles.order.payments_added' %></span>
+                  <span class="invoice-subtotal-title"><%= t 'texts.order.payments_added' %></span>
                   <h6 class="invoice-subtotal-value" id="value_total"></h6>
                 </li>
                 <li class="justify-content-between">
-                  <span class="invoice-subtotal-title"><%= t 'titles.order.payments_pendent' %></span>
+                  <span class="invoice-subtotal-title"><%= t 'texts.order.payments_pendent' %></span>
                   <h6 class="invoice-subtotal-value"><%= number_to_currency(@order.current_estimate.total - @order.transactions.sum(:value)) %></h6>
                 </li>
               </ul>

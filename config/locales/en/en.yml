@@ -26,7 +26,7 @@ en:
     search: "Search ..."
 
   # texts/labels/titles generics
-  titles:
+  texts:
     send_email: Send email
     send_document: Send Document
     total: Total
@@ -65,7 +65,9 @@ en:
     value: Value
 
     all: All
-
+    price: Price
+    more_info: More info
+    company: Company
 
   # buttons
   button:
@@ -119,13 +121,9 @@ en:
     view_invoice: View Invoice
     change_order: Change Order
 
-    # customer
     measure: Measure
     clone: Clone
-
     filter: Filter
-
-    # schedule
     get_directions: Get Directions
 
   #

@@ -4,13 +4,13 @@
     <div class="card row gradient-45deg-blue-grey-blue-grey gradient-shadow white-text padding-4">
       <div class="col s5 m5 l3">
         <i class="material-icons background-round mt-5 mb-5">format_list_numbered</i>
-        <p class="no-margin"><%= t 'titles.unbilled' %></p>
+        <p class="no-margin"><%= t 'texts.unbilled' %></p>
       </div>
       <div class="col s7 m7 l9 right-align">
         <h5 class="mb-0 white-text">
           <%= @total_balance.present? ? number_to_currency(@total_balance[:value], :unit => '$') : '$0'%>
         </h5>
-        <p class="no-margin"><%= t 'titles.last_30_days' %></p>
+        <p class="no-margin"><%= t 'texts.last_30_days' %></p>
       </div>
     </div>
   </div>
@@ -19,13 +19,13 @@
     <div class="card row gradient-45deg-deep-orange-orange gradient-shadow white-text padding-4">
       <div class="col s5 m5 l3">
         <i class="material-icons background-round mt-5 mb-5">alarm_off</i>
-        <p class="no-margin"><%= t 'titles.overdue' %></p>
+        <p class="no-margin"><%= t 'texts.overdue' %></p>
       </div>
       <div class="col s7 m7 l9 right-align">
         <h5 class="mb-0 white-text">
           <%= number_to_currency(@overdue, :unit => '$') %>
         </h5>
-        <p class="no-margin"><%= t 'titles.last_30_days' %></p>
+        <p class="no-margin"><%= t 'texts.last_30_days' %></p>
       </div>
     </div>
   </div>
@@ -34,13 +34,13 @@
     <div class="card row gradient-45deg-indigo-light-blue darken-3 gradient-shadow white-text padding-4">
       <div class="col s5 m5 l3">
         <i class="material-icons background-round mt-5 mb-5">receipt</i>
-        <p class="no-margin" style="text-indent: 8px;"><%= t 'titles.open' %></p>
+        <p class="no-margin" style="text-indent: 8px;"><%= t 'texts.open' %></p>
       </div>
       <div class="col s7 m7 l9 right-align">
         <h5 class="mb-0 white-text">
           <%= number_to_currency(@open, :unit => '$') %>
         </h5>
-        <p class="no-margin"><%= t 'titles.last_30_days' %></p>
+        <p class="no-margin"><%= t 'texts.last_30_days' %></p>
       </div>
     </div>
   </div>
@@ -49,13 +49,13 @@
     <div class="card row gradient-45deg-green-teal gradient-shadow white-text padding-4">
       <div class="col s5 m5 l3">
         <i class="material-icons background-round mt-5 mb-5">attach_money</i>
-        <p class="no-margin" style="text-indent: 11px;"><%= t 'titles.paid' %></p>
+        <p class="no-margin" style="text-indent: 11px;"><%= t 'texts.paid' %></p>
       </div>
       <div class="col s7 m7 l9 right-align">
         <h5 class="mb-0 white-text">
           <%= number_to_currency(@paid, :unit => '$') %>
         </h5>
-        <p class="no-margin"><%= t 'titles.last_30_days' %></p>
+        <p class="no-margin"><%= t 'texts.last_30_days' %></p>
       </div>
     </div>
   </div>

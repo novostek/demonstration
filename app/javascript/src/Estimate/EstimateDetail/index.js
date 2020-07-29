@@ -74,7 +74,7 @@ const EstimateDetail = () => {
                       &&
                       <div>
                         <select name="tax_calculation" required ref={register} onChange={handleSubmit(onChangeTax)}>
-                          <option value="">{t("estimate.detail.select.select_option")}</option>
+                          <option value="">{t("estimate.detail.tax_select")}</option>
                           {
                             taxes.map(tax => (
                               <option key={tax.id} value={tax.id}>{tax.name}</option>

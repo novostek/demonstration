@@ -20,6 +20,7 @@
         "tax_single": "Tax",
         "order_total": "Order Total"
       },
+      "tax_select": "Select an option",
       "select": {
         "select_option": "Select an option",
         "customer_pay": "Customer will pay",

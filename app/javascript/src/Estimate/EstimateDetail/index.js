@@ -4,7 +4,7 @@ import { useForm } from "react-hook-form";
 import axios from 'axios';
 import * as yup from "yup";
 import { EstimateContext } from '../../context/Estimate';
-import { useTranslation } from 'react-i18next';
+import { useTranslation, Trans } from 'react-i18next';
 
 const schema = yup.object().shape({
   tax_calculation: yup.string().required(),
@@ -85,17 +85,16 @@ const EstimateDetail = () => {
                       </div>
                     }
                   </div>
-
                   <div className="input-field col s12 m3 l3">
                     <select name="taxpayer" required onChange={handleSubmit(onChangeTaxPayer)} ref={register}>
-                      <option value="">{t("estimate.detail.select.select_option")}</option>
-                      <option value="customer">{t("estimate.detail.select.customer_pay")}</option>
-                      <option value="company">{t("estimate.detail.select.we_pay")}</option>
+                      <option value="">Select an option</option>
+                      <option value="customer">Customer will pay</option>
+                      <option value="company">We will pay</option>
                     </select>
-                    <label>{t("estimate.detail.labels.taxpayer")}</label>
+                    <label>Taxpayer</label>
                       {/* <%= f.select :taxpayer, Estimate.taxpayer.options, {prompt: true}, :selected => @estimate.taxpayer, required: true  %>
                       <%= f.label  :taxpayer %> */}
-                  </div>  
+                  </div>
                 </div>    
               </form>
             </div>

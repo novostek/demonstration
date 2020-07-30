@@ -1,6 +1,7 @@
 import React, { useContext } from 'react'
 import { EstimateContext } from '../../context/Estimate'
 import { useTranslation } from 'react-i18next'
+import ReactTooltip from "react-tooltip";
 
 const ProductEstimate = ({product, peIndex, index}) => {
   const {
@@ -22,6 +23,7 @@ const ProductEstimate = ({product, peIndex, index}) => {
 
   return (
     <div className="product">
+      <ReactTooltip />
       <div className="row pl-1 pr-1 products-search">
         <div className="row">
           <div className="col s12">
@@ -50,7 +52,12 @@ const ProductEstimate = ({product, peIndex, index}) => {
               </div>
             </span>
             <div className="input-field mt-0 mb-0 products-search-field-box">
-              <a href="#product-add-modal" className="btn-add-product modal-trigger tooltipped" data-tooltip="New product"><i className="material-icons">add</i></a>
+              {
+                productEstimate[index].products[peIndex].readOnly 
+                ? (<a href="#" className="btn-add-product"><i className="material-icons">not_interested</i></a>)
+                : (<a href="#product-add-modal" className="btn-add-product modal-trigger tooltipped" data-tooltip="New product"><i className="material-icons">add</i></a>)
+              }
+              
               <input
                 name={`measurement[${index}].products[${peIndex}].name`}
                 ref={register}
@@ -68,13 +75,17 @@ const ProductEstimate = ({product, peIndex, index}) => {
                 onChange={(e) => handleChange(index, peIndex, e.target.name, e.target.value)}
                 defaultValue={productEstimate[index].products[peIndex].name}
                 readOnly={productEstimate[index].products[peIndex].readOnly}
-                autoComplete="off" type="text" className="autocomplete autocomplete-products mt-1" />
+                autoComplete="off" 
+                type="text" 
+                className={`autocomplete autocomplete-products mt-1`}
+                data-tip={productEstimate[index].products[peIndex].readOnly ? t("estimate.readonly_products") : ''}
+                style={{cursor: productEstimate[index].products[peIndex].readOnly ? 'not-allowed' : 'text'}} />
               <input
                 defaultValue={productEstimate[index].products[peIndex].product_id}
                 name={`measurement[${index}].products[${peIndex}].product_id`}
                 ref={register}
                 autoComplete="off"
-                type="hidden" />
+                type="hidden"/>
             </div>
           </div>
           <div className="calc-fields">
@@ -85,9 +96,11 @@ const ProductEstimate = ({product, peIndex, index}) => {
                 name={`measurement[${index}].products[${peIndex}].qty`}
                 min="0"
                 step="0.01"
+                readOnly={productEstimate[index].products[peIndex].readOnly}
                 defaultValue={productEstimate[index].products[peIndex].qty}
                 onChange={(e) => productTotalQty(index, peIndex, e.target.value)}
-                ref={register(schema.requiredDecimal)} className="product-value qty" />
+                ref={register(schema.requiredDecimal)} className="product-value qty" 
+                style={{cursor: productEstimate[index].products[peIndex].readOnly ? 'not-allowed' : 'text'}}/>
               {errors.qty && <span>{errors.qty.message}</span>}
             </div>
             <div className="calc-field">
@@ -98,9 +111,11 @@ const ProductEstimate = ({product, peIndex, index}) => {
                 step="0.01"
                 name={`measurement[${index}].products[${peIndex}].price`}
                 ref={register(schema.requiredDecimal)}
+                readOnly={productEstimate[index].products[peIndex].readOnly}
                 defaultValue={productEstimate[index].products[peIndex].price}
                 onChange={(e) => productTotalPrice(index, peIndex, e.target.value)}
-                className="product-value price" />
+                className="product-value price" 
+                style={{cursor: productEstimate[index].products[peIndex].readOnly ? 'not-allowed' : 'text'}}/>
               {errors.price && <span>{errors.price.message}</span>}
             </div>
             <div className="calc-field">
@@ -110,9 +125,11 @@ const ProductEstimate = ({product, peIndex, index}) => {
                 step="0.01"
                 name={`measurement[${index}].products[${peIndex}].discount`}
                 defaultValue={productEstimate[index].products[peIndex].discount}
+                readOnly={productEstimate[index].products[peIndex].readOnly}
                 onChange={(e) => productTotalDiscount(index, peIndex, e.target.value)}
                 ref={register(schema.requiredDecimal)}
-                className="product-value discount" />
+                className="product-value discount" 
+                style={{cursor: productEstimate[index].products[peIndex].readOnly ? 'not-allowed' : 'text'}}/>
               {errors.discount && <span>{errors.discount.message}</span>}
             </div>
             <div className="calc-field">
@@ -122,9 +139,11 @@ const ProductEstimate = ({product, peIndex, index}) => {
                 min="0"
                 step="0.01"
                 name={`measurement[${index}].products[${peIndex}].total`}
+                readOnly={productEstimate[index].products[peIndex].readOnly}
                 defaultValue={parseFloat(productEstimate[index].products[peIndex].total).toFixed(2)}
                 ref={register(schema.requiredDecimal)}
-                className="product-value total" />
+                className="product-value total" 
+                style={{cursor: productEstimate[index].products[peIndex].readOnly ? 'not-allowed' : 'text'}}/>
               
               <a onClick={() => removeProduct(index, peIndex)} style={{ cursor: 'pointer' }} className="btn-remove-product" ><i className="material-icons">delete</i></a>
                   {errors.total && <span>{errors.total.message}</span>}

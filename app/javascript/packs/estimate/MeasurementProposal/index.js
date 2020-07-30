@@ -81,7 +81,7 @@ const MeasurementProposal = () => {
                         {errors.qty && <span>{errors.qty.message}</span>}
                       </div>
                       <div className="col s6 m2 calc-fields">
-                        <span className="left width-100 pt-1">Prince un.</span>
+                        <span className="left width-100 pt-1">Price un.</span>
                         <input
                           type="text"
                           name={`measurement[${index}].products[${peIndex}].price`}
@@ -221,7 +221,7 @@ const MeasurementProposal = () => {
                                       {errors.qty && <span>{errors.qty.message}</span>}
                                     </div>
                                     <div className="col s6 m2 calc-fields">
-                                      <span className="left width-100 pt-1">Prince un.</span>
+                                      <span className="left width-100 pt-1">Price un.</span>
                                       <input
                                         type="text"
                                         name={`measurement[${index}].products[${peIndex}].price`}

@@ -118,50 +118,21 @@
                           <%= f.hidden_field :redirect, value: costs_order_path(@order) %>
                           <div class="modal-content">
                             <div class="row">
-                            <h4><%= t "button.edit" %> <%= "#{t 'activerecord.models.product_purchase'} - #{p.product || p.custom_title}" %></h4>
+                              <h4><%= t "button.edit" %> <%= "#{t 'activerecord.models.product_purchase'} - #{p.product || p.custom_title}" %></h4>
                             </div>
                             <div class="row">
-                              <div class="input-field">
+                              <div class="input-field col s12 m4">
                                 <%= f.label :quantity %>
-                                <%= f.number_field :quantity, min: 0, step: :any %>
+                                <%= f.number_field :quantity, min: 0, step: :any, id: "qdd_#{p.id}", onkeyup:"calcula_total_edit('#{p.id}')" %>
                               </div>
-                              <div class="input-field">
+                              <div class="input-field col s12 m4">
                                 <%= f.label :unity_value %>
-                                <%= f.number_field :unity_value, min: 0, step: :any %>
+                                <%= f.number_field :unity_value, min: 0, step: :any, id: "unity_#{p.id}", onkeyup:"calcula_total_edit('#{p.id}')" %>
                               </div>
-                              <div class="input-field">
+                              <div class="input-field col s12 m4">
                                 <%= f.label :value %>
-                                <%= f.number_field :value, min: 0, step: :any %>
-                              </div>
-                              <div class="input">
-                                <p>
-                                  <label>
-                                    <%= f.radio_button :status, "requested" , :checked => p.requested? %>
-                                    <span><%= t 'product_purchase_status.requested' %></span>
-                                  </label>
-                                </p>
-                                <p>
-                                  <label>
-                                    <%= f.radio_button :status, "buyed", :checked => p.buyed? %>
-                                    <span><%= t 'product_purchase_status.buyed' %></span>
-                                  </label>
-                                </p>
-                                <p>
-                                  <label>
-                                    <%= f.radio_button :status, "delivered" , :checked => p.delivered? %>
-                                    <span><%= t 'product_purchase_status.delivered' %></span>
-                                  </label>
-                                </p>
-                                <p>
-                                  <label>
-                                    <%= f.radio_button :status, "returned", :checked => p.returned? %>
-                                    <span><%= t 'product_purchase_status.returned' %></span>
-                                  </label>
-                                </p>
+                                <%= f.number_field :value, min: 0, step: :any, id: "value_#{p.id}" %>
 
-
-                                <%#= f.label :status %>
-                                <%#= f.select :status, options_for_select(LaborCost.status.options, labor.status),{},{} %>
                               </div>
                             </div>
 
@@ -193,7 +164,7 @@
                         <%= form_with url: new_document_product_purchase_path(p), local: true do |f| %>
                           <div class="modal-content">
                             <div class="row">
-                            <h4><%= t "button.new" %> <%= t "documents" %></h4>
+                              <h4><%= t "button.new" %> <%= t "documents" %></h4>
                             </div>
                             <%= render "customers/document_file_fields", f: f %>
 
@@ -251,7 +222,7 @@
                               <% if p.document_files.blank? %>
                                 <p class="document"><%= t 'no_document_registred' %></p>
                               <% end %>
-                          </div>
+                            </div>
                         </aside>
                       <% end %>
                     <% end %>
@@ -317,6 +288,7 @@
                         <%= f.hidden_field :redirect, value: costs_order_path(@order) %>
                         <div class="modal-content">
                           <div class="row">
+
                           <h4><%= t "button.edit" %> <%= "#{ t 'activerecord.models.product_purchase'} - #{tax.product || tax.custom_title}" %></h4>
                           </div>
                           <div class="row">
@@ -392,7 +364,7 @@
                       <%= form_with url: new_document_product_purchase_path(tax), local: true do |f| %>
                         <div class="modal-content">
                           <div class="row">
-                          <h4><%= t "button.new" %> <%= t "documents" %></h4>
+                            <h4><%= t "button.new" %> <%= t "documents" %></h4>
                           </div>
                           <%= render "customers/document_file_fields", f: f %>
 
@@ -456,58 +428,44 @@
                 <%= f.hidden_field :redirect, value: costs_order_path(@order) %>
                 <div class="modal-content">
                   <div class="row">
-                  <h4><%= t "button.new" %> <%= t "activerecord.models.product_purchase" %></h4>
+                    <h4><%= t "button.new" %> <%= t "activerecord.models.product_purchase" %></h4>
                   </div>
                   <div class="row">
-                    <div class="input-field">
-                      <%= f.select :product, @products, {prompt: true},{id:"product_select"} %>
-                      <%= f.label :product %>
+                    <p>
+                    <div class="switch">
+                      <label>
+                        From Portfolio
+                        <input type="checkbox" id="customized_check">
+                        <span class="lever"></span>
+                        Customized
+                      </label>
                     </div>
-                    <div class="input-field" id="div_custom_product">
-                      <%= f.label :custom_product %>
-                      <%= f.text_field :custom_product, required: true %>
+                    </p>
+                    <div class="" id="div_portfolio_product">
+                      <%= f.select :product, @products, {prompt: true},{id:"product_select", class: "select2-product browser-default", required: true} %>
                     </div>
-                    <div class="input-field">
-                      <%= f.label :quantity %>
-                      <%= f.number_field :quantity, min: 0, step: :any, id:"quantidade", onblur:"calcula_total()", required: true %>
+                    <div class="input-field hide" id="div_custom_product">
+                      <%= f.label :custom_product, "Product Name" %>
+                      <%= f.text_field :custom_product, required: false %>
                     </div>
-                    <div class="input-field" id="div_unity_value">
-                      <%= f.label :unity_value %>
-                      <%= f.number_field :unity_value, min: 0, step: :any, id:"valor_unitario",onblur:"calcula_total()", required: true %>
+                    <div class="col s12 m4">
+                      <div>
+                        <%= f.label :quantity %>
+                        <%= f.number_field :quantity, min: 0, step: :any, id:"quantidade", onkeyup:"calcula_total()", required: true %>
+                      </div>
                     </div>
-                    <div class="input-field" id="div_value">
-                      <%= f.label :value %>
-                      <%= f.number_field :value, min: 0, step: :any, id:"valor", required: true %>
+                    <div class="col s12 m4">
+                      <div class="" id="div_unity_value">
+                        <%= f.label :unity_value %>
+                        <%= f.number_field :unity_value, min: 0, step: :any, id:"valor_unitario",onkeyup:"calcula_total()", required: true %>
+                      </div>
                     </div>
-                    <div class="input">
-                      <p>
-                        <label>
-                          <%= f.radio_button :status, "requested"  %>
-                          <span><%= t 'product_purchase_status.requested' %></span>
-                        </label>
-                      </p>
-                      <p>
-                        <label>
-                          <%= f.radio_button :status, "buyed" %>
-                          <span><%= t 'product_purchase_status.buyed' %></span>
-                        </label>
-                      </p>
-                      <p>
-                        <label>
-                          <%= f.radio_button :status, "delivered" %>
-                          <span><%= t 'product_purchase_status.delivered' %></span>
-                        </label>
-                      </p>
-                      <p>
-                        <label>
-                          <%= f.radio_button :status, "returned" %>
-                          <span><%= t 'product_purchase_status.returned' %></span>
-                        </label>
-                      </p>
 
-
-                      <%#= f.label :status %>
-                      <%#= f.select :status, options_for_select(LaborCost.status.options, labor.status),{},{} %>
+                    <div class="col s12 m4">
+                      <div class="" id="div_value">
+                        <%= f.label :value %>
+                        <%= f.number_field :value, min: 0, step: :any, id:"valor", required: true %>
+                      </div>
                     </div>
                   </div>
 
@@ -587,6 +545,7 @@
                         <%= f.hidden_field :redirect, value: costs_order_path(@order) %>
                         <div class="modal-content">
                           <div class="row">
+
                           <h4><%= t "button.edit" %> <%= "#{t 'activerecord.models.labor_cost'} - #{labor.worker}" %></h4>
                           </div>
                           <div class="row">
@@ -646,7 +605,7 @@
                       <%= form_with url: new_document_labor_cost_path(labor), local: true do |f| %>
                         <div class="modal-content">
                           <div class="row">
-                          <h4><%= t "button.new" %> <%= t "documents" %></h4>
+                            <h4><%= t "button.new" %> <%= t "documents" %></h4>
                           </div>
                           <%= render "customers/document_file_fields", f: f %>
 
@@ -714,7 +673,7 @@
                 <%= f.hidden_field :redirect, value: costs_order_path(@order) %>
                 <div class="modal-content">
                   <div class="row">
-                  <h4><%= t 'button.new' %> <%= t('activerecord.models.labor_cost') %></h4>
+                    <h4><%= t 'button.new' %> <%= t('activerecord.models.labor_cost') %></h4>
                   </div>
                   <div class="row">
                     <div class="input-field">
@@ -786,13 +745,14 @@
       $("#product_select").on("change", () => {
           if($("#product_select").val())
           {
-              $("#div_custom_product").addClass("hide");
-              $("#div_unity_value").addClass("hide");
-              $("#div_value").addClass("hide");
+              $.get( "/products/" + $("#product_select").val() + ".json", function( data ) {
+                  var data = data;
+                  $("#valor_unitario").val(data.cost_price);
+                  console.log('data', data.cost_price);
 
+              });
+              $("#div_custom_product").addClass("hide");
               $("#custom_product").removeAttr("required");
-              $("#valor_unitario").removeAttr("required");
-              $("#valor").removeAttr("required");
           }else {
               $("#div_custom_product").removeClass("hide");
               $("#div_unity_value").removeClass("hide");
@@ -809,6 +769,12 @@
       {
           total = $("#quantidade").val() * $("#valor_unitario").val();
           $("#valor").val(total);
+      }
+
+      function calcula_total_edit(id)
+      {
+          total = $("#qdd_"+ id ).val() * $("#unity_" + id).val();
+          $("#value_" + id).val(total);
       }
 
       function materialselect(){
@@ -830,7 +796,7 @@
           });
       }
 
-      $("#product_purchase_quantity").on('change', (e) => {
+      $("#product_purchase_quantity").on('keyup', (e) => {
           const qty = e.target.value
           const unitary_value = $("#product_purchase_unity_value").val()
 
@@ -839,7 +805,7 @@
           $("#product_purchase_value").val(parseFloat(value).toFixed(2))
       })
 
-      $("#product_purchase_unity_value").on('change', (e) => {
+      $("#product_purchase_unity_value").on('keyup', (e) => {
           const unitary_value = e.target.value
           const qty = $("#product_purchase_quantity").val()
 
@@ -863,6 +829,20 @@
           // });
           $('.modal').modal({
               opacity: .8
+          });
+          $('.select2-product').select2({ dropdownParent: "#modal_new_product" });
+          $('#customized_check').change(function() {
+              if(this.checked) {
+                  $("#div_custom_product").removeClass("hide");
+                  $('#custom_product').attr('required');
+                  $("#div_portfolio_product").addClass("hide");
+                  $("#product_select").removeAttr("required");
+              } else{
+                  $("#div_custom_product").addClass("hide");
+                  $("#custom_product").removeAttr("required");
+                  $("#div_portfolio_product").removeClass("hide");
+                  $('#product_select').attr('required');
+              }
           });
       });
 

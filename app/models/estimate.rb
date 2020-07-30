@@ -233,6 +233,6 @@ class Estimate < ApplicationRecord
   end
 
   def self.get_new_estimates_count
-    where("created_at > now() - interval '30 day' AND status = 'new'").count
+    where("created_at > now() - interval '30 day'").count
   end
 end

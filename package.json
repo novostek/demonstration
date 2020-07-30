@@ -26,6 +26,7 @@
     "react-dom": "^16.13.0",
     "react-hook-form": "^4.10.1",
     "react-i18next": "^11.7.0",
+    "react-tooltip": "^4.2.7",
     "sweetalert2": "^9.10.0",
     "turbolinks": "^5.2.0",
     "yup": "^0.28.1"

@@ -33,6 +33,7 @@ class FinancesController < ApplicationController
     @labor_costs = Transaction.get_labor_costs
 
     @new_orders = Order.get_new_orders_count
+    @lasted_orders = Order.get_new_orders_count
     @new_leads = Lead.get_new_leads_count
     @new_estimates = Estimate.get_new_estimates_count
     @finished_orders = Order.get_finished_orders_count
@@ -48,7 +49,7 @@ class FinancesController < ApplicationController
     end
 
     begin
-      @conversion_rate = ((@new_orders) / @new_leads * 100).round(2)
+      @conversion_rate = ((@lasted_orders) / @new_leads * 100).round(2)
     rescue
       @conversion_rate = 0
     end

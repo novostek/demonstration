@@ -6,7 +6,7 @@ class LeadsController < ApplicationController
   def index
     @q = Lead.all.order(created_at: :desc).ransack(params[:q])
     @leads = @q.result.page(params[:page])
-      #add_breadcrumb I18n.t('activerecord.models.leads'), leads_path
+    #add_breadcrumb I18n.t('activerecord.models.leads'), leads_path
   end
 
   # GET /leads/1
@@ -29,14 +29,19 @@ class LeadsController < ApplicationController
     @edit = true
     # @lead.date = @lead.date.strftime("%m/%d/%Y %H:%M")
     @customer = Customer.new
-      #add_breadcrumb I18n.t('breadcrumbs.edit'), edit_lead_path(@lead)
+    #add_breadcrumb I18n.t('breadcrumbs.edit'), edit_lead_path(@lead)
   end
 
   # POST /leads
   def create
     @lead = Lead.new(lead_params)
     if @lead.customer.blank?
-      @lead.customer = Customer.search_by_phone(params[:phone]).first
+      begin
+        contact = Contact.where("data->>'phone' = ?", params[:lead][:phone]).where(origin: "Customer").first
+        customer = Customer.find(contact.origin_id)
+        @lead.customer = customer
+      rescue
+      end
     end
     if @lead.save
       if params[:button] == "save_n_estimate"
@@ -69,13 +74,13 @@ class LeadsController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_lead
-      @lead = Lead.find(params[:id])
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_lead
+    @lead = Lead.find(params[:id])
+  end
 
-    # Only allow a trusted parameter "white list" through.
-    def lead_params
-      params.require(:lead).permit(:customer_id, :via, :description, :status, :date, :phone, :email, :code)
-    end
+  # Only allow a trusted parameter "white list" through.
+  def lead_params
+    params.require(:lead).permit(:customer_id, :via, :description, :status, :date, :phone, :email, :code)
+  end
 end

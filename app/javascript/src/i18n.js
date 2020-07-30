@@ -7,7 +7,7 @@ i18n.use(Backend).use(LanguageDetector).use(initReactI18next).init({
   fallbackLng: 'en',
   debug: false,
   detection: {
-    order: ['querystring', 'cookie', 'localStorage', 'sessionStorage', 'navigator', 'htmlTag', 'path', 'subdomain'],
+    order: ['querystring', 'cookie', 'localStorage', 'path'],
     cache: ['cookie'],
     lookupQuerystring: 'locale'
   },
@@ -15,7 +15,8 @@ i18n.use(Backend).use(LanguageDetector).use(initReactI18next).init({
     escapeValue: false
   },
   react: {
-    useSuspense: false
+    useSuspense: false,
+    wait: true
   }
 });
 

@@ -24,7 +24,7 @@
           </div>
           <div class="col s12 m6">
             <p>
-              <b><%= t('bpm.follou_up') %>:</b> <br>
+              <b><%= t('bpm.follow_up') %>:</b> <br>
               <%= camunda_time(task[:followUp]) %>
             </p>
           </div>
@@ -42,5 +42,5 @@
 <% end %>
 
 <% if tasks.blank? %>
-  <h4 class="center">No Results</h4>
+  <h4 class="center"><%= t 'texts.no_results' %></h4>
 <% end %>

@@ -1,5 +1,7 @@
 # Here are generic things
 en:
+  woffice: Woffice
+  wood_office: Wood Office
   faker:
     name:
       category:
@@ -54,6 +56,7 @@ en:
     receivable: Receivable
     overdue: Overdue
     active: Active
+    inactive: Inactive
     hour_cost: Hour Cost
     avatar: Avatar
     unbilled: Unbilled
@@ -76,6 +79,11 @@ en:
     cash: Cash
     select_one: Select one
     check: Check
+    check_all: Check all
+    uncheck_all: Uncheck all
+    default: Default
+
+    no_results: No resultes
 
   # buttons
   button:

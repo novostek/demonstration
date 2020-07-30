@@ -4,12 +4,15 @@ en:
       profile: "Profile"
       profiles: "Profiles"
     attributes:
-      menu:
+      profile:
         name: "Name"
         url: "Url"
         active: "Active"
         icon: "Icon"
         position: "Position"
+        description: Description
+        status: Status
+        permissions: Permissions
   menu_pai: "Father Menu"
   profiles: "Profiles"
   notice:

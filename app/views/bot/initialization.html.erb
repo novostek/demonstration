@@ -1,5 +1,5 @@
 	<a href="#" class="logo">
-			<img src="woffice.svg" alt="Woffice">
+			<img src="woffice.svg" alt="<%= t 'woffice' %>">
 		</a>
 		<div class="wrapper">
 			<main class="content">
@@ -8,22 +8,22 @@
 					<div class="form-outer">
 						<form id="form-wo" cf-form>
 
-							<cf-robot-message cf-questions="Hi!||Hello there!"></cf-robot-message>
-							<cf-robot-message cf-questions="Before we jump into action"></cf-robot-message>
-							<cf-robot-message cf-questions="I'd like to ask a few questions."></cf-robot-message>
-							<fieldset cf-questions="Do you upload your logo now?">
+							<cf-robot-message cf-questions="<%= t 'texts.bot.hi' %>"></cf-robot-message>
+							<cf-robot-message cf-questions="<%= t 'texts.bot.before_we_jump_into_action' %>"></cf-robot-message>
+							<cf-robot-message cf-questions="<%= t 'texts.bot.i_like_to_ask_a_few_questions' %>"></cf-robot-message>
+							<fieldset cf-questions="<%= t 'texts.bot.upload_your_logo_now' %>">
 								<input type="radio" name="up-logo" id="uplogo-yes" value="yes">
-								<label for="uplogo-yes">Yes</label>
+								<label for="uplogo-yes"><%= t 'texts.bot.yes' %></label>
 
 								<input type="radio" name="up-logo" id="uplogo-no" value="no">
-								<label for="uplogo-no">Not now</label>
+								<label for="uplogo-no"><%= t 'texts.bot.not_now' %></label>
 							</fieldset>
 
 							<input type="file" name="company_logo" id="company_logo" cf-conditional-up-logo="yes"
-								cf-questions="Send your logo" accept="image/jpeg, image/png" required />
+								cf-questions="<%= t 'texts.bot.send_your_logo' %>" accept="image/jpeg, image/png" required />
 
 							<input type="text" name="company_name" id="company_name" minlength="1"
-								cf-questions="What's the company short name?" />
+								cf-questions="<%= t 'texts.bot.what_company_short_name' %>" />
 
 							<input type="text" name="company_fullname" id="company_fullname" minlength="1"
 								cf-questions="What's {company_name} full name?" />

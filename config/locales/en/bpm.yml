@@ -30,3 +30,14 @@ en:
     set_followup: "Set Follow Up"
     complete_alert_blank: "Clicking save will complete the task"
     process: "Process"
+    task_duration: Task duration
+    comments: Comments
+    read: Read
+    unread: Unread
+    starred: Starred
+    unstarred: Unstarred
+
+  notice:
+    bpm:
+      could_not_import_BPMN_2_0_diagram: could not import BPMN 2.0 diagram
+      to_do: to do!

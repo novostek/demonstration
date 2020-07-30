@@ -26,5 +26,10 @@ en:
       created: "Document was successfully created."
       updated: "Document was sucessfully updated."
       deleted: "Document was sucessfully deleted."
+      custom_fild_add_success: Custom Fild add success!
 
   no_document_registred: No Documents Registered!
+
+  texts:
+    document:
+      estimate_or_order: Estimate/Order

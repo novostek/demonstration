@@ -1,0 +1,11 @@
+en:
+  texts:
+    bot:
+      hi: Hi!||Hello there!
+      before_we_jump_into_action: Before we jump into action
+      i_like_to_ask_a_few_questions: I'd like to ask a few questions.
+      upload_your_logo_now: Do you upload your logo now?
+      yes: Yes
+      not_now: Not now
+      send_your_logo: Send your logo
+      what_company_short_name: What's the company short name?

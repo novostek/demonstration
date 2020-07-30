@@ -34,3 +34,12 @@ en:
       deleted: "Account was sucessfully deleted."
     entry:
       created: "Entry was successfully created."
+
+  texts:
+    account:
+      assets: Assets
+      liabilities: Liabilities
+      equity: Equity
+      plutus_account: Plutus account
+
+

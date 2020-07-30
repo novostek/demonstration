@@ -63,3 +63,25 @@ en:
       not_saved:
         one: "1 error prohibited this %{resource} from being saved:"
         other: "%{count} errors prohibited this %{resource} from being saved:"
+
+  texts:
+    devise:
+      resend_confirmation_instructions: Resend confirmation instructions
+      welcome: Welcome
+      confirm_account_email_through_the_link_below: You can confirm your account email through the link below
+      confirm_my_account: Confirm my account
+      hello: Hello
+      your_email_is_being_changed_to: We're contacting you to notify you that your email is being changed to
+      your_email_has_been_changed_to: We're contacting you to notify you that your email has been changed to
+      your_password_has_been_changed: We're contacting you to notify you that your password has been changed.
+      link_to_change_your_password: Someone has requested a link to change your password. You can do this through the link below.
+      change_my_password: Change my password
+      didn_it_request_ignore_this_email: If you didn't request this, please ignore this email.
+      password_won_it_change_until_you_access_link: Your password won't change until you access the link above and create a new one.
+      your_account_has_been_locked: Your account has been locked due to an excessive number of unsuccessful sign in attempts.
+      unlock_your_account: Click the link below to unlock your account
+      unlock_my_account: Unlock my account
+      change_your_password: Change your password
+      new_password: New password
+      confirm_new_password: Confirm new password
+      characters_minimum: characters minimum

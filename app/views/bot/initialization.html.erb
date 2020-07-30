@@ -26,34 +26,34 @@
 								cf-questions="<%= t 'texts.bot.what_company_short_name' %>" />
 
 							<input type="text" name="company_fullname" id="company_fullname" minlength="1"
-								cf-questions="What's {company_name} full name?" />
+								cf-questions="<%= t 'texts.bot.what_company_full_name' %>" />
 
 							<input type="text" name="company_address" id="company_address"
-								cf-questions="Ok, where's {company_name} located?" required />
+								cf-questions="<%= t 'texts.bot.where_company_located' %>" required />
 							<input id="phone" type="phone" name="company_phone" id="company_phone"
-								cf-questions="Nice, what's {company_name} phone number?" required />
-							<input type="email" name="company_email" id="company_email" cf-questions="What's the email?"
-								cf-error="Email is not right" required />
+								cf-questions="<%= t 'texts.bot.nice_what_company_phone_number' %>" required />
+							<input type="email" name="company_email" id="company_email" cf-questions="<%= t 'texts.bot.whats_the_email' %>"
+								cf-error="<%= t 'texts.bot.email_is_not_right' %>" required />
 
 							<input type="number" name="company_tax" id="company_tax"
-								cf-questions="What percentage (%) {company_name} pays in taxes?" required />
-							<fieldset cf-questions="What measures does {company_name} use?">
-								<input type="checkbox" name="measures[]" value="w" cf-label="Width" />
-								<input type="checkbox" name="measures[]" value="l" cf-label="Length" />
-								<input type="checkbox" name="measures[]" value="h" cf-label="Height" />
-								<input type="checkbox" name="measures[]" value="sqft" cf-label="Square feet" />
+								cf-questions="<%= t 'texts.bot.what_percentage_company_pays_in_taxes' %>" required />
+							<fieldset cf-questions="<%= t 'texts.bot.what_measures_does_company_use' %>">
+								<input type="checkbox" name="measures[]" value="w" cf-label="<%= t 'activerecord.attributes.measurements.width' %>" />
+								<input type="checkbox" name="measures[]" value="l" cf-label="<%= t 'activerecord.attributes.measurements.length' %>" />
+								<input type="checkbox" name="measures[]" value="h" cf-label="<%= t 'activerecord.attributes.measurements.height' %>" />
+								<input type="checkbox" name="measures[]" value="sqft" cf-label="<%= t 'activerecord.attributes.measurements.square_feet' %>" />
 							</fieldset>
-							<cf-robot-message cf-questions="Nice!||Alright!"></cf-robot-message>
-							<fieldset cf-questions="Do you want a custom name for your main account?">
+							<cf-robot-message cf-questions="<%= t 'texts.bot.nice_alright' %>"></cf-robot-message>
+							<fieldset cf-questions="<%= t 'texts.bot.want_custom_name_for_your_account' %>">
 								<input type="radio" name="custom-account" id="ca-yes" value="yes">
-								<label for="ca-yes">Yes</label>
+								<label for="ca-yes"><%= t 'texts.bot.yes' %></label>
 
 								<input type="radio" name="custom-account" id="ca-no" value="no">
-								<label for="ca-no">No thanks</label>
+								<label for="ca-no"><%= t 'texts.bot.no_thanks' %></label>
 							</fieldset>
 							<input type="text" name="company_main_account" id="company_main_account"
-								cf-conditional-custom-account="yes" value="Main account"
-								cf-questions="What name your want to use for your new account?" required />
+								cf-conditional-custom-account="yes" value="<%= t 'texts.bot.main_account' %>"
+								cf-questions="<%= t 'texts.bot.what_name_use_new_account' %>" required />
 						</form>
 
 					</div>
@@ -117,9 +117,9 @@
 				formEl: document.getElementById("form-wo"),
 				robotImage: "woffice-w.svg",
 				submitCallback: function () {
-					conversationalForm.addRobotChatResponse("Alright, you are done.");
-					conversationalForm.addRobotChatResponse("All these settings can be changed in the Settings menu.");
-					conversationalForm.addRobotChatResponse("Redirecting you to your home page...");
+					conversationalForm.addRobotChatResponse("<%= t 'texts.bot.alright_you_are_done' %>");
+					conversationalForm.addRobotChatResponse("<%= t 'texts.bot.settings_can_be_changed_settings_menu' %>");
+					conversationalForm.addRobotChatResponse("<%= t 'texts.bot.redirecting_to_your_home_page' %>");
 					const formData = conversationalForm.getFormData()
 					
 					const headers = new Headers({

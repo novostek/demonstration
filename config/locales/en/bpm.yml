@@ -36,6 +36,17 @@ en:
     unread: Unread
     starred: Starred
     unstarred: Unstarred
+    woffice_bpmn_editor: Woffice BPMN Editor
+    drop_bpmn_diagram_from_your_desktop_or: Drop BPMN diagram from your desktop or
+    edit_current_diagram: edit current diagram
+    to_get_started: to get started.
+    we_could_not_display_bpmn_2_0_diagram: Ooops, we could not display the BPMN 2.0 diagram.
+    import_error_details: Import Error Details
+    download: download
+    bpmn_diagram: BPMN diagram
+    as_svg_image: as SVG image
+    svg_image: SVG image
+    deploy_to_production: Deploy to Production
 
   notice:
     bpm:

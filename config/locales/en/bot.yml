@@ -7,5 +7,21 @@ en:
       upload_your_logo_now: Do you upload your logo now?
       yes: Yes
       not_now: Not now
+      no_thanks: No thanks
       send_your_logo: Send your logo
       what_company_short_name: What's the company short name?
+      what_company_full_name: What's {company_name} full name?
+      where_company_located: Ok, where's {company_name} located?
+      nice_what_company_phone_number: Nice, what's {company_name} phone number?
+      whats_the_email: What's the email?
+      email_is_not_right: Email is not right
+      what_percentage_company_pays_in_taxes: What percentage (%) {company_name} pays in taxes?
+      what_measures_does_company_use: What measures does {company_name} use?
+
+      nice_alright: Nice!||Alright!
+      want_custom_name_for_your_account: Do you want a custom name for your main account?
+      main_account: Main account
+      what_name_use_new_account: What name your want to use for your new account?
+      alright_you_are_done: Alright, you are done.
+      settings_can_be_changed_settings_menu: All these settings can be changed in the Settings menu.
+      redirecting_to_your_home_page: Redirecting you to your home page...

@@ -196,7 +196,6 @@ en:
 
   # others
   home: "Home"
-  hello: "Hello world"
   send_mail_schedule: "Send Confirmation to Customer"
   see_all: "See All"
   find_customer: "Find a Customer"

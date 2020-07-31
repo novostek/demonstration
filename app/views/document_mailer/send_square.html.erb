@@ -1,5 +1,5 @@
 
-      <h6 class="greetings" style="box-sizing: border-box;font-size: 22px;margin: 0px;">Dear, <%= @order.current_estimate.customer %>!</h6>
+      <h6 class="greetings" style="box-sizing: border-box;font-size: 22px;margin: 0px;"><%= t 'texts.document_mailer.dear' %>, <%= @order.current_estimate.customer %>!</h6>
       <p style="box-sizing: border-box;">
         <%= raw (Setting.get_value("send_square_mail_text")|| "").remove 'Powered by <a href="https://www.froala.com/wysiwyg-editor?pb=1" title="Froala Editor">Froala Editor</a>'  %>
       </p>
@@ -7,14 +7,14 @@
         style="box-sizing: border-box;border: 1px solid rgba(0,0,0,0.12);width: 100%;display: table;border-collapse: collapse;border-spacing: 0;background: rgba(0,0,0,0.03);border-radius: 4px !important;">
         <thead style="box-sizing: border-box;">
         <tr style="box-sizing: border-box;border-bottom: 1px solid rgba(0,0,0,0.12);">
-          <th style="box-sizing: border-box;border: none;padding: 15px 10px;display: table-cell;text-align: left;vertical-align: middle;border-radius: 2px;">Product/Service</th>
-          <th style="box-sizing: border-box;border: none;padding: 15px 10px;display: table-cell;text-align: left;vertical-align: middle;border-radius: 2px;">Value</th>
+          <th style="box-sizing: border-box;border: none;padding: 15px 10px;display: table-cell;text-align: left;vertical-align: middle;border-radius: 2px;"><%= t 'products_or_services_label' %></th>
+          <th style="box-sizing: border-box;border: none;padding: 15px 10px;display: table-cell;text-align: left;vertical-align: middle;border-radius: 2px;"><%= t 'texts.value' %></th>
         </tr>
         </thead>
         <tbody style="box-sizing: border-box;">
         <tr style="box-sizing: border-box;border-bottom: 1px solid rgba(0,0,0,0.12);">
           <td style="box-sizing: border-box;border: none;padding: 15px 10px;display: table-cell;text-align: left;vertical-align: middle;border-radius: 2px;">
-            Payment of Order #<%= @order.code %></td>
+            <%= t 'texts.document_mailer.payment_of_order' %> #<%= @order.code %></td>
           <td style="box-sizing: border-box;border: none;padding: 15px 10px;display: table-cell;text-align: left;vertical-align: middle;border-radius: 2px;">
             <%= number_to_currency(@transaction.value) %></td>
         </tr>
@@ -22,9 +22,9 @@
         </tbody>
       </table>
       <br style="box-sizing: border-box;">
-      <a class="btn btn-primary" href="<%= @link %>" style="box-sizing: border-box;color: #fff;text-decoration: none;margin-top: 5px;padding: 0px 15px;border-radius: 20px;height: 36px;line-height: 36px;display: inline-flex;align-items: center;background: #3949ab;">Pay now.</a>
+      <a class="btn btn-primary" href="<%= @link %>" style="box-sizing: border-box;color: #fff;text-decoration: none;margin-top: 5px;padding: 0px 15px;border-radius: 20px;height: 36px;line-height: 36px;display: inline-flex;align-items: center;background: #3949ab;"><%= t 'texts.document_mailer.pay_now' %></a>
 
       <p>
-        In Partnership with: <br>
+        <%= t 'texts.document_mailer.in_partnership_with' %>: <br>
         <%= image_tag attachments['square.png'].url %>
       </p>

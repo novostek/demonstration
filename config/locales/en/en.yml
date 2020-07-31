@@ -84,6 +84,15 @@ en:
     default: Default
 
     no_results: No resultes
+    login: Login
+    number: Number
+    value_with_tax: Value With Tax
+    start_date: Start Date
+    end_date: End Date
+    proposal: Proposal
+
+    count: Count
+
 
   # buttons
   button:
@@ -118,8 +127,8 @@ en:
     yes_change: Yes, change it!
     yes_i_want: Yes, I want!
     cancel_sweetalert: No, cancel!
+    update: Update
 
-    # Order
     back_to_order: Back to Order
     preview_document: Preview Document
     save_and_signature: Save and Signature
@@ -150,7 +159,20 @@ en:
   year: "year"
   years: "years"
   month: "month"
-  months: "months"
+  months:
+    jan: January
+    fev: February
+    mar: March
+    apr: April
+    may: May
+    jun: June
+    jul: July
+    aug: August
+    sep: September
+    oct: October
+    nov: November
+    dec: December
+
   day: "day"
   days: "days"
   minute: "minute"
@@ -205,5 +227,6 @@ en:
     success: Success
     error: Error
     canceled: Canceled
+    are_you_sure: Are you sure?
 
 

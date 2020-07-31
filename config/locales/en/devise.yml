@@ -85,3 +85,18 @@ en:
       new_password: New password
       confirm_new_password: Confirm new password
       characters_minimum: characters minimum
+      forgot_your_password: Forgot your password?
+      send_me_reset_password_instructions: Send me reset password instructions
+      currently_waiting_confirmation_for: Currently waiting confirmation for
+      leave_blank_if_no_change: leave blank if you don't want to change it
+      we_need_current_password_confirm_changes: we need your current password to confirm your changes
+      cancel_my_account: Cancel my account
+      unhappy: Unhappy?
+      sign_up: Sign up
+      sign_in: Sign in
+      forgot_password: Forgot password?
+      log_in: Log in
+      did_not_receive_confirmation_instructions: Didn't receive confirmation instructions?
+      didn_not_receive_unlock_instructions: Didn't receive unlock instructions?
+      sign_in_with: Sign in with
+      resend_unlock_instructions: Resend unlock instructions

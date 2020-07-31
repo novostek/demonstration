@@ -1,9 +1,9 @@
-<h6 class="greetings">Payment Received by Square</h6>
+<h6 class="greetings"><%= t 'texts.document_mailer.payment_received_by_square' %></h6>
 <br>
 
 <table style="width:100%; margin-top: 40px; margin-bottom: 40px;">
   <tr>
-    <th>Source</th>
+    <th><%= t 'texts.source' %></th>
     <td>
       <% if @transaction.payment_method.present? %>
         <% if @transaction.payment_method.include?('square_credit') or @transaction.payment_method.include?('square_installments') %>
@@ -17,7 +17,7 @@
     </td>
   </tr>
   <tr>
-    <th>Transaction Category</th>
+    <th><%= t 'activerecord.models.transaction_category' %></th>
     <td>
       <% if @transaction.transaction_category.present? %>
         <%= @transaction.transaction_category %>
@@ -27,7 +27,7 @@
     </td>
   </tr>
   <tr>
-    <th>Account</th>
+    <th><%= t 'activerecord.models.account' %></th>
     <td>
       <% if @transaction.transaction_account.present? %>
         <%= @transaction.transaction_account %>
@@ -37,35 +37,35 @@
     </td>
   </tr>
   <tr>
-    <th>Origin</th>
+    <th><%= t 'texts.origin' %></th>
     <td>
       <% if @transaction.order.present? %>
-        Order #<%= @transaction.order %>
+        <%= t 'activerecord.models.order' %> #<%= @transaction.order %>
       <% else %>
         -
       <% end %>
     </td>
   </tr>
   <tr>
-    <th>Due</th>
+    <th><%= t 'texts.due' %></th>
     <td>
       <%= @transaction.due.present? ? @transaction.due.strftime("%m/%d/%Y") : '-' %>
     </td>
   </tr>
   <tr>
-    <th>Effective</th>
+    <th><%= t 'activerecord.attributes.transaction.effective' %></th>
     <td>
       <%= @transaction.effective.present? ? @transaction.effective.strftime("%m/%d/%Y") : '-' %>
     </td>
   </tr>
   <tr>
-    <th>Status</th>
+    <th><%= t 'status' %></th>
     <td>
       <%= @transaction.status %>
     </td>
   </tr>
   <tr>
-    <th>Value</th>
+    <th><%= t 'texts.value' %></th>
     <td><%= number_to_currency(@transaction.value, :unit => '$') %></td>
   </tr>
 </table>

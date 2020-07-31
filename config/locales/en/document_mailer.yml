@@ -1,0 +1,16 @@
+en:
+  texts:
+    document_mailer:
+      hi: Hi
+      add_card_here: Add Card Here!
+      sign_please: Sign, please!
+      see_your_estimate: See your Estimate!
+      dear: Dear
+      following_attached_invoice_related_order: Following attached Invoice related to Order
+      see_invoice: See Invoice
+      client_approved_estimate: Client approved the estimate!
+      approved_estimate_number: approved the Estimate nº
+      payment_of_order: Payment of Order
+      pay_now: Pay now.
+      in_partnership_with: In Partnership with
+      payment_received_by_square: Payment Received by Square

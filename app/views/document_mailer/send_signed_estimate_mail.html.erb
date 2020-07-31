@@ -1,22 +1,22 @@
-<h6 class="greetings">Client approved the estimate!</h6>
+<h6 class="greetings"><%= t 'texts.document_mailer.client_approved_estimate' %></h6>
 <br>
-<b><%= @estimate.customer.name.split.first %></b> approved the <b> Estimate nº <%= @estimate.code %>.</b>
+<b><%= @estimate.customer.name.split.first %></b> <%= t 'texts.document_mailer.approved_estimate_number' %> <%= @estimate.code %>.
 
 <table style="width:100%; margin-top: 40px; margin-bottom: 40px;">
   <tr>
-    <th>Subtotal</th>
+    <th><%= t 'subtotal' %></th>
     <th><%= number_to_currency @estimate.subtotal %></th>
   </tr>
   <tr>
-    <th>Discount</th>
+    <th><%= t 'discount' %></th>
     <th><%= number_to_currency @estimate.discounts %></th>
   </tr>
   <tr>
-    <th>Tax (<%= t("enumerize.estimate.taxpayer.#{@estimate.taxpayer}") if @estimate.taxpayer.present?%>)</th>
+    <th><%= t 'activerecord.attributes.estimate.tax' %> (<%= t("enumerize.estimate.taxpayer.#{@estimate.taxpayer}") if @estimate.taxpayer.present?%>)</th>
     <th><%= number_to_currency @estimate.tax || 0 %></th>
   </tr>
   <tr>
-    <th>Estimate Total</th>
+    <th><%= t 'estimate_total' %></th>
     <th><%= number_to_currency @estimate.total %></th>
   </tr>
 </table>

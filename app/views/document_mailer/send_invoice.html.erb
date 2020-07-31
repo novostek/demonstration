@@ -1,8 +1,8 @@
 
-      <h6 class="greetings">Dear, <%= @order.current_estimate.customer %>!</h6>
-      <p>Following attached Invoice related to Order #<%= @order.code %>.</p>
+      <h6 class="greetings"><%= t 'texts.document_mailer.dear' %>, <%= @order.current_estimate.customer %>!</h6>
+      <p><%= t 'texts.document_mailer.following_attached_invoice_related_order' %> #<%= @order.code %>.</p>
       <p>
         <%= raw (Setting.get_value("send_invoice_mail_text") || "").remove 'Powered by <a href="https://www.froala.com/wysiwyg-editor?pb=1" title="Froala Editor">Froala Editor</a>'  %>
       </p>
       <br>
-      <a class="btn btn-primary" href="<%= @link %>">See Invoice</a>
+      <a class="btn btn-primary" href="<%= @link %>"><%= t 'texts.document_mailer.see_invoice' %></a>

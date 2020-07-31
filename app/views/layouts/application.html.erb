@@ -6,10 +6,10 @@
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimal-ui">
-  <meta name="description" content="Woffice is a powerful business management tool.">
-  <meta name="keywords" content="woffice management square crm erp">
+  <meta name="description" content="<%= t 'texts.layout.meta_description' %>">
+  <meta name="keywords" content="<%= t 'texts.layout.meta_keywords' %>">
   <meta name="author" content="ThemeSelect">
-  <title><%= "#{ yield :title }  Woffice " %></title>
+  <title><%= "#{ yield :title }  #{t'woffice'} " %></title>
   <link rel="apple-touch-icon" href="/materialize/images/favicon/apple-touch-icon-152x152.png">
   <%= favicon_link_tag '/favicon.png' %>
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
@@ -90,8 +90,8 @@
 
 <footer class="page-footer footer footer-static footer-light woffice-color gradient-shadow navbar-border navbar-shadow">
   <div class="footer-copyright">
-    <div class="container"><span>&copy; 2020 <a href="http://www.novostek.com" target="_blank">Woffice LLC</a> All rights reserved.</span>
-      <span class="right">Powered by <a href="https://woffice.app/"><img src="/woffice.svg" alt="Woffice"></a></span>
+    <div class="container"><span>&copy; 2020 <a href="http://www.novostek.com" target="_blank"><%= t 'texts.layout.woffice_llc' %></a> <%= t 'texts.layout.all_rights_reserved' %></span>
+      <span class="right"><%= t 'texts.layout.powered_by' %> <a href="https://woffice.app/"><img src="/woffice.svg" alt="<%= t 'woffice' %>"></a></span>
     </div>
   </div>
 </footer>

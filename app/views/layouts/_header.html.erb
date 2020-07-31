@@ -22,23 +22,23 @@
         <!-- notifications-dropdown-->
         <ul class="dropdown-content" id="notifications-dropdown">
           <li>
-            <h6>NOTIFICATIONS<span class="new badge">5</span></h6>
+            <h6><%= t 'texts.layout.notifications' %><span class="new badge">5</span></h6>
           </li>
           <li class="divider"></li>
-          <li><a class="black-text" href="#!"><span class="material-icons icon-bg-circle cyan small">add_shopping_cart</span> A new order has been placed!</a>
-            <time class="media-meta grey-text darken-2" datetime="2015-06-12T20:50:48+08:00">2 hours ago</time>
+          <li><a class="black-text" href="#!"><span class="material-icons icon-bg-circle cyan small">add_shopping_cart</span> <%= t 'texts.layout.new_order_has_been_placed' %></a>
+            <time class="media-meta grey-text darken-2" datetime="2015-06-12T20:50:48+08:00">2 <%= t 'texts.layout.hours_ago' %></time>
           </li>
-          <li><a class="black-text" href="#!"><span class="material-icons icon-bg-circle red small">stars</span> Completed the task</a>
-            <time class="media-meta grey-text darken-2" datetime="2015-06-12T20:50:48+08:00">3 days ago</time>
+          <li><a class="black-text" href="#!"><span class="material-icons icon-bg-circle red small">stars</span> <%= t 'texts.layout.completed_the_task' %></a>
+            <time class="media-meta grey-text darken-2" datetime="2015-06-12T20:50:48+08:00">3 <%= t 'texts.layout.days_ago' %></time>
           </li>
-          <li><a class="black-text" href="#!"><span class="material-icons icon-bg-circle teal small">settings</span> Settings updated</a>
-            <time class="media-meta grey-text darken-2" datetime="2015-06-12T20:50:48+08:00">4 days ago</time>
+          <li><a class="black-text" href="#!"><span class="material-icons icon-bg-circle teal small">settings</span> <%= t 'texts.layout.settings_updated' %></a>
+            <time class="media-meta grey-text darken-2" datetime="2015-06-12T20:50:48+08:00">4 <%= t 'texts.layout.days_ago' %></time>
           </li>
-          <li><a class="black-text" href="#!"><span class="material-icons icon-bg-circle deep-orange small">today</span> Director meeting started</a>
-            <time class="media-meta grey-text darken-2" datetime="2015-06-12T20:50:48+08:00">6 days ago</time>
+          <li><a class="black-text" href="#!"><span class="material-icons icon-bg-circle deep-orange small">today</span> <%= t 'texts.layout.director_meeting_started' %></a>
+            <time class="media-meta grey-text darken-2" datetime="2015-06-12T20:50:48+08:00">6 <%= t 'texts.layout.days_ago' %></time>
           </li>
-          <li><a class="black-text" href="#!"><span class="material-icons icon-bg-circle amber small">trending_up</span> Generate monthly report</a>
-            <time class="media-meta grey-text darken-2" datetime="2015-06-12T20:50:48+08:00">1 week ago</time>
+          <li><a class="black-text" href="#!"><span class="material-icons icon-bg-circle amber small">trending_up</span> <%= t 'texts.layout.generate_monthly_report' %></a>
+            <time class="media-meta grey-text darken-2" datetime="2015-06-12T20:50:48+08:00">1 <%= t 'texts.layout.week_ago' %></time>
           </li>
         </ul>
         <!-- profile-dropdown-->
@@ -48,7 +48,7 @@
 <!--          <li><a class="grey-text text-darken-1" href="page-faq.html"><i class="material-icons">help_outline</i> Help</a></li>-->
 <!--          <li class="divider"></li>-->
 <!--          <li><a class="grey-text text-darken-1" href="user-lock-screen.html"><i class="material-icons">lock_outline</i> Lock</a></li>-->
-          <li><a class="grey-text text-darken-1" href="<%= destroy_user_session_path %>"><i class="material-icons">keyboard_tab</i> Logout</a></li>
+          <li><a class="grey-text text-darken-1" href="<%= destroy_user_session_path %>"><i class="material-icons">keyboard_tab</i> <%= t 'texts.layout.logout' %></a></li>
         </ul>
       </div>
       <nav class="display-none search-sm">

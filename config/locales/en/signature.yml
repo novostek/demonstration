@@ -2,6 +2,7 @@ en:
   activerecord:
     models:
       signature: "Signature"
+      signatures: "Signatures"
     attributes:
       signature:
         origin: "Origin"

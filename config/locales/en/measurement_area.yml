@@ -1,0 +1,14 @@
+en:
+  activerecord:
+    models:
+      measurement_area: Measurement area
+    attributes:
+      measurement_area:
+        estimate: Estimate
+        name: Name
+        description: Description
+  texts:
+    measurement_area:
+      calculate: Calculate
+      calculate_areas: Calculate Areas
+      calculate_your_areas: Calculate your areas

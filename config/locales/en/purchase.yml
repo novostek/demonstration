@@ -2,6 +2,7 @@ en:
   activerecord:
     models:
       purchase: "Purchase"
+      purchases: "Purchases"
   notice:
     purchase:
       created: "Purchase was successfully created."

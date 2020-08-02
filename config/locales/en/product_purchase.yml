@@ -13,11 +13,15 @@ en:
       products_purchase: "Products Purchase"
     attributes:
       product_purchase:
-        product_id: Product
+        product: Product
+        purchase: Purchase
         quantity: Qty
         status: Status
         tax: Tax
         price: Price
+        value: Value
+        unity_value: Unitary value
+        custom_title: Custom title
   product_purchase_status:
     requested: Requested
     buyed: Buyed

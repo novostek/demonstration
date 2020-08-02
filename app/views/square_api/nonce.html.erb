@@ -7,7 +7,7 @@
 
   <div class="row">
     <div class="col s12">
-      <h4>Card Capture</h4>
+      <h4><%= t 'texts.square_api.card_capture' %></h4>
       <p><%= raw (Setting.get_value('card_mail_text') || '').remove 'Powered by <a href="https://www.froala.com/wysiwyg-editor?pb=1" title="Froala Editor">Froala Editor</a>'%></p>
       <div id="form-container">
         <div class="cards">
@@ -24,7 +24,7 @@
         </div>
 
         <p>&nbsp;</p>
-        <a href="#" id="sq-creditcard" class="border-round  waves-effect btn-flat indigo white-text btn-nonce-payment" onclick="onGetCardNonce(event)"><i class="material-icons left">payment</i>Save Card</a>
+        <a href="#" id="sq-creditcard" class="border-round  waves-effect btn-flat indigo white-text btn-nonce-payment" onclick="onGetCardNonce(event)"><i class="material-icons left">payment</i><%= t('texts.pages.save_card').titleize %></a>
       </div>
     </div>
   </div>
@@ -34,7 +34,7 @@
   <% end %>
 </div>
 
-<div class="center">Powered by <a href="https://www.woffice.app"><img src="/woffice.svg" alt="" width="60px"></a> with Partnership with
+<div class="center"><%= t 'texts.layout.powered_by' %> <a href="https://www.woffice.app"><img src="/woffice.svg" alt="" width="60px"></a> with Partnership with
   <a href="https://squareup.com/t/f_partnerships/p_Novostek/l_us?route=signup"><img src="/square_name.svg" alt="" width="60px"></a> </div>
 
 <div id="modal-mail-local" class="modal">

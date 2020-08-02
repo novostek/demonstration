@@ -2,11 +2,13 @@ en:
   activerecord:
     models:
       measurements: Measurements
+      measurement: Measurement
     attributes:
-      measurements:
+      measurement:
         width: Width
         height: Height
         length: Length
         square_feet: Square feet
+        measurement_area: Measurement area
   area: Area
   areas: Areas

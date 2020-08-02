@@ -1,10 +1,10 @@
 <div class="cb-wrapper">
-  <div class="cb-logo">Woffice</div>
+  <div class="cb-logo"><%= t 'woffice' %></div>
   <div class="cb-box">
     <div class="cb-icon"><img src="/check.svg" alt=""></div>
-    <h1>Your payment has been received.</h1>
-    <p>Order: <%= @transaction.order.code %>. Value: <%= @transaction.value %>.</p>
+    <h1><%= t 'texts.square_api.your_payment_received' %></h1>
+    <p><%= t 'activerecord.models.order' %>: <%= @transaction.order.code %>. <%= t 'texts.value' %>: <%= @transaction.value %>.</p>
 <!--    <a class="cb-btn" href="#">Ok</a>-->
   </div>
-  <div class="cb-square"><img src="/square_name.svg" alt="Square"></div>
+  <div class="cb-square"><img src="/square_name.svg" alt="<%= t 'texts.square_api.square' %>"></div>
 </div>

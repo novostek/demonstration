@@ -1,0 +1,6 @@
+en:
+  texts:
+    square_api:
+      square: Square
+      your_payment_received: Your payment has been received.
+      card_capture: Card Capture

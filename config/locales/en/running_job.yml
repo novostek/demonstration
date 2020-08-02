@@ -1,0 +1,9 @@
+en:
+  activerecord:
+    models:
+      running_job: Running job
+      running_jobs: Running jobs
+    attributes:
+      running_job:
+        complete: Complete
+        redirect: Redirect

@@ -9,4 +9,66 @@ en:
         tenant_name: Tenant name
   texts:
     client:
+      # texts
       doing_stuff: Doing stuff
+      pay_text: Pay Text
+      example: example
+      text_example: Text example
+      sign_submitted_document: Sign submitted document
+
+      # menus
+      administrator: Administrator
+      system_administrator_profile:  System administrator profile
+      finance: Finance
+      financial_access_profile: Financial access profile
+      worker: Worker
+      worker_profile: Worker profile
+      purchase: Purchase
+      purchase_profiles: Purchase profiles
+      system_configuration: System Configuration
+      security: Security
+      portfolio: Portfolio
+      finances: Finances
+      categories: Categories
+      menu_access: Menu Access
+
+      # documents
+      material_delivery: Material Delivery
+      template_for_material_receipt_document: Template for material receipt document
+      order_number: Order Nº
+      finish_order: Finish Order
+      template_for_finish_order: Template for finish order
+      job_completion: Job Completion
+      i: I,
+      attest_completed_the_job: attest that Face of Wood Flooring completed the job related to Order
+      to_my_satisfaction: to my satisfaction.
+      warranty_on_installation: 'Warranty: Face of Wood offers 1-year warranty on installation. Not included damage to flooring caused by water or moisture intrusion from walls, windows, doors, apertures, from poor drainage and changes in sub-floor moisture content not present at time of pre-installation test done with a concrete moisture meter.'
+
+      # transactions
+      costs: Costs
+      category_associate_our_costs_transactions: Category to associate our costs transactions
+      labor: Labor
+      square: Square
+      checking_account: Checking Account
+      account_for_checking: Account for checking
+
+      # calculation formulas
+      square_feet: Square Feet
+      calculate_quantity_based_square_feet: Calculate quantity based on square feet
+      square_feet_10_of_waste: Square Feet + 10% of waste
+      calculate_based_square_feet_10_of_waste: Calculate quantity based on square feet with 10% of waste
+      linear_width: Linear width
+      linear_width_10_of_waste: Linear width + 10% of waste
+      calculate_based_linear_width_10_of_waste: Calculate quantity based on linear width with 10% of waste
+      linear_length: Linear length
+      linear_length_10_of_waste: Linear length + 10% of waste
+      calculate_based_linear_length_10_of_waste: Calculate quantity based on linear length with 10% of waste
+      linear_height: Linear height
+      linear_height_10_of_waste: Linear height + 10% of waste
+      calculate_based_linear_height_10_of_waste: Calculate quantity based on linear height with 10% of waste
+      cubic_feet: Cubic feet
+      cubic_feet_10_of_waste: Cubic feet + 10% of waste
+      calculate_based_cubic_feet_10_of_waste: Calculate quantity based on cubic feet with 10% of waste
+      default_unitary_value_formula: Default unitary value formula
+      tax_formula: Tax formula
+

@@ -1,6 +1,7 @@
 en:
   texts:
     square_api:
+      # view
       square: Square
       your_payment_received: Your payment has been received.
       card_capture: Card Capture
@@ -14,3 +15,6 @@ en:
       questions_contact_us: If you have any questions please contact us
       thanks_for_the_deal: Thank you for doing business with us!
       best_regards: Best regards,
+
+      # model
+      error_calling_locationsApi_listlocations: Error calling LocationsApi.listlocations ...

@@ -256,7 +256,7 @@ class SquareApi
       end
     else
       # Handle the case that the result is an error.
-      warn 'Error calling LocationsApi.listlocations ...'
+      warn t('texts.square_api.error_calling_locationsApi_listlocations')
 
       # The #errors method returns an Array of error Hashes
       result.errors.each do |key, value|

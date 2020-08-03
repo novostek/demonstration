@@ -34,10 +34,10 @@ class ApiController < ApplicationController
       if transaction.save
         render json: transaction
       else
-        render json: {error: "not save"}, status: 422
+        render json: {error: t('notice.not_save')}, status: 422
       end
       rescue
-      render json:{error: "We have a problem"}, status: 500
+      render json:{error: t('notice.we_have_a_problem')}, status: 500
       end
   end
 

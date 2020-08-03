@@ -228,5 +228,8 @@ en:
     error: Error
     canceled: Canceled
     are_you_sure: Are you sure?
+    not_save: Not save
+    we_have_a_problem: We have a problem
+
 
 

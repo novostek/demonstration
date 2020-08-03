@@ -60,7 +60,7 @@ class BotController < ApplicationController
     measures.save
     
     if params['custom-account'][0] == 'yes'
-      transaction_account = TransactionAccount.find_or_initialize_by(name: 'Checking Account')
+      transaction_account = TransactionAccount.find_or_initialize_by(name: t('texts.client.checking_account'))
       transaction_account.name = params[:company_main_account]
       transaction_account.description = params[:company_main_account]
       transaction_account.color = '#0b56ad'
@@ -68,7 +68,7 @@ class BotController < ApplicationController
     end
     
     tax_formula = CalculationFormula.find_or_initialize_by(namespace: 'tax-formula')
-    tax_formula.name = "Tax formula"
+    tax_formula.name = t('texts.client.tax_formula')
     tax_formula.tax = true
     tax_formula.formula = "total * #{params[:company_tax].to_f / 100}"
     tax_formula.save

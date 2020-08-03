@@ -34,7 +34,7 @@
   <% end %>
 </div>
 
-<div class="center"><%= t 'texts.layout.powered_by' %> <a href="https://www.woffice.app"><img src="/woffice.svg" alt="" width="60px"></a> with Partnership with
+<div class="center"><%= t 'texts.layout.powered_by' %> <a href="https://www.woffice.app"><img src="/woffice.svg" alt="" width="60px"></a> <%= t 'texts.square_api.with_partnership_with' %>
   <a href="https://squareup.com/t/f_partnerships/p_Novostek/l_us?route=signup"><img src="/square_name.svg" alt="" width="60px"></a> </div>
 
 <div id="modal-mail-local" class="modal">
@@ -44,7 +44,7 @@
       <div class="row">
 
         <div class="input-field">
-          <%= f.label :emails, "Emails" %>
+          <%= f.label :emails, t('texts.emails') %>
           <%= f.text_field :emails, value: @customer.get_main_email_f, required: true %>
 
         </div>
@@ -58,7 +58,7 @@
     </div>
     <div class="modal-footer">
       <%= f.button :submit,  class:"modal-action modal-close waves-effect waves-green btn-flat btn-send", target:"_self" do %>
-        <i class="material-icons left">send</i> Send
+        <i class="material-icons left">send</i> <%= t 'button.send' %>
       <% end %>
       <!--		<a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat btn-send"> <i class="material-icons left">send</i> Send</a>-->
     </div>
@@ -98,7 +98,7 @@
           // Initialize the credit card placeholders
           cardNumber: {
               elementId: 'sq-card-number',
-              placeholder: 'Card Number'
+              placeholder: <%= t 'texts.pages.card_number' %>
           },
           cvv: {
               elementId: 'sq-cvv',
@@ -110,7 +110,7 @@
           },
           postalCode: {
               elementId: 'sq-postal-code',
-              placeholder: 'Zip Code'
+              placeholder: <%= t 'texts.square_api.zip_code' %>
           },
           // SqPaymentForm callback functions
           callbacks: {
@@ -121,11 +121,11 @@
               cardNonceResponseReceived: function (errors, nonce, cardData) {
                   if (errors) {
                       // Log errors from nonce generation to the browser developer console.
-                      console.error('Encountered errors:');
+                      console.error('<%= t 'texts.square_api.encountered_errors' %>:');
                       errors.forEach(function (error) {
                           console.error('  ' + error.message);
                       });
-                      alert('Encountered errors, check browser developer console for more details');
+                      alert('<%= t 'texts.square_api.check_browser_console' %>');
                       return;
                   }
 

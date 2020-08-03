@@ -34,6 +34,11 @@ class TransactionsController < ApplicationController
     end
 
     @total_balance = @balance.reduce { |sum, num| sum[:value] + num[:value] }
+    begin
+      value= @total_balance[:value]
+    rescue
+      @total_balance= {value: 0}
+    end
   end
 
   #Método que reenvia o email com o checkout para o cliente

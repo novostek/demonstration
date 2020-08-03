@@ -49,6 +49,7 @@ class FinancesController < ApplicationController
     rescue
       @total_balance= {value: 0}
     end
+
     if @total_balance.blank?
       @total_balance= {value: 0}
     end

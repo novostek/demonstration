@@ -10,7 +10,7 @@ class SchedulesController < ApplicationController
     schedule = Schedule.find(params[:schedule])
     schedule.hour_cost = params[:hour_cost]
     schedule.save
-    redirect_to params[:redirect], notice: "Hour cost updated"
+    redirect_to params[:redirect], notice: t('notice.schedule.hour_cost_updated')
   end
 
   def redirect_schedule
@@ -89,7 +89,7 @@ class SchedulesController < ApplicationController
   def delete_schedule
     schedule = Schedule.find(params[:schedule])
     if schedule.destroy
-      redirect_to params[:redirect], notice: "Schedule deleted"
+      redirect_to params[:redirect], notice: t('notice.schedule.deleted')
     else
       redirect_to params[:redirect], alert: "#{schedule.errors.full_messages.to_sentence}"
     end

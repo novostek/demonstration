@@ -7,3 +7,8 @@ en:
       running_job:
         complete: Complete
         redirect: Redirect
+  notice:
+    running_job:
+      created: "Running job was successfully created."
+      updated: "Running job was sucessfully updated."
+      deleted: "Running job was sucessfully deleted."

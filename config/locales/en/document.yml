@@ -27,6 +27,7 @@ en:
       updated: "Document was sucessfully updated."
       deleted: "Document was sucessfully deleted."
       custom_fild_add_success: Custom Fild add success!
+      inform_document: Inform Document
 
   no_document_registred: No Documents Registered!
 

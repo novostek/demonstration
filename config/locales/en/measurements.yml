@@ -12,3 +12,8 @@ en:
         measurement_area: Measurement area
   area: Area
   areas: Areas
+  notice:
+    measurement:
+      created: "Measurement was successfully created."
+      updated: "Measurement was sucessfully updated."
+      deleted: "Measurement was sucessfully deleted."

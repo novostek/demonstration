@@ -3,11 +3,11 @@
   <div class="row">
     <div class="col s12">
       <div class="row pl-1 pr-2 mb-2">
-        <span class="mr-1"><%= t 'title_areas' %>:</span>
+        <span class="mr-1"><%= t 'texts.estimate.title_areas' %>:</span>
         <span><%= mp.title %></span>
       </div>
       <div class="row pl-1 pr-2">
-        <span class="mr-1"><%= t 'selected_areas' %>:</span>
+        <span class="mr-1"><%= t 'texts.estimate.selected_areas' %>:</span>
         <% mp.measurement_area.each do |ma| %>
           <div class="chip blue white-text"><%= ma.name %></div>
         <% end %>
@@ -20,7 +20,7 @@
           <% if can? :see_price, Estimate %>
             <th><%= t 'activerecord.attributes.product_estimate.unitary_value' %></th>
             <th><%= t 'activerecord.attributes.product_estimate.discount' %></th>
-            <th class="right-align"><%= t 'subtotal' %></th>
+            <th class="right-align"><%= t 'texts.estimate.subtotal' %></th>
           <% end %>
         </tr>
         </thead>
@@ -38,7 +38,7 @@
         <% end %>
         <% if can? :see_price, Estimate %>
           <tr class="white">
-            <td class="right-align" colspan="100"><strong><%= t 'subtotal_area' %>:</strong><br><%= number_to_currency mp.product_estimates.sum(:value) %></td>
+            <td class="right-align" colspan="100"><strong><%= t 'texts.estimate.subtotal_area' %>:</strong><br><%= number_to_currency mp.product_estimates.sum(:value) %></td>
           </tr>
         <% end %>
         </tbody>

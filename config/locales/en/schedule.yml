@@ -15,5 +15,11 @@ en:
   global: "Global"
   hour_cost_negative: "Hour cost must be greater than or equal to 0"
   no_schedule_yet: No schedule yet
+  notice:
+    schedule:
+      created: "Schedule was successfully created."
+      updated: "Schedule was sucessfully updated."
+      deleted: "Schedule was sucessfully deleted."
+      hour_cost_updated: Hour cost updated
 
 

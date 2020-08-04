@@ -150,6 +150,7 @@ en:
     clone: Clone
     filter: Filter
     get_directions: Get Directions
+    add_product: Add product
 
   #
   false: "No"

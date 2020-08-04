@@ -26,7 +26,7 @@ class MeasurementsController < ApplicationController
     @measurement = Measurement.new(measurement_params)
 
     if @measurement.save
-      redirect_to @measurement, notice: 'Measurement foi criado com sucesso'
+      redirect_to @measurement, notice: t('notice.measurement.created')
     else
       render :new
     end
@@ -35,7 +35,7 @@ class MeasurementsController < ApplicationController
   # PATCH/PUT /measurements/1
   def update
     if @measurement.update(measurement_params)
-      redirect_to @measurement, notice: 'Measurement foi atualizado com sucesso.'
+      redirect_to @measurement, notice: t('notice.measurement.updated')
     else
       render :edit
     end
@@ -44,7 +44,7 @@ class MeasurementsController < ApplicationController
   # DELETE /measurements/1
   def destroy
     @measurement.destroy
-    redirect_to measurements_url, notice: 'Measurement foi apagado com sucesso.'
+    redirect_to measurements_url, notice: t('notice.measurement.deleted')
   end
 
   private

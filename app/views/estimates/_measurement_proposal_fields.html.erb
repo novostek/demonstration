@@ -1,7 +1,7 @@
 <div class="product-area nested-fields">
     <a href="#" class="btn-close-product-area"><i class="material-icons">close</i></a>
     <div class="areas-available col s12">
-      <span><%= t 'itens_for' %>: </span>
+      <span><%= t 'texts.estimate.itens_for' %>: </span>
       <% @estimate.measurement_areas.each do |area| %>
         <div class="chip" id="area_<%= area.id.to_s + SecureRandom.hex(10) %>"><%= area.name %></div>
       <% end %>

@@ -4,7 +4,7 @@
 		<div class="container">
 			<div class="row">
 				<div class="col s10 m6 l6">
-					<h5 class="breadcrumbs-title mt-0 mb-0"><%= t 'activerecord.models.estimates' %> <%= t 'measurements' %></h5>
+					<h5 class="breadcrumbs-title mt-0 mb-0"><%= t 'activerecord.models.estimates' %> <%= t 'texts.estimate.measurements' %></h5>
 					<ol class="breadcrumbs mb-0">
 						<li class="breadcrumb-item"><a href="/"><%= t 'breadcrumb.home' %></a>
 						</li>
@@ -12,7 +12,7 @@
 						</li>
 						<li class="breadcrumb-item"><a href="#"><%= t 'breadcrumb.new' %></a>
 						</li>
-						<li class="breadcrumb-item active"><%= t 'measurements' %>
+						<li class="breadcrumb-item active"><%= t 'texts.estimate.measurements' %>
 						</li>
 					</ol>
 				</div>
@@ -43,19 +43,19 @@
 				<li class="step active">
 					<% if @estimate.measurements.present? %>
 						<%= link_to measurement_view_estimates_path(@estimate) do %>
-							<div class="step-title waves-effect"><%= t 'measurements' %></div>
+							<div class="step-title waves-effect"><%= t 'texts.estimate.measurements' %></div>
 						<% end %>
 					<% else %>
-							<div class="step-title waves-effect"><%= t 'measurements' %></div>
+							<div class="step-title waves-effect"><%= t 'texts.estimate.measurements' %></div>
 					<% end %>
 				</li>
 				<li class="step">
 					<% if @estimate.product_estimates.present? %>
 						<%= link_to products_estimate_path(@estimate) do %>
-							<div class="step-title waves-effect"><%= t 'itens' %></div>
+							<div class="step-title waves-effect"><%= t 'texts.estimate.itens' %></div>
 						<% end %>
 					<% else %>
-						<div class="step-title waves-effect"><%= t 'itens' %></div>
+						<div class="step-title waves-effect"><%= t 'texts.estimate.itens' %></div>
 					<% end %>
 				</li>
 			</ul>
@@ -78,7 +78,7 @@
 			<%= t 'button.back' %> <i class="material-icons left">arrow_back</i>
 		<% end %>
 		<%= form.button :submit, id: "next_step", class:"btn indigo waves-effect waves-light breadcrumbs-btn right ml-1" do %>
-			<%= t 'button.next' %>: <%= t 'itens' %>
+			<%= t 'button.next' %>: <%= t 'texts.estimate.itens' %>
 			<i class="material-icons right">arrow_forward</i>
 		<% end %>
 	</div>

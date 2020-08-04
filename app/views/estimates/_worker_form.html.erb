@@ -1,7 +1,7 @@
 <%= form_for(worker, authenticity_token: true) do |f| %>
   <div id="worker-add-modal" class="modal modal-fixed-footer">
 		<div class="modal-content">
-			<h4><%= t 'new_worker' %></h4>
+			<h4><%= t 'texts.estimate.new_worker' %></h4>
       <% if worker.errors.any? %>
         <div id="error_explanation" class="card-panel red white-text">
           <h5><%= t('errors.template.header')  %>:</h5>

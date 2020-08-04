@@ -7,6 +7,12 @@ en:
       client:
         name: Name
         tenant_name: Tenant name
+
+  notice:
+    client:
+      created: "Client was successfully created."
+      updated: "Client was sucessfully updated."
+      deleted: "Client was sucessfully deleted."
   texts:
     client:
       # texts

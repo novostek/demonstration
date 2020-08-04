@@ -1,15 +1,15 @@
 <!-- Financial summary of an estimate -->
 <ul>
   <li class="display-flex justify-content-between">
-    <span class="invoice-subtotal-title"><%= t 'subtotal' %></span>
+    <span class="invoice-subtotal-title"><%= t 'texts.estimate.subtotal' %></span>
     <h6 class="mt-0"><%= number_to_currency estimate.subtotal %></h6>
   </li>
   <li class="display-flex justify-content-between">
-    <span class="invoice-subtotal-title"><%= t 'discount_products' %></span>
+    <span class="invoice-subtotal-title"><%= t 'texts.estimate.discount_products' %></span>
     <h6 class="mt-0">- <%= number_to_currency estimate.discounts %></h6>
   </li>
   <li class="display-flex justify-content-between">
-    <span class="invoice-subtotal-title"><%= t 'other_discounts' %></span>
+    <span class="invoice-subtotal-title"><%= t 'texts.estimate.other_discounts' %></span>
     <h6 class="mt-0"> - <%= number_to_currency estimate.discount %></h6>
   </li>
   <li class="display-flex justify-content-between">
@@ -18,7 +18,7 @@
   </li>
   <li class="divider mt-2 mb-2"></li>
   <li class="display-flex justify-content-between">
-    <span class="invoice-subtotal-title"><%= t 'estimate_total' %></span>
+    <span class="invoice-subtotal-title"><%= t 'texts.estimate.estimate_total' %></span>
     <h6 class="mt-0"><%= number_to_currency estimate.total %></h6>
   </li>
 </ul>

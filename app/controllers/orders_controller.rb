@@ -508,7 +508,7 @@ class OrdersController < ApplicationController
 
         if params[:status] == true #finishing order
           @order.update(status: :finished, end_at: Date.today)
-          redirect_to @order, notice: "Order Finished"
+          redirect_to @order, notice: t('notice.order.order_finished')
         else#go to sign
           redirect_to finish_order_signature_order_path(@order)
         end

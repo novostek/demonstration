@@ -91,7 +91,7 @@ class EstimatesController < ApplicationController
         @estimate.order.update(status: :change_approved)
         begin
           estimate_doc = @estimate.document_files.last.dup
-          sestimate_doc.title = "Change Order Signature"
+          sestimate_doc.title = t('texts.estimate.change_order_signature')
           estimate_doc.origin = "Order"
           estimate_doc.origin_id = @estimate.order.id
           estimate_doc.file = @estimate.document_files.last.file

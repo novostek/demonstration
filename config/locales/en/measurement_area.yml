@@ -12,3 +12,8 @@ en:
       calculate: Calculate
       calculate_areas: Calculate Areas
       calculate_your_areas: Calculate your areas
+  notice:
+    measurement_area:
+      created: "Measurement area was successfully created."
+      updated: "Measurement area was sucessfully updated."
+      deleted: "Measurement area was sucessfully deleted."

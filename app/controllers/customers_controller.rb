@@ -23,7 +23,7 @@ class CustomersController < ApplicationController
     result = SquareApi.add_card(@customer.square_id,params[:nonce])
 
     if result.success?
-      redirect_to customer_path(@customer), notice: "Card add successful"
+      redirect_to customer_path(@customer), notice: t('notice.customer.card_add_successful')
     elsif result.error?
       redirect_to customer_path(@customer), notice: result.errors
     end

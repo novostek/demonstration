@@ -54,7 +54,7 @@ class DocumentsController < ApplicationController
     end
 
     if !params[:document].present?
-      redirect_to "/estimates/#{@estimate.id}/view", notice: "Inform Document"
+      redirect_to "/estimates/#{@estimate.id}/view", notice: t('notice.document.inform_document')
       return
     end
 
@@ -129,7 +129,7 @@ class DocumentsController < ApplicationController
       respond_to do |format|
         format.html {
           if params[:send_mail].present? and params[:send_mail] == "true"
-            toastr("success","Mail Sent")
+            toastr("success", t('notice.estimate.mail_sent'))
           end
         }
         format.pdf do
@@ -152,7 +152,7 @@ class DocumentsController < ApplicationController
     document = Document.find(params[:document])
     document.data = params[:data]
     document.save
-    render json: {success:"Document Saved"}
+    render json: {success:t('notice.estimate.document_saved')}
   end
 
   # GET /documents/new

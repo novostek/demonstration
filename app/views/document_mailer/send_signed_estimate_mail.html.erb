@@ -4,11 +4,11 @@
 
 <table style="width:100%; margin-top: 40px; margin-bottom: 40px;">
   <tr>
-    <th><%= t 'subtotal' %></th>
+    <th><%= t 'texts.estimate.subtotal' %></th>
     <th><%= number_to_currency @estimate.subtotal %></th>
   </tr>
   <tr>
-    <th><%= t 'discount' %></th>
+    <th><%= t 'texts.estimate.discount' %></th>
     <th><%= number_to_currency @estimate.discounts %></th>
   </tr>
   <tr>
@@ -16,7 +16,7 @@
     <th><%= number_to_currency @estimate.tax || 0 %></th>
   </tr>
   <tr>
-    <th><%= t 'estimate_total' %></th>
+    <th><%= t 'texts.estimate.estimate_total' %></th>
     <th><%= number_to_currency @estimate.total %></th>
   </tr>
 </table>

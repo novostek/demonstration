@@ -33,7 +33,7 @@
             <% end %>
             <li>
               <%= link_to estimate_signature_estimate_path(@estimate), class: "grey-text text-darken-2" , target: "_blank" do %>
-                <i class="material-icons ">done</i><%= t('sign') %>
+                <i class="material-icons ">done</i><%= t('texts.estimate.sign') %>
               <% end %>
             </li>
 
@@ -100,7 +100,7 @@
               <div class="left width-100">
               <%= form_with model: @estimate, url: apply_discount_estimate_path(@estimate), method: :post, local: true do |f| %>
                 <div style="display: inline-flex; align-items: center;">
-                  <span class="font-weight-600 black-text mr-4"><%= t 'discount' %>:</span>
+                  <span class="font-weight-600 black-text mr-4"><%= t 'texts.estimate.discount' %>:</span>
                   <i class="material-icons prefix">attach_money</i>
                   <%= f.number_field :discount, step: 0.1, min: 0.0, required: true, class: 'mb-0', style: 'height: 25px;   padding: 0 5px;' %>
                 </div>

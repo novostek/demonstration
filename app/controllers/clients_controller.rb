@@ -37,7 +37,7 @@ class ClientsController < ApplicationController
     @client = Client.new(client_params)
 
     if @client.save
-      redirect_to @client, notice: 'Client foi criado com sucesso'
+      redirect_to @client, notice: t('notice.client.created')
     else
       render :new
     end
@@ -46,7 +46,7 @@ class ClientsController < ApplicationController
   # PATCH/PUT /clients/1
   def update
     if @client.update(client_params)
-      redirect_to @client, notice: 'Client foi atualizado com sucesso.'
+      redirect_to @client, notice: t('notice.client.updated')
     else
       render :edit
     end
@@ -55,7 +55,7 @@ class ClientsController < ApplicationController
   # DELETE /clients/1
   def destroy
     @client.destroy
-    redirect_to clients_url, notice: 'Client foi apagado com sucesso.'
+    redirect_to clients_url, notice: t('notice.client.deleted')
   end
 
   private

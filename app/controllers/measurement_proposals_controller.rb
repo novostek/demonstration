@@ -26,7 +26,7 @@ class MeasurementProposalsController < ApplicationController
     @measurement_proposal = MeasurementProposal.new(measurement_proposal_params)
 
     if @measurement_proposal.save
-      redirect_to @measurement_proposal, notice: 'Measurement was successfully created'
+      redirect_to @measurement_proposal, notice: t('notice.measurement_proposal.created')
     else
       render :new
     end
@@ -35,7 +35,7 @@ class MeasurementProposalsController < ApplicationController
   # PATCH/PUT /measurement_proposals/1
   def update
     if @measurement_proposal.update(measurement_proposal_params)
-      redirect_to @measurement_proposal, notice: 'Measurement proposal foi atualizado com sucesso.'
+      redirect_to @measurement_proposal, notice: t('notice.measurement_proposal.updated')
     else
       render :edit
     end

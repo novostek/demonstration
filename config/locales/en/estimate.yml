@@ -39,10 +39,7 @@ en:
         waiting_approval: "Waiting Approval"
         ordered: "Ordered"
         cancelled: "Cancelled"
-  sign: "Sign"
-  measurements: "Measurements"
-  no_area_yet: No area yet
-  payment_aprroval_text: "Automatic Payment Approval"
+
   notice:
     estimate:
       created: "Estimate was successfully created."
@@ -57,31 +54,33 @@ en:
       inform_all_fields: "All fields must be filled"
       discount_applied: "Discount was sucessfully applied to the estimate."
       discount_invalid: "The discount value is greater than the value of the estimate."
+      document_saved: Document Saved
+
   alt:
     estimate:
       contact_person: Contact Person
-  discount: Discount
 
-  # labels
-  itens: Itens
-  title_step_shedules_estimate: Schedule estimate
-  remove_after_drop: Remove After Drop
-  itens_for: Itens for
-  subtotal: Subtotal
-  discount_products: Discount (Products)
-  other_discounts: Other Discounts
-  estimate_total: Estimate Total
-  selected_areas: Selected areas
-  title_areas: Title
-  subtotal_area: Subtotal area
-  new_worker: New worker
-  job_location: Job Location
-  products_or_services_label: Products/Services
-  estimate_products_label: Estimate Products
-  estimate_description_label: Estimate description
-
-  button:
-    add_product: Add product
-
-
-
+  texts:
+    estimate:
+      sign: "Sign"
+      measurements: "Measurements"
+      no_area_yet: No area yet
+      payment_aprroval_text: "Automatic Payment Approval"
+      discount: Discount
+      itens: Itens
+      title_step_shedules_estimate: Schedule estimate
+      remove_after_drop: Remove After Drop
+      itens_for: Itens for
+      subtotal: Subtotal
+      discount_products: Discount (Products)
+      other_discounts: Other Discounts
+      estimate_total: Estimate Total
+      selected_areas: Selected areas
+      title_areas: Title
+      subtotal_area: Subtotal area
+      new_worker: New worker
+      job_location: Job Location
+      products_or_services_label: Products/Services
+      estimate_products_label: Estimate Products
+      estimate_description_label: Estimate description
+      change_order_signature: Change Order Signature

@@ -18,3 +18,7 @@ en:
 
       # model
       error_calling_locationsApi_listlocations: Error calling LocationsApi.listlocations ...
+
+  notice:
+    square_api:
+      square_linked: Square Linked

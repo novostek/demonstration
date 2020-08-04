@@ -12,7 +12,7 @@ class ApplicationController < ActionController::Base
   before_action :verify_welcome
 
   #add_breadcrumb I18n.t("breadcrumbs.home"), :root_path
-  add_breadcrumb t('breadcrumb.home'), :root_path
+  add_breadcrumb I18n.t('breadcrumb.home'), :root_path
   before_action :set_default_breadcrumbs, only: [:index, :show, :edit, :new]
 
   def toastr(type, body)

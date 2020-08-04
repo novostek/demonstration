@@ -14,3 +14,8 @@ en:
       pay_now: Pay now.
       in_partnership_with: In Partnership with
       payment_received_by_square: Payment Received by Square
+
+      payment_of_order_n: Payment of Order Nº
+      schedule_confirmation: Schedule confirmation
+      approved_the_estimate_n: approved the estimate nº
+      your_payment_has_been_registered_with_the_woffice: Your payment has been registered with the Woffice

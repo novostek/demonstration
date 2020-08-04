@@ -13,7 +13,7 @@ en:
     general: "Process Data"
     task_information: "Task Data"
     history: "History"
-    imadiate: "Imediate"
+    imediate: "Imediate"
     in_progress: "In Progress"
     pending_tasks: "Pending Tasks"
     process_id: "Process ID"

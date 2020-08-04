@@ -7,7 +7,7 @@ class SignatureJob < ApplicationJob
     Apartment::Tenant.switch(tenant) do
     # Do something later
     doc = DocumentFile.new
-    doc.title = signature_params[:signature][:doc_name] || "Signature"
+    doc.title = signature_params[:signature][:doc_name] || t('activerecord.models.signature')
     doc.origin = signature_params[:signature][:origin]
     doc.origin_id = signature_params[:signature][:origin_id]
 

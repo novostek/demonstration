@@ -2,15 +2,14 @@
 <% estimate.measurement_proposals.distinct.each do |mp| %>
   <div class="row">
     <div class="col s12">
-      <div class="row pl-1 pr-2 mb-2">
-        <span class="mr-1"><%= t 'texts.estimate.title_areas' %>:</span>
-        <span><%= mp.title %></span>
-      </div>
       <div class="row pl-1 pr-2">
         <span class="mr-1"><%= t 'texts.estimate.selected_areas' %>:</span>
         <% mp.measurement_area.each do |ma| %>
           <div class="chip blue white-text"><%= ma.name %></div>
         <% end %>
+      </div>
+      <div class="row pl-1 pr-2 mb-2">
+        <b><%=mp.title  %></b>
       </div>
       <table class="striped responsive-table">
         <thead>

@@ -2645,7 +2645,7 @@ $jscomp.polyfill = function (e, r, p, m) {
         }
 
         if (verticalAlignment === 'bottom') {
-          idealYPos = idealYPos - dropdownBRect.height + (this.options.coverTrigger ? triggerBRect.height : 0);
+          idealYPos = (idealYPos - dropdownBRect.height + (this.options.coverTrigger ? triggerBRect.height : 0)) - 50;
         }
         if (horizontalAlignment === 'right') {
           idealXPos = idealXPos - dropdownBRect.width + triggerBRect.width;

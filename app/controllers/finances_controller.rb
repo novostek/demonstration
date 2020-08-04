@@ -44,6 +44,12 @@ class FinancesController < ApplicationController
     @total_customers = Customer.count
     @recent_customers = Customer.get_recent_customers 3
 
+    begin
+      value= @total_balance[:value]
+    rescue
+      @total_balance= {value: 0}
+    end
+
     if @total_balance.blank?
       @total_balance= {value: 0}
     end

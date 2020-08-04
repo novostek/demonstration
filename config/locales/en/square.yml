@@ -18,6 +18,7 @@ en:
 
       # model
       error_calling_locationsApi_listlocations: Error calling LocationsApi.listlocations ...
+      payemnt_of_order_n: Payemnt of Order N*
 
   notice:
     square_api:

@@ -197,7 +197,7 @@ class SquareApi
             "reference_id": "#{order.id}",
             "line_items": [
                 {
-                    name: "Payemnt of Order N* #{order.code}",
+                    name: "#{t'texts.square_api.payemnt_of_order_n'} #{order.code}",
                     quantity: '1',
                     base_price_money: {
                         amount: (transaction.value*100).to_i,

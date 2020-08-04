@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html class="loading" lang="en" data-textdirection="ltr">
+<!-- BEGIN: Head-->
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimal-ui">
+  <meta name="author" content="<%= t 'texts.layout.woffice_llc' %>">
+  <title><%= t 'texts.error.500_title' %></title>
+  <link rel="apple-touch-icon" href="/materialize/images/favicon/apple-touch-icon-152x152.png">
+  <link rel="shortcut icon" type="image/x-icon" href="/materialize/images/favicon/favicon-32x32.png">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <!-- BEGIN: VENDOR CSS-->
+  <link rel="stylesheet" type="text/css" href="/materialize/vendors/vendors.min.css">
+  <!-- END: VENDOR CSS-->
+  <!-- BEGIN: Page Level CSS-->
+  <link rel="stylesheet" type="text/css" href="/materialize/vendors/animate-css/animate.css">
+  <link rel="stylesheet" type="text/css" href="/materialize/css/themes/vertical-modern-menu-template/materialize.css">
+  <link rel="stylesheet" type="text/css" href="/materialize/css/themes/vertical-modern-menu-template/style.css">
+  <link rel="stylesheet" type="text/css" href="/materialize/css/pages/page-404.css">
+  <!-- END: Page Level CSS-->
+  <!-- BEGIN: Custom CSS-->
+  <link rel="stylesheet" type="text/css" href="/materialize/css/custom/custom.css">
+  <link rel="stylesheet" type="text/css" href="/css/errors-pages.css">
+  <!-- END: Custom CSS-->
+</head>
+<!-- END: Head-->
+
+<body class="page500">
+<div class="error-wrapper">
+  <div class="error-logo animated fadeInDown">
+    <img src="/woffice.svg" alt="Woffice">
+  </div>
+  <div class="error-content">
+    <h1 class="animated fadeInDown"><%= t 'texts.error.500_msg_1' %></h1>
+    <div class="error-img animate fadeRight">
+      <img src="/500.png" alt="">
+    </div>
+    <div class="error-msg animate fadeUp">
+      <p><%= t 'texts.error.500_msg_2' %> <a href="https://novostek.atlassian.net/servicedesk/customer/portal/2"><%= t 'texts.error.technical_support' %></a>.</p>
+    </div>
+  </div>
+</div>
+</body>
+
+</html>

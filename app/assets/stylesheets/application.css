@@ -17,3 +17,12 @@
 #conversion-ration-bar-chart .ct-series-c .ct-bar {
     stroke: #e4e4e4;
 }
+
+/*required asterisk*/
+label.required:after {
+    display: inline;
+    content: " *";
+    color: #f44336;
+    position: static !important;
+    opacity: 1 !important;
+}

@@ -129,7 +129,7 @@
             </div>
             <div class="col s7 m7 right-align">
               <h5 class="mb-0 white-text hide-numbers" id="profit-numbers"><%= number_to_currency(@profit) %></h5>
-              <p class="no-margin">Profit<%= t 'texts.profit' %></p>
+              <p class="no-margin"><%= t 'texts.profit' %></p>
             </div>
           </div>
         </div>
@@ -429,11 +429,11 @@
         function confirm_cancel_order(){
             // debugger
             Swal.fire({
-                title: <%= t 'notice.order.confirme_cancel_order' %>,
+                title: '<%= t 'notice.order.confirme_cancel_order' %>',
                 icon: 'warning',
                 showCancelButton: true,
-                confirmButtonText: <%= t 'button.yes_i_want' %>,
-                cancelButtonText: <%= t 'button.cancel_sweetalert' %>,
+                confirmButtonText: '<%= t 'button.yes_i_want' %>',
+                cancelButtonText: '<%= t 'button.cancel_sweetalert' %>',
                 reverseButtons: true
             }).then(async (result) => {
                 if (result.value) {
@@ -447,7 +447,7 @@
                             // debugger
                             Swal.fire(
                                 '<%= t 'notice.canceled' %>!',
-                                <%= t 'notice.order.cancelled' %>,
+                                '<%= t 'notice.order.cancelled' %>',
                                 'success'
                             ).then((result) => {
                                 if (result.value) {

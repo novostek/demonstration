@@ -17,7 +17,7 @@ function openDiagram(bpmnXML) {
     // import diagram
     bpmnViewer.importXML(bpmnXML, function(err) {
         if (err) {
-            return console.error('could not import BPMN 2.0 diagram', err);
+            return console.error('<%= t 'notice.bpm.could_not_import_BPMN_2_0_diagram' %>', err);
         }
         // access viewer components
         var canvas = bpmnViewer.get('canvas');

@@ -17,7 +17,7 @@
       <label>
         <!--        <input type="checkbox" name="contact[main]" id="contact_main"  />-->
         <%= f.check_box :main %>
-        <span><%= t 'titles.main' %></span>
+        <span><%= t 'texts.main' %></span>
       </label>
     </p>
 
@@ -55,7 +55,7 @@
 
       <%= f.fields_for :data, OpenStruct.new(f.object.data) do |field| %>
         <div class="input active">
-          <label for="" ><%= t 'titles.search' %></label>
+          <label for="" ><%= t 'texts.search' %></label>
           <input type="text" id="autocomplete_address">
         </div>
         <div class="input-field" >

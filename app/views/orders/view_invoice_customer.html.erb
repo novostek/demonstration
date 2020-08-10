@@ -52,7 +52,7 @@
 
       <img src="/square.svg" alt="">
     </div>
-    <h6><%= t 'titles.payments' %>:</h6>
+    <h6><%= t 'texts.payments' %>:</h6>
   </div>
 
   <div class="row">
@@ -61,10 +61,10 @@
         <thead>
         <tr>
           <th><%= t 'id' %></th>
-          <th><%= t 'titles.date' %></th>
+          <th><%= t 'texts.date' %></th>
           <th><%= t 'activerecord.attributes.transaction.payment_method' %></th>
           <th><%= t 'activerecord.attributes.transaction.status' %></th>
-          <th class="right-align"><%= t 'titles.amount' %></th>
+          <th class="right-align"><%= t 'texts.amount' %></th>
         </tr>
         </thead>
         <tbody>
@@ -78,7 +78,7 @@
                 <div class="chip green lighten-5 green-text"><%= t.status_text %></div>
               <% else %>
                 <%= link_to send_square_transaction_path(t) do %>
-                  <div class="chip blue white-text"><%= t 'titles.pay_this' %></div>
+                  <div class="chip blue white-text"><%= t 'texts.pay_this' %></div>
                 <% end %>
               <% end  %>
             </td>
@@ -99,11 +99,11 @@
       <ul>
 
         <li class="display-flex justify-content-between">
-          <span class="invoice-subtotal-title"><%= t 'breadcrumb.invoice' %> <%= t 'titles.total' %></span>
+          <span class="invoice-subtotal-title"><%= t 'breadcrumb.invoice' %> <%= t 'texts.total' %></span>
           <h6 class="invoice-subtotal-value"><%= number_to_currency(@order.current_estimate.get_total_value) %></h6>
         </li>
         <li class="display-flex justify-content-between">
-          <span class="invoice-subtotal-title"><%= t 'titles.paid' %></span>
+          <span class="invoice-subtotal-title"><%= t 'texts.paid' %></span>
           <h6 class="invoice-subtotal-value"><%= number_to_currency(@transactions.where(status: :paid).sum(:value)) %></h6>
         </li>
         <li class="display-flex justify-content-between">

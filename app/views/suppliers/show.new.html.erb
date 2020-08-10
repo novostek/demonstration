@@ -74,15 +74,15 @@
                       <% end %>
                     </div>
                     <% if category == :address %>
-                      <a href="#" class="btn-more-info tooltipped" data-tooltip="More info"><i class="material-icons">place</i></a>
+                      <a href="#" class="btn-more-info tooltipped" data-tooltip="<%= t 'texts.more_info' %>"><i class="material-icons">place</i></a>
                       <div class="more-info">
                         <a href="#" class="btn-less-info"><i
                           class="material-icons">close</i></a>
                         <div class="map">
                           <img src="http://maps.google.com/maps/api/staticmap?center=<%= doc.data['lat'] %>,<%= doc.data['lng'] %>&zoom=10&size=300x80&scale=2&maptype=road&markers=color:blue%7Clabel:S%7C<%= doc.data['lat'] %>,<%= doc.data['lng'] %>&key=AIzaSyBUW7c4JukYkKfxTr_bxMN3vn2FvtXAaBQ" alt="">
                         </div>
-                        <span><strong class="font-weight-600">City:</strong> <%= doc.data["city"] %></span><br>
-                        <span><strong class="font-weight-600">State:</strong><%= doc.data["state"] %></span><br>
+                        <span><strong class="font-weight-600"><%= t 'json_data.city' %>:</strong> <%= doc.data["city"] %></span><br>
+                        <span><strong class="font-weight-600"><%= t 'json_data.state' %>:</strong><%= doc.data["state"] %></span><br>
                         <a href="#" class="btn-navigate btn btn-flat btn-small btn-width blue white-text"><i class="material-icons">navigation</i></a>
                       </div>
                     <% end %>
@@ -119,7 +119,7 @@
           </div>
           <div class="col s7 m7 right-align">
             <h5 class="mb-0 black-text"><%= @supplier.document_files.count %></h5>
-            <p class="no-margin black-text">Documents</p>
+            <p class="no-margin black-text"><%= t 'documents' %></p>
             <!-- <p>6,00,00</p> -->
           </div>
         </a>
@@ -134,7 +134,7 @@
           </div>
           <div class="col s7 m7 right-align">
             <h5 class="mb-0 black-text"><%= @supplier.notes.count %></h5>
-            <p class="no-margin black-text">Notes</p>
+            <p class="no-margin black-text"><%= t 'notes' %></p>
             <!-- <p>6,00,00</p> -->
           </div>
         </a>
@@ -171,7 +171,7 @@
 
         <!-- Exemple document -->
         <div class="col s12 pl-3">
-          <h5>Documents</h5>
+          <h5><%= t 'documents' %></h5>
         </div>
         <% @supplier.document_files.each do |doc| %>
           <%= link_to doc.file.url, target:"_blank" do %>

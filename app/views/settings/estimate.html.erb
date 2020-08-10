@@ -9,7 +9,7 @@
   <div class="container">
     <div class="row">
       <div class="col s10 m6 l6">
-        <h5 class="breadcrumbs-title mt-0 mb-0"><span>Settings</span></h5>
+        <h5 class="breadcrumbs-title mt-0 mb-0"><span><%= t 'activerecord.models.settings' %></span></h5>
 <!--        <ol class="breadcrumbs mb-0">-->
 <!--          <li class="breadcrumb-item"><a href="/"><%#= t('home') %></a>-->
 <!--          </li>-->
@@ -35,17 +35,17 @@
   <div class="settings_container">
     <div class="section">
       <ul class="tabs">
-        <li class="tab"><a target="_self" href="/settings">Company</a></li>
-        <li class="tab"><a target="_self" href="/settings/email">Emails</a></li>
-        <li class="tab"><a target="_self" class="active " href="/settings/estimate">Estimates</a></li>
-        <li class="tab"><a target="_self"  href="/settings/transactions">Transactions</a></li>
+        <li class="tab"><a target="_self" href="/settings"><%= t 'texts.company' %></a></li>
+        <li class="tab"><a target="_self" href="/settings/email"><%= t 'texts.emails' %></a></li>
+        <li class="tab"><a target="_self" class="active " href="/settings/estimate"><%= t 'activerecord.models.estimates' %></a></li>
+        <li class="tab"><a target="_self"  href="/settings/transactions"><%= t 'activerecord.models.transactions' %></a></li>
       </ul>
       <div class="card">
         <div class="card-content">
           <div class="row">
             <div class="col s12 mb-3">
-              <div class="card-title black-text">Estimate notes</div>
-              <p>The information here will appear to your clients.</p>
+              <div class="card-title black-text"><%= t 'texts.settings.estimate_notes' %></div>
+              <p><%= t 'texts.settings.information_appear_your_clients' %></p>
 
               <div class="row">
                 <div class="input-field col s12">
@@ -53,8 +53,8 @@
                   <div id="estimate_editor">
                     <div id="froala-editor">
                       <% if !Setting.find_by(namespace: "estimate_notes").present? %>
-                        <h3>Click here to edit the content</h3>
-                        <p>Drag the image above or the text block to insert them in the editor.</p>
+                        <h3><%= t 'texts.settings.click_here' %></h3>
+                        <p><%= t 'texts.settings.drag_the_image_or_text_block' %></p>
                       <% else %>
                         <%= Setting.get_value("estimate_notes").html_safe %>
                       <% end %>
@@ -68,7 +68,7 @@
           <div class="row">
             <div class="col s12 ">
               <!--                    <img src="https://i.ibb.co/sVQ03Sk/Whats-App-Image-2020-04-02-at-12-51-26.jpg" alt="Company logo">-->
-              <img src="<%= Setting.banner %>" alt="Company logo">
+              <img src="<%= Setting.banner %>" alt="Company logo<%= t 'texts.settings.company_logo' %>">
             </div>
             <div class="file-field input-field col s12">
               <div class="btn">

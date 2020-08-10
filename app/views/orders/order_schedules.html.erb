@@ -45,7 +45,7 @@
         </li>
         <li class="step">
           <%= link_to payments_order_path(@order) do %>
-            <div class="step-title waves-effect"><%= t 'titles.payment' %></div>
+            <div class="step-title waves-effect"><%= t 'texts.payment' %></div>
           <% end %>
         </li>
         <li class="step">
@@ -92,7 +92,7 @@
       <i class="material-icons left">arrow_back</i> <%= t 'button.back' %>
     <% end %>
     <%= link_to payments_order_path(@order), class: "btn waves-effect waves-light indigo breadcrumbs-btn right save-estimate" do %>
-      <%= t 'button.next' %>: <%= t 'titles.payment' %> <i class="material-icons right">arrow_forward</i>
+      <%= t 'button.next' %>: <%= t 'texts.payment' %> <i class="material-icons right">arrow_forward</i>
     <% end %>
   </div>
 </div>
@@ -141,7 +141,7 @@
   <%= form_with url: update_hour_cost_schedules_path,method: :get, local: true do |f| %>
     <%= f.hidden_field :redirect, value: "/orders/#{@order.id}/schedule" %>
     <div class="modal-content">
-      <h4><%= t 'titles.order.update_hour_cost' %></h4>
+      <h4><%= t 'texts.order.update_hour_cost' %></h4>
       <div id="hour_cost">
 
       </div>

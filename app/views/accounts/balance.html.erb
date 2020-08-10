@@ -28,7 +28,7 @@
 <!--  <button type="submit" class="btn btn-default">Get Report</button>-->
 <%# end %>
 <div class="card-panel">
-<%= render 'account', :name => "Assets", :accounts => @assets %>
-<%= render 'account', :name => "Liabilities", :accounts => @liabilities %>
-<%= render 'account', :name => "Equity", :accounts => @equity %>
+<%= render 'account', :name => t('texts.account.assets'), :accounts => @assets %>
+<%= render 'account', :name => t('texts.account.liabilities'), :accounts => @liabilities %>
+<%= render 'account', :name => t('texts.account.equity'), :accounts => @equity %>
 </div>

@@ -2,6 +2,12 @@ en:
   activerecord:
     models:
       product_categories: "Product Category"
+    attributes:
+      product_category:
+        name: Name
+        description: Description
+        color: Color
+        namespace: Namespace
   notice:
     product_category:
       created: "Product category was successfully created."

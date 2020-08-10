@@ -120,11 +120,11 @@
     <%= f.hidden_field :customer_sign, value: true %>
     <div class="modal-content">
       <div class="row">
-        <h4><%= t 'titles.send_email' %></h4>
+        <h4><%= t 'texts.send_email' %></h4>
       </div>
       <div class="row">
         <div class="input-field">
-          <%= f.label :emails, t('titles.emails') %>
+          <%= f.label :emails, t('texts.emails') %>
           <%= f.text_field :emails, value: @email_customer, required: true %>
 
         </div>

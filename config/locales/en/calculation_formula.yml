@@ -1,7 +1,8 @@
 en:
   activerecord:
     models:
-      calculation_formulas: "Calculation Formula"
+      calculation_formula: "Calculation Formula"
+      calculation_formulas: "Calculation Formulas"
     attributes:
       calculation_formula:
         name: "Name"
@@ -14,3 +15,7 @@ en:
       created: "Calculation formula was successfully created."
       updated: "Calculation formula was sucessfully updated."
       deleted: "Calculation formula was sucessfully deleted."
+
+  texts:
+    calculation_formula:
+      formula_for_tax: Formula for Tax

@@ -43,7 +43,7 @@
                 <i class="material-icons mr-2"> map </i> <%= t('bpm.diagram') %>
               </a>
             </li>
-            <li id="comments" onclick="swal('to do!')">
+            <li id="comments" onclick="swal('<%= t 'notice.bpm.to_do' %>')">
               <a>
                 <i class="material-icons mr-2"> comment </i> <%= t('bpm.comments') %>
               </a>
@@ -77,11 +77,11 @@
                 <a class="dropdown-trigger grey-text" href="#" data-target="dropdown1">
                   <i class="material-icons">more_vert</i>
                 </a><ul id="dropdown1" class="dropdown-content" tabindex="0">
-                <li tabindex="0"><a href="#!">All</a></li>
-                <li tabindex="0"><a href="#!">Read</a></li>
-                <li tabindex="0"><a href="#!">Unread</a></li>
-                <li tabindex="0"><a href="#!">Starred</a></li>
-                <li tabindex="0"><a href="#!">Unstarred</a></li>
+                <li tabindex="0"><a href="#!"><%= t 'texts.all' %></a></li>
+                <li tabindex="0"><a href="#!"><%= t 'bpm.read' %></a></li>
+                <li tabindex="0"><a href="#!"><%= t 'bpm.unread' %></a></li>
+                <li tabindex="0"><a href="#!"><%= t 'bpm.starred' %></a></li>
+                <li tabindex="0"><a href="#!"><%= t 'bpm.unstarred' %></a></li>
               </ul>
                 <!-- Dropdown Structure -->
 

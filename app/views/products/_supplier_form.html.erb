@@ -1,7 +1,7 @@
 <div id="supplier-add-modal" class="modal modal-fixed-footer">
   <%= form_for(supplier, authenticity_token: true, remote: true) do |f| %>
     <div class="modal-content">
-      <h4>New supplier</h4>
+      <h4><%= t 'button.new' %> <%= t('activerecord.models.supplier').downcase %></h4>
       <div class="row">
         <div class="input-field col s12">
           <%= f.label :name %>
@@ -19,7 +19,7 @@
     </div>
     <div class="modal-footer">
       <%= f.button :submit, :value => "remote_save", class:"modal-action modal-close waves-effect waves-green btn-flat" do %>
-        <i class="material-icons left">save</i><%= t('buttons.save') %>
+        <i class="material-icons left">save</i><%= t('button.save') %>
       <% end %>
     </div>
   <% end %>

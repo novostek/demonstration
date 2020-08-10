@@ -7,7 +7,7 @@
         <h5 class="breadcrumbs-title mt-0 mb-0">
           <span><%= t('activerecord.models.transactions') %></span>
           <% if @filtered %>
-            <span class="chip amber white-text">FILTERED</span>
+            <span class="chip amber white-text"><%= t('texts.filtered').upcase %></span>
           <% end %>
         </h5>
         <ol class="breadcrumbs mb-0">
@@ -16,7 +16,7 @@
       </div>
       <div class="col s2 m6 l6">
         <a class="btn waves-effect waves-light breadcrumbs-btn right border-round" href="<%= new_transaction_path %>"><i class="material-icons hide-on-med-and-up">add</i><span class="hide-on-small-only"><%= t("button.add")  %> <%= t('activerecord.models.transaction') %></span></a>
-        <div class="mr-2 btn-secondary sidenav-trigger btn waves-effect waves-light breadcrumbs-btn right" data-target="slide-out-right"> Filter</div>
+        <div class="mr-2 btn-secondary sidenav-trigger btn waves-effect waves-light breadcrumbs-btn right" data-target="slide-out-right"> <%= t 'button.filter' %></div>
       </div>
     </div>
   </div>
@@ -34,14 +34,14 @@
             <table class="responsive-table transactions-table">
               <thead>
               <tr>
-                <th>Source</th>
-                <th>Transaction Category</th>
-                <th>Account</th>
-                <th>Origin</th>
-                <th>Due</th>
-                <th>Effective</th>
-                <th>Status</th>
-                <th>Value</th>
+                <th><%= t 'texts.source' %></th>
+                <th><%= t 'activerecord.attributes.transaction.transaction_category' %></th>
+                <th><%= t 'activerecord.models.account' %></th>
+                <th><%= t 'texts.origin' %></th>
+                <th><%= t 'bpm.due' %></th>
+                <th><%= t 'activerecord.attributes.transaction.effective' %></th>
+                <th><%= t 'status' %></th>
+                <th><%= t 'activerecord.attributes.transaction.value' %></th>
                 <th></th>
                 <th></th>
 
@@ -75,7 +75,7 @@
                   </td>
                   <td>
                     <% if transaction.order.present? %>
-                      <%= link_to "Order ##{transaction.order}", order_path(transaction.order) %>
+                      <%= link_to "#{t'activerecord.models.order'} ##{transaction.order}", order_path(transaction.order) %>
                     <% else %>
                       -
                     <% end %>
@@ -131,19 +131,19 @@
         <div class="slide-out-right-title">
           <div class="col s12 pl-3">
             <i class="material-icons right "><a href="#" target="_self" class="sidenav-close">clear</a></i>
-            <h5>Filter</h5>
+            <h5><%= t 'button.filter' %></h5>
           </div>
         </div>
       </div>
       <div class="slide-out-right-body row pl-3 pr-3 ps">
         <%= search_form_for @q, url: request.env['PATH_INFO'] do |f|  %>
           <div class="input-field">
-            <%= f.select :transaction_category_id_eq, @categories,{ include_blank: 'All'}, {}  %>
+            <%= f.select :transaction_category_id_eq, @categories,{ include_blank: t('texts.all')}, {}  %>
             <%= f.label  :transaction_category_id %>
           </div>
 
           <div class="input-field">
-            <%= f.select :transaction_account_id_eq, @accounts, {include_blank: 'All'}, {}  %>
+            <%= f.select :transaction_account_id_eq, @accounts, {include_blank: t('texts.all')}, {}  %>
             <%= f.label  :transaction_account_id %>
           </div>
 
@@ -161,27 +161,27 @@
 
           <div class="input-field col s6">
             <%= f.date_field :due_gteq %>
-            <%= f.label  :due, "Due >" %>
+            <%= f.label  :due, "#{t'texts.due'} >" %>
           </div>
 
           <div class="input-field col s6">
             <%= f.date_field :due_lteq %>
-            <%= f.label  :due_lteq , "Due <"%>
+            <%= f.label  :due_lteq , "#{t'texts.due'} <"%>
           </div>
 
           <div class="input-field col s6">
             <%= f.date_field :effective_gteq %>
-            <%= f.label  :effective, "Effective >" %>
+            <%= f.label  :effective, "#{t'activerecord.attributes.transaction.effective'} >" %>
           </div>
 
           <div class="input-field col s6">
             <%= f.date_field :effective_lteq %>
-            <%= f.label  :effective_lteq , "Effective <"%>
+            <%= f.label  :effective_lteq , "#{t'activerecord.attributes.transaction.effective'} <"%>
           </div>
 
           <div class="actions">
-            <%= f.submit "Filter", class:"btn border-round right" %>
-            <%= link_to "Clear", transactions_path, class: "btn-flat" %>
+            <%= f.submit t('button.filter'), class:"btn border-round right" %>
+            <%= link_to t('clear'), transactions_path, class: "btn-flat" %>
           </div>
       <% end %>
         <div class="ps__rail-x" style="left: 0px; bottom: 0px;"><div class="ps__thumb-x" tabindex="0" style="left: 0px; width: 0px;"></div></div><div class="ps__rail-y" style="top: 0px; right: 0px;"><div class="ps__thumb-y" tabindex="0" style="top: 0px; height: 0px;"></div></div>

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <title>Woffice BPMN Editor</title>
+  <title><%= t 'bpm.woffice_bpmn_editor' %></title>
   <link rel="apple-touch-icon" href="/materialize/images/favicon/apple-touch-icon-152x152.png">
   <link rel="shortcut icon" type="image/x-icon" href="/materialize/images/favicon/favicon-32x32.png">
   <link rel="stylesheet" type="text/css" href="/materialize/css/themes/vertical-modern-menu-template/materialize.css">
@@ -48,17 +48,17 @@
     <input type="hidden" id="url_deploy" value="/bpmn_editor/deploy">
     <div class="message intro">
       <div class="note">
-        <h2 class="center">Woffice BPMN Editor</h2>
-        Drop BPMN diagram from your desktop or <a id="js-create-diagram" href>edit current diagram</a> to get started.
+        <h2 class="center"><%= t 'bpm.woffice_bpmn_editor' %></h2>
+        <%= t 'bpm.drop_bpmn_diagram_from_your_desktop_or' %> <a id="js-create-diagram" href><%= t 'bpm.edit_current_diagram' %></a> <%= t 'bpm.to_get_started' %>
       </div>
     </div>
 
     <div class="message error">
       <div class="note">
-        <p>Ooops, we could not display the BPMN 2.0 diagram.</p>
+        <p><%= t 'bpm.we_could_not_display_bpmn_2_0_diagram' %></p>
 
         <div class="details">
-          <span>Import Error Details</span>
+          <span><%= t 'bpm.import_error_details' %></span>
           <pre></pre>
         </div>
       </div>
@@ -69,21 +69,21 @@
   </div>
   <ul class="buttons" id="btns">
     <li>
-      download
+      <%= t 'bpm.download' %>
     </li>
     <li>
-      <a id="js-download-diagram" href title="download BPMN diagram">
-        BPMN diagram
+      <a id="js-download-diagram" href title="<%= t 'bpm.download' %> <%= t 'bpm.bpmn_diagram' %>">
+        <%= t 'bpm.bpmn_diagram' %>
       </a>
     </li>
     <li>
-      <a id="js-download-svg" href title="download as SVG image">
-        SVG image
+      <a id="js-download-svg" href title="<%= t 'bpm.download' %> <%= t 'bpm.as_svg_image' %>">
+        <%= t 'bpm.svg_image' %>
       </a>
     </li>
     <li>
       <a id="saveXml" class="btn-save">
-        Deploy to Production
+        <%= t 'bpm.deploy_to_production' %>
       </a>
     </li>
   </ul>

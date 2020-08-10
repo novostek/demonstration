@@ -1,0 +1,12 @@
+en:
+  activerecord:
+    models:
+      client: "Client"
+      clients: "Clients"
+    attributes:
+      client:
+        name: Name
+        tenant_name: Tenant name
+  texts:
+    client:
+      doing_stuff: Doing stuff

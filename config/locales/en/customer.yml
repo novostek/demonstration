@@ -34,3 +34,12 @@ en:
 
   # labels
   main_address: Customer address
+
+  texts:
+    customer:
+      first_name: First Name
+      last_name: Last Name
+      partials: Partials
+      company_banner: Company Banner
+      customized_fields: Customized Fields
+      new_custom_field: New Custom Field

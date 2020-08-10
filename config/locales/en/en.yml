@@ -1,5 +1,7 @@
 # Here are generic things
 en:
+  woffice: Woffice
+  wood_office: Wood Office
   faker:
     name:
       category:
@@ -25,8 +27,8 @@ en:
   placeholder:
     search: "Search ..."
 
-  # labels/titles generics
-  titles:
+  # texts/labels/titles generics
+  texts:
     send_email: Send email
     send_document: Send Document
     total: Total
@@ -35,6 +37,7 @@ en:
     quantity: Quantity
     upload_photos: Upload photos
     emails: Emails
+    email: Email
     growth: Growth
     pending: Pending
     profit: Profit
@@ -53,9 +56,34 @@ en:
     receivable: Receivable
     overdue: Overdue
     active: Active
+    inactive: Inactive
     hour_cost: Hour Cost
     avatar: Avatar
+    unbilled: Unbilled
+    last_30_days: last 30 days
+    open: Open
+    filtered: Filtered
+    source: Source
+    origin: Origin
+    due: Due
+    value: Value
 
+    all: All
+    price: Price
+    more_info: More info
+    company: Company
+
+    address: Address
+    phone: Phone
+    url: Url
+    cash: Cash
+    select_one: Select one
+    check: Check
+    check_all: Check all
+    uncheck_all: Uncheck all
+    default: Default
+
+    no_results: No resultes
 
   # buttons
   button:
@@ -109,9 +137,10 @@ en:
     view_invoice: View Invoice
     change_order: Change Order
 
-    # customer
     measure: Measure
     clone: Clone
+    filter: Filter
+    get_directions: Get Directions
 
   #
   false: "No"
@@ -167,7 +196,6 @@ en:
 
   # others
   home: "Home"
-  hello: "Hello world"
   send_mail_schedule: "Send Confirmation to Customer"
   see_all: "See All"
   find_customer: "Find a Customer"

@@ -39,7 +39,7 @@
   <% if !@user.new_record? %>
     <div class="input-field">
 
-      <%= f.select :active, [["Active",true],["Inactive",false]] %>
+      <%= f.select :active, [[t('texts.active'),true],[t('texts.inactive'),false]] %>
       <%= f.label  :active %>
     </div>
   <% else %>

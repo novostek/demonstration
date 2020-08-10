@@ -11,7 +11,7 @@
       <div class="container">
         <div class="row">
           <div class="col s10 m6 l6">
-            <h5 class="breadcrumbs-title mt-0 mb-0"><span>Settings</span></h5>
+            <h5 class="breadcrumbs-title mt-0 mb-0"><span><%= t 'activerecord.models.settings' %></span></h5>
             <!--          <ol class="breadcrumbs mb-0">-->
             <!--            <li class="breadcrumb-item"><a href="/"><%#= t('home') %></a>-->
             <!--            </li>-->
@@ -37,16 +37,16 @@
       <div class="settings_container">
         <div class="section">
           <ul class="tabs">
-            <li class="tab"><a target="_self" class="active " href="/settings">Company</a></li>
-            <li class="tab"><a target="_self"  href="/settings/email">Emails</a></li>
-            <li class="tab"><a target="_self"  href="/settings/estimate">Estimates</a></li>
-            <li class="tab"><a target="_self"  href="/settings/transactions">Transactions</a></li>
+            <li class="tab"><a target="_self" class="active " href="/settings"><%= t 'texts.company' %></a></li>
+            <li class="tab"><a target="_self"  href="/settings/email"><%= t 'texts.emails' %></a></li>
+            <li class="tab"><a target="_self"  href="/settings/estimate"><%= t 'activerecord.models.estimates' %></a></li>
+            <li class="tab"><a target="_self"  href="/settings/transactions"><%= t 'activerecord.models.transactions' %></a></li>
           </ul>
           <div class="card">
             <div class="card-content">
               <div class="row">
                 <div class="col s12 m4 mb-3">
-                  <div class="card-title black-text">Company logo</div>
+                  <div class="card-title black-text"><%= t 'texts.settings.company_logo' %></div>
                 </div>
                 <div class="col s12 m8">
                   <div class="row">
@@ -56,7 +56,7 @@
                     </div>
                     <div class="file-field input-field col s12 l8">
                       <div class="btn">
-                        <span>Upload new logo</span>
+                        <span><%= t 'texts.settings.upload_new_logo' %></span>
                         <!--                      <input type="file" name="logo" id="logo">-->
                         <%= f.file_field :logo %>
                       </div>
@@ -70,13 +70,13 @@
               <div class="divider mt-2 mb-3"></div>
               <div class="row">
                 <div class="col s12 m4 mb-3">
-                  <div class="card-title black-text">Company info</div>
-                  <p>The information here will appear to your clients.</p>
+                  <div class="card-title black-text"><%= t 'texts.settings.company_info' %></div>
+                  <p><%= t 'texts.settings.information_appear_your_clients' %></p>
                 </div>
                 <div class="col s12 m8">
                   <div class="row">
                     <div class="input-field col s12 l8">
-                      <p class="font-weight-600">Company name</p>
+                      <p class="font-weight-600"><%= t 'texts.settings.company_name' %></p>
                       <input name="company_name" id="company_name" type="text"
                              value="<%= Setting.get_value('company_name') %>">
                       <!-- <span class="helper-text" data-error="wrong" data-success="right">Helper Text</span> -->
@@ -84,7 +84,7 @@
                   </div>
                   <div class="row">
                     <div class="input-field col s12 l8">
-                      <p class="font-weight-600">Company fullname</p>
+                      <p class="font-weight-600"><%= t 'texts.settings.company_fullname' %></p>
                       <input name="company_full_name" id="company_full_name" type="text"
                              value="<%= Setting.get_value('company_full_name') %>">
                       <!-- <span class="helper-text" data-error="wrong" data-success="right">Helper Text</span> -->
@@ -92,28 +92,28 @@
                   </div>
                   <div class="row">
                     <div class="input-field col s12 l8">
-                      <p class="font-weight-600">Address</p>
+                      <p class="font-weight-600"><%= t 'texts.address' %></p>
                       <input name="company_address" id="company_address" type="text"
                              value="<%= Setting.get_value('company_address') %>">
                     </div>
                   </div>
                   <div class="row">
                     <div class="input-field col s12 l8">
-                      <p class="font-weight-600">Phone</p>
+                      <p class="font-weight-600"><%= t 'texts.phone' %></p>
                       <input name="company_phone" id="company_phone" class="phone" type="tel"
                              value="<%= Setting.get_value('company_phone') %>">
                     </div>
                   </div>
                   <div class="row">
                     <div class="input-field col s12 l8">
-                      <p class="font-weight-600">Email</p>
+                      <p class="font-weight-600"><%= t 'texts.email' %></p>
                       <input name="company_email" id="company_email" type="email"
                              value="<%= Setting.get_value('company_email') %>">
                     </div>
                   </div>
                   <div class="row">
                     <div class="input-field col s12 l8">
-                      <p class="font-weight-600">Url</p>
+                      <p class="font-weight-600"><%= t 'texts.url' %></p>
                       <input name="url_app" id="url_app" type="text"
                              value="<%= Setting.get_value('url_app') %>">
                     </div>
@@ -124,7 +124,7 @@
               <div class="divider mt-2 mb-3"></div>
               <div class="row">
                 <div class="col s12 m4 mb-3">
-                  <div class="card-title black-text">Order</div>
+                  <div class="card-title black-text"><%= t 'activerecord.models.order' %></div>
                   <!-- <p>The information here will appear to your clients.</p> -->
                 </div>
                 <div class="col s12 m8">
@@ -132,7 +132,7 @@
                     <div class="col s12 l8">
                       <div class="row">
                         <div class="col s10">
-                          <p class="font-weight-600 left mr-5">Client end order</p>
+                          <p class="font-weight-600 left mr-5"><%= t 'texts.settings.client_and_order' %></p>
                         </div>
                         <div class="col s2">
                           <div class="switch">
@@ -148,7 +148,7 @@
                         <div class="col s12">
                           <div class="input-field mt-3">
                                                             <span class="helper-text" data-error="wrong"
-                                                                  data-success="right">The order will end when the client confirms.</span>
+                                                                  data-success="right"><%= t 'texts.settings.order_end_when_client_confirm' %></span>
                           </div>
                         </div>
                       </div>
@@ -159,7 +159,7 @@
                     <div class="col s12 l8">
                       <div class="row">
                         <div class="col s10">
-                          <p class="font-weight-600 left mr-5">Take photos</p>
+                          <p class="font-weight-600 left mr-5"><%= t 'texts.settings.take_photos' %></p>
                         </div>
                         <div class="col s2">
                           <div class="switch">
@@ -174,7 +174,7 @@
                         </div>
                         <div class="col s12">
                           <div class="input-field mt-3">
-                            <span class="helper-text" data-error="wrong" data-success="right">The order will end only after photos are added.</span>
+                            <span class="helper-text" data-error="wrong" data-success="right"><%= t 'texts.settings.order_end_only_after_photos_added' %></span>
                           </div>
                         </div>
                       </div>
@@ -185,7 +185,7 @@
                     <div class="col s12 l8">
                       <div class="row">
                         <div class="col s10">
-                          <p class="font-weight-600 left mr-5">Order needs signature</p>
+                          <p class="font-weight-600 left mr-5"><%= t 'texts.settings.order_needs_signature' %></p>
                         </div>
                         <div class="col s2">
                           <div class="switch">
@@ -200,7 +200,7 @@
                         </div>
                         <div class="col s12">
                           <div class="input-field mt-3">
-                            <span class="helper-text" data-error="wrong" data-success="right">The order needs the client signature to be able to end.</span>
+                            <span class="helper-text" data-error="wrong" data-success="right"><%= t 'texts.settings.order_needs_client_signature_to_end' %></span>
                           </div>
                         </div>
                       </div>
@@ -214,15 +214,15 @@
               <div class="divider mt-2 mb-3"></div>
               <div class="row">
                 <div class="col s12 m4 mb-3">
-                  <div class="card-title black-text">Measurements</div>
-                  <p>Set which fields will be used for the estimates and orders.</p>
+                  <div class="card-title black-text"><%= t 'measurements' %></div>
+                  <p><%= t 'texts.settings.se_fields_will_be_used' %></p>
                 </div>
                 <div class="col s12 m8">
                   <div class="row mb-3">
                     <div class="col s12 l8">
                       <div class="row">
                         <div class="col s10">
-                          <p class="font-weight-600 left mr-5">Width</p>
+                          <p class="font-weight-600 left mr-5"><%= t 'activerecord.attributes.measurements.width' %></p>
                         </div>
                         <div class="col s2">
                           <div class="switch">
@@ -241,7 +241,7 @@
                     <div class="col s12 l8">
                       <div class="row">
                         <div class="col s10">
-                          <p class="font-weight-600 left mr-5">Length</p>
+                          <p class="font-weight-600 left mr-5"><%= t 'activerecord.attributes.measurements.length' %></p>
                         </div>
                         <div class="col s2">
                           <div class="switch">
@@ -260,7 +260,7 @@
                     <div class="col s12 l8">
                       <div class="row">
                         <div class="col s10">
-                          <p class="font-weight-600 left mr-5">Height</p>
+                          <p class="font-weight-600 left mr-5"><%= t 'activerecord.attributes.measurements.height' %></p>
                         </div>
                         <div class="col s2">
                           <div class="switch">
@@ -279,7 +279,7 @@
                     <div class="col s12 l8">
                       <div class="row">
                         <div class="col s10">
-                          <p class="font-weight-600 left mr-5">Square feet</p>
+                          <p class="font-weight-600 left mr-5"><%= t 'activerecord.attributes.measurements.square_feet' %></p>
                         </div>
                         <div class="col s2">
                           <div class="switch">
@@ -299,13 +299,13 @@
               <div class="divider mt-2 mb-3"></div>
               <div class="row">
                 <div class="col s12 m4 mb-3">
-                  <div class="card-title black-text">Third-parties</div>
-                  <p>These keys allow the communication with third-party apps.</p>
+                  <div class="card-title black-text"><%= t 'texts.settings.third_parties' %></div>
+                  <p><%= t 'texts.settings.keys_communication_third_party_apps' %></p>
                 </div>
                 <div class="col s12 m8">
                   <div class="row">
                     <div class="input-field col s12 l8">
-                      <p class="font-weight-600">Send grid Key</p>
+                      <p class="font-weight-600"><%= t 'texts.settings.send_grid_key' %></p>
                       <textarea class="materialize-textarea" name="send_grid_key" id="send_grid_key"><%= Setting.get_value("send_grid_key") %></textarea>
                     </div>
                   </div>
@@ -313,14 +313,14 @@
                     <div class="input-field col s12 l8">
 
                       <% if Setting.get_value("square_oauth_code").present? %>
-                        <p class="font-weight-600">Square key</p>
+                        <p class="font-weight-600"><%= t 'texts.settings.square_key' %></p>
                         <span><%= Setting.get_value("square_oauth_code") %></span>
-                        <p class="font-weight-600">Refresh Square Account</p><br>
+                        <p class="font-weight-600"><%= t 'texts.settings.refresh_square_account' %></p><br>
                         <a href="https://wofficeauth.herokuapp.com/square_apis/square_oauth?redirect=<%= Setting.get_value("url_app")%>/square_api/oauth">
                           <img src="/square_name.svg" alt="">
                         </a>
                       <% else %>
-                        <p class="font-weight-600">Link Square Account</p><br>
+                        <p class="font-weight-600"><%= t 'texts.settings.link_square_account' %></p><br>
                         <a href="https://wofficeauth.herokuapp.com/square_apis/square_oauth?redirect=<%= Setting.get_value("url_app")%>/square_api/oauth">
                           <img src="/square_name.svg" alt="">
                         </a>
@@ -340,7 +340,7 @@
             </div>
           </div>
         </div>
-        <%= f.submit "Save", class:"btn right" %>
+        <%= f.submit t('button.save'), class:"btn right" %>
       </div>
       <div class="content-overlay"></div>
     </div>

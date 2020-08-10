@@ -13,40 +13,40 @@
       <ul class="collapsible collapsible-accordion">
         <% if @document.estimate? %>
           <li>
-            <div class="collapsible-header" tabindex="0"><i class="material-icons">expand_more</i> Estimate/Order</div>
+            <div class="collapsible-header" tabindex="0"><i class="material-icons">expand_more</i> <%= t 'texts.document.estimate_or_order' %></div>
             <div class="collapsible-body white">
 
               <div class="chip drag-text"  draggable="true" data-value="{{estimate.code}}" >
                 <i class="material-icons chip-icon">open_with</i>
-                Estimate Code
+                <%= t 'activerecord.models.estimate' %> <%= t 'activerecord.attributes.estimate.code' %>
               </div>
               <div class="chip drag-text"  draggable="true" data-value="{{estimate.price}}" >
                 <i class="material-icons chip-icon">open_with</i>
-                Estimate Price
+                <%= t 'activerecord.models.estimate' %> <%= t 'activerecord.attributes.estimate.price' %>
               </div>
               <div class="chip drag-text" draggable="true" data-value="{{estimate.title}}">
                 <i class="material-icons chip-icon">open_with</i>
-                Estimate Title
+                <%= t 'activerecord.models.estimate' %> <%= t 'activerecord.attributes.estimate.title' %>
               </div>
               <div class="chip drag-text" draggable="true" data-value="{{estimate.location}}">
                 <i class="material-icons chip-icon">open_with</i>
-                Estimate Location
+                <%= t 'activerecord.models.estimate' %> <%= t 'activerecord.attributes.estimate.location' %>
               </div>
               <div class="chip drag-text" draggable="true" data-value="{{estimate.total}}">
                 <i class="material-icons chip-icon">open_with</i>
-                Estimate Total
+                <%= t 'activerecord.models.estimate' %> <%= t 'activerecord.attributes.estimate.total' %>
               </div>
               <div class="chip drag-text" draggable="true" data-value="{{order.start_at}}">
                 <i class="material-icons chip-icon">open_with</i>
-                Order Start at
+                <%= t 'activerecord.models.order' %> <%= t 'activerecord.attributes.order.start_at' %>
               </div>
               <div class="chip drag-text" draggable="true" data-value="{{order.end_at}}">
                 <i class="material-icons chip-icon">open_with</i>
-                Order End at
+                <%= t 'activerecord.models.order' %> <%= t 'activerecord.attributes.order.end_at' %>
               </div>
               <div class="chip drag-text" draggable="true" data-value="{{order.code}}">
                 <i class="material-icons chip-icon">open_with</i>
-                Order Code
+                <%= t 'activerecord.models.order' %> <%= t 'activerecord.attributes.order.code' %>
               </div>
 <!--              <div class="chip drag-text" draggable="true" data-value="<img src='{{signature.link}}' />" > <!--<%%= wicked_pdf_image_tag '{{signature.link}}' %>  -->-->
 <!--                <i class="material-icons chip-icon">open_with</i>-->
@@ -55,60 +55,60 @@
             </div>
           </li>
           <li>
-            <div class="collapsible-header" tabindex="0"><i class="material-icons">expand_more</i> Customer</div>
+            <div class="collapsible-header" tabindex="0"><i class="material-icons">expand_more</i> <%= t 'activerecord.models.customer' %></div>
             <div class="collapsible-body white">
               <div class="chip drag-text"  draggable="true" data-value="{{customer.name}}" >
                 <i class="material-icons chip-icon">open_with</i>
-                Name
+                <%= t 'activerecord.attributes.customer.name' %>
               </div>
               <div class="chip drag-text" draggable="true" data-value="{{customer.name | split: ' ' | first }}">
                 <i class="material-icons chip-icon">open_with</i>
-                First Name
+                <%= t 'texts.customer.first_name' %>
               </div>
               <div class="chip drag-text" draggable="true" data-value="{{customer.name | split: ' ' | last }}">
                 <i class="material-icons chip-icon">open_with</i>
-                Last Name
+                <%= t 'texts.customer.last_name' %>
               </div>
               <div class="chip drag-text" draggable="true" data-value="{{customer.since }}">
                 <i class="material-icons chip-icon">open_with</i>
-                Since
+                <%= t 'activerecord.attributes.customer.since' %>
               </div>
               <div class="chip drag-text" draggable="true" data-value="{{customer.code }}">
                 <i class="material-icons chip-icon">open_with</i>
-                Code
+                <%= t 'activerecord.attributes.customer.code' %>
               </div>
               <div class="chip drag-text" draggable="true" data-value="{{customer.main_phone }}">
                 <i class="material-icons chip-icon">open_with</i>
-                Phone
+                <%= t 'activerecord.attributes.customer.code' %>
               </div>
               <div class="chip drag-text" draggable="true" data-value="{{customer.main_address }}">
                 <i class="material-icons chip-icon">open_with</i>
-                Address
+                <%= t 'texts.address' %>
               </div>
               <div class="chip drag-text" draggable="true" data-value="{{customer.main_state }}">
                 <i class="material-icons chip-icon">open_with</i>
-                State
+                <%= t 'json_data.state' %>
               </div>
               <div class="chip drag-text" draggable="true" data-value="{{customer.main_city }}">
                 <i class="material-icons chip-icon">open_with</i>
-                City
+                <%= t 'json_data.city' %>
               </div>
               <div class="chip drag-text" draggable="true" data-value="{{customer.main_zipcode }}">
                 <i class="material-icons chip-icon">open_with</i>
-                ZipCode
+                <%= t 'json_data.zipcode' %>
               </div>
             </div>
           </li>
           <li>
-            <div class="collapsible-header" tabindex="0"><i class="material-icons">expand_more</i> Partials</div>
+            <div class="collapsible-header" tabindex="0"><i class="material-icons">expand_more</i> <%= t 'texts.customer.partials' %></div>
             <div class="collapsible-body white">
               <div class="chip drag-text" draggable="true" data-value='<img src="<%= Setting.url.gsub('https','http') %>/settings/company_logo" alt="">'>
                 <i class="material-icons chip-icon">open_with</i>
-                Company Logo
+                <%= t 'texts.settings.company_logo' %>
               </div>
               <div class="chip drag-text" draggable="true" data-value='<img src="<%= Setting.url.gsub('https','http') %>/settings/company_banner" alt="">'>
                 <i class="material-icons chip-icon">open_with</i>
-                Company Banner
+                <%= t 'texts.customer.company_banner' %>
               </div>
               <div class="chip drag-text"  draggable="true" data-value="
               <table>
@@ -134,7 +134,7 @@
 " >
 
                 <i class="material-icons chip-icon">open_with</i>
-                Measurements
+                <%= t 'measurements' %>
               </div>
               <div class="chip drag-text" draggable="true" data-value="
               <table>
@@ -159,14 +159,14 @@
              </tbody></table>
 ">
                 <i class="material-icons chip-icon">open_with</i>
-                Products
+                <%= t 'activerecord.models.products' %>
               </div>
 
             </div>
           </li>
         <% end %>
         <li>
-          <div class="collapsible-header" tabindex="0"><i class="material-icons">expand_more</i> Customized Fields</div>
+          <div class="collapsible-header" tabindex="0"><i class="material-icons">expand_more</i> <%= t 'texts.customer.customized_fields' %></div>
           <div class="collapsible-body white" >
             <div id="custom_fields">
               <% @document.document_custom_fields.each do |d| %>
@@ -177,7 +177,7 @@
               <% end  %>
             </div>
             <br>
-            <a href="#modal_custom" class="btn  modal-trigger">New Custom Field</a>
+            <a href="#modal_custom" class="btn  modal-trigger"><%= t 'texts.customer.new_custom_field' %></a>
           </div>
 
         </li>
@@ -188,8 +188,8 @@
     <div class="card-panel">
       <div id="froala-editor">
         <% if document.data.blank? %>
-        <h3>Click here to edit the content</h3>
-        <p>Drag the image above or the text block to insert them in the editor.</p>
+        <h3><%= t 'texts.settings.click_here' %></h3>
+        <p><%= t 'texts.settings.drag_the_image_or_text_block' %></p>
         <% else %>
           <%= document.data.html_safe %>
         <% end %>
@@ -211,7 +211,7 @@
     </div>
     <div class="modal-footer">
       <%= f.button :submit,  class:"modal-action modal-close waves-effect waves-green btn-flat btn-send", target:"_self" do %>
-        <i class="material-icons left">send</i> Send
+        <i class="material-icons left">send</i> <%= t 'button.send' %>
       <% end %>
       <!--<a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat ">Agree</a>-->
     </div>

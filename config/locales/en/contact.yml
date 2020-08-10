@@ -1,7 +1,8 @@
 en:
   activerecord:
     models:
-      contact: "Contacts"
+      contact: "Contact"
+      contacts: "Contacts"
     attributes:
       contact:
         category: "Category"

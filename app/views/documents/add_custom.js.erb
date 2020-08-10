@@ -1,5 +1,5 @@
 $("#custom_fields").append("<%= escape_javascript(render partial:'add_custom', locals:{custom: @custom} )%>");
-M.toast({html: "Custom Fild add success!"});
+M.toast({html: "<%= t 'notice.document.custom_fild_add_success' %>"});
 $('.drag-text').each(function () {
     this.addEventListener('dragstart', dragCallback);
 });

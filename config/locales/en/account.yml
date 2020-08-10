@@ -19,7 +19,7 @@ en:
         debits: "Debits"
         credits: "Credits"
   enumerize:
-    customer:
+    account:
       category:
         company: "Company"
         person: "Person"
@@ -34,3 +34,12 @@ en:
       deleted: "Account was sucessfully deleted."
     entry:
       created: "Entry was successfully created."
+
+  texts:
+    account:
+      assets: Assets
+      liabilities: Liabilities
+      equity: Equity
+      plutus_account: Plutus account
+
+

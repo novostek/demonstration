@@ -61,10 +61,10 @@
                   <thead>
                   <tr>
                     <th><%= t 'id' %></th>
-                    <th><%= t 'titles.date' %></th>
+                    <th><%= t 'texts.date' %></th>
                     <th><%= t 'activerecord.attributes.transaction.payment_method' %></th>
                     <th><%= t 'activerecord.attributes.transaction.status' %></th>
-                    <th class="right-align"><%= t 'titles.amount' %></th>
+                    <th class="right-align"><%= t 'texts.amount' %></th>
                      <th></th>
                   </tr>
                   </thead>
@@ -155,11 +155,11 @@
                 <ul>
 
                   <li class="display-flex justify-content-between">
-                    <span class="invoice-subtotal-title"><%= t 'activerecord.attributes.order.invoice' %> <%= t 'titles.total' %></span>
+                    <span class="invoice-subtotal-title"><%= t 'activerecord.attributes.order.invoice' %> <%= t 'texts.total' %></span>
                     <h6 class="invoice-subtotal-value"><%= number_to_currency(@transactions.sum(:value)) %></h6>
                   </li>
                   <li class="display-flex justify-content-between">
-                    <span class="invoice-subtotal-title"><%= t 'titles.paid' %></span>
+                    <span class="invoice-subtotal-title"><%= t 'texts.paid' %></span>
                     <h6 class="invoice-subtotal-value"><%= number_to_currency(@transactions.where(status: :paid).sum(:value)) %></h6>
                   </li>
                   <li class="display-flex justify-content-between">
@@ -214,7 +214,7 @@
   <div id="modal-change-payment" class="modal">
     <%= form_with url: change_transaction_value_order_path(@order), method: :post, local: true do |f| %>
       <div class="modal-content">
-        <h4><%= t 'titles.order.change_payment' %></h4>
+        <h4><%= t 'texts.order.change_payment' %></h4>
         <div class="row">
           <div class="input-field">
             <%= f.label :value, "Value" %>
@@ -235,11 +235,11 @@
     <%= form_with url: send_invoice_mail_order_path(@order), method: :get, local: true do |f| %>
       <div class="modal-content">
         <div class="row">
-        <h4><%= t 'titles.order.send_invoice' %></h4>
+        <h4><%= t 'texts.order.send_invoice' %></h4>
         </div>
         <div class="row">
           <div class="input-field">
-            <%= f.label :emails, t('titles.emails') %>
+            <%= f.label :emails, t('texts.emails') %>
             <%= f.text_field :emails, value: @email_customer, required: true %>
           </div>
           <div class="input-field">
@@ -261,7 +261,7 @@
   <div id="modal_payment" class="modal">
     <%= form_with url: invoice_add_payment_order_path(@order), method: :get, local: true do |f| %>
       <div class="modal-content">
-        <h4><%= t 'titles.order.new_payment' %></h4>
+        <h4><%= t 'texts.order.new_payment' %></h4>
         <div class="card-panel z-depth-0 border-radius-4">
           <%= f.hidden_field :origin, value: t('activerecord.models.order') %>
           <%= f.hidden_field :origin_id, value: @order.id %>

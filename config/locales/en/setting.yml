@@ -2,8 +2,74 @@ en:
   activerecord:
     models:
       setting: "Setting"
+      settings: Settings
   notice:
     setting:
       created: "Setting was successfully created."
       updated: "Setting was sucessfully updated."
       deleted: "Setting was sucessfully deleted."
+  texts:
+    settings:
+      template_email: Template email
+      set_email_messages_that_are_sent: Set the email messages that are sent.
+
+      smtp_address: SMTP Address
+      smtp_port: SMTP Port
+      smtp_username: SMTP Username
+      smtp_password: SMTP Password
+
+      click_here: Click here to edit the content
+      drag_the_image_or_text_block: Drag the image above or the text block to insert them in the editor.
+
+      square_estimate_text: Square Estimate text
+      this_text_is_sent_via_square: This text is sent via Square.
+
+      square_mail_text: Square mail text
+
+      invoice_mail: Invoice mail
+      document_mail: Document mail
+      sign_order_mail: Sign order mail
+
+      schedule_mail: Schedule mail
+      card_mail: Card mail
+      mail_payment_registered: Mail payment registered
+      text_sent_to_customer_payment_registered: Text of the email sent to the customer when their payment was registered.
+
+      estimate_notes: Estimate notes
+      information_appear_your_clients: The information here will appear to your clients.
+
+      company_logo: Company logo
+      upload_new_logo: Upload new logo
+      company_info: Company info
+      company_name: Company name
+      company_fullname: Company fullname
+
+      client_and_order: Client and order
+      order_end_when_client_confirm: The order will end when the client confirms.
+
+      take_photos: Take photos
+      order_end_only_after_photos_added: The order will end only after photos are added.
+
+      order_needs_signature: Order needs signature
+      order_needs_client_signature_to_end: The order needs the client signature to be able to end.
+      se_fields_will_be_used: Set which fields will be used for the estimates and orders.
+
+      third_parties: Third-parties
+      keys_communication_third_party_apps: These keys allow the communication with third-party apps.
+      send_grid_key: Send grid Key
+      square_key: Square key
+      refresh_square_account: Refresh Square Account
+      link_square_account: Link Square Account
+
+      transaction_defaults: Transaction defaults
+      define_default_values_your_transactions: Define the default values for your transactions
+
+      order_payments: Order payments
+      select_default_value_receive_order_payment: Select a default value for when you receive an order payment by
+
+      square_credit: Square (credit)
+      square_installments: Square (installments)
+
+      select_default_value_pay_labor_costs: Select a default value for when you pay your labor costs
+      select_default_value_pay_taxes: Select a default value for when pay your taxes
+      select_default_value_buy_product: Select a default value for when buy a product

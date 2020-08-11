@@ -235,4 +235,11 @@ class Estimate < ApplicationRecord
   def self.get_new_estimates_count
     where("created_at > now() - interval '30 day'").count
   end
+
+  def generate_code
+    loop do
+      code = "#{Time.now.year}#{SecureRandom.random_number(999999)}"
+      break code unless Estimate.where(code: code).exists?
+    end
+  end
 end

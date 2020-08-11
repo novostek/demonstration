@@ -48,4 +48,11 @@ class Lead < ApplicationRecord
     s[:customer] = self.customer
     s
   end
+
+  def generate_code
+    loop do
+      code = "#{Time.now.year}#{SecureRandom.random_number(999999)}"
+      break code unless Lead.where(code: code).exists?
+    end
+  end
 end

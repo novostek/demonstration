@@ -155,6 +155,19 @@
   
 </script>
 
+<% if user_signed_in? %>
+  <script src="https://fast.conpass.io/60qb5Q4cNh5Cb.js"></script>
+  <script>
+      if (window.Conpass) {
+          window.Conpass.init({
+              name: "<%= current_user.name %>",
+              email: "<%= current_user.email %>",
+              tenantId: "<%= Apartment::Tenant.current %>"
+          });
+      };
+  </script>
+
+<% end %>
 <%= toastr_flash %>
 <!-- END PAGE LEVEL JS-->
 <%= yield :scripts %>

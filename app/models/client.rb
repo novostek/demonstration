@@ -249,21 +249,40 @@ class Client < ApplicationRecord
   #
   def init_onboard
     # New customer
-    customer = Customer.create(name: 'Lucas', category: :person)
-    customer.contacts.build(category: :phone, title: 'Main phone', data: {"phone":"(999) 999-9999"}, main: true).save
-    customer.contacts.build(category: :email, title: 'Main email', data: {"email":"example@mail.com"}, main: true).save
+    customer = Customer.create(name: 'Customer onboard', category: :person)
+    customer.contacts.build(category: :phone, title: 'Main phone onboard', data: {"phone":"(999) 999-9999"}, main: true).save
+    customer.contacts.build(category: :email, title: 'Main email onboard', data: {"email":"example@mail.com"}, main: true).save
 
     # New lead
     lead = Lead.create! via: 'System', status: :new, customer: customer, description: 'Example onboard', phone: '(999) 999-9999', email: 'example@mail.com', date: DateTime.now
 
+    # New Worker
+    sales_person = Worker.create! name: 'Work onboard', categories: :employee
+
+    # New ProductCategory
+    product_category = ProductCategory.create name: 'Ferramentas onboard', namespace: 'ferramentas'
+
+    # New Supplier
+    supplier = Supplier.create name: 'Company A', active: true
+
+    # Find ou Create CalculationFormula default
+    cal_formula = CalculationFormula.find_or_create_by(name: 'Default unitary value formula', namespace: 'default-formula')
+
+    # New Products
+    p_a = Product.create! name: 'Product onboard A', details: 'Product onboard A', customer_price: 10, cost_price: 5, area_covered: 5, tax: false, active: true, calculation_formula_id: cal_formula.id, product_category_id: product_category.id, supplier_id: supplier.id
+    p_b = Product.create! name: 'Product onboard B', details: 'Product onboard B', customer_price: 10, cost_price: 5, area_covered: 5, tax: false, active: true, calculation_formula_id: cal_formula.id, product_category_id: product_category.id, supplier_id: supplier.id
+
+    p_c = Product.create! name: 'Product onboard C', details: 'Product onboard C', customer_price: 10, cost_price: 5, area_covered: 5, tax: false, active: true, calculation_formula_id: cal_formula.id, product_category_id: product_category.id, supplier_id: supplier.id
+    p_c.product_suggestions.build(suggestion: p_a).save
+    p_c.product_suggestions.build(suggestion: p_b).save
+
     # New Estimate
-    #sales_person = Worker.create
-    #lead.estimate.build(title: 'estimate onboard', sales_person: )
+    estimate = Estimate.find_or_initialize_by(lead_id: lead.id)
+    estimate.assign_attributes title: 'Estimate onboard', sales_person_id: sales_person.id, status: :new, description: 'Example onboard', location: 'Appleton, WI, EUA', latitude: '44.2619309', longitude: '-88.41538469999999', category: :estimate, current: false, total: 0, taxpayer: :customer, payment_approval: true
+    # add product C
+    estimate.save
 
     # New Order
-
-    # New Product
-    # New Worker
   end
 
 end

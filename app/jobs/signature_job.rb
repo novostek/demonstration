@@ -13,7 +13,7 @@ class SignatureJob < ApplicationJob
 
     #cria a imagem temporária da assinatura
     temp = base64_to_file(signature_params[:signature][:file])
-    $temp_img = "/#{temp.path.split("/").last}"
+    $temp_img = "/#{temp.path.split("/").last}" if temp.present?
 
     url = Setting.url.sub "https", "http"
 

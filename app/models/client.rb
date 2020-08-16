@@ -248,79 +248,40 @@ class Client < ApplicationRecord
 
   # Método que cria os registros usados ​​no Onboarding
   def self.init_onboard
-    #i = 1
-    #
-    ## New customer
-    #customer = Customer.create name: "Customer on#{i}", category: :person, contacts_attributes: [{category: :phone, title: "Main phone on#{i}", data: {"phone":"(999) 999-9999"}, main: true}, {category: :email, title: "Main email on#{i}", data: {"email":"example@mail.com"}, main: true}]
-    #
-    ## New lead
-    #lead = Lead.create via: 'System', status: :new, customer: customer, description: "Lead on#{i}", phone: '(999) 999-9999', email: 'example@mail.com', date: DateTime.now
-    #
-    ## New Worker
-    #sales_person = Worker.create name: "Work on#{i}", categories: :employee
-    #
-    ## New ProductCategory
-    #product_category = ProductCategory.create name: "Ferramentas on#{i}", namespace: 'ferramentas'
-    #
-    ## New Supplier
-    #supplier = Supplier.create name: "Company on#{i}", active: true
-    #
-    ## Find ou Create CalculationFormula default
-    #cal_formula = CalculationFormula.find_or_create_by name: 'Default unitary value formula', namespace: 'default-formula'
-    #
-    ## New Products
-    #p_a = Product.create name: "Product on#{i}", details: "Product on#{i}", customer_price: 10, cost_price: 5, area_covered: 5, tax: false, active: true, calculation_formula_id: cal_formula.id, product_category_id: product_category.id, supplier_id: supplier.id
-    #p_b = Product.create name: "Product on#{i+1}", details: "Product on#{i+1}", customer_price: 10, cost_price: 5, area_covered: 5, tax: false, active: true, calculation_formula_id: cal_formula.id, product_category_id: product_category.id, supplier_id: supplier.id
-    #
-    #p_c = Product.create name: "Product on#{i+2}", details: "Product on#{i+2}", customer_price: 10, cost_price: 5, area_covered: 5, tax: false, active: true, calculation_formula_id: cal_formula.id, product_category_id: product_category.id, supplier_id: supplier.id#, product_suggestions_attributes: [{suggestion_id: p_a.id}, {suggestion_id: p_b.id}]
-    #p_c.product_suggestions.build(suggestion: p_a).save
-    #p_c.product_suggestions.build(suggestion: p_b).save
-    #
-    ## New Estimate
-    #estimate = Estimate.find_or_initialize_by lead_id: lead.id
-    #estimate.assign_attributes title: "Estimate on#{i}", sales_person_id: sales_person.id, status: :new, description:  "Estimate on#{i}", location: 'Appleton, WI, EUA', latitude: '44.2619309', longitude: '-88.41538469999999', category: :estimate, current: false, total: 0, taxpayer: :customer, payment_approval: true,
-    #                           measurement_areas_attributes: [{name: 'area A', measurements_attributes: [{width: 10,length: 10}], measurement_proposals_attributes: [{product_estimates_attributes: [{product_id: p_c.id, unitary_value: p_c.customer_price, quantity: 1, value: p_c.customer_price, tax: false}]} ]}]
-    #estimate.save
-    #
-    ## New Order
-    #estimate.create_order
-    #order = estimate.order
-
     # New customer
-    customer = Customer.create name: "Customer on#{i}", category: :person, contacts_attributes: [{category: :phone, title: "Main phone on#{i}", data: {"phone":"(999) 999-9999"}, main: true}, {category: :email, title: "Main email on#{i}", data: {"email":"example@mail.com"}, main: true}]
+    customer = Customer.create name: I18n.t('texts.client.onboard.customer'), category: :person, contacts_attributes: [{category: :phone, title: I18n.t('texts.client.onboard.main_phone'), data: {"phone":I18n.t('texts.client.onboard.phone_value')}, main: true}, {category: :email, title: I18n.t('texts.client.onboard.main_email'), data: {"email":I18n.t('texts.client.onboard.email_value')}, main: true}]
 
     # New lead
-    lead = Lead.create via: 'System', status: :new, customer: customer, description: "Lead on#{i}", phone: '(999) 999-9999', email: 'example@mail.com', date: DateTime.now
+    lead = Lead.create via: 'System', status: :new, customer: customer, description: I18n.t('texts.client.onboard.lead'), phone: I18n.t('texts.client.onboard.phone_value'), email: I18n.t('texts.client.onboard.email_value'), date: DateTime.now
 
     # New Worker
-    sales_person = Worker.create name: "Work on#{i}", categories: :employee
+    sales_person = Worker.create name: I18n.t('texts.client.onboard.worker'), categories: :employee
 
     # New ProductCategory
-    product_category = ProductCategory.create name: "Tools on#{i}", namespace: 'tools'
+    product_category = ProductCategory.create name: I18n.t('texts.client.onboard.product_category'), namespace: I18n.t('texts.client.onboard.product_category_namespace')
 
     # New Supplier
-    supplier = Supplier.create name: "Company on#{i}", active: true
+    supplier = Supplier.create name: I18n.t('texts.client.onboard.supplier'), active: true
 
     # Find ou Create CalculationFormula default
-    cal_formula = CalculationFormula.find_or_create_by name: 'Default unitary value formula', namespace: 'default-formula'
+    cal_formula = CalculationFormula.find_or_create_by name: I18n.t('texts.client.default_unitary_value_formula'), namespace: 'default-formula'
 
     # New Products
-    p_a = Product.create name: "Product on#{i}", details: "Product on#{i}", customer_price: 10, cost_price: 5, area_covered: 5, tax: false, active: true, calculation_formula_id: cal_formula.id, product_category_id: product_category.id, supplier_id: supplier.id
-    p_b = Product.create name: "Product on#{i+1}", details: "Product on#{i+1}", customer_price: 10, cost_price: 5, area_covered: 5, tax: false, active: true, calculation_formula_id: cal_formula.id, product_category_id: product_category.id, supplier_id: supplier.id
+    p_a = Product.create name: I18n.t('texts.client.onboard.prod_1'), details: I18n.t('texts.client.onboard.prod_1_desc'), customer_price: 10, cost_price: 5, area_covered: 5, tax: false, active: true, calculation_formula_id: cal_formula.id, product_category_id: product_category.id, supplier_id: supplier.id
+    p_b = Product.create name: I18n.t('texts.client.onboard.prod_2'), details: I18n.t('texts.client.onboard.prod_2_desc'), customer_price: 10, cost_price: 5, area_covered: 5, tax: false, active: true, calculation_formula_id: cal_formula.id, product_category_id: product_category.id, supplier_id: supplier.id
 
-    p_c = Product.create name: "Product on#{i+2}", details: "Product on#{i+2}", customer_price: 10, cost_price: 5, area_covered: 5, tax: false, active: true, calculation_formula_id: cal_formula.id, product_category_id: product_category.id, supplier_id: supplier.id#, product_suggestions_attributes: [{suggestion_id: p_a.id}, {suggestion_id: p_b.id}]
+    p_c = Product.create name: I18n.t('texts.client.onboard.prod_3'), details: I18n.t('texts.client.onboard.prod_3_desc'), customer_price: 10, cost_price: 5, area_covered: 5, tax: false, active: true, calculation_formula_id: cal_formula.id, product_category_id: product_category.id, supplier_id: supplier.id#, product_suggestions_attributes: [{suggestion_id: p_a.id}, {suggestion_id: p_b.id}]
     p_c.product_suggestions.build(suggestion: p_a).save
     p_c.product_suggestions.build(suggestion: p_b).save
 
     # New Estimate
     estimate = Estimate.find_or_initialize_by lead_id: lead.id
-    estimate.assign_attributes title: "Estimate on#{i}", sales_person_id: sales_person.id, status: :new, description:  "Estimate on#{i}", location: 'Appleton, WI, EUA', latitude: '44.2619309', longitude: '-88.41538469999999', category: :estimate, current: false, total: 0, taxpayer: :customer, payment_approval: true,
-                               measurement_areas_attributes: [{name: 'area A', measurements_attributes: [{width: 10,length: 10}], measurement_proposals_attributes: [{product_estimates_attributes: [{product_id: p_c.id, unitary_value: p_c.customer_price, quantity: 1, value: p_c.customer_price, tax: false}]} ]}]
+    estimate.assign_attributes title: I18n.t('texts.client.onboard.estimate'), sales_person_id: sales_person.id, status: :new, description: I18n.t('texts.client.onboard.estimate_desc'), location: I18n.t('texts.client.onboard.estimate_location'), latitude: I18n.t('texts.client.onboard.estimate_lat'), longitude: I18n.t('texts.client.onboard.estimate_long'), category: :estimate, current: false, total: 0, taxpayer: :customer, payment_approval: true,
+                               measurement_areas_attributes: [{name: I18n.t('texts.client.onboard.area'), measurements_attributes: [{width: 10,length: 10}], measurement_proposals_attributes: [{product_estimates_attributes: [{product_id: p_c.id, unitary_value: p_c.customer_price, quantity: 1, value: p_c.customer_price, tax: false}]} ]}]
     estimate.save
 
     # New Order
     estimate.create_order
-    order = estimate.order
   end
 
 end

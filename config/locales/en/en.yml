@@ -141,7 +141,7 @@ en:
     clone: Clone
     filter: Filter
     get_directions: Get Directions
-
+    decline: Decline
   #
   false: "No"
   true: "Yes"

@@ -115,6 +115,7 @@ Rails.application.routes.draw do
       get "cancel"
       get "reactivate"
       post "apply_discount"
+      get 'decline_estimate'
     end
     collection do
       get ":id/measurements", to: "measurement_areas#measurements", as: :measurement_view

@@ -48,7 +48,7 @@ class Customer < ApplicationRecord
   def self.create_square_customers
     Client.all.each do |c|
       Apartment::Tenant.switch(c.tenant_name) do
-        Customer.where(square_id: nil).each do (customer)
+        Customer.where(square_id: nil).each do |customer|
           customer.create_customer_square
         end
       end

@@ -1,3 +1,4 @@
+
 <ul class="collapsible exp collapsible-areas">
   <li>
     <div class="collapsible-header" tabindex="0"><i class="material-icons">select_all</i><%= t 'areas' %></div>
@@ -44,13 +45,9 @@
               <td>
                 <% if ma.photos.any? %>
                   <% ma.photos.each do |photo| %>
-                    <div class="col s2">
-                      <div>
-                        <a href="<%= photo.url %>" target="_blank" title="Finishig Order">
-                          <img src="<%= photo.url %>" class="responsive-img mb-10" alt="">
-                        </a>
-                      </div>
-                    </div>
+                    <a href="<%= photo.url %>" target="_blank" title="Finishig Order">
+                      <img src="<%= photo.url %>" width="40" class="circle" alt="">
+                    </a>
                   <% end %>
                 <% end %>
               </td>

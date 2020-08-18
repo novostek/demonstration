@@ -434,7 +434,7 @@ class EstimatesController < ApplicationController
         :latitude, :longitude, :category, :order_id, :price, :tax,
         :tax_calculation, :lead_id, :bpmn_instance, :current, :total, :taxpayer,
         measurement_areas_attributes: [
-            :id, :estimate_id, :name, :description, :_destroy,
+            :id, :estimate_id, :name, :description, {photos: []}, :_destroy,
             measurements_attributes: [
                 :id, :length, :width, :height, :square_feet, :measures, :_destroy
             ]

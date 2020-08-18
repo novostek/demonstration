@@ -70,6 +70,6 @@ class MeasurementAreasController < ApplicationController
 
     # Only allow a trusted parameter "white list" through.
     def measurement_area_params
-      params.require(:measurement_area).permit(:estimate_id, :name, :description, measurements_attributes: [:id, :length, :width, :height, :_destroy])
+      params.require(:measurement_area).permit(:estimate_id, :name, :description, {photos: []}, measurements_attributes: [:id, :length, :width, :height, :_destroy])
     end
 end

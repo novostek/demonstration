@@ -16,4 +16,16 @@
   <%= f.fields_for :measurements, f.object.new_record? ? f.object.measurements.build : f.object.measurements do |measures| %>
     <%= render 'measurement_fields', m: measures %>
   <% end %>
+  <div class="col s12">
+    <div class="file-field input-field">
+      <div class="btn right">
+        <span><%= t 'file' %></span>
+        <%= f.file_field :photos, multiple: true %>
+      </div>
+      <div class="file-path-wrapper pl-0">
+        <input class="file-path validate" type="text"
+               placeholder="Upload one or more photos" value="<%= f.object.photos.present? ? f.object.photos.map(&:identifier).join(', ') : '' %>">
+      </div>
+    </div>
+  </div>
 </div>

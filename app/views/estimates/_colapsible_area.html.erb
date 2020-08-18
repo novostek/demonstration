@@ -19,6 +19,7 @@
             <% if @hidden_fields['square_feet'].present? %>
               <th><span class="hide-on-med-and-up">Sqft</span> <span class="hide-on-small-only"><%= t 'activerecord.attributes.measurements.square_feet' %></span></th>
             <% end %>
+              <th><span class="hide-on-med-and-up"><%= t 'texts.photos' %></span> <span class="hide-on-small-only"><%= t 'texts.photos' %></span></th>
             <% if @calculation_formula.present? %>
               <th><span class="hide-on-med-and-up">T</span> <span class="hide-on-small-only"><%= @calculation_formula.col_name %></span></th>
             <% end %>
@@ -40,6 +41,19 @@
               <% if @hidden_fields['square_feet'].present? %>
                 <td><%= ma.measurements[0].square_feet %></td>
               <% end %>
+              <td>
+                <% if ma.photos.any? %>
+                  <% ma.photos.each do |photo| %>
+                    <div class="col s2">
+                      <div>
+                        <a href="<%= photo.url %>" target="_blank" title="Finishig Order">
+                          <img src="<%= photo.url %>" class="responsive-img mb-10" alt="">
+                        </a>
+                      </div>
+                    </div>
+                  <% end %>
+                <% end %>
+              </td>
               <% if @calculation_formula.present? %>
                 <td><%= @calculation_formula.calculate([ma.id], 1) %></td>
               <% end %>

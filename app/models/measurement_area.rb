@@ -6,6 +6,7 @@
 #  cloned_from :uuid
 #  description :text
 #  name        :string
+#  photos      :json
 #  created_at  :datetime         not null
 #  updated_at  :datetime         not null
 #  estimate_id :uuid             not null
@@ -23,6 +24,7 @@ class MeasurementArea < ApplicationRecord
   has_many :measurements, inverse_of: :measurement_area, dependent: :destroy
   has_many :area_proposal
   has_many :measurement_proposals, through: :area_proposal
+  mount_uploaders :photos, DocumentFileUploader
 
   accepts_nested_attributes_for :measurements, allow_destroy: true
   accepts_nested_attributes_for :measurement_proposals, reject_if: :all_blank, allow_destroy: true

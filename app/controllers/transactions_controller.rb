@@ -7,9 +7,9 @@ class TransactionsController < ApplicationController
   def index
     @filtered = params[:q].present?
     if @filtered and params[:q][:status_eq] == "cancelled"
-      @q = Transaction.unscoped.all.order(id: :desc).ransack(params[:q])
+      @q = Transaction.unscoped.all.order(created_at: :desc).ransack(params[:q])
     else
-      @q = Transaction.all.order(id: :desc).ransack(params[:q])
+      @q = Transaction.all.order(created_at: :desc).ransack(params[:q])
     end
     @transactions = @q.result.page(params[:page]).per(10)
 

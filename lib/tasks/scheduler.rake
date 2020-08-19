@@ -46,3 +46,24 @@ task :square_card_pay => :environment do
   end
 
 end
+
+desc "Fix Tax for all Orders"
+task :fix_tax => :environment do
+
+  Client.all.each do |c|
+    Apartment::Tenant.switch(c.tenant_name) do
+      Order.all.map do |order|
+        tax_purchase = Purchase.find_by(order_id: order.id)
+        tax_cost = ProductPurchase.find_or_initialize_by(purchase: tax_purchase, tax: true)
+        tax_cost.value = order.current_estimate.tax
+        tax_cost.quantity = 1
+        tax_cost.unity_value = order.current_estimate.tax
+        tax_cost.custom_title = order.current_estimate.calculation_formula.present? ? order.current_estimate.calculation_formula.name : nil
+        tax_cost.save
+      end
+    end
+  end
+
+end
+
+

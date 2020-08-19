@@ -172,7 +172,7 @@ class Estimate < ApplicationRecord
         end
 
         tax_purchase = Purchase.find_by(order_id: order.id)
-        tax_cost = ProductPurchase.find_or_initialize_by(purchase: tax_purchase, value: self.tax, custom_title: self.calculation_formula.present? ? self.calculation_formula.name : nil, tax: true)
+        tax_cost = ProductPurchase.find_or_initialize_by(purchase: tax_purchase, value: self.tax, custom_title: self.calculation_formula.present? ? self.calculation_formula.name : nil, tax: true, quantity: 1, unity_value: self.tax)
         tax_cost.save
       end
     else

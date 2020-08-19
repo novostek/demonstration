@@ -49,6 +49,10 @@ class MeasurementAreasController < ApplicationController
 
   def measurements
     @estimate = Estimate.find(params[:id])
+    if @estimate.ordered?
+      redirect_to "/estimates/#{@estimate.id}/view", notice: t('notice.estimate.already_ordered')
+      return
+    end
     @hidden_fields = Setting.get_value('hidden_measurement_fields')
     render :measurements_areas
   end

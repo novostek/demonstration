@@ -44,6 +44,11 @@
               <a class="grey-text text-darken-2 modal-trigger btn-send-email" href="#modal-mail_document"><i class="material-icons ">send</i><%= t 'button.documents' %></a>
             </li>
             <li>
+              <%= link_to measurement_view_estimates_path(@estimate),  class: "grey-text text-darken-2" do %>
+                <i class="material-icons ">edit</i><%= t "activerecord.models.measurements" %>
+              <% end %>
+            </li>
+            <li>
               <%= link_to step_one_estimates_path(@estimate.lead.id),  class: "grey-text text-darken-2" do %>
                 <i class="material-icons ">edit</i><%= t "button.edit" %>
               <% end %>

@@ -1,3 +1,12 @@
+<%= content_for :head_content do %>
+  <style>
+    .disabled-sign {
+      background-color: #DDD !important;
+      color: #999;
+      box-shadow: none !important;
+    }
+  </style>
+<% end %>
 
   <div class="card-panel">
     <%= render 'layouts/document_top' %>
@@ -168,10 +177,11 @@
     <% else %>
       <p> <b><%= t 'signed_at' %> <%= "#{DateTime.now}" %></b></p>
     <% end %>
+    <p class="m-0 red-text" id="msg-sign">Please, draw your signature in the box below</p>
     <div class="row">
       <div class="col s12">
         <% if !@view.present? %>
-          <%= form_with url: create_sign_signatures_path do |f| %>
+          <%= form_with url: create_sign_signatures_path, id: 'create_sign' do |f| %>
 
             <%= f.hidden_field "signature[sign]", value: true %>
             <%= f.hidden_field "signature[origin]", value: "Estimate" %>
@@ -181,7 +191,7 @@
             <canvas id="signature-pad" class="signature-pad" width=700 height=200 style="border:1px solid #000000;"></canvas>
             <br>
             <button id="clear" disabled class="btn" type="button" ><%= t 'clear' %></button>
-            <%= f.submit "Sign", id: 'sign', class:"btn green", disabled: "disabled", onclick:"loading_()" %>
+            <%= f.submit "Sign", id: 'sign', class:"btn green disabled-sign" %>
             <button id="decline" class="btn white red-text right modal-trigger" data-target="modal-decline" type="button" ><%= t 'button.decline' %></button>
 
           <% end %>
@@ -220,10 +230,12 @@
   <!--https://gasparesganga.com/labs/jquery-loading-overlay/#quick-demo -->
   <script src="https://cdn.jsdelivr.net/npm/gasparesganga-jquery-loading-overlay@2.1.7/dist/loadingoverlay.min.js"></script>
   <script>
-    function loading_()
-    {
-        $.LoadingOverlay("show");//,{image: "/loading.gif",}
-    }
+    // function loading_()
+    // {
+    //     // $.LoadingOverlay("show");//,{image: "/loading.gif",}
+    // }
+
+
 
 
       $(document).ready(function(){
@@ -281,14 +293,26 @@
           signaturePad.clear();
           $("#signature_file").val("");
 
-          $('#sign').prop('disabled', true);
           $('#clear').prop('disabled', true);
+          $('#sign').addClass('disabled-sign');
       });
 
       signaturePad.onBegin = function() {
+          $('#msg-sign').hide();
           $('#clear').prop('disabled', false);
-          $('#sign').prop('disabled', false);
+          $('#sign').removeClass('disabled-sign');
       };
+
+      $("#create_sign").submit(function(e){
+          if (signaturePad.isEmpty()){
+              $('#msg-sign').show();
+              return false;
+          }else{
+              // assinou
+              $.LoadingOverlay("show");
+              return true;
+          }
+      });
 
   </script>
 <% end %>

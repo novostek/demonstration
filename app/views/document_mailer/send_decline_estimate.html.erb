@@ -1,8 +1,7 @@
 <h4 class="greetings"><%= @estimate.customer.name %> declined Estimate #<%= @estimate.code %></h4>
-<br>
-<h6>Reason:</h6>
-<div>
-  <p>
-    <%= @reason %>
-  </p>
+<p><b>Reason:</b></p>
+<div style="    border: 1px solid lightgrey;
+    padding: 0px 15px 0px 15px;
+    border-radius: 10px 10px 10px 10px;">
+  <p><%= @reason %></p>
 </div>

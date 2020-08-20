@@ -1,9 +1,11 @@
 class EstimatesController < ApplicationController
-  load_and_authorize_resource except: [:estimate_signature, :create_products_estimates, :create_step_one, :create_schedule,:delete_schedule]
+  load_and_authorize_resource except: [:estimate_signature, :create_products_estimates, :create_step_one, :create_schedule,:delete_schedule, :decline_estimate]
   before_action :set_estimate, only: [:send_grid_mail, :show, :edit, :update, :destroy, :cancel, :reactivate, :send_mail,:estimate_signature, :tax_calculation, :taxpayer, :create_products_estimates,:new_note, :new_document,:create_order,:apply_discount, :decline_estimate]
   before_action :set_combos, only: [:step_one, :products]
   # skip_forgery_protection
   # GET /estimates
+
+  layout "welcome", only: [:decline_estimate]
 
   def index
     @q = Estimate.all.order(created_at: :desc).ransack(params[:q])

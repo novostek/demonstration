@@ -90,7 +90,7 @@
               <span class="left width-100"><span class="font-weight-600 black-text"><%= t 'created_at' %>:</span> <%= @estimate.created_at %></span>
             </div>
             <div class="col s12 m4">
-              <span class=" users-view-status display-inline chip green lighten-5 green-text right mt-0"><%= @estimate.status_text %></span>
+              <%= render partial: 'status', locals: {estimate: @estimate, classes: 'users-view-status display-inline right mt-0'} %>
             </div>
           </div>
           <div class="col s12 m6 xl7">

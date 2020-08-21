@@ -65,15 +65,16 @@ class MeasurementAreasController < ApplicationController
   # adiciona uma ou mais imagens
   def add_images
     add_more_images(images_params[:images])
-    flash[:error] = "Failed uploading images" unless @measurement_area.save
-    redirect_to :back
+    @error = @measurement_area.save
+    respond_to :js
   end
 
   # remove uma das imagens
   def remove_image
-    remove_image_at_index(params[:id].to_i)
-    flash[:error] = "Failed deleting image" unless @measurement_area.save
-    redirect_to :back
+    @index = params[:id_image].to_i
+    remove_image_at_index(@index)
+    @error = @measurement_area.save
+    respond_to :js
   end
 
   private
@@ -97,7 +98,7 @@ class MeasurementAreasController < ApplicationController
     def remove_image_at_index(index)
       remain_images = @measurement_area.images
       if index == 0 && @measurement_area.images.size == 1
-        @gallery.remove_images!
+        @measurement_area.remove_images!
       else
         deleted_image = remain_images.delete_at(index)
         deleted_image.try(:remove!)

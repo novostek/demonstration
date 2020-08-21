@@ -41,7 +41,7 @@
               <a class="grey-text text-darken-2 modal-trigger btn-send-email" href="#modal-mail"><i class="material-icons ">send</i><%= t 'button.custom_email' %></a>
             </li>
             <li>
-              <a class="grey-text text-darken-2 modal-trigger btn-send-email" href="#modal-mail_document"><i class="material-icons ">send</i><%= t 'button.documents' %></a>
+              <a class="grey-text text-darken-2 modal-trigger btn-send-email" href="#modal-mail_document"><i class="material-icons ">assignment</i><%= t 'button.documents' %></a>
             </li>
             <li>
               <%= link_to measurement_view_estimates_path(@estimate),  class: "grey-text text-darken-2" do %>
@@ -280,20 +280,36 @@
     <div class="modal-content">
       <h4><%= t 'texts.send_document' %></h4>
       <%= f.hidden_field :estimate, value: @estimate.id %>
-      <%= f.hidden_field :send_mail, value: true %>
       <%= f.hidden_field :from, value: "Estimate" %>
+      <%= f.hidden_field :send_mail, value: true, id: "send_mail_text" %>
+      <div class="row">
+        <div class="col s10 m2">
+          <p class="font-weight-600 left mr-5"><%= t "button.in_person" %></p>
+        </div>
+        <div class="col s2 m10">
+          <div class="switch">
+            <label>
+              <%= f.check_box :redirect_to_sign, checked: false, id: "in_person", onchange: "in_person_fields()" %>
+              <span class="lever"></span>
+            </label>
+          </div>
+        </div>
+      </div>
       <div class="row">
         <div class="input-field">
           <%= f.select :document, @documents, {prompt: true} %>
           <%= f.label :document %>
         </div>
+      </div>
+      <div class="row" id="documents-email-fields">
+
         <div class="input-field">
           <%= f.label :emails, "Emails" %>
-          <%= f.text_field :emails, value: @email_customer, required: true %>
+          <%= f.text_field :emails, value: @email_customer, required: true, id: "document-email" %>
         </div>
         <div class="input-field">
           <%= f.label :subject %>
-          <%= f.text_field :subject, required: true %>
+          <%= f.text_field :subject, required: true, id: "document-subject" %>
         </div>
 
       </div>
@@ -358,5 +374,20 @@
 
           })
       });
+
+      function in_person_fields(){
+          console.log('passou')
+          if ($('#in_person').is(':checked')){
+              $("#documents-email-fields").hide();
+              $("#send_mail_text").val('false');
+              $('#document-email').removeAttr('required');
+              $('#document-subject').removeAttr('required');
+          }else{
+              $("#documents-email-fields").show();
+              $("#send_mail_text").val('true');
+              $('#document-email').addAttr('required');
+              $('#document-subject').addAttr('required');
+          }
+      }
   </script>
 <% end %>

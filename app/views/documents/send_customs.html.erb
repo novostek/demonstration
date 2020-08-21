@@ -10,6 +10,7 @@
     <%= f.hidden_field :from, value: @from %>
     <%= f.hidden_field :customer_sign, value: @customer_sign %>
     <%= f.hidden_field :finish_order, value: @finish_order %>
+    <%= f.hidden_field :redirect_to_sign, value: params[:redirect_to_sign] %>
 
     <%= f.fields_for :customs do |ff| %>
       <% @customs.each do |c| %>

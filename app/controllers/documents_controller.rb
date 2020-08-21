@@ -88,10 +88,10 @@ class DocumentsController < ApplicationController
 
     if has_custom_field
       if params[:estimate].present?
-        redirect_to send_customs_documents_path(finish_order: @finish_order,redirect: preview_documents_path ,customer_sign: @customer_sign, from: params[:from],estimate: params[:estimate], document: params[:document], customs: @customs, send_mail: params[:send_mail],emails: params[:emails],subject: params[:subject])
+        redirect_to send_customs_documents_path(finish_order: @finish_order,redirect: preview_documents_path ,customer_sign: @customer_sign, from: params[:from],estimate: params[:estimate], document: params[:document], customs: @customs, send_mail: params[:send_mail],emails: params[:emails],subject: params[:subject], redirect_to_sign: params[:redirect_to_sign])
         #return
       else
-        redirect_to send_customs_documents_path(finish_order: @finish_order,redirect: preview_documents_path ,customer_sign: @customer_sign,from: params[:from],document: params[:document], customs: @customs, send_mail: params[:send_mail],emails: params[:emails],subject: params[:subject])
+        redirect_to send_customs_documents_path(finish_order: @finish_order,redirect: preview_documents_path ,customer_sign: @customer_sign,from: params[:from],document: params[:document], customs: @customs, send_mail: params[:send_mail],emails: params[:emails],subject: params[:subject],redirect_to_sign: params[:redirect_to_sign])
         #return
       end
 
@@ -118,6 +118,7 @@ class DocumentsController < ApplicationController
           puts "Enviando erro"
         #end
       end
+
       #Assinatura a finalização da order
       if params[:finish_order].present? and params[:finish_order] == "true"
         doc = DocumentSend.new(origin: params[:from],origin_id: origin_id, data: @template.render('order' => @order_params ,'estimate' => @estimate.attributes, 'measurements' => JSON.parse(@estimate.measurement_areas.to_json), 'products' => JSON.parse(@estimate.product_estimates.to_json), 'customer' => JSON.parse(@estimate.customer.to_json), 'custom' => @params   ) )
@@ -125,6 +126,14 @@ class DocumentsController < ApplicationController
         redirect_to doc_signature_mail_orders_url(customer_sign: @customer_sign, document: doc.id,doc_name: @document.name)
         return
       end
+
+      if params[:redirect_to_sign].present? and params[:redirect_to_sign] == "1"
+        doc = DocumentSend.new(origin: params[:from],origin_id: origin_id, data: @template.render('order' => @order_params ,'estimate' => @estimate.attributes, 'measurements' => JSON.parse(@estimate.measurement_areas.to_json), 'products' => JSON.parse(@estimate.product_estimates.to_json), 'customer' => JSON.parse(@estimate.customer.to_json), 'custom' => @params   ) )
+        doc.save
+        redirect_to "#{Setting.url}#{doc_signature_mail_orders_path(customer_sign: @customer_sign, document: doc.id,doc_name: @document.name)}"
+      end
+
+
 
       respond_to do |format|
         format.html {

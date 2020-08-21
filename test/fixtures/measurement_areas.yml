@@ -5,6 +5,7 @@
 #  id          :uuid             not null, primary key
 #  cloned_from :uuid
 #  description :text
+#  images      :string           default([]), is an Array
 #  name        :string
 #  photos      :json
 #  created_at  :datetime         not null

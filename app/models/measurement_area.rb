@@ -5,6 +5,7 @@
 #  id          :uuid             not null, primary key
 #  cloned_from :uuid
 #  description :text
+#  images      :string           default([]), is an Array
 #  name        :string
 #  photos      :json
 #  created_at  :datetime         not null
@@ -25,6 +26,8 @@ class MeasurementArea < ApplicationRecord
   has_many :area_proposal
   has_many :measurement_proposals, through: :area_proposal
   mount_uploaders :photos, DocumentFileUploader
+  mount_uploaders :images, DocumentFileUploader
+
 
   accepts_nested_attributes_for :measurements, allow_destroy: true
   accepts_nested_attributes_for :measurement_proposals, reject_if: :all_blank, allow_destroy: true

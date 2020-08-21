@@ -1,6 +1,6 @@
 class MeasurementAreasController < ApplicationController
   load_and_authorize_resource except: :measurements
-  before_action :set_measurement_area, only: [:show, :edit, :update, :destroy]
+  before_action :set_measurement_area, only: [:show, :edit, :update, :destroy, :add_images, :remove_image]
 
   # GET /measurement_areas
   def index
@@ -62,6 +62,20 @@ class MeasurementAreasController < ApplicationController
     1+1
   end
 
+  # adiciona uma ou mais imagens
+  def add_images
+    add_more_images(images_params[:images])
+    flash[:error] = "Failed uploading images" unless @measurement_area.save
+    redirect_to :back
+  end
+
+  # remove uma das imagens
+  def remove_image
+    remove_image_at_index(params[:id].to_i)
+    flash[:error] = "Failed deleting image" unless @measurement_area.save
+    redirect_to :back
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_measurement_area
@@ -70,6 +84,24 @@ class MeasurementAreasController < ApplicationController
 
     # Only allow a trusted parameter "white list" through.
     def measurement_area_params
-      params.require(:measurement_area).permit(:estimate_id, :name, :description, {photos: []}, measurements_attributes: [:id, :length, :width, :height, :_destroy])
+      params.require(:measurement_area).permit(:estimate_id, :name, :description, {photos: []}, {images: []}, measurements_attributes: [:id, :length, :width, :height, :_destroy])
+    end
+
+    # https://github.com/carrierwaveuploader/carrierwave/wiki/How-to:-Add-more-files-and-remove-single-file-when-using-default-multiple-file-uploads-feature
+    def add_more_images(new_images)
+      images = @measurement_area.images
+      images += new_images
+      @measurement_area.images = images
+    end
+
+    def remove_image_at_index(index)
+      remain_images = @measurement_area.images
+      if index == 0 && @measurement_area.images.size == 1
+        @gallery.remove_images!
+      else
+        deleted_image = remain_images.delete_at(index)
+        deleted_image.try(:remove!)
+        @measurement_area.images = remain_images
+      end
     end
 end

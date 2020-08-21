@@ -6,26 +6,61 @@
   <div class="m-area--info">
     <div class="input-field col s12 m6 l3">
       <%= f.text_field :name, class: "validade", autofocus: 'true' %>
-      <%= f.label  :name %>
+      <%= f.label :name %>
     </div>
     <div class="input-field col s12 m6 l3">
       <%= f.text_field :description, class: "validade" %>
-      <%= f.label  :description %>
+      <%= f.label :description %>
     </div>
   </div>
   <%= f.fields_for :measurements, f.object.new_record? ? f.object.measurements.build : f.object.measurements do |measures| %>
     <%= render 'measurement_fields', m: measures %>
   <% end %>
-  <div class="col s12">
-    <div class="file-field input-field">
-      <div class="btn right">
-        <span><%= t 'file' %></span>
-        <%= f.file_field :photos, multiple: true %>
+  <!--  <div class="col s12">-->
+  <!--    <div class="file-field input-field">-->
+  <!--      <div class="btn right">-->
+  <!--        <span><%#= t 'file' %></span>-->
+  <%#= f.file_field :photos, multiple: true %>
+  <!--      </div>-->
+  <!--      <div class="file-path-wrapper pl-0">-->
+  <!--        <input class="file-path validate" type="text"-->
+  <!--               placeholder="Upload one or more photos" value="<%#= f.object.photos.present? ? f.object.photos.map(&:identifier).join(', ') : '' %>">-->
+  <!--      </div>-->
+  <!--    </div>-->
+  <!--  </div>-->
+
+  <%# binding.pry %>
+  <% if f.object.id.present? %>
+    <%= form_for f.object, url: add_images_measurement_area_path(f.object), method: :post do |f| %>
+      <div class="field">
+        <%= f.file_field :images, multiple: true %>
       </div>
-      <div class="file-path-wrapper pl-0">
-        <input class="file-path validate" type="text"
-               placeholder="Upload one or more photos" value="<%= f.object.photos.present? ? f.object.photos.map(&:identifier).join(', ') : '' %>">
+      <div class="actions">
+        <%= f.submit "Add More Images" %>
+      </div>
+    <% end %>
+
+    <div>
+      <% f.object.images.each_with_index do |image, index| %>
+        <div>
+          <%= image_tag image.url %>
+          <%= link_to 'Delete', remove_image_measurement_area_path(f.object, index), method: :delete, data: {confirm: "Are you sure you want to delete this image?"} %>
+        </div>
+      <% end %>
+    </div>
+  <% else %>
+    <div class="col s12">
+      <div class="file-field input-field">
+        <div class="btn right">
+          <span><%= t 'texts.images' %></span>
+          <%= f.file_field :images, multiple: true %>
+        </div>
+        <div class="file-path-wrapper pl-0">
+          <input class="file-path validate" type="text"
+                 placeholder="Upload one or more photos">
+        </div>
       </div>
     </div>
-  </div>
+  <% end %>
+
 </div>

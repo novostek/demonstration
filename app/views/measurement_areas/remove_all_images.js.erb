@@ -1,0 +1,4 @@
+// remove all images se nao tiver dado erro
+<% if @success %>
+$("#gallery-saved-<%= @measurement_area.id %>").remove();
+<% end %>

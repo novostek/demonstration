@@ -101,6 +101,7 @@ Rails.application.routes.draw do
     member do
       post 'add_images'
       delete 'remove_image'
+      delete 'remove_all_images'
     end
   end
   resources :estimates do

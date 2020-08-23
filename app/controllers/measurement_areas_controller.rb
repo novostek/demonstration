@@ -1,6 +1,6 @@
 class MeasurementAreasController < ApplicationController
   load_and_authorize_resource except: :measurements
-  before_action :set_measurement_area, only: [:show, :edit, :update, :destroy, :add_images, :remove_image]
+  before_action :set_measurement_area, only: [:show, :edit, :update, :destroy, :add_images, :remove_image, :remove_all_images]
 
   # GET /measurement_areas
   def index
@@ -73,6 +73,12 @@ class MeasurementAreasController < ApplicationController
   def remove_image
     @index = params[:id_image].to_i
     remove_image_at_index(@index)
+    @success = @measurement_area.save
+    respond_to :js
+  end
+
+  def remove_all_images
+    @measurement_area.remove_images!
     @success = @measurement_area.save
     respond_to :js
   end

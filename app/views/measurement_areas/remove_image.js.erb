@@ -1,7 +1,4 @@
-console.log('<%= @error %>');
-
 // remove image da area se nao tiver dado erro
 <% if @success %>
 $("#gallery-saved-<%= @measurement_area.id %> > div[id=<%= @index %>]").remove();
-console.log('loading end');
 <% end %>

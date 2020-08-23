@@ -30,33 +30,51 @@
   <% end %>
 
   <% if f.object.id.present? %>
-    <div>
-      <%= f.file_field :images, onchange: "uploadImage(this);", 'data-id-ma' => f.object.id, multiple: true %>
-    </div>
-    <div id="gallery-staging-<%= f.object.id %>" style="border-bottom: 1px solid; margin-bottom: 5px;" class="mt-1 pl-1"></div>
-
-    <div id="gallery-saved-<%= f.object.id %>" class="mt-2 pl-1 gallery-saved">
-      <% f.object.images.each_with_index do |image, index| %>
-        <div id="<%= index %>" style="display:inline-block;border-radius: 5px;" class="grey lighten-3 mr-1 pt-1 pl-1 mb-1">
-          <%= image_tag image.url, height: 100 %>
-          <%= link_to remove_image_measurement_area_path(f.object, id_image: index), method: :delete, class: 'btn-delete-img', data: {confirm: "Are you sure you want to delete this image?"}, remote: true do %>
-            <i class="material-icons red-text">delete</i>
-          <% end %>
-        </div>
+    <div class="input-img">
+      <% f.object.images.each do |img| %>
+        <%= f.hidden_field :images, multiple: true, value: img.identifier %>
       <% end %>
-    </div>
-  <% else %>
-    <div class="col s12">
-      <div class="file-field input-field">
-        <div class="btn right">
-          <span><%= t 'texts.images' %></span>
-          <%= f.file_field :images, multiple: true %>
+      <div class="file-field input-field" style="margin: 1%">
+        <div class="btn">
+          <span>Photos</span>
+          <%= f.file_field :images, onchange: "showImgsSelecteds(this);", multiple: true %>
         </div>
-        <div class="file-path-wrapper pl-0">
-          <input class="file-path validate" type="text"
-                 placeholder="Upload one or more photos">
+        <div class="file-path-wrapper">
+          <input class="file-path validate" type="text" placeholder="Upload one or more photos">
         </div>
       </div>
+      <div style="border-bottom: 1px solid; margin-bottom: 5px;" class="mt-1 pl-1 gallery-staging"></div>
+    </div>
+
+    <% if f.object.images.any? %>
+      <div id="gallery-saved-<%= f.object.id %>" class="mt-2 pl-1 gallery-saved mb-1">
+        <% f.object.images.each_with_index do |image, index| %>
+          <div id="<%= index %>" style="display:inline-block;border-radius: 5px;" class="grey lighten-3 mr-1 pt-1 pl-1 mb-1">
+            <%= image_tag image.url, height: 100 %>
+            <%= link_to remove_image_measurement_area_path(f.object, id_image: index), method: :delete, onclick: 'disableImg(this);', remote: true do %>
+              <i class="material-icons red-text">delete</i>
+            <% end %>
+          </div>
+        <% end %>
+        <br>
+        <%= link_to remove_all_images_measurement_area_path(f.object), method: :delete, class: 'red-text', onclick: 'disableImgs(this);', remote: true do %>
+          remover todas
+        <% end %>
+      </div>
+    <% end %>
+  <% else %>
+    <div class="input-img">
+      <div class="file-field input-field" style="margin: 1%">
+        <div class="btn">
+          <span>Photos</span>
+          <%= f.file_field :images, onchange: "showImgsSelecteds(this);", multiple: true %>
+        </div>
+        <div class="file-path-wrapper">
+          <input class="file-path validate" type="text" placeholder="Upload one or more photos">
+        </div>
+      </div>
+
+      <div style="border-bottom: 1px solid; margin-bottom: 5px;" class="mt-1 pl-1 gallery-staging"></div>
     </div>
   <% end %>
 
@@ -64,11 +82,12 @@
 
 <%= content_for :scripts do %>
   <script type="text/javascript" charset="utf-8">
+
       // Exibir as imagens selecionadas
-      function uploadImage(element) {
+      function showImgsSelecteds(element) {
           const field = $(element);
 
-          const galery = $(`#gallery-staging-${field.attr('data-id-ma')}`);
+          const galery = field.closest('.input-img').find('div.gallery-staging');
 
           if (galery.children('img').length > 0) galery.empty();
 
@@ -83,7 +102,7 @@
                           .attr('src', event.target.result)
                           .attr('height', 100)
                           .css('margin-right', '5px')
-                          .appendTo(`#gallery-staging-${field.attr('data-id-ma')}`);
+                          .appendTo(galery);
                   };
 
                   reader.readAsDataURL(field.get(0).files[i]);
@@ -91,12 +110,15 @@
           }
       }
 
-      // Disabled image
-      $(document).on('confirm:complete', function (e) {
-          // user confirmed!
-          if (e.originalEvent.detail[0]) {
-              $(e.target.parentElement).addClass('disabled-div-img');
-          }
-      });
+      // Desabilita enquanto exclui
+      function disableImg(element) {
+          $(element).parent().addClass('disabled-div-img');
+      }
+
+      // Desabilita enquanto exclui todas imagens
+      function disableImgs(element) {
+          $(element).parent().find('div').addClass('disabled-div-img');
+      }
+
   </script>
 <% end %>

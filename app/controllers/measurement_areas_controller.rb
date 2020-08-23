@@ -65,7 +65,7 @@ class MeasurementAreasController < ApplicationController
   # adiciona uma ou mais imagens
   def add_images
     add_more_images(images_params[:images])
-    @error = @measurement_area.save
+    @success = @measurement_area.save
     respond_to :js
   end
 
@@ -73,7 +73,7 @@ class MeasurementAreasController < ApplicationController
   def remove_image
     @index = params[:id_image].to_i
     remove_image_at_index(@index)
-    @error = @measurement_area.save
+    @success = @measurement_area.save
     respond_to :js
   end
 
@@ -85,7 +85,7 @@ class MeasurementAreasController < ApplicationController
 
     # Only allow a trusted parameter "white list" through.
     def measurement_area_params
-      params.require(:measurement_area).permit(:estimate_id, :name, :description, {photos: []}, {images: []}, measurements_attributes: [:id, :length, :width, :height, :_destroy])
+      params.require(:measurement_area).permit(:estimate_id, :name, :description, {images: []}, measurements_attributes: [:id, :length, :width, :height, :_destroy])
     end
 
     # https://github.com/carrierwaveuploader/carrierwave/wiki/How-to:-Add-more-files-and-remove-single-file-when-using-default-multiple-file-uploads-feature

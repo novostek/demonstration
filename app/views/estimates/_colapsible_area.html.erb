@@ -43,10 +43,10 @@
                 <td><%= ma.measurements[0].square_feet %></td>
               <% end %>
               <td>
-                <% if ma.photos.any? %>
-                  <% ma.photos.each do |photo| %>
-                    <a href="<%= photo.url %>" target="_blank" title="Finishig Order">
-                      <img src="<%= photo.url %>" width="40" class="circle" alt="">
+                <% if ma.images.any? %>
+                  <% ma.images.each do |img| %>
+                    <a href="<%= img.url %>" target="_blank" title="Finishig Order">
+                      <img src="<%= img.url %>" width="40" class="circle" alt="">
                     </a>
                   <% end %>
                 <% end %>

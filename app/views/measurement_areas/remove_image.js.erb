@@ -1,6 +1,7 @@
 console.log('<%= @error %>');
 
 // remove image da area se nao tiver dado erro
-<%# unless @error %>
-//$("#gallery-saved-<%= @measurement_area.id %> > img").filter('[index="<%= @index %>"]').remove();
-<%# end %>
+<% if @success %>
+$("#gallery-saved-<%= @measurement_area.id %> > div[id=<%= @index %>]").remove();
+console.log('loading end');
+<% end %>

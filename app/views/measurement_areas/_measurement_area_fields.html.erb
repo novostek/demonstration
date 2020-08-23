@@ -1,3 +1,15 @@
+<%= content_for :head_content do %>
+  <style>
+    div.disabled-div-img {
+      pointer-events: none;
+
+      /* for "disabled" effect */
+      opacity: 0.5;
+      background: #CCC;
+    }
+  </style>
+<% end %>
+
 <div class="row m-area pt-1 mt-2 nested-fields">
   <%# <a href="#" class="btn-close-area"><i class="material-icons">close</i></a> %>
   <%= link_to_remove_association f, class: "btn-close-area" do %>
@@ -21,16 +33,18 @@
     <div>
       <%= f.file_field :images, onchange: "uploadImage(this);", 'data-id-ma' => f.object.id, multiple: true %>
     </div>
-    <div id="gallery-staging-<%= f.object.id %>" class="border-bottom: 1px solid; margin-bottom: 5px;"></div>
+    <div id="gallery-staging-<%= f.object.id %>" style="border-bottom: 1px solid; margin-bottom: 5px;" class="mt-1 pl-1"></div>
 
-    <% f.object.images.each_with_index do |image, index| %>
-      <div id="gallery-saved-<%= f.object.id %>">
-        <%= image_tag image.url, 'index' => index, height: 100 %>
-        <%= link_to remove_image_measurement_area_path(f.object, id_image: index), method: :delete, data: {confirm: "Are you sure you want to delete this image?"}, remote: true do %>
-          <i class="material-icons red-text">delete</i>
-        <% end %>
-      </div>
-    <% end %>
+    <div id="gallery-saved-<%= f.object.id %>" class="mt-2 pl-1 gallery-saved">
+      <% f.object.images.each_with_index do |image, index| %>
+        <div id="<%= index %>" style="display:inline-block;border-radius: 5px;" class="grey lighten-3 mr-1 pt-1 pl-1 mb-1">
+          <%= image_tag image.url, height: 100 %>
+          <%= link_to remove_image_measurement_area_path(f.object, id_image: index), method: :delete, class: 'btn-delete-img', data: {confirm: "Are you sure you want to delete this image?"}, remote: true do %>
+            <i class="material-icons red-text">delete</i>
+          <% end %>
+        </div>
+      <% end %>
+    </div>
   <% else %>
     <div class="col s12">
       <div class="file-field input-field">
@@ -50,7 +64,6 @@
 
 <%= content_for :scripts do %>
   <script type="text/javascript" charset="utf-8">
-
       // Exibir as imagens selecionadas
       function uploadImage(element) {
           const field = $(element);
@@ -78,6 +91,12 @@
           }
       }
 
-
+      // Disabled image
+      $(document).on('confirm:complete', function (e) {
+          // user confirmed!
+          if (e.originalEvent.detail[0]) {
+              $(e.target.parentElement).addClass('disabled-div-img');
+          }
+      });
   </script>
 <% end %>

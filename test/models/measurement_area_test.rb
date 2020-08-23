@@ -7,7 +7,6 @@
 #  description :text
 #  images      :string           default([]), is an Array
 #  name        :string
-#  photos      :json
 #  created_at  :datetime         not null
 #  updated_at  :datetime         not null
 #  estimate_id :uuid             not null

@@ -32,7 +32,7 @@ const ProductComponent = () => {
             <div className="card-content">
               <ul className="stepper horizontal stepper-head-only">
                 <li className="step">
-                  <a href={`/estimates/step_one/${estimate.lead.id}`}>
+                  <a href={`/estimates/step_one/${estimate.lead.id}/?estimate=${estimate.id}`}>
                     <div className="step-title waves-effect">{t('estimate.steps.one')}</div>
                   </a>
                 </li>

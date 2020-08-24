@@ -27,7 +27,7 @@
 		<div class="card-content">
 			<ul class="stepper horizontal stepper-head-only">
 				<li class="step">
-					<%= link_to step_one_estimates_path(@estimate.lead) do %>
+					<%= link_to step_one_estimates_path(@estimate.lead, estimate: @estimate.id) do %>
 						<div class="step-title waves-effect">Step 1</div>
 					<% end %>
 				</li>

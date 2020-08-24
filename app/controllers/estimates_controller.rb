@@ -226,7 +226,11 @@ class EstimatesController < ApplicationController
   end
 
   def step_one
-    @estimate = Estimate.find_or_initialize_by(lead_id: params[:lead_id])
+    if params[:estimate].present?
+      @estimate = Estimate.find(params[:estimate])
+    else
+      @estimate = Estimate.find_or_initialize_by(lead_id: params[:lead_id])
+    end
     if @estimate.new_record?
       address= @estimate.customer.get_main_address
       if address.present?

@@ -21,7 +21,7 @@
 class MeasurementArea < ApplicationRecord
   belongs_to :estimate, optional: true
   has_many :measurements, inverse_of: :measurement_area, dependent: :destroy
-  has_many :area_proposal
+  has_many :area_proposal, dependent: :destroy
   has_many :measurement_proposals, through: :area_proposal
 
   accepts_nested_attributes_for :measurements, allow_destroy: true

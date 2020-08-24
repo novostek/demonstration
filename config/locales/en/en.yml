@@ -207,4 +207,7 @@ en:
     error: Error
     canceled: Canceled
 
+  delete:
+    measures: 'Are you sure? If you have items added to that area, they will be lost.'
+
 

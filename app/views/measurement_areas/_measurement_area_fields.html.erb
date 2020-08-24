@@ -1,6 +1,6 @@
 <div class="row m-area pt-1 mt-2 nested-fields">
   <%# <a href="#" class="btn-close-area"><i class="material-icons">close</i></a> %>
-  <%= link_to_remove_association f, class: "btn-close-area" do %>
+  <%= link_to_remove_association f, class: "btn-close-area", data: {confirm: t('delete.measures')} do %>
     <i class="material-icons">close</i>
   <% end %>
   <div class="m-area--info">

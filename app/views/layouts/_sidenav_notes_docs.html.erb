@@ -33,13 +33,23 @@
           <h5>Documents</h5>
         </div>
         <% documents.each do |doc| %>
-          <%= link_to doc.file.url, target:"_blank" do %>
-            <div class="document">
-              <span class="doc-type"><%= doc.file.file.extension %></span>
-              <span class="doc-date" title="Created at"><%= doc.created_at %></span>
-              <%= doc.title %>
-            </div>
-          <% end if doc.file.present? %>
+          <% if doc.title.present? and (doc.title == 'Signature' or doc.title.start_with?('#private')) and cannot? :see_price, Estimate %>
+            <a>
+              <div class="document">
+                <span class="doc-type"><%= doc.file.file.extension %></span>
+                <span class="doc-date" title="Created at"><%= doc.created_at %></span>
+                PRIVATE
+              </div>
+            </a>
+          <% else %>
+            <%= link_to doc.file.url, target:"_blank" do %>
+              <div class="document">
+                <span class="doc-type"><%= doc.file.file.extension %></span>
+                <span class="doc-date" title="Created at"><%= doc.created_at %></span>
+                <%= doc.title %>
+              </div>
+            <% end if doc.file.present? %>
+          <% end %>
         <% end %>
 
         <% if documents.blank? %>

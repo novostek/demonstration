@@ -5,6 +5,7 @@
 #  id          :uuid             not null, primary key
 #  active      :boolean          default(TRUE)
 #  categories  :string
+#  color       :string
 #  name        :string
 #  photo       :text
 #  time_value  :decimal(, )

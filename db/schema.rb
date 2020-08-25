@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_08_14_004103) do
+ActiveRecord::Schema.define(version: 2020_08_25_163727) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -407,6 +407,7 @@ ActiveRecord::Schema.define(version: 2020_08_14_004103) do
     t.boolean "send_mail"
     t.boolean "mail_sent"
     t.uuid "origin_id"
+    t.boolean "all_day"
     t.index ["worker_id"], name: "index_schedules_on_worker_id"
   end
 
@@ -509,6 +510,7 @@ ActiveRecord::Schema.define(version: 2020_08_14_004103) do
     t.datetime "updated_at", precision: 6, null: false
     t.decimal "time_value"
     t.boolean "active", default: true
+    t.string "color"
   end
 
   add_foreign_key "area_proposals", "measurement_areas"

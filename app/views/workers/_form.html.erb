@@ -10,78 +10,115 @@
       </ul>
     </div>
   <% end %>
-
-  <div class="card-panel">
-    <div class="row">
-      <!--photo-->
-      <div class="col s12 m3">
-        <div class="current_photo">
-          <% if worker.photo.present? %>
-            <img src="<%= worker.photo.url %>" alt="avatar">
-          <% else %>
-            <img src="https://daiane.woffice.biz/materialize/images/avatar/avatar-7.png" alt="avatar">
-          <% end %>
-        </div>
-
-        <div class="file-field input-field col s12">
-          <div class="btn">
-            <span><%= f.label :photo %></span>
-            <%= f.file_field :photo %>
-            <%= f.hidden_field :photo_cache %>
-          </div>
-          <div class="file-path-wrapper">
-            <input class="file-path validate" type="text">
-          </div>
-        </div>
-      </div>
-
-
-      <!--fields -->
-      <div class="col s12 m9">
-        <div class="input-field col s12 m8">
-          <%= f.label :name %>
-          <%= f.text_field :name, required: true %>
-        </div>
-
-        <div class="input-field col s12 m4">
-          <%= f.label :document_id %>
-          <%= f.text_field :document_id %>
-        </div>
-
-        <div class="input-field col s12 m6">
-          <%= f.select :categories, Worker.categories.options, {required: true, prompt: true} %>
-          <%= f.label :categories %>
-        </div>
-
-        <div class="input-field col s12 m6">
-          <%= f.label :time_value %>
-          <%= f.number_field :time_value, step: :any %>
-        </div>
-
-        <div class="col s12 m6 offset-m6">
-          <div class="right">
-
-            <div class="col s10 m6">
-              <p class="font-weight-600 left mr-5"><%= t 'texts.active' %></p>
+  <div class="row">
+    <div class="col s12 m9">
+      <div class="card-panel">
+        <div class="row">
+          <!--photo-->
+          <div class="col s12 m3">
+            <div class="current_photo">
+              <% if worker.photo.present? %>
+                <img src="<%= worker.photo.url %>" alt="avatar">
+              <% else %>
+                <img src="https://daiane.woffice.biz/materialize/images/avatar/avatar-7.png" alt="avatar">
+              <% end %>
             </div>
-            <div class="col s2 m2 pt-4">
-              <div class="switch">
-                <label>
-                  <%= f.check_box :active %>
-                  <span class="lever"></span>
-                </label>
+
+            <div class="file-field input-field col s12">
+              <div class="btn">
+                <span><%= f.label :photo %></span>
+                <%= f.file_field :photo %>
+                <%= f.hidden_field :photo_cache %>
+              </div>
+              <div class="file-path-wrapper">
+                <input class="file-path validate" type="text">
+              </div>
+            </div>
+          </div>
+
+
+          <!--fields -->
+          <div class="col s12 m9">
+            <div class="input-field col s12 m8">
+              <%= f.label :name %>
+              <%= f.text_field :name, required: true %>
+            </div>
+
+            <div class="input-field col s12 m4">
+              <%= f.label :document_id %>
+              <%= f.text_field :document_id %>
+            </div>
+
+            <div class="input-field col s12 m6">
+              <%= f.select :categories, Worker.categories.options, {required: true, prompt: true} %>
+              <%= f.label :categories %>
+            </div>
+
+            <div class="input-field col s12 m6">
+              <%= f.label :time_value %>
+              <%= f.number_field :time_value, step: :any %>
+            </div>
+
+            <div class="col s12 m6 offset-m6">
+              <div class="right">
+
+                <div class="col s10 m6">
+                  <p class="font-weight-600 left mr-5"><%= t 'texts.active' %></p>
+                </div>
+                <div class="col s2 m2 pt-4">
+                  <div class="switch">
+                    <label>
+                      <%= f.check_box :active %>
+                      <span class="lever"></span>
+                    </label>
+                  </div>
+                </div>
+
               </div>
             </div>
 
           </div>
         </div>
+      </div>
+    </div>
+    <div class="col s12 m3">
+      <div class="card-panel">
+        <div id="colorpicker"></div>
+        <div class="input-field">
 
+          <%= f.label t :color %>
+          <%= f.text_field :color, {id:"color", required:true} %>
+
+        </div>
       </div>
     </div>
   </div>
+
 
   <div class="actions">
     <%= f.submit t('button.save'), class: "btn right border-round" %>
   </div>
 <% end %>
+<% content_for  :scripts do %>
+  <script type="text/javascript">
 
+      $(document).ready(function() {
+
+          if($("#color").val())
+          {
+              $("#color").css("background",$("#color").val());
+          }
+
+          //$('#colorpicker').farbtastic('#color');
+          $('#colorpicker').farbtastic(function callback(color){
+              $("#color").val(color);
+
+              $('#color').trigger('input');
+              $('#color').trigger('focusin');
+              $("#color").css("background",color);
+          });
+
+      });
+
+  </script>
+<% end %>

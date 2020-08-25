@@ -60,7 +60,7 @@
               <h5><%= t 'activerecord.models.workers' %></h5>
               <div class="fc-events-container mb-5">
                 <% @workers.each do |worker| %>
-                  <div class='fc-event' id="<%= worker.id %>" data-color='<%= @schedules.find_by(worker_id: worker.id, origin_id: @order.id).present? ? @schedules.find_by(worker_id: worker.id, origin_id: @order.id).color : "##{SecureRandom.hex(3)}" %>'>
+                  <div class='fc-event' id="<%= worker.id %>" data-color='<%= worker.color || '#3949ab' %>'>
                     <% if worker.photo.present? %>
                       <img src="<%= worker.photo %>" class="circle responsive-img" style="width: 30px;" />
                     <% end %>

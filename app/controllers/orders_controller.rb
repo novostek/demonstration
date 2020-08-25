@@ -547,9 +547,9 @@ class OrdersController < ApplicationController
         :worker_id => params[:worker_id],
         :origin => "Order",
         :origin_id => @order.id,
-        :send_mail => params[:send_mail]
+        :send_mail => params[:send_mail],
+        :all_day => params[:all_day]
     }
-
     schedule = Schedule.new_schedule(schedule_obj)
 
     render json: schedule

@@ -77,7 +77,8 @@ document.addEventListener('DOMContentLoaded', function() {
 		title: schedule.title,
 		start: schedule.start_at,
 		color: schedule.color,
-		end: schedule.end_at
+		end: schedule.end_at,
+		allDay: schedule.all_day,
 	}))
 	
   var calendar = new Calendar(calendarEl, {
@@ -112,6 +113,7 @@ document.addEventListener('DOMContentLoaded', function() {
 				worker_id: event.id,
 				color: event.backgroundColor,
 				start_at: event.start,
+				all_day: event.allDay,
 				end_at: event.end,
 				send_mail: $("#send_mail").prop("checked"),
 			}
@@ -131,6 +133,7 @@ document.addEventListener('DOMContentLoaded', function() {
 				category: event.category,
 				worker_id: event.id,
 				start_at: event.start,
+				all_day: event.allDay,
 				end_at: event.end,
 			}
 
@@ -146,6 +149,7 @@ document.addEventListener('DOMContentLoaded', function() {
 				worker_id: event.id,
 				start_at: event.start,
 				end_at: event.end,
+				all_day: event.allDay,
 				send_mail: $("#send_mail").prop("checked"),
 			}
 

@@ -39,7 +39,8 @@ class SchedulesController < ApplicationController
         :worker_id => params[:worker_id],
         :origin => "Worker",
         :origin_id => params[:worker_id],
-        :send_mail => params[:send_mail]
+        :send_mail => params[:send_mail],
+        :all_day => params[:all_day]
     }
 
     schedule = Schedule.new_schedule(schedule_obj)
@@ -107,7 +108,8 @@ class SchedulesController < ApplicationController
       :end_at,
       :color,
       :worker_id,
-      :send_mail
+      :send_mail,
+      :all_day
     )
   end
 

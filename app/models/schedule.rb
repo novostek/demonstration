@@ -3,6 +3,7 @@
 # Table name: schedules
 #
 #  id            :uuid             not null, primary key
+#  all_day       :boolean
 #  bpmn_instance :string
 #  category      :string
 #  color         :string
@@ -94,8 +95,15 @@ class Schedule < ApplicationRecord
       schedule.title = object[:title]
       schedule.category = object[:category]
       schedule.description = object[:description]
+      schedule.all_day = object[:all_day]
       schedule.start_at = object[:start_at]
-      schedule.end_at = object[:end_at] || schedule.start_at + 30.minutes
+      if schedule.all_day
+        #schedule.end_at = (schedule.end_at || schedule.start_at).end_of_day
+        #schedule.start_at = schedule.start_at.beginning_of_day
+        schedule.end_at = object[:end_at] || schedule.start_at + 30.minutes
+      else
+        schedule.end_at = object[:end_at] || schedule.start_at + 30.minutes
+      end
       schedule.color = object[:color]
       schedule.worker_id = object[:worker_id]
       schedule.origin = object[:origin]

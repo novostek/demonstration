@@ -3,6 +3,7 @@
 # Table name: schedules
 #
 #  id            :uuid             not null, primary key
+#  all_day       :boolean
 #  bpmn_instance :string
 #  category      :string
 #  color         :string

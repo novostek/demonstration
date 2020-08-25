@@ -35,6 +35,7 @@ document.addEventListener('DOMContentLoaded', function() {
 		start: schedule.start_at,
 		color: schedule.color,
 		end: schedule.end_at,
+		allDay: schedule.all_day,
 
 
 	}))
@@ -62,6 +63,7 @@ document.addEventListener('DOMContentLoaded', function() {
 				color: event.backgroundColor,
 				start_at: event.start,
 				end_at: event.end,
+				all_day: event.allDay,
 				origin: event.origin,
 				origin_id: event.origin_id
 			}

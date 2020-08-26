@@ -1,0 +1,4 @@
+// remove image da area se nao tiver dado erro
+<% if @success %>
+$("#gallery-saved-<%= @measurement_area.id %> > div[id=<%= @index %>]").remove();
+<% end %>

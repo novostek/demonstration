@@ -1,3 +1,15 @@
+<%= content_for :head_content do %>
+  <style>
+    div.disabled-div-img {
+      pointer-events: none;
+
+      /* for "disabled" effect */
+      opacity: 0.5;
+      background: #CCC;
+    }
+  </style>
+<% end %>
+
 <div class="row m-area pt-1 mt-2 nested-fields">
   <%# <a href="#" class="btn-close-area"><i class="material-icons">close</i></a> %>
   <%= link_to_remove_association f, class: "btn-close-area" do %>
@@ -6,14 +18,107 @@
   <div class="m-area--info">
     <div class="input-field col s12 m6 l3">
       <%= f.text_field :name, class: "validade", autofocus: 'true' %>
-      <%= f.label  :name %>
+      <%= f.label :name %>
     </div>
     <div class="input-field col s12 m6 l3">
       <%= f.text_field :description, class: "validade" %>
-      <%= f.label  :description %>
+      <%= f.label :description %>
     </div>
   </div>
   <%= f.fields_for :measurements, f.object.new_record? ? f.object.measurements.build : f.object.measurements do |measures| %>
     <%= render 'measurement_fields', m: measures %>
   <% end %>
+
+  <% if f.object.id.present? %>
+    <div class="input-img">
+      <% f.object.images.each do |img| %>
+        <%= f.hidden_field :images, multiple: true, value: img.identifier %>
+      <% end %>
+      <div class="file-field input-field" style="margin: 1%">
+        <div class="btn">
+          <span>Photos</span>
+          <%= f.file_field :images, onchange: "showImgsSelecteds(this);", multiple: true %>
+        </div>
+        <div class="file-path-wrapper">
+          <input class="file-path validate" type="text" placeholder="Upload one or more photos">
+        </div>
+      </div>
+      <div style="border-bottom: 1px solid; margin-bottom: 5px;" class="mt-1 pl-1 gallery-staging"></div>
+    </div>
+
+    <% if f.object.images.any? %>
+      <div id="gallery-saved-<%= f.object.id %>" class="mt-2 pl-1 gallery-saved mb-1">
+        <% f.object.images.each_with_index do |image, index| %>
+          <div id="<%= index %>" style="display:inline-block;border-radius: 5px;" class="grey lighten-3 mr-1 pt-1 pl-1 mb-1">
+            <%= image_tag image.url, height: 100 %>
+            <%= link_to remove_image_measurement_area_path(f.object, id_image: index), method: :delete, onclick: 'disableImg(this);', remote: true do %>
+              <i class="material-icons red-text">delete</i>
+            <% end %>
+          </div>
+        <% end %>
+        <br>
+        <%= link_to remove_all_images_measurement_area_path(f.object), method: :delete, class: 'red-text', onclick: 'disableImgs(this);', remote: true do %>
+          remover todas
+        <% end %>
+      </div>
+    <% end %>
+  <% else %>
+    <div class="input-img">
+      <div class="file-field input-field" style="margin: 1%">
+        <div class="btn">
+          <span>Photos</span>
+          <%= f.file_field :images, onchange: "showImgsSelecteds(this);", multiple: true %>
+        </div>
+        <div class="file-path-wrapper">
+          <input class="file-path validate" type="text" placeholder="Upload one or more photos">
+        </div>
+      </div>
+
+      <div style="border-bottom: 1px solid; margin-bottom: 5px;" class="mt-1 pl-1 gallery-staging"></div>
+    </div>
+  <% end %>
+
 </div>
+
+<%= content_for :scripts do %>
+  <script type="text/javascript" charset="utf-8">
+
+      // Exibir as imagens selecionadas
+      function showImgsSelecteds(element) {
+          const field = $(element);
+
+          const galery = field.closest('.input-img').find('div.gallery-staging');
+
+          if (galery.children('img').length > 0) galery.empty();
+
+          if (field.get(0).files) {
+              var filesAmount = field.get(0).files.length;
+
+              for (i = 0; i < filesAmount; i++) {
+                  var reader = new FileReader();
+
+                  reader.onload = function (event) {
+                      $($.parseHTML('<img>'))
+                          .attr('src', event.target.result)
+                          .attr('height', 100)
+                          .css('margin-right', '5px')
+                          .appendTo(galery);
+                  };
+
+                  reader.readAsDataURL(field.get(0).files[i]);
+              }
+          }
+      }
+
+      // Desabilita enquanto exclui
+      function disableImg(element) {
+          $(element).parent().addClass('disabled-div-img');
+      }
+
+      // Desabilita enquanto exclui todas imagens
+      function disableImgs(element) {
+          $(element).parent().find('div').addClass('disabled-div-img');
+      }
+
+  </script>
+<% end %>

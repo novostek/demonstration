@@ -8,26 +8,34 @@
           <tr>
             <th></th>
             <% if @hidden_fields['length'].present? %>
-              <th><span class="hide-on-med-and-up">L</span> <span class="hide-on-small-only"><%= t 'activerecord.attributes.measurements.length' %></span></th>
+              <th><span class="hide-on-med-and-up">L</span>
+                <span class="hide-on-small-only"><%= t 'activerecord.attributes.measurements.length' %></span></th>
             <% end %>
             <% if @hidden_fields['width'].present? %>
-              <th><span class="hide-on-med-and-up">W</span> <span class="hide-on-small-only"><%= t 'activerecord.attributes.measurements.width' %></span></th>
+              <th><span class="hide-on-med-and-up">W</span>
+                <span class="hide-on-small-only"><%= t 'activerecord.attributes.measurements.width' %></span></th>
             <% end %>
             <% if @hidden_fields['height'].present? %>
-              <th><span class="hide-on-med-and-up">H</span> <span class="hide-on-small-only"><%= t 'activerecord.attributes.measurements.height' %></span></th>
+              <th><span class="hide-on-med-and-up">H</span>
+                <span class="hide-on-small-only"><%= t 'activerecord.attributes.measurements.height' %></span></th>
             <% end %>
             <% if @hidden_fields['square_feet'].present? %>
-              <th><span class="hide-on-med-and-up">Sqft</span> <span class="hide-on-small-only"><%= t 'activerecord.attributes.measurements.square_feet' %></span></th>
+              <th><span class="hide-on-med-and-up">Sqft</span>
+                <span class="hide-on-small-only"><%= t 'activerecord.attributes.measurements.square_feet' %></span></th>
             <% end %>
+            <th><span class="hide-on-med-and-up"><%= t 'texts.photos' %></span>
+              <span class="hide-on-small-only"><%= t 'texts.photos' %></span></th>
             <% if @calculation_formula.present? %>
-              <th><span class="hide-on-med-and-up">T</span> <span class="hide-on-small-only"><%= @calculation_formula.col_name %></span></th>
+              <th><span class="hide-on-med-and-up">T</span>
+                <span class="hide-on-small-only"><%= @calculation_formula.col_name %></span></th>
             <% end %>
           </tr>
           </thead>
           <tbody>
           <% estimate.measurement_areas.each do |ma| %>
             <tr>
-              <td><i class="material-icons left mr-4 amber-text">event_seat</i> <%= ma.name %> <br><small><%= ma.description %></small></td>
+              <td><i class="material-icons left mr-4 amber-text">event_seat</i> <%= ma.name %>
+                <br><small><%= ma.description %></small></td>
               <% if @hidden_fields['length'].present? %>
                 <td><%= ma.measurements[0].length == 0 ? "--" : ma.measurements[0].length %></td>
               <% end %>
@@ -40,6 +48,19 @@
               <% if @hidden_fields['square_feet'].present? %>
                 <td><%= ma.measurements[0].square_feet %></td>
               <% end %>
+              <td>
+                <% if ma.images.any? %>
+                  <a href="#gallery<%= ma.id %>" class="open-gallery-link">
+                    <i class="material-icons">perm_media</i>
+                  </a>
+                  <div id="gallery<%= ma.id %>" class="mfp-hide">
+                    <% ma.images.each do |img| %>
+                      <a href="<%= img.url %>" title="<%= img.identifier %>"></a>
+                    <% end %>
+                  </div>
+                <% end %>
+              </td>
+
               <% if @calculation_formula.present? %>
                 <td><%= @calculation_formula.calculate([ma.id], 1) %></td>
               <% end %>
@@ -47,7 +68,8 @@
           <% end %>
           <% if @calculation_formula.present? %>
             <tr>
-              <td><i class="material-icons left mr-4 amber-text">home</i> <%= t 'texts.total' %> <br><small></small></td>
+              <td><i class="material-icons left mr-4 amber-text">home</i> <%= t 'texts.total' %> <br><small></small>
+              </td>
               <% if @hidden_fields['length'].present? %>
                 <td><%= estimate.sum_of_measure('length') %></td>
               <% end %>
@@ -61,7 +83,7 @@
                 <td><%= estimate.sum_of_measure('square_feet') %></td>
               <% end %>
               <% if @calculation_formula.present? %>
-                <td><%= @calculation_formula.calculate(estimate.measurement_areas.map{|a| a.id}, 1) %></td>
+                <td><%= @calculation_formula.calculate(estimate.measurement_areas.map { |a| a.id }, 1) %></td>
               <% end %>
             </tr>
           <% end %>
@@ -77,3 +99,4 @@
     <% end %>
   </li>
 </ul>
+

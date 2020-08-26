@@ -97,7 +97,13 @@ Rails.application.routes.draw do
   end
 
   resources :measurements
-  resources :measurement_areas
+  resources :measurement_areas do
+    member do
+      post 'add_images'
+      delete 'remove_image'
+      delete 'remove_all_images'
+    end
+  end
   resources :estimates do
     member do
       get "schedule"

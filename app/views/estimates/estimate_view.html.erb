@@ -386,27 +386,23 @@
   <script src="/materialize/vendors/magnific-popup/jquery.magnific-popup.min.js"></script>
 
   <script>
-      // Armazena os grupos de imagens
-      let groups = {};
-      $('.galleryItem').each(function () {
-          const id = $(this).attr('data-group');
+      $('.open-gallery-link').click(function () {
 
-          if (!groups[id]) {
-              groups[id] = [];
-          }
+          let items = [];
+          $($(this).attr('href')).find('a').each(function () {
+              items.push({
+                  src: $(this).attr('href'),
+                  title: $(this).attr('title')
+              });
+          });
 
-          groups[id].push(this);
-      });
-
-      // Inicializa um magnificPopup para grupo de imagens
-      $.each(groups, function () {
-          $(this).magnificPopup({
-              type: 'image',
+          $.magnificPopup.open({
+              items: items,
               closeOnContentClick: true,
               closeBtnInside: false,
+              type: 'image',
               gallery: {enabled: true}
-          })
-
+          });
       });
   </script>
 <% end %>

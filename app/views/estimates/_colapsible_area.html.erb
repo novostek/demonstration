@@ -49,20 +49,18 @@
                 <td><%= ma.measurements[0].square_feet %></td>
               <% end %>
               <td>
-                <div class="masonry-gallery-wrapper">
-                  <div class="popup-gallery">
-                    <div class="gallery-sizer">
-                      <% if ma.images.any? %>
-                        <% ma.images.each do |img| %>
-                          <a href="<%= img.url %>" class="galleryItem" data-group="<%= ma.id %>" title="<%= img.identifier %>">
-                            <img src="<%= img.url %>" width="40" class="circle" alt="kleber">
-                          </a>
-                        <% end %>
-                      <% end %>
-                    </div>
+                <% if ma.images.any? %>
+                  <a href="#gallery<%= ma.id %>" class="open-gallery-link">
+                    <i class="material-icons">perm_media</i>
+                  </a>
+                  <div id="gallery<%= ma.id %>" class="mfp-hide">
+                    <% ma.images.each do |img| %>
+                      <a href="<%= img.url %>" title="<%= img.identifier %>"></a>
+                    <% end %>
                   </div>
-                </div>
+                <% end %>
               </td>
+
               <% if @calculation_formula.present? %>
                 <td><%= @calculation_formula.calculate([ma.id], 1) %></td>
               <% end %>

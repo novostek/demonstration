@@ -30,44 +30,45 @@
               </li>
             <% else %>
               <li>
-                <%= link_to create_order_estimate_path(@estimate), class: "grey-text text-darken-2" do %>
+                <%= link_to create_order_estimate_path(@estimate), class: "grey-text text-darken-2", data: {confirm: t('will_delete')} do %>
                   <i class="material-icons ">assignment_ind</i><%= t('create_order') %>
                 <% end %>
               </li>
-
             <% end %>
-            <li>
-              <%= link_to estimate_signature_estimate_path(@estimate), class: "grey-text text-darken-2", target: "_blank" do %>
-                <i class="material-icons ">done</i><%= t('sign') %>
-              <% end %>
-            </li>
-
-            <li>
-              <a class="grey-text text-darken-2 modal-trigger btn-send-email" href="#modal-mail"><i class="material-icons ">send</i><%= t 'button.custom_email' %>
-              </a>
-            </li>
-            <li>
-              <a class="grey-text text-darken-2 modal-trigger btn-send-email" href="#modal-mail_document"><i class="material-icons ">assignment</i><%= t 'button.documents' %></a>
-            </li>
-            <li>
-              <%= link_to measurement_view_estimates_path(@estimate), class: "grey-text text-darken-2" do %>
-                <i class="material-icons ">edit</i><%= t "activerecord.models.measurements" %>
-              <% end %>
-            </li>
+            <li class="divider"></li>
             <li>
               <%= link_to step_one_estimates_path(@estimate.lead.id, estimate: @estimate.id),  class: "grey-text text-darken-2" do %>
                 <i class="material-icons ">edit</i><%= t "button.edit" %>
               <% end %>
             </li>
+            <li>
+              <%= link_to estimate_signature_estimate_path(@estimate), class: "grey-text text-darken-2", target: "_blank" do %>
+                <i class="material-icons ">gesture</i><%= t('sign') %>
+              <% end %>
+            </li>
+
+            <li>
+              <a class="grey-text text-darken-2 modal-trigger btn-send-email" href="#modal-mail"><i class="material-icons ">drafts</i><%= t 'button.custom_email' %>
+              </a>
+            </li>
+            <li>
+              <a class="grey-text text-darken-2 modal-trigger btn-send-email" href="#modal-mail_document"><i class="material-icons ">description</i><%= t 'button.documents' %></a>
+            </li>
+            <li>
+              <%= link_to measurement_view_estimates_path(@estimate), class: "grey-text text-darken-2" do %>
+                <i class="material-icons ">straighten</i><%= t "activerecord.models.measurements" %>
+              <% end %>
+            </li>
+            <li class="divider"></li>
             <% if !@estimate.order.present? and @estimate.status != 'cancelled' %>
               <li>
-                <%= link_to cancel_estimate_path(@estimate), class: "grey-text text-darken-2" do %>
+                <%= link_to cancel_estimate_path(@estimate), class: "red-text text-darken-2 text-darken-2" do %>
                   <i class="material-icons ">cancel</i><%= t "button.cancel" %>
                 <% end %>
               </li>
             <% elsif !@estimate.order.present? and @estimate.status == 'cancelled' %>
               <li>
-                <%= link_to reactivate_estimate_path(@estimate), class: "grey-text text-darken-2" do %>
+                <%= link_to reactivate_estimate_path(@estimate), class: "green-text text-darken-2" do %>
                   <i class="material-icons ">settings_backup_restore</i><%= t "button.reactivate" %>
                 <% end %>
               </li>

@@ -21,61 +21,64 @@
                   <i class="material-icons  ">edit</i><span ><%= t 'button.edit' %></span>
                 <% end %>
               </li>
-            <% end %>
+              <li>
+                <%= link_to change_order_order_path(@order), class: "grey-text text-darken-2", data: {confirm: t('will_delete')} do %>
+                  <i class="material-icons  ">autorenew</i><span ><%= t 'button.change' %> <%= t 'activerecord.models.order' %></span>
+                <% end %>
+              </li>
+              <li class="divider"></li>
+            <% end  %>
             <li>
               <%= link_to costs_order_path(@order),  class: "grey-text text-darken-2" do %>
                 <i class="material-icons ">money_off</i><%= t 'texts.order.cost' %>
               <% end %>
             </li>
             <li>
-            <a class="grey-text text-darken-2" href="<%= invoice_order_path(@order) %>"><i class="material-icons  ">receipt</i><span ><%= t 'button.view_invoice' %></span></a>
+              <a class="grey-text text-darken-2 modal-trigger btn-send-email" href="#modal-mail"><i class="material-icons ">drafts</i><%= t 'button.custom_email' %></a>
             </li>
-            <!--					<a class="btn waves-effect waves-light modal-trigger breadcrumbs-btn right mr-2 indigo border-round btn-send-email" href="#modal-invoice"><i class="material-icons  ">send</i><span >Send invoice</span></a>-->
-            <% if !@order.finished? and !@order.cancelled? %>
-              <li>
-                <%= link_to change_order_order_path(@order), class: "grey-text text-darken-2" do %>
-                  <i class="material-icons  ">edit</i><span ><%= t 'button.change' %> <%= t 'activerecord.models.order' %></span>
-                <% end %>
-              </li>
-            <% end  %>
-            <% if !@order.finished? and !@order.cancelled? %>
-              <li>
-                <%= link_to finish_order_order_path(@order), class: "grey-text text-darken-2" do %>
-                  <i class="material-icons  ">edit</i><span ><%= t 'button.finish_order' %></span>
-                <% end %>
-              </li>
-            <% end  %>
+
             <li>
               <%= link_to deliver_products_order_path(@order), class: "grey-text text-darken-2" do %>
-                <i class="material-icons  ">local_shipping</i><span ><%= t 'button.deliver' %> <%= t 'activerecord.models.products' %></span>
+                <i class="material-icons  ">local_shipping</i><span ><%= t 'button.deliver' %></span>
               <% end %>
             </li>
+            <li class="divider"></li>
             <li>
               <%= link_to order_photos_order_path(@order), class: "grey-text text-darken-2" do %>
                 <i class="material-icons  ">photo_library</i><span ><%= t 'texts.photos' %></span>
               <% end %>
             </li>
             <li>
-              <a class="grey-text text-darken-2 modal-trigger btn-send-email" href="#modal-mail_document"><i class="material-icons ">assignment</i><%= t 'documents' %></a>
+              <a class="grey-text text-darken-2 modal-trigger btn-send-email" href="#modal-mail_document"><i class="material-icons ">description</i><%= t 'documents' %></a>
             </li>
-            <li>
-              <a class="grey-text text-darken-2 modal-trigger btn-send-email" href="#modal-mail"><i class="material-icons ">send</i><%= t 'button.custom_email' %></a>
-            </li>
+            <li class="divider"></li>
+            <% if !@order.finished? and !@order.cancelled? %>
+              <li>
+                <%= link_to finish_order_order_path(@order), class: "green-text text-darken-2" do %>
+                  <i class="material-icons  ">check_circle</i><span ><%= t 'button.finish_order' %></span>
+                <% end %>
+              </li>
+            <% end  %>
+
             <% if !@order.has_transaction_paid and @order.status != 'cancelled' %>
               <li>
                 <%#= link_to cancel_order_path(@order),  class: "grey-text text-darken-2" do %>
-                <%= link_to '#',  class: "grey-text text-darken-2", onclick: 'confirm_cancel_order()' do %>
+                <%= link_to '#',  class: "red-text text-darken-2", onclick: 'confirm_cancel_order()' do %>
                   <i class="material-icons ">cancel</i><%= t "button.cancel" %>
                 <% end %>
               </li>
             <% elsif !@order.has_transaction_paid and @order.status == 'cancelled' %>
               <li>
-                <%= link_to reactivate_order_path(@order),  class: "grey-text text-darken-2" do %>
+                <%= link_to reactivate_order_path(@order),  class: "green-text text-darken-2" do %>
                   <i class="material-icons ">settings_backup_restore</i><%= t "button.reactivate" %>
                 <% end %>
               </li>
             <% end %>
           </ul>
+          <%= link_to invoice_order_path(@order), class: 'mr-2 btn-secondary btn waves-effect waves-light breadcrumbs-btn right' do %>
+            <i class="material-icons hide-on-med-and-up">receipt</i>
+            <span><%= t 'button.view_invoice' %></span>
+          <% end %>
         </div>
       </div>
     </div>

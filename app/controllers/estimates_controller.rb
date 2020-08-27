@@ -1,9 +1,11 @@
 class EstimatesController < ApplicationController
-  load_and_authorize_resource except: [:estimate_signature, :create_products_estimates, :create_step_one, :create_schedule,:delete_schedule]
-  before_action :set_estimate, only: [:send_grid_mail, :show, :edit, :update, :destroy, :cancel, :reactivate, :send_mail,:estimate_signature, :tax_calculation, :taxpayer, :create_products_estimates,:new_note, :new_document,:create_order,:apply_discount]
+  load_and_authorize_resource except: [:estimate_signature, :create_products_estimates, :create_step_one, :create_schedule,:delete_schedule, :decline_estimate]
+  before_action :set_estimate, only: [:send_grid_mail, :show, :edit, :update, :destroy, :cancel, :reactivate, :send_mail,:estimate_signature, :tax_calculation, :taxpayer, :create_products_estimates,:new_note, :new_document,:create_order,:apply_discount, :decline_estimate]
   before_action :set_combos, only: [:step_one, :products]
   # skip_forgery_protection
   # GET /estimates
+
+  layout "welcome", only: [:decline_estimate]
 
   def index
     @q = Estimate.all.order(created_at: :desc).ransack(params[:q])
@@ -420,6 +422,15 @@ class EstimatesController < ApplicationController
     #this is only to set permissions
   end
 
+  # Quando o cliente rejeita estimate
+  def decline_estimate
+    @estimate.status = :not_accepted
+    @estimate.save
+
+    # Avisa a empresa
+    DocumentMailer.with(estimate: @estimate, reason: params[:reason]).send_decline_estimate.deliver_now
+  end
+
   private
   #Método que carrega os objetos de seleção
   def set_combos
@@ -439,7 +450,7 @@ class EstimatesController < ApplicationController
         :latitude, :longitude, :category, :order_id, :price, :tax,
         :tax_calculation, :lead_id, :bpmn_instance, :current, :total, :taxpayer,
         measurement_areas_attributes: [
-            :id, :estimate_id, :name, :description, :_destroy,
+            :id, :estimate_id, :name, :description, {images: []}, :_destroy,
             measurements_attributes: [
                 :id, :length, :width, :height, :square_feet, :measures, :_destroy
             ]

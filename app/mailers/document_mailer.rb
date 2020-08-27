@@ -77,7 +77,7 @@ class DocumentMailer < ApplicationMailer
          subject: "#{@estimate.customer.name.split.first} approved the estimate nº #{@estimate.code}")
   end
 
-  # Método que envia email para empresa confirmando que recebeu pagamento via square
+  # Avisa a empresa que recebeu pagamento via square
   def send_square_paid_company
     #binding.pry
     @transaction = params[:transaction]
@@ -85,12 +85,21 @@ class DocumentMailer < ApplicationMailer
          subject: "Payment Received by Square")
   end
 
+  # Avisa o cliente que seu pagamento foi registrado
   def send_transaction_paid_customer
     @transaction = params[:transaction]
     @customer = @transaction.customer
 
     mail(to: @customer.get_main_email_f,
          subject: "Your payment has been registered with the woffice")
+  end
+
+  # Avisa a empresa que o cliente rejeitou estimate
+  def send_decline_estimate
+    @estimate = params[:estimate]
+    @reason = params[:reason]
+    mail(to: Setting.get_value("company_email"),
+         subject: "One customer rejected estimate")
   end
 
   private

@@ -47,6 +47,7 @@ en:
     payment: Payment
 
     photos: Photos
+    images: Images
     processes: Processes
     payments: Payments
     pay_this: Pay This
@@ -143,7 +144,7 @@ en:
     clone: Clone
     filter: Filter
     get_directions: Get Directions
-
+    decline: Decline
   #
   false: "No"
   true: "Yes"

@@ -75,19 +75,19 @@
     <div class="col s12 m6">
       <div class="row">
         <div class="col s3">
-          <label>Width</label>
+          <label><%= t('activerecord.attributes.measurements.width') %></label>
           <input type="number" step="any" id="w-field" onfocusout="calc_formula()">
         </div>
         <div class="col s3">
-          <label>Length</label>
+          <label><%= t('activerecord.attributes.measurements.length') %></label>
           <input type="number" step="any" id="l-field" onfocusout="calc_formula()">
         </div>
         <div class="col s3">
-          <label>Height</label>
+          <label><%= t('activerecord.attributes.measurements.height') %></label>
           <input type="number" step="any" id="h-field" onfocusout="calc_formula()">
         </div>
         <div class="col s3">
-          <label>SqFt</label>
+          <label><%= t('activerecord.attributes.measurements.square_feet') %></label>
           <input type="number" step="any" id="s-field" onfocusout="calc_formula()">
         </div>
       </div>
@@ -96,11 +96,11 @@
       <a class="btn"><i class="material-icons" onclick="calc_formula()">check</i></a>
     </div>
     <div class="col s6 m2">
-      <label>Qty</label>
+      <label><%= t('activerecord.attributes.product_estimate.quantity') %></label>
       <input type="number" step="any" id="qty-field" value="1" onkeyup="qtyChange()" onfocusout="qtyChange()">
     </div>
     <div class="col s6 m2">
-      <label>Price</label>
+      <label><%= t('activerecord.attributes.product.customer_price') %></label>
       <input type="number" step="any" id="price-field" disabled=" true" value="<%= @product.customer_price %>">
     </div>
   </div>

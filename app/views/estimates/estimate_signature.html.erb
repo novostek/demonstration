@@ -1,3 +1,12 @@
+<%= content_for :head_content do %>
+  <style>
+    .disabled-sign {
+      background-color: #DDD !important;
+      color: #999;
+      box-shadow: none !important;
+    }
+  </style>
+<% end %>
 
   <div class="card-panel">
     <%= render 'layouts/document_top' %>
@@ -168,10 +177,11 @@
     <% else %>
       <p> <b><%= t 'signed_at' %> <%= "#{DateTime.now}" %></b></p>
     <% end %>
+    <p class="m-0 red-text" id="msg-sign">Please, draw your signature in the box below</p>
     <div class="row">
       <div class="col s12">
         <% if !@view.present? %>
-          <%= form_with url: create_sign_signatures_path do |f| %>
+          <%= form_with url: create_sign_signatures_path, id: 'create_sign' do |f| %>
 
             <%= f.hidden_field "signature[sign]", value: true %>
             <%= f.hidden_field "signature[origin]", value: "Estimate" %>
@@ -180,8 +190,9 @@
             <input type="hidden" id="signature_file" value="" name="signature[file]">
             <canvas id="signature-pad" class="signature-pad" width=700 height=200 style="border:1px solid #000000;"></canvas>
             <br>
-            <button id="clear" class="btn" type="button" ><%= t 'clear' %></button>
-            <%= f.submit "Sign", class:"btn green", onclick:"loading_()" %>
+            <button id="clear" disabled class="btn" type="button" ><%= t 'clear' %></button>
+            <%= f.submit "Sign", id: 'sign', class:"btn green disabled-sign" %>
+            <button id="decline" class="btn white red-text right modal-trigger" data-target="modal-decline" type="button" ><%= t 'button.decline' %></button>
 
           <% end %>
         <% else %>
@@ -192,15 +203,39 @@
     </div>
   </div>
 
+  <div id="modal-decline" class="modal modal-fixed-footer">
+    <%= form_with url: decline_estimate_estimate_path(@estimate), method: :get, local: true do |f| %>
+      <div class="modal-content">
+        <div class="row">
+          <div>
+            <h5>Why wouldn't you like to accept this estimate?</h5>
+          </div>
+          <div class="input-field">
+            <%= f.text_area :reason, required: true, class: 'materialize-textarea' %>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="left modal-action modal-close waves-effect waves-green btn-flat" type="button">
+          <i class="material-icons left">close</i><%= t "button.close" %>
+        </button>
+        <%= f.button :submit, class:"modal-action waves-effect waves-green btn-flat" do %>
+          <i class="material-icons left">send</i> <%= t 'button.send' %>
+        <% end %>
+      </div>
+    <% end %>
+  </div>
 
 <%= content_for :scripts do %>
   <!--https://gasparesganga.com/labs/jquery-loading-overlay/#quick-demo -->
   <script src="https://cdn.jsdelivr.net/npm/gasparesganga-jquery-loading-overlay@2.1.7/dist/loadingoverlay.min.js"></script>
   <script>
-    function loading_()
-    {
-        $.LoadingOverlay("show");//,{image: "/loading.gif",}
-    }
+    // function loading_()
+    // {
+    //     // $.LoadingOverlay("show");//,{image: "/loading.gif",}
+    // }
+
+
 
 
       $(document).ready(function(){
@@ -222,6 +257,9 @@
   <script src="https://cdn.jsdelivr.net/npm/signature_pad@2.3.2/dist/signature_pad.min.js"></script>
 
   <script type="text/javascript" charset="utf-8">
+
+
+
       var canvas = document.getElementById('signature-pad');
 
       window.onresize = resizeCanvas;
@@ -254,6 +292,27 @@
       document.getElementById('clear').addEventListener('click', function () {
           signaturePad.clear();
           $("#signature_file").val("");
+
+          $('#clear').prop('disabled', true);
+          $('#sign').addClass('disabled-sign');
       });
+
+      signaturePad.onBegin = function() {
+          $('#msg-sign').hide();
+          $('#clear').prop('disabled', false);
+          $('#sign').removeClass('disabled-sign');
+      };
+
+      $("#create_sign").submit(function(e){
+          if (signaturePad.isEmpty()){
+              $('#msg-sign').show();
+              return false;
+          }else{
+              // assinou
+              $.LoadingOverlay("show");
+              return true;
+          }
+      });
+
   </script>
 <% end %>

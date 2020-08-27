@@ -178,6 +178,7 @@ ActiveRecord::Schema.define(version: 2020_08_25_163727) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.uuid "cloned_from"
+    t.string "images", default: [], array: true
     t.index ["estimate_id"], name: "index_measurement_areas_on_estimate_id"
   end
 

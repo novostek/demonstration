@@ -5,6 +5,7 @@
 #  id          :uuid             not null, primary key
 #  cloned_from :uuid
 #  description :text
+#  images      :string           default([]), is an Array
 #  name        :string
 #  created_at  :datetime         not null
 #  updated_at  :datetime         not null
@@ -23,6 +24,9 @@ class MeasurementArea < ApplicationRecord
   has_many :measurements, inverse_of: :measurement_area, dependent: :destroy
   has_many :area_proposal, dependent: :destroy
   has_many :measurement_proposals, through: :area_proposal
+
+  mount_uploaders :images, MeasurementAreaUploader
+  #skip_callback :commit, :after, :remove_images!
 
   accepts_nested_attributes_for :measurements, allow_destroy: true
   accepts_nested_attributes_for :measurement_proposals, reject_if: :all_blank, allow_destroy: true

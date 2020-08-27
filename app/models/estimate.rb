@@ -76,7 +76,7 @@ class Estimate < ApplicationRecord
 
   enumerize :taxpayer, in: [:customer, :company], predicates: true
   enumerize :category, in: [:estimate, :change_order], predicates: true, default: :estimate
-  enumerize :status, in: [:new, :waiting_approval, :ordered, :cancelled], predicates: true, default: :new
+  enumerize :status, in: [:new, :waiting_approval, :ordered, :cancelled, :not_accepted], predicates: true, default: :new
 
   def reject_measurement_areas attributes
     attributes['name'].blank? && attributes['description'].blank?

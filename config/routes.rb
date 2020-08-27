@@ -175,6 +175,10 @@ Rails.application.routes.draw do
     collection do
       post 'new_delivery'
     end
+    member do
+      get 'sticker'
+      get 'quick_estimate'
+    end
   end
   resources :document_files
   resources :calculation_formulas do

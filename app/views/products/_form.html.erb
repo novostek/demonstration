@@ -70,9 +70,12 @@
     </div>
   </div>
 
-  <div class="other-field col s12">
+  <div class="input-field col s12">
+    <p>
+      <%= f.label  :calculation_formula_id %>
+
+    </p>
     <%= f.select :calculation_formula_id, @formulas, {prompt: true},class: 'select2 browser-default' %>
-    <%= f.label  :calculation_formula_id %>
 
   </div>
 

@@ -10,6 +10,8 @@
       </div>
       <div class="col s2 m6 l6">
         <%= link_to t('button.edit'), edit_product_path(@product), class:"btn waves-effect waves-light breadcrumbs-btn right" %>
+        <%= link_to t('button.product_tag'), sticker_product_path(@product), target: :_blank, class: "mr-2 btn-secondary btn waves-effect waves-light breadcrumbs-btn right"  %>
+
       </div>
     </div>
   </div>
@@ -66,5 +68,75 @@
     </div>
   </div>
 </div>
+
+<div class="card-panel">
+  <h4 class="header2"><%= t('product.quick_estimate') %></h4>
+  <div class="row">
+    <div class="col s12 m6">
+      <div class="row">
+        <div class="col s3">
+          <label>Width</label>
+          <input type="number" step="any" id="w-field" onfocusout="calc_formula()">
+        </div>
+        <div class="col s3">
+          <label>Length</label>
+          <input type="number" step="any" id="l-field" onfocusout="calc_formula()">
+        </div>
+        <div class="col s3">
+          <label>Height</label>
+          <input type="number" step="any" id="h-field" onfocusout="calc_formula()">
+        </div>
+        <div class="col s3">
+          <label>SqFt</label>
+          <input type="number" step="any" id="s-field" onfocusout="calc_formula()">
+        </div>
+      </div>
+    </div>
+    <div class="col s12 m2"><br>
+      <a class="btn"><i class="material-icons" onclick="calc_formula()">check</i></a>
+    </div>
+    <div class="col s6 m2">
+      <label>Qty</label>
+      <input type="number" step="any" id="qty-field" value="1" onkeyup="qtyChange()" onfocusout="qtyChange()">
+    </div>
+    <div class="col s6 m2">
+      <label>Price</label>
+      <input type="number" step="any" id="price-field" disabled=" true" value="<%= @product.customer_price %>">
+    </div>
+  </div>
+</div>
+
+<%= content_for :scripts do %>
+  <script type="text/javascript" charset="utf-8">
+    function qtyChange(){
+        qty = $('#qty-field').val() * <%= @product.customer_price %>
+        $('#price-field').val(qty)
+    }
+
+    function calc_formula(){
+        area = ($('#w-field').val() || 0 ) * ($('#l-field').val() || 0);
+        $('#s-field').val(area);
+         var data = $.ajax({
+            dataType: "json",
+            url: '<%= quick_estimate_product_path(@product) %>',
+            data: {
+                width: $('#w-field').val(),
+                lenght: $('#l-field').val(),
+                height: $('#h-field').val(),
+                area: $('#s-field').val(),
+            },
+            success: updateQty
+        });
+    }
+
+    function updateQty(data){
+        console.log(data)
+        $('#qty-field').val(data.quantity)
+        qtyChange();
+    }
+  </script>
+<% end %>
+
+
 
 

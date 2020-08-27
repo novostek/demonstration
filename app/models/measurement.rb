@@ -57,6 +57,14 @@ class Measurement < ApplicationRecord
     return area.to_f
   end
 
+  def self.sum_column(areas_ids, column)
+    begin
+      return self.where(measurement_area_id: areas_ids).sum(column)
+    rescue
+      return 0
+    end
+  end
+
   def set_default
     self.length ||= 0
     self.height ||= 0

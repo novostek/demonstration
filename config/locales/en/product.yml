@@ -31,3 +31,6 @@ en:
 
   tooltip:
     new_product: New product
+
+  product:
+    quick_estimate: 'Quick Estimate'

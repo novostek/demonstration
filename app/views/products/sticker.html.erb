@@ -1,0 +1,27 @@
+<div class="row">
+  <div class="col s4">
+    <div class="card-panel">
+      <div class="product-pic">
+        <img src="<%= sticker_product_path(@product, format: :png) %>" alt="">
+      </div>
+      <h6 class="mt-0 indigo-text"><%= @product.name %></h6>
+      <h6><%= t('activerecord.attributes.product.supplier_id') %>: <span><%= @product.supplier %></span> </h6>
+      <p class="width-100 left mt-0 mb-2">
+        <span class="font-weight-600 left"><%= t('activerecord.attributes.product.uuid') %>:</span>
+        <span class="right"><%= @product.uuid %></span>
+      </p>
+      <p class="width-100 left mt-0 mb-2">
+        <span class="font-weight-600 left"><%= t('activerecord.attributes.product.area_covered') %>:</span>
+        <span class="right"><%= @product.area_covered %></span>
+      </p>
+      <p><%= @product.id %></p>
+    </div>
+  </div>
+</div>
+
+<%= content_for :scripts do %>
+  <script type="text/javascript" charset="utf-8">
+    window.print();
+  </script>
+<% end %>
+

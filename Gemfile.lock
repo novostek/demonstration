@@ -79,6 +79,9 @@ GEM
     apartment-activejob (0.0.1)
       activesupport
       apartment
+    barnes (0.0.8)
+      multi_json (~> 1)
+      statsd-ruby (~> 1.1)
     bcrypt (3.1.13)
     bindex (0.8.1)
     bootsnap (1.4.6)
@@ -226,6 +229,7 @@ GEM
     multi_json (1.14.1)
     multipart-post (2.1.1)
     netrc (0.11.0)
+    newrelic_rpm (6.12.0.367)
     nio4r (2.5.2)
     nokogiri (1.10.9)
       mini_portile2 (~> 2.4.0)
@@ -353,6 +357,7 @@ GEM
       faraday-http-cache (~> 2.0)
       faraday_middleware (~> 0.13)
       logging (~> 2.2)
+    statsd-ruby (1.4.0)
     thor (1.0.1)
     thread_safe (0.3.6)
     tilt (2.0.10)
@@ -401,6 +406,7 @@ DEPENDENCIES
   ancestry
   annotate
   apartment-activejob
+  barnes
   bootsnap (>= 1.4.2)
   breadcrumbs_on_rails
   bundler
@@ -421,6 +427,7 @@ DEPENDENCIES
   kaminari
   liquid
   listen (>= 3.0.5, < 3.2)
+  newrelic_rpm
   pg (>= 0.18, < 2.0)
   plutus!
   pry-byebug

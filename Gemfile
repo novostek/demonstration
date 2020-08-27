@@ -50,7 +50,7 @@ group :development do
 end
 
 group :production do
-
+  gem "barnes"
 end
 
 group :test do
@@ -118,3 +118,4 @@ gem "recaptcha"
 gem 'apartment-activejob'
 gem 'rqrcode'
 gem "sentry-raven"
+gem 'newrelic_rpm'

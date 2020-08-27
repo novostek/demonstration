@@ -119,6 +119,7 @@ en:
     yes_i_want: Yes, I want!
     cancel_sweetalert: No, cancel!
     in_person: In Person
+    product_tag: Product Tag
 
     # Order
     back_to_order: Back to Order

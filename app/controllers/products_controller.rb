@@ -1,6 +1,6 @@
 class ProductsController < ApplicationController
   load_and_authorize_resource
-  before_action :set_product, only: [:show, :edit, :update, :destroy]
+  before_action :set_product, only: [:show, :edit, :update, :destroy, :sticker, :quick_estimate]
   before_action :set_combos, only: [:new,:edit,:create,:update]
   before_action :init_entity_modal, only: [:new,:edit,:create,:update]
 
@@ -88,6 +88,35 @@ class ProductsController < ApplicationController
   def new_delivery
     @schedule = Product.create(product_params)
     # redirect_back(fallback_location: order_path(params[:order_id]))
+  end
+
+  def sticker
+    qrcode = RQRCode::QRCode.new("#{Setting.url}/products/#{params[:id]}")
+    @png = qrcode.as_png(
+        bit_depth: 1,
+        border_modules: 4,
+        color_mode: ChunkyPNG::COLOR_GRAYSCALE,
+        color: 'black',
+        file: nil,
+        fill: 'white',
+        module_px_size: 6,
+        resize_exactly_to: false,
+        resize_gte_to: false,
+        size: 350
+    )
+    respond_to do |format|
+      format.html {render layout: 'clean'}
+      format.png {   send_data @png.to_s , filename: "qrcode.png", type: "image/png", disposition: 'inline', stream: 'true', buffer_size: '4096' }
+    end
+  end
+
+  def quick_estimate
+    calculator = Dentaku::Calculator.new
+    qty = calculator.evaluate(
+    @product.calculation_formula.formula,
+        area: params[:area].to_f, area_covered: @product.area_covered, width: params[:width].to_f, height: params[:height].to_f, lenght: params[:lenght].to_f
+    ).to_f
+    render json: {quantity: qty}
   end
 
   private

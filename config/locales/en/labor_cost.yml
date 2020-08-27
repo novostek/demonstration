@@ -12,7 +12,7 @@ en:
     labor_cost:
       status:
         paid: "Paid"
-        pendent: "Pendent"
+        pendent: "Pending"
   notice:
     labor_cost:
       created: "Labor cost was successfully created."

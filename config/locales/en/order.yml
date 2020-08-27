@@ -44,7 +44,7 @@ en:
       send_invoice: Send Invoice
       new_payment: New Payment
       payments_added: Payments Added
-      payments_pendent: Payments Pendent
+      payments_pendent: Pending Payments
       update_hour_cost: Update Hour Cost
       products_purchase: Products purchase
       cost: Cost

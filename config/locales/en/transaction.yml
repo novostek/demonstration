@@ -30,7 +30,7 @@ en:
         square_card_on_file: "Square (Card on File)"
       status:
         paid: "Paid"
-        pendent: "Pendent"
+        pendent: "Pending"
   Estimate: "Estimate"
   Order: "Order"
   notice:
@@ -43,7 +43,7 @@ en:
       swal_error: "Something went wrong, try again later."
 
       # Orders > Invoice
-      question_want_change_this_payment_to_pendent: Do you want to change this payment to pendent?
+      question_want_change_this_payment_to_pendent: Do you want to change this payment to pending?
       error_change_payment_value: There was an error while trying to change the payment value, please, try again.
       payment_value_been_changed: The payment value has been changed
       erro_change_payment_status: There was an erro while trying to change the payment status, please, try again.

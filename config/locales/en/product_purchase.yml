@@ -1,12 +1,4 @@
 en:
-  enumerize:
-#    product_purchase:
-#      status:
-#        new: New
-#        finished: Finished
-#        cancelled: Cancelled
-#        awaiting_change_approval: Awaiting change approval
-#        change_approved: Change approved
   activerecord:
     models:
       product_purchase: "Product Purchase"

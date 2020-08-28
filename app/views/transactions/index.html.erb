@@ -87,7 +87,7 @@
                     <%= transaction.due.present? ? transaction.due.strftime("%m/%d/%Y") : '-' %>
                   </td>
                   <td>
-                    <%= transaction.status %>
+                    <%= transaction.status_text %>
                   </td>
                   <td>
                     <% if transaction.transaction_account.present? %>

@@ -30,7 +30,7 @@ en:
         square_card_on_file: "Square (Card on File)"
       status:
         paid: "Paid"
-        pendent: "Pendent"
+        pendent: "Pending"
   Estimate: "Estimate"
   Order: "Order"
   notice:

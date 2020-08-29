@@ -12,6 +12,6 @@ en:
         price: Price
   product_purchase_status:
     requested: Requested
-    buyed: Buyed
+    buyed: Bought
     delivered: Delivered
     returned: Returned

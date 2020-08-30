@@ -50,11 +50,26 @@
         <%= f.label :code %>
         <%= f.text_field :code %>
       </div>
+
+      <% if customer.new_record? %>
+        <div class="input-field col s12 m6">
+          <%= label_tag :email %>
+          <%= text_field_tag :email, customer.contacts.any? ? customer.get_main_email : '', type: 'email' %>
+        </div>
+
+        <div class="input-field col s12 m6">
+          <%= label_tag :phone %>
+          <%= text_field_tag :phone, customer.contacts.any? ? customer.get_main_phone : '', class: "phone" %>
+        </div>
+      <% end %>
+
     </div>
   </div>
 
   <div class="actions">
-    <%= f.submit t('button.save'), class: "btn" %>
+    <%= f.button :submit, :value => "remote_save", class: "btn right" do %>
+      <i class="material-icons left">save</i><%= t('button.save') %>
+    <% end %>
   </div>
 <% end %>
 

@@ -22,6 +22,13 @@ task :send_mail_schedule => :environment do
 
 end
 
+desc "Envia o email de confirmação do schedule para o Worker"
+task :send_schedule_mail_to_worker => :environment do
+
+  Schedule.send_schedule_mail_to_worker
+
+end
+
 desc "Cria os customers na square"
 task :square_customer => :environment do
 

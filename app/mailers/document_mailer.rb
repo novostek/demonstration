@@ -102,6 +102,16 @@ class DocumentMailer < ApplicationMailer
          subject: "One customer rejected estimate")
   end
 
+  # Avisa o trabalhador que foi feito um agendamento para ele
+  def send_schedule_mail_to_worker
+    @schedule = params[:schedule]
+    @worker = params[:worker]
+
+    attachments.inline['logo.png'] = File.read("#{Rails.root}/public/woffice.png")
+
+    mail(to: params[:emails], subject: "Schedule confirmation")
+  end
+
   private
 
   def set_smtp

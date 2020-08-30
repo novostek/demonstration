@@ -163,7 +163,8 @@
           window.Conpass.init({
               name: "<%= current_user.name %>",
               email: "<%= current_user.email %>",
-              tenantId: "<%= Apartment::Tenant.current %>"
+              tenantId: "<%= Apartment::Tenant.current %>",
+              locale: "<%= I18n.locale %>"
           });
       };
   </script>

@@ -274,6 +274,7 @@ Rails.application.routes.draw do
   get 'document_prototype/sign'
 
   get 'finances/dashboard' => 'finances#dashboard', as: :finance_dashboard
+  get 'finances/dashboard_orders' => 'finances#dashboard_orders', as: :finance_dashboard_orders
 
   get 'initialization' => 'bot#initialization', as: :initialization_bot
   post 'initialization' => 'bot#create_initialization', as: :create_initialization

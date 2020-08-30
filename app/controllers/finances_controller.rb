@@ -61,4 +61,8 @@ class FinancesController < ApplicationController
     end
   end
 
+  def dashboard_orders
+
+  end
+
 end

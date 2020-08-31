@@ -121,5 +121,5 @@ gem "sentry-raven"
 gem 'newrelic_rpm'
 
 group :production do
-  gem 'wkhtmltopdf-heroku'
+  gem 'wkhtmltopdf-heroku', '2.12.5.0'
 end

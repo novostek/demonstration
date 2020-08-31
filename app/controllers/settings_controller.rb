@@ -126,7 +126,7 @@ class SettingsController < ApplicationController
   def company_banner
     #redirect_to Setting.logo
     s = Setting.banner_object
-    data = open(s.file.url.gsub('https','http'))
+    data = open(s.file.url)
     send_data data.read, filename: s.file.filename, type: s.file.content_type, disposition: 'inline', stream: 'true', buffer_size: '4096'
   end
 
@@ -144,7 +144,7 @@ class SettingsController < ApplicationController
   def get_logo
     begin
       s = Setting.logo_object
-      data = open(s.file.url.gsub('https','http'))
+      data = open(s.file.url)
       send_data data.read, filename: s.file.filename, type: s.file.content_type, disposition: 'inline', stream: 'true', buffer_size: '4096'
     rescue
       send_file 'public/materialize/images/avatar/avatar-7.png', type: 'image/png', disposition: 'inline', stream: 'true', buffer_size: '4096'

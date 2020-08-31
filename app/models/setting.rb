@@ -44,7 +44,7 @@ class Setting < ApplicationRecord
   def self.logo
     d = logo_object
     if d.present?
-      return d.file.url.gsub('https','http')
+      return d.file.url
     end
     "/woffice.svg"
   end
@@ -52,7 +52,7 @@ class Setting < ApplicationRecord
   def self.banner
     d = banner_object
     if d.present?
-      return d.file.url.gsub('https','http')
+      return d.file.url
     end
     "/woffice.svg"
   end

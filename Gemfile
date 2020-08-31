@@ -52,7 +52,6 @@ end
 
 group :production do
   gem "barnes"
-  gem 'wkhtmltopdf-heroku'
 end
 
 group :test do
@@ -120,3 +119,7 @@ gem 'apartment-activejob'
 gem 'rqrcode'
 gem "sentry-raven"
 gem 'newrelic_rpm'
+
+group :production do
+  gem 'wkhtmltopdf-heroku'
+end

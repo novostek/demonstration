@@ -272,7 +272,7 @@ class OrdersController < ApplicationController
     change_order_estimate.initialize_code
 
     #remove o current estimate
-    @order.estimates.update_all(current: false)
+    @order.estimates.update_all(current: false, status: :cancelled)
 
     if change_order_estimate.save
       #duplica schedules

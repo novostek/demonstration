@@ -280,6 +280,10 @@ class Client < ApplicationRecord
                                measurement_areas_attributes: [{name: I18n.t('texts.client.onboard.area'), measurements_attributes: [{width: 10,length: 10}], measurement_proposals_attributes: [{product_estimates_attributes: [{product_id: p_c.id, unitary_value: p_c.customer_price, quantity: 1, value: p_c.customer_price, tax: false}]} ]}]
     estimate.save
 
+    TransactionCategory.find_or_create_by name: 'Costs', description: 'Category to associate our costs transactions'
+
+    TransactionAccount.find_or_create_by name: 'Checking Account', description: 'Account for checking'
+
     # New Order
     estimate.create_order
   end

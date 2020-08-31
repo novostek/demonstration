@@ -20,12 +20,6 @@ class ConfirmJob < ApplicationJob
       client.pwd = data["password"]
       if client.save
         job.complete = true
-        begin
-          Apartment::Tenant.switch(client.tenant_name) do
-            Client.init_onboard
-          end
-        rescue
-        end
         #if !Rails.env.production?
           job.redirect = "http://#{client.tenant_name}.#{ENV["DOMAIN_URL"]}"
         #else

@@ -264,7 +264,7 @@ class Client < ApplicationRecord
     supplier = Supplier.create name: I18n.t('texts.client.onboard.supplier'), active: true
 
     # Find ou Create CalculationFormula default
-    cal_formula = CalculationFormula.find_or_create_by name: I18n.t('texts.client.default_unitary_value_formula'), namespace: 'default-formula'
+    cal_formula = CalculationFormula.first
 
     # New Products
     p_a = Product.create name: I18n.t('texts.client.onboard.prod_1'), details: I18n.t('texts.client.onboard.prod_1_desc'), customer_price: 10, cost_price: 5, area_covered: 5, tax: false, active: true, calculation_formula_id: cal_formula.id, product_category_id: product_category.id, supplier_id: supplier.id
@@ -277,7 +277,7 @@ class Client < ApplicationRecord
     # New Estimate
     estimate = Estimate.find_or_initialize_by lead_id: lead.id
     estimate.assign_attributes title: I18n.t('texts.client.onboard.estimate'), sales_person_id: sales_person.id, status: :new, description: I18n.t('texts.client.onboard.estimate_desc'), location: I18n.t('texts.client.onboard.estimate_location'), latitude: I18n.t('texts.client.onboard.estimate_lat'), longitude: I18n.t('texts.client.onboard.estimate_long'), category: :estimate, current: false, total: 0, taxpayer: :customer, payment_approval: true,
-                               measurement_areas_attributes: [{name: I18n.t('texts.client.onboard.area'), measurements_attributes: [{width: 10,length: 10}], measurement_proposals_attributes: [{product_estimates_attributes: [{product_id: p_c.id, unitary_value: p_c.customer_price, quantity: 1, value: p_c.customer_price, tax: false}]} ]}]
+                               measurement_areas_attributes: [{name: I18n.t('texts.client.onboard.area'), measurements_attributes: [{width: 10,length: 10, height:10, measures:"{\"value\"=>[{\"width\"=>0.0, \"length\"=>0.0, \"square_feet\"=>0.0}]}"}], measurement_proposals_attributes: [{product_estimates_attributes: [{product_id: p_c.id, unitary_value: p_c.customer_price, quantity: 1, value: p_c.customer_price, tax: false}]} ]}]
     estimate.save
 
     # New Order

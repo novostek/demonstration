@@ -32,6 +32,7 @@ group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
   gem 'bundler'
+  gem 'wkhtmltopdf-binary'
 end
 
 group :development do
@@ -51,6 +52,7 @@ end
 
 group :production do
   gem "barnes"
+  gem 'wkhtmltopdf-heroku'
 end
 
 group :test do
@@ -102,7 +104,6 @@ gem 'faker'
 gem 'liquid'
 
 gem 'wicked_pdf'
-gem 'wkhtmltopdf-binary'
 gem 'turnout'
 
 ##https://github.com/rails-on-services/apartment

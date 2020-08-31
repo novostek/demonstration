@@ -102,11 +102,11 @@
           <li>
             <div class="collapsible-header" tabindex="0"><i class="material-icons">expand_more</i> <%= t 'texts.customer.partials' %></div>
             <div class="collapsible-body white">
-              <div class="chip drag-text" draggable="true" data-value='<img src="<%= Setting.url.gsub('https','http') %>/settings/company_logo" alt="">'>
+              <div class="chip drag-text" draggable="true" data-value='<img src="<%= Setting.url %>/settings/company_logo" alt="">'>
                 <i class="material-icons chip-icon">open_with</i>
                 <%= t 'texts.settings.company_logo' %>
               </div>
-              <div class="chip drag-text" draggable="true" data-value='<img src="<%= Setting.url.gsub('https','http') %>/settings/company_banner" alt="">'>
+              <div class="chip drag-text" draggable="true" data-value='<img src="<%= Setting.url %>/settings/company_banner" alt="">'>
                 <i class="material-icons chip-icon">open_with</i>
                 <%= t 'texts.customer.company_banner' %>
               </div>

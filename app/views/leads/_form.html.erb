@@ -19,7 +19,7 @@
         <div class="row">
           <div class="input-field col s12 m3 l3">
             <%= f.text_field :phone, 
-                autocomplete: 'nope',
+                autocomplete: DateTime.now.to_i,
                 required: true,
                 class: 'autocomplete autocomplete-phone phone',
                 onkeyup: "search_by_phone($(this).val())",
@@ -29,7 +29,7 @@
 
           <div class="input-field col s12 m4 l4">
             <%= f.text_field :customer, 
-                autocomplete: 'nope',
+                autocomplete: DateTime.now.to_i,
                 required: true,
                 class: 'autocomplete autocomplete-customer',
                 id: 'lead_customer' ,
@@ -39,7 +39,7 @@
           </div>
           <div class="input-field col s12 m3 l3">
             <%= f.text_field :email,
-                autocomplete: 'nope',
+                autocomplete: DateTime.now.to_i,
                 required: true,
                 class: 'autocomplete autocomplete-email',
                 onkeyup: "search_by_email($(this).val())" %>

@@ -642,8 +642,7 @@ class OrdersController < ApplicationController
 
   def cancel
     @order.status = :cancelled
-    @order.current_estimate.status = :cancelled
-    @order.current_estimate.save
+    @order.estimates.update_all(status: :cancelled)
 
     respond_to do |format|
       if @order.save

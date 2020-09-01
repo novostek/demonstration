@@ -29,7 +29,7 @@ class CalculationFormula < ApplicationRecord
   end
 
   def slug_namespace
-    if self.namespace.bla
+    if self.namespace.blank?
       self.namespace = self.name.parameterize
     end
   end

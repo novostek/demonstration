@@ -2,23 +2,24 @@
 #
 # Table name: schedules
 #
-#  id            :uuid             not null, primary key
-#  all_day       :boolean
-#  bpmn_instance :string
-#  category      :string
-#  color         :string
-#  description   :text
-#  end_at        :datetime
-#  hour_cost     :decimal(, )
-#  mail_sent     :boolean
-#  origin        :string
-#  send_mail     :boolean
-#  start_at      :datetime
-#  title         :string
-#  created_at    :datetime         not null
-#  updated_at    :datetime         not null
-#  origin_id     :uuid
-#  worker_id     :uuid             not null
+#  id                :uuid             not null, primary key
+#  all_day           :boolean
+#  bpmn_instance     :string
+#  category          :string
+#  color             :string
+#  description       :text
+#  end_at            :datetime
+#  hour_cost         :decimal(, )
+#  mail_send_to_work :boolean
+#  mail_sent         :boolean
+#  origin            :string
+#  send_mail         :boolean
+#  start_at          :datetime
+#  title             :string
+#  created_at        :datetime         not null
+#  updated_at        :datetime         not null
+#  origin_id         :uuid
+#  worker_id         :uuid             not null
 #
 # Indexes
 #
@@ -42,9 +43,10 @@ class Schedule < ApplicationRecord
   #Método que seta como false a flag mail_sent que indica se o email foi enviado
   def set_mail_sent
     self.mail_sent = false
+    self.mail_send_to_work = false
   end
 
-  #Método que envia os emails de confirmação dos schedules
+  #Método que envia os emails de confirmação dos schedules para o customer
   def self.send_schedule_mail
     Client.all.each do |c|
       Apartment::Tenant.switch(c.tenant_name) do
@@ -70,6 +72,26 @@ class Schedule < ApplicationRecord
           end
 
         end
+      end
+    end
+  end
+
+  #Método que envia os emails de confirmação dos schedules para o worker
+  def self.send_schedule_mail_to_worker
+    Client.all.each do |c|
+      Apartment::Tenant.switch(c.tenant_name) do
+        schedules = Schedule.where(mail_send_to_work: false)
+
+        schedules.each do |s|
+          worker = s.worker
+          emails = worker.contacts.where(category: :email).map{|c| c.data['email']}
+
+          if emails.any?
+            DocumentMailer.with(schedule: s, worker: worker, emails: emails).send_schedule_mail_to_worker.deliver_now
+            s.update(mail_send_to_work: true)
+          end
+        end
+
       end
     end
   end
@@ -139,6 +161,16 @@ class Schedule < ApplicationRecord
       end
     rescue
       return nil
+    end
+  end
+
+  def get_customer
+    if from_order?
+      order = Order.find(origin_id)
+      order.current_estimate.customer
+    else
+      estimate = Estimate.find(origin_id)
+      estimate.customer
     end
   end
 end

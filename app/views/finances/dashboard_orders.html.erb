@@ -7,7 +7,8 @@
         <ol class="breadcrumbs mb-0">
           <li class="breadcrumb-item"><a href="/"><%= t 'breadcrumb.home' %></a>
           </li>
-          <li class="breadcrumb-item"><a href="<%= finance_dashboard_orders_path %>"><%= t 'activerecord.models.orders' %></a>
+          <li class="breadcrumb-item">
+            <a href="<%= finance_dashboard_orders_path %>"><%= t 'activerecord.models.orders' %></a>
           </li>
           <li class="breadcrumb-item active"><%= t 'breadcrumb.costs' %>
           </li>
@@ -19,7 +20,7 @@
           <li><a class="grey-text text-darken-2" href="order-schedule.html"><i class="material-icons left">event</i> Schedule</a></li>
           <li><a class="grey-text text-darken-2" href="order-deposit.html"><i class="material-icons left">archive</i> Deposit</a></li>
         </ul> -->
-<!--        <a class="btn waves-effect waves-light breadcrumbs-btn right mr-2 text-lighten-5 border-round" href="order-view.html"><i class="material-icons hide-on-med-and-up">arrow_back</i><span class="hide-on-small-only">Back to order</span></a>-->
+        <!--        <a class="btn waves-effect waves-light breadcrumbs-btn right mr-2 text-lighten-5 border-round" href="order-view.html"><i class="material-icons hide-on-med-and-up">arrow_back</i><span class="hide-on-small-only">Back to order</span></a>-->
 
       </div>
     </div>
@@ -126,320 +127,170 @@
               </div>
             </li>
           </ul>
-
-          <div class="card-panel">
-            <div class="row">
-              <div class="order-cost-list dashboard">
-                <div class="oc-supplier">
-                  <h6 class="oc-supplier-name">
-                    <a class="grey-text text-darken-3" href="#">Client name - (ordered: 13/05/20)<br>#1235</a></h6>
-                  <div class="oc-supplier-total">$2,201.84</div>
-                </div>
-                <div class="oc-items-header">
-                  <div class="header-qty">Qty</div>
-                  <div class="header-product">Product</div>
-                  <div class="header-price">Price</div>
-                  <div class="header-subtotal">Subtotal</div>
-                  <div class="header-deliver-date">Delivered</div>
-                  <div class="header-status">Status</div>
-                </div>
-                <div class="oc-item">
-                  <div class="oc-item-content">
-                    <div class="item-qty">13.0</div>
-                    <div class="item-product">Engineered Wood, Indusparquet, Smooth, Santos Mahogany, 5" x 1/2", SM12100
-                      (30.03 Sf. per box)
+            <%# binding.pry %>
+          <% @purchases.group_by { |p| p.order }.each do |order| %>
+            <%= order.first %>
+            <%= order.second %>
+            <div class="card-panel">
+              <div class="row">
+                <div class="order-cost-list dashboard">
+                  <div class="oc-supplier">
+                    <h6 class="oc-supplier-name">
+                      <a class="grey-text text-darken-3" href="#"><%= order.second.first.order.customer.name %> - (ordered: <%= order.second.first.order.start_at.strftime("%m/%d/%Y") %>)<br>#<%= order.first %></a></h6>
+                    <div class="oc-supplier-total">$2,201.84</div>
+                  </div>
+                  <div class="oc-items-header">
+                    <div class="header-qty">Qty</div>
+                    <div class="header-product">Product</div>
+                    <div class="header-price">Price</div>
+                    <div class="header-subtotal">Subtotal</div>
+                    <div class="header-deliver-date">Delivered</div>
+                    <div class="header-status">Status</div>
+                  </div>
+                  <div class="oc-item">
+                    <div class="oc-item-content">
+                      <div class="item-qty">13.0</div>
+                      <div class="item-product">Engineered Wood, Indusparquet, Smooth, Santos Mahogany, 5" x 1/2",
+                        SM12100
+                        (30.03 Sf. per box)
+                      </div>
+                      <div class="item-price">$149.85</div>
+                      <div class="item-subtotal">$1,948.05</div>
+                      <div class="item-deliver-date">05/20/20</div>
+                      <div class="item-status">
+                        <div class="select-wrapper">
+                          <select tabindex="-1">
+                            <option value="requested">Requested</option>
+                            <option value="buyed">Buyed</option>
+                            <option selected="selected" value="delivered">Delivered</option>
+                            <option value="returned">Returned</option>
+                          </select></div>
+                      </div>
                     </div>
-                    <div class="item-price">$149.85</div>
-                    <div class="item-subtotal">$1,948.05</div>
-                    <div class="item-deliver-date">05/20/20</div>
-                    <div class="item-status">
-                      <div class="select-wrapper">
-                        <select tabindex="-1">
-                          <option value="requested">Requested</option>
-                          <option value="buyed">Buyed</option>
-                          <option selected="selected" value="delivered">Delivered</option>
-                          <option value="returned">Returned</option>
-                        </select></div>
+                    <div class="oc-item-actions">
+                      <div>
+                        <a href="#modal_note_83" class="invoice-action-view modal-trigger" target="_self">
+                          <i class="material-icons hide-on-med-and-up">note</i>
+                          <span class="hide-on-small-only">New note</span>
+                        </a>
+                        <a href="#modal_doc_83" class="invoice-action-view modal-trigger" target="_self">
+                          <i class="material-icons hide-on-med-and-up">description</i>
+                          <span class="hide-on-small-only">New document</span>
+                        </a>
+                        <a class="sidenav-trigger" href="#">
+                          <i class="material-icons hide-on-med-and-up">remove_red_eye</i>
+                          <span class="hide-on-small-only">View</span>
+                        </a>
+                      </div>
+
+
+                      <div>
+                        <a class="modal-trigger tooltipped" data-tooltip="Edit" href="#modal_edit_83">
+                          <i class="material-icons">edit</i>
+                        </a>
+                        <a data-confirm="Are you sure?" target="_self" class="invoice-action-edit mr-4 tooltipped" data-tooltip="Remove" rel="nofollow" data-method="delete" href="/product_purchases/83?redirect=%2Forders%2F48%2Fcosts">
+                          <i class="material-icons">delete</i>
+                        </a>
+                      </div>
                     </div>
                   </div>
-                  <div class="oc-item-actions">
-                    <div>
-                      <a href="#modal_note_83" class="invoice-action-view modal-trigger" target="_self">
-                        <i class="material-icons hide-on-med-and-up">note</i>
-                        <span class="hide-on-small-only">New note</span>
-                      </a>
-                      <a href="#modal_doc_83" class="invoice-action-view modal-trigger" target="_self">
-                        <i class="material-icons hide-on-med-and-up">description</i>
-                        <span class="hide-on-small-only">New document</span>
-                      </a>
-                      <a class="sidenav-trigger" href="#">
-                        <i class="material-icons hide-on-med-and-up">remove_red_eye</i>
-                        <span class="hide-on-small-only">View</span>
-                      </a>
+                  <div class="oc-item">
+                    <div class="oc-item-content">
+                      <div class="item-qty">13.0</div>
+                      <div class="item-product">Engineered Wood, Indusparquet, Smooth, Santos Mahogany, 5" x 1/2",
+                        SM12100
+                        (30.03 Sf. per box)
+                      </div>
+                      <div class="item-price">$149.85</div>
+                      <div class="item-subtotal">$1,948.05</div>
+                      <div class="item-deliver-date">--</div>
+                      <div class="item-status">
+                        <div class="select-wrapper">
+                          <select tabindex="-1">
+                            <option value="requested">Requested</option>
+                            <option value="buyed">Buyed</option>
+                            <option selected="selected" value="delivered">Delivered</option>
+                            <option value="returned">Returned</option>
+                          </select></div>
+                      </div>
                     </div>
+                    <div class="oc-item-actions">
+                      <div>
+                        <a href="#modal_note_83" class="invoice-action-view modal-trigger" target="_self">
+                          <i class="material-icons hide-on-med-and-up">note</i>
+                          <span class="hide-on-small-only">New note</span>
+                        </a>
+                        <a href="#modal_doc_83" class="invoice-action-view modal-trigger" target="_self">
+                          <i class="material-icons hide-on-med-and-up">description</i>
+                          <span class="hide-on-small-only">New document</span>
+                        </a>
+                        <a class="sidenav-trigger" href="#">
+                          <i class="material-icons hide-on-med-and-up">remove_red_eye</i>
+                          <span class="hide-on-small-only">View</span>
+                        </a>
+                      </div>
 
 
-                    <div>
-                      <a class="modal-trigger tooltipped" data-tooltip="Edit" href="#modal_edit_83">
-                        <i class="material-icons">edit</i>
-                      </a>
-                      <a data-confirm="Are you sure?" target="_self" class="invoice-action-edit mr-4 tooltipped" data-tooltip="Remove" rel="nofollow" data-method="delete" href="/product_purchases/83?redirect=%2Forders%2F48%2Fcosts">
-                        <i class="material-icons">delete</i>
-                      </a>
+                      <div>
+                        <a class="modal-trigger tooltipped" data-tooltip="Edit" href="#modal_edit_83">
+                          <i class="material-icons">edit</i>
+                        </a>
+                        <a data-confirm="Are you sure?" target="_self" class="invoice-action-edit mr-4 tooltipped" data-tooltip="Remove" rel="nofollow" data-method="delete" href="/product_purchases/83?redirect=%2Forders%2F48%2Fcosts">
+                          <i class="material-icons">delete</i>
+                        </a>
+                      </div>
                     </div>
                   </div>
-                </div>
-                <div class="oc-item">
-                  <div class="oc-item-content">
-                    <div class="item-qty">13.0</div>
-                    <div class="item-product">Engineered Wood, Indusparquet, Smooth, Santos Mahogany, 5" x 1/2", SM12100
-                      (30.03 Sf. per box)
+                  <div class="oc-item">
+                    <div class="oc-item-content">
+                      <div class="item-qty">13.0</div>
+                      <div class="item-product">Engineered Wood, Indusparquet, Smooth, Santos Mahogany, 5" x 1/2",
+                        SM12100
+                        (30.03 Sf. per box)
+                      </div>
+                      <div class="item-price">$149.85</div>
+                      <div class="item-subtotal">$1,948.05</div>
+                      <div class="item-deliver-date">05/20/20</div>
+                      <div class="item-status">
+                        <div class="select-wrapper">
+                          <select tabindex="-1">
+                            <option value="requested">Requested</option>
+                            <option value="buyed">Buyed</option>
+                            <option selected="selected" value="delivered">Delivered</option>
+                            <option value="returned">Returned</option>
+                          </select></div>
+                      </div>
                     </div>
-                    <div class="item-price">$149.85</div>
-                    <div class="item-subtotal">$1,948.05</div>
-                    <div class="item-deliver-date">--</div>
-                    <div class="item-status">
-                      <div class="select-wrapper">
-                        <select tabindex="-1">
-                          <option value="requested">Requested</option>
-                          <option value="buyed">Buyed</option>
-                          <option selected="selected" value="delivered">Delivered</option>
-                          <option value="returned">Returned</option>
-                        </select></div>
-                    </div>
-                  </div>
-                  <div class="oc-item-actions">
-                    <div>
-                      <a href="#modal_note_83" class="invoice-action-view modal-trigger" target="_self">
-                        <i class="material-icons hide-on-med-and-up">note</i>
-                        <span class="hide-on-small-only">New note</span>
-                      </a>
-                      <a href="#modal_doc_83" class="invoice-action-view modal-trigger" target="_self">
-                        <i class="material-icons hide-on-med-and-up">description</i>
-                        <span class="hide-on-small-only">New document</span>
-                      </a>
-                      <a class="sidenav-trigger" href="#">
-                        <i class="material-icons hide-on-med-and-up">remove_red_eye</i>
-                        <span class="hide-on-small-only">View</span>
-                      </a>
-                    </div>
+                    <div class="oc-item-actions">
+                      <div>
+                        <a href="#modal_note_83" class="invoice-action-view modal-trigger" target="_self">
+                          <i class="material-icons hide-on-med-and-up">note</i>
+                          <span class="hide-on-small-only">New note</span>
+                        </a>
+                        <a href="#modal_doc_83" class="invoice-action-view modal-trigger" target="_self">
+                          <i class="material-icons hide-on-med-and-up">description</i>
+                          <span class="hide-on-small-only">New document</span>
+                        </a>
+                        <a class="sidenav-trigger" href="#">
+                          <i class="material-icons hide-on-med-and-up">remove_red_eye</i>
+                          <span class="hide-on-small-only">View</span>
+                        </a>
+                      </div>
 
-
-                    <div>
-                      <a class="modal-trigger tooltipped" data-tooltip="Edit" href="#modal_edit_83">
-                        <i class="material-icons">edit</i>
-                      </a>
-                      <a data-confirm="Are you sure?" target="_self" class="invoice-action-edit mr-4 tooltipped" data-tooltip="Remove" rel="nofollow" data-method="delete" href="/product_purchases/83?redirect=%2Forders%2F48%2Fcosts">
-                        <i class="material-icons">delete</i>
-                      </a>
-                    </div>
-                  </div>
-                </div>
-                <div class="oc-item">
-                  <div class="oc-item-content">
-                    <div class="item-qty">13.0</div>
-                    <div class="item-product">Engineered Wood, Indusparquet, Smooth, Santos Mahogany, 5" x 1/2", SM12100
-                      (30.03 Sf. per box)
-                    </div>
-                    <div class="item-price">$149.85</div>
-                    <div class="item-subtotal">$1,948.05</div>
-                    <div class="item-deliver-date">05/20/20</div>
-                    <div class="item-status">
-                      <div class="select-wrapper">
-                        <select tabindex="-1">
-                          <option value="requested">Requested</option>
-                          <option value="buyed">Buyed</option>
-                          <option selected="selected" value="delivered">Delivered</option>
-                          <option value="returned">Returned</option>
-                        </select></div>
-                    </div>
-                  </div>
-                  <div class="oc-item-actions">
-                    <div>
-                      <a href="#modal_note_83" class="invoice-action-view modal-trigger" target="_self">
-                        <i class="material-icons hide-on-med-and-up">note</i>
-                        <span class="hide-on-small-only">New note</span>
-                      </a>
-                      <a href="#modal_doc_83" class="invoice-action-view modal-trigger" target="_self">
-                        <i class="material-icons hide-on-med-and-up">description</i>
-                        <span class="hide-on-small-only">New document</span>
-                      </a>
-                      <a class="sidenav-trigger" href="#">
-                        <i class="material-icons hide-on-med-and-up">remove_red_eye</i>
-                        <span class="hide-on-small-only">View</span>
-                      </a>
-                    </div>
-
-                    <div>
-                      <a class="modal-trigger tooltipped" data-tooltip="Edit" href="#modal_edit_83">
-                        <i class="material-icons">edit</i>
-                      </a>
-                      <a data-confirm="Are you sure?" target="_self" class="invoice-action-edit mr-4 tooltipped" data-tooltip="Remove" rel="nofollow" data-method="delete" href="/product_purchases/83?redirect=%2Forders%2F48%2Fcosts">
-                        <i class="material-icons">delete</i>
-                      </a>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div class="card-panel">
-            <div class="row">
-              <div class="order-cost-list dashboard">
-                <div class="oc-supplier">
-                  <h6 class="oc-supplier-name">
-                    <a class="grey-text text-darken-3" href="#">Client name - (ordered: 13/05/20)<br>#1235</a></h6>
-                  <div class="oc-supplier-total">$2,201.84</div>
-                </div>
-                <div class="oc-items-header">
-                  <div class="header-qty">Qty</div>
-                  <div class="header-product">Product</div>
-                  <div class="header-price">Price</div>
-                  <div class="header-subtotal">Subtotal</div>
-                  <div class="header-deliver-date">Delivered</div>
-                  <div class="header-status">Status</div>
-                </div>
-                <div class="oc-item">
-                  <div class="oc-item-content">
-                    <div class="item-qty">13.0</div>
-                    <div class="item-product">Engineered Wood, Indusparquet, Smooth, Santos Mahogany, 5" x 1/2", SM12100
-                      (30.03 Sf. per box)
-                    </div>
-                    <div class="item-price">$149.85</div>
-                    <div class="item-subtotal">$1,948.05</div>
-                    <div class="item-deliver-date">05/20/20</div>
-                    <div class="item-status">
-                      <div class="select-wrapper">
-                        <select tabindex="-1">
-                          <option value="requested">Requested</option>
-                          <option value="buyed">Buyed</option>
-                          <option selected="selected" value="delivered">Delivered</option>
-                          <option value="returned">Returned</option>
-                        </select></div>
-                    </div>
-                  </div>
-                  <div class="oc-item-actions">
-                    <div>
-                      <a href="#modal_note_83" class="invoice-action-view modal-trigger" target="_self">
-                        <i class="material-icons hide-on-med-and-up">note</i>
-                        <span class="hide-on-small-only">New note</span>
-                      </a>
-                      <a href="#modal_doc_83" class="invoice-action-view modal-trigger" target="_self">
-                        <i class="material-icons hide-on-med-and-up">description</i>
-                        <span class="hide-on-small-only">New document</span>
-                      </a>
-                      <a class="sidenav-trigger" href="#">
-                        <i class="material-icons hide-on-med-and-up">remove_red_eye</i>
-                        <span class="hide-on-small-only">View</span>
-                      </a>
-                    </div>
-
-
-                    <div>
-                      <a class="modal-trigger tooltipped" data-tooltip="Edit" href="#modal_edit_83">
-                        <i class="material-icons">edit</i>
-                      </a>
-                      <a data-confirm="Are you sure?" target="_self" class="invoice-action-edit mr-4 tooltipped" data-tooltip="Remove" rel="nofollow" data-method="delete" href="/product_purchases/83?redirect=%2Forders%2F48%2Fcosts">
-                        <i class="material-icons">delete</i>
-                      </a>
-                    </div>
-                  </div>
-                </div>
-                <div class="oc-item">
-                  <div class="oc-item-content">
-                    <div class="item-qty">13.0</div>
-                    <div class="item-product">Engineered Wood, Indusparquet, Smooth, Santos Mahogany, 5" x 1/2", SM12100
-                      (30.03 Sf. per box)
-                    </div>
-                    <div class="item-price">$149.85</div>
-                    <div class="item-subtotal">$1,948.05</div>
-                    <div class="item-deliver-date">--</div>
-                    <div class="item-status">
-                      <div class="select-wrapper">
-                        <select tabindex="-1">
-                          <option value="requested">Requested</option>
-                          <option value="buyed">Buyed</option>
-                          <option selected="selected" value="delivered">Delivered</option>
-                          <option value="returned">Returned</option>
-                        </select></div>
-                    </div>
-                  </div>
-                  <div class="oc-item-actions">
-                    <div>
-                      <a href="#modal_note_83" class="invoice-action-view modal-trigger" target="_self">
-                        <i class="material-icons hide-on-med-and-up">note</i>
-                        <span class="hide-on-small-only">New note</span>
-                      </a>
-                      <a href="#modal_doc_83" class="invoice-action-view modal-trigger" target="_self">
-                        <i class="material-icons hide-on-med-and-up">description</i>
-                        <span class="hide-on-small-only">New document</span>
-                      </a>
-                      <a class="sidenav-trigger" href="#">
-                        <i class="material-icons hide-on-med-and-up">remove_red_eye</i>
-                        <span class="hide-on-small-only">View</span>
-                      </a>
-                    </div>
-
-
-                    <div>
-                      <a class="modal-trigger tooltipped" data-tooltip="Edit" href="#modal_edit_83">
-                        <i class="material-icons">edit</i>
-                      </a>
-                      <a data-confirm="Are you sure?" target="_self" class="invoice-action-edit mr-4 tooltipped" data-tooltip="Remove" rel="nofollow" data-method="delete" href="/product_purchases/83?redirect=%2Forders%2F48%2Fcosts">
-                        <i class="material-icons">delete</i>
-                      </a>
-                    </div>
-                  </div>
-                </div>
-                <div class="oc-item">
-                  <div class="oc-item-content">
-                    <div class="item-qty">13.0</div>
-                    <div class="item-product">Engineered Wood, Indusparquet, Smooth, Santos Mahogany, 5" x 1/2", SM12100
-                      (30.03 Sf. per box)
-                    </div>
-                    <div class="item-price">$149.85</div>
-                    <div class="item-subtotal">$1,948.05</div>
-                    <div class="item-deliver-date">05/20/20</div>
-                    <div class="item-status">
-                      <div class="select-wrapper">
-                        <select tabindex="-1">
-                          <option value="requested">Requested</option>
-                          <option value="buyed">Buyed</option>
-                          <option selected="selected" value="delivered">Delivered</option>
-                          <option value="returned">Returned</option>
-                        </select></div>
-                    </div>
-                  </div>
-                  <div class="oc-item-actions">
-                    <div>
-                      <a href="#modal_note_83" class="invoice-action-view modal-trigger" target="_self">
-                        <i class="material-icons hide-on-med-and-up">note</i>
-                        <span class="hide-on-small-only">New note</span>
-                      </a>
-                      <a href="#modal_doc_83" class="invoice-action-view modal-trigger" target="_self">
-                        <i class="material-icons hide-on-med-and-up">description</i>
-                        <span class="hide-on-small-only">New document</span>
-                      </a>
-                      <a class="sidenav-trigger" href="#">
-                        <i class="material-icons hide-on-med-and-up">remove_red_eye</i>
-                        <span class="hide-on-small-only">View</span>
-                      </a>
-                    </div>
-
-                    <div>
-                      <a class="modal-trigger tooltipped" data-tooltip="Edit" href="#modal_edit_83">
-                        <i class="material-icons">edit</i>
-                      </a>
-                      <a data-confirm="Are you sure?" target="_self" class="invoice-action-edit mr-4 tooltipped" data-tooltip="Remove" rel="nofollow" data-method="delete" href="/product_purchases/83?redirect=%2Forders%2F48%2Fcosts">
-                        <i class="material-icons">delete</i>
-                      </a>
+                      <div>
+                        <a class="modal-trigger tooltipped" data-tooltip="Edit" href="#modal_edit_83">
+                          <i class="material-icons">edit</i>
+                        </a>
+                        <a data-confirm="Are you sure?" target="_self" class="invoice-action-edit mr-4 tooltipped" data-tooltip="Remove" rel="nofollow" data-method="delete" href="/product_purchases/83?redirect=%2Forders%2F48%2Fcosts">
+                          <i class="material-icons">delete</i>
+                        </a>
+                      </div>
                     </div>
                   </div>
                 </div>
               </div>
             </div>
-          </div>
+          <% end %>
 
         </div>
       </div>

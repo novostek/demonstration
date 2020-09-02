@@ -62,8 +62,7 @@ class FinancesController < ApplicationController
   end
 
   def dashboard_orders
-    # buscar orders e agrupar por cliente
-    @orders = Order.joins(:current_estimate, :customer).includes(:customer).group_by{|o| o.customer.name}
+    @purchases = Purchase.includes(:order, {order: [:customer]}, :supplier, {product_purchases: [:product]}).order('updated_at desc')
   end
 
 end

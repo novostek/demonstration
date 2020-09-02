@@ -70,7 +70,7 @@ class Transaction < ApplicationRecord
       end
     end
   end
-  
+
   #Round values
   def round_value
     self.value = (self.value || 0 ).round(2)

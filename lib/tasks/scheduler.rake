@@ -66,4 +66,20 @@ task :fix_tax => :environment do
 
 end
 
+desc "Round Transactions"
+task :round_transactions => :environment do
+
+  Client.all.each do |c|
+    Apartment::Tenant.switch(c.tenant_name) do
+      Transaction.all.map do |t|
+        begin
+          t.save
+        rescue
+        end
+      end
+    end
+  end
+
+end
+
 

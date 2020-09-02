@@ -50,7 +50,7 @@ class Transaction < ApplicationRecord
   default_scope {where.not(status: 'cancelled' )}
 
   #validates :category, :effective, :value, presence: true
-
+  before_validation :round_value
   after_create :send_square, :square_payment
   before_save :set_default_categories
   after_save :send_transaction_paid_customer, :send_square_paid_company
@@ -69,6 +69,11 @@ class Transaction < ApplicationRecord
 
       end
     end
+  end
+  
+  #Round values
+  def round_value
+    self.value = (self.value || 0 ).round(2)
   end
 
   #Método que envia o checkout por email para o cliente

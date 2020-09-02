@@ -70,7 +70,7 @@ class BotController < ApplicationController
     tax_formula = CalculationFormula.find_or_initialize_by(namespace: 'tax-formula')
     tax_formula.name = "Tax formula"
     tax_formula.tax = true
-    tax_formula.formula = "total * #{params[:company_tax].to_f / 100}"
+    tax_formula.formula = "roundup(total * #{params[:company_tax].to_f / 100})"
     tax_formula.save
 
     verified = Setting.find_or_initialize_by(namespace: 'verified')

@@ -71,12 +71,7 @@ task :round_transactions => :environment do
 
   Client.all.each do |c|
     Apartment::Tenant.switch(c.tenant_name) do
-      Transaction.all.map do |t|
-        begin
-          t.save
-        rescue
-        end
-      end
+      Transaction.update_all('value = round(value, 2)')
     end
   end
 

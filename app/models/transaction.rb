@@ -116,7 +116,7 @@ class Transaction < ApplicationRecord
   # Método que envia email para o cliente informando que um pagamento foi efetuado (marcado como pago)
   def send_transaction_paid_customer
     # verifica se status pago
-    if self.status.paid? and self.customer.present?
+    if self.status.paid? and self.customer.present? and self.payment_method.present?
 
       # envia email
       DocumentMailer.with(transaction: self).send_transaction_paid_customer.deliver_now

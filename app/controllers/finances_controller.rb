@@ -6,16 +6,33 @@ class FinancesController < ApplicationController
 
     @day_incomes = Transaction.get_day_finances('income')
     @day_costs = Transaction.get_day_finances('cost')
+    #binding.pry
 
     @balance = []
+    beginning_of_month = Date.today.beginning_of_month
+    (0..11).map{|a| a}.reverse.map do |number|
+      month = (beginning_of_month - number.months).month
+      income = @year_incomes.detect { |i| i[:month_n] == month }
+      cost = @year_costs.detect { |c| c[:month_n] == month }
+      if income.present?
+        income_value = income[:value]
+        month_name = income[:month]
+      else
+        income_value = 0
+      end
 
-    @year_incomes.each do |income|
-      cost = @year_costs.detect { |c| c[:month] == income[:month] }
-      if cost.present? and income[:month] == cost[:month]
+      if cost.present?
+        cost_value = cost[:value]
+        month_name = cost[:month]
+      else
+        cost_value = 0
+      end
+
+      if income.present? or cost.present?
         @balance.push({
-          :month => income[:month],
-          :value => income[:value] - (cost[:value] * -1)
-        })
+                          :month => month_name,
+                          :value => income_value - (cost_value * -1)
+                      })
       end
     end
 
@@ -23,9 +40,7 @@ class FinancesController < ApplicationController
       :month => cost[:month],
       :value => cost[:value] * -1
     } }
-
-    @total_balance = @balance.reduce { |sum, num| sum[:value] + num[:value] }
-
+    @total_balance = {value: @balance.sum {|el| el[:value]} }
     @receivables = Transaction.get_amount_of_receivables
     @overdue = Transaction.get_amount_of_overdue
 

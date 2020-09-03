@@ -222,8 +222,8 @@ class OrdersController < ApplicationController
         doc.description = "Deliver"
 
         #cria a imagem temporária da assinatura
-        temp = Signature.base64_to_file(params[:signature][:file])
-        $temp_img = "/#{temp.path.split("/").last}"
+        #temp = Signature.base64_to_file(params[:signature][:file])
+        $temp_img = params[:signature][:file]
 
         #cria o PDF
         file = WickedPdf.new.pdf_from_url("#{Setting.url}/orders/#{@order.id}/deliver_products_sign?view=true&document=#{params[:document]}&ids=#{@products.pluck(:id)}", {page_size: "A3"})

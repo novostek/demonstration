@@ -103,19 +103,27 @@ class CustomersController < ApplicationController
 
     if @customer.save
       if params[:button] == "remote_save"
-        contact = Contact.new
-        contact.title = 'Email'
-        contact.category = 'email'
-        contact.data = { email: params[:email] }
-        contact.origin = "Customer"
-        contact.main = true
-        contact.origin_id = @customer.id
-        contact.save
-        contact = contact.dup
-        contact.title = "Phone"
-        contact.category = 'phone'
-        contact.data = { phone: params[:phone] }
-        contact.save
+        if params[:email].present?
+          contact = Contact.new
+          contact.title = 'Email'
+          contact.category = 'email'
+          contact.data = { email: params[:email] }
+          contact.origin = "Customer"
+          contact.main = true
+          contact.origin_id = @customer.id
+          contact.save
+        end
+
+        if params[:phone].present?
+          contact = Contact.new
+          contact.title = 'Phone'
+          contact.category = 'phone'
+          contact.data = { phone: params[:phone] }
+          contact.origin = "Customer"
+          contact.main = true
+          contact.origin_id = @customer.id
+          contact.save
+        end
       end
       respond_to do |format|
         format.html { redirect_to @customer, notice: t('notice.customer.created') }

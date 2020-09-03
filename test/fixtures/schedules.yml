@@ -2,23 +2,24 @@
 #
 # Table name: schedules
 #
-#  id            :uuid             not null, primary key
-#  all_day       :boolean
-#  bpmn_instance :string
-#  category      :string
-#  color         :string
-#  description   :text
-#  end_at        :datetime
-#  hour_cost     :decimal(, )
-#  mail_sent     :boolean
-#  origin        :string
-#  send_mail     :boolean
-#  start_at      :datetime
-#  title         :string
-#  created_at    :datetime         not null
-#  updated_at    :datetime         not null
-#  origin_id     :uuid
-#  worker_id     :uuid             not null
+#  id                :uuid             not null, primary key
+#  all_day           :boolean
+#  bpmn_instance     :string
+#  category          :string
+#  color             :string
+#  description       :text
+#  end_at            :datetime
+#  hour_cost         :decimal(, )
+#  mail_send_to_work :boolean
+#  mail_sent         :boolean
+#  origin            :string
+#  send_mail         :boolean
+#  start_at          :datetime
+#  title             :string
+#  created_at        :datetime         not null
+#  updated_at        :datetime         not null
+#  origin_id         :uuid
+#  worker_id         :uuid             not null
 #
 # Indexes
 #

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_08_25_163727) do
+ActiveRecord::Schema.define(version: 2020_08_30_173852) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -177,7 +177,7 @@ ActiveRecord::Schema.define(version: 2020_08_25_163727) do
     t.text "description"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.uuid "cloned_from", default: -> { "uuid_generate_v4()" }
+    t.uuid "cloned_from", default: -> { "gen_random_uuid()" }
     t.string "images", default: [], array: true
     t.index ["estimate_id"], name: "index_measurement_areas_on_estimate_id"
   end
@@ -409,6 +409,7 @@ ActiveRecord::Schema.define(version: 2020_08_25_163727) do
     t.boolean "mail_sent"
     t.uuid "origin_id"
     t.boolean "all_day"
+    t.boolean "mail_send_to_work"
     t.index ["worker_id"], name: "index_schedules_on_worker_id"
   end
 

@@ -22,6 +22,13 @@ task :send_mail_schedule => :environment do
 
 end
 
+desc "Envia o email de confirmação do schedule para o Worker"
+task :send_schedule_mail_to_worker => :environment do
+
+  Schedule.send_schedule_mail_to_worker
+
+end
+
 desc "Cria os customers na square"
 task :square_customer => :environment do
 
@@ -61,17 +68,6 @@ task :fix_tax => :environment do
         tax_cost.custom_title = order.current_estimate.calculation_formula.present? ? order.current_estimate.calculation_formula.name : nil
         tax_cost.save
       end
-    end
-  end
-
-end
-
-desc "Round Transactions"
-task :round_transactions => :environment do
-
-  Client.all.each do |c|
-    Apartment::Tenant.switch(c.tenant_name) do
-      Transaction.update_all('value = round(value, 2)')
     end
   end
 

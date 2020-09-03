@@ -149,8 +149,10 @@ class Transaction < ApplicationRecord
         self.transaction_category_id = Setting.get_value("taxes_transaction_category")
       else
         self.value = -(self.value)
-        self.transaction_account_id = Setting.get_value("product_purchase_transaction_account")
-        self.transaction_category_id = Setting.get_value("product_purchase_transaction_category")
+        transaction_account = TransactionAccount.find_by(id: Setting.get_value("product_purchase_transaction_account"))
+        transaction_category = TransactionCategory.find_by(id: Setting.get_value("product_purchase_transaction_category"))
+        self.transaction_account_id = transaction_account ? transaction_account.id : TransactionAccount.find_or_create_by(name: 'Checking Account', description: 'Account for checking', color: '#0b56ad').id
+        self.transaction_category_id = transaction_category ? transaction_category.id : TransactionCategory.find_or_create_by(name: 'Costs', description: 'Category to associate our costs transactions', color: '#e57b95').id
       end
     end
   end

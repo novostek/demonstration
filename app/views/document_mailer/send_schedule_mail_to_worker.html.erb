@@ -1,0 +1,17 @@
+<h6 class="greetings">Hi, <%= @worker %>!</h6>
+<p>
+  <%= raw (Setting.get_value("send_schedule_mail_text") || "").remove 'Powered by <a href="https://www.froala.com/wysiwyg-editor?pb=1" title="Froala Editor">Froala Editor</a>' %>
+</p>
+<br>
+<p>
+  <b>Worker: <%= @schedule.worker %></b>
+</p>
+<p>
+  <b>Start at: <%= @schedule.start_at %></b>
+</p>
+<p>
+  <b>End at: <%= @schedule.end_at %></b>
+</p>
+<p>
+  <b>Customer: <%= @schedule.get_customer %></b>
+</p>

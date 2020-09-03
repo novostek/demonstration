@@ -226,7 +226,7 @@ class OrdersController < ApplicationController
         $temp_img = "/#{temp.path.split("/").last}"
 
         #cria o PDF
-        file = WickedPdf.new.pdf_from_url("#{Setting.url.sub "https", "http"}/orders/#{@order.id}/deliver_products_sign?view=true&document=#{params[:document]}&ids=#{@products.pluck(:id)}", {page_size: "A3"})
+        file = WickedPdf.new.pdf_from_url("#{Setting.url}/orders/#{@order.id}/deliver_products_sign?view=true&document=#{params[:document]}&ids=#{@products.pluck(:id)}", {page_size: "A3"})
 
         # Write it to tempfile
         tempfile = Tempfile.new(['invoice', '.pdf'], Rails.root.join('tmp'))

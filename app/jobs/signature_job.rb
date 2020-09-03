@@ -15,7 +15,7 @@ class SignatureJob < ApplicationJob
     temp = base64_to_file(signature_params[:signature][:file])
     $temp_img = "/#{temp.path.split("/").last}" if temp.present?
 
-    url = Setting.url.sub "https", "http"
+    url = Setting.url
 
     #cria o PDF
     #binding.pry

@@ -12,8 +12,8 @@ class SignatureJob < ApplicationJob
     doc.origin_id = signature_params[:signature][:origin_id]
 
     #cria a imagem temporária da assinatura
-    temp = base64_to_file(signature_params[:signature][:file])
-    $temp_img = "/#{temp.path.split("/").last}" if temp.present?
+    #temp = base64_to_file(signature_params[:signature][:file])
+    $temp_img = signature_params[:signature][:file] #"/#{temp.path.split("/").last}" if temp.present?
 
     url = Setting.url
 

@@ -62,11 +62,9 @@ class FinancesController < ApplicationController
   end
 
   def dashboard_orders
-    #@purchases = Purchase.includes(:order, {order: [:customer]}, :supplier, {product_purchases: [:product]}).order('updated_at desc')
-    #binding.pry
-
     @q = Order.ransack(params[:q])
-    @orders = @q.result.includes(:current_estimate, :customer, :purchases, {purchases: [:supplier, :product_purchases, {product_purchases: [:product]}]} ).order(updated_at: :desc).page(params[:page]).per(10)
+    orders = @q.result.includes(:current_estimate, :customer, :purchases, {purchases: [:supplier, :product_purchases, {product_purchases: [:product, :notes, :document_files]}]} ).ordenation_by(params[:sort_by]).uniq
+    @orders = Kaminari.paginate_array(orders).page(params[:page]).per(4)
   end
 
 end

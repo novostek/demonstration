@@ -39,98 +39,101 @@
                 <div class="collapsible-header--title"><i class="material-icons">filter_list</i>Filters</div>
                 <div class="order-by">
                   <i class="material-icons">swap_vert</i>
+
                   <div class="orderby-select">
                     <div class="select-wrapper">
-                      <select name="" id="orderby-sort" tabindex="-1">
-                        <option value="" disabled="" selected="">Sort by</option>
-                        <option value="">Newest</option>
-                        <option value="">Oldest</option>
-                        <option value="">Order status</option>
-                        <option value="">Product status</option>
-                        <option value="">Order status</option>
-                      </select></div>
+
+                      <%= form_with(url: finance_dashboard_orders_path, method: :get) do %>
+                        <select onchange="this.form.submit()" name="sort_by" id="sort-by" tabindex="-1">
+                          <option value="" disabled="" <%= 'selected' unless params[:sort_by].present? %>>Sort by
+                          </option>
+                          <% Order.sort_by_options.each do |option| %>
+                            <% if option.last == params[:sort_by] %>
+                              <option value="<%= option.last %>" selected><%= option.first %></option>
+                            <% else %>
+                              <option value="<%= option.last %>"><%= option.first %></option>
+                            <% end %>
+                          <% end %>
+                        </select>
+                      <% end %>
+
+                    </div>
                   </div>
+
                 </div>
               </div>
 
               <div class="collapsible-body grey lighten-5 padding-2">
 
 
-                <%= search_form_for @q, url: request.env['PATH_INFO'] do |f|  %>
+                <%= search_form_for @q, url: request.env['PATH_INFO'] do |f| %>
 
-                <div class="row">
-                  <div class="col s12 m6 l3">
-                    <p class="font-weight-600"><i class="material-icons left mr-2">assignment_ind</i> Order</p>
-                    <div class="row">
-                      <div class="col s12 input-field">
-                        <%= f.label :code_cont, "Number" %>
-                        <%= f.search_field :code_cont %>
+                  <div class="row">
+                    <div class="col s12 m6 l3">
+                      <p class="font-weight-600"><i class="material-icons left mr-2">assignment_ind</i> Order</p>
+                      <div class="row">
+                        <div class="col s12 input-field">
+                          <%= f.label :code_cont, "Number" %>
+                          <%= f.search_field :code_cont %>
+                        </div>
+
+                        <div class="col s12">
+                          <%= f.label :status_eq, "Status" %>
+                          <%= f.select :status_eq, Order.status.options, {include_blank: 'All'}, {} %>
+                        </div>
                       </div>
-                      <div class="col s12">
-                        <%= f.label :status_eq, "Status" %>
-                        <%= f.select :status_eq, Order.status.options, {include_blank: 'All'}, {} %>
+                    </div>
+                    <div class="col s12 m6 l3">
+                      <p class="font-weight-600"><i class="material-icons left mr-2">local_grocery_store</i>Product</p>
+                      <div class="row">
+                        <div class="input-field col s12">
+                          <%= f.label :purchases_product_purchases_product_name_or_purchases_product_purchases_custom_title_cont, "Name" %>
+                          <%= f.search_field :purchases_product_purchases_product_name_or_purchases_product_purchases_custom_title_cont %>
+                        </div>
+
+                        <div class="col s12">
+                          <%= f.label :purchases_product_purchases_status_eq, "Status" %>
+                          <%= f.select :purchases_product_purchases_status_eq, ProductPurchase.status.options, {include_blank: 'All'}, {} %>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col s12 m6 l3">
+                      <p class="font-weight-600"><i class="material-icons left mr-2">local_shipping</i>Supplier</p>
+                      <div class="row">
+                        <div class="input-field col s12">
+                          <%= f.label :purchases_supplier_name_cont, "Name" %>
+                          <%= f.search_field :purchases_supplier_name_cont %>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col s12 m6 l3">
+                      <p class="font-weight-600"><i class="material-icons left mr-2">widgets</i>Misc</p>
+                      <div class="row">
+                        <div class="input-field col s12">
+                          <input type="text" id="autocomplete-input" class="autocomplete-worker" data-target="autocomplete-options-92442ed7-06b7-4b1f-d03c-90c28ee2c901">
+                          <ul id="autocomplete-options-92442ed7-06b7-4b1f-d03c-90c28ee2c901" class="autocomplete-content dropdown-content" tabindex="0"></ul>
+                          <label for="autocomplete-input">Worker name</label>
+                        </div>
+
+                        <div class="input-field col s12">
+                          <%= f.label :customer_name_cont, "Client" %>
+                          <%= f.search_field :customer_name_cont %>
+                        </div>
                       </div>
                     </div>
                   </div>
-                  <div class="col s12 m6 l3">
-                    <p class="font-weight-600"><i class="material-icons left mr-2">local_grocery_store</i>Product</p>
-                    <div class="row">
-                      <div class="input-field col s12">
-                        <input type="text" id="autocomplete-input" class="autocomplete-product" data-target="autocomplete-options-dd644166-31dd-128a-a06a-d9eaf3c8db36">
-                        <ul id="autocomplete-options-dd644166-31dd-128a-a06a-d9eaf3c8db36" class="autocomplete-content dropdown-content" tabindex="0"></ul>
-                        <label for="autocomplete-input">Name</label>
-                      </div>
 
-                      <div class="col s12">
-                        <label for="">Status</label>
-                        <div class="select-wrapper">
-                          <select name="" id="" tabindex="-1">
-                            <option value="">New</option>
-                            <option value="">Delivered</option>
-                            <option value="">Finished</option>
-                          </select></div>
-                      </div>
-
+                  <div class="row mt-3">
+                    <div class="col s12">
+                      <%= f.button :submit, class: "btn right waves-effect  border-round waves-block waves-light" do %>
+                        <%= t('button.filter') %>
+                      <% end %>
+                      <%= link_to 'Clear filters', finance_dashboard_orders_path, class: "btn right border-round btn-secondary mr-2 waves-effect waves-block waves-light sidenav-trigger" %>
                     </div>
                   </div>
-                  <div class="col s12 m6 l3">
-                    <p class="font-weight-600"><i class="material-icons left mr-2">local_shipping</i>Supplier</p>
-                    <div class="row">
-                      <div class="input-field col s12">
-                        <input type="text" id="autocomplete-input" class="autocomplete-supplier" data-target="autocomplete-options-35174855-6cd8-eadd-cfc2-8011252b451e">
-                        <ul id="autocomplete-options-35174855-6cd8-eadd-cfc2-8011252b451e" class="autocomplete-content dropdown-content" tabindex="0"></ul>
-                        <label for="autocomplete-input">Name</label>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="col s12 m6 l3">
-                    <p class="font-weight-600"><i class="material-icons left mr-2">widgets</i>Misc</p>
-                    <div class="row">
-                      <div class="input-field col s12">
-                        <input type="text" id="autocomplete-input" class="autocomplete-worker" data-target="autocomplete-options-92442ed7-06b7-4b1f-d03c-90c28ee2c901">
-                        <ul id="autocomplete-options-92442ed7-06b7-4b1f-d03c-90c28ee2c901" class="autocomplete-content dropdown-content" tabindex="0"></ul>
-                        <label for="autocomplete-input">Worker name</label>
-                      </div>
-                      <div class="input-field col s12">
-                        <input type="text">
-                        <label>Client</label>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-                <div class="row mt-3">
-                  <div class="col s12">
-                    <%= f.button :submit, class: "btn right waves-effect  border-round waves-block waves-light" do %>
-                      <%= t('button.filter') %>
-                    <% end %>
-                    <%= link_to 'Clear filters', finance_dashboard_orders_path, class: "btn right border-round btn-secondary mr-2 waves-effect waves-block waves-light sidenav-trigger" %>
-                  </div>
-                </div>
 
 
                 <% end %>
-
 
 
               </div>
@@ -164,7 +167,7 @@
                           <div class="item-product"><%= pp.product || pp.custom_title %></div>
                           <div class="item-price"><%= number_to_currency(pp.unity_value, :unit => '$') %></div>
                           <div class="item-subtotal"><%= number_to_currency(pp.value, :unit => '$') %></div>
-                          <div class="item-deliver-date">----</div>
+                          <div class="item-deliver-date"><%= pp.status.delivered? ? pp.updated_at.strftime("%m/%d/%Y") : '--' %></div>
                           <div class="item-status">
                             <%= select_tag :status, options_for_select(ProductPurchase.status.options, pp.status), {id: "status_#{pp.id}", onchange: "change_status('#{pp.id}')"} %>
                           </div>

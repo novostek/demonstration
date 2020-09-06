@@ -110,9 +110,8 @@
                       <p class="font-weight-600"><i class="material-icons left mr-2">widgets</i>Misc</p>
                       <div class="row">
                         <div class="input-field col s12">
-                          <input type="text" id="autocomplete-input" class="autocomplete-worker" data-target="autocomplete-options-92442ed7-06b7-4b1f-d03c-90c28ee2c901">
-                          <ul id="autocomplete-options-92442ed7-06b7-4b1f-d03c-90c28ee2c901" class="autocomplete-content dropdown-content" tabindex="0"></ul>
-                          <label for="autocomplete-input">Worker name</label>
+                          <%= f.label :current_estimate_worker_name_cont, "Name" %>
+                          <%= f.search_field :current_estimate_worker_name_cont %>
                         </div>
 
                         <div class="input-field col s12">

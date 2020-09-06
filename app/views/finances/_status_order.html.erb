@@ -1,0 +1,12 @@
+<% case order.status %>
+<% when 'new', 'change_approved' %>
+  <span class="green-text <%= local_assigns[:classes].nil? ? '' : classes %>"><%= order.status_text %></span>
+<% when 'awaiting_change_approval' %>
+  <span class="amber-text <%= local_assigns[:classes].nil? ? '' : classes %>"><%= order.status_text %></span>
+<% when 'finished' %>
+  <span class="blue-text <%= local_assigns[:classes].nil? ? '' : classes %>"><%= order.status_text %></span>
+<% when 'cancelled' %>
+  <span class="red-text <%= local_assigns[:classes].nil? ? '' : classes %>"><%= order.status_text %></span>
+<% else %>
+  <span class="grey-text <%= local_assigns[:classes].nil? ? '' : classes %>"><%= order.status_text %></span>
+<% end %>

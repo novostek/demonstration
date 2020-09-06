@@ -88,7 +88,7 @@
                       <div class="row">
                         <div class="input-field col s12">
                           <%= f.label :purchases_product_purchases_product_name_or_purchases_product_purchases_custom_title_cont, "Name" %>
-                          <%= f.search_field :purchases_product_purchases_product_name_or_purchases_product_purchases_custom_title_cont %>
+                          <%= f.search_field :purchases_product_purchases_product_name_or_purchases_product_purchases_custom_title_cont, class: 'autocomplete-product' %>
                         </div>
 
                         <div class="col s12">
@@ -102,7 +102,8 @@
                       <div class="row">
                         <div class="input-field col s12">
                           <%= f.label :purchases_supplier_name_cont, "Name" %>
-                          <%= f.search_field :purchases_supplier_name_cont %>
+                          <%#= f.search_field :purchases_supplier_name_cont, id: 'supplier-filter', class: 'autocomplete', onkeyup: "supplier_by_name($(this).val())" %>
+                          <%= f.search_field :purchases_supplier_name_cont, class: 'autocomplete-supplier' %>
                         </div>
                       </div>
                     </div>
@@ -110,13 +111,13 @@
                       <p class="font-weight-600"><i class="material-icons left mr-2">widgets</i>Misc</p>
                       <div class="row">
                         <div class="input-field col s12">
-                          <%= f.label :current_estimate_worker_name_cont, "Name" %>
-                          <%= f.search_field :current_estimate_worker_name_cont %>
+                          <%= f.label :current_estimate_worker_name_cont, "Worker" %>
+                          <%= f.search_field :current_estimate_worker_name_cont, class: 'autocomplete-worker' %>
                         </div>
 
                         <div class="input-field col s12">
-                          <%= f.label :customer_name_cont, "Client" %>
-                          <%= f.search_field :customer_name_cont %>
+                          <%= f.label :customer_name_cont, "Customer" %>
+                          <%= f.search_field :customer_name_cont, class: 'autocomplete-customer' %>
                         </div>
                       </div>
                     </div>
@@ -146,7 +147,7 @@
                   <div class="oc-supplier">
                     <h6 class="oc-supplier-name">
                       <a class="grey-text text-darken-3" href="#"><%= order.customer.name %> -
-                        (ordered: <%= order.start_at.strftime("%m/%d/%Y") %>)<br>#<%= order %></a></h6>
+                        (ordered: <%= order.start_at.strftime("%m/%d/%Y") %>)<br>#<%= order %> - <%= render partial: 'status_order', locals: {order: order} %></a></h6>
                     <div class="oc-supplier-total"><%= number_to_currency(order.current_estimate.total) %></div>
                   </div>
                   <div class="oc-items-header">
@@ -361,26 +362,39 @@
           });
 
           $('input.autocomplete-product').autocomplete({
-              data: {
-                  "Product 1": null,
-                  "Product 2": null,
-                  "Product 3": 'https://placehold.it/250x250'
-              },
+              data: <%= raw @products %>
           });
           $('input.autocomplete-supplier').autocomplete({
-              data: {
-                  "Supplier 1": null,
-                  "Supplier 2": null,
-                  "Supplier 3": 'https://placehold.it/250x250'
-              },
+              data: <%= raw @suppliers %>
           });
           $('input.autocomplete-worker').autocomplete({
-              data: {
-                  "Worker 1": null,
-                  "Worker 2": null,
-                  "Worker 3": 'https://placehold.it/250x250'
-              },
+              data: <%= raw @workers %>
+          });
+          $('input.autocomplete-customer').autocomplete({
+              data: <%= raw @customers %>
           });
       });
+
+      // supplier_by_name = (value) => {
+      //     if (value.length > 3) {
+      //         $.ajax({
+      //             method: "GET",
+      //             dataType: 'json',
+      //             url: `/suppliers?q%5Bname_cont%5D=${value}`,
+      //             success: function (response) {
+      //                 let countryArray = response;
+      //                 let dataCountry = {};
+      //                 for (let i = 0; i < countryArray.length; i++) {
+      //                     dataCountry[countryArray[i]] = null;
+      //                 }
+      //                 $('#supplier-filter').autocomplete({
+      //                     data: dataCountry,
+      //                     limit: 5,
+      //                 });
+      //             }
+      //         });
+      //     }
+      // };
+
   </script>
 <% end %>

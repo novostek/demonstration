@@ -65,6 +65,11 @@ class FinancesController < ApplicationController
     @q = Order.ransack(params[:q])
     orders = @q.result.includes(:current_estimate, :customer, :purchases, {purchases: [:supplier, :product_purchases, {product_purchases: [:product, :notes, :document_files]}]} ).ordenation_by(params[:sort_by]).uniq
     @orders = Kaminari.paginate_array(orders).page(params[:page]).per(4)
+
+    @suppliers = Supplier.all.map {|s| [s.name, nil]}.to_h.to_json
+    @workers = Worker.all.map {|w| [w.name, nil]}.to_h.to_json
+    @products = Product.all.map {|p| [p.name, nil]}.to_h.to_json
+    @customers = Customer.all.map {|c| [c.name, nil]}.to_h.to_json
   end
 
 end

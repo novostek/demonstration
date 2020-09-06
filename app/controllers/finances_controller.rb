@@ -62,7 +62,11 @@ class FinancesController < ApplicationController
   end
 
   def dashboard_orders
-    @purchases = Purchase.includes(:order, {order: [:customer]}, :supplier, {product_purchases: [:product]}).order('updated_at desc')
+    #@purchases = Purchase.includes(:order, {order: [:customer]}, :supplier, {product_purchases: [:product]}).order('updated_at desc')
+    #binding.pry
+
+    @q = Order.ransack(params[:q])
+    @orders = @q.result.includes(:current_estimate, :customer, :purchases, {purchases: [:supplier, :product_purchases, {product_purchases: [:product]}]} ).order(updated_at: :desc).page(params[:page]).per(10)
   end
 
 end

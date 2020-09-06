@@ -32,6 +32,7 @@
     <div class="row mt-1">
       <div class="col s12 pl-0 pr-0">
         <div class="col s12">
+
           <ul class="collapsible collapsible-filters">
             <li>
               <div class="collapsible-header" tabindex="0">
@@ -51,24 +52,23 @@
                   </div>
                 </div>
               </div>
+
               <div class="collapsible-body grey lighten-5 padding-2">
+
+
+                <%= search_form_for @q, url: request.env['PATH_INFO'] do |f|  %>
+
                 <div class="row">
                   <div class="col s12 m6 l3">
                     <p class="font-weight-600"><i class="material-icons left mr-2">assignment_ind</i> Order</p>
                     <div class="row">
                       <div class="col s12 input-field">
-                        <input type="text">
-                        <label for="">Number</label>
+                        <%= f.label :code_cont, "Number" %>
+                        <%= f.search_field :code_cont %>
                       </div>
                       <div class="col s12">
-                        <label for="">Status</label>
-                        <div class="select-wrapper">
-                          <select tabindex="-1">
-                            <option value="requested">Requested</option>
-                            <option value="buyed">Buyed</option>
-                            <option selected="selected" value="delivered">Delivered</option>
-                            <option value="returned">Returned</option>
-                          </select></div>
+                        <%= f.label :status_eq, "Status" %>
+                        <%= f.select :status_eq, Order.status.options, {include_blank: 'All'}, {} %>
                       </div>
                     </div>
                   </div>
@@ -80,6 +80,7 @@
                         <ul id="autocomplete-options-dd644166-31dd-128a-a06a-d9eaf3c8db36" class="autocomplete-content dropdown-content" tabindex="0"></ul>
                         <label for="autocomplete-input">Name</label>
                       </div>
+
                       <div class="col s12">
                         <label for="">Status</label>
                         <div class="select-wrapper">
@@ -89,6 +90,7 @@
                             <option value="">Finished</option>
                           </select></div>
                       </div>
+
                     </div>
                   </div>
                   <div class="col s12 m6 l3">
@@ -116,28 +118,34 @@
                     </div>
                   </div>
                 </div>
+
                 <div class="row mt-3">
                   <div class="col s12">
-
-                    <a class="btn right waves-effect border-round waves-block waves-light" href="#">Filter</a>
-                    <a class="btn right border-round btn-secondary mr-2 waves-effect waves-block waves-light sidenav-trigger" href="#">Clear
-                      filters</a>
+                    <%= f.button :submit, class: "btn right waves-effect  border-round waves-block waves-light" do %>
+                      <%= t('button.filter') %>
+                    <% end %>
+                    <%= link_to 'Clear filters', finance_dashboard_orders_path, class: "btn right border-round btn-secondary mr-2 waves-effect waves-block waves-light sidenav-trigger" %>
                   </div>
                 </div>
+
+
+                <% end %>
+
+
+
               </div>
             </li>
           </ul>
-            <%# binding.pry %>
-          <% @purchases.group_by { |p| p.order }.each do |order| %>
-            <%= order.first %>
-            <%= order.second %>
+
+          <% @orders.each do |order| %>
             <div class="card-panel">
               <div class="row">
                 <div class="order-cost-list dashboard">
                   <div class="oc-supplier">
                     <h6 class="oc-supplier-name">
-                      <a class="grey-text text-darken-3" href="#"><%= order.second.first.order.customer.name %> - (ordered: <%= order.second.first.order.start_at.strftime("%m/%d/%Y") %>)<br>#<%= order.first %></a></h6>
-                    <div class="oc-supplier-total">$2,201.84</div>
+                      <a class="grey-text text-darken-3" href="#"><%= order.customer.name %> -
+                        (ordered: <%= order.start_at.strftime("%m/%d/%Y") %>)<br>#<%= order %></a></h6>
+                    <div class="oc-supplier-total"><%= number_to_currency(order.current_estimate.total) %></div>
                   </div>
                   <div class="oc-items-header">
                     <div class="header-qty">Qty</div>
@@ -147,151 +155,166 @@
                     <div class="header-deliver-date">Delivered</div>
                     <div class="header-status">Status</div>
                   </div>
-                  <div class="oc-item">
-                    <div class="oc-item-content">
-                      <div class="item-qty">13.0</div>
-                      <div class="item-product">Engineered Wood, Indusparquet, Smooth, Santos Mahogany, 5" x 1/2",
-                        SM12100
-                        (30.03 Sf. per box)
-                      </div>
-                      <div class="item-price">$149.85</div>
-                      <div class="item-subtotal">$1,948.05</div>
-                      <div class="item-deliver-date">05/20/20</div>
-                      <div class="item-status">
-                        <div class="select-wrapper">
-                          <select tabindex="-1">
-                            <option value="requested">Requested</option>
-                            <option value="buyed">Buyed</option>
-                            <option selected="selected" value="delivered">Delivered</option>
-                            <option value="returned">Returned</option>
-                          </select></div>
-                      </div>
-                    </div>
-                    <div class="oc-item-actions">
-                      <div>
-                        <a href="#modal_note_83" class="invoice-action-view modal-trigger" target="_self">
-                          <i class="material-icons hide-on-med-and-up">note</i>
-                          <span class="hide-on-small-only">New note</span>
-                        </a>
-                        <a href="#modal_doc_83" class="invoice-action-view modal-trigger" target="_self">
-                          <i class="material-icons hide-on-med-and-up">description</i>
-                          <span class="hide-on-small-only">New document</span>
-                        </a>
-                        <a class="sidenav-trigger" href="#">
-                          <i class="material-icons hide-on-med-and-up">remove_red_eye</i>
-                          <span class="hide-on-small-only">View</span>
-                        </a>
-                      </div>
 
+                  <% order.purchases.each do |purchase| %>
+                    <% purchase.product_purchases.select { |pp| pp.tax == false }.each do |pp| %>
+                      <div class="oc-item">
+                        <div class="oc-item-content">
+                          <div class="item-qty"><%= pp.quantity %></div>
+                          <div class="item-product"><%= pp.product || pp.custom_title %></div>
+                          <div class="item-price"><%= number_to_currency(pp.unity_value, :unit => '$') %></div>
+                          <div class="item-subtotal"><%= number_to_currency(pp.value, :unit => '$') %></div>
+                          <div class="item-deliver-date">----</div>
+                          <div class="item-status">
+                            <%= select_tag :status, options_for_select(ProductPurchase.status.options, pp.status), {id: "status_#{pp.id}", onchange: "change_status('#{pp.id}')"} %>
+                          </div>
+                        </div>
+                        <div class="oc-item-actions">
+                          <div>
+                            <a href="#modal_note_<%= pp.id %>" class="invoice-action-view modal-trigger" target="_self">
+                              <i class="material-icons hide-on-med-and-up">note</i><span class="hide-on-small-only"><%= t 'button.new_note' %></span>
+                            </a>
+                            <a href="#modal_doc_<%= pp.id %>" class="invoice-action-view modal-trigger" target="_self">
+                              <i class="material-icons hide-on-med-and-up">description</i><span class="hide-on-small-only"><%= t 'button.new_doc' %></span>
+                            </a>
+                            <a class="sidenav-trigger" href="#" data-target="slide-out-right_<%= pp.id %>">
+                              <i class="material-icons hide-on-med-and-up">remove_red_eye</i><span class="hide-on-small-only"><%= t 'button.view' %></span>
+                            </a>
+                          </div>
 
-                      <div>
-                        <a class="modal-trigger tooltipped" data-tooltip="Edit" href="#modal_edit_83">
-                          <i class="material-icons">edit</i>
-                        </a>
-                        <a data-confirm="Are you sure?" target="_self" class="invoice-action-edit mr-4 tooltipped" data-tooltip="Remove" rel="nofollow" data-method="delete" href="/product_purchases/83?redirect=%2Forders%2F48%2Fcosts">
-                          <i class="material-icons">delete</i>
-                        </a>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="oc-item">
-                    <div class="oc-item-content">
-                      <div class="item-qty">13.0</div>
-                      <div class="item-product">Engineered Wood, Indusparquet, Smooth, Santos Mahogany, 5" x 1/2",
-                        SM12100
-                        (30.03 Sf. per box)
-                      </div>
-                      <div class="item-price">$149.85</div>
-                      <div class="item-subtotal">$1,948.05</div>
-                      <div class="item-deliver-date">--</div>
-                      <div class="item-status">
-                        <div class="select-wrapper">
-                          <select tabindex="-1">
-                            <option value="requested">Requested</option>
-                            <option value="buyed">Buyed</option>
-                            <option selected="selected" value="delivered">Delivered</option>
-                            <option value="returned">Returned</option>
-                          </select></div>
-                      </div>
-                    </div>
-                    <div class="oc-item-actions">
-                      <div>
-                        <a href="#modal_note_83" class="invoice-action-view modal-trigger" target="_self">
-                          <i class="material-icons hide-on-med-and-up">note</i>
-                          <span class="hide-on-small-only">New note</span>
-                        </a>
-                        <a href="#modal_doc_83" class="invoice-action-view modal-trigger" target="_self">
-                          <i class="material-icons hide-on-med-and-up">description</i>
-                          <span class="hide-on-small-only">New document</span>
-                        </a>
-                        <a class="sidenav-trigger" href="#">
-                          <i class="material-icons hide-on-med-and-up">remove_red_eye</i>
-                          <span class="hide-on-small-only">View</span>
-                        </a>
-                      </div>
+                          <div>
+                            <a class="modal-trigger tooltipped" data-tooltip="Edit" href="#modal_edit_<%= pp.id %>">
+                              <i class="material-icons">edit</i>
+                            </a>
+                            <%= link_to product_purchase_path(pp, redirect: costs_order_path(order)), method: :delete, data: {confirm: "#{t :will_delete}"}, target: "_self", class: "invoice-action-edit mr-4" do %>
+                              <i class="material-icons">delete</i>
+                            <% end %>
+                          </div>
+                        </div>
+                        <div id="modal_edit_<%= pp.id %>" class="modal modal-fixed-footer">
+                          <%= form_for pp do |f| %>
+                            <%= f.hidden_field :redirect, value: costs_order_path(order) %>
+                            <div class="modal-content">
+                              <div class="row">
+                                <h4><%= t "button.edit" %> <%= "#{t 'activerecord.models.product_purchase'} - #{pp.product || pp.custom_title}" %></h4>
+                              </div>
+                              <div class="row">
+                                <div class="input-field col s12 m4">
+                                  <%= f.label :quantity %>
+                                  <%= f.number_field :quantity, min: 0, step: :any, id: "qdd_#{pp.id}", onkeyup: "calcula_total_edit('#{pp.id}')" %>
+                                </div>
+                                <div class="input-field col s12 m4">
+                                  <%= f.label :unity_value %>
+                                  <%= f.number_field :unity_value, min: 0, step: :any, id: "unity_#{pp.id}", onkeyup: "calcula_total_edit('#{pp.id}')" %>
+                                </div>
+                                <div class="input-field col s12 m4">
+                                  <%= f.label :value %>
+                                  <%= f.number_field :value, min: 0, step: :any, id: "value_#{pp.id}" %>
 
+                                </div>
+                              </div>
 
-                      <div>
-                        <a class="modal-trigger tooltipped" data-tooltip="Edit" href="#modal_edit_83">
-                          <i class="material-icons">edit</i>
-                        </a>
-                        <a data-confirm="Are you sure?" target="_self" class="invoice-action-edit mr-4 tooltipped" data-tooltip="Remove" rel="nofollow" data-method="delete" href="/product_purchases/83?redirect=%2Forders%2F48%2Fcosts">
-                          <i class="material-icons">delete</i>
-                        </a>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="oc-item">
-                    <div class="oc-item-content">
-                      <div class="item-qty">13.0</div>
-                      <div class="item-product">Engineered Wood, Indusparquet, Smooth, Santos Mahogany, 5" x 1/2",
-                        SM12100
-                        (30.03 Sf. per box)
-                      </div>
-                      <div class="item-price">$149.85</div>
-                      <div class="item-subtotal">$1,948.05</div>
-                      <div class="item-deliver-date">05/20/20</div>
-                      <div class="item-status">
-                        <div class="select-wrapper">
-                          <select tabindex="-1">
-                            <option value="requested">Requested</option>
-                            <option value="buyed">Buyed</option>
-                            <option selected="selected" value="delivered">Delivered</option>
-                            <option value="returned">Returned</option>
-                          </select></div>
-                      </div>
-                    </div>
-                    <div class="oc-item-actions">
-                      <div>
-                        <a href="#modal_note_83" class="invoice-action-view modal-trigger" target="_self">
-                          <i class="material-icons hide-on-med-and-up">note</i>
-                          <span class="hide-on-small-only">New note</span>
-                        </a>
-                        <a href="#modal_doc_83" class="invoice-action-view modal-trigger" target="_self">
-                          <i class="material-icons hide-on-med-and-up">description</i>
-                          <span class="hide-on-small-only">New document</span>
-                        </a>
-                        <a class="sidenav-trigger" href="#">
-                          <i class="material-icons hide-on-med-and-up">remove_red_eye</i>
-                          <span class="hide-on-small-only">View</span>
-                        </a>
-                      </div>
+                            </div>
+                            <div class="modal-footer">
+                              <%= f.button :submit, class: "waves-effect waves-green btn-flat" do %>
+                                <i class="material-icons left">save</i><%= t "button.save" %>
+                              <% end %>
+                            </div>
+                          <% end %>
+                        </div>
 
-                      <div>
-                        <a class="modal-trigger tooltipped" data-tooltip="Edit" href="#modal_edit_83">
-                          <i class="material-icons">edit</i>
-                        </a>
-                        <a data-confirm="Are you sure?" target="_self" class="invoice-action-edit mr-4 tooltipped" data-tooltip="Remove" rel="nofollow" data-method="delete" href="/product_purchases/83?redirect=%2Forders%2F48%2Fcosts">
-                          <i class="material-icons">delete</i>
-                        </a>
+                        <div id="modal_note_<%= pp.id %>" class="modal modal-fixed-footer">
+                          <%= form_with url: new_note_product_purchase_path(pp), method: :get, local: true do |f| %>
+                            <div class="modal-content">
+                              <h4><%= t "button.new" %> <%= t "notes" %></h4>
+                              <%= render "customers/notes_form", f: f %>
+                            </div>
+                            <div class="modal-footer">
+                              <%= f.button :submit, class: "modal-action modal-close waves-effect waves-green btn-flat" do %>
+                                <i class="material-icons left">save</i><%= t "button.save" %>
+                              <% end %>
+                            </div>
+                          <% end %>
+                        </div>
+
+                        <div id="modal_doc_<%= pp.id %>" class="modal modal-fixed-footer">
+                          <%= form_with url: new_document_product_purchase_path(pp), local: true do |f| %>
+                            <div class="modal-content">
+                              <div class="row">
+                                <h4><%= t "button.new" %> <%= t "documents" %></h4>
+                              </div>
+                              <%= render "customers/document_file_fields", f: f %>
+
+                            </div>
+                            <div class="modal-footer">
+                              <%= f.button :submit, class: "modal-action modal-close waves-effect waves-green btn-flat" do %>
+                                <i class="material-icons left">save</i><%= t "button.save" %>
+                              <% end %>
+                            </div>
+                          <% end %>
+                        </div>
+
+                        <%= content_for :sidenav do %>
+                          <aside id="right-sidebar-nav">
+                            <div id="slide-out-right_<%= pp.id %>" style="width: 340px !important;" class="slide-out-right-sidenav sidenav rightside-navigation">
+
+                              <div class="row">
+                                <div class="slide-out-right-title">
+                                  <div class="col s10 pl-3">
+                                    <h5><%= purchase.supplier || "No Supplier" %>
+                                      - <%= pp.product || pp.custom_title %>  </h5>
+                                  </div>
+                                  <div class="col s22">
+                                    <i class="material-icons "><a href="#" target="_self" class="sidenav-close">clear</a></i>
+                                  </div>
+                                </div>
+                              </div>
+                              <div class="slide-out-right-body row pl-3 pr-3">
+                                <div class="col s12 pl-3">
+                                  <h5>Notes</h5>
+                                </div>
+                                <% pp.notes.each do |note| %>
+                                  <div class="note">
+                                    <%= link_to note, method: :delete, class: "btn-delete-note" do %>
+                                      <i class="material-icons">delete</i>
+                                    <% end %>
+                                    <h6 class="note-title"><%= note.title %></h6>
+                                    <p class="note-content"><%= note.text %></p>
+                                  </div>
+                                <% end %>
+
+                                <!-- Exemple document -->
+                                <div class="col s12 pl-3">
+                                  <h5><%= t 'documents' %></h5>
+                                </div>
+                                <% pp.document_files.each do |doc| %>
+                                  <%= link_to doc.file.url, target: "_blank" do %>
+                                    <div class="document">
+                                      <span class="doc-type"><%= doc.file.file.extension %></span>
+                                      <span class="doc-date" title="Created at"><%= doc.created_at %></span>
+                                      <%= doc.title %>
+                                    </div>
+                                  <% end if doc.file.present? %>
+                                <% end %>
+
+                                <% if pp.document_files.blank? %>
+                                  <p class="document"><%= t 'no_document_registred' %></p>
+                                <% end %>
+                              </div>
+                            </div>
+                          </aside>
+                        <% end %>
                       </div>
-                    </div>
-                  </div>
+                    <% end %>
+                  <% end %>
                 </div>
               </div>
             </div>
           <% end %>
 
+          <div class="center">
+            <%= paginate @orders %>
+          </div>
         </div>
       </div>
 
@@ -304,6 +327,12 @@
 
 <%= content_for :scripts do %>
   <script>
+      function change_status(id) {
+          $.get("/product_purchases/" + id + "/change_status?status=" + $("#status_" + id).val(), function (data) {
+              M.toast({html: data.msg});
+          });
+      }
+
       $(document).ready(function () {
 
           $('.modal').modal({

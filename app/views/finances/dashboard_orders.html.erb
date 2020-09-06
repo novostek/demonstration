@@ -1,3 +1,10 @@
+<%= content_for :head_content do %>
+  <style>
+    .order-cost-list .oc-item {
+      position: static;
+    }
+  </style>
+<% end %>
 <div class="breadcrumbs-light pb-0 pt-4" id="breadcrumbs-wrapper">
   <!-- Search for small screen-->
   <div class="container">
@@ -42,7 +49,6 @@
 
                   <div class="orderby-select">
                     <div class="select-wrapper">
-
                       <%= form_with(url: finance_dashboard_orders_path, method: :get) do %>
                         <select onchange="this.form.submit()" name="sort_by" id="sort-by" tabindex="-1">
                           <option value="" disabled="" <%= 'selected' unless params[:sort_by].present? %>>Sort by
@@ -56,7 +62,6 @@
                           <% end %>
                         </select>
                       <% end %>
-
                     </div>
                   </div>
 
@@ -146,8 +151,9 @@
                 <div class="order-cost-list dashboard">
                   <div class="oc-supplier">
                     <h6 class="oc-supplier-name">
-                      <a class="grey-text text-darken-3" href="#"><%= order.customer.name %> -
-                        (ordered: <%= order.start_at.strftime("%m/%d/%Y") %>)<br>#<%= order %> - <%= render partial: 'status_order', locals: {order: order} %></a></h6>
+                      <a class="grey-text text-darken-3" href="<%= order_path order %>"><%= order.customer.name %> -
+                        (ordered: <%= order.start_at.strftime("%m/%d/%Y") %>)<br>#<%= order %>
+                        - <%= render partial: 'status_order', locals: {order: order} %></a></h6>
                     <div class="oc-supplier-total"><%= number_to_currency(order.current_estimate.total) %></div>
                   </div>
                   <div class="oc-items-header">

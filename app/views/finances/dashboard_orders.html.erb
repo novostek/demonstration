@@ -3,6 +3,14 @@
     .order-cost-list .oc-item {
       position: static;
     }
+
+    div.disabled-div {
+      pointer-events: none;
+
+      /* for "disabled" effect */
+      opacity: 0.5;
+      background: #CCC;
+    }
   </style>
 <% end %>
 <div class="breadcrumbs-light pb-0 pt-4" id="breadcrumbs-wrapper">
@@ -40,16 +48,16 @@
       <div class="col s12 pl-0 pr-0">
         <div class="col s12">
 
-          <ul class="collapsible collapsible-filters">
-            <li>
-              <div class="collapsible-header" tabindex="0">
-                <div class="collapsible-header--title"><i class="material-icons">filter_list</i>Filters</div>
-                <div class="order-by">
-                  <i class="material-icons">swap_vert</i>
+          <%= search_form_for @q, url: request.env['PATH_INFO'] do |f| %>
+            <ul class="collapsible collapsible-filters">
+              <li>
+                <div class="collapsible-header" tabindex="0">
+                  <div class="collapsible-header--title"><i class="material-icons">filter_list</i>Filters</div>
+                  <div class="order-by">
+                    <i class="material-icons">swap_vert</i>
 
-                  <div class="orderby-select">
-                    <div class="select-wrapper">
-                      <%= form_with(url: finance_dashboard_orders_path, method: :get) do %>
+                    <div class="orderby-select">
+                      <div class="select-wrapper">
                         <select onchange="this.form.submit()" name="sort_by" id="sort-by" tabindex="-1">
                           <option value="" disabled="" <%= 'selected' unless params[:sort_by].present? %>>Sort by
                           </option>
@@ -61,17 +69,13 @@
                             <% end %>
                           <% end %>
                         </select>
-                      <% end %>
+                      </div>
                     </div>
+
                   </div>
-
                 </div>
-              </div>
 
-              <div class="collapsible-body grey lighten-5 padding-2">
-
-
-                <%= search_form_for @q, url: request.env['PATH_INFO'] do |f| %>
+                <div class="collapsible-body grey lighten-5 padding-2">
 
                   <div class="row">
                     <div class="col s12 m6 l3">
@@ -137,13 +141,10 @@
                     </div>
                   </div>
 
-
-                <% end %>
-
-
-              </div>
-            </li>
-          </ul>
+                </div>
+              </li>
+            </ul>
+          <% end %>
 
           <% @orders.each do |order| %>
             <div class="card-panel">
@@ -195,14 +196,14 @@
                             <a class="modal-trigger tooltipped" data-tooltip="Edit" href="#modal_edit_<%= pp.id %>">
                               <i class="material-icons">edit</i>
                             </a>
-                            <%= link_to product_purchase_path(pp, redirect: costs_order_path(order)), method: :delete, data: {confirm: "#{t :will_delete}"}, target: "_self", class: "invoice-action-edit mr-4" do %>
+                            <%= link_to product_purchase_path(pp, redirect: request.fullpath), method: :delete, data: {confirm: "#{t :will_delete}"}, target: "_self", class: "invoice-action-edit mr-4" do %>
                               <i class="material-icons">delete</i>
                             <% end %>
                           </div>
                         </div>
                         <div id="modal_edit_<%= pp.id %>" class="modal modal-fixed-footer">
                           <%= form_for pp do |f| %>
-                            <%= f.hidden_field :redirect, value: costs_order_path(order) %>
+                            <%= f.hidden_field :redirect, value: request.fullpath %>
                             <div class="modal-content">
                               <div class="row">
                                 <h4><%= t "button.edit" %> <%= "#{t 'activerecord.models.product_purchase'} - #{pp.product || pp.custom_title}" %></h4>
@@ -225,6 +226,9 @@
 
                             </div>
                             <div class="modal-footer">
+                              <button class="left modal-action modal-close waves-effect waves-green btn-flat" type="button">
+                                <i class="material-icons left">close</i><%= t "button.close" %>
+                              </button>
                               <%= f.button :submit, class: "waves-effect waves-green btn-flat" do %>
                                 <i class="material-icons left">save</i><%= t "button.save" %>
                               <% end %>
@@ -234,11 +238,15 @@
 
                         <div id="modal_note_<%= pp.id %>" class="modal modal-fixed-footer">
                           <%= form_with url: new_note_product_purchase_path(pp), method: :get, local: true do |f| %>
+                            <%= f.hidden_field :redirect, value: request.fullpath %>
                             <div class="modal-content">
                               <h4><%= t "button.new" %> <%= t "notes" %></h4>
                               <%= render "customers/notes_form", f: f %>
                             </div>
                             <div class="modal-footer">
+                              <button class="left modal-action modal-close waves-effect waves-green btn-flat" type="button">
+                                <i class="material-icons left">close</i><%= t "button.close" %>
+                              </button>
                               <%= f.button :submit, class: "modal-action modal-close waves-effect waves-green btn-flat" do %>
                                 <i class="material-icons left">save</i><%= t "button.save" %>
                               <% end %>
@@ -248,6 +256,7 @@
 
                         <div id="modal_doc_<%= pp.id %>" class="modal modal-fixed-footer">
                           <%= form_with url: new_document_product_purchase_path(pp), local: true do |f| %>
+                            <%= f.hidden_field :redirect, value: request.fullpath %>
                             <div class="modal-content">
                               <div class="row">
                                 <h4><%= t "button.new" %> <%= t "documents" %></h4>
@@ -256,6 +265,9 @@
 
                             </div>
                             <div class="modal-footer">
+                              <button class="left modal-action modal-close waves-effect waves-green btn-flat" type="button">
+                                <i class="material-icons left">close</i><%= t "button.close" %>
+                              </button>
                               <%= f.button :submit, class: "modal-action modal-close waves-effect waves-green btn-flat" do %>
                                 <i class="material-icons left">save</i><%= t "button.save" %>
                               <% end %>
@@ -334,11 +346,20 @@
 
 </div>
 
+<!--dashboard-->
 <%= content_for :scripts do %>
   <script>
       function change_status(id) {
-          $.get("/product_purchases/" + id + "/change_status?status=" + $("#status_" + id).val(), function (data) {
+          const item = $("#status_" + id);
+          item.closest('.oc-item').addClass('disabled-div');
+          $.get("/product_purchases/" + id + "/change_status?status=" + item.val(), function (data) {
               M.toast({html: data.msg});
+              if (data.dateDelivered) {
+                  item.closest('.oc-item').find('.item-deliver-date').html(data.dateDelivered);
+              }else{
+                  item.closest('.oc-item').find('.item-deliver-date').html('--');
+              }
+              item.closest('.oc-item').removeClass('disabled-div');
           });
       }
 
@@ -402,5 +423,116 @@
       //     }
       // };
 
+  </script>
+<% end %>
+
+<!--modals and forms-->
+<%= content_for :scripts do %>
+  <script type="text/javascript" charset="utf-8">
+      $("#new_product").submit((e) => {
+          e.preventDefault();
+
+          const form = document.getElementById("new_product");
+
+          if (form.checkValidity())
+              form.submit();
+      })
+
+      $("#product_select").on("change", () => {
+          if ($("#product_select").val()) {
+              $.get("/products/" + $("#product_select").val() + ".json", function (data) {
+                  var data = data;
+                  $("#valor_unitario").val(data.cost_price);
+                  console.log('data', data.cost_price);
+
+              });
+              $("#div_custom_product").addClass("hide");
+              $("#custom_product").removeAttr("required");
+          } else {
+              $("#div_custom_product").removeClass("hide");
+              $("#div_unity_value").removeClass("hide");
+              $("#div_value").removeClass("hide");
+
+              $('#custom_product').attr('required');
+              $('#valor_unitario').attr('required');
+              $('#valor').attr('required');
+          }
+
+      });
+
+      function calcula_total() {
+          total = $("#quantidade").val() * $("#valor_unitario").val();
+          $("#valor").val(total);
+      }
+
+      function calcula_total_edit(id) {
+          total = $("#qdd_" + id).val() * $("#unity_" + id).val();
+          $("#value_" + id).val(total);
+      }
+
+      function materialselect() {
+          $("select").formSelect();
+      };
+
+      function change_status_labor(id) {
+          $.get("/labor_costs/" + id + "/change_status?status=" + $("#status_" + id).val(), function (data) {
+              M.toast({html: data.msg});
+          });
+      }
+
+      $("#product_purchase_quantity").on('keyup', (e) => {
+          const qty = e.target.value
+          const unitary_value = $("#product_purchase_unity_value").val()
+
+          const value = parseFloat(qty) * parseFloat(unitary_value)
+
+          $("#product_purchase_value").val(parseFloat(value).toFixed(2))
+      })
+
+      $("#product_purchase_unity_value").on('keyup', (e) => {
+          const unitary_value = e.target.value
+          const qty = $("#product_purchase_quantity").val()
+
+          const value = parseFloat(qty) * parseFloat(unitary_value)
+
+          $("#product_purchase_value").val(parseFloat(value).toFixed(2))
+      })
+      $(document).on('cocoon:after-insert', function (e) {
+          e.preventDefault()
+          $('.select2-size-sm').select2({
+              dropdownAutoWidth: true,
+              width: '100%',
+              containerCssClass: 'select-sm'
+          });
+      })
+
+      $(document).ready(function () {
+          // $('.modal').modal({
+          //   dismissible: false,
+          //   onCloseEnd: () => console.log("Fechou")
+          // });
+          $('.modal').modal({
+              opacity: .8
+          });
+          $('.select2-product').select2({dropdownParent: "#modal_new_product"});
+          $('#customized_check').change(function () {
+              if (this.checked) {
+                  $("#div_custom_product").removeClass("hide");
+                  $('#custom_product').attr('required');
+                  $("#div_portfolio_product").addClass("hide");
+                  $("#product_select").removeAttr("required");
+              } else {
+                  $("#div_custom_product").addClass("hide");
+                  $("#custom_product").removeAttr("required");
+                  $("#div_portfolio_product").removeClass("hide");
+                  $('#product_select').attr('required');
+              }
+          });
+      });
+
+      $(".item-status").on("click", function () {
+          $(".oc-item").removeClass("dropdown-activated");
+          $(this).parent().parent().addClass("dropdown-activated");
+      });
   </script>
 <% end %>

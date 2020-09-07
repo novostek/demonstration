@@ -68,7 +68,8 @@ class FinancesController < ApplicationController
 
     @suppliers = Supplier.all.map {|s| [s.name, nil]}.to_h.to_json
     @workers = Worker.all.map {|w| [w.name, nil]}.to_h.to_json
-    @products = Product.all.map {|p| [p.name, nil]}.to_h.to_json
+    #@products = Product.all.map {|p| [p.name, nil]}.to_h.to_json
+    @products = ProductPurchase.where(tax: false).select{|pp| pp.custom_title.present? }.map {|p| [p.custom_title, nil]}.to_h.to_json
     @customers = Customer.all.map {|c| [c.name, nil]}.to_h.to_json
   end
 

@@ -1,8 +1,8 @@
 class ProductPurchasesController < ApplicationController
   load_and_authorize_resource except: [:create]
-  before_action :set_product_purchase, only: [:show, :edit, :update, :destroy,:new_note,:new_document,:change_status]
+  before_action :set_product_purchase, only: [:show, :edit, :update, :destroy, :new_note, :new_document, :change_status]
   before_action :authenticate_user!, except: [:create]
-  
+
   # GET /product_purchases
   def index
     @q = ProductPurchase.all.ransack(params[:q])
@@ -20,17 +20,23 @@ class ProductPurchasesController < ApplicationController
     note.text = params[:text]
     note.origin = "ProductPurchase"
     note.origin_id = @product_purchase.id
+
+    redirect = params[:redirect] || costs_order_path(@product_purchase.order)
     if note.save
-      redirect_to costs_order_path(@product_purchase.order), notice: "#{t 'note_create'}"
+      redirect_to redirect, notice: "#{t 'note_create'}"
     else
-      redirect_to costs_order_path(@product_purchase.order), alert: "#{note.errors.full_messages.to_sentence}"
+      redirect_to redirect, alert: "#{note.errors.full_messages.to_sentence}"
     end
   end
 
   def change_status
     @product_purchase.status = params[:status].to_sym
     if @product_purchase.save
-      render json: {status: "ok", msg: "Changed to #{params[:status]}"}
+      if params[:status] == 'delivered'
+        render json: {status: "ok", dateDelivered: @product_purchase.updated_at.strftime("%m/%d/%Y"), msg: "Changed to #{params[:status]}"}
+      else
+        render json: {status: "ok", msg: "Changed to #{params[:status]}"}
+      end
     else
       render json: {status: "error", msg: @product_purchase.errors.full_message.to_sentence}
     end
@@ -46,12 +52,13 @@ class ProductPurchasesController < ApplicationController
     doc.description = params[:description]
     doc.origin = "ProductPurchase"
     doc.origin_id = @product_purchase.id
-    if doc.save
-      redirect_to costs_order_path(@product_purchase.order), notice: "#{t 'doc_create'}"
-    else
-      redirect_to costs_order_path(@product_purchase.order), alert: "#{note.errors.full_messages.to_sentence}"
-    end
 
+    redirect = params[:redirect] || costs_order_path(@product_purchase.order)
+    if doc.save
+      redirect_to redirect, notice: "#{t 'doc_create'}"
+    else
+      redirect_to redirect, alert: "#{note.errors.full_messages.to_sentence}"
+    end
   end
 
   # GET /product_purchases/new
@@ -79,9 +86,9 @@ class ProductPurchasesController < ApplicationController
         product_purchase.save()
       end
     rescue => exception
-      render json: {status: :internal_server_error, message: e.backtrace.inspect  }
+      render json: {status: :internal_server_error, message: e.backtrace.inspect}
     else
-      render json: {status: :ok  }
+      render json: {status: :ok}
     end
   end
 
@@ -103,13 +110,14 @@ class ProductPurchasesController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_product_purchase
-      @product_purchase = ProductPurchase.find(params[:id])
-    end
 
-    # Only allow a trusted parameter "white list" through.
-    def product_purchase_params
-      params.require(:product_purchase).permit(:product_id, :purchase_id, :unity_value, :quantity, :value, :status, :custom_title)
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_product_purchase
+    @product_purchase = ProductPurchase.find(params[:id])
+  end
+
+  # Only allow a trusted parameter "white list" through.
+  def product_purchase_params
+    params.require(:product_purchase).permit(:product_id, :purchase_id, :unity_value, :quantity, :value, :status, :custom_title)
+  end
 end

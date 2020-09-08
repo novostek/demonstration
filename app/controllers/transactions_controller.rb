@@ -33,7 +33,7 @@ class TransactionsController < ApplicationController
       end
     end
 
-    @total_balance = @balance.reduce { |sum, num| sum[:value] + num[:value] }
+    @total_balance = {value: @balance.sum {|el| el[:value]} }
     begin
       value= @total_balance[:value]
     rescue

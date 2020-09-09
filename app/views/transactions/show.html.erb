@@ -19,7 +19,12 @@
 </div>
 
 <div class="card-panel">
-	
+
+  <p>
+    <strong><%= t('activerecord.attributes.transaction.title') %>:</strong>
+    <%= @transaction.title %>
+  </p>
+
   <p>
     <strong><%= t('activerecord.attributes.transaction.category') %>:</strong>
     <%= @transaction.category %>

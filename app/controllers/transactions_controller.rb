@@ -137,6 +137,6 @@ class TransactionsController < ApplicationController
 
     # Only allow a trusted parameter "white list" through.
     def transaction_params
-      params.require(:transaction).permit(:category, :transaction_category_id, :transaction_account_id, :order_id, :origin, :due, :effective, :value, :status)
+      params.require(:transaction).permit(:title, :category, :transaction_category_id, :transaction_account_id, :order_id, :origin, :due, :effective, :value, :status)
     end
 end

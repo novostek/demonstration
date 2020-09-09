@@ -12,6 +12,7 @@ en:
         origin: "Origin"
         value: "Value"
         order_id: "Order"
+        title: Title
 
         transaction_category: Transaction Category
         transaction_category_id: Transaction Category

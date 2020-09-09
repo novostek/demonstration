@@ -35,9 +35,11 @@
               <thead>
               <tr>
                 <th><%= t 'texts.source' %></th>
+                <th><%= t 'activerecord.attributes.transaction.title' %></th>
                 <th><%= t 'activerecord.attributes.transaction.transaction_category' %></th>
                 <th><%= t 'activerecord.models.account' %></th>
                 <th><%= t 'texts.origin' %></th>
+                <th><%= t 'created_at' %></th>
                 <th><%= t 'bpm.due' %></th>
                 <th><%= t 'activerecord.attributes.transaction.effective' %></th>
                 <th><%= t 'status' %></th>
@@ -59,6 +61,7 @@
                       <% end %>
                     <% end %>
                   </td>
+                  <td><%= truncate(transaction.title, :length => 17, :separator => ' ') || '-' %></td>
                   <td>
                     <% if transaction.transaction_category.present? %>
                       <div class="chip white-text" style="background-color: <%= transaction.transaction_category.color %>!important">
@@ -80,6 +83,7 @@
                       -
                     <% end %>
                   </td>
+                  <td><%= transaction.created_at.strftime("%m/%d/%Y") %></td>
                   <td>
                     <%= transaction.due.present? ? transaction.due.strftime("%m/%d/%Y") : '-' %>
                   </td>
@@ -138,6 +142,11 @@
       <div class="slide-out-right-body row pl-3 pr-3 ps">
         <%= search_form_for @q, url: request.env['PATH_INFO'] do |f|  %>
           <div class="input-field">
+            <%= f.label :title_cont, "Title" %>
+            <%= f.search_field :title_cont %>
+          </div>
+
+          <div class="input-field">
             <%= f.select :transaction_category_id_eq, @categories,{ include_blank: t('texts.all')}, {}  %>
             <%= f.label  :transaction_category_id %>
           </div>
@@ -157,6 +166,16 @@
                 <span><%= status[0] %></span>
               </label>
             <% end %>
+          </div>
+
+          <div class="input-field col s6">
+            <%= f.date_field :created_at_gteq %>
+            <%= f.label  :created_at_gteq, "#{t'created_at'} >" %>
+          </div>
+
+          <div class="input-field col s6">
+            <%= f.date_field :created_at_lteq %>
+            <%= f.label  :created_at_lteq , "#{t'created_at'} <"%>
           </div>
 
           <div class="input-field col s6">

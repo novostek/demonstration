@@ -124,4 +124,22 @@ class Order < ApplicationRecord
       break code unless Order.where(code: code).exists?
     end
   end
+
+  scope :ordenation_by, -> (order = 'newest') do
+    case order
+    when 'newest'
+      order(updated_at: :desc)
+    when 'oldest'
+      order(updated_at: :asc)
+    when 'order_status'
+      order(:status)
+    else
+       order(updated_at: :desc)
+    end
+  end
+
+  def self.sort_by_options
+    [['Newest', 'newest'], ['Oldest', 'oldest'], ['Order status', 'order_status']]
+  end
+
 end

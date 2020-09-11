@@ -39,6 +39,8 @@ class TransactionsController < ApplicationController
     rescue
       @total_balance= {value: 0}
     end
+
+    @payment_methods = Transaction.payment_method.options
   end
 
   #Método que reenvia o email com o checkout para o cliente

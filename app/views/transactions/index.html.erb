@@ -36,10 +36,10 @@
               <tr>
                 <th><%= t 'texts.source' %></th>
                 <th><%= t 'activerecord.attributes.transaction.title' %></th>
+                <th><%= t 'texts.origin' %></th>
                 <th><%= t 'activerecord.attributes.transaction.transaction_category' %></th>
                 <th><%= t 'activerecord.models.account' %></th>
-                <th><%= t 'texts.origin' %></th>
-                <th><%= t 'created_at' %></th>
+<!--                <th><%#= t 'created_at' %></th>-->
                 <th><%= t 'bpm.due' %></th>
                 <th><%= t 'activerecord.attributes.transaction.effective' %></th>
                 <th><%= t 'status' %></th>
@@ -59,7 +59,18 @@
                       <% end %>
                     <% end %>
                   </td>
-                  <td><%= truncate(transaction.title, :length => 17, :separator => ' ') || '-' %></td>
+                  <td>
+                    <%= truncate(transaction.title, :length => 30, :separator => ' ') || '-' %>
+                  </td>
+                  <td>
+                    <% if transaction.order.present? %>
+                      <%= link_to "#{t 'activerecord.models.order'} ##{transaction.order}", order_path(transaction.order) %>
+                      <br>
+                    <% else %>
+                      - <br>
+                    <% end %>
+                    <small><%= transaction.created_at.strftime("%m/%d/%Y") %></small>
+                  </td>
                   <td>
                     <% if transaction.transaction_category.present? %>
                       <div class="chip white-text" style="background-color: <%= transaction.transaction_category.color %>!important">
@@ -74,14 +85,7 @@
                       </div>
                     <% end %>
                   </td>
-                  <td>
-                    <% if transaction.order.present? %>
-                      <%= link_to "#{t 'activerecord.models.order'} ##{transaction.order}", order_path(transaction.order) %>
-                    <% else %>
-                      -
-                    <% end %>
-                  </td>
-                  <td><%= transaction.created_at.strftime("%m/%d/%Y") %></td>
+
                   <td>
                     <%= transaction.due.present? ? transaction.due.strftime("%m/%d/%Y") : '-' %>
                   </td>
@@ -152,7 +156,7 @@
 
           <div class="input-field">
             <%= f.select :payment_method_cont, @payment_methods, {include_blank: t('texts.all')}, {} %>
-            <%= f.label :payment_method_cont %>
+            <%= f.label :payment_method_cont, "Source" %>
           </div>
 
           <div class="input-field">

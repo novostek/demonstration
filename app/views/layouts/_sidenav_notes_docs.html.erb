@@ -15,8 +15,15 @@
             <%= link_to  note_path(note, redirect: "#{redirect_link}"), method: :delete, class:"btn-delete-note" do %>
               <i class="material-icons">delete</i>
             <% end %>
-            <h6 class="note-title"><%= note.title %></h6>
-            <p class="note-content"><%= raw note.text %></p>
+            <% if note.public_note %>
+              <span class="badge amber"><%= t('texts.public') %></span>
+            <% end %>
+            <h6 class="note-title">
+              <%= note.title %>
+            </h6>
+            <p class="note-content">
+              <%= raw note.text %>
+            </p>
           </div>
         <% end %>
 

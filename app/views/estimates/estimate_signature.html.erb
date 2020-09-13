@@ -170,6 +170,17 @@
     </div>
     <p>&nbsp;</p>
     <%= raw Setting.get_value("estimate_notes") %>
+    <% if @notes.present? %>
+      <p><b><%= t('texts.estimate_notes') %>:</b></p>
+      <ol>
+        <% @notes.each do |note| %>
+          <li>
+            <b><%= note.title %></b>: <br>
+            <%= note.text %>
+          </li>
+        <% end %>
+      </ol>
+    <% end %>
   </div>
   <div class="card-panel">
     <% if !@view.present? %>

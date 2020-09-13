@@ -45,6 +45,8 @@ en:
     amount: Amount
     paid: Paid
     payment: Payment
+    public: Public
+    estimate_notes: Notes For This Estimate
 
     photos: Photos
     images: Images

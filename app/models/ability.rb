@@ -5,6 +5,7 @@ class Ability
 
   def initialize(user)
     user ||= User.new # guest user (not logged in)
+    can :show, Product
     user.profiles.each do |perfil|
       perfil.permissions.keys.map do |key|
         perfil.permissions[key].each do |p|

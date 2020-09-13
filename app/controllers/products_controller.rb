@@ -1,9 +1,9 @@
 class ProductsController < ApplicationController
-  load_and_authorize_resource
+  load_and_authorize_resource except: [:quick_estimate]
   before_action :set_product, only: [:show, :edit, :update, :destroy, :sticker, :quick_estimate]
   before_action :set_combos, only: [:new,:edit,:create,:update]
   before_action :init_entity_modal, only: [:new,:edit,:create,:update]
-
+  skip_before_action :authenticate_user!, only: [:show, :quick_estimate]
 
   # GET /products
   def index
@@ -18,6 +18,9 @@ class ProductsController < ApplicationController
 
   # GET /products/1
   def show
+    if !user_signed_in?
+      render layout: 'clean'
+    end
   end
 
   # GET /products/new

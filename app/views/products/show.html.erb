@@ -1,3 +1,4 @@
+<% if user_signed_in? %>
 <div class="breadcrumbs-light pb-0 pt-4" id="breadcrumbs-wrapper">
   <!-- Search for small screen-->
   <div class="container">
@@ -16,7 +17,7 @@
     </div>
   </div>
 </div>
-
+<% end %>
 <div class="card-panel">
   <div class="row">
     <h5 class="mt-0 indigo-text hide-on-med-and-up center-align"><%= @product.name %></h5>
@@ -33,10 +34,12 @@
         <span class="font-weight-600 left"><%= t('activerecord.attributes.product.customer_price') %>:</span>
         <span class="right"><%= number_to_currency @product.customer_price %></span>
       </p>
-      <p class="width-100 left mt-0 mb-2">
-        <span class="font-weight-600 left"><%= t('activerecord.attributes.product.cost_price') %>:</span>
-        <span class="right"><%= number_to_currency @product.cost_price %></span>
-      </p>
+      <% if user_signed_in? %>
+        <p class="width-100 left mt-0 mb-2">
+          <span class="font-weight-600 left"><%= t('activerecord.attributes.product.cost_price') %>:</span>
+          <span class="right"><%= number_to_currency @product.cost_price %></span>
+        </p>
+      <% end %>
       <p class="width-100 left mt-0 mb-2">
         <span class="font-weight-600 left"><%= t('activerecord.attributes.product.area_covered') %>:</span>
         <span class="right"><%= @product.area_covered %> sqft</span>
@@ -49,6 +52,7 @@
     <div class="col s12 m8 xl9 product-desc">
       <h5 class="mt-0 indigo-text hide-on-small-only"><%= @product.name %></h5>
       <h6 class="product-desc--supplier hide-on-small-only"><%= t('activerecord.attributes.product.supplier_id') %>: <span><%= @product.supplier %></span> </h6>
+      <% if user_signed_in? %>
       <div class="row">
         <div class="col">
           <h6><%= t('activerecord.attributes.product.product_category_id') %></h6>
@@ -59,6 +63,7 @@
           <span class="chip"><%= @product.calculation_formula %></span>
         </div>
       </div>
+      <% end %>
       <div class="row">
         <div class="col s12">
           <h6><%= t 'description' %></h6>
@@ -76,11 +81,11 @@
       <div class="row">
         <div class="col s3">
           <label><%= t('activerecord.attributes.measurements.width') %></label>
-          <input type="number" step="any" id="w-field" onfocusout="calc_formula()">
+          <input type="number" step="any" id="w-field" onfocusout="update_area()">
         </div>
         <div class="col s3">
           <label><%= t('activerecord.attributes.measurements.length') %></label>
-          <input type="number" step="any" id="l-field" onfocusout="calc_formula()">
+          <input type="number" step="any" id="l-field" onfocusout="update_area()">
         </div>
         <div class="col s3">
           <label><%= t('activerecord.attributes.measurements.height') %></label>
@@ -88,7 +93,7 @@
         </div>
         <div class="col s3">
           <label><%= t('activerecord.attributes.measurements.square_feet') %></label>
-          <input type="number" step="any" id="s-field" onfocusout="calc_formula()">
+          <input type="number" step="any" id="s-field" onfocusout="calc_formula(); clean_fields()">
         </div>
       </div>
     </div>
@@ -112,10 +117,16 @@
         qty = $('#qty-field').val() * <%= @product.customer_price %>
         $('#price-field').val(qty)
     }
-
-    function calc_formula(){
+    function update_area(){
         area = ($('#w-field').val() || 0 ) * ($('#l-field').val() || 0);
         $('#s-field').val(area);
+        calc_formula();
+    }
+    function clean_fields(){
+        $('#w-field').val('')
+        $('#l-field').val('')
+    }
+    function calc_formula(){
          var data = $.ajax({
             dataType: "json",
             url: '<%= quick_estimate_product_path(@product) %>',

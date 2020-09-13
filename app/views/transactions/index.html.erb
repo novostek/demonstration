@@ -15,8 +15,8 @@
         </ol>
       </div>
       <div class="col s2 m6 l6">
-        <a class="btn waves-effect waves-light breadcrumbs-btn right border-round" href="<%= new_transaction_path %>"><i class="material-icons hide-on-med-and-up">add</i><span class="hide-on-small-only"><%= t("button.add") %> <%= t('activerecord.models.transaction') %></span></a>
-        <div class="mr-2 btn-secondary sidenav-trigger btn waves-effect waves-light breadcrumbs-btn right" data-target="slide-out-right"> <%= t 'button.filter' %></div>
+        <div class="btn-secondary sidenav-trigger btn waves-effect waves-light breadcrumbs-btn right" data-target="slide-out-right"> <%= t 'button.filter' %></div>
+        <a class="mr-2 btn waves-effect waves-light breadcrumbs-btn right border-round" href="<%= new_transaction_path %>"><i class="material-icons hide-on-med-and-up">add</i><span class="hide-on-small-only"><%= t("button.add") %> <%= t('activerecord.models.transaction') %></span></a>
       </div>
     </div>
   </div>
@@ -90,7 +90,7 @@
                     <%= transaction.due.present? ? transaction.due.strftime("%m/%d/%Y") : '-' %>
                   </td>
                   <td>
-                    <%= transaction.due.present? ? transaction.due.strftime("%m/%d/%Y") : '-' %>
+                    <%= transaction.effective.present? ? transaction.effective.strftime("%m/%d/%Y") : '-' %>
                   </td>
                   <td>
                     <%= transaction.status_text %>
@@ -133,7 +133,7 @@
 
 <%= content_for :sidenav do %>
   <aside id="right-sidebar-nav">
-    <div id="slide-out-right" class="slide-out-right-sidenav sidenav rightside-navigation right-aligned">
+    <div id="slide-out-right" style="width: 400px;" class="slide-out-right-sidenav sidenav rightside-navigation right-aligned">
       <div class="row">
         <div class="slide-out-right-title">
           <div class="col s12 pl-3">
@@ -155,7 +155,7 @@
           </div>
 
           <div class="input-field">
-            <%= f.select :payment_method_cont, @payment_methods, {include_blank: t('texts.all')}, {} %>
+            <%= f.select :payment_method_cont, Transaction.payment_method.options, {include_blank: t('texts.all')}, {} %>
             <%= f.label :payment_method_cont, "Source" %>
           </div>
 
@@ -221,10 +221,28 @@
             <%= f.label :effective_lteq, "#{t 'activerecord.attributes.transaction.effective'} <" %>
           </div>
 
-          <div class="actions">
-            <%= f.submit t('button.filter'), class: "btn border-round right" %>
+          <div class="mb-10">
+            <%= f.button :submit, value: "btn-filter", class: "btn right border-round" do %><%= t('button.filter') %>
+            <% end %>
             <%= link_to t('clear'), transactions_path, class: "btn-flat" %>
           </div>
+
+          <hr style="margin-top: 20%">
+
+          <div class="row chip-selection mb-8">
+            <small>Choose a type:</small><br>
+            <% RailsExporter::Base.file_types.each do |type| %>
+              <label>
+                <%= radio_button_tag :type, type, false, class: 'transaction_status filled-in', onchange: "toggleExport()" %>
+                <span><%= type %></span>
+              </label>
+            <% end %>
+          </div>
+
+          <div class="actions">
+            <%= f.button :submit, value: "btn-export", class: "btn right border-round", id: 'btn-export', style: 'margin-bottom: 100px !important;' do %>Export<% end %>
+          </div>
+
         <% end %>
         <div class="ps__rail-x" style="left: 0px; bottom: 0px;">
           <div class="ps__thumb-x" tabindex="0" style="left: 0px; width: 0px;"></div>
@@ -236,4 +254,21 @@
     </div>
   </aside>
 
+<% end %>
+
+<%= content_for :scripts do %>
+  <script>
+      function toggleExport() {
+          if ($("input[name='type']").is(':checked')) {
+              $('#btn-export').prop('disabled', false);
+          }
+          else {
+              $('#btn-export').prop('disabled', true);
+          }
+      }
+
+      $(document).ready(function () {
+          toggleExport();
+      });
+  </script>
 <% end %>

@@ -8,8 +8,8 @@ class CustomerExporter < RailsExporter::Base
     column :since
     column :code
     column :birthdate => :date
-    column :created_at => :timestamp
-    column :updated_at => :timestamp
+    column(:created_at) { |record| record.created_at.strftime("%m/%d/%Y %H:%M") }
+    column(:updated_at) { |record| record.updated_at.strftime("%m/%d/%Y %H:%M") }
     column :bpm_instance
     column :square_id
   end

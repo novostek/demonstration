@@ -40,7 +40,9 @@ class TransactionsController < ApplicationController
       @total_balance= {value: 0}
     end
 
-    @payment_methods = Transaction.payment_method.options
+    if params[:button].present? and params[:button] == 'btn-export' and params[:type].present?
+      send_data @transactions.export_to(params[:type]), filename: "transactions.#{params[:type]}"
+    end
   end
 
   #Método que reenvia o email com o checkout para o cliente

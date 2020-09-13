@@ -398,6 +398,11 @@ class OrdersController < ApplicationController
     add_breadcrumb I18n.t("activerecord.models.orders"), orders_path
     add_breadcrumb I18n.t("breadcrumb.show"), order_path(@order)
     add_breadcrumb I18n.t("breadcrumb.costs"), costs_order_path(@order)
+
+    if params[:button].present? and params[:button] == 'btn-export' and params[:type].present?
+      @order_file = Order.includes(:labor_costs, :current_estimate, :customer, :purchases, {purchases: [:supplier, :product_purchases]} ).where(id: params[:id])
+      send_data @order_file.export_to(params[:type], :costs), filename: "costs.#{params[:type]}"
+    end
   end
 
   def send_invoice_mail
@@ -412,8 +417,8 @@ class OrdersController < ApplicationController
 
   # GET /orders
   def index
-    @q = Order.all.order(created_at: :desc).ransack(params[:q])
-    @orders = @q.result.page(params[:page])
+    @q = Order.ransack(params[:q])
+    @orders = @q.result.order(created_at: :desc).page(params[:page])
     @orders_month = Order.where("extract(month from start_at) = ? and extract(year from start_at) = ?", Date.today.month, Date.today.year)
     @last_month_orders = Order.where("extract(month from start_at) = ? and extract(year from start_at) = ?", (Date.today - 1.month).month, (Date.today - 1.month).year)
     @transactions = Transaction.where("extract(month from due) = ?", Date.today.month).where(status: :pendent)
@@ -435,6 +440,10 @@ class OrdersController < ApplicationController
     @profit = @total_atual - @orders_month.sum(:total_cost)
 
     @profit_today = @orders_today.sum{|a| a.current_estimate.get_total_value}  - @orders_today.sum(:total_cost)
+
+    if params[:button].present? and params[:button] == 'btn-export' and params[:type].present?
+      send_data @orders.export_to(params[:type]), filename: "orders.#{params[:type]}"
+    end
   end
 
   def invoice_add_payment

@@ -9,15 +9,9 @@ class LeadExporter < RailsExporter::Base
     column :phone
     column :email
     column :code
-    column :date do |record|
-      record.created_at.strftime("%m/%d/%Y %H:%M:%S")
-    end
-    column(:created_at) do |record|
-      record.created_at.strftime("%m/%d/%Y %H:%M:%S")
-    end
-    column(:updated_at) do |record|
-      record.updated_at.strftime("%m/%d/%Y %H:%M:%S")
-    end
+    column(:date) { |record| record.created_at.strftime("%m/%d/%Y %H:%M") }
+    column(:created_at) { |record| record.created_at.strftime("%m/%d/%Y %H:%M") }
+    column(:updated_at) { |record| record.updated_at.strftime("%m/%d/%Y %H:%M") }
   end
 
 end

@@ -23,12 +23,8 @@ class EstimateExporter < RailsExporter::Base
     column :taxpayer
     column :payment_approval => :boolean
     column :discount
-    column(:created_at) do |record|
-      record.created_at.strftime("%m/%d/%Y %H:%M:%S")
-    end
-    column(:updated_at) do |record|
-      record.updated_at.strftime("%m/%d/%Y %H:%M:%S")
-    end
+    column(:created_at) { |record| record.created_at.strftime("%m/%d/%Y %H:%M") }
+    column(:updated_at) { |record| record.updated_at.strftime("%m/%d/%Y %H:%M") }
   end
 
 end

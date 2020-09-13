@@ -7,6 +7,10 @@ class LeadsController < ApplicationController
     @q = Lead.all.order(created_at: :desc).ransack(params[:q])
     @leads = @q.result.page(params[:page])
     #add_breadcrumb I18n.t('activerecord.models.leads'), leads_path
+
+    if params[:button].present? and params[:button] == 'btn-export' and params[:type].present?
+      send_data @leads.export_to(params[:type]), filename: "leads.#{params[:type]}"
+    end
   end
 
   # GET /leads/1

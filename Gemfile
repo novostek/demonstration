@@ -119,3 +119,5 @@ gem 'apartment-activejob'
 gem 'rqrcode'
 gem "sentry-raven"
 gem 'newrelic_rpm'
+
+gem 'rails-exporter'

@@ -1,0 +1,54 @@
+wb = xlsx_package.workbook
+s = wb.styles
+summary = s.add_style b: true
+
+wb.add_worksheet(name: "Order") do |sheet|
+  # Order
+  sheet.add_row ['Code', 'Title', 'Created at', 'Location', 'Category', 'Price', 'Tax', 'Price + Tax', 'Status'], style: summary
+  @orders.each do |order|
+    sheet.add_row [
+                      order.code,
+                      order.get_current_estimate.description,
+                      order.created_at.to_s,
+                      order.get_current_estimate.location,
+                      order.get_current_estimate.category_text,
+                      order.product_purchases.sum(:value).to_f,
+                      order.get_current_estimate.tax.to_f,
+                      order.product_purchases.sum(:value).to_f + order.get_current_estimate.tax.to_f,
+                      order.status_text
+                  ]
+  end
+
+  # Products
+  sheet.add_row
+  sheet.add_row %w(Products), style: summary
+  sheet.add_row %w(Supplier Qtd. Product Price Subtotal Status), style: summary
+  @orders.first.product_purchases.select { |pp| pp.tax == false }.group_by { |pp| pp.purchase.supplier.name }.each do |k, v|
+    v.each do |pp|
+      sheet.add_row [
+                        k || 'No Supplier',
+                        pp.quantity,
+                        pp.product || pp.custom_title,
+                        pp.unity_value.to_f,
+                        pp.value.to_f,
+                        pp.status_text
+                    ]
+    end
+  end
+
+  # taxes
+  sheet.add_row
+  sheet.add_row %w(Taxes), style: summary
+  sheet.add_row %w(Tax Value), style: summary
+  @orders.first.product_purchases.select { |pp| pp.tax == true }.each do |pp|
+    sheet.add_row [pp.product || pp.custom_title, pp.value.to_s]
+  end
+
+  # labor costs
+  sheet.add_row
+  sheet.add_row ['Labor Costs'], style: summary
+  sheet.add_row %w(Date Worker Value Status), style: summary
+  @orders.first.labor_costs.each do |l|
+    sheet.add_row [l.date.to_s, l.worker ? l.worker.name : '', l.value.to_s, l.status_text]
+  end
+end

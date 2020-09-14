@@ -874,6 +874,7 @@
             <div class="row chip-selection mb-8">
               <small>Choose a type:</small><br>
               <% RailsExporter::Base.file_types.each do |type| %>
+                <% type = 'xlsx' if type.eql? :xls %>
                 <label>
                   <%= radio_button_tag :type, type, false, class: 'transaction_status filled-in', onchange: "toggleExport()" %>
                   <span><%= type %></span>

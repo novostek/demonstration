@@ -121,3 +121,7 @@ gem "sentry-raven"
 gem 'newrelic_rpm'
 
 gem 'rails-exporter'
+
+gem 'axlsx'#, git: 'https://github.com/randym/axlsx.git', ref: 'c8ac844'
+gem 'axlsx_rails', '>= 0.5.1'
+gem 'rubyzip', '>= 1.2.1'

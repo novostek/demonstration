@@ -16,6 +16,7 @@ class OrderExporter < RailsExporter::Base
   end
 
   exporter :costs do
+    # order
     column :code
     column :status
     column(:customer) { |record| record.get_current_estimate.customer.name }
@@ -27,6 +28,15 @@ class OrderExporter < RailsExporter::Base
     column :status
     column(:created_at) { |record| record.created_at.strftime("%m/%d/%Y %H:%M") }
     column(:updated_at) { |record| record.updated_at.strftime("%m/%d/%Y %H:%M") }
+
+    # products
+    column(:products) { |record| record.product_purchases.select { |pp| pp.tax == false }.group_by{|pp| pp.purchase.supplier.name }.map{|k, v| [k => v.map{|pp| pp.product.name || pp.custom_title}]}.flatten.to_s }
+
+    # taxes
+    column(:taxes) { |record| record.product_purchases.select { |pp| pp.tax == true }.map{|pp| [pp.product || pp.custom_title, pp.value.to_s] }.flatten.to_s }
+
+    # labor costs
+    column(:labor_costs) {|record| record.labor_costs.map{|l| l.worker.name if l.worker}.to_s }
   end
 
 

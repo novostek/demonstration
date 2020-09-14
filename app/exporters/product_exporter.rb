@@ -1,4 +1,4 @@
-class OrderExporter < RailsExporter::Base
+class ProductExporter < RailsExporter::Base
   require 'csv'
 
   exporter do

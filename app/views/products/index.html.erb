@@ -14,7 +14,9 @@
           <%= render_breadcrumbs :tag => :li, :separator => "" %>
         </ol>
       </div>
-      <div class="col s2 m6 l6"><a class="btn waves-effect waves-light breadcrumbs-btn right border-round" href="<%= new_product_path %>"><i class="material-icons hide-on-med-and-up">add</i><span class="hide-on-small-only"><%= t("button.add")  %> <%= t('activerecord.models.product') %></span></a>
+      <div class="col s2 m6 l6">
+        <div class=" btn-secondary sidenav-trigger btn waves-effect waves-light breadcrumbs-btn right" data-target="slide-out-right-exports-dates">Filter</div>
+        <a class="mr-2 btn waves-effect waves-light breadcrumbs-btn right border-round" href="<%= new_product_path %>"><i class="material-icons hide-on-med-and-up">add</i><span class="hide-on-small-only"><%= t("button.add")  %> <%= t('activerecord.models.product') %></span></a>
       </div>
     </div>
   </div>
@@ -79,3 +81,86 @@
 
   <%= paginate(@products)  %>
 </section>
+
+<%= content_for :sidenav do %>
+  <aside id="right-sidebar-nav">
+    <div id="slide-out-right-exports-dates" style="width: 340px;" class="slide-out-right-sidenav sidenav rightside-navigation right-aligned">
+
+      <div class="row">
+        <div class="slide-out-right-title">
+          <div class="col s12 pl-3">
+            <i class="material-icons right "><a href="#" target="_self" class="sidenav-close">clear</a></i>
+            <h5><%= t 'button.filter' %></h5>
+          </div>
+        </div>
+      </div>
+
+      <div class="slide-out-right-body row pl-3 pr-3 ps">
+        <%= search_form_for @q, url: request.env['PATH_INFO'], id: 'form-export' do |f| %>
+          <%= f.hidden_field :name_or_uuid_or_product_category_name_cont %>
+
+          <div class="row">
+            <div class="input-field">
+              <%= f.search_field :name_cont %>
+              <%= f.label :name_cont, "Name" %>
+            </div>
+
+            <div class="input-field">
+              <%= f.select :product_category_id_eq, ProductCategory.all.map{|c| [c.name, c.id]}, {include_blank: t('texts.all')}, {} %>
+              <%= f.label :product_category_id, 'Category' %>
+            </div>
+
+            <div class="input-field col s6">
+              <%= f.number_field :customer_price_gteq %>
+              <%= f.label :customer_price_gteq, "#{t 'activerecord.attributes.product.customer_price'} >" %>
+            </div>
+
+            <div class="input-field col s6">
+              <%= f.number_field :customer_price_lteq %>
+              <%= f.label :customer_price_lteq, "#{t 'activerecord.attributes.product.customer_price'} <" %>
+            </div>
+
+            <div class="mb-10">
+              <%= f.button :submit, value: "btn-filter", class: "btn right border-round" do %><%= t('button.filter') %><% end %>
+              <%= link_to t('clear'), products_path, class: "btn-flat" %>
+            </div>
+
+            <hr style="margin-top: 50%">
+
+            <div class="row chip-selection mb-8">
+              <small>Choose a type:</small><br>
+              <% RailsExporter::Base.file_types.each do |type| %>
+                <label>
+                  <%= radio_button_tag :type, type, false, class: 'transaction_status filled-in', onchange: "toggleExport()" %>
+                  <span><%= type %></span>
+                </label>
+              <% end %>
+            </div>
+
+            <div class="actions">
+              <%= f.button :submit, value: "btn-export", class: "btn right border-round", id: 'btn-export' do %>Export<% end %>
+            </div>
+
+          </div>
+        <% end %>
+      </div>
+    </div>
+  </aside>
+<% end %>
+
+<%= content_for :scripts do %>
+  <script>
+      function toggleExport() {
+          if ($("input[name='type']").is(':checked')) {
+              $('#btn-export').prop('disabled', false);
+          }
+          else {
+              $('#btn-export').prop('disabled', true);
+          }
+      }
+
+      $(document).ready(function () {
+          toggleExport();
+      });
+  </script>
+<% end %>

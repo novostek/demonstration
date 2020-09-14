@@ -50,6 +50,11 @@
                 </div>
               </div>
             </div>
+            <% if @purchases.blank? %>
+              <a href="#modal_new_product" class="invoice-action-view modal-trigger btn mt-2 btn-secondary" target="_self"  >
+                <%= t 'button.new' %> <%= t('activerecord.models.product') %>
+              </a>
+            <% end %>
 
             <% @purchases.each do |purchase| %>
               <div class="card-panel">
@@ -232,6 +237,7 @@
                   </a>
                 </div>
               </div>
+
             <% end %>
 
             <div class="card-panel">

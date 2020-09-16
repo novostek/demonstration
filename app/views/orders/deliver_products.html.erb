@@ -24,6 +24,7 @@
   </div>
 </div>
 
+<% if @order.product_purchases.where.not(status: :delivered, tax: true).size > 0 %>
 <!--<div class="col s12">-->
 <!--  <div class="container">-->
 
@@ -265,4 +266,13 @@
       });
   </script>
 
+<% end %>
+
+
+<% else %>
+  <div class="row card min-height-300 pt-8">
+    <div class="center">
+      <p>There are no products to be delivered.</p>
+    </div>
+  </div>
 <% end %>

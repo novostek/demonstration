@@ -29,6 +29,7 @@ class ProductEstimate < ApplicationRecord
   belongs_to :product, optional: true
   belongs_to :measurement_proposal
 
+  default_scope {order(created_at: :asc)}
 
   def as_json(options = {})
     s = super(options)

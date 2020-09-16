@@ -16,6 +16,8 @@ class MeasurementProposal < ApplicationRecord
 
   accepts_nested_attributes_for :product_estimates, reject_if: :all_blank, allow_destroy: true
 
+  default_scope {order(created_at: :asc)}
+
   def as_json(options = {})
     s = super(options)
     s[:product_estimates] = self.product_estimates

@@ -74,7 +74,7 @@
 <!--        <div class="col s12 pl-1">-->
           <div class="col s12">
             <div class="row">
-              <%= form_with url: deliver_products_sign_order_path(@order), local: true do |f| %>
+              <%= form_with url: deliver_products_sign_order_path(@order), id: 'form_deliver_products',  local: true do |f| %>
                 <%# binding.pry %>
               <% @purchases.each do |purchase| %>
                   <% if purchase.product_purchases.where.not(status: :delivered, tax: true).size > 0 %>
@@ -149,6 +149,7 @@
                           </div>
                         </div>
 
+                        <p class="m-0 red-text" style="display:none;" id="msg-sign">Please, draw your signature in the box below</p>
                         <canvas id="signature-pad" class="signature-pad"></canvas>
                       </div>
                       <div class="signature-actions">
@@ -263,6 +264,18 @@
       document.getElementById('clear').addEventListener('click', function () {
           signaturePad.clear();
           $("#signature_file").val("");
+      });
+
+
+
+      $("#form_deliver_products").submit(function(e){
+          if (signaturePad.isEmpty()){
+              $('#msg-sign').show();
+              return false;
+          }else{
+              // assinou
+              return true;
+          }
       });
   </script>
 

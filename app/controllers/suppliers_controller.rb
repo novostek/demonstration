@@ -55,6 +55,10 @@ class SuppliersController < ApplicationController
   def index
     @q = Supplier.all.order(name: :asc).where(active:true).ransack(params[:q])
     @suppliers = @q.result.page(params[:page])
+
+    if params[:button].present? and params[:button] == 'btn-export' and params[:type].present?
+      send_data @suppliers.export_to(params[:type]), filename: "suppliers.#{params[:type]}"
+    end
   end
 
   # GET /suppliers/1

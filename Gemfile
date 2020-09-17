@@ -123,3 +123,9 @@ gem 'newrelic_rpm'
 group :production do
   gem 'wkhtmltopdf-heroku', '2.12.5.0'
 end
+
+gem 'rails-exporter'
+
+gem 'axlsx'#, git: 'https://github.com/randym/axlsx.git', ref: 'c8ac844'
+gem 'axlsx_rails', '>= 0.5.1'
+gem 'rubyzip', '>= 1.2.1'

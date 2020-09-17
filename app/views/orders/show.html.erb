@@ -1,4 +1,7 @@
-<link href="/css/customer.css" rel="stylesheet" type="text/css">
+<%= content_for :head_content do %>
+  <link href="/css/customer.css" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" type="text/css" href="/materialize/vendors/magnific-popup/magnific-popup.css">
+<% end %>
 <div class="row">
   <div class="content-wrapper-before woffice-color"></div>
   <div class="breadcrumbs-light pb-0 pt-4" id="breadcrumbs-wrapper">
@@ -149,7 +152,7 @@
                   <span class="left width-100"><span class="font-weight-600 black-text"><%= t 'created_at' %>:</span> <%= @order.created_at %></span>
                 </div>
                 <div class="col s12 m4">
-                  <span class=" users-view-status display-inline chip green lighten-5 green-text right mt-0"><%= @order.status_text %></span>
+                  <%= render partial: 'status', locals: {order: @order, classes: 'users-view-status display-inline right mt-0'} %>
                 </div>
               </div>
               <div class="col s12 m6 xl7">
@@ -432,6 +435,7 @@
       </div>
     <% end  %>
   </div>
+</div>
 
   <%= content_for :scripts do %>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
@@ -502,3 +506,29 @@
 
     </script>
   <% end %>
+
+<!--js magnific-popup-->
+<%= content_for :scripts do %>
+  <script src="/materialize/vendors/magnific-popup/jquery.magnific-popup.min.js"></script>
+
+  <script>
+      $('.open-gallery-link').click(function () {
+
+          let items = [];
+          $($(this).attr('href')).find('a').each(function () {
+              items.push({
+                  src: $(this).attr('href'),
+                  title: $(this).attr('title')
+              });
+          });
+
+          $.magnificPopup.open({
+              items: items,
+              closeOnContentClick: true,
+              closeBtnInside: false,
+              type: 'image',
+              gallery: {enabled: true}
+          });
+      });
+  </script>
+<% end %>

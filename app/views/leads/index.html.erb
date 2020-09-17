@@ -1,82 +1,179 @@
 <div class="content-wrapper-before woffice-color"></div>
-			<div class="breadcrumbs-light pb-0 pt-4" id="breadcrumbs-wrapper">
-				<!-- Search for small screen-->
-				<div class="container">
-					<div class="row">
-						<div class="col s10 m6 l6">
-							<h5 class="breadcrumbs-title mt-0 mb-0"><span><%= t('activerecord.models.leads') %></span></h5>
-							<ol class="breadcrumbs mb-0">
-                <%= render_breadcrumbs :tag => :li, :separator => "" %>
-							</ol>
-						</div>
-						<div class="col s2 m6 l6"><a class="btn waves-effect waves-light breadcrumbs-btn right border-round" href="<%= new_lead_path %>"><i class="material-icons hide-on-med-and-up">add</i><span class="hide-on-small-only"><%= t("button.add")  %> <%= t('activerecord.models.lead') %></span></a>
-						</div>
-					</div>
-				</div>
-			</div>
+<div class="breadcrumbs-light pb-0 pt-4" id="breadcrumbs-wrapper">
+  <!-- Search for small screen-->
+  <div class="container">
+    <div class="row">
+      <div class="col s10 m6 l6">
+        <h5 class="breadcrumbs-title mt-0 mb-0">
+          <span><%= t('activerecord.models.leads') %></span>
+          <% if params[:q].present? %>
+            <span class="chip amber darken-1 white-text"><%= t('texts.filtered') %></span>
+          <% end %>
+        </h5>
+        <ol class="breadcrumbs mb-0">
+          <%= render_breadcrumbs :tag => :li, :separator => "" %>
+        </ol>
+      </div>
+      <div class="col s2 m6 l6">
+        <div class=" btn-secondary sidenav-trigger btn waves-effect waves-light breadcrumbs-btn right" data-target="slide-out-right-exports-dates">Filter</div>
+        <a class="mr-2 btn waves-effect waves-light breadcrumbs-btn right border-round" href="<%= new_lead_path %>"><i class="material-icons hide-on-med-and-up">add</i><span class="hide-on-small-only"><%= t("button.add") %> <%= t('activerecord.models.lead') %></span></a>
+      </div>
+    </div>
+  </div>
+</div>
 
 <section class="invoice-list-wrapper section">
   <!-- create invoice button-->
   <!-- Options and filter dropdown button-->
   <div class="invoice-filter-action mr-3">
     <div class="row">
-    <%= search_form_for @q, url: request.env['PATH_INFO'] do |f|  %>
-      <div class="col s9 m11">
-          <%= f.search_field :phone_or_description_or_status_or_email_or_customer_name_cont, placeholder: t('placeholder.search'), class: "search-ransack" %>     
-      </div>
-      <div class="col s3 m1">
-				<button type="submit" class="btn-floating mb-1 waves-effect waves-light rigth">
-					<i class="material-icons">search</i>
-				</button>
-      </div>
-    <% end %>
+      <%= search_form_for @q, url: request.env['PATH_INFO'] do |f| %>
+        <div class="col s9 m11">
+          <%= f.search_field :phone_or_description_or_status_or_email_or_customer_name_cont, placeholder: t('placeholder.search'), class: "search-ransack" %>
+        </div>
+        <div class="col s3 m1">
+          <button type="submit" class="btn-floating mb-1 waves-effect waves-light rigth">
+            <i class="material-icons">search</i>
+          </button>
+        </div>
+      <% end %>
     </div>
   </div>
   <!-- create invoice button-->
   <div class="card">
     <div class="card-content">
-      <style>td{padding: 15px}</style>
+      <style>td {
+        padding: 15px
+      }</style>
       <table class="responsive-table">
         <thead>
-          <tr>
-            <th>#</th>
-            <th><%= t('activerecord.attributes.lead.customer') %></th>
-            <th><%= t('activerecord.attributes.lead.date') %></th>
-            <th><%= t('activerecord.attributes.leads.description') %></th>
-            <th>Estimate</th>
-            <th><%= t('activerecord.attributes.lead.status') %></th>
-          </tr>
+        <tr>
+          <th>#</th>
+          <th><%= t('activerecord.attributes.lead.customer') %></th>
+          <th><%= t('activerecord.attributes.lead.date') %></th>
+          <th><%= t('activerecord.attributes.leads.description') %></th>
+          <th>Estimate</th>
+          <th><%= t('activerecord.attributes.lead.status') %></th>
+        </tr>
         </thead>
         <tbody>
-          <% @leads.each do |lead| %>
-            <tr>
-              <td>
-                <%= link_to lead.code, lead_path(lead) %>
-              </td>
-              <td>
-                <%= lead.customer.name %> <br>
-                <small><%= lead.phone %></small>
-              </td>
-              <td>
-                <%= lead.date %> <br>
-                <small><%= lead.via %></small>
-              </td>
-              <td><%=  truncate lead.description || "" %></td>
-              <td>
-                <% if lead.estimate.present? %>
-                  <%= link_to lead.estimate.code, view_estimates_path(lead.estimate) %>
-                <% else %>
-                   - 
-                <% end %>
-              </td>
-              <td>
-                <%= render partial: 'status', locals: {lead: lead} %>
-              </td>
-            </tr>
-          <% end %>
+        <% @leads.each do |lead| %>
+          <tr>
+            <td>
+              <%= link_to lead.code, lead_path(lead) %>
+            </td>
+            <td>
+              <%= lead.customer.name %> <br>
+              <small><%= lead.phone %></small>
+            </td>
+            <td>
+              <%= lead.date %> <br>
+              <small><%= lead.via %></small>
+            </td>
+            <td><%= truncate lead.description || "" %></td>
+            <td>
+              <% if lead.estimate.present? %>
+                <%= link_to lead.estimate.code, view_estimates_path(lead.estimate) %>
+              <% else %>
+                -
+              <% end %>
+            </td>
+            <td>
+              <%= render partial: 'status', locals: {lead: lead} %>
+            </td>
+          </tr>
+        <% end %>
         </tbody>
       </table>
     </div>
   </div>
-  <%= paginate(@leads)  %>
+  <%= paginate(@leads) %>
 </section>
+
+<%= content_for :sidenav do %>
+  <aside id="right-sidebar-nav">
+    <div id="slide-out-right-exports-dates" style="width: 340px;" class="slide-out-right-sidenav sidenav rightside-navigation right-aligned">
+
+      <div class="row">
+        <div class="slide-out-right-title">
+          <div class="col s12 pl-3">
+            <i class="material-icons right "><a href="#" target="_self" class="sidenav-close">clear</a></i>
+            <h5><%= t 'button.filter' %></h5>
+          </div>
+        </div>
+      </div>
+
+      <div class="slide-out-right-body row pl-3 pr-3 ps">
+        <%= search_form_for @q, url: request.env['PATH_INFO'], id: 'form-export' do |f| %>
+          <%= f.hidden_field :phone_or_description_or_status_or_email_or_customer_name_cont %>
+
+          <div class="row">
+            <div class="input-field">
+              <%= f.search_field :customer_name_cont, class: 'autocomplete-customer' %>
+              <%= f.label :customer_name_cont, "Name" %>
+            </div>
+
+            <div class="input-field">
+              <%= f.select :status_cont, Lead.status.options, {include_blank: t('texts.all')}, {} %>
+              <%= f.label :status_cont, "Status" %>
+            </div>
+
+            <div class="input-field col s6">
+              <%= f.date_field :date_gteq %>
+              <%= f.label :date_gteq, "#{t 'activerecord.attributes.leads.date'} >" %>
+            </div>
+
+            <div class="input-field col s6">
+              <%= f.date_field :date_lteq %>
+              <%= f.label :date_lteq, "#{t 'activerecord.attributes.leads.date'} <" %>
+            </div>
+
+            <div class="mb-10">
+              <%= f.button :submit, value: "btn-filter", class: "btn right border-round" do %><%= t('button.filter') %>
+              <% end %>
+              <%= link_to t('clear'), leads_path, class: "btn-flat" %>
+            </div>
+
+            <hr style="margin-top: 50%">
+
+            <div class="row chip-selection mb-8">
+              <small>Choose a type:</small><br>
+              <% RailsExporter::Base.file_types.each do |type| %>
+                <label>
+                  <%= radio_button_tag :type, type, false, class: 'transaction_status filled-in', onchange: "toggleExport()" %>
+                  <span><%= type %></span>
+                </label>
+              <% end %>
+            </div>
+
+            <div class="actions">
+              <%= f.button :submit, value: "btn-export", class: "btn right border-round", id: 'btn-export' do %>Export<% end %>
+            </div>
+
+          </div>
+        <% end %>
+      </div>
+    </div>
+  </aside>
+<% end %>
+
+<%= content_for :scripts do %>
+  <script>
+      $('input.autocomplete-customer').autocomplete({
+          data: <%= raw Customer.all.map {|c| [c.name, nil]}.to_h.to_json %>
+      });
+
+      function toggleExport() {
+          if ($("input[name='type']").is(':checked')) {
+              $('#btn-export').prop('disabled', false);
+          }
+          else {
+              $('#btn-export').prop('disabled', true);
+          }
+      }
+
+      $(document).ready(function () {
+          toggleExport();
+      });
+  </script>
+<% end %>

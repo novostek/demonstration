@@ -1,6 +1,6 @@
 class EstimatesController < ApplicationController
-  load_and_authorize_resource except: [:estimate_signature, :create_products_estimates, :create_step_one, :create_schedule,:delete_schedule, :decline_estimate]
-  before_action :set_estimate, only: [:send_grid_mail, :show, :edit, :update, :destroy, :cancel, :reactivate, :send_mail,:estimate_signature, :tax_calculation, :taxpayer, :create_products_estimates,:new_note, :new_document,:create_order,:apply_discount, :decline_estimate]
+  load_and_authorize_resource except: [:estimate_signature, :create_products_estimates, :create_step_one, :create_schedule, :delete_schedule, :decline_estimate]
+  before_action :set_estimate, only: [:send_grid_mail, :show, :edit, :update, :destroy, :cancel, :reactivate, :send_mail, :estimate_signature, :tax_calculation, :taxpayer, :create_products_estimates, :new_note, :new_document, :create_order, :apply_discount, :decline_estimate]
   before_action :set_combos, only: [:step_one, :products]
   # skip_forgery_protection
   # GET /estimates
@@ -10,6 +10,12 @@ class EstimatesController < ApplicationController
   def index
     @q = Estimate.all.order(created_at: :desc).ransack(params[:q])
     @estimates = @q.result.page(params[:page])
+
+    @status = Estimate.status.options
+
+    if params[:button].present? and params[:button] == 'btn-export' and params[:type].present?
+      send_data @estimates.export_to(params[:type]), filename: "estimates.#{params[:type]}"
+    end
   end
 
   # GET /estimates/1
@@ -23,7 +29,7 @@ class EstimatesController < ApplicationController
     end
 
     begin
-      @templates = SendGridMail.get_templates["templates"].map{|a| [a["name"],a["id"]]}
+      @templates = SendGridMail.get_templates["templates"].map { |a| [a["name"], a["id"]] }
     rescue
       @templates = []
     end
@@ -41,7 +47,7 @@ class EstimatesController < ApplicationController
     if note.save
       redirect_to "/estimates/#{@estimate.id}/view", notice: "#{t 'note_create'}"
     else
-      redirect_to   "/estimates/#{@estimate.id}/view", alert: "#{note.errors.full_messages.to_sentence}"
+      redirect_to "/estimates/#{@estimate.id}/view", alert: "#{note.errors.full_messages.to_sentence}"
     end
   end
 
@@ -148,9 +154,9 @@ class EstimatesController < ApplicationController
         @estimate.link = "#{Setting.url}/estimates/#{@estimate.id}/estimate_signature"
       end
 
-      SendGridMail.send_mail(params[:template],[@estimate,@estimate.customer, @estimate.order],params[:subject],params[:emails])
+      SendGridMail.send_mail(params[:template], [@estimate, @estimate.customer, @estimate.order], params[:subject], params[:emails])
       #redirect_to "/estimates/#{@estimate.id}/view", notice: t('notice.estimate.mail_sent')
-      redirect_back(fallback_location: root_path,notice: t('notice.estimate.mail_sent'))
+      redirect_back(fallback_location: root_path, notice: t('notice.estimate.mail_sent'))
     end
   end
 
@@ -223,7 +229,7 @@ class EstimatesController < ApplicationController
         end
       end
 
-      redirect_to products_estimate_path( new_estimate.id), notice: t('notice.estimate.cloned')
+      redirect_to products_estimate_path(new_estimate.id), notice: t('notice.estimate.cloned')
     rescue StandardError => e
       redirect_back(fallback_location: root_path, notice: t('notice.estimate.clone_error'))
     end
@@ -236,7 +242,7 @@ class EstimatesController < ApplicationController
       @estimate = Estimate.find_or_initialize_by(lead_id: params[:lead_id])
     end
     if @estimate.new_record?
-      address= @estimate.customer.get_main_address
+      address = @estimate.customer.get_main_address
       if address.present?
         @estimate.location = address.data["address"]
         @estimate.latitude = address.data["lat"]
@@ -366,7 +372,7 @@ class EstimatesController < ApplicationController
 
       @estimate.calculate_tax_values
     rescue StandardError => e
-      render json: {status: :internal_server_error, message: e.backtrace.inspect  }
+      render json: {status: :internal_server_error, message: e.backtrace.inspect}
     else
       render json: {status: :ok}
     end
@@ -384,7 +390,7 @@ class EstimatesController < ApplicationController
     end
 
     begin
-      @templates = SendGridMail.get_templates["templates"].map{|a| [a["name"],a["id"]]}
+      @templates = SendGridMail.get_templates["templates"].map { |a| [a["name"], a["id"]] }
     rescue
       @templates = []
     end
@@ -434,6 +440,7 @@ class EstimatesController < ApplicationController
   end
 
   private
+
   #Método que carrega os objetos de seleção
   def set_combos
     @workers = Worker.to_select
@@ -448,7 +455,7 @@ class EstimatesController < ApplicationController
   # Only allow a trusted parameter "white list" through.
   def estimate_params
     params.require(:estimate).permit(
-        :code, :title,:payment_approval, :worker_id, :status, :description, :location,
+        :code, :title, :payment_approval, :worker_id, :status, :description, :location,
         :latitude, :longitude, :category, :order_id, :price, :tax,
         :tax_calculation, :lead_id, :bpmn_instance, :current, :total, :taxpayer,
         measurement_areas_attributes: [

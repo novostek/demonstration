@@ -70,7 +70,7 @@ class CustomersController < ApplicationController
 
   end
 
-  
+
 
   def search_customers
     @customers = Customer.where("name ilike ? ","%#{params[:search]}%")
@@ -82,6 +82,10 @@ class CustomersController < ApplicationController
   def index
     @q = Customer.all.order(created_at: :desc).ransack(params[:q])
     @customers = @q.result.page(params[:page])
+
+    if params[:button].present? and params[:button] == 'btn-export' and params[:type].present?
+      send_data @customers.export_to(params[:type]), filename: "customers.#{params[:type]}"
+    end
   end
 
   # GET /customers/1

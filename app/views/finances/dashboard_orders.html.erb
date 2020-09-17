@@ -1,0 +1,562 @@
+<%= content_for :head_content do %>
+  <style>
+    .order-cost-list .oc-item {
+      position: static;
+    }
+
+    div.disabled-div {
+      pointer-events: none;
+
+      /* for "disabled" effect */
+      opacity: 0.5;
+      background: #CCC;
+    }
+  </style>
+<% end %>
+<div class="breadcrumbs-light pb-0 pt-4" id="breadcrumbs-wrapper">
+  <!-- Search for small screen-->
+  <div class="container">
+    <div class="row">
+      <div class="col s10 m6 l6">
+        <h5 class="breadcrumbs-title mt-0 mb-0"><%= t 'breadcrumb.costs' %> - <%= t 'activerecord.models.orders' %></h5>
+        <ol class="breadcrumbs mb-0">
+          <li class="breadcrumb-item"><a href="/"><%= t 'breadcrumb.home' %></a>
+          </li>
+          <li class="breadcrumb-item">
+            <a href="<%= finance_dashboard_orders_path %>"><%= t 'activerecord.models.orders' %></a>
+          </li>
+          <li class="breadcrumb-item active"><%= t 'breadcrumb.costs' %>
+          </li>
+        </ol>
+      </div>
+      <div class="col s2 m6 l6">
+        <!-- <a class="btn waves-effect waves-light breadcrumbs-btn right border-round dropdown-settings" href="#!" data-target='dropdown1'><i class="material-icons hide-on-med-and-up">attach_money</i><span class="hide-on-small-only">Order</span></a>
+        <ul id='dropdown1' class='dropdown-content'>
+          <li><a class="grey-text text-darken-2" href="order-schedule.html"><i class="material-icons left">event</i> Schedule</a></li>
+          <li><a class="grey-text text-darken-2" href="order-deposit.html"><i class="material-icons left">archive</i> Deposit</a></li>
+        </ul> -->
+        <!--        <a class="btn waves-effect waves-light breadcrumbs-btn right mr-2 text-lighten-5 border-round" href="order-view.html"><i class="material-icons hide-on-med-and-up">arrow_back</i><span class="hide-on-small-only">Back to order</span></a>-->
+
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="col s12">
+  <div class="container">
+    <div class="row mt-1">
+      <div class="col s12 pl-0 pr-0">
+        <div class="col s12">
+
+          <% if @orders.length == 0 and !params[:q].present? %>
+            <div class="row">
+              <div class="col s12">
+                <div class="card-panel">
+                  <h5 class="center-align">There are no registered orders.</h5>
+                </div>
+              </div>
+            </div>
+
+          <% else %>
+            <%= search_form_for @q, url: request.env['PATH_INFO'] do |f| %>
+              <ul class="collapsible collapsible-filters">
+                <li>
+                  <div class="collapsible-header" tabindex="0">
+                    <div class="collapsible-header--title"><i class="material-icons">filter_list</i>Filters</div>
+                    <div class="order-by">
+                      <i class="material-icons">swap_vert</i>
+
+                      <div class="orderby-select">
+                        <div class="select-wrapper">
+                          <select onchange="this.form.submit()" name="sort_by" id="sort-by" tabindex="-1">
+                            <option value="" disabled="" <%= 'selected' unless params[:sort_by].present? %>>Sort by
+                            </option>
+                            <% Order.sort_by_options.each do |option| %>
+                              <% if option.last == params[:sort_by] %>
+                                <option value="<%= option.last %>" selected><%= option.first %></option>
+                              <% else %>
+                                <option value="<%= option.last %>"><%= option.first %></option>
+                              <% end %>
+                            <% end %>
+                          </select>
+                        </div>
+                      </div>
+
+                    </div>
+                  </div>
+
+                  <div class="collapsible-body grey lighten-5 padding-2">
+
+                    <div class="row">
+                      <div class="col s12 m6 l3">
+                        <p class="font-weight-600"><i class="material-icons left mr-2">assignment_ind</i> Order</p>
+                        <div class="row">
+                          <div class="col s12 input-field">
+                            <%= f.label :code_cont, "Number" %>
+                            <%= f.search_field :code_cont %>
+                          </div>
+
+                          <div class="col s12">
+                            <%= f.label :status_eq, "Status" %>
+                            <%= f.select :status_eq, Order.status.options, {include_blank: 'All'}, {} %>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col s12 m6 l3">
+                        <p class="font-weight-600"><i class="material-icons left mr-2">local_grocery_store</i>Product
+                        </p>
+                        <div class="row">
+                          <div class="input-field col s12">
+                            <%= f.label :purchases_product_purchases_product_name_or_purchases_product_purchases_custom_title_cont, "Name" %>
+                            <%= f.search_field :purchases_product_purchases_product_name_or_purchases_product_purchases_custom_title_cont, class: 'autocomplete-product' %>
+                          </div>
+
+                          <div class="col s12">
+                            <%= f.label :purchases_product_purchases_status_eq, "Status" %>
+                            <%= f.select :purchases_product_purchases_status_eq, ProductPurchase.status.options, {include_blank: 'All'}, {} %>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col s12 m6 l3">
+                        <p class="font-weight-600"><i class="material-icons left mr-2">local_shipping</i>Supplier</p>
+                        <div class="row">
+                          <div class="input-field col s12">
+                            <%= f.label :purchases_supplier_name_cont, "Name" %>
+                            <%#= f.search_field :purchases_supplier_name_cont, id: 'supplier-filter', class: 'autocomplete', onkeyup: "supplier_by_name($(this).val())" %>
+                            <%= f.search_field :purchases_supplier_name_cont, class: 'autocomplete-supplier' %>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col s12 m6 l3">
+                        <p class="font-weight-600"><i class="material-icons left mr-2">widgets</i>Misc</p>
+                        <div class="row">
+                          <div class="input-field col s12">
+                            <%= f.label :current_estimate_worker_name_cont, "Worker" %>
+                            <%= f.search_field :current_estimate_worker_name_cont, class: 'autocomplete-worker' %>
+                          </div>
+
+                          <div class="input-field col s12">
+                            <%= f.label :customer_name_cont, "Customer" %>
+                            <%= f.search_field :customer_name_cont, class: 'autocomplete-customer' %>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="row mt-3">
+                      <div class="col s12">
+                        <%= f.button :submit, class: "btn right waves-effect  border-round waves-block waves-light" do %>
+                          <%= t('button.filter') %>
+                        <% end %>
+                        <%= link_to 'Clear filters', finance_dashboard_orders_path, class: "btn right border-round btn-secondary mr-2 waves-effect waves-block waves-light sidenav-trigger" %>
+                      </div>
+                    </div>
+
+                  </div>
+                </li>
+              </ul>
+            <% end %>
+
+            <% if @orders.length == 0 %>
+              <div class="row">
+                <div class="col s12">
+                  <div class="card-panel">
+                    <h5 class="center-align">No matching items found.</h5>
+                  </div>
+                </div>
+              </div>
+            <% else %>
+              <% @orders.each do |order| %>
+                <div class="card-panel">
+                  <div class="row">
+                    <div class="order-cost-list dashboard">
+                      <div class="oc-supplier">
+                        <h6 class="oc-supplier-name">
+                          <a class="grey-text text-darken-3" href="<%= order_path order %>"><%= order.customer.name %> -
+                            (ordered: <%= order.start_at.strftime("%m/%d/%Y") %>)<br>#<%= order %>
+                            - <%= render partial: 'status_order', locals: {order: order} %></a></h6>
+                        <div class="oc-supplier-total"><%= number_to_currency(order.current_estimate.total) %></div>
+                      </div>
+                      <div class="oc-items-header">
+                        <div class="header-qty">Qty</div>
+                        <div class="header-product">Product</div>
+                        <div class="header-price">Price</div>
+                        <div class="header-subtotal">Subtotal</div>
+                        <div class="header-deliver-date">Delivered</div>
+                        <div class="header-status">Status</div>
+                      </div>
+
+                      <% order.purchases.each do |purchase| %>
+                        <% purchase.product_purchases.select { |pp| pp.tax == false }.each do |pp| %>
+                          <div class="oc-item">
+                            <div class="oc-item-content">
+                              <div class="item-qty"><%= pp.quantity %></div>
+                              <div class="item-product"><%= pp.product || pp.custom_title %></div>
+                              <div class="item-price"><%= number_to_currency(pp.unity_value, :unit => '$') %></div>
+                              <div class="item-subtotal"><%= number_to_currency(pp.value, :unit => '$') %></div>
+                              <div class="item-deliver-date"><%= pp.status.delivered? ? pp.updated_at.strftime("%m/%d/%Y") : '--' %></div>
+                              <div class="item-status">
+                                <%= select_tag :status, options_for_select(ProductPurchase.status.options, pp.status), {id: "status_#{pp.id}", onchange: "change_status('#{pp.id}')"} %>
+                              </div>
+                            </div>
+                            <div class="oc-item-actions">
+                              <div>
+                                <a href="#modal_note_<%= pp.id %>" class="invoice-action-view modal-trigger" target="_self">
+                                  <i class="material-icons hide-on-med-and-up">note</i><span class="hide-on-small-only"><%= t 'button.new_note' %></span>
+                                </a>
+                                <a href="#modal_doc_<%= pp.id %>" class="invoice-action-view modal-trigger" target="_self">
+                                  <i class="material-icons hide-on-med-and-up">description</i><span class="hide-on-small-only"><%= t 'button.new_doc' %></span>
+                                </a>
+                                <a class="sidenav-trigger" href="#" data-target="slide-out-right_<%= pp.id %>">
+                                  <i class="material-icons hide-on-med-and-up">remove_red_eye</i><span class="hide-on-small-only"><%= t 'button.view' %></span>
+                                </a>
+                              </div>
+
+                              <div>
+                                <a class="modal-trigger tooltipped" data-tooltip="Edit" href="#modal_edit_<%= pp.id %>">
+                                  <i class="material-icons">edit</i>
+                                </a>
+                                <%= link_to product_purchase_path(pp, redirect: request.fullpath), method: :delete, data: {confirm: "#{t :will_delete}"}, target: "_self", class: "invoice-action-edit mr-4" do %>
+                                  <i class="material-icons">delete</i>
+                                <% end %>
+                              </div>
+                            </div>
+                            <div id="modal_edit_<%= pp.id %>" class="modal modal-fixed-footer">
+                              <%= form_for pp do |f| %>
+                                <%= f.hidden_field :redirect, value: request.fullpath %>
+                                <div class="modal-content">
+                                  <div class="row">
+                                    <h4><%= t "button.edit" %> <%= "#{t 'activerecord.models.product_purchase'} - #{pp.product || pp.custom_title}" %></h4>
+                                  </div>
+                                  <div class="row">
+                                    <div class="input-field col s12 m4">
+                                      <%= f.label :quantity %>
+                                      <%= f.number_field :quantity, min: 0, step: :any, id: "qdd_#{pp.id}", onkeyup: "calcula_total_edit('#{pp.id}')" %>
+                                    </div>
+                                    <div class="input-field col s12 m4">
+                                      <%= f.label :unity_value %>
+                                      <%= f.number_field :unity_value, min: 0, step: :any, id: "unity_#{pp.id}", onkeyup: "calcula_total_edit('#{pp.id}')" %>
+                                    </div>
+                                    <div class="input-field col s12 m4">
+                                      <%= f.label :value %>
+                                      <%= f.number_field :value, min: 0, step: :any, id: "value_#{pp.id}" %>
+
+                                    </div>
+                                  </div>
+
+                                </div>
+                                <div class="modal-footer">
+                                  <button class="left modal-action modal-close waves-effect waves-green btn-flat" type="button">
+                                    <i class="material-icons left">close</i><%= t "button.close" %>
+                                  </button>
+                                  <%= f.button :submit, class: "waves-effect waves-green btn-flat" do %>
+                                    <i class="material-icons left">save</i><%= t "button.save" %>
+                                  <% end %>
+                                </div>
+                              <% end %>
+                            </div>
+
+                            <div id="modal_note_<%= pp.id %>" class="modal modal-fixed-footer">
+                              <%= form_with url: new_note_product_purchase_path(pp), method: :get, local: true do |f| %>
+                                <%= f.hidden_field :redirect, value: request.fullpath %>
+                                <div class="modal-content">
+                                  <h4><%= t "button.new" %> <%= t "notes" %></h4>
+                                  <%= render "customers/notes_form", f: f %>
+                                </div>
+                                <div class="modal-footer">
+                                  <button class="left modal-action modal-close waves-effect waves-green btn-flat" type="button">
+                                    <i class="material-icons left">close</i><%= t "button.close" %>
+                                  </button>
+                                  <%= f.button :submit, class: "modal-action modal-close waves-effect waves-green btn-flat" do %>
+                                    <i class="material-icons left">save</i><%= t "button.save" %>
+                                  <% end %>
+                                </div>
+                              <% end %>
+                            </div>
+
+                            <div id="modal_doc_<%= pp.id %>" class="modal modal-fixed-footer">
+                              <%= form_with url: new_document_product_purchase_path(pp), local: true do |f| %>
+                                <%= f.hidden_field :redirect, value: request.fullpath %>
+                                <div class="modal-content">
+                                  <div class="row">
+                                    <h4><%= t "button.new" %> <%= t "documents" %></h4>
+                                  </div>
+                                  <%= render "customers/document_file_fields", f: f %>
+
+                                </div>
+                                <div class="modal-footer">
+                                  <button class="left modal-action modal-close waves-effect waves-green btn-flat" type="button">
+                                    <i class="material-icons left">close</i><%= t "button.close" %>
+                                  </button>
+                                  <%= f.button :submit, class: "modal-action modal-close waves-effect waves-green btn-flat" do %>
+                                    <i class="material-icons left">save</i><%= t "button.save" %>
+                                  <% end %>
+                                </div>
+                              <% end %>
+                            </div>
+
+                            <%= content_for :sidenav do %>
+                              <aside id="right-sidebar-nav">
+                                <div id="slide-out-right_<%= pp.id %>" style="width: 340px !important;" class="slide-out-right-sidenav sidenav rightside-navigation">
+
+                                  <div class="row">
+                                    <div class="slide-out-right-title">
+                                      <div class="col s10 pl-3">
+                                        <h5><%= purchase.supplier || "No Supplier" %>
+                                          - <%= pp.product || pp.custom_title %>  </h5>
+                                      </div>
+                                      <div class="col s22">
+                                        <i class="material-icons "><a href="#" target="_self" class="sidenav-close">clear</a></i>
+                                      </div>
+                                    </div>
+                                  </div>
+                                  <div class="slide-out-right-body row pl-3 pr-3">
+                                    <div class="col s12 pl-3">
+                                      <h5>Notes</h5>
+                                    </div>
+                                    <% pp.notes.each do |note| %>
+                                      <div class="note">
+                                        <%= link_to note, method: :delete, class: "btn-delete-note" do %>
+                                          <i class="material-icons">delete</i>
+                                        <% end %>
+                                        <h6 class="note-title"><%= note.title %></h6>
+                                        <p class="note-content"><%= note.text %></p>
+                                      </div>
+                                    <% end %>
+
+                                    <!-- Exemple document -->
+                                    <div class="col s12 pl-3">
+                                      <h5><%= t 'documents' %></h5>
+                                    </div>
+                                    <% pp.document_files.each do |doc| %>
+                                      <%= link_to doc.file.url, target: "_blank" do %>
+                                        <div class="document">
+                                          <span class="doc-type"><%= doc.file.file.extension %></span>
+                                          <span class="doc-date" title="Created at"><%= doc.created_at %></span>
+                                          <%= doc.title %>
+                                        </div>
+                                      <% end if doc.file.present? %>
+                                    <% end %>
+
+                                    <% if pp.document_files.blank? %>
+                                      <p class="document"><%= t 'no_document_registred' %></p>
+                                    <% end %>
+                                  </div>
+                                </div>
+                              </aside>
+                            <% end %>
+                          </div>
+                        <% end %>
+                      <% end %>
+                    </div>
+                  </div>
+                </div>
+              <% end %>
+
+              <!--pagination-->
+              <div class="center">
+                <%= paginate @orders %>
+              </div>
+            <% end %>
+          <% end %>
+
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+
+
+</div>
+
+<!--dashboard-->
+<%= content_for :scripts do %>
+  <script>
+      function change_status(id) {
+          const item = $("#status_" + id);
+          item.closest('.oc-item').addClass('disabled-div');
+          $.get("/product_purchases/" + id + "/change_status?status=" + item.val(), function (data) {
+              M.toast({html: data.msg});
+              if (data.dateDelivered) {
+                  item.closest('.oc-item').find('.item-deliver-date').html(data.dateDelivered);
+              } else {
+                  item.closest('.oc-item').find('.item-deliver-date').html('--');
+              }
+              item.closest('.oc-item').removeClass('disabled-div');
+          });
+      }
+
+      $(document).ready(function () {
+
+          $('.modal').modal({
+              opacity: .8
+          });
+
+          $(".item-status").on("click", function () {
+              $(".oc-item").removeClass("dropdown-activated");
+              $(this).parent().parent().addClass("dropdown-activated");
+          });
+          $(".slide-out-right-sidenav").sidenav({
+              edge: "right",
+              preventScrolling: false
+          });
+
+          $(".collapsible-header .order-by").on("click", function (e) {
+              return false;
+          });
+
+          $(".collapsible-header #orderby-sort").on("change", function (e) {
+              e.stopPropagation();
+              alert("asd");
+              $("form").submit();
+          });
+
+          $('input.autocomplete-product').autocomplete({
+              data: <%= raw @products %>
+          });
+          $('input.autocomplete-supplier').autocomplete({
+              data: <%= raw @suppliers %>
+          });
+          $('input.autocomplete-worker').autocomplete({
+              data: <%= raw @workers %>
+          });
+          $('input.autocomplete-customer').autocomplete({
+              data: <%= raw @customers %>
+          });
+      });
+
+      // supplier_by_name = (value) => {
+      //     if (value.length > 3) {
+      //         $.ajax({
+      //             method: "GET",
+      //             dataType: 'json',
+      //             url: `/suppliers?q%5Bname_cont%5D=${value}`,
+      //             success: function (response) {
+      //                 let countryArray = response;
+      //                 let dataCountry = {};
+      //                 for (let i = 0; i < countryArray.length; i++) {
+      //                     dataCountry[countryArray[i]] = null;
+      //                 }
+      //                 $('#supplier-filter').autocomplete({
+      //                     data: dataCountry,
+      //                     limit: 5,
+      //                 });
+      //             }
+      //         });
+      //     }
+      // };
+
+  </script>
+<% end %>
+
+<!--modals and forms-->
+<%= content_for :scripts do %>
+  <script type="text/javascript" charset="utf-8">
+      $("#new_product").submit((e) => {
+          e.preventDefault();
+
+          const form = document.getElementById("new_product");
+
+          if (form.checkValidity())
+              form.submit();
+      })
+
+      $("#product_select").on("change", () => {
+          if ($("#product_select").val()) {
+              $.get("/products/" + $("#product_select").val() + ".json", function (data) {
+                  var data = data;
+                  $("#valor_unitario").val(data.cost_price);
+                  console.log('data', data.cost_price);
+
+              });
+              $("#div_custom_product").addClass("hide");
+              $("#custom_product").removeAttr("required");
+          } else {
+              $("#div_custom_product").removeClass("hide");
+              $("#div_unity_value").removeClass("hide");
+              $("#div_value").removeClass("hide");
+
+              $('#custom_product').attr('required');
+              $('#valor_unitario').attr('required');
+              $('#valor').attr('required');
+          }
+
+      });
+
+      function calcula_total() {
+          total = $("#quantidade").val() * $("#valor_unitario").val();
+          $("#valor").val(total);
+      }
+
+      function calcula_total_edit(id) {
+          total = $("#qdd_" + id).val() * $("#unity_" + id).val();
+          $("#value_" + id).val(total);
+      }
+
+      function materialselect() {
+          $("select").formSelect();
+      };
+
+      function change_status_labor(id) {
+          $.get("/labor_costs/" + id + "/change_status?status=" + $("#status_" + id).val(), function (data) {
+              M.toast({html: data.msg});
+          });
+      }
+
+      $("#product_purchase_quantity").on('keyup', (e) => {
+          const qty = e.target.value
+          const unitary_value = $("#product_purchase_unity_value").val()
+
+          const value = parseFloat(qty) * parseFloat(unitary_value)
+
+          $("#product_purchase_value").val(parseFloat(value).toFixed(2))
+      })
+
+      $("#product_purchase_unity_value").on('keyup', (e) => {
+          const unitary_value = e.target.value
+          const qty = $("#product_purchase_quantity").val()
+
+          const value = parseFloat(qty) * parseFloat(unitary_value)
+
+          $("#product_purchase_value").val(parseFloat(value).toFixed(2))
+      })
+      $(document).on('cocoon:after-insert', function (e) {
+          e.preventDefault()
+          $('.select2-size-sm').select2({
+              dropdownAutoWidth: true,
+              width: '100%',
+              containerCssClass: 'select-sm'
+          });
+      })
+
+      $(document).ready(function () {
+          // $('.modal').modal({
+          //   dismissible: false,
+          //   onCloseEnd: () => console.log("Fechou")
+          // });
+          $('.modal').modal({
+              opacity: .8
+          });
+          $('.select2-product').select2({dropdownParent: "#modal_new_product"});
+          $('#customized_check').change(function () {
+              if (this.checked) {
+                  $("#div_custom_product").removeClass("hide");
+                  $('#custom_product').attr('required');
+                  $("#div_portfolio_product").addClass("hide");
+                  $("#product_select").removeAttr("required");
+              } else {
+                  $("#div_custom_product").addClass("hide");
+                  $("#custom_product").removeAttr("required");
+                  $("#div_portfolio_product").removeClass("hide");
+                  $('#product_select').attr('required');
+              }
+          });
+      });
+
+      $(".item-status").on("click", function () {
+          $(".oc-item").removeClass("dropdown-activated");
+          $(this).parent().parent().addClass("dropdown-activated");
+      });
+  </script>
+<% end %>

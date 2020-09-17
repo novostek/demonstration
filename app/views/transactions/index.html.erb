@@ -15,8 +15,8 @@
         </ol>
       </div>
       <div class="col s2 m6 l6">
-        <a class="btn waves-effect waves-light breadcrumbs-btn right border-round" href="<%= new_transaction_path %>"><i class="material-icons hide-on-med-and-up">add</i><span class="hide-on-small-only"><%= t("button.add")  %> <%= t('activerecord.models.transaction') %></span></a>
-        <div class="mr-2 btn-secondary sidenav-trigger btn waves-effect waves-light breadcrumbs-btn right" data-target="slide-out-right"> <%= t 'button.filter' %></div>
+        <div class="btn-secondary sidenav-trigger btn waves-effect waves-light breadcrumbs-btn right" data-target="slide-out-right"> <%= t 'button.filter' %></div>
+        <a class="mr-2 btn waves-effect waves-light breadcrumbs-btn right border-round" href="<%= new_transaction_path %>"><i class="material-icons hide-on-med-and-up">add</i><span class="hide-on-small-only"><%= t("button.add") %> <%= t('activerecord.models.transaction') %></span></a>
       </div>
     </div>
   </div>
@@ -35,16 +35,12 @@
               <thead>
               <tr>
                 <th><%= t 'texts.source' %></th>
-                <th><%= t 'activerecord.attributes.transaction.transaction_category' %></th>
-                <th><%= t 'activerecord.models.account' %></th>
-                <th><%= t 'texts.origin' %></th>
+                <th><%= t 'activerecord.attributes.transaction.title' %> | <%= t 'created_at' %></th>
                 <th><%= t 'bpm.due' %></th>
-                <th><%= t 'activerecord.attributes.transaction.effective' %></th>
+                <th><%= t 'activerecord.models.account' %></th>
                 <th><%= t 'status' %></th>
                 <th><%= t 'activerecord.attributes.transaction.value' %></th>
                 <th></th>
-                <th></th>
-
               </tr>
               </thead>
               <tbody>
@@ -60,31 +56,38 @@
                     <% end %>
                   </td>
                   <td>
+                    <% if transaction.title.present? %>
+                      <%= truncate(transaction.title, :length => 30, :separator => ' ') %>
+                    <% elsif transaction.origin.present? %>
+                        <%= transaction.origin %>
+                      <% else %>
+                      <%= t('texts.no_desctiption') %>
+                    <% end %>
+
+                      <br>
+                    <small>
+                      <%= transaction.created_at.strftime("%m/%d/%Y") %> -
+                      <% if transaction.order.present? %>
+                        <%= link_to "#{t 'activerecord.models.order'} ##{transaction.order}", order_path(transaction.order) %>
+                      <% end %>
+                    </small>
+                  </td>
+
+                  <td>
+                     Due: <%= transaction.due.present? ? transaction.due.strftime("%m/%d/%Y") : '-' %> <br>
+                     Effective: <%= transaction.effective.present? ? transaction.effective.strftime("%m/%d/%Y") : '-' %>
+                  </td>
+                  <td>
                     <% if transaction.transaction_category.present? %>
                       <div class="chip white-text" style="background-color: <%= transaction.transaction_category.color %>!important">
                         <%= transaction.transaction_category %>
                       </div>
-                    <% end %>
-                  </td>
-                  <td>
+                    <% end %> <br>
                     <% if transaction.transaction_account.present? %>
                       <div class="chip white-text" style="background-color: <%= transaction.transaction_account.color %>!important">
                         <%= transaction.transaction_account %>
                       </div>
                     <% end %>
-                  </td>
-                  <td>
-                    <% if transaction.order.present? %>
-                      <%= link_to "#{t'activerecord.models.order'} ##{transaction.order}", order_path(transaction.order) %>
-                    <% else %>
-                      -
-                    <% end %>
-                  </td>
-                  <td>
-                    <%= transaction.due.present? ? transaction.due.strftime("%m/%d/%Y") : '-' %>
-                  </td>
-                  <td>
-                    <%= transaction.due.present? ? transaction.due.strftime("%m/%d/%Y") : '-' %>
                   </td>
                   <td>
                     <%= transaction.status_text %>
@@ -111,14 +114,15 @@
                       <% end %>
                     </div>
                   </td>
-
                 </tr>
               <% end %>
               </tbody>
             </table>
           </div>
         </div>
-        <%= paginate(@transactions) %>
+        <div class="center">
+          <%= paginate(@transactions) %>
+        </div>
       </div>
     </div>
   </div>
@@ -126,7 +130,7 @@
 
 <%= content_for :sidenav do %>
   <aside id="right-sidebar-nav">
-    <div id="slide-out-right" class="slide-out-right-sidenav sidenav rightside-navigation right-aligned">
+    <div id="slide-out-right" style="width: 400px;" class="slide-out-right-sidenav sidenav rightside-navigation right-aligned">
       <div class="row">
         <div class="slide-out-right-title">
           <div class="col s12 pl-3">
@@ -136,15 +140,30 @@
         </div>
       </div>
       <div class="slide-out-right-body row pl-3 pr-3 ps">
-        <%= search_form_for @q, url: request.env['PATH_INFO'] do |f|  %>
+        <%= search_form_for @q, url: request.env['PATH_INFO'] do |f| %>
           <div class="input-field">
-            <%= f.select :transaction_category_id_eq, @categories,{ include_blank: t('texts.all')}, {}  %>
-            <%= f.label  :transaction_category_id %>
+            <%= f.label :title_cont, "Title" %>
+            <%= f.search_field :title_cont %>
           </div>
 
           <div class="input-field">
-            <%= f.select :transaction_account_id_eq, @accounts, {include_blank: t('texts.all')}, {}  %>
-            <%= f.label  :transaction_account_id %>
+            <%= f.label :order_code_cont, "Order code" %>
+            <%= f.search_field :order_code_cont %>
+          </div>
+
+          <div class="input-field">
+            <%= f.select :payment_method_cont, Transaction.payment_method.options, {include_blank: t('texts.all')}, {} %>
+            <%= f.label :payment_method_cont, "Source" %>
+          </div>
+
+          <div class="input-field">
+            <%= f.select :transaction_category_id_eq, @categories, {include_blank: t('texts.all')}, {} %>
+            <%= f.label :transaction_category_id %>
+          </div>
+
+          <div class="input-field">
+            <%= f.select :transaction_account_id_eq, @accounts, {include_blank: t('texts.all')}, {} %>
+            <%= f.label :transaction_account_id %>
           </div>
 
           <div class="row">
@@ -160,33 +179,93 @@
           </div>
 
           <div class="input-field col s6">
+            <%= f.number_field :value_gteq %>
+            <%= f.label :value_gteq, "Value >" %>
+          </div>
+
+          <div class="input-field col s6">
+            <%= f.number_field :value_lteq %>
+            <%= f.label :value_lteq, "Value <" %>
+          </div>
+
+          <div class="input-field col s6">
+            <%= f.date_field :created_at_gteq %>
+            <%= f.label :created_at_gteq, "#{t 'created_at'} >" %>
+          </div>
+
+          <div class="input-field col s6">
+            <%= f.date_field :created_at_lteq %>
+            <%= f.label :created_at_lteq, "#{t 'created_at'} <" %>
+          </div>
+
+          <div class="input-field col s6">
             <%= f.date_field :due_gteq %>
-            <%= f.label  :due, "#{t'texts.due'} >" %>
+            <%= f.label :due, "#{t 'texts.due'} >" %>
           </div>
 
           <div class="input-field col s6">
             <%= f.date_field :due_lteq %>
-            <%= f.label  :due_lteq , "#{t'texts.due'} <"%>
+            <%= f.label :due_lteq, "#{t 'texts.due'} <" %>
           </div>
 
           <div class="input-field col s6">
             <%= f.date_field :effective_gteq %>
-            <%= f.label  :effective, "#{t'activerecord.attributes.transaction.effective'} >" %>
+            <%= f.label :effective, "#{t 'activerecord.attributes.transaction.effective'} >" %>
           </div>
 
           <div class="input-field col s6">
             <%= f.date_field :effective_lteq %>
-            <%= f.label  :effective_lteq , "#{t'activerecord.attributes.transaction.effective'} <"%>
+            <%= f.label :effective_lteq, "#{t 'activerecord.attributes.transaction.effective'} <" %>
+          </div>
+
+          <div class="mb-10">
+            <%= f.button :submit, value: "btn-filter", class: "btn right border-round" do %><%= t('button.filter') %>
+            <% end %>
+            <%= link_to t('clear'), transactions_path, class: "btn-flat" %>
+          </div>
+
+          <hr style="margin-top: 20%">
+
+          <div class="row chip-selection mb-8">
+            <small>Choose a type:</small><br>
+            <% RailsExporter::Base.file_types.each do |type| %>
+              <label>
+                <%= radio_button_tag :type, type, false, class: 'transaction_status filled-in', onchange: "toggleExport()" %>
+                <span><%= type %></span>
+              </label>
+            <% end %>
           </div>
 
           <div class="actions">
-            <%= f.submit t('button.filter'), class:"btn border-round right" %>
-            <%= link_to t('clear'), transactions_path, class: "btn-flat" %>
+            <%= f.button :submit, value: "btn-export", class: "btn right border-round", id: 'btn-export', style: 'margin-bottom: 100px !important;' do %>Export<% end %>
           </div>
-      <% end %>
-        <div class="ps__rail-x" style="left: 0px; bottom: 0px;"><div class="ps__thumb-x" tabindex="0" style="left: 0px; width: 0px;"></div></div><div class="ps__rail-y" style="top: 0px; right: 0px;"><div class="ps__thumb-y" tabindex="0" style="top: 0px; height: 0px;"></div></div>
+
+        <% end %>
+        <div class="ps__rail-x" style="left: 0px; bottom: 0px;">
+          <div class="ps__thumb-x" tabindex="0" style="left: 0px; width: 0px;"></div>
+        </div>
+        <div class="ps__rail-y" style="top: 0px; right: 0px;">
+          <div class="ps__thumb-y" tabindex="0" style="top: 0px; height: 0px;"></div>
+        </div>
       </div>
     </div>
   </aside>
 
+<% end %>
+
+<%= content_for :scripts do %>
+  <script>
+      function toggleExport() {
+          if ($("input[name='type']").is(':checked')) {
+              $('#btn-export').prop('disabled', false);
+          }
+          else {
+              $('#btn-export').prop('disabled', true);
+          }
+      }
+
+      $(document).ready(function () {
+          toggleExport();
+      });
+  </script>
 <% end %>

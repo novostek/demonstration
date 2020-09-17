@@ -47,6 +47,7 @@ en:
     payment: Payment
     public: Public
     estimate_notes: Notes For This Estimate
+    no_description: No Description
 
     photos: Photos
     images: Images

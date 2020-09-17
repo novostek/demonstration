@@ -474,6 +474,7 @@ ActiveRecord::Schema.define(version: 2020_09_13_171721) do
     t.string "email"
     t.string "status"
     t.string "square_card_id"
+    t.string "title"
     t.index ["order_id"], name: "index_transactions_on_order_id"
     t.index ["purchase_id"], name: "index_transactions_on_purchase_id"
     t.index ["transaction_account_id"], name: "index_transactions_on_transaction_account_id"

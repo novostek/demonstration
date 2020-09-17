@@ -39,6 +39,10 @@ class TransactionsController < ApplicationController
     rescue
       @total_balance= {value: 0}
     end
+
+    if params[:button].present? and params[:button] == 'btn-export' and params[:type].present?
+      send_data @transactions.export_to(params[:type]), filename: "transactions.#{params[:type]}"
+    end
   end
 
   #Método que reenvia o email com o checkout para o cliente
@@ -137,6 +141,6 @@ class TransactionsController < ApplicationController
 
     # Only allow a trusted parameter "white list" through.
     def transaction_params
-      params.require(:transaction).permit(:category, :transaction_category_id, :transaction_account_id, :order_id, :origin, :due, :effective, :value, :status)
+      params.require(:transaction).permit(:title, :category, :transaction_category_id, :transaction_account_id, :order_id, :origin, :due, :effective, :value, :status)
     end
 end

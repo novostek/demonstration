@@ -14,6 +14,10 @@ class ProductsController < ApplicationController
     end
     @q = Product.all.order(name: :asc).where(active: true).ransack(params[:q])
     @products = @q.result.page(params[:page]).per(limit)
+
+    if params[:button].present? and params[:button] == 'btn-export' and params[:type].present?
+      send_data @products.export_to(params[:type]), filename: "products.#{params[:type]}"
+    end
   end
 
   # GET /products/1

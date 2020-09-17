@@ -1,14 +1,14 @@
 class OrdersController < ApplicationController
-  before_action :set_order, only: [:new_labor_cost,:new_cost,:order_photos,:create_doc_for_signature,
-                                   :deliver_products_sign,:deliver_products,:send_sign_mail,:finish,
-                                   :finish_order_signature,:finish_order,
+  before_action :set_order, only: [:new_labor_cost, :new_cost, :order_photos, :create_doc_for_signature,
+                                   :deliver_products_sign, :deliver_products, :send_sign_mail, :finish,
+                                   :finish_order_signature, :finish_order,
                                    :show, :edit, :update, :pendent_payments,
                                    :destroy, :schedule, :create_schedule, :cancel, :reactivate,
-                                   :payments, :transaction, :product_purchase, :new_note,:new_document,
-                                   :new_contact, :invoice,:invoice_add_payment,:send_invoice_mail,
-                                   :view_invoice_customer,:costs,:change_order,:change_payment_status]
-  before_action :authenticate_user!, except: [:invoice,:deliver_products_sign,:doc_signature_mail,:doc_signature, :view_invoice_customer]
-  load_and_authorize_resource  except: [:deliver_products_sign,:doc_signature_mail,:doc_signature, :create_schedule, :delete_schedule, :view_invoice_customer]
+                                   :payments, :transaction, :product_purchase, :new_note, :new_document,
+                                   :new_contact, :invoice, :invoice_add_payment, :send_invoice_mail,
+                                   :view_invoice_customer, :costs, :change_order, :change_payment_status]
+  before_action :authenticate_user!, except: [:invoice, :deliver_products_sign, :doc_signature_mail, :doc_signature, :view_invoice_customer]
+  load_and_authorize_resource except: [:deliver_products_sign, :doc_signature_mail, :doc_signature, :create_schedule, :delete_schedule, :view_invoice_customer]
 
   def order_photos
     add_breadcrumb I18n.t("activerecord.models.orders"), orders_path
@@ -28,14 +28,14 @@ class OrdersController < ApplicationController
         pp = ProductPurchase.new(product: product, purchase: purchase) #find_or_create_by
         #binding.pry
         if params[:unity_value].blank?
-          pp.unity_value =  product.cost_price
+          pp.unity_value = product.cost_price
         else
-          pp.unity_value =  params[:unity_value]
+          pp.unity_value = params[:unity_value]
         end
         begin
           pp.quantity = pp.quantity + params[:quantity]
         rescue
-          pp.quantity =  params[:quantity]
+          pp.quantity = params[:quantity]
         end
 
         pp.value = pp.unity_value * pp.quantity
@@ -45,11 +45,12 @@ class OrdersController < ApplicationController
         pp.save
       else
         purchase = Purchase.find_or_create_by(order_id: @order.id, supplier_id: nil)
-        ProductPurchase.create(purchase: purchase, unity_value: params[:unity_value], quantity: params[:quantity], value: params[:value], custom_title: params[:custom_product],status: params[:status])
+        ProductPurchase.create(purchase: purchase, unity_value: params[:unity_value], quantity: params[:quantity], value: params[:value], custom_title: params[:custom_product], status: params[:status])
       end
       redirect_to params[:redirect], notice: t(:cost_saved)
     end
   end
+
   #Método utilizado para salvar um novo labor cost pela view de cost
   def new_labor_cost
 
@@ -86,7 +87,7 @@ class OrdersController < ApplicationController
 
     begin
       dados = SquareApi.get_customer(@order.customer.square_id)
-      @cards  = dados.body.customer[:cards] || []
+      @cards = dados.body.customer[:cards] || []
     rescue
       @cards = []
     end
@@ -159,13 +160,13 @@ class OrdersController < ApplicationController
 
     @template = Liquid::Template.parse(ERB.new(@data).result(binding))
     @estimate = @order.current_estimate
-    doc = DocumentSend.new(origin: "Order",origin_id: @order.id, data: @template.render('order' => @order.attributes ,'estimate' => @estimate.attributes, 'measurements' => JSON.parse(@estimate.measurement_areas.to_json), 'products' => JSON.parse(@estimate.product_estimates.to_json), 'customer' => JSON.parse(@estimate.customer.to_json), 'custom' => @params   ) )
+    doc = DocumentSend.new(origin: "Order", origin_id: @order.id, data: @template.render('order' => @order.attributes, 'estimate' => @estimate.attributes, 'measurements' => JSON.parse(@estimate.measurement_areas.to_json), 'products' => JSON.parse(@estimate.product_estimates.to_json), 'customer' => JSON.parse(@estimate.customer.to_json), 'custom' => @params))
     doc.save
     if !params[:sign].present?
-      DocumentMailer.with(link: doc_signature_mail_orders_url(document: doc.id,doc_name: @document.name, customer_sign: true) ,subject: params[:subject] , emails: params[:emails], order: @order).sign_order.deliver_now
+      DocumentMailer.with(link: doc_signature_mail_orders_url(document: doc.id, doc_name: @document.name, customer_sign: true), subject: params[:subject], emails: params[:emails], order: @order).sign_order.deliver_now
       redirect_to finish_order_signature_order_path(@order), notice: t('notice.order.mail_sent')
     else
-      redirect_to doc_signature_mail_orders_url(document: doc.id,doc_name: @document.name, customer_sign: true)
+      redirect_to doc_signature_mail_orders_url(document: doc.id, doc_name: @document.name, customer_sign: true)
     end
   end
 
@@ -250,7 +251,7 @@ class OrdersController < ApplicationController
 
   #Método para caputrar a assinatura da order
   def finish_order_signature
-    @documents = Document.where(sub_type: :conclusion).map{|a| [a.name,a.id]}
+    @documents = Document.where(sub_type: :conclusion).map { |a| [a.name, a.id] }
     @signature = Signature.new
     @signature.origin = "Order"
     @signature.origin_id = @order.id
@@ -297,7 +298,6 @@ class OrdersController < ApplicationController
         end
 
 
-
       end
 
       #cria as measurement_proposals , area proposal e product_estimate
@@ -307,10 +307,10 @@ class OrdersController < ApplicationController
         new_mp.save
 
         aps.each do |ap|
-            area_proposal = AreaProposal.new
-            area_proposal.measurement_area_id = change_order_estimate.measurement_areas.find_by(cloned_from: ap.measurement_area_id).id
-            area_proposal.measurement_proposal_id = new_mp.id
-            area_proposal.save
+          area_proposal = AreaProposal.new
+          area_proposal.measurement_area_id = change_order_estimate.measurement_areas.find_by(cloned_from: ap.measurement_area_id).id
+          area_proposal.measurement_proposal_id = new_mp.id
+          area_proposal.save
         end
 
         #cria os products_estimate
@@ -320,7 +320,6 @@ class OrdersController < ApplicationController
           new_pe.save
         end
       end
-
 
 
     end
@@ -392,16 +391,30 @@ class OrdersController < ApplicationController
     @workers = Worker.to_select
     @purchases = @order.purchases
     @order_products = @order.get_products
-    @taxes = @order.product_purchases.where(product_purchases: { tax: true })
+    @taxes = @order.product_purchases.where(product_purchases: {tax: true})
     @labor_costs = @order.labor_costs.order(date: :asc)
 
     add_breadcrumb I18n.t("activerecord.models.orders"), orders_path
     add_breadcrumb I18n.t("breadcrumb.show"), order_path(@order)
     add_breadcrumb I18n.t("breadcrumb.costs"), costs_order_path(@order)
+
+    if params[:button].present? and params[:button] == 'btn-export' and params[:type].present?
+      @orders = Order.includes(:labor_costs, :current_estimate, :customer, :purchases, {purchases: [:supplier, :product_purchases]}).where(id: params[:id])
+
+      request.format = params[:type]
+    end
+
+    respond_to do |format|
+      format.html
+      format.xlsx { response.headers['Content-Disposition'] = 'attachment; filename="costs.xlsx' }
+      format.xls { send_data @orders.export_to(params[:type], :costs), filename: "costs.#{params[:type]}" }
+      format.csv { send_data @orders.export_to(params[:type], :costs), filename: "costs.#{params[:type]}" }
+      format.xml { send_data @orders.export_to(params[:type], :costs), filename: "costs.#{params[:type]}" }
+    end
   end
 
   def send_invoice_mail
-    DocumentMailer.with(subject: params[:subject] , emails: params[:emails], order: @order, link: "#{Setting.url}#{view_invoice_customer_order_path(@order)}").send_invoice.deliver_now
+    DocumentMailer.with(subject: params[:subject], emails: params[:emails], order: @order, link: "#{Setting.url}#{view_invoice_customer_order_path(@order)}").send_invoice.deliver_now
     redirect_to invoice_order_path(@order), notice: t('notice.order.invoice_sent')
   end
 
@@ -412,8 +425,8 @@ class OrdersController < ApplicationController
 
   # GET /orders
   def index
-    @q = Order.all.order(created_at: :desc).ransack(params[:q])
-    @orders = @q.result.page(params[:page])
+    @q = Order.ransack(params[:q])
+    @orders = @q.result.order(created_at: :desc).page(params[:page])
     @orders_month = Order.where("extract(month from start_at) = ? and extract(year from start_at) = ?", Date.today.month, Date.today.year)
     @last_month_orders = Order.where("extract(month from start_at) = ? and extract(year from start_at) = ?", (Date.today - 1.month).month, (Date.today - 1.month).year)
     @transactions = Transaction.where("extract(month from due) = ?", Date.today.month).where(status: :pendent)
@@ -421,20 +434,23 @@ class OrdersController < ApplicationController
 
 
     #calculo de crescimento
-    total_passado = @last_month_orders.sum{|a| a.current_estimate.get_total_value}
+    total_passado = @last_month_orders.sum { |a| a.current_estimate.get_total_value }
     if total_passado == 0
       total_passado = 1
     end
-    @total_atual = @orders_month.sum{|a| a.current_estimate.get_total_value}
+    @total_atual = @orders_month.sum { |a| a.current_estimate.get_total_value }
     @resultado = @total_atual - total_passado
-    resultado2 = @resultado/total_passado
+    resultado2 = @resultado / total_passado
     @crecimento = resultado2 * 100
-
 
 
     @profit = @total_atual - @orders_month.sum(:total_cost)
 
-    @profit_today = @orders_today.sum{|a| a.current_estimate.get_total_value}  - @orders_today.sum(:total_cost)
+    @profit_today = @orders_today.sum { |a| a.current_estimate.get_total_value } - @orders_today.sum(:total_cost)
+
+    if params[:button].present? and params[:button] == 'btn-export' and params[:type].present?
+      send_data @orders.export_to(params[:type]), filename: "orders.#{params[:type]}"
+    end
   end
 
   def invoice_add_payment
@@ -448,13 +464,12 @@ class OrdersController < ApplicationController
     transaction.square_card_id = params[:square_card_id]
     transaction.order = @order
     if transaction.save
-      redirect_to invoice_order_path(@order),notice: t('notice.order.payment_added')
+      redirect_to invoice_order_path(@order), notice: t('notice.order.payment_added')
     else
-      redirect_to invoice_order_path(@order),notice: transaction.errors.full_messages.to_sentence
+      redirect_to invoice_order_path(@order), notice: transaction.errors.full_messages.to_sentence
     end
 
   end
-
 
 
   # GET /orders/1
@@ -471,7 +486,7 @@ class OrdersController < ApplicationController
     end
 
     begin
-      @templates = SendGridMail.get_templates["templates"].map{|a| [a["name"],a["id"]]}
+      @templates = SendGridMail.get_templates["templates"].map { |a| [a["name"], a["id"]] }
     rescue
       @templates = []
     end
@@ -509,7 +524,7 @@ class OrdersController < ApplicationController
         if params[:status] == true #finishing order
           @order.update(status: :finished, end_at: Date.today)
           redirect_to @order, notice: "Order Finished"
-        else#go to sign
+        else #go to sign
           redirect_to finish_order_signature_order_path(@order)
         end
 
@@ -565,7 +580,7 @@ class OrdersController < ApplicationController
 
     begin
       dados = SquareApi.get_customer(@order.customer.square_id)
-      @cards  = dados.body.customer[:cards] || []
+      @cards = dados.body.customer[:cards] || []
     rescue
       @cards = []
     end
@@ -607,7 +622,6 @@ class OrdersController < ApplicationController
   end
 
 
-
   #método que insere um novo documento
   def new_document
     doc = DocumentFile.new
@@ -646,11 +660,11 @@ class OrdersController < ApplicationController
 
     respond_to do |format|
       if @order.save
-          format.html { redirect_to order_path(@order), notice: "#{t 'notice.order.cancelled'}" }
-          format.json { render json: nil, status: :ok }
+        format.html { redirect_to order_path(@order), notice: "#{t 'notice.order.cancelled'}" }
+        format.json { render json: nil, status: :ok }
       else
-          format.html { redirect_to order_path(@order), notice: "#{t 'notice.order.cancelled_error'}" }
-          format.json { render json: nil, status: :internal_server_error }
+        format.html { redirect_to order_path(@order), notice: "#{t 'notice.order.cancelled_error'}" }
+        format.json { render json: nil, status: :internal_server_error }
       end
     end
   end
@@ -666,8 +680,8 @@ class OrdersController < ApplicationController
 
   def pendent_payments
     payments = @order.transactions.where(status: "pendent")
-    result= {
-        order:{
+    result = {
+        order: {
             code: @order.code,
             customer: @order.current_estimate.customer,
             price: @order.current_estimate.total,
@@ -684,6 +698,7 @@ class OrdersController < ApplicationController
   end
 
   private
+
   # Use callbacks to share common setup or constraints between actions.
   def set_order
     @order = Order.find(params[:id])
@@ -694,7 +709,7 @@ class OrdersController < ApplicationController
     params.require(:order).permit(
         :id, :code, :status, :bpmn_instance, :start_at, :end_at, {photos: []},
         transactions_attributes: [
-            :id, :origin, :origin_id, :value, :payment_method, :due,:email,:square_card_id, :_destroy
+            :id, :origin, :origin_id, :value, :payment_method, :due, :email, :square_card_id, :_destroy
         ])
   end
 end

@@ -15,3 +15,8 @@ en:
     buyed: Bought
     delivered: Delivered
     returned: Returned
+  notice:
+    product_purchase:
+      created: "Product purchase was successfully created."
+      updated: "Product purchase was sucessfully updated."
+      deleted: "Product purchase was sucessfully deleted."

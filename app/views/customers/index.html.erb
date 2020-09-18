@@ -15,8 +15,8 @@
         </ol>
       </div>
       <div class="col s2 m6 l6">
-        <div class=" btn-secondary sidenav-trigger btn waves-effect waves-light breadcrumbs-btn right" data-target="slide-out-right-exports-dates">Filter</div>
-        <a class="mr-2 btn waves-effect waves-light breadcrumbs-btn right border-round" href="<%= new_customer_path %>"><i class="material-icons hide-on-med-and-up">add</i><span class="hide-on-small-only"><%= t "button.add" %> <%= t('activerecord.models.customer') %></span></a>
+        <a class="btn waves-effect waves-light breadcrumbs-btn right border-round" href="<%= new_customer_path %>"><i class="material-icons hide-on-med-and-up">add</i><span class="hide-on-small-only"><%= t "button.add" %> <%= t('activerecord.models.customer') %></span></a>
+        <div class="mr-2 btn-secondary sidenav-trigger btn waves-effect waves-light breadcrumbs-btn right" data-target="slide-out-right-exports-dates">Filter</div>
       </div>
     </div>
   </div>
@@ -80,7 +80,7 @@
 
 <%= content_for :sidenav do %>
   <aside id="right-sidebar-nav">
-    <div id="slide-out-right-exports-dates" style="width: 340px;" class="slide-out-right-sidenav sidenav rightside-navigation right-aligned">
+    <div id="slide-out-right-exports-dates" style="width: 340px" class="slide-out-right-sidenav sidenav rightside-navigation right-aligned">
 
       <div class="row">
         <div class="slide-out-right-title">
@@ -91,7 +91,7 @@
         </div>
       </div>
 
-      <div class="slide-out-right-body row pl-3 pr-3 ps">
+      <div class="slide-out-right-body row pl-3 pr-3 ps" style="height: 100%">
         <%= search_form_for @q, url: request.env['PATH_INFO'], id: 'form-export' do |f| %>
           <%= f.hidden_field :name_or_category_or_document_id_or_code_cont %>
 
@@ -116,7 +116,7 @@
               <%= link_to t('clear'), customers_path, class: "btn-flat" %>
             </div>
 
-            <hr style="margin-top: 50%">
+            <hr style="margin-top: 20%">
 
             <div class="row chip-selection mb-8">
               <small>Choose a type:</small><br>
@@ -129,11 +129,18 @@
             </div>
 
             <div class="actions">
-              <%= f.button :submit, value: "btn-export", class: "btn right border-round", id: 'btn-export' do %>Export<% end %>
+              <%= f.button :submit, value: "btn-export", class: "btn right border-round", id: 'btn-export', style: 'margin-bottom: 150px !important;' do %>Export<% end %>
             </div>
 
           </div>
         <% end %>
+
+<!--        <div class="ps__rail-x" style="left: 0px; bottom: 0px;">-->
+<!--          <div class="ps__thumb-x" tabindex="0" style="left: 0px; width: 0px;"></div>-->
+<!--        </div>-->
+<!--        <div class="ps__rail-y" style="top: 0px; right: 0px;">-->
+<!--          <div class="ps__thumb-y" tabindex="0" style="top: 0px; height: 0px;"></div>-->
+<!--        </div>-->
       </div>
     </div>
   </aside>

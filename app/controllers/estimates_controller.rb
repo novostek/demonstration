@@ -14,7 +14,7 @@ class EstimatesController < ApplicationController
     @status = Estimate.status.options
 
     if params[:button].present? and params[:button] == 'btn-export' and params[:type].present?
-      send_data @estimates.export_to(params[:type]), filename: "estimates.#{params[:type]}"
+      send_data @q.result.export_to(params[:type]), filename: "estimates.#{params[:type]}"
     end
   end
 

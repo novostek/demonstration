@@ -41,7 +41,7 @@ class TransactionsController < ApplicationController
     end
 
     if params[:button].present? and params[:button] == 'btn-export' and params[:type].present?
-      send_data @transactions.export_to(params[:type]), filename: "transactions.#{params[:type]}"
+      send_data @q.result.export_to(params[:type]), filename: "transactions.#{params[:type]}"
     end
   end
 

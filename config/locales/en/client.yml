@@ -84,6 +84,7 @@ en:
         main_phone: Main phone
         phone_value: (999) 999-9999
         main_email: Main email
+        main_address: Main address
         email_value: example@mail.com
         lead: Example of Lead
         product_category: Tools

@@ -22,6 +22,8 @@ en:
         payment_method: Payment method
         square_card_id: Square card
         status: Status
+
+        order_code: Order code
   enumerize:
     transaction:
       payment_method:

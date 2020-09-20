@@ -98,6 +98,8 @@ en:
     count: Count
     card: Card
 
+    choose_a_type: Choose a type
+
   # buttons
   button:
     back: "Back"
@@ -158,6 +160,8 @@ en:
     get_directions: Get Directions
     decline: Decline
     add_product: Add product
+
+    export: Export
 
   #
   false: "No"

@@ -16,7 +16,7 @@
 						</div>
 						<!-- <div class="col s2 m6 l6"><a class="btn waves-effect waves-light breadcrumbs-btn right border-round" href="estimate-add.html"><i class="material-icons hide-on-med-and-up">add</i><span class="hide-on-small-only">Add estimate</span></a> -->
             <div class="col s2 m6 l6">
-              <div class=" btn-secondary sidenav-trigger btn waves-effect waves-light breadcrumbs-btn right" data-target="slide-out-right-exports-dates">Filter</div>
+              <div class=" btn-secondary sidenav-trigger btn waves-effect waves-light breadcrumbs-btn right" data-target="slide-out-right-exports-dates"><%= t 'button.filter' %></div>
             </div>
 						</div>
 					</div>
@@ -76,7 +76,7 @@
 										</div>
 										<div class="col s7 m7 right-align">
 											<h5 class="mb-0 white-text hide-numbers" id="profit-numbers"><%= number_to_currency(@profit) %></h5>
-											<p class="no-margin">Today</p>
+											<p class="no-margin"><%= t 'texts.dashboard.today' %></p>
 											<p><%= number_to_currency(@profit_today) %></p>
 										</div>
 									</div>
@@ -251,7 +251,7 @@
             </div>
 
             <div class="actions">
-              <%= f.button :submit, value: "btn-export", class: "btn right border-round", id: 'btn-export' do %>Export<% end %>
+              <%= f.button :submit, value: "btn-export", class: "btn right border-round", id: 'btn-export' do %><%= t 'button.export' %><% end %>
             </div>
 
           </div>

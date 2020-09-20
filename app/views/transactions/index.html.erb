@@ -61,7 +61,7 @@
                     <% elsif transaction.origin.present? %>
                         <%= transaction.origin %>
                       <% else %>
-                      <%= t('texts.no_desctiption') %>
+                      <%= t('texts.no_description') %>
                     <% end %>
 
                       <br>
@@ -142,18 +142,18 @@
       <div class="slide-out-right-body row pl-3 pr-3 ps">
         <%= search_form_for @q, url: request.env['PATH_INFO'] do |f| %>
           <div class="input-field">
-            <%= f.label :title_cont, "Title" %>
+            <%= f.label :title_cont, t('activerecord.attributes.transaction.title') %>
             <%= f.search_field :title_cont %>
           </div>
 
           <div class="input-field">
-            <%= f.label :order_code_cont, "Order code" %>
+            <%= f.label :order_code_cont, t('activerecord.attributes.transaction.order_code') %>
             <%= f.search_field :order_code_cont %>
           </div>
 
           <div class="input-field">
             <%= f.select :payment_method_cont, Transaction.payment_method.options, {include_blank: t('texts.all')}, {} %>
-            <%= f.label :payment_method_cont, "Source" %>
+            <%= f.label :payment_method_cont, t('texts.source') %>
           </div>
 
           <div class="input-field">
@@ -180,12 +180,12 @@
 
           <div class="input-field col s6">
             <%= f.number_field :value_gteq %>
-            <%= f.label :value_gteq, "Value >" %>
+            <%= f.label :value_gteq, "#{t 'texts.value'} >" %>
           </div>
 
           <div class="input-field col s6">
             <%= f.number_field :value_lteq %>
-            <%= f.label :value_lteq, "Value <" %>
+            <%= f.label :value_lteq, "#{t 'texts.value'} <" %>
           </div>
 
           <div class="input-field col s6">
@@ -227,7 +227,7 @@
           <hr style="margin-top: 20%">
 
           <div class="row chip-selection mb-8">
-            <small>Choose a type:</small><br>
+            <small><%= t 'texts.choose_a_type' %>:</small><br>
             <% RailsExporter::Base.file_types.each do |type| %>
               <label>
                 <%= radio_button_tag :type, type, false, class: 'transaction_status filled-in', onchange: "toggleExport()" %>
@@ -237,7 +237,7 @@
           </div>
 
           <div class="actions">
-            <%= f.button :submit, value: "btn-export", class: "btn right border-round", id: 'btn-export', style: 'margin-bottom: 100px !important;' do %>Export<% end %>
+            <%= f.button :submit, value: "btn-export", class: "btn right border-round", id: 'btn-export', style: 'margin-bottom: 100px !important;' do %><%= t 'button.export' %><% end %>
           </div>
 
         <% end %>

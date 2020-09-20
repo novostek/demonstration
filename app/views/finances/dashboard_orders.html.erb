@@ -149,6 +149,7 @@
                           <%= t('button.filter') %>
                         <% end %>
                         <%= link_to 'Clear filters', finance_dashboard_orders_path, class: "btn right border-round btn-secondary mr-2 waves-effect waves-block waves-light sidenav-trigger" %>
+                        <div class="mr-2 btn-secondary sidenav-trigger btn waves-effect waves-light breadcrumbs-btn right" data-target="slide-out-right-exports-dates">Export</div>
                       </div>
                     </div>
 
@@ -557,6 +558,68 @@
       $(".item-status").on("click", function () {
           $(".oc-item").removeClass("dropdown-activated");
           $(this).parent().parent().addClass("dropdown-activated");
+      });
+  </script>
+<% end %>
+
+<!--sidenav export-->
+<%= content_for :sidenav do %>
+  <aside id="right-sidebar-nav">
+    <div id="slide-out-right-exports-dates" style="width: 340px;" class="slide-out-right-sidenav sidenav rightside-navigation right-aligned">
+
+      <div class="row">
+        <div class="slide-out-right-title">
+          <div class="col s12 pl-3">
+            <i class="material-icons right "><a href="#" target="_self" class="sidenav-close">clear</a></i>
+            <h5>Export</h5>
+          </div>
+        </div>
+      </div>
+
+      <div class="slide-out-right-body row pl-3 pr-3 ps">
+        <%= search_form_for @q, url: request.env['PATH_INFO'], id: 'form-export' do |f| %>
+          <%= f.hidden_field :code_cont %>
+          <%= f.hidden_field :status_eq %>
+          <%= f.hidden_field :purchases_product_purchases_product_name_or_purchases_product_purchases_custom_title_cont %>
+          <%= f.hidden_field :purchases_product_purchases_status_eq %>
+          <%= f.hidden_field :purchases_supplier_name_cont %>
+          <%= f.hidden_field :current_estimate_worker_name_cont %>
+          <%= f.hidden_field :customer_name_cont %>
+
+          <div class="row chip-selection mb-8">
+            <small>Choose a type:</small><br>
+            <% RailsExporter::Base.file_types.each do |type| %>
+              <% type = 'xlsx' if type.eql? :xls %>
+              <label>
+                <%= radio_button_tag :type, type, false, class: 'transaction_status filled-in', onchange: "toggleExport()" %>
+                <span><%= type %></span>
+              </label>
+            <% end %>
+          </div>
+
+          <div class="actions">
+            <%= f.button :submit, value: "btn-export", class: "btn right border-round", id: 'btn-export' do %>Export<% end %>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  </aside>
+<% end %>
+
+<!--js export-->
+<%= content_for :scripts do %>
+  <script>
+      function toggleExport() {
+          if ($("input[name='type']").is(':checked')) {
+              $('#btn-export').prop('disabled', false);
+          }
+          else {
+              $('#btn-export').prop('disabled', true);
+          }
+      }
+
+      $(document).ready(function () {
+          toggleExport();
       });
   </script>
 <% end %>

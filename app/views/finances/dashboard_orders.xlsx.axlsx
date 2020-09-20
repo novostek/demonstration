@@ -1,0 +1,56 @@
+wb = xlsx_package.workbook
+s = wb.styles
+summary = s.add_style b: true
+
+wb.add_worksheet(name: "Costs") do |sheet|
+  # Order and Products
+  sheet.add_row ['', 'Customer', 'Ordered', 'Code', 'Tax', 'Taxpayer', 'Total cost', 'Status Order',
+                 'Product', 'Supplier', 'Qtd.', 'Price', 'Subtotal', 'Delivered', 'Status product'], style: summary
+
+  @orders_array.each_with_index do |order, i|
+
+    product_purchases = order.product_purchases.select { |pp| pp.tax == false }
+
+    if product_purchases.any?
+      product_purchases.each do |pp|
+        sheet.add_row [
+                          i+1,
+                          order.customer.name,
+                          order.created_at.to_s,
+                          order.code,
+                          order.current_estimate.tax || 0,
+                          order.current_estimate.taxpayer.present? ? I18n.t("enumerize.estimate.taxpayer.#{order.current_estimate.taxpayer}") : '',
+                          order.get_current_estimate.total,
+                          order.status_text,
+
+                          pp.product || pp.custom_title,
+                          pp.purchase.supplier || 'No Supplier',
+                          pp.quantity,
+                          pp.unity_value.to_f,
+                          pp.value.to_f,
+                          pp.status.delivered? ? pp.updated_at.strftime("%m/%d/%Y") : '',
+                          pp.status_text
+                      ]
+      end
+    else
+      sheet.add_row [
+                        i+1,
+                        order.customer.name,
+                        order.created_at.to_s,
+                        order.code,
+                        order.current_estimate.tax || 0,
+                        order.current_estimate.taxpayer.present? ? I18n.t("enumerize.estimate.taxpayer.#{order.current_estimate.taxpayer}") : '',
+                        order.get_current_estimate.total,
+                        order.status_text,
+
+                        '',
+                        '',
+                        '',
+                        '',
+                        '',
+                        '',
+                        ''
+                    ]
+    end
+  end
+end

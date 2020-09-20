@@ -24,9 +24,9 @@ class BpmnEditorController < ApplicationController
           :payload => {multipart: true, file: File.new(filename, 'rb') }
       )
       File.delete(filename) if File.exist?(filename)
-      render js: "alert('Deployed!')"
+      render js: "alert('#{t('notice.bpm.deployed')}')"
     rescue
-      render js: "alert('Error, try again later')"
+      render js: "alert('#{t('notice.bpm.try_again_later')}')"
     end
   end
 end

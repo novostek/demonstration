@@ -5,7 +5,7 @@
   <div class="container">
     <div class="row">
       <div class="col s10 m6 l6">
-        <h5 class="breadcrumbs-title mt-0 mb-0"><%= t 'title_step_shedules_estimate' %></h5>
+        <h5 class="breadcrumbs-title mt-0 mb-0"><%= t 'texts.estimate.title_step_shedules_estimate' %></h5>
         <ol class="breadcrumbs mb-0">
           <%= render_breadcrumbs :tag => :li, :separator => "" %>
         </ol>
@@ -42,19 +42,19 @@
           <li class="step">
             <% if @estimate.measurements.present? %>
               <%= link_to measurement_view_estimates_path(@estimate) do %>
-                <div class="step-title waves-effect"><%= t 'measurements' %></div>
+                <div class="step-title waves-effect"><%= t 'texts.estimate.measurements' %></div>
               <% end %>
             <% else %>
-                <div class="step-title waves-effect"><%= t 'measurements' %></div>
+                <div class="step-title waves-effect"><%= t 'texts.estimate.measurements' %></div>
             <% end %>
           </li>
           <li class="step">
             <% if @estimate.product_estimates.present? %>
               <%= link_to products_estimate_path(@estimate) do %>
-                <div class="step-title waves-effect"><%= t 'itens' %></div>
+                <div class="step-title waves-effect"><%= t 'texts.estimate.itens' %></div>
               <% end %>
             <% else %>
-              <div class="step-title waves-effect"><%= t 'itens' %></div>
+              <div class="step-title waves-effect"><%= t 'texts.estimate.itens' %></div>
             <% end %>
           </li>
         </ul>
@@ -74,7 +74,7 @@
                 <p>
                   <label>
                     <input type="checkbox" id="drop-remove" />
-                    <span><%= t 'remove_after_drop' %></span>
+                    <span><%= t 'texts.estimate.remove_after_drop' %></span>
                   </label>
                 </p>
                 <p>
@@ -99,7 +99,7 @@
       <% end %>
       <%= link_to measurement_view_estimates_path(id: @estimate.id), target: '_self',
         class: "btn indigo waves-effect waves-light breadcrumbs-btn right ml-1" do %>
-        <%= t 'button.next' %>: <%= t 'measurements' %>
+        <%= t 'button.next' %>: <%= t 'texts.estimate.measurements' %>
         <i class="material-icons right">arrow_forward</i>
       <% end %>
 

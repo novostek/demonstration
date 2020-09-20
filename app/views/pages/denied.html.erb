@@ -6,8 +6,8 @@
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimal-ui">
-  <meta name="author" content="Woffice LLC">
-  <title>Access Denied | Woffice </title>
+  <meta name="author" content="<%= t 'texts.layout.woffice_llc' %>">
+  <title><%= t 'texts.pages.title' %></title>
   <link rel="apple-touch-icon" href="/materialize/images/favicon/apple-touch-icon-152x152.png">
   <link rel="shortcut icon" type="image/x-icon" href="/materialize/images/favicon/favicon-32x32.png">
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
@@ -30,7 +30,7 @@
 <body class="page404">
 <div class="error-wrapper">
   <div class="error-logo animated fadeInDown">
-    <img src="/woffice.svg" alt="Woffice">
+    <img src="/woffice.svg" alt="<%= t 'woffice' %>">
   </div>
   <div class="error-content">
     <div class="error-img animate fadeUp">
@@ -38,9 +38,9 @@
     </div>
     <div class="error-msg">
       <h1 class="animate fadeRight">
-        You are measuring beyond what you can. You are not yet allowed to access this page.
+        <%= t 'texts.pages.you_not_access_this_page' %>
       </h1>
-      <a href="/" class="btn-error btn border-round animate fadeRight">Go to homepage</a>
+      <a href="/" class="btn-error btn border-round animate fadeRight"><%= t 'texts.pages.go_to_homepage' %></a>
     </div>
   </div>
 </div>

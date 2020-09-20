@@ -57,7 +57,7 @@ class DocumentMailer < ApplicationMailer
     attachments.inline['square.png'] = File.read("#{Rails.root}/public/logo.png")
     attachments.inline['woffice.png'] = File.read("#{Rails.root}/public/woffice.png")
 
-    mail(to: params[:emails], subject: "Payment of Order N* #{@order.code}")
+    mail(to: params[:emails], subject: "#{t 'texts.document_mailer.payment_of_order_n'} #{@order.code}")
   end
 
   #Método de envio de email com a confirmação do schedule
@@ -67,14 +67,14 @@ class DocumentMailer < ApplicationMailer
 
     attachments.inline['logo.png'] = File.read("#{Rails.root}/public/woffice.png")
 
-    mail(to: params[:emails], subject: "Schedule confirmation")
+    mail(to: params[:emails], subject: t('texts.document_mailer.schedule_confirmation'))
   end
 
   #Método de envio do estimate assinado pelo cliente
   def send_signed_estimate_mail
     @estimate = params[:estimate]
     mail(to: Setting.get_value("mail_address").present? ? Setting.get_value("company_email") : "smtp.gmail.com",
-         subject: "#{@estimate.customer.name.split.first} approved the estimate nº #{@estimate.code}")
+         subject: "#{@estimate.customer.name.split.first} #{t 'texts.document_mailer.approved_the_estimate_n'} #{@estimate.code}")
   end
 
   # Avisa a empresa que recebeu pagamento via square
@@ -82,7 +82,7 @@ class DocumentMailer < ApplicationMailer
     #binding.pry
     @transaction = params[:transaction]
     mail(to: Setting.get_value("mail_address").present? ? Setting.get_value("company_email") : "smtp.gmail.com",
-         subject: "Payment Received by Square")
+         subject: t('texts.document_mailer.payment_received_by_square'))
   end
 
   # Avisa o cliente que seu pagamento foi registrado
@@ -91,7 +91,7 @@ class DocumentMailer < ApplicationMailer
     @customer = @transaction.customer
 
     mail(to: @customer.get_main_email_f,
-         subject: "Your payment has been registered with the woffice")
+         subject: t('texts.document_mailer.your_payment_has_been_registered_with_the_woffice'))
   end
 
   # Avisa a empresa que o cliente rejeitou estimate

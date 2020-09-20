@@ -2,7 +2,7 @@
 <html lang="en" style="box-sizing: border-box;"><head style="box-sizing: border-box;">
   <meta charset="UTF-8" style="box-sizing: border-box;">
   <meta name="viewport" content="width=device-width, initial-scale=1.0" style="box-sizing: border-box;">
-  <title style="box-sizing: border-box;">Email</title>
+  <title style="box-sizing: border-box;"><%= t 'texts.email' %></title>
   <link href="https://fonts.googleapis.com/css?family=Muli:400,500&amp;display=swap" rel="stylesheet" style="box-sizing: border-box;">
   <style style="box-sizing: border-box;">
     *,
@@ -348,14 +348,14 @@
       <%= yield %>
     </p>
     <section class="email-signature" style="box-sizing: border-box;border-top: 1px solid #f5b000;margin-top: 30px;padding-top: 20px;color: #555;">
-      <p style="box-sizing: border-box;">Regards,</p>
+      <p style="box-sizing: border-box;"><%= t 'texts.layout.regards' %>,</p>
       <p style="box-sizing: border-box;"><b><%= Setting.get_value("company_full_name") %></b></p>
       <p style="box-sizing: border-box;"><%= Setting.get_value("company_address") %></p>
       <p style="box-sizing: border-box;"><%= Setting.get_value("company_email") %></p>
       <p style="box-sizing: border-box;"><%= Setting.get_value("company_phone") %></p>
       <p>&nbsp;</p>
       <div class="woffice-logo-footer" style="box-sizing: border-box;">
-        Powered by: <br>
+        <%= t 'texts.layout.powered_by' %>: <br>
         <a href="https://www.woffice.app">
           <img src="http://public.woffice.site/woffice.png" alt="" class="woffice-logo-footer-img" style="box-sizing: border-box;">
         </a>

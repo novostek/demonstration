@@ -32,6 +32,10 @@ module Woffice
 
     # if ENV['RAILS_ENV'] == 'production'
 
+    # config para traduz msg de erro
+    config.exceptions_app = self.routes
+
+
     # end
       #config.middleware.use
     Raven.configure do |config|

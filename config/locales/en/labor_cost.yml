@@ -2,12 +2,15 @@ en:
   activerecord:
     models:
       labor_cost: "Labor Cost"
+      labor_costs: "Labor Costs"
     attributes:
       labor_cost:
+        worker: "Worker"
         worker_id: "Worker"
         date: "Date"
         status: "Status"
         value: "Value"
+        schedule: Schedule
   enumerize:
     labor_cost:
       status:

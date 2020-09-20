@@ -79,7 +79,7 @@
                   <th><%= t 'activerecord.attributes.product_estimate.quantity' %></th>
                   <th><%= t 'activerecord.attributes.product_estimate.unitary_value' %></th>
                   <th><%= t 'activerecord.attributes.product_estimate.discount' %></th>
-                  <th class="right-align"><%= t 'subtotal' %></th>
+                  <th class="right-align"><%= t 'texts.estimate.subtotal' %></th>
                 </tr>
                 </thead>
                 <tbody>
@@ -93,7 +93,7 @@
                   </tr>
                 <% end %>
                 <tr class="white">
-                  <td class="right-align" colspan="100"><strong><%= t 'subtotal_area' %>:</strong><br>$<%= mp.product_estimates.sum(:value) %></td>
+                  <td class="right-align" colspan="100"><strong><%= t 'texts.estimate.subtotal_area' %>:</strong><br>$<%= mp.product_estimates.sum(:value) %></td>
                 </tr>
                 </tbody>
               </table>
@@ -109,11 +109,11 @@
           <div class="col xl4 m7 s12 offset-xl3">
             <ul>
               <li class="display-flex justify-content-between">
-                <span class="invoice-subtotal-title"><%= t 'subtotal' %></span>
+                <span class="invoice-subtotal-title"><%= t 'texts.estimate.subtotal' %></span>
                 <h6 class="mt-0">$<%= @estimate.product_estimates.sum(:value).to_f %></h6>
               </li>
               <li class="display-flex justify-content-between">
-                <span class="invoice-subtotal-title"><%= t 'discount' %></span>
+                <span class="invoice-subtotal-title"><%= t 'texts.estimate.discount' %></span>
                 <h6 class="mt-0">$ <%= @estimate.product_estimates.sum(:discount).to_f %></h6>
               </li>
               <li class="display-flex justify-content-between">
@@ -122,7 +122,7 @@
               </li>
               <li class="divider mt-2 mb-2"></li>
               <li class="display-flex justify-content-between">
-                <span class="invoice-subtotal-title"><%= t 'estimate_total' %></span>
+                <span class="invoice-subtotal-title"><%= t 'texts.estimate.estimate_total' %></span>
                 <h6 class="mt-0">$ <%= @estimate.get_total_value %></h6>
               </li>
             </ul>

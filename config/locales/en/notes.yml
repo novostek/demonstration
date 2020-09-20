@@ -2,11 +2,14 @@ en:
   activerecord:
     models:
       note: "Note"
-      ntoes: "Notes"
+      notes: "Notes"
     attributes:
       note:
         title: Title
         text: Text
+        private: Private
+        origin: Origin
+        origin_id: Origin ID
   notice:
     note:
       created: "Note was successfully created."

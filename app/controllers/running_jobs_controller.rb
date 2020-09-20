@@ -31,7 +31,7 @@ class RunningJobsController < ApplicationController
     @running_job = RunningJob.new(running_job_params)
 
     if @running_job.save
-      redirect_to @running_job, notice: 'Running job foi criado com sucesso'
+      redirect_to @running_job, notice: t('notice.running_job.created')
     else
       render :new
     end
@@ -40,7 +40,7 @@ class RunningJobsController < ApplicationController
   # PATCH/PUT /running_jobs/1
   def update
     if @running_job.update(running_job_params)
-      redirect_to @running_job, notice: 'Running job foi atualizado com sucesso.'
+      redirect_to @running_job, notice: t('notice.running_job.updated')
     else
       render :edit
     end
@@ -49,7 +49,7 @@ class RunningJobsController < ApplicationController
   # DELETE /running_jobs/1
   def destroy
     @running_job.destroy
-    redirect_to running_jobs_url, notice: 'Running job foi apagado com sucesso.'
+    redirect_to running_jobs_url, notice: t('notice.running_job.deleted')
   end
 
   private

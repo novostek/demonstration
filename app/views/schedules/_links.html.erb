@@ -3,7 +3,7 @@
     <%= link_to "#{t('breadcrumb.show')} #{t"activerecord.models.#{schedule.origin.downcase}"}", "/#{schedule.origin.tableize}/#{schedule.origin_id}", class: "collection-item" %>
 
     <% if schedule.origin == "Estimate" %>
-      <%= link_to t('measurements'), "#{schedule.origin.tableize}/#{schedule.origin_id}/measurements", class: "collection-item" %>
+      <%= link_to t('texts.estimate.measurements'), "#{schedule.origin.tableize}/#{schedule.origin_id}/measurements", class: "collection-item" %>
     <% end %>
 
   <% end %>

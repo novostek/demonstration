@@ -1,0 +1,16 @@
+en:
+  texts:
+    dashboard:
+      30_days_summary: 30 days summary
+      today: Today
+      income: Income
+      expenses: Expenses
+      receivables: Receivables
+      overdue_orders: Overdue orders
+      materials_costs: Materials costs
+      workers_costs: Workers costs
+      latest_orders: Latest orders
+      total_clients: Total Clients
+      recent_clients: Recent clients
+      conversion_ratio: Conversion Ratio
+      this_month_conversion_ratio: This month conversion ratio

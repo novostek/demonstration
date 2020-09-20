@@ -33,9 +33,9 @@ class ProductPurchasesController < ApplicationController
     @product_purchase.status = params[:status].to_sym
     if @product_purchase.save
       if params[:status] == 'delivered'
-        render json: {status: "ok", dateDelivered: @product_purchase.updated_at.strftime("%m/%d/%Y"), msg: "Changed to #{params[:status]}"}
+        render json: {status: "ok", dateDelivered: @product_purchase.updated_at.strftime("%m/%d/%Y"), msg: "#{t 'texts.product_purchase.changed_to'} #{params[:status]}"}
       else
-        render json: {status: "ok", msg: "Changed to #{params[:status]}"}
+        render json: {status: "ok", msg: "#{t 'texts.product_purchase.changed_to'} #{params[:status]}"}
       end
     else
       render json: {status: "error", msg: @product_purchase.errors.full_message.to_sentence}

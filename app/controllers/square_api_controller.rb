@@ -10,7 +10,7 @@ class SquareApiController < ApplicationController
       s.save
     end
       #render json: {msg: "OK"}
-    redirect_to settings_path, notice: "Square Linked"
+    redirect_to settings_path, notice: t('notice.square_api.square_linked')
   end
 
   def callback
@@ -65,13 +65,13 @@ class SquareApiController < ApplicationController
 
     if result.success?
       if params[:estimate].present?
-        redirect_to nonce_success_square_apis_path(estimate: params[:estimate], success:  true), notice: "Card add successful"
+        redirect_to nonce_success_square_apis_path(estimate: params[:estimate], success:  true), notice: t('notice.customer.card_add_successful')
       else
         if params[:from].present? and params[:from] == "email"
-          redirect_to nonce_success_square_apis_path(customer:params[:customer_woffice], from: "email", success:  true ), notice: "Card add successful"
+          redirect_to nonce_success_square_apis_path(customer:params[:customer_woffice], from: "email", success:  true ), notice: t('notice.customer.card_add_successful')
           return
         end
-        redirect_to customer_path(params[:customer_woffice]), notice: "Card add successful"
+        redirect_to customer_path(params[:customer_woffice]), notice: t('notice.customer.card_add_successful')
       end
     elsif result.error?
       if params[:estimate].present?

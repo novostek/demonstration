@@ -1,0 +1,6 @@
+en:
+  notice:
+    measurement_proposal:
+      created: "Measurement proposal was successfully created."
+      updated: "Measurement proposal was sucessfully updated."
+      deleted: "Measurement proposal was sucessfully deleted."

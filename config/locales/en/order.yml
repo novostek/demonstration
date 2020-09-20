@@ -37,6 +37,7 @@ en:
       change_order_created: "Change order was successfully created."
 
       confirme_cancel_order: Do you really want to cancel this order?
+      order_finished: Order Finished
 
   texts:
     order:

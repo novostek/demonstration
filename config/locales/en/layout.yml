@@ -1,0 +1,24 @@
+en:
+  texts:
+    layout:
+      notifications: NOTIFICATIONS
+      new_order_has_been_placed: A new order has been placed!
+      hours_ago: hours ago
+      completed_the_task: Completed the task
+      days_ago: days ago
+      settings_updated: Settings updated
+      director_meeting_started: Director meeting started
+      generate_monthly_report: Generate monthly report
+      week_ago: week ago
+      logout: Logout
+      no_notes_registered: No Notes Registered!
+      no_documents_registered: No Documents Registered!
+      scan_this_code_woffice_pay: Scan This Code on Woffice Pay
+      woffice_llc: Woffice LLC
+      meta_description: Woffice is a powerful business management tool.
+      meta_keywords: woffice management square crm erp
+      all_rights_reserved: All rights reserved.
+      powered_by: Powered by
+      user_login: User Login
+      loading: Loading
+      regards: Regards

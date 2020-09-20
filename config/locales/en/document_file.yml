@@ -1,5 +1,8 @@
 en:
   activerecord:
+    models:
+      document_file: "Document file"
+      document_files: "Document files"
     attributes:
       document_file:
         title: "Title"

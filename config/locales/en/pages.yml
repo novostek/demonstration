@@ -1,0 +1,12 @@
+en:
+  texts:
+    pages:
+      modal_title: Modal title
+      woffice_works_better_integrated_with_square: Woffice works better integrated with Square. We highly recommend your to sign up if you’re not already.
+      save_card: Save card
+      postal: Postal
+      card_number: Card Number
+      the_generated_nonce_is: The generated nonce is
+      title: Access Denied | Woffice
+      you_not_access_this_page: You are measuring beyond what you can. You are not yet allowed to access this page.
+      go_to_homepage: Go to homepage

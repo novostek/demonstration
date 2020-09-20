@@ -1,7 +1,7 @@
 
-<h6 class="greetings">Hi, <%= @estimate.customer %>!</h6>
+<h6 class="greetings"><%= t 'texts.document_mailer.hi' %>, <%= @estimate.customer %>!</h6>
 <p>
   <%= raw (Setting.get_value("send_estimate_mail_text")|| "").remove 'Powered by <a href="https://www.froala.com/wysiwyg-editor?pb=1" title="Froala Editor">Froala Editor</a>' %>
 </p>
 <br>
-<a class="btn btn-primary" href="<%= @estimate.link %>">See your Estimate!</a>
+<a class="btn btn-primary" href="<%= @estimate.link %>"><%= t 'texts.document_mailer.see_your_estimate' %></a>

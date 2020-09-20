@@ -1,0 +1,15 @@
+en:
+  texts:
+    error:
+      404_title: 404 Page | Woffice
+      404_msg: It looks like the page you're looking for no longer existes or has been moved.
+      go_homepage: Go to homepage
+
+      500_title: 500 Page | Woffice
+      500_msg_1: Something went wrong while doing some measuring.
+      500_msg_2: If you're seing this message too often, please contact our
+      technical_support: technical support
+
+      422_title: 422 Page | Woffice
+      rejected: Rejected
+      422_msg_1: Back TO Home

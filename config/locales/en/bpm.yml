@@ -13,7 +13,7 @@ en:
     general: "Process Data"
     task_information: "Task Data"
     history: "History"
-    imadiate: "Imediate"
+    imediate: "Imediate"
     in_progress: "In Progress"
     pending_tasks: "Pending Tasks"
     process_id: "Process ID"
@@ -52,3 +52,5 @@ en:
     bpm:
       could_not_import_BPMN_2_0_diagram: could not import BPMN 2.0 diagram
       to_do: to do!
+      deployed: Deployed!
+      try_again_later: Error, try again later

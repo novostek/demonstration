@@ -1,5 +1,5 @@
 
-      <h6 class="greetings">Hi, <%= @order.current_estimate.customer %>!</h6>
+      <h6 class="greetings"><%= t 'texts.document_mailer.hi' %>, <%= @order.current_estimate.customer %>!</h6>
       <p>
         <%= raw (Setting.get_value("sign_order_mail_text") || "").remove 'Powered by <a href="https://www.froala.com/wysiwyg-editor?pb=1" title="Froala Editor">Froala Editor</a>'  %>
       </p>

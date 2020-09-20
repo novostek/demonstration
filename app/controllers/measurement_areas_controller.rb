@@ -26,7 +26,7 @@ class MeasurementAreasController < ApplicationController
     @measurement_area = MeasurementArea.new(measurement_area_params)
 
     if @measurement_area.save
-      redirect_to @measurement_area, notice: 'Measurement area foi criado com sucesso'
+      redirect_to @measurement_area, notice: t('notice.measurement_area.created')
     else
       render :new
     end
@@ -35,7 +35,7 @@ class MeasurementAreasController < ApplicationController
   # PATCH/PUT /measurement_areas/1
   def update
     if @measurement_area.update(measurement_area_params)
-      redirect_to @measurement_area, notice: 'Measurement area foi atualizado com sucesso.'
+      redirect_to @measurement_area, notice: t('notice.measurement_area.updated')
     else
       render :edit
     end
@@ -44,7 +44,7 @@ class MeasurementAreasController < ApplicationController
   # DELETE /measurement_areas/1
   def destroy
     @measurement_area.destroy
-    redirect_to measurement_areas_url, notice: 'Measurement area foi apagado com sucesso.'
+    redirect_to measurement_areas_url, notice: t('notice.measurement_area.deleted')
   end
 
   def measurements

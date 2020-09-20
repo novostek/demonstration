@@ -1,0 +1,25 @@
+en:
+  texts:
+    square_api:
+      # view
+      square: Square
+      your_payment_received: Your payment has been received.
+      card_capture: Card Capture
+      with_partnership_with: with Partnership with
+      zip_code: Zip Code
+      encountered_errors: Encountered errors
+      check_browser_console: Encountered errors, check browser developer console for more details
+      thank_you: Thank You!
+      your_data_recorded_securely: Your data has been successfully recorded securely and our team has already been informed that you have completed all the steps.
+      we_will_not_have_access_to_your_credit_card_details: We would like to remind you that we will not have access to your credit card details. All data is securely recorded by Square.
+      questions_contact_us: If you have any questions please contact us
+      thanks_for_the_deal: Thank you for doing business with us!
+      best_regards: Best regards,
+
+      # model
+      error_calling_locationsApi_listlocations: Error calling LocationsApi.listlocations ...
+      payemnt_of_order_n: Payemnt of Order N*
+
+  notice:
+    square_api:
+      square_linked: Square Linked

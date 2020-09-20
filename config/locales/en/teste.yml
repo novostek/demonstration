@@ -1,0 +1,14 @@
+en:
+  activerecord:
+    models:
+      testes: Testes
+      testis: Testes
+    attributes:
+      testis:
+        nome: Name
+
+  notice:
+    teste:
+      created: "Teste was successfully created."
+      updated: "Teste was sucessfully updated."
+      deleted: "Teste was sucessfully deleted."

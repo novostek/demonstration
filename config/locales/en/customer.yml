@@ -25,6 +25,7 @@ en:
       created: "Customer was successfully created."
       updated: "Customer was sucessfully updated."
       deleted: "Customer was sucessfully deleted."
+      card_add_successful: Card add successful
 
   # messages
   no_phones: No phone

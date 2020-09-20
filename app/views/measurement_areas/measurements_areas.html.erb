@@ -4,15 +4,15 @@
 		<div class="container">
 			<div class="row">
 				<div class="col s10 m6 l6">
-					<h5 class="breadcrumbs-title mt-0 mb-0">Estimate Measurements</h5>
+					<h5 class="breadcrumbs-title mt-0 mb-0"><%= t 'activerecord.models.estimates' %> <%= t 'texts.estimate.measurements' %></h5>
 					<ol class="breadcrumbs mb-0">
-						<li class="breadcrumb-item"><a href="/">Home</a>
+						<li class="breadcrumb-item"><a href="/"><%= t 'breadcrumb.home' %></a>
 						</li>
-						<li class="breadcrumb-item"><a href="#">Estimates</a>
+						<li class="breadcrumb-item"><a href="#"><%= t 'activerecord.models.estimates' %></a>
 						</li>
-						<li class="breadcrumb-item"><a href="#">New</a>
+						<li class="breadcrumb-item"><a href="#"><%= t 'breadcrumb.new' %></a>
 						</li>
-						<li class="breadcrumb-item active">Measurements
+						<li class="breadcrumb-item active"><%= t 'texts.estimate.measurements' %>
 						</li>
 					</ol>
 				</div>
@@ -28,34 +28,34 @@
 			<ul class="stepper horizontal stepper-head-only">
 				<li class="step">
 					<%= link_to step_one_estimates_path(@estimate.lead, estimate: @estimate.id) do %>
-						<div class="step-title waves-effect">Step 1</div>
+						<div class="step-title waves-effect"><%= t 'breadcrumb.step_one' %></div>
 					<% end %>
 				</li>
 				<li class="step ">
 					<% if @estimate.schedules.present? %>
 						<%= link_to schedule_estimate_path(@estimate) do %>
-							<div class="step-title waves-effect">Schedule</div>
+							<div class="step-title waves-effect"><%= t 'activerecord.models.schedule' %></div>
 						<% end %>
 					<% else %>
-						<div class="step-title waves-effect">Schedule</div>
+						<div class="step-title waves-effect"><%= t 'activerecord.models.schedule' %></div>
 					<% end %>
 				</li>
 				<li class="step active">
 					<% if @estimate.measurements.present? %>
 						<%= link_to measurement_view_estimates_path(@estimate) do %>
-							<div class="step-title waves-effect">Measurements</div>
+							<div class="step-title waves-effect"><%= t 'texts.estimate.measurements' %></div>
 						<% end %>
 					<% else %>
-							<div class="step-title waves-effect">Measurements</div>
+							<div class="step-title waves-effect"><%= t 'texts.estimate.measurements' %></div>
 					<% end %>
 				</li>
 				<li class="step">
 					<% if @estimate.product_estimates.present? %>
 						<%= link_to products_estimate_path(@estimate) do %>
-							<div class="step-title waves-effect">Itens</div>
+							<div class="step-title waves-effect"><%= t 'texts.estimate.itens' %></div>
 						<% end %>
 					<% else %>
-						<div class="step-title waves-effect">Itens</div>
+						<div class="step-title waves-effect"><%= t 'texts.estimate.itens' %></div>
 					<% end %>
 				</li>
 			</ul>
@@ -66,7 +66,7 @@
 			</div>
 			<div class="row mt-1">
 				<%= link_to_add_association form, :measurement_areas, id: "add_area", class: 'btn btn-add-area btn-secondary' do %>
-					<i class="material-icons left">add</i> Add Area
+					<i class="material-icons left">add</i> <%= t 'button.add' %> <%= t 'area' %>
 				<% end %>
 			</div>								
 		</div>
@@ -75,23 +75,23 @@
 		<%= form.hidden_field :count, value: @estimate.measurement_areas.length, id: 'count_areas' %>
 		<%= link_to schedule_estimate_path(@estimate.id), target: '_self',
 			class:"btn grey lighten-5 grey-text waves-effect waves-light breadcrumbs-btn left save" do %>
-			Back <i class="material-icons left">arrow_back</i>
+			<%= t 'button.back' %> <i class="material-icons left">arrow_back</i>
 		<% end %>
 		<%= form.button :submit, id: "next_step", class:"btn indigo waves-effect waves-light breadcrumbs-btn right ml-1" do %>
-			Next: Itens
+			<%= t 'button.next' %>: <%= t 'texts.estimate.itens' %>
 			<i class="material-icons right">arrow_forward</i>
 		<% end %>
 	</div>
 	<div id="area_modal" class="modal modal-fixed-footer">
     <div class="modal-content">
-      <h4>Calculate your areas</h4>
+      <h4><%= t 'texts.measurement_area.calculate_your_areas' %></h4>
       <span id="measure_container">
 			</span>
 			<a href="#" class="btn right" onclick="add_calculate_area()">add areas</a>
     </div>
     <div class="modal-footer">
       <a href="#!" class="modal-action modal-close waves-effect waves-red btn-flat left">Close</a>
-      <a href="#!" class="modal-close waves-effect waves-green btn-flat" onclick="calculate_sqft(event)">Calculate</a>
+      <a href="#!" class="modal-close waves-effect waves-green btn-flat" onclick="calculate_sqft(event)"><%= t 'texts.measurement_area.calculate' %></a>
     </div>
   </div>
 <% end %>
@@ -164,7 +164,7 @@
 			const labelWidth = document.createElement("label");
 			labelWidth.setAttribute("for", `width[${index}]`)
 			labelWidth.setAttribute("class", "active")
-			labelWidth.innerHTML = "Width"
+			labelWidth.innerHTML = "<%= t 'activerecord.attributes.measurements.width' %>"
 			divWidth.appendChild(labelWidth)
 
 			const divLength = document.createElement("div");
@@ -187,7 +187,7 @@
 			const labelLength = document.createElement("label");
 			labelLength.setAttribute("for", `length[${index}]`)
 			labelLength.setAttribute("class", "active")
-			labelLength.innerHTML = "Length"
+			labelLength.innerHTML = "<%= t 'activerecord.attributes.measurements.length' %>"
 			divLength.appendChild(labelLength)
 
 			const divSqft = document.createElement("div");
@@ -206,7 +206,7 @@
 			const labelsQFT = document.createElement("label");
 			labelsQFT.setAttribute("for", `square_feet[${index}]`)
 			labelsQFT.setAttribute("class", "active")
-			labelsQFT.innerHTML = "Square feet"
+			labelsQFT.innerHTML = "<%= t 'activerecord.attributes.measurements.square_feet' %>"
 			divSqft.appendChild(labelsQFT)
 
 			const aRemove = document.createElement("a")
@@ -262,7 +262,7 @@
 				const labelWidth = document.createElement("label");
 				labelWidth.setAttribute("for", `width[${index}]`)
 				labelWidth.setAttribute("class", "active")
-				labelWidth.innerHTML = "Width"
+				labelWidth.innerHTML = "<%= t 'activerecord.attributes.measurements.width' %>"
 				divWidth.appendChild(labelWidth)
 
 				const divLength = document.createElement("div");
@@ -285,7 +285,7 @@
 				const labelLength = document.createElement("label");
 				labelLength.setAttribute("for", `length[${index}]`)
 				labelLength.setAttribute("class", "active")
-				labelLength.innerHTML = "Length"
+				labelLength.innerHTML = "<%= t 'activerecord.attributes.measurements.length' %>"
 				divLength.appendChild(labelLength)
 
 				const divSqft = document.createElement("div");
@@ -304,7 +304,7 @@
 				const labelsQFT = document.createElement("label");
 				labelsQFT.setAttribute("for", `square_feet[${index}]`)
 				labelsQFT.setAttribute("class", "active")
-				labelsQFT.innerHTML = "Square feet"
+				labelsQFT.innerHTML = "<%= t 'activerecord.attributes.measurements.square_feet' %>"
 				divSqft.appendChild(labelsQFT)
 				
 				const aRemove = document.createElement("a")

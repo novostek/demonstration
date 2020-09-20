@@ -6,7 +6,7 @@
               <div class="col s12 mb-0 pb-0 animate fadeLeft right-align">
                   <div class="row">
                       <div class="col s12">
-                          <p class="medium-small pb-0 mb-0">30 days summary</p>
+                          <p class="medium-small pb-0 mb-0"><%= t 'texts.dashboard.30_days_summary' %></p>
                       </div>
                   </div>
               </div>
@@ -16,8 +16,8 @@
                       <div class="col s12 m4">
                           <div class="dashboard-chart card pt-0 pb-0 animated fadeInLeft border-radius-5">
                               <div class="dashboard-income-wrapper padding-2 ml-2">
-                                  <span class="badge indigo gradient-shadow mt-2 mr-2">+ <%= number_to_currency(@day_incomes, :unit => '$ ') %> today</span>
-                                  <p class="mt-2 mb-0 font-weight-600">Income <%= @income %></p>
+                                  <span class="badge indigo gradient-shadow mt-2 mr-2">+ <%= number_to_currency(@day_incomes, :unit => '$ ') %> <%= t('texts.dashboard.today').downcase %></span>
+                                  <p class="mt-2 mb-0 font-weight-600"><%= t 'texts.dashboard.income' %> <%= @income %></p>
                                   <h5>
                                     <%= number_to_currency(@year_incomes.map { |m| m[:value] }.reduce(0, :+), :unit => '$ ')%>
                                   </h5>
@@ -30,8 +30,8 @@
                       <div class="col s12 m4">
                           <div class="dashboard-chart card pt-0 pb-0 animated fadeInLeft fast border-radius-5">
                               <div class="dashboard-income-wrapper padding-2 ml-2">
-                                  <span class="badge red gradient-shadow mt-2 mr-2">- <%= number_to_currency(@day_costs, :unit => '$ ') %> today</span>
-                                  <p class="mt-2 mb-0 font-weight-600">Expenses</p>
+                                  <span class="badge red gradient-shadow mt-2 mr-2">- <%= number_to_currency(@day_costs, :unit => '$ ') %> <%= t('texts.dashboard.today').downcase %></span>
+                                  <p class="mt-2 mb-0 font-weight-600"><%= t 'texts.dashboard.expenses' %></p>
                                   <h5>
                                     <%= number_to_currency(@year_costs.map { |m| m[:value] }.reduce(0, :+), :unit => '$ ')%>
                                   </h5>
@@ -44,7 +44,7 @@
                       <div class="col s12 m4">
                           <div class="dashboard-chart card pt-0 pb-0 animated fadeInLeft faster border-radius-5">
                               <div class="dashboard-income-wrapper padding-2 ml-2">
-                                  <p class="mt-2 mb-0 font-weight-600">Balance</p>
+                                  <p class="mt-2 mb-0 font-weight-600"><%= t 'balance' %></p>
                                   <h5><%= number_to_currency(@total_balance[:value], :unit => '$ ') %></h5>
                               </div>
                               <div class="chart-wrapper">
@@ -61,7 +61,7 @@
                               <div class="card-content p-0">
                                   <div class="row  animated fadeInDown faster" style="animation-delay: .7s;">
                                       <div class="col s12">
-                                          <span class="left width-100 left-align indigo-text font-weight-900">Receivables
+                                          <span class="left width-100 left-align indigo-text font-weight-900"><%= t 'texts.dashboard.receivables' %>
                                           </span>
                                           <span class="left width-100 display-flex left-align">
                                             <%= number_to_currency(@receivables, :unit => '$') %>
@@ -70,7 +70,7 @@
                                   </div>
                                   <div class="row mt-2 animated fadeInDown fast" style="animation-delay: .7s;">
                                       <div class="col s12">
-                                          <span class="left width-100 left-align indigo-text font-weight-900">Overdue orders</span>
+                                          <span class="left width-100 left-align indigo-text font-weight-900"><%= t 'texts.dashboard.overdue_orders' %></span>
                                           <span class="left width-100 display-flex left-align">
                                             <%= number_to_currency(@overdue, :unit => '$') %>
                                           </span>
@@ -85,7 +85,7 @@
                               <div class="card-content p-0">
                                   <div class="row animated fadeInDown faster" style="animation-delay: .7s;">
                                       <div class="col s12">
-                                          <span class="left width-100 left-align red-text font-weight-900">Materials costs</span>
+                                          <span class="left width-100 left-align red-text font-weight-900"><%= t 'texts.dashboard.materials_costs' %></span>
                                           <span class="left width-100 display-flex left-align">
                                             <%= number_to_currency(@material_costs, :unit => '$') %>
                                           </span>
@@ -95,7 +95,7 @@
 
                                   <div class="row mt-2 animated fadeInDown fast" style="animation-delay: .7s;">
                                       <div class="col s12">
-                                          <span class="left width-100 left-align red-text font-weight-900">Workers costs</span>
+                                          <span class="left width-100 left-align red-text font-weight-900"><%= t 'texts.dashboard.workers_costs' %></span>
                                           <span class="left width-100 display-flex left-align">
                                             <%= number_to_currency(@labor_costs, :unit => '$') %>
                                           </span>
@@ -111,7 +111,7 @@
 
                   </div>
                   <div class="divider mb-2" style="margin-top: 30px;"></div>
-                  <h6 class="mb-0 mt-0 display-flex justify-content-between">Orders
+                  <h6 class="mb-0 mt-0 display-flex justify-content-between"><%= t 'activerecord.models.orders' %>
                       <a href="#" class="waves-effect"></a>
                   </h6>
                   <div class="row">
@@ -124,7 +124,7 @@
                                           <i class="material-icons transparent indigo-text background-round mt-5">new_releases</i>
                                       </div>
                                       <div class="col s8">
-                                          <span class="font-weight-600">New</span><br>
+                                          <span class="font-weight-600"><%= t 'button.new' %></span><br>
                                           <h5 class="mt-0"><a class="indigo-text" href="#"><%= @new_orders %></a></h5>
                                       </div>
                                   </div>
@@ -139,7 +139,7 @@
                                           <i class="material-icons transparent green-text background-round mt-5">done</i>
                                       </div>
                                       <div class="col s8">
-                                          <span class="font-weight-600">Finished</span><br>
+                                          <span class="font-weight-600"><%= t 'enumerize.order.status.finished' %></span><br>
                                           <h5 class="mt-0"><a class="green-text" href="#"><%= @finished_orders %></a></h5>
                                       </div>
                                   </div>
@@ -154,7 +154,7 @@
                                           <i class="material-icons transparent background-round mt-5">clear</i>
                                       </div>
                                       <div class="col s8">
-                                          <span class="font-weight-600">Cancelled</span><br>
+                                          <span class="font-weight-600"><%= t 'enumerize.order.status.cancelled' %></span><br>
                                           <h5 class="mt-0"><a class="grey-text" href="#"><%= @cancelled_orders %></a></h5>
                                       </div>
                                   </div>
@@ -166,8 +166,7 @@
                       <div class="card-content">
 
 
-                          <h6 class="mb-0 mt-0 display-flex justify-content-between mb-5">Latest
-                              orders
+                          <h6 class="mb-0 mt-0 display-flex justify-content-between mb-5"><%= t 'texts.dashboard.latest_orders' %>
                               <a href="#" class="waves-effect"><i class="material-icons float-right">more_vert</i></a>
                           </h6>
                           <ul class="collection">
@@ -192,19 +191,19 @@
                       <div class="row">
                           <div class="col s5 m5">
                               <h5 class="mb-0"><%= @count_new_customers %></h5>
-                              <p class="no-margin">New</p>
+                              <p class="no-margin"><%= t 'button.new' %></p>
                               <p class="mb-0 pt-8"><%= @total_customers %></p>
                           </div>
                           <div class="col s7 m7 right-align">
                               <i class="material-icons background-round mt-5 mb-5 woffice-color gradient-shadow black-text">perm_identity</i>
-                              <p class="mb-0">Total Clients</p>
+                              <p class="mb-0"><%= t 'texts.dashboard.total_clients' %></p>
                           </div>
                       </div>
                   </div>
 
                   <div class="card recent-clients-card animate fadeRight border-radius-5">
                       <div class="card-content">
-                          <h4 class="card-title mb-0">Recent clients <a href="#"><i class="material-icons float-right">more_vert</i></a></h4>
+                          <h4 class="card-title mb-0"><%= t 'texts.dashboard.recent_clients' %> <a href="#"><i class="material-icons float-right">more_vert</i></a></h4>
                           <ul class="collection mb-0">
                             <% @recent_customers.each do |customer| %>
                               <li class="collection-item">
@@ -219,11 +218,11 @@
                   </div>
                 <div class="card animate fadeRight">
                   <div class="card-content">
-                    <h4 class="card-title mb-0">Conversion Ratio</h4>
+                    <h4 class="card-title mb-0"><%= t 'texts.dashboard.conversion_ratio' %></h4>
                     <div class="conversion-ration-container mt-8">
                       <div id="conversion-ration-bar-chart" class="conversion-ration-shadow"></div>
                     </div>
-                    <p class="medium-small center-align">This month conversion ratio</p>
+                    <p class="medium-small center-align"><%= t 'texts.dashboard.this_month_conversion_ratio' %></p>
                     <h5 class="center-align mb-0 mt-0"><%= @conversion_rate %>%</h5>
                   </div>
                 </div>
@@ -656,7 +655,9 @@
     //----------------------
 
     function fill_array(elem) {
-      var months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
+      var months = ["<%= t 'months.jan' %>", "<%= t 'months.fev' %>", "<%= t 'months.mar' %>", "<%= t 'months.apr' %>",
+          "<%= t 'months.may' %>", "<%= t 'months.jun' %>", "<%= t 'months.jul' %>", "<%= t 'months.aug' %>",
+          "<%= t 'months.sep' %>", "<%= t 'months.oct' %>", "<%= t 'months.nov' %>", "<%= t 'months.dec' %>"];
       var today = new Date();
       var d;
       var month;
@@ -737,7 +738,9 @@
               text: "82%"
           }
       }
-      var SLlabels = ["January", "February", "March", "April", "May", "June", "August", "September", "October", "November", "December"]
+      var SLlabels = ["<%= t 'months.jan' %>", "<%= t 'months.fev' %>", "<%= t 'months.mar' %>", "<%= t 'months.apr' %>",
+          "<%= t 'months.may' %>", "<%= t 'months.jun' %>", "<%= t 'months.jul' %>", "<%= t 'months.aug' %>",
+          "<%= t 'months.sep' %>", "<%= t 'months.oct' %>", "<%= t 'months.nov' %>", "<%= t 'months.dec' %>"];
 
       var LineSL3ctx = document
           .getElementById("income-dashboard-chart")
@@ -952,11 +955,11 @@
         var ConversionRatioBarChart = new Chartist.Bar(
             "#conversion-ration-bar-chart",
             {
-                labels: ["Count"],
+                labels: ["<%= t 'texts.count' %>"],
                 series: [
-                    { name: "Orders", data: [<%= @lasted_orders %>]},
-                    { name: "Estimates", data: [<%= @new_estimates %>]},
-                    { name: "Leads", data: [<%= @new_leads %>]}
+                    { name: "<%= t 'activerecord.models.orders' %>", data: [<%= @lasted_orders %>]},
+                    { name: "<%= t 'activerecord.models.estimates' %>", data: [<%= @new_estimates %>]},
+                    { name: "<%= t 'activerecord.models.leads' %>", data: [<%= @new_leads %>]}
 
                 ]
             },

@@ -1,4 +1,7 @@
 Rails.application.routes.draw do
+  get 'errors/internal_server_error'
+  get 'errors/not_found'
+  get 'errors/unprocessable_entity'
   get 'pages/denied'
   resources :testes
   resources :clients do
@@ -286,6 +289,11 @@ Rails.application.routes.draw do
   post 'api/payment/:id/pay' => "api#order_paid", as: :api_payment_pay
 
   get 'welcome' => 'welcome#index'
+
+  # custom error routes
+  match '/404' => 'errors#not_found', :via => :all
+  match '/422' => 'errors#unprocessable_entity', :via => :all
+  #match '/500' => 'errors#internal_server_error', :via => :all
 
   root "users#home"
 end

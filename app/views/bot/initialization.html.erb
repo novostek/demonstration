@@ -38,10 +38,10 @@
 							<input type="number" name="company_tax" id="company_tax"
 								cf-questions="<%= t 'texts.bot.what_percentage_company_pays_in_taxes' %>" required />
 							<fieldset cf-questions="<%= t 'texts.bot.what_measures_does_company_use' %>">
-								<input type="checkbox" name="measures[]" value="w" cf-label="<%= t 'activerecord.attributes.measurements.width' %>" />
-								<input type="checkbox" name="measures[]" value="l" cf-label="<%= t 'activerecord.attributes.measurements.length' %>" />
-								<input type="checkbox" name="measures[]" value="h" cf-label="<%= t 'activerecord.attributes.measurements.height' %>" />
-								<input type="checkbox" name="measures[]" value="sqft" cf-label="<%= t 'activerecord.attributes.measurements.square_feet' %>" />
+								<input type="checkbox" name="measures[]" value="w" cf-label="<%= t 'activerecord.attributes.measurement.width' %>" />
+								<input type="checkbox" name="measures[]" value="l" cf-label="<%= t 'activerecord.attributes.measurement.length' %>" />
+								<input type="checkbox" name="measures[]" value="h" cf-label="<%= t 'activerecord.attributes.measurement.height' %>" />
+								<input type="checkbox" name="measures[]" value="sqft" cf-label="<%= t 'activerecord.attributes.measurement.square_feet' %>" />
 							</fieldset>
 							<cf-robot-message cf-questions="<%= t 'texts.bot.nice_alright' %>"></cf-robot-message>
 							<fieldset cf-questions="<%= t 'texts.bot.want_custom_name_for_your_account' %>">

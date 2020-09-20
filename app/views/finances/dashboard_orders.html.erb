@@ -577,7 +577,14 @@
       </div>
 
       <div class="slide-out-right-body row pl-3 pr-3 ps">
-        <%= form_with url: request.env['PATH_INFO'], method: :get, local: true do |f| %>
+        <%= search_form_for @q, url: request.env['PATH_INFO'], id: 'form-export' do |f| %>
+          <%= f.hidden_field :code_cont %>
+          <%= f.hidden_field :status_eq %>
+          <%= f.hidden_field :purchases_product_purchases_product_name_or_purchases_product_purchases_custom_title_cont %>
+          <%= f.hidden_field :purchases_product_purchases_status_eq %>
+          <%= f.hidden_field :purchases_supplier_name_cont %>
+          <%= f.hidden_field :current_estimate_worker_name_cont %>
+          <%= f.hidden_field :customer_name_cont %>
 
           <div class="row chip-selection mb-8">
             <small>Choose a type:</small><br>

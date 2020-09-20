@@ -3,21 +3,24 @@ s = wb.styles
 summary = s.add_style b: true
 
 wb.add_worksheet(name: "Costs") do |sheet|
-  @orders_array.each do |order|
-    # Order and Products
-    sheet.add_row ['Customer', 'Ordered', 'Code', 'Tax', 'Total cost', 'Status Order',
-                   '',
-                   'Product', 'Supplier', 'Qtd.', 'Price', 'Subtotal', 'Delivered', 'Status product'], style: summary
+  # Order and Products
+  sheet.add_row ['', 'Customer', 'Ordered', 'Code', 'Tax', 'Taxpayer', 'Total cost', 'Status Order',
+                 '',
+                 'Product', 'Supplier', 'Qtd.', 'Price', 'Subtotal', 'Delivered', 'Status product'], style: summary
+
+  @orders_array.each_with_index do |order, i|
 
     product_purchases = order.product_purchases.select { |pp| pp.tax == false }
 
     if product_purchases.any?
       product_purchases.each do |pp|
         sheet.add_row [
+                          i+1,
                           order.customer.name,
                           order.created_at.to_s,
                           order.code,
                           order.current_estimate.tax || 0,
+                          order.current_estimate.taxpayer.present? ? I18n.t("enumerize.estimate.taxpayer.#{order.current_estimate.taxpayer}") : '',
                           order.get_current_estimate.total,
                           order.status_text,
                           '',
@@ -32,10 +35,12 @@ wb.add_worksheet(name: "Costs") do |sheet|
       end
     else
       sheet.add_row [
+                        i+1,
                         order.customer.name,
                         order.created_at.to_s,
                         order.code,
                         order.current_estimate.tax || 0,
+                        order.current_estimate.taxpayer.present? ? I18n.t("enumerize.estimate.taxpayer.#{order.current_estimate.taxpayer}") : '',
                         order.get_current_estimate.total,
                         order.status_text,
                         '',
@@ -48,7 +53,5 @@ wb.add_worksheet(name: "Costs") do |sheet|
                         ''
                     ]
     end
-    sheet.add_row
-    sheet.add_row
   end
 end

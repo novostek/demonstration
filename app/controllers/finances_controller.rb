@@ -13,15 +13,15 @@ class FinancesController < ApplicationController
       cost = @year_costs.detect { |c| c[:month] == income[:month] }
       if cost.present? and income[:month] == cost[:month]
         @balance.push({
-          :month => income[:month],
-          :value => income[:value] - (cost[:value] * -1)
-        })
+                          :month => income[:month],
+                          :value => income[:value] - (cost[:value] * -1)
+                      })
       end
     end
 
     @year_costs = @year_costs.map { |cost| {
-      :month => cost[:month],
-      :value => cost[:value] * -1
+        :month => cost[:month],
+        :value => cost[:value] * -1
     } }
 
     @total_balance = @balance.reduce { |sum, num| sum[:value] + num[:value] }
@@ -45,13 +45,13 @@ class FinancesController < ApplicationController
     @recent_customers = Customer.get_recent_customers 3
 
     begin
-      value= @total_balance[:value]
+      value = @total_balance[:value]
     rescue
-      @total_balance= {value: 0}
+      @total_balance = {value: 0}
     end
 
     if @total_balance.blank?
-      @total_balance= {value: 0}
+      @total_balance = {value: 0}
     end
 
     begin
@@ -63,14 +63,16 @@ class FinancesController < ApplicationController
 
   def dashboard_orders
     @q = Order.ransack(params[:q])
-    @orders_array = @q.result.includes(:current_estimate, :customer, :purchases, {purchases: [:supplier, :product_purchases, {product_purchases: [:product, :notes, :document_files]}]} ).ordenation_by(params[:sort_by]).uniq
+    @orders_array = @q.result.includes(:current_estimate, :customer, :purchases, {purchases: [:supplier, :product_purchases, {product_purchases: [:product, :notes, :document_files]}]}).ordenation_by(params[:sort_by]).uniq
     @orders = Kaminari.paginate_array(@orders_array).page(params[:page]).per(4)
 
-    @suppliers = Supplier.all.map {|s| [s.name, nil]}.to_h.to_json
-    @workers = Worker.all.map {|w| [w.name, nil]}.to_h.to_json
-    @products = ProductPurchase.where(tax: false).select{|pp| pp.custom_title.present? }.map {|p| [p.custom_title, nil]}.to_h.to_json
-    @customers = Customer.all.map {|c| [c.name, nil]}.to_h.to_json
+    @suppliers = Supplier.all.map { |s| [s.name, nil] }.to_h.to_json
+    @workers = Worker.all.map { |w| [w.name, nil] }.to_h.to_json
+    @products = ProductPurchase.where(tax: false).select { |pp| pp.custom_title.present? }.map { |p| [p.custom_title, nil] }.to_h.to_json
+    @customers = Customer.all.map { |c| [c.name, nil] }.to_h.to_json
 
+    # preparing export
+    product_purchases = @orders_array.map { |o| o.product_purchases.select { |pp| pp.tax == false } }.flatten
     if params[:button].present? and params[:button] == 'btn-export' and params[:type].present?
       request.format = params[:type]
     end
@@ -78,9 +80,9 @@ class FinancesController < ApplicationController
     respond_to do |format|
       format.html
       format.xlsx { response.headers['Content-Disposition'] = 'attachment; filename="costs.xlsx' }
-      #format.xls { send_data @orders.export_to(params[:type], :costs), filename: "costs.#{params[:type]}" }
-      #format.csv { send_data @orders_array.export_to(params[:type], :costs), filename: "costs.#{params[:type]}" }
-      #format.xml { send_data @orders_array.export_to(params[:type], :costs), filename: "costs.#{params[:type]}" }
+      format.csv { send_data product_purchases.export_to(params[:type], :dashboard_order), filename: "costs.#{params[:type]}" }
+      format.xml { send_data product_purchases.export_to(params[:type], :dashboard_order), filename: "costs.#{params[:type]}" }
+      #format.xls { send_data product_purchases.export_to(params[:type], :dashboard_order), filename: "costs.#{params[:type]}" }
     end
   end
 

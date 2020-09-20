@@ -5,7 +5,6 @@ summary = s.add_style b: true
 wb.add_worksheet(name: "Costs") do |sheet|
   # Order and Products
   sheet.add_row ['', 'Customer', 'Ordered', 'Code', 'Tax', 'Taxpayer', 'Total cost', 'Status Order',
-                 '',
                  'Product', 'Supplier', 'Qtd.', 'Price', 'Subtotal', 'Delivered', 'Status product'], style: summary
 
   @orders_array.each_with_index do |order, i|
@@ -23,7 +22,7 @@ wb.add_worksheet(name: "Costs") do |sheet|
                           order.current_estimate.taxpayer.present? ? I18n.t("enumerize.estimate.taxpayer.#{order.current_estimate.taxpayer}") : '',
                           order.get_current_estimate.total,
                           order.status_text,
-                          '',
+
                           pp.product || pp.custom_title,
                           pp.purchase.supplier || 'No Supplier',
                           pp.quantity,
@@ -43,7 +42,7 @@ wb.add_worksheet(name: "Costs") do |sheet|
                         order.current_estimate.taxpayer.present? ? I18n.t("enumerize.estimate.taxpayer.#{order.current_estimate.taxpayer}") : '',
                         order.get_current_estimate.total,
                         order.status_text,
-                        '',
+
                         '',
                         '',
                         '',

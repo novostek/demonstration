@@ -63,14 +63,25 @@ class FinancesController < ApplicationController
 
   def dashboard_orders
     @q = Order.ransack(params[:q])
-    orders = @q.result.includes(:current_estimate, :customer, :purchases, {purchases: [:supplier, :product_purchases, {product_purchases: [:product, :notes, :document_files]}]} ).ordenation_by(params[:sort_by]).uniq
-    @orders = Kaminari.paginate_array(orders).page(params[:page]).per(4)
+    @orders_array = @q.result.includes(:current_estimate, :customer, :purchases, {purchases: [:supplier, :product_purchases, {product_purchases: [:product, :notes, :document_files]}]} ).ordenation_by(params[:sort_by]).uniq
+    @orders = Kaminari.paginate_array(@orders_array).page(params[:page]).per(4)
 
     @suppliers = Supplier.all.map {|s| [s.name, nil]}.to_h.to_json
     @workers = Worker.all.map {|w| [w.name, nil]}.to_h.to_json
-    #@products = Product.all.map {|p| [p.name, nil]}.to_h.to_json
     @products = ProductPurchase.where(tax: false).select{|pp| pp.custom_title.present? }.map {|p| [p.custom_title, nil]}.to_h.to_json
     @customers = Customer.all.map {|c| [c.name, nil]}.to_h.to_json
+
+    if params[:button].present? and params[:button] == 'btn-export' and params[:type].present?
+      request.format = params[:type]
+    end
+
+    respond_to do |format|
+      format.html
+      format.xlsx { response.headers['Content-Disposition'] = 'attachment; filename="costs.xlsx' }
+      #format.xls { send_data @orders.export_to(params[:type], :costs), filename: "costs.#{params[:type]}" }
+      #format.csv { send_data @orders_array.export_to(params[:type], :costs), filename: "costs.#{params[:type]}" }
+      #format.xml { send_data @orders_array.export_to(params[:type], :costs), filename: "costs.#{params[:type]}" }
+    end
   end
 
 end

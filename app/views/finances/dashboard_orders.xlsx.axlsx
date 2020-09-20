@@ -1,0 +1,54 @@
+wb = xlsx_package.workbook
+s = wb.styles
+summary = s.add_style b: true
+
+wb.add_worksheet(name: "Costs") do |sheet|
+  @orders_array.each do |order|
+    # Order and Products
+    sheet.add_row ['Customer', 'Ordered', 'Code', 'Tax', 'Total cost', 'Status Order',
+                   '',
+                   'Product', 'Supplier', 'Qtd.', 'Price', 'Subtotal', 'Delivered', 'Status product'], style: summary
+
+    product_purchases = order.product_purchases.select { |pp| pp.tax == false }
+
+    if product_purchases.any?
+      product_purchases.each do |pp|
+        sheet.add_row [
+                          order.customer.name,
+                          order.created_at.to_s,
+                          order.code,
+                          order.current_estimate.tax || 0,
+                          order.get_current_estimate.total,
+                          order.status_text,
+                          '',
+                          pp.product || pp.custom_title,
+                          pp.purchase.supplier || 'No Supplier',
+                          pp.quantity,
+                          pp.unity_value.to_f,
+                          pp.value.to_f,
+                          pp.status.delivered? ? pp.updated_at.strftime("%m/%d/%Y") : '',
+                          pp.status_text
+                      ]
+      end
+    else
+      sheet.add_row [
+                        order.customer.name,
+                        order.created_at.to_s,
+                        order.code,
+                        order.current_estimate.tax || 0,
+                        order.get_current_estimate.total,
+                        order.status_text,
+                        '',
+                        '',
+                        '',
+                        '',
+                        '',
+                        '',
+                        '',
+                        ''
+                    ]
+    end
+    sheet.add_row
+    sheet.add_row
+  end
+end

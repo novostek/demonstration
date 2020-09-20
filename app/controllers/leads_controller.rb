@@ -9,7 +9,7 @@ class LeadsController < ApplicationController
     #add_breadcrumb I18n.t('activerecord.models.leads'), leads_path
 
     if params[:button].present? and params[:button] == 'btn-export' and params[:type].present?
-      send_data @leads.export_to(params[:type]), filename: "leads.#{params[:type]}"
+      send_data @q.result.export_to(params[:type]), filename: "leads.#{params[:type]}"
     end
   end
 

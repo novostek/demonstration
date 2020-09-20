@@ -449,7 +449,7 @@ class OrdersController < ApplicationController
     @profit_today = @orders_today.sum { |a| a.current_estimate.get_total_value } - @orders_today.sum(:total_cost)
 
     if params[:button].present? and params[:button] == 'btn-export' and params[:type].present?
-      send_data @orders.export_to(params[:type]), filename: "orders.#{params[:type]}"
+      send_data @q.result.order(created_at: :desc).export_to(params[:type]), filename: "orders.#{params[:type]}"
     end
   end
 

@@ -16,7 +16,7 @@ class ProductsController < ApplicationController
     @products = @q.result.page(params[:page]).per(limit)
 
     if params[:button].present? and params[:button] == 'btn-export' and params[:type].present?
-      send_data @products.export_to(params[:type]), filename: "products.#{params[:type]}"
+      send_data @q.result.export_to(params[:type]), filename: "products.#{params[:type]}"
     end
   end
 

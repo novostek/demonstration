@@ -11,7 +11,7 @@ class EstimateExporter < RailsExporter::Base
     column :latitude
     column :longitude
     column :category
-    column(:order) { |record| record.order.code }
+    column(:order) { |record| record.order.code if record.order }
     column :price => :currency
     column :tax => :currency
     column(:tax_calculation) { |record| record.calculation_formula.name if record.calculation_formula }

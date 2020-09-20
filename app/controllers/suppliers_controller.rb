@@ -57,7 +57,7 @@ class SuppliersController < ApplicationController
     @suppliers = @q.result.page(params[:page])
 
     if params[:button].present? and params[:button] == 'btn-export' and params[:type].present?
-      send_data @suppliers.export_to(params[:type]), filename: "suppliers.#{params[:type]}"
+      send_data @q.result.export_to(params[:type]), filename: "suppliers.#{params[:type]}"
     end
   end
 

@@ -398,19 +398,19 @@ class OrdersController < ApplicationController
     add_breadcrumb I18n.t("breadcrumb.show"), order_path(@order)
     add_breadcrumb I18n.t("breadcrumb.costs"), costs_order_path(@order)
 
-    if params[:button].present? and params[:button] == 'btn-export' and params[:type].present?
-      @orders = Order.includes(:labor_costs, :current_estimate, :customer, :purchases, {purchases: [:supplier, :product_purchases]}).where(id: params[:id])
+    #if params[:button].present? and params[:button] == 'btn-export' and params[:type].present?
+    #  @orders = Order.includes(:labor_costs, :current_estimate, :customer, :purchases, {purchases: [:supplier, :product_purchases]}).where(id: params[:id])
+    #
+    #  request.format = params[:type]
+    #end
 
-      request.format = params[:type]
-    end
-
-    respond_to do |format|
-      format.html
-      format.xlsx { response.headers['Content-Disposition'] = 'attachment; filename="costs.xlsx' }
-      format.xls { send_data @orders.export_to(params[:type], :costs), filename: "costs.#{params[:type]}" }
-      format.csv { send_data @orders.export_to(params[:type], :costs), filename: "costs.#{params[:type]}" }
-      format.xml { send_data @orders.export_to(params[:type], :costs), filename: "costs.#{params[:type]}" }
-    end
+    #respond_to do |format|
+    #  format.html
+    #  format.xlsx { response.headers['Content-Disposition'] = 'attachment; filename="costs.xlsx' }
+    #  format.xls { send_data @orders.export_to(params[:type], :costs), filename: "costs.#{params[:type]}" }
+    #  format.csv { send_data @orders.export_to(params[:type], :costs), filename: "costs.#{params[:type]}" }
+    #  format.xml { send_data @orders.export_to(params[:type], :costs), filename: "costs.#{params[:type]}" }
+    #end
   end
 
   def send_invoice_mail

@@ -20,7 +20,7 @@
             <i class="material-icons hide-on-med-and-up">arrow_back</i>
             <span class="hide-on-small-only">Back to order</span>
           <% end %>
-          <div class="mr-2 btn-secondary sidenav-trigger btn waves-effect waves-light breadcrumbs-btn right" data-target="slide-out-right-exports-dates">Export</div>
+<!--          <div class="mr-2 btn-secondary sidenav-trigger btn waves-effect waves-light breadcrumbs-btn right" data-target="slide-out-right-exports-dates">Export</div>-->
         </div>
       </div>
     </div>
@@ -855,55 +855,55 @@
 <% end %>
 
 
-<%= content_for :sidenav do %>
-  <aside id="right-sidebar-nav">
-    <div id="slide-out-right-exports-dates" style="width: 340px;" class="slide-out-right-sidenav sidenav rightside-navigation right-aligned">
+<%#= content_for :sidenav do %>
+<!--  <aside id="right-sidebar-nav">-->
+<!--    <div id="slide-out-right-exports-dates" style="width: 340px;" class="slide-out-right-sidenav sidenav rightside-navigation right-aligned">-->
 
-      <div class="row">
-        <div class="slide-out-right-title">
-          <div class="col s12 pl-3">
-            <i class="material-icons right "><a href="#" target="_self" class="sidenav-close">clear</a></i>
-            <h5>Export</h5>
-          </div>
-        </div>
-      </div>
+<!--      <div class="row">-->
+<!--        <div class="slide-out-right-title">-->
+<!--          <div class="col s12 pl-3">-->
+<!--            <i class="material-icons right "><a href="#" target="_self" class="sidenav-close">clear</a></i>-->
+<!--            <h5>Export</h5>-->
+<!--          </div>-->
+<!--        </div>-->
+<!--      </div>-->
 
-      <div class="slide-out-right-body row pl-3 pr-3 ps">
-        <%= form_with url: request.env['PATH_INFO'], method: :get, local: true do |f| %>
+<!--      <div class="slide-out-right-body row pl-3 pr-3 ps">-->
+        <%#= form_with url: request.env['PATH_INFO'], method: :get, local: true do |f| %>
 
-            <div class="row chip-selection mb-8">
-              <small>Choose a type:</small><br>
-              <% RailsExporter::Base.file_types.each do |type| %>
-                <% type = 'xlsx' if type.eql? :xls %>
-                <label>
-                  <%= radio_button_tag :type, type, false, class: 'transaction_status filled-in', onchange: "toggleExport()" %>
-                  <span><%= type %></span>
-                </label>
-              <% end %>
-            </div>
+<!--            <div class="row chip-selection mb-8">-->
+<!--              <small>Choose a type:</small><br>-->
+              <%# RailsExporter::Base.file_types.each do |type| %>
+                <%# type = 'xlsx' if type.eql? :xls %>
+<!--                <label>-->
+                  <%#= radio_button_tag :type, type, false, class: 'transaction_status filled-in', onchange: "toggleExport()" %>
+<!--                  <span><%#= type %></span>-->
+<!--                </label>-->
+              <%# end %>
+<!--            </div>-->
 
-            <div class="actions">
-              <%= f.button :submit, value: "btn-export", class: "btn right border-round", id: 'btn-export' do %>Export<% end %>
-            </div>
-        <% end %>
-      </div>
-    </div>
-  </aside>
-<% end %>
+<!--            <div class="actions">-->
+<!--              <%#= f.button :submit, value: "btn-export", class: "btn right border-round", id: 'btn-export' do %>Export<%# end %>-->
+<!--            </div>-->
+        <%# end %>
+<!--      </div>-->
+<!--    </div>-->
+<!--  </aside>-->
+<%# end %>
 
-<%= content_for :scripts do %>
-  <script>
-      function toggleExport() {
-          if ($("input[name='type']").is(':checked')) {
-              $('#btn-export').prop('disabled', false);
-          }
-          else {
-              $('#btn-export').prop('disabled', true);
-          }
-      }
+<%#= content_for :scripts do %>
+<!--  <script>-->
+<!--      function toggleExport() {-->
+<!--          if ($("input[name='type']").is(':checked')) {-->
+<!--              $('#btn-export').prop('disabled', false);-->
+<!--          }-->
+<!--          else {-->
+<!--              $('#btn-export').prop('disabled', true);-->
+<!--          }-->
+<!--      }-->
 
-      $(document).ready(function () {
-          toggleExport();
-      });
-  </script>
-<% end %>
+<!--      $(document).ready(function () {-->
+<!--          toggleExport();-->
+<!--      });-->
+<!--  </script>-->
+<%# end %>

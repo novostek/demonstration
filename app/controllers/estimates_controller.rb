@@ -185,10 +185,23 @@ class EstimatesController < ApplicationController
 
   # PATCH/PUT /estimates/1
   def update
-    if @estimate.update(estimate_params)
-      redirect_to products_estimate_path(@estimate.id)
-    else
-      render :edit
+    #binding.pry
+    respond_to do |format|
+      #format.html render :edit
+
+      #format.js { render :json => @estimate, status: :internal_server_error }
+
+      #format.json { render :json => @estimate, status: :internal_server_error }
+
+      if @estimate.update(estimate_params)
+        format.html { redirect_to products_estimate_path(@estimate.id) }
+        format.js { render :json => @estimate, status: :ok }
+        format.json { render :json => @estimate, status: :ok }
+      else
+        format.html render :edit
+        format.js { render :json => @estimate, status: :internal_server_error }
+        format.json { render :json => @estimate, status: :internal_server_error }
+      end
     end
   end
 

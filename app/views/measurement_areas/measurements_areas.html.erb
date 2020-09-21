@@ -1,3 +1,18 @@
+<%= content_for :head_content do %>
+  <style>
+    .order-cost-list .oc-item {
+      position: static;
+    }
+
+    div.disabled-div {
+      pointer-events: none;
+
+      /* for "disabled" effect */
+      opacity: 0.5;
+      background: #CCC;
+    }
+  </style>
+<% end %>
 <div class="row">
 	<div class="breadcrumbs-light pb-0 pt-4" id="breadcrumbs-wrapper">
 		<!-- Search for small screen-->
@@ -328,19 +343,58 @@
 			})
 		}
 
+    var timer;
+    var fun = function autosave() {
+        // M.toast({html: 'Autosave'});
+        console.log('autosave init');
+
+        const form = $('form.edit_estimate');
+        // debugger
+        $.ajax({
+            url: form.attr('action'),
+            data: form.serialize(),
+            type: 'POST',
+            dataType: 'json',
+            success: function (data) {
+                // debugger
+                    console.log('autosave succes' + data);
+                // if (data && data == 'success') {
+                //     // M.toast({html: 'Autosave success'});
+                // } else {
+                //     // M.toast({html: 'Autosave error'});
+                //     console.log('data ');
+                // }
+            },
+            error: function (data) {
+                // debugger
+                M.toast({html: 'Autosave error'});
+                console.log('autosave error: '+ data);
+            }
+        });
+    }
+
 		const next_button = $('#next_step')
 		let count_areas = $('#count_areas').val()
-		$(document).ready(function() {
-			
+    $(document).ready(function () {
 
-			count_areas <=0 ? next_button.addClass('disabled') : next_button.removeClass('disabled')
-		}).on('cocoon:after-insert', function() {
-			count_areas++
-			count_areas <=0 ? next_button.addClass('disabled') : next_button.removeClass('disabled')
-		}).on('cocoon:after-remove', function() {
-			count_areas--
-			count_areas <=0 ? next_button.addClass('disabled') : next_button.removeClass('disabled')
-		})
+
+        count_areas <= 0 ? next_button.addClass('disabled') : next_button.removeClass('disabled')
+
+        // call autosave
+        // setInterval(fun,30000);
+    }).on('cocoon:after-insert', function () {
+        count_areas++
+        count_areas <= 0 ? next_button.addClass('disabled') : next_button.removeClass('disabled')
+
+        // call autosave
+        fun();
+    }).on('cocoon:after-remove', function () {
+        count_areas--
+        count_areas <= 0 ? next_button.addClass('disabled') : next_button.removeClass('disabled')
+
+        // call autosave
+        // autosave();
+    })
 
 		function calc_square_feet(e) {
 			const { id, value } = e.target

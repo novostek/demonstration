@@ -74,6 +74,13 @@
 					<% end %>
 				</li>
 			</ul>
+      <div class="row">
+        <div class="right">
+          <span id="msg-save" style="display: none"><i class="material-icons">cloud_done</i></span>
+          <span id="msg-saving" style="display: none" class=""><i class="material-icons left">loop</i>Salvando...</span>
+          <span id="msg-save-error" style="display: none"> <i class="material-icons">cloud_off</i></span>
+        </div>
+      </div>
 			<div class="m-area-list row pl-1 pr-1 measurement_areas" id="measurement_areas">
 				<%= form.fields_for :measurement_areas do |measurement_area_form| %>
 					<%= render 'measurement_area_fields', f: measurement_area_form %>
@@ -345,55 +352,55 @@
 
     var timer;
     var fun = function autosave() {
-        // M.toast({html: 'Autosave'});
-        console.log('autosave init');
+        $('#msg-save').hide();
+        $('#msg-save-error').hide();
+        $('#msg-saving').show();
 
         const form = $('form.edit_estimate');
-        // debugger
+        const formData = new FormData(form[0]);
         $.ajax({
             url: form.attr('action'),
-            data: form.serialize(),
-            type: 'POST',
+            data: formData,
+            processData: false,
+            contentType: false,
+            type: 'PATCH',
             dataType: 'json',
             success: function (data) {
-                // debugger
-                    console.log('autosave succes' + data);
-                // if (data && data == 'success') {
-                //     // M.toast({html: 'Autosave success'});
-                // } else {
-                //     // M.toast({html: 'Autosave error'});
-                //     console.log('data ');
-                // }
+                $('#msg-saving').hide();
+                $('#msg-save').show();
             },
             error: function (data) {
-                // debugger
-                M.toast({html: 'Autosave error'});
-                console.log('autosave error: '+ data);
+                $('#msg-saving').hide();
+                $('#msg-save-error').show();
             }
         });
     }
 
-		const next_button = $('#next_step')
-		let count_areas = $('#count_areas').val()
+    const next_button = $('#next_step')
+    let count_areas = $('#count_areas').val()
+    let refreshIntervalId = null;
+    const time = 10000; // 30s
     $(document).ready(function () {
 
 
         count_areas <= 0 ? next_button.addClass('disabled') : next_button.removeClass('disabled')
 
-        // call autosave
-        // setInterval(fun,30000);
+        // Autosave
+        // if (count_areas > 0) refreshIntervalId = setInterval(fun,time);
     }).on('cocoon:after-insert', function () {
         count_areas++
         count_areas <= 0 ? next_button.addClass('disabled') : next_button.removeClass('disabled')
 
-        // call autosave
+        // Autosave
+        // if (refreshIntervalId == null) refreshIntervalId = setInterval(fun,time);
         fun();
     }).on('cocoon:after-remove', function () {
         count_areas--
         count_areas <= 0 ? next_button.addClass('disabled') : next_button.removeClass('disabled')
 
-        // call autosave
-        // autosave();
+        // Autosave
+        // if (count_areas <= 0) clearInterval(refreshIntervalId);
+        fun();
     })
 
 		function calc_square_feet(e) {

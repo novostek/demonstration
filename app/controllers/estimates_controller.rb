@@ -1,6 +1,6 @@
 class EstimatesController < ApplicationController
   load_and_authorize_resource except: [:estimate_signature, :create_products_estimates, :create_step_one, :create_schedule, :delete_schedule, :decline_estimate]
-  before_action :set_estimate, only: [:send_grid_mail, :show, :edit, :update, :destroy, :cancel, :reactivate, :send_mail, :estimate_signature, :tax_calculation, :taxpayer, :create_products_estimates, :new_note, :new_document, :create_order, :apply_discount, :decline_estimate]
+  before_action :set_estimate, only: [:send_grid_mail, :show, :edit, :update, :destroy, :cancel, :reactivate, :send_mail, :estimate_signature, :tax_calculation, :taxpayer, :create_products_estimates, :new_note, :new_document, :create_order, :apply_discount, :decline_estimate, :autosave_areas]
   before_action :set_combos, only: [:step_one, :products]
   # skip_forgery_protection
   # GET /estimates
@@ -86,7 +86,7 @@ class EstimatesController < ApplicationController
   def estimate_signature
     @view = params[:view]
     @hidden_fields = Setting.get_value('hidden_measurement_fields')
-    @notes = @estimate.notes.where(public_note: true )
+    @notes = @estimate.notes.where(public_note: true)
     #verifica se foi assinado para criar a order
     if params[:sign].present?
       # Cria a order caso não seja change_order
@@ -185,21 +185,36 @@ class EstimatesController < ApplicationController
 
   # PATCH/PUT /estimates/1
   def update
+    if @estimate.update(estimate_params)
+      redirect_to products_estimate_path(@estimate.id)
+    else
+      render :edit
+    end
+  end
+
+  # PATCH /autosave_areas/1
+  def autosave_areas
     #binding.pry
+    #
+    #ma_createds = params.to_unsafe_h[:estimate][:measurement_areas_attributes].select { |k, v| v[:id] }
+    #ma_new = params.to_unsafe_h[:estimate][:measurement_areas_attributes].select { |k, v| v[:id] }
+
+    ids_ordenate_old_params = params.to_unsafe_h[:estimate][:measurement_areas_attributes].map { |k, v| {postion: k, id: v[:id], name: v[:name], index_estimate: v[:index_estimate]} }
+    ids_ordenate_old_estimate = @estimate.measurement_areas.map { |ma| {id: ma.id, name: ma.name, index_estimate: ma.index_estimate.to_s} }
+
+
+    #@estimate_old = @estimate
     respond_to do |format|
-      #format.html render :edit
-
-      #format.js { render :json => @estimate, status: :internal_server_error }
-
-      #format.json { render :json => @estimate, status: :internal_server_error }
-
+      #binding.pry
       if @estimate.update(estimate_params)
-        format.html { redirect_to products_estimate_path(@estimate.id) }
-        format.js { render :json => @estimate, status: :ok }
-        format.json { render :json => @estimate, status: :ok }
+        ids_ordenate_current_estimate = @estimate.measurement_areas.map { |ma| {id: ma.id, name: ma.name, index_estimate: ma.index_estimate.to_s} }
+        #binding.pry
+        format.json { render :json => {ids_ordenate_old_params: ids_ordenate_old_params,
+                                       ids_ordenate_old_estimate: ids_ordenate_old_estimate,
+                                       ids_ordenate_current_estimate: ids_ordenate_current_estimate,
+                                       estimate_current: @estimate},
+                             status: :ok }
       else
-        format.html render :edit
-        format.js { render :json => @estimate, status: :internal_server_error }
         format.json { render :json => @estimate, status: :internal_server_error }
       end
     end
@@ -472,7 +487,7 @@ class EstimatesController < ApplicationController
         :latitude, :longitude, :category, :order_id, :price, :tax,
         :tax_calculation, :lead_id, :bpmn_instance, :current, :total, :taxpayer,
         measurement_areas_attributes: [
-            :id, :estimate_id, :name, :description, {images: []}, :_destroy,
+            :id, :estimate_id, :name, :description, {images: []}, :index_estimate, :_destroy,
             measurements_attributes: [
                 :id, :length, :width, :height, :square_feet, :measures, :_destroy
             ]

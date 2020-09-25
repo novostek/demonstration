@@ -125,6 +125,7 @@ Rails.application.routes.draw do
       get "reactivate"
       post "apply_discount"
       get 'decline_estimate'
+      patch 'autosave_areas'
     end
     collection do
       get ":id/measurements", to: "measurement_areas#measurements", as: :measurement_view

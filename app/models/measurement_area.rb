@@ -2,14 +2,15 @@
 #
 # Table name: measurement_areas
 #
-#  id          :uuid             not null, primary key
-#  cloned_from :uuid
-#  description :text
-#  images      :string           default([]), is an Array
-#  name        :string
-#  created_at  :datetime         not null
-#  updated_at  :datetime         not null
-#  estimate_id :uuid             not null
+#  id             :uuid             not null, primary key
+#  cloned_from    :uuid
+#  description    :text
+#  images         :string           default([]), is an Array
+#  index_estimate :integer
+#  name           :string
+#  created_at     :datetime         not null
+#  updated_at     :datetime         not null
+#  estimate_id    :uuid             not null
 #
 # Indexes
 #
@@ -20,6 +21,7 @@
 #  fk_rails_...  (estimate_id => estimates.id)
 #
 class MeasurementArea < ApplicationRecord
+  after_initialize :initialize_index_estimate, if: :set_index_estimate?
   belongs_to :estimate, optional: true
   has_many :measurements, inverse_of: :measurement_area, dependent: :destroy
   has_many :area_proposal, dependent: :destroy
@@ -40,5 +42,13 @@ class MeasurementArea < ApplicationRecord
     s = super(options)
     # s[:measurement_proposals] = self.measurement_proposals
     s
+  end
+
+  def set_index_estimate?
+    !index_estimate.present?
+  end
+
+  def initialize_index_estimate
+    self.index_estimate = DateTime.now.to_i
   end
 end

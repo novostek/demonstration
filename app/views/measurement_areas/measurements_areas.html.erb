@@ -38,7 +38,8 @@
 </div>
 <%= render 'estimates/estimate_detail' %>
 <%= form_for @estimate, local: true, url: estimate_path, method: :patch do |form| %>
-	<div class="card">
+	<%= hidden_field_tag :id_estimate, @estimate.id %>
+  <div class="card">
 		<div class="card-content">
 			<ul class="stepper horizontal stepper-head-only">
 				<li class="step">
@@ -358,18 +359,35 @@
 
         const form = $('form.edit_estimate');
         const formData = new FormData(form[0]);
+
+        const estimate_id = $('#id_estimate').val();
         $.ajax({
-            url: form.attr('action'),
+            url: `/estimates/${estimate_id}/autosave_areas`,
             data: formData,
             processData: false,
             contentType: false,
-            type: 'PATCH',
+            type: 'POST',
             dataType: 'json',
             success: function (data) {
+                // 1. pegar os ma cocoon que nao tinham id, mas agora vão ter
+                old_params_filtered = data.ids_ordenate_old_params.filter(ma => ma.id === null && ma.name !== '' ).map(ma => ma.index_estimate);
+
+                if (old_params_filtered.length > 0) {
+                    debugger
+
+                    // 2. buscar os ids gerados
+                    current_estimate_filtered = data.ids_ordenate_current_estimate.filter(({index_estimate}) => old_params_filtered.includes(index_estimate));
+
+                    // 3. setar nas caixas do html
+                }
+
+                console.log(`success: ${data}`);
                 $('#msg-saving').hide();
                 $('#msg-save').show();
             },
             error: function (data) {
+                debugger
+                console.log(`error: ${data}`);
                 $('#msg-saving').hide();
                 $('#msg-save-error').show();
             }
@@ -400,7 +418,7 @@
 
         // Autosave
         // if (count_areas <= 0) clearInterval(refreshIntervalId);
-        fun();
+        // fun();
     })
 
 		function calc_square_feet(e) {

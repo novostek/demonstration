@@ -39,7 +39,11 @@ const Areas = ({index, pe}) => {
       <div className="areas-available col">
         <span>{t('estimate.areas.items_for')}</span>
         {
-          estimate.measurement_areas.map((ma, maIndex) => (
+          estimate.measurement_areas.sort(function(a, b){
+              if(a.created_at < b.created_at) { return -1; }
+              if(a.created_at > b.created_at) { return 1; }
+              return 0;
+          }).map((ma, maIndex) => (
             <div 
               className={`chip ${productEstimate[index].areas.includes(ma.id) ? 'selected' : ''}`} 
               key={Math.random()} 

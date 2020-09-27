@@ -11,6 +11,14 @@
       opacity: 0.5;
       background: #CCC;
     }
+
+    a.disabled-div {
+      pointer-events: none;
+
+      /* for "disabled" effect */
+      opacity: 0.5;
+      background: #CCC;
+    }
   </style>
 <% end %>
 <div class="row">
@@ -353,11 +361,11 @@
 			})
 		}
 
-    var timer;
     let refreshIntervalId = null;
-    const time = 5000; // 10s
+    const time = 5000; // 5s
     const next_button = $('#next_step');
     let click_next = false;
+    let count_areas = $('#count_areas').val();
 
     function clickNext(){
         click_next = true;
@@ -369,11 +377,12 @@
         // Autosave se nao clicou em next
         if (!click_next) {
 
-            // pausa o temporizador autosave
+            // Para o temporizador autosave
             clearInterval(refreshIntervalId);
 
-            // desabilita btn-next
-            next_button.addClass('disabled')
+            // desabilita btn
+            next_button.addClass('disabled');
+            $('.btn-close-area').addClass('disabled-div');
 
             $('#msg-save').hide();
             $('#msg-save-error').hide();
@@ -408,7 +417,7 @@
                                 if (persisted_areas.map(ma => ma.id_cocoon).includes(id_cocoon)) {
 
                                     // Pega o MeasurementArea persistida
-                                    const ma_persisted = data.ids_ordenate_current_estimate.filter(ma => ma.index_estimate === index_estimate)[0]
+                                    const ma_persisted = data.ids_ordenate_current_estimate.filter(ma => ma.index_estimate === index_estimate)[0];
 
                                     // Adiciona id_db da MeasurementArea
                                     $(this).append(`<input type="hidden" value="${ma_persisted.id_db}" name="estimate[measurement_areas_attributes][${id_cocoon}][id]" id="estimate_measurement_areas_attributes_${id_cocoon}_id">`);
@@ -434,8 +443,9 @@
                     // inicia temporizador autosave
                     refreshIntervalId = setInterval(fun, time);
 
-                    // Habilita btn-next
-                    next_button.removeClass('disabled')
+                    // Habilita btn
+                    if(count_areas > 0) next_button.removeClass('disabled');
+                    $('.btn-close-area').removeClass('disabled-div');
                 },
                 error: function (data) {
 
@@ -446,17 +456,14 @@
                     // inicia temporizador autosave
                     refreshIntervalId = setInterval(fun, time);
 
-                    // Habilita btn-next
-                    next_button.removeClass('disabled')
+                    // Habilita btn
+                    if(count_areas > 0) next_button.removeClass('disabled');
+                    $('.btn-close-area').removeClass('disabled-div');
                 }
             });
 
         }
     };
-
-    let count_areas = $('#count_areas').val()
-
-
 
     $(document).ready(function () {
         count_areas <= 0 ? next_button.addClass('disabled') : next_button.removeClass('disabled');

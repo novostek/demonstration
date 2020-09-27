@@ -192,30 +192,20 @@ class EstimatesController < ApplicationController
     end
   end
 
-  # PATCH /autosave_areas/1
+  # POST /autosave_areas/1
   def autosave_areas
-    #binding.pry
-    #
-    #ma_createds = params.to_unsafe_h[:estimate][:measurement_areas_attributes].select { |k, v| v[:id] }
-    #ma_new = params.to_unsafe_h[:estimate][:measurement_areas_attributes].select { |k, v| v[:id] }
+    ids_ordenate_old_params = params.to_unsafe_h[:estimate][:measurement_areas_attributes].map { |k, v| {id_cocoon: k, id_db: v[:id], name: v[:name], index_estimate: v[:index_estimate], first_measurement: v[:measurements_attributes].first[1][:id]} }
 
-    ids_ordenate_old_params = params.to_unsafe_h[:estimate][:measurement_areas_attributes].map { |k, v| {postion: k, id: v[:id], name: v[:name], index_estimate: v[:index_estimate]} }
-    ids_ordenate_old_estimate = @estimate.measurement_areas.map { |ma| {id: ma.id, name: ma.name, index_estimate: ma.index_estimate.to_s} }
-
-
-    #@estimate_old = @estimate
     respond_to do |format|
-      #binding.pry
       if @estimate.update(estimate_params)
-        ids_ordenate_current_estimate = @estimate.measurement_areas.map { |ma| {id: ma.id, name: ma.name, index_estimate: ma.index_estimate.to_s} }
-        #binding.pry
+        ids_ordenate_current_estimate = @estimate.measurement_areas.map { |ma| {id_cocoon: nil, id_db: ma.id, name: ma.name, index_estimate: ma.index_estimate.to_s, first_measurement: ma.measurements.first.id} }
+
         format.json { render :json => {ids_ordenate_old_params: ids_ordenate_old_params,
-                                       ids_ordenate_old_estimate: ids_ordenate_old_estimate,
                                        ids_ordenate_current_estimate: ids_ordenate_current_estimate,
                                        estimate_current: @estimate},
                              status: :ok }
       else
-        format.json { render :json => @estimate, status: :internal_server_error }
+        format.json { render :json => @estimate.errors.full_messages, status: :internal_server_error }
       end
     end
   end

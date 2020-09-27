@@ -83,15 +83,17 @@
         </div>
       </div>
 			<div class="m-area-list row pl-1 pr-1 measurement_areas" id="measurement_areas">
-				<%= form.fields_for :measurement_areas do |measurement_area_form| %>
+				<%= form.fields_for :measurement_areas, @estimate.measurement_areas.order(created_at: :asc) do |measurement_area_form| %>
 					<%= render 'measurement_area_fields', f: measurement_area_form %>
 				<% end %>
 			</div>
-			<div class="row mt-1">
-				<%= link_to_add_association form, :measurement_areas, id: "add_area", class: 'btn btn-add-area btn-secondary' do %>
-					<i class="material-icons left">add</i> <%= t 'button.add' %> <%= t 'area' %>
-				<% end %>
-			</div>								
+      <div id="new-measurement-areas" class="row pl-1 pr-1">
+        <div class="row mt-1">
+          <%= link_to_add_association form, :measurement_areas, id: "add_area", class: 'btn btn-add-area btn-secondary' do %>
+            <i class="material-icons left">add</i> <%= t 'button.add' %> <%= t 'area' %>
+          <% end %>
+        </div>
+      </div>
 		</div>
 	</div>
 	<div class="col s12 pb-2 pr-0 pl-0">
@@ -206,7 +208,7 @@
 				this.parentElement.parentElement.getElementsByClassName("square_feet")[0].value = width * length
 			}
 			divLength.appendChild(inputLength);
-			
+
 			const labelLength = document.createElement("label");
 			labelLength.setAttribute("for", `length[${index}]`)
 			labelLength.setAttribute("class", "active")
@@ -225,7 +227,7 @@
 			inputSqft.setAttribute("step", "0.01")
 			inputSqft.setAttribute("min", "0")
 			divSqft.appendChild(inputSqft);
-			
+
 			const labelsQFT = document.createElement("label");
 			labelsQFT.setAttribute("for", `square_feet[${index}]`)
 			labelsQFT.setAttribute("class", "active")
@@ -260,7 +262,7 @@
 			measure_container.setAttribute("measures_id", event.target.parentElement.nextSibling.nextSibling.id)
 			measure_container.innerHTML = '';
 
-			
+
 			measures.value.map((measure, index) => {
 				const divRow = document.createElement("div");
 				divRow.setAttribute("class", "display-flex align-items-center justify-content-between");
@@ -304,7 +306,7 @@
 					this.parentElement.parentElement.getElementsByClassName("square_feet")[0].value = width * length
 				}
 				divLength.appendChild(inputLength);
-				
+
 				const labelLength = document.createElement("label");
 				labelLength.setAttribute("for", `length[${index}]`)
 				labelLength.setAttribute("class", "active")
@@ -323,13 +325,13 @@
 				inputSqft.setAttribute("step", "0.01")
 				inputSqft.setAttribute("min", "0")
 				divSqft.appendChild(inputSqft);
-				
+
 				const labelsQFT = document.createElement("label");
 				labelsQFT.setAttribute("for", `square_feet[${index}]`)
 				labelsQFT.setAttribute("class", "active")
 				labelsQFT.innerHTML = "<%= t 'activerecord.attributes.measurement.square_feet' %>"
 				divSqft.appendChild(labelsQFT)
-				
+
 				const aRemove = document.createElement("a")
 				aRemove.setAttribute("href", "#")
 				aRemove.setAttribute("class", "col right")
@@ -369,57 +371,71 @@
             type: 'POST',
             dataType: 'json',
             success: function (data) {
-                // 1. pegar os ma cocoon que nao tinham id, mas agora vão ter
-                old_params_filtered = data.ids_ordenate_old_params.filter(ma => ma.id === null && ma.name !== '' ).map(ma => ma.index_estimate);
 
-                if (old_params_filtered.length > 0) {
-                    debugger
+                // 1. Pegar as MeasurementArea que nao tinham id_db, mas agora vão ter
+                let persisted_areas = data.ids_ordenate_old_params.filter(ma => ma.id_db === null && ma.name !== '' );
 
-                    // 2. buscar os ids gerados
-                    current_estimate_filtered = data.ids_ordenate_current_estimate.filter(({index_estimate}) => old_params_filtered.includes(index_estimate));
+                if (persisted_areas.length > 0) {
 
-                    // 3. setar nas caixas do html
+                    // 2. Seta id_db da MeasurementArea e da Measurement
+                    $('#new-measurement-areas').children('.nested-fields').each(function() {
+                        let id_cocoon = $(this).children('input[name="id-cocoon"]').val();
+                        let index_estimate = data.ids_ordenate_old_params.filter(ma => ma.id_cocoon === id_cocoon)[0].index_estimate;
+
+                        // Verifica se esta MeasurementArea foi persistida
+                        if (persisted_areas.map(ma => ma.id_cocoon).includes(id_cocoon)) {
+
+                            // Pega o MeasurementArea persistida
+                            const ma_persisted = data.ids_ordenate_current_estimate.filter(ma => ma.index_estimate === index_estimate)[0]
+
+                            // Adiciona id_db da MeasurementArea
+                            $(this).append(`<input type="hidden" value="${ma_persisted.id_db}" name="estimate[measurement_areas_attributes][${id_cocoon}][id]" id="estimate_measurement_areas_attributes_${id_cocoon}_id">`);
+
+                            // Adiciona id_db da Measurement
+                            const id_measurement_db = ma_persisted.first_measurement;
+                            $('#new-measurement-areas').children('.nested-fields').each(function() {
+                                if($(this).children('input[name="id-cocoon"]').val() == id_cocoon){
+                                    $(this).children('.m-area--measures').append(`<input type="hidden" value="${id_measurement_db}" name="estimate[measurement_areas_attributes][${id_cocoon}][measurements_attributes][0][id]" id="estimate_measurement_areas_attributes_${id_cocoon}_measurements_attributes_0_id">`);
+                                }
+                            })
+
+                        }
+
+                    });
                 }
 
-                console.log(`success: ${data}`);
+                // Message
                 $('#msg-saving').hide();
                 $('#msg-save').show();
             },
             error: function (data) {
-                debugger
-                console.log(`error: ${data}`);
+
+                // Message
                 $('#msg-saving').hide();
                 $('#msg-save-error').show();
             }
         });
-    }
+    };
 
     const next_button = $('#next_step')
     let count_areas = $('#count_areas').val()
     let refreshIntervalId = null;
     const time = 10000; // 30s
     $(document).ready(function () {
+        count_areas <= 0 ? next_button.addClass('disabled') : next_button.removeClass('disabled');
+    }).on('cocoon:after-insert', function (e, added_thing) {
+        count_areas++;
+        count_areas <= 0 ? next_button.addClass('disabled') : next_button.removeClass('disabled');
 
-
-        count_areas <= 0 ? next_button.addClass('disabled') : next_button.removeClass('disabled')
-
-        // Autosave
-        // if (count_areas > 0) refreshIntervalId = setInterval(fun,time);
-    }).on('cocoon:after-insert', function () {
-        count_areas++
-        count_areas <= 0 ? next_button.addClass('disabled') : next_button.removeClass('disabled')
+        // Adiciona campo para facilitar a busca no momento do autosave
+        $(added_thing).append(`<input type="hidden" name="id-cocoon" value="${added_thing.children('input').attr('id').split('_')[4]}" />`);
 
         // Autosave
-        // if (refreshIntervalId == null) refreshIntervalId = setInterval(fun,time);
         fun();
     }).on('cocoon:after-remove', function () {
-        count_areas--
-        count_areas <= 0 ? next_button.addClass('disabled') : next_button.removeClass('disabled')
-
-        // Autosave
-        // if (count_areas <= 0) clearInterval(refreshIntervalId);
-        // fun();
-    })
+        count_areas--;
+        count_areas <= 0 ? next_button.addClass('disabled') : next_button.removeClass('disabled');
+    });
 
 		function calc_square_feet(e) {
 			const { id, value } = e.target

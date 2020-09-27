@@ -185,7 +185,7 @@ class EstimatesController < ApplicationController
 
   # PATCH/PUT /estimates/1
   def update
-    if @estimate.update(estimate_params)
+    if @estimate.update(estimate_params_adjusted)
       redirect_to products_estimate_path(@estimate.id)
     else
       render :edit
@@ -194,18 +194,18 @@ class EstimatesController < ApplicationController
 
   # POST /autosave_areas/1
   def autosave_areas
-    ids_ordenate_old_params = params.to_unsafe_h[:estimate][:measurement_areas_attributes].map { |k, v| {id_cocoon: k, id_db: v[:id], name: v[:name], index_estimate: v[:index_estimate], first_measurement: v[:measurements_attributes].first[1][:id]} }
+    ids_ordenate_old_params = params.to_unsafe_h[:estimate][:measurement_areas_attributes].map { |k, v| {id_cocoon: k, id_db: v[:id], name: v[:name], index_estimate: v[:index_estimate], first_measurement: v[:measurements_attributes].first[1][:id]} } if params.to_unsafe_h[:estimate][:measurement_areas_attributes]
 
     respond_to do |format|
-      if @estimate.update(estimate_params)
-        ids_ordenate_current_estimate = @estimate.measurement_areas.map { |ma| {id_cocoon: nil, id_db: ma.id, name: ma.name, index_estimate: ma.index_estimate.to_s, first_measurement: ma.measurements.first.id} }
+      if @estimate.update(estimate_params_adjusted)
+        ids_ordenate_current_estimate = @estimate.measurement_areas.map { |ma| {id_cocoon: nil, id_db: ma.id, name: ma.name, index_estimate: ma.index_estimate.to_s, first_measurement: ma.measurements.first.id} } if @estimate.measurement_areas
 
         format.json { render :json => {ids_ordenate_old_params: ids_ordenate_old_params,
                                        ids_ordenate_current_estimate: ids_ordenate_current_estimate,
                                        estimate_current: @estimate},
                              status: :ok }
       else
-        format.json { render :json => @estimate.errors.full_messages, status: :internal_server_error }
+        format.json { render :json => @estimate.errors.messages, status: :internal_server_error }
       end
     end
   end
@@ -482,5 +482,19 @@ class EstimatesController < ApplicationController
                 :id, :length, :width, :height, :square_feet, :measures, :_destroy
             ]
         ])
+  end
+
+  def estimate_params_adjusted
+    # pega id areas
+    ma_persisted = @estimate.measurement_areas.map{|ma| ma.id}
+
+    # remover as areas marcadas para destruicao mas já foram destruidas no autosave
+    ma_remaining = estimate_params.to_unsafe_h[:measurement_areas_attributes].delete_if{|k, v| v['id'] and v['_destroy'].eql?('1') and !ma_persisted.include?(v['id'])} if estimate_params.to_unsafe_h[:measurement_areas_attributes]
+
+    # edita params
+    params[:estimate][:measurement_areas_attributes] = ma_remaining if ma_remaining
+
+    # retorna params atualizado
+    estimate_params
   end
 end

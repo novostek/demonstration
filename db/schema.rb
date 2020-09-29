@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_09_24_235029) do
+ActiveRecord::Schema.define(version: 2020_09_28_220248) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -179,7 +179,7 @@ ActiveRecord::Schema.define(version: 2020_09_24_235029) do
     t.datetime "updated_at", precision: 6, null: false
     t.uuid "cloned_from"
     t.string "images", default: [], array: true
-    t.integer "index_estimate"
+    t.string "index_estimate"
     t.index ["estimate_id"], name: "index_measurement_areas_on_estimate_id"
   end
 

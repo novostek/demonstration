@@ -86,7 +86,7 @@
       <div class="row">
         <div class="right">
           <span id="msg-save" style="display: none"><i class="material-icons">cloud_done</i></span>
-          <span id="msg-saving" style="display: none" class=""><i class="material-icons left">loop</i>Salvando...</span>
+          <span id="msg-saving" style="display: none" class=""><i class="material-icons left">loop</i><%= t 'texts.saving' %>...</span>
           <span id="msg-save-error" style="display: none"> <i class="material-icons">cloud_off</i></span>
         </div>
       </div>
@@ -362,20 +362,27 @@
 		}
 
     let refreshIntervalId = null;
-    const time = 5000; // 5s
+    const time = 10000; // 5s
     const next_button = $('#next_step');
     let click_next = false;
+    let autosaving = false;
     let count_areas = $('#count_areas').val();
 
-    function clickNext(){
+    function clickNext(element){
         click_next = true;
-        console.log(click_next);
+
+        // desabilita btn
+        next_button.addClass('disabled');
+        $('.btn-close-area').addClass('disabled-div');
     }
 
     var fun = function autosave() {
 
         // Autosave se nao clicou em next
         if (!click_next) {
+
+            // Sinaliza que iniciou o processo de autosave
+            autosaving = true;
 
             // Para o temporizador autosave
             clearInterval(refreshIntervalId);
@@ -410,14 +417,14 @@
 
                             // 2. Seta id_db da MeasurementArea e da Measurement
                             $('#new-measurement-areas').children('.nested-fields').each(function () {
+                                // debugger
                                 let id_cocoon = $(this).children('input[name="id-cocoon"]').val();
-                                let index_estimate = data.ids_ordenate_old_params.filter(ma => ma.id_cocoon === id_cocoon)[0].index_estimate;
 
                                 // Verifica se esta MeasurementArea foi persistida
                                 if (persisted_areas.map(ma => ma.id_cocoon).includes(id_cocoon)) {
 
                                     // Pega o MeasurementArea persistida
-                                    const ma_persisted = data.ids_ordenate_current_estimate.filter(ma => ma.index_estimate === index_estimate)[0];
+                                    const ma_persisted = data.ids_ordenate_current_estimate.filter(ma => ma.index_estimate === id_cocoon)[0];
 
                                     // Adiciona id_db da MeasurementArea
                                     $(this).append(`<input type="hidden" value="${ma_persisted.id_db}" name="estimate[measurement_areas_attributes][${id_cocoon}][id]" id="estimate_measurement_areas_attributes_${id_cocoon}_id">`);
@@ -446,6 +453,9 @@
                     // Habilita btn
                     if(count_areas > 0) next_button.removeClass('disabled');
                     $('.btn-close-area').removeClass('disabled-div');
+
+                    // Sinaliza que terminou o processo de autosave
+                    autosaving = false;
                 },
                 error: function (data) {
 
@@ -459,6 +469,9 @@
                     // Habilita btn
                     if(count_areas > 0) next_button.removeClass('disabled');
                     $('.btn-close-area').removeClass('disabled-div');
+
+                    // Sinaliza que terminou o processo de autosave
+                    autosaving = false;
                 }
             });
 
@@ -472,16 +485,23 @@
         refreshIntervalId = setInterval(fun,time);
     }).on('cocoon:after-insert', function (e, added_thing) {
         count_areas++;
-        count_areas <= 0 ? next_button.addClass('disabled') : next_button.removeClass('disabled');
+        (count_areas <= 0 && !autosaving) ? next_button.addClass('disabled') : next_button.removeClass('disabled');
 
-        // Adiciona campo para facilitar a busca no momento do autosave
-        $(added_thing).append(`<input type="hidden" name="id-cocoon" value="${added_thing.children('input').attr('id').split('_')[4]}" />`);
+        const id_cocoon = added_thing.children('input').attr('id').split('_')[4];
+
+        // Adiciona campo para facilitar a busca no momento do
+        $(added_thing).append(`<input type="hidden" name="id-cocoon" value="${id_cocoon}" />`);
+
+        // Add o id_cocoon no index_estimate
+        $(added_thing).children('.m-area--info').children('input').val(id_cocoon);
 
         // Autosave
         // fun();
 
         // Autosave
         // if (refreshIntervalId == null) refreshIntervalId = setInterval(fun,time);
+
+
     }).on('cocoon:after-remove', function () {
         count_areas--;
         count_areas <= 0 ? next_button.addClass('disabled') : next_button.removeClass('disabled');

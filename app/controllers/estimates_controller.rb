@@ -194,12 +194,11 @@ class EstimatesController < ApplicationController
 
   # POST /autosave_areas/1
   def autosave_areas
-    ids_ordenate_old_params = params.to_unsafe_h[:estimate][:measurement_areas_attributes].map { |k, v| {id_cocoon: k, id_db: v[:id], name: v[:name], index_estimate: v[:index_estimate], first_measurement: v[:measurements_attributes].first[1][:id]} } if params.to_unsafe_h[:estimate][:measurement_areas_attributes]
+    ids_ordenate_old_params = estimate_params_adjusted[:measurement_areas_attributes].to_unsafe_h.map { |k, v| {id_cocoon: k, id_db: v[:id], name: v[:name], index_estimate: v[:index_estimate], first_measurement: v[:measurements_attributes].first[1][:id]} } if estimate_params_adjusted[:measurement_areas_attributes].present?
 
     respond_to do |format|
       if @estimate.update(estimate_params_adjusted)
         ids_ordenate_current_estimate = @estimate.measurement_areas.map { |ma| {id_cocoon: nil, id_db: ma.id, name: ma.name, index_estimate: ma.index_estimate.to_s, first_measurement: ma.measurements.first.id} } if @estimate.measurement_areas
-
         format.json { render :json => {ids_ordenate_old_params: ids_ordenate_old_params,
                                        ids_ordenate_current_estimate: ids_ordenate_current_estimate,
                                        estimate_current: @estimate},
@@ -489,7 +488,7 @@ class EstimatesController < ApplicationController
     ma_persisted = @estimate.measurement_areas.map{|ma| ma.id}
 
     # remover as areas marcadas para destruicao mas já foram destruidas no autosave
-    ma_remaining = estimate_params.to_unsafe_h[:measurement_areas_attributes].delete_if{|k, v| v['id'] and v['_destroy'].eql?('1') and !ma_persisted.include?(v['id'])} if estimate_params.to_unsafe_h[:measurement_areas_attributes]
+    ma_remaining = estimate_params.to_unsafe_h[:measurement_areas_attributes].delete_if{|k, v| v['id'] and v['_destroy'].eql?('1') and !ma_persisted.include?(v['id'])} if estimate_params.to_unsafe_h[:measurement_areas_attributes].present?
 
     # edita params
     params[:estimate][:measurement_areas_attributes] = ma_remaining if ma_remaining

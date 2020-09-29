@@ -6,7 +6,7 @@
 #  cloned_from    :uuid
 #  description    :text
 #  images         :string           default([]), is an Array
-#  index_estimate :integer
+#  index_estimate :string
 #  name           :string
 #  created_at     :datetime         not null
 #  updated_at     :datetime         not null

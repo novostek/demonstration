@@ -479,13 +479,13 @@
     };
 
     $(document).ready(function () {
-        count_areas <= 0 ? next_button.addClass('disabled') : next_button.removeClass('disabled');
+        (count_areas > 0 && !autosaving) ? next_button.removeClass('disabled') : next_button.addClass('disabled');
 
         // Autosave
         refreshIntervalId = setInterval(fun,time);
     }).on('cocoon:after-insert', function (e, added_thing) {
         count_areas++;
-        (count_areas <= 0 && !autosaving) ? next_button.addClass('disabled') : next_button.removeClass('disabled');
+        (count_areas > 0 && !autosaving) ? next_button.removeClass('disabled') : next_button.addClass('disabled');
 
         const id_cocoon = added_thing.children('input').attr('id').split('_')[4];
 
@@ -504,7 +504,7 @@
 
     }).on('cocoon:after-remove', function () {
         count_areas--;
-        count_areas <= 0 ? next_button.addClass('disabled') : next_button.removeClass('disabled');
+        (count_areas > 0 && !autosaving) ? next_button.removeClass('disabled') : next_button.addClass('disabled');
 
         // Autosave
         // if (count_areas <= 0) clearInterval(refreshIntervalId);

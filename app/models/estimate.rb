@@ -206,7 +206,7 @@ class Estimate < ApplicationRecord
   end
 
   def discounts
-    product_estimates.sum(:discount)
+    product_estimates.sum(&:discount)
   end
 
   def subtotal

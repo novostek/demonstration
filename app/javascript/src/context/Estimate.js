@@ -359,14 +359,14 @@ export default function EstimateProvider({children}) {
           t("estimate.swal.delete.text"),
           'success'
         )
-        setProductEstimate(productEstimate => {
-          const copy = [...productEstimate]
-          copy[maIndex].products.splice(peIndex, 1)
 
-          reset(copy)
+        let pe = setProductEstimate(productEstimate => {
+          const copy = [...productEstimate];
+          copy[maIndex].products.splice(peIndex, 1);
 
           return copy
-        })
+        });
+        reset(pe);
       }
     })
     // setProductEstimate(productEstimate => [

@@ -223,7 +223,7 @@ class EstimatesController < ApplicationController
       lead.save
 
       new_estimate = estimate.dup
-      new_estimate.code = Estimate.last.code.to_i + 1
+      new_estimate.initialize_code #new_estimate.code = Estimate.last.code.to_i + 1
       new_estimate.status = :new
       new_estimate.lead = lead
       new_estimate.order_id = nil

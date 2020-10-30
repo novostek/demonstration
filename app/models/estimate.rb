@@ -44,7 +44,8 @@
 #
 
 class Estimate < ApplicationRecord
-  after_initialize :initialize_code, if: :new_record?
+  #after_initialize :initialize_code, if: :new_record?
+  before_create :initialize_code
 
   alias_attribute :tax_calculation, :calculation_formula
 

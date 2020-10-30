@@ -1,6 +1,6 @@
 <div class="row">
     <div class="input-field col s12 m3">
-      <%= f.text_field :code, value: @estimate.code, class: "validade", readonly: 'true' %>
+      <%= f.text_field :code, value: @estimate.code || '#####', class: "validade", readonly: 'true' %>
       <%= f.label  :code %>
     </div>
 

@@ -281,19 +281,24 @@ class EstimatesController < ApplicationController
   end
 
   def create_step_one
-    estimate = Estimate.find_or_initialize_by(lead_id: params[:lead_id])
-    estimate.code = params[:estimate][:code]
+    estimate = Estimate.find_or_initialize_by(lead_id: params[:lead_id], code: params[:estimate][:code])
+
+    # visible data
     estimate.title = params[:estimate][:title]
-    estimate.description = params[:estimate][:description]
     estimate.location = params[:estimate][:location]
-    estimate.latitude = params[:estimate][:latitude]
-    estimate.longitude = params[:estimate][:longitude]
+    estimate.description = params[:estimate][:description]
     estimate.sales_person_id = params[:estimate][:sales_person_id]
     estimate.payment_approval = params[:estimate][:payment_approval]
-    estimate.lead_id = params[:lead_id]
-    estimate.status = 'new'
-    estimate.total = 0.0
-    estimate.category = :estimate
+
+    if estimate.new_record?
+      estimate.latitude = params[:estimate][:latitude]
+      estimate.longitude = params[:estimate][:longitude]
+      estimate.lead_id = params[:lead_id]
+      estimate.code = params[:estimate][:code]
+      estimate.status = 'new'
+      estimate.total = 0.0
+      estimate.category = :estimate
+    end
 
     if estimate.save()
       redirect_to schedule_estimate_path(estimate.id)

@@ -73,3 +73,5 @@ en:
       select_default_value_pay_labor_costs: Select a default value for when you pay your labor costs
       select_default_value_pay_taxes: Select a default value for when pay your taxes
       select_default_value_buy_product: Select a default value for when buy a product
+
+      site: Site

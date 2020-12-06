@@ -2,11 +2,22 @@ class SettingsController < ApplicationController
   load_and_authorize_resource except: [:company_logo, :cached_logo, :company_banner]
   before_action :set_setting, only: [:show, :edit, :update, :destroy]
   before_action :get_logo, only: :company_logo
+  require './app/services/duda_service'
 
   # GET /settings
   def index
     @q = Setting.all.ransack(params[:q])
     @settings = @q.result.page(params[:page])
+  end
+
+  def site
+    @site = nil
+    @templates = DudaService.team_templates
+  end
+
+  def site_create
+    result = DudaService.create_site params[template_id]
+
   end
 
   def email

@@ -33,48 +33,7 @@ class SettingsController < ApplicationController
   end
 
   def edit_site
-    @site_content_library = {
-        "location_data": {
-            "phones": [
-                {
-                    "phoneNumber": Setting.get_value('company_phone') || '',
-                    "label": "Main"
-                }
-            ],
-            "emails": [
-                {
-                    "emailAddress": Setting.get_value('company_email') || '',
-                    "label": "Main"
-                }
-            ],
-            "label": Setting.get_value('company_address') || '',
-            "social_accounts": {
-                "facebook": ""
-            },
-            "address": {
-                "countryCode": Setting.get_value('company_address') || ''
-            },
-            "address_geolocation": Setting.get_value('company_address') || '',
-            "logo_url": Setting.get_value('logo') || nil
-        },
-        "additional_locations": [],
-        "site_texts": {
-            "overview": "Visão Geral da Empresa",
-            "services": "Serviços Oferecidos",
-            "custom": [
-                {
-                    "label": "since",
-                    "text": "Since 2003"
-                }
-            ],
-            "about_us": "Produzindo pneus de qualidade a mais de 15 anos"
-        },
-        "business_data": {
-            "name": Setting.get_value('company_name') || nil,
-            "logo_url": Setting.get_value('logo') || nil,
-            "data_controller": nil
-        }
-    }
+    @site_name = params[:site_name]
   end
 
   def update_site
@@ -86,47 +45,59 @@ class SettingsController < ApplicationController
           "location_data": {
               "phones": [
                   {
-                      "phoneNumber": "+1-202-555-0138",
-                      "label": "Main"
+                      "phoneNumber": Setting.get_value('company_phone') || '',
+                      "label": ""
                   }
               ],
               "emails": [
                   {
-                      "emailAddress": "mail1@gmail.com",
+                      "emailAddress": Setting.get_value('company_email') || '',
                       "label": ""
                   }
               ],
-              "label": "Palmas1",
-              "social_accounts": {
-                  "facebook": "kleber1"
-              },
+              "label": Setting.get_value('company_address') || '',
+              "social_accounts": {},
               "address": {
-                  "countryCode": "BRA"
+                  "countryCode": "EN"
               },
-              "address_geolocation": "Palmas, Tocantins, Brasil",
-              "geo": {
-                  "longitude": "-48.3312",
-                  "latitude": "-10.21242"
-              },
-              "logo_url": nil
+              "address_geolocation": Setting.get_value('company_address') || '',
+              "logo_url": Setting.get_value('logo') || nil,
+              "business_hours": []
           },
           "additional_locations": [],
           "site_texts": {
-              "overview": "<p class=\"rteBlock\">Visão Geral da Empresa</p>",
-              "services": "<p class=\"rteBlock\">Serviços Oferecidos</p>",
+              "overview": params[:overview],
+              "services": params[:services],
               "custom": [
                   {
                       "label": "since",
-                      "text": "Desde 1998 (1)"
+                      "text": params[:since]
+                  },
+                  {
+                      "label": "main_text",
+                      "text": params[:main_text]
+                  },
+                  {
+                      "label": "title_experiency",
+                      "text": params[:title_experiency]
+                  },
+                  {
+                      "label": "text_experiency",
+                      "text": params[:text_experiency]
+                  },
+                  {
+                      "label": "title_requeste_cote",
+                      "text": params[:title_requeste_cote]
                   }
               ],
-              "about_us": "Produzindo pneus de qualidade a mais de 15 anos"
+              "about_us": params[:about_us]
           },
           "business_data": {
-              "name": "kleber1",
-              "logo_url": nil,
+              "name": Setting.get_value('company_name') || nil,
+              "logo_url": Setting.get_value('logo') || nil,
               "data_controller": nil
-          }
+          },
+          "site_images": []
       }
 
       # Update site
@@ -143,132 +114,6 @@ class SettingsController < ApplicationController
   end
 
   def estimate
-    #{
-    #    "location_data": {
-    #        "phones": [
-    #            {
-    #                "phoneNumber": "123-123-1234",
-    #                "label": "Russ Phone"
-    #            },
-    #            {
-    #                "phoneNumber": "18001234567",
-    #                "label": "Duda Phone"
-    #            }
-    #        ],
-    #        "emails": [
-    #            {
-    #                "emailAddress": "api@duda.co",
-    #                "label": "API Email"
-    #            },
-    #            {
-    #                "emailAddress": "support@duda.co",
-    #                "label": "Support Email"
-    #            }
-    #        ],
-    #        "label": "Duda HQ",
-    #        "social_accounts": {
-    #            "tripadvisor": "Restaurant_Review-g32849-d2394400-Reviews-Oren_s_Hummus_Shop-Palo_Alto_California.html",
-    #            "youtube": "UCPMwzOc1Su-s2z-J1xiU9ig",
-    #            "facebook": "duda",
-    #            "yelp": "orens-hummus-shop-palo-alto",
-    #            "pinterest": "michelleobama",
-    #            "google_plus": "+Dudamobile577",
-    #            "linkedin": "duda",
-    #            "instagram": "orenshummus",
-    #            "snapchat": "michelleobama",
-    #            "twitter": "dudamobile",
-    #            "rss": "https://www.duda.co/blog/feed/",
-    #            "vimeo": "dudamobile",
-    #            "reddit": "duda"
-    #        },
-    #        "address": {
-    #            "streetAddress": "577 College Ave",
-    #            "postalCode": "94306",
-    #            "region":"CA",
-    #            "city": "Palo Alto",
-    #            "country": "US"
-    #        },
-    #        "address_geolocation": "1833 Harvard St NW, Washington, DC 20009, USA",
-    #        "geo": {
-    #            "longitude": "-122.4757527166",
-    #            "latitude": "37.502439189002"
-    #        },
-    #        "logo_url": "https://du-cdn.multiscreensite.com/duda_website/img/home/agencies.svg",
-    #        "business_hours": [
-    #            {
-    #                "days": [
-    #                    "SAT",
-    #                    "SUN"
-    #                ],
-    #                "open": "00:00",
-    #                "close": "00:00"
-    #            },
-    #            {
-    #                "days": [
-    #                    "MON",
-    #                    "TUE",
-    #                    "WED",
-    #                    "THU",
-    #                    "FRI"
-    #                ],
-    #                "open": "09:00",
-    #                "close": "18:00"
-    #            }
-    #        ]
-    #    },
-    #    "additional_locations": [
-    #        {
-    #            "uuid": "276169839",
-    #            "phones": [
-    #                {
-    #                    "phoneNumber": "123-123-1234",
-    #                    "label": ""
-    #                }
-    #            ],
-    #            "emails": [],
-    #            "label": "Duda Tel Aviv",
-    #            "social_accounts": {},
-    #            "address": {},
-    #            "geo": {
-    #                "longitude": "34.78337",
-    #                "latitude": "32.07605"
-    #            },
-    #            "logo_url": null,
-    #            "business_hours": null
-    #        }
-    #    ],
-    #    "site_texts": {
-    #        "overview": "Oh, Duda? Duda is a variation of \"Dude\", who just happens to be the main character in one of our favorite movies of all time: The Big Lebowski. You should watch it some time. Look out for that ferret!",
-    #        "services": "- Responsive Website Builder",
-    #        "custom": [
-    #            {
-    #                "label": "Example CTA 1",
-    #                "text": "THE WEB DESIGN PLATFORM FOR Scaling Your Agency"
-    #            },
-    #            {
-    #                "label": "Example CTA 2",
-    #                "text": "THE WEB DESIGN PLATFORM FOR\nBuilding Websites Faster"
-    #            }
-    #        ],
-    #        "about_us": "Duda is a leading website builder for web professionals and agencies of all sizes. Our website builder enables you to build amazing, feature-rich websites that are perfectly suited to desktop, tablet and mobile. Our mobile builder enables you to build mobile-only sites from scratch, or based on an existing desktop site or Facebook business page. Duda allows professionals and agencies to build high-converting, personalized websites at scale. Duda optimizes each and every site for Google PageSpeed."
-    #    },
-    #    "business_data": {
-    #        "name": "Duda",
-    #        "logo_url": "https://www.duda.co/developers/REST-API-Reference/images/duda.svg"
-    #    },
-    #    "site_images": [
-    #        {
-    #            "label": "Example Store Logo",
-    #            "url": "https://irt-cdn.multiscreensite.com/7536fe2010ed4f7ea68e21d0cb868e01/dms3rep/multi/ice_cream_logo_b_w-18-300x300.svg",
-    #            "alt": "Example Store Logo"
-    #        },
-    #        {
-    #            "label": "Example Store Banner",
-    #            "url": "https://irt-cdn.multiscreensite.com/7536fe2010ed4f7ea68e21d0cb868e01/dms3rep/multi/sign_icecream_shop-1000x1108.jpg",
-    #            "alt": "Example Store Banner"
-    #        }
-    #    ]
-    #}
   end
 
   def atualiza_transactions

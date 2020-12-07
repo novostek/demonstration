@@ -163,6 +163,7 @@ en:
     add_product: Add product
 
     export: Export
+    create_website: Create website
 
   #
   false: "No"

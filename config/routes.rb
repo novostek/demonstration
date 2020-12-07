@@ -243,7 +243,10 @@ Rails.application.routes.draw do
       get "company_banner"
       get "estimate"
       get "transactions" => 'settings#transactions'
-      get "site"
+      get "new_site"
+      get "create_site"
+      get "edit_site"
+      post "update_site"
       post "atualiza_settings"
       post "atualiza_transactions"
     end

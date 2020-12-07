@@ -4,15 +4,19 @@ require 'ostruct'
 
 class DudaService
   BASE_URI = 'https://api.duda.co/api'
-  SECRET = 'Basic MTllNTk4NTRjNzphVlNCaVlFZUFxWmk=' # TODO: Mover para secretsRails
+  SECRET = "Basic MTllNTk4NTRjNzphVlNCaVlFZUFxWmk=" # TODO: Mover para secretsRails
 
-  # Custom templates
+  def self.url
+    BASE_URI
+  end
+
+  # Get custom templates
   def self.team_templates
     begin
       response = JSON.parse(RestClient.get("#{BASE_URI}/sites/multiscreen/templates",
                                            {Authorization: SECRET}), symbolize_names: true)
       #team_templates = response.take(10)
-      response = response.select { |h| h[:template_name].downcase == 'TEMPLATE-MADEIRA'.downcase || h[:template_name].downcase == 'TEMPLATE-COLORFULL'.downcase }
+      response = response.select { |h| h[:template_name].downcase == 'TEMPLATE-MADEIRA'.downcase || h[:template_name].downcase == 'TEMPLATE-COLORFULL'.downcase || h[:template_name].downcase == 'TEMPLATE-MADEIRA-V3'.downcase }
     rescue
       response = nil
     end
@@ -25,40 +29,45 @@ class DudaService
     begin
       response = JSON.parse(RestClient.post("#{BASE_URI}/sites/multiscreen/create",
                                             {
-                                                "template_id": 1000772,
-                                                "default_domain_prefix": "sub-domain",
+                                                "template_id": template_id.to_i,
                                                 "lang": "en",
                                                 "site_data": {
-                                                    "site_domain": "www.kleber.com",
-                                                    "external_uid": "kleber",
                                                     "site_business_info": {
-                                                        "business_name": "kleber",
-                                                        "phone_number": "666666666",
-                                                        "email": "klebersubcontas@gmail.com",
-                                                        "address": {
-                                                            "country": "US",
-                                                            "city": "San Francisco",
-                                                            "state": "CA",
-                                                            "street": "1 Market Street",
-                                                            "zip_code": "94111"
-                                                        }
-                                                    },
-                                                    "site_alternate_domains": {
-                                                        "domains": ["www.domain1.com", "www.domain1.net", "www.domain2.com"],
-                                                        "is_redirect": true
-                                                    },
-                                                    "site_seo": {
-                                                        "og_image": "https://irp-cdn.multiscreensite.com/38e420a5/dms3rep/multi/46090973_1947701631975735_1914562907203436544_n.jpg",
-                                                        "title": "Kleber site seo",
-                                                        "description": "Example description. Should be around 155 characters long, but can be upto 320."
+                                                        "business_name": "#{Setting.get_value('company_name')}",
+                                                        "phone_number": "#{Setting.get_value('company_phone')}",
+                                                        "email": "#{Setting.get_value('company_email')}",
                                                     }
                                                 }
-                                            }, {Authorization: SECRET}), symbolize_names: true)
+                                            }.to_json, {content_type: :json, authorization: SECRET}), symbolize_names: true)
     rescue
       response = nil
     end
 
-    return response
+    response
+  end
+
+  # Update content library
+  def self.update_content_library(site_name, site_data)
+
+    begin
+      response = JSON.parse(RestClient.post("#{BASE_URI}/sites/multiscreen/#{site_name}/content",
+                                            site_data.to_json, {content_type: :json, authorization: SECRET}), symbolize_names: true)
+    rescue => error
+      response = nil
+    end
+
+    response
+  end
+
+  def self.get_site(site_name)
+    begin
+      response = JSON.parse(RestClient.get("#{BASE_URI}/sites/multiscreen/#{site_name}",
+                                            {authorization: SECRET}), symbolize_names: true)
+    rescue => error
+      response = nil
+    end
+
+    response
   end
 
 end

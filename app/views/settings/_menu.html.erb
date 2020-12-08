@@ -14,12 +14,13 @@
   <%
     site_name = Setting.get_value('site_name')
     if site_name
-      url = DudaService.get_site(Setting.get_value('site_name'))[:preview_site_url]
+      #url = DudaService.get_site(Setting.get_value('site_name'))[:preview_site_url]
+      url = show_site_settings_path
     else
       url = new_site_settings_path
     end
   %>
   <li class="tab">
-    <a target="<%= site_name.present? ? "_blank" : "_self" %>"  class="<%= page == 'site' ? "active" : '' %>" href="<%= url %>"><%= t 'texts.settings.site' %></a>
+    <a target="_self"  class="<%= page == 'site' ? "active" : '' %>" href="<%= url %>"><%= t 'texts.settings.site' %></a>
   </li>
 </ul>

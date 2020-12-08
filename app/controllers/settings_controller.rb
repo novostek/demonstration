@@ -1,6 +1,7 @@
 class SettingsController < ApplicationController
   load_and_authorize_resource except: [:company_logo, :cached_logo, :company_banner]
   before_action :set_setting, only: [:show, :edit, :update, :destroy]
+  before_action :set_site, only: [:show_site, :new_site, :edit_site, :update_site, :unpublish_site, :delete_site]
   before_action :get_logo, only: :company_logo
   require './app/services/duda_service'
 
@@ -11,36 +12,31 @@ class SettingsController < ApplicationController
   end
 
   def new_site
-    site_details = DudaService.get_site(Setting.get_value('site_name'))
-
-    if site_details
-      redirect_to site_details[:preview_site_url]
+    if @site
+      redirect_to action: :show_site
     else
-      @templates = DudaService.team_templates unless Setting.get_value('site_name')
+      @templates = DudaService.team_templates
     end
   end
 
   def create_site
-    result = DudaService.create_site params[:template_id]
+    result = DudaService.create_site(params[:template_id])
 
     if result
       s = Setting.find_or_initialize_by(namespace: "site_name")
       s.value = {"value": result[:site_name]}
       s.save
 
-      redirect_to edit_site_settings_path(site_name: result[:site_name])
+      redirect_to edit_site_settings_path
     end
   end
 
   def edit_site
-    @site_name = params[:site_name]
+    @site_data = DudaService.get_content_library(@site[:site_name])
   end
 
   def update_site
-    site_details = DudaService.get_site(params[:site_name])
-
-    if site_details
-      # Dates
+    if @site
       site_data = {
           "location_data": {
               "phones": [
@@ -100,17 +96,34 @@ class SettingsController < ApplicationController
           "site_images": []
       }
 
-      # Update site
-      DudaService.update_content_library(site_details[:site_name], site_data)
+      # Update content site
+      DudaService.update_content_library(@site[:site_name], site_data)
 
       # Publish
+      DudaService.publish(@site[:site_name])
 
-      redirect_to site_details[:preview_site_url]
+      redirect_to action: :show_site, notice: t('texts.settings.publish')
     end
   end
 
-  def email
+  def show_site
+  end
 
+  def unpublish_site
+    DudaService.unpublish(@site[:site_name])
+
+    redirect_to action: :show_site, notice: t('texts.settings.unpublish')
+  end
+
+  def delete_site
+    DudaService.delete(@site[:site_name])
+
+    @site.destroy
+
+    redirect_to action: :show_site, notice: t('texts.settings.site_deleted')
+  end
+
+  def email
   end
 
   def estimate
@@ -248,5 +261,9 @@ class SettingsController < ApplicationController
     rescue
       send_file 'public/materialize/images/avatar/avatar-7.png', type: 'image/png', disposition: 'inline', stream: 'true', buffer_size: '4096'
     end
+  end
+
+  def set_site
+    @site = DudaService.get_site(Setting.get_value('site_name'))
   end
 end

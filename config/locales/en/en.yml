@@ -164,6 +164,8 @@ en:
 
     export: Export
     create_website: Create website
+    publish: Publish
+    unpublish: Unpublish
 
   #
   false: "No"

@@ -75,3 +75,11 @@ en:
       select_default_value_buy_product: Select a default value for when buy a product
 
       site: Site
+      publish: Successfully publish!
+      unpublish: Successfully unpublished!
+      site_deleted: Site deleted!
+      select_one_template: Select one of the templates below to create your website dynamically.
+      preview_template: Preview Template
+      start_with_this_template: Start with this template
+      published: Published
+      unpublished: Unpublished

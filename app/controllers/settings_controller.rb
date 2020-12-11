@@ -20,12 +20,38 @@ class SettingsController < ApplicationController
   end
 
   def create_site
-    result = DudaService.create_site(params[:template_id])
+    site_result = DudaService.create_site(params[:template_id])
 
-    if result
-      s = Setting.find_or_initialize_by(namespace: "site_name")
-      s.value = {"value": result[:site_name]}
+    if site_result
+      s = Setting.find_or_initialize_by(namespace: "site_name_duda")
+      s.value = { "value": site_result[:site_name] }
       s.save
+
+      # Publish
+      DudaService.publish(site_result[:site_name])
+
+      # Create account
+      account_data = {
+        account_name: "#{Setting.get_value('company_name')}_#{site_result[:site_name]}",
+        account_type: 'STAFF', #'CUSTOMER',
+        email: Setting.get_value('company_email'),
+        first_name: Setting.get_value('company_name')
+      }
+      account_result = DudaService.create_account(account_data)
+
+      if account_result
+        # Allow change site
+        # site_permissions = { permissions: %w[EDIT] }
+        site_permissions = { permissions: %w[STATS_TAB EDIT E_COMMERCE PUBLISH REPUBLISH DEV_MODE INSITE SEO BACKUPS CUSTOM_DOMAIN RESET BLOG PUSH_NOTIFICATIONS LIMITED_EDITING CONTENT_LIBRARY] }
+        DudaService.grant_site_access(account_data[:account_name], site_result[:site_name], site_permissions)
+
+        # Sing-in
+
+        # Save account_site_duda
+        s = Setting.find_or_initialize_by(namespace: "account_site_duda")
+        s.value = { "value": account_data }
+        s.save
+      end
 
       redirect_to edit_site_settings_path
     end
@@ -38,69 +64,69 @@ class SettingsController < ApplicationController
   def update_site
     if @site
       site_data = {
-          "location_data": {
-              "phones": [
-                  {
-                      "phoneNumber": Setting.get_value('company_phone') || '',
-                      "label": ""
-                  }
-              ],
-              "emails": [
-                  {
-                      "emailAddress": Setting.get_value('company_email') || '',
-                      "label": ""
-                  }
-              ],
-              "label": Setting.get_value('company_address') || '',
-              "social_accounts": {},
-              "address": {
-                  "countryCode": "EN"
-              },
-              "address_geolocation": Setting.get_value('company_address') || '',
-              "logo_url": Setting.get_value('logo') || nil,
-              "business_hours": []
+        "location_data": {
+          "phones": [
+            {
+              "phoneNumber": Setting.get_value('company_phone') || '',
+              "label": ""
+            }
+          ],
+          "emails": [
+            {
+              "emailAddress": Setting.get_value('company_email') || '',
+              "label": ""
+            }
+          ],
+          "label": Setting.get_value('company_address') || '',
+          "social_accounts": {},
+          "address": {
+            "countryCode": "EN"
           },
-          "additional_locations": [],
-          "site_texts": {
-              "overview": params[:overview],
-              "services": params[:services],
-              "custom": [
-                  {
-                      "label": "since",
-                      "text": params[:since]
-                  },
-                  {
-                      "label": "main_text",
-                      "text": params[:main_text]
-                  },
-                  {
-                      "label": "title_experiency",
-                      "text": params[:title_experiency]
-                  },
-                  {
-                      "label": "text_experiency",
-                      "text": params[:text_experiency]
-                  },
-                  {
-                      "label": "title_requeste_cote",
-                      "text": params[:title_requeste_cote]
-                  }
-              ],
-              "about_us": params[:about_us]
-          },
-          "business_data": {
-              "name": Setting.get_value('company_name') || nil,
-              "logo_url": Setting.get_value('logo') || nil,
-              "data_controller": nil
-          },
-          "site_images": []
+          "address_geolocation": Setting.get_value('company_address') || '',
+          "logo_url": Setting.get_value('logo') || nil,
+          "business_hours": []
+        },
+        "additional_locations": [],
+        "site_texts": {
+          "overview": params[:overview],
+          "services": params[:services],
+          "custom": [
+            {
+              "label": "since",
+              "text": params[:since]
+            },
+            {
+              "label": "main_text",
+              "text": params[:main_text]
+            },
+            {
+              "label": "title_experiency",
+              "text": params[:title_experiency]
+            },
+            {
+              "label": "text_experiency",
+              "text": params[:text_experiency]
+            },
+            {
+              "label": "title_requeste_cote",
+              "text": params[:title_requeste_cote]
+            }
+          ],
+          "about_us": params[:about_us]
+        },
+        "business_data": {
+          "name": Setting.get_value('company_name') || nil,
+          "logo_url": Setting.get_value('logo') || nil,
+          "data_controller": nil
+        },
+        "site_images": []
       }
 
       # Update content site
       DudaService.update_content_library(@site[:site_name], site_data)
 
-      # Publish
-      DudaService.publish(@site[:site_name])
+      # # Publish
+      # DudaService.publish(@site[:site_name])
 
       redirect_to action: :show_site, notice: t('texts.settings.publish')
     end
@@ -130,10 +156,10 @@ class SettingsController < ApplicationController
   end
 
   def atualiza_transactions
-    params.reject{|a,b| ["action","commit","controller","redirect","logo"].include? a }.each do |p|
+    params.reject { |a, b| ["action", "commit", "controller", "redirect", "logo"].include? a }.each do |p|
       s = Setting.find_or_initialize_by(namespace: p[0])
-      s.value = {"value": p[1] }
-      
+      s.value = { "value": p[1] }
+
       s.save
     end
 
@@ -141,16 +167,16 @@ class SettingsController < ApplicationController
   end
 
   def atualiza_settings
-    params.reject{|a,b| ["action","commit","controller","redirect","logo"].include? a }.each do |p|
+    params.reject { |a, b| ["action", "commit", "controller", "redirect", "logo"].include? a }.each do |p|
       if p[0] != "width" and p[0] != "length" and p[0] != "height" and p[0] != "square_feet"
         s = Setting.find_or_initialize_by(namespace: p[0])
-        s.value = {"value": p[1] == "1" ? true : p[1] == "0" ? false : p[1]}
+        s.value = { "value": p[1] == "1" ? true : p[1] == "0" ? false : p[1] }
       else
         s = Setting.find_or_initialize_by(namespace: "hidden_measurement_fields")
         if s.value.present?
           s.value["value"]["#{p[0]}"] = p[1] == "1" ? true : false
         else
-          s.value = {"value": {}}
+          s.value = { "value": {} }
           s.value["value"]["#{p[0]}"] = p[1] == "1" ? true : false
         end
 
@@ -165,7 +191,7 @@ class SettingsController < ApplicationController
       doc.file = params[:logo]
       doc.save
       s = Setting.find_or_initialize_by(namespace: "logo")
-      s.value = {"value": doc.file.url }
+      s.value = { "value": doc.file.url }
       s.save
     end
 
@@ -243,15 +269,16 @@ class SettingsController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_setting
-      @setting = Setting.find(params[:id])
-    end
 
-    # Only allow a trusted parameter "white list" through.
-    def setting_params
-      params.require(:setting).permit(:namespace, :value)
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_setting
+    @setting = Setting.find(params[:id])
+  end
+
+  # Only allow a trusted parameter "white list" through.
+  def setting_params
+    params.require(:setting).permit(:namespace, :value)
+  end
 
   def get_logo
     begin
@@ -264,6 +291,6 @@ class SettingsController < ApplicationController
   end
 
   def set_site
-    @site = DudaService.get_site(Setting.get_value('site_name'))
+    @site = DudaService.get_site(Setting.get_value('site_name_duda'))
   end
 end

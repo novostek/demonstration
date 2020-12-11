@@ -33,7 +33,7 @@ class SettingsController < ApplicationController
       # Create account
       account_data = {
         account_name: "#{Setting.get_value('company_name')}_#{site_result[:site_name]}",
-        account_type: 'STAFF', #'CUSTOMER',
+        account_type: 'CUSTOMER',
         email: Setting.get_value('company_email'),
         first_name: Setting.get_value('company_name')
       }
@@ -41,11 +41,8 @@ class SettingsController < ApplicationController
 
       if account_result
         # Allow change site
-        # site_permissions = { permissions: %w[EDIT] }
         site_permissions = { permissions: %w[STATS_TAB EDIT E_COMMERCE PUBLISH REPUBLISH DEV_MODE INSITE SEO BACKUPS CUSTOM_DOMAIN RESET BLOG PUSH_NOTIFICATIONS LIMITED_EDITING CONTENT_LIBRARY] }
         DudaService.grant_site_access(account_data[:account_name], site_result[:site_name], site_permissions)
-
-        # Sing-in
 
         # Save account_site_duda
         s = Setting.find_or_initialize_by(namespace: "account_site_duda")
@@ -53,12 +50,13 @@ class SettingsController < ApplicationController
         s.save
       end
 
-      redirect_to edit_site_settings_path
+      redirect_to show_site_settings_path
     end
   end
 
   def edit_site
-    @site_data = DudaService.get_content_library(@site[:site_name])
+    @link_editor = params[:link_editor]
+    # @site_data = DudaService.get_content_library(@site[:site_name])
   end
 
   def update_site
@@ -83,7 +81,7 @@ class SettingsController < ApplicationController
             "countryCode": "EN"
           },
           "address_geolocation": Setting.get_value('company_address') || '',
-          "logo_url": Setting.get_value('logo') || nil,
+          "logo_url": Setting.get_value('logo') || "/woffice.svg",
           "business_hours": []
         },
         "additional_locations": [],
@@ -133,6 +131,9 @@ class SettingsController < ApplicationController
   end
 
   def show_site
+    # Link to login
+    link_editor = DudaService.reset_password_link(Setting.get_value('account_site_duda')[:account_name])
+    @link_editor = link_editor[:reset_url] if link_editor
   end
 
   def unpublish_site

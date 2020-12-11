@@ -144,11 +144,24 @@ class DudaService
     result
   end
 
+  # Is not working ***
   def self.get_sso_link(account_name)
     begin
       response = JSON.parse(RestClient.get("#{BASE_URI}/accounts/sso/#{account_name}/link",
                                            { content_type: :json, authorization: SECRET }), symbolize_names: true)
     rescue => error
+      response = nil
+    end
+
+    response
+  end
+  # ***
+
+  def self.reset_password_link(account_name)
+    begin
+      response = JSON.parse(RestClient.post("#{BASE_URI}/accounts/reset-password/#{account_name}",
+                                            nil, { content_type: :json, authorization: SECRET }), symbolize_names: true)
+    rescue
       response = nil
     end
 

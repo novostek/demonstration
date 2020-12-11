@@ -20,30 +20,46 @@
         <%= render partial: 'menu', locals: {page: 'site'} %>
         <br>
         <br>
-        <div class="center">
-          <%
-            if @site[:publish_status] == 'PUBLISHED'
-              site_url = 'http://' + @site[:site_default_domain]
-            else
-              site_url = @site[:preview_site_url]
-            end
-          %>
-          <%= link_to t('texts.open'), site_url, target: '_blank', class: "btn waves-effect waves-light breadcrumbs-btn" %>
-          <%= link_to t('button.edit'), edit_site_settings_path, class: "btn btn-secondary white-text" %>
 
-          <%#= link_to t('button.delete'), delete_site_settings_path, class: "btn red lighten-1 white-text breadcrumbs-btn",  method: :delete, data: { confirm: 'Are you sure?' } %>
-        </div>
-        <div class="row center">
-          <div class="col s12">
-            <%= image_tag @site[:thumbnail_url] || 'https://www.pngfind.com/pngs/m/99-994735_website-icon-png-web-site-icon-transparent-png.png', width: 200 %>
+<!--        <div class="center">-->
+          <%#
+<!--            if @site[:publish_status] == 'PUBLISHED'-->
+<!--              site_url = 'http://' + @site[:site_default_domain]-->
+<!--            else-->
+<!--              site_url = @site[:preview_site_url]-->
+<!--            end-->
+          %>
+          <%#= link_to t('texts.open'), site_url, target: '_blank', class: "btn waves-effect waves-light breadcrumbs-btn" %>
+          <%#= link_to t('button.edit'), edit_site_settings_path, class: "btn btn-secondary white-text" %>
+<!--        </div>-->
+
+<!--        <div class="row center">-->
+<!--          <div class="col s12">-->
+            <%#= image_tag @site[:thumbnail_url] || 'https://www.pngfind.com/pngs/m/99-994735_website-icon-png-web-site-icon-transparent-png.png', width: 200 %>
+<!--          </div>-->
+<!--          <div class="col s2 offset-s5 center">-->
+            <%# if @site[:publish_status] == 'PUBLISHED' %>
+<!--              <span class="width-100 badge green right lighten-5 green-text"><%#= t('texts.settings.published').upcase %></span> <br>-->
+            <%# else %>
+<!--              <span class="width-100 badge grey lighten-5 grey-text"><%#= t('texts.settings.unpublished').upcase %></span>-->
+            <%# end %>
+<!--          </div>-->
+<!--        </div>-->
+
+        <div class="row">
+          <div class="col s12 m2 l2 center">
+            <%#= image_tag @site[:thumbnail_url] || 'https://www.pngfind.com/pngs/m/99-994735_website-icon-png-web-site-icon-transparent-png.png', width: 200 %>
           </div>
-          <div class="col s2 offset-s5 center">
+          <div class="col s12 m10 m10 card padding-8">
+
+            <p>Status:
             <% if @site[:publish_status] == 'PUBLISHED' %>
-              <span class="width-100 badge green right lighten-5 green-text"><%= t('texts.settings.published').upcase %></span> <br>
-              <%#= link_to t('button.unpublish'), unpublish_site_settings_path, class: "btn grey lighten-1 white-text breadcrumbs-btn" %>
+              <span class="badge green-text font-weight-600"><%= t('texts.settings.published').upcase %></span> <br>
             <% else %>
-              <span class="width-100 badge grey lighten-5 grey-text"><%= t('texts.settings.unpublished').upcase %></span>
+              <span class="badge green-text font-weight-600"><%= t('texts.settings.unpublished').upcase %></span> <br>
             <% end %>
+            </p>
+
           </div>
         </div>
 

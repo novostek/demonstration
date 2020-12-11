@@ -17,64 +17,81 @@
   <div class="">
     <div class="settings_container">
       <div class="section">
-        <%= render partial: 'menu', locals: {page: 'site'} %>
+        <%= render partial: 'menu', locals: { page: 'site' } %>
+        <div class="row">
+          <div class="col s5 offset-s3 card">
+            <div class="center">
+              <h5>Suas credenciais</h5>
+
+              <br>
+
+              <b>Usuário/Email:</b> <br>
+              <h6><%= Setting.get_value('account_site_duda')['account_name'] %></h6> <br><br>
+
+              <b>Password:</b> <br>
+              <h6>Senha definida por você</h6>
+
+            </div>
+          </div>
+        </div>
 
         <div class="row">
-          <div class="col s12">
-            <a href="#" class="waves-effect green waves-light btn"><i class="material-icons left">edit</i>Go to duda editor</a>
+          <div class="col s5 offset-s3 center">
+            <a target="_blank" href="<%= @link_editor || '#' %>" class="waves-effect green waves-light btn-large"><i class="material-icons right">open_in_new</i>Go
+              to duda editor</a>
           </div>
         </div>
 
         <%#= form_with url: update_site_settings_path, local: true, method: "post" do %>
-<!--          <div class="card">-->
-<!--            <div class="card-content">-->
-<!--              <div class="row">-->
-<!--                <div class="input-field col s12 m6">-->
-                  <%#= label_tag :overview %>
-                  <%#= text_area_tag :overview, html_to_s(@site_data[:site_texts][:overview]), {placeholder: 'Visão Geral da Empresa', style: 'height: 6rem;', class: "materialize-textarea", size: "4x2", maxlength: 500} %>
-<!--                </div>-->
+        <!--          <div class="card">-->
+        <!--            <div class="card-content">-->
+        <!--              <div class="row">-->
+        <!--                <div class="input-field col s12 m6">-->
+        <%#= label_tag :overview %>
+        <%#= text_area_tag :overview, html_to_s(@site_data[:site_texts][:overview]), {placeholder: 'Visão Geral da Empresa', style: 'height: 6rem;', class: "materialize-textarea", size: "4x2", maxlength: 500} %>
+        <!--                </div>-->
 
-<!--                <div class="input-field col s12 m6">-->
-                  <%#= label_tag :services %>
-                  <%#= text_area_tag :services, html_to_s(@site_data[:site_texts][:services]), {placeholder: 'Serviços Oferecidos', style: 'height: 6rem;', class: "materialize-textarea", size: "4x2", maxlength: 500} %>
-<!--                </div>-->
+        <!--                <div class="input-field col s12 m6">-->
+        <%#= label_tag :services %>
+        <%#= text_area_tag :services, html_to_s(@site_data[:site_texts][:services]), {placeholder: 'Serviços Oferecidos', style: 'height: 6rem;', class: "materialize-textarea", size: "4x2", maxlength: 500} %>
+        <!--                </div>-->
 
-<!--                <div class="input-field col s12 m6">-->
-                  <%#= label_tag :about_us %>
-                  <%#= text_area_tag :about_us, html_to_s(@site_data[:site_texts][:about_us]), {placeholder: 'Sobre Nós', style: 'height: 6rem;', class: "materialize-textarea", size: "4x2", maxlength: 500} %>
-<!--                </div>-->
+        <!--                <div class="input-field col s12 m6">-->
+        <%#= label_tag :about_us %>
+        <%#= text_area_tag :about_us, html_to_s(@site_data[:site_texts][:about_us]), {placeholder: 'Sobre Nós', style: 'height: 6rem;', class: "materialize-textarea", size: "4x2", maxlength: 500} %>
+        <!--                </div>-->
 
-<!--                <div class="input-field col s12 m6">-->
-                  <%#= label_tag :main_text %>
-                  <%#= text_area_tag :main_text, html_to_s(@site_data[:site_texts][:custom].select { |h| h[:label].eql? 'main_text' }.first[:text]), {placeholder: 'Texto principal', style: 'height: 6rem;', class: "materialize-textarea", size: "4x2", maxlength: 500} %>
-<!--                </div>-->
-<!--              </div>-->
+        <!--                <div class="input-field col s12 m6">-->
+        <%#= label_tag :main_text %>
+        <%#= text_area_tag :main_text, html_to_s(@site_data[:site_texts][:custom].select { |h| h[:label].eql? 'main_text' }.first[:text]), {placeholder: 'Texto principal', style: 'height: 6rem;', class: "materialize-textarea", size: "4x2", maxlength: 500} %>
+        <!--                </div>-->
+        <!--              </div>-->
 
-<!--              <div class="row">-->
-<!--                <div class="input-field col s12 m6">-->
-                  <%#= label_tag :since %>
-                  <%#= text_area_tag :since, html_to_s(@site_data[:site_texts][:custom].select { |h| h[:label].eql? 'since' }.first[:text]),{placeholder: 'Ex.: Since 2006', class: "materialize-textarea", size: "4x2", maxlength: 500} %>
-<!--                </div>-->
+        <!--              <div class="row">-->
+        <!--                <div class="input-field col s12 m6">-->
+        <%#= label_tag :since %>
+        <%#= text_area_tag :since, html_to_s(@site_data[:site_texts][:custom].select { |h| h[:label].eql? 'since' }.first[:text]),{placeholder: 'Ex.: Since 2006', class: "materialize-textarea", size: "4x2", maxlength: 500} %>
+        <!--                </div>-->
 
-<!--                <div class="input-field col s12 m6">-->
-                  <%#= label_tag :title_experiency %>
-                  <%#= text_area_tag :title_experiency, html_to_s(@site_data[:site_texts][:custom].select { |h| h[:label].eql? 'title_experiency' }.first[:text]),{placeholder: 'Ex.: Produzindo pneus de qualidade a mais de 15 anos',class: "materialize-textarea", size: "4x2", maxlength: 500} %>
-<!--                </div>-->
+        <!--                <div class="input-field col s12 m6">-->
+        <%#= label_tag :title_experiency %>
+        <%#= text_area_tag :title_experiency, html_to_s(@site_data[:site_texts][:custom].select { |h| h[:label].eql? 'title_experiency' }.first[:text]),{placeholder: 'Ex.: Produzindo pneus de qualidade a mais de 15 anos',class: "materialize-textarea", size: "4x2", maxlength: 500} %>
+        <!--                </div>-->
 
-<!--                <div class="input-field col s12 m6">-->
-                  <%#= label_tag :text_experiency %>
-                  <%#= text_area_tag :text_experiency, html_to_s(@site_data[:site_texts][:custom].select { |h| h[:label].eql? 'title_experiency' }.first[:text]),{placeholder: "Ex.: We are a highly-conceited company in our area. With hundreds of projects done, including residential and commercial customers, Madeira Millwork is the best option for you, our goal is the perfect result of your project[...]",class: "materialize-textarea", style: 'height: 6rem;', maxlength: 500} %>
-<!--                </div>-->
+        <!--                <div class="input-field col s12 m6">-->
+        <%#= label_tag :text_experiency %>
+        <%#= text_area_tag :text_experiency, html_to_s(@site_data[:site_texts][:custom].select { |h| h[:label].eql? 'title_experiency' }.first[:text]),{placeholder: "Ex.: We are a highly-conceited company in our area. With hundreds of projects done, including residential and commercial customers, Madeira Millwork is the best option for you, our goal is the perfect result of your project[...]",class: "materialize-textarea", style: 'height: 6rem;', maxlength: 500} %>
+        <!--                </div>-->
 
-<!--                <div class="input-field col s12 m6">-->
-                  <%#= text_area_tag :title_requeste_cote, html_to_s(@site_data[:site_texts][:custom].select { |h| h[:label].eql? 'title_requeste_cote' }.first[:text]),{placeholder: "Ex.: Request a Quote right now!",class: "materialize-textarea", size: "4x2", maxlength: 500} %>
-                  <%#= label_tag :title_requeste_cote %>
-<!--                </div>-->
-<!--              </div>-->
+        <!--                <div class="input-field col s12 m6">-->
+        <%#= text_area_tag :title_requeste_cote, html_to_s(@site_data[:site_texts][:custom].select { |h| h[:label].eql? 'title_requeste_cote' }.first[:text]),{placeholder: "Ex.: Request a Quote right now!",class: "materialize-textarea", size: "4x2", maxlength: 500} %>
+        <%#= label_tag :title_requeste_cote %>
+        <!--                </div>-->
+        <!--              </div>-->
 
-<!--            </div>-->
-<!--          </div>-->
-          <%#= submit_tag t('button.save'), class: "btn right" %>
+        <!--            </div>-->
+        <!--          </div>-->
+        <%#= submit_tag t('button.save'), class: "btn right" %>
         <%# end %>
 
       </div>

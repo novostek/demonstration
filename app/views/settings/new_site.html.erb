@@ -19,11 +19,20 @@
       <div class="section">
         <%= render partial: 'menu', locals: {page: 'site'} %>
 
-          <div id="card-alert" class="card orange lighten-5">
-            <div class="card-content orange-text">
-              <p><%= t('texts.settings.select_one_template') %></p>
-            </div>
+<!--          <div id="card-alert" class="card orange lighten-5">-->
+<!--            <div class="card-content orange-text">-->
+<!--              <p><%#= t('texts.settings.select_one_template') %></p>-->
+<!--            </div>-->
+<!--          </div>-->
+        <div class="card-alert card orange">
+          <div class="card-content white-text">
+            <p>WARNING : <%= t('texts.settings.select_one_template') %></p>
           </div>
+          <button type="button" class="close white-text" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">×</span>
+          </button>
+        </div>
+
           <% @templates.each do |template| %>
             <div class="col s12 m4 l2">
               <div class="card">

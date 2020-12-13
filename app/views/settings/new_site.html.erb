@@ -19,16 +19,12 @@
       <div class="section">
         <%= render partial: 'menu', locals: {page: 'site'} %>
 
-<!--          <div id="card-alert" class="card orange lighten-5">-->
-<!--            <div class="card-content orange-text">-->
-<!--              <p><%#= t('texts.settings.select_one_template') %></p>-->
-<!--            </div>-->
-<!--          </div>-->
-        <div class="card-alert card orange">
-          <div class="card-content white-text">
-            <p>WARNING : <%= t('texts.settings.select_one_template') %></p>
+        <div class="card-alert card cyan lighten-5">
+          <div class="card-content cyan-text darken-1">
+            <span class="card-title cyan-text darken-1"><%= t 'texts.devise.welcome' %></span>
+            <p><%= t('texts.settings.select_one_template') %></p>
           </div>
-          <button type="button" class="close white-text" data-dismiss="alert" aria-label="Close">
+          <button type="button" class="close cyan-text" data-dismiss="alert" aria-label="Close">
             <span aria-hidden="true">×</span>
           </button>
         </div>

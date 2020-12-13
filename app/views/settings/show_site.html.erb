@@ -51,7 +51,7 @@
             <div class="card padding-4 animate fadeLeft">
               <div class="row">
                 <div class="col s12 m12 center">
-                  <%= image_tag @site[:thumbnail_url] || 'https://www.pngfind.com/pngs/m/99-994735_website-icon-png-web-site-icon-transparent-png.png', width: 200 %>
+                  <%= image_tag @site[:thumbnail_url] || 'https://www.pngfind.com/pngs/m/99-994735_website-icon-png-web-site-icon-transparent-png.png', width: 300 %>
                   <p class="mb-0"><%= @site[:site_business_info][:business_name] %></p>
                 </div>
               </div>
@@ -62,11 +62,12 @@
             <div class="row">
               <div class="card col s12 subscriber-list-card animate fadeRight">
                 <div class="card-content pb-3">
-                  <h4 class="card-title mb-0"><i class="material-icons purple-text vertical-text-bottom"> local_offer </i>
-                    Dados do website</h4>
+                  <h4 class="card-title mb-0">
+                    <i class="material-icons purple-text vertical-text-bottom"> local_offer </i>
+                    <%= t 'texts.settings.website_data' %></h4>
                   <br>
 
-                  <p><b class="blue-grey-text text-darken-4">Status:</b>
+                  <p><b class="blue-grey-text text-darken-4"><%= t 'status' %>:</b>
                     <% if @site[:publish_status] == 'PUBLISHED' %>
                       <span class="padding-0 chip green lighten-5 green-text"><%= t('texts.settings.published').upcase %></span>
                       <br>
@@ -76,8 +77,8 @@
                     <% end %>
                   </p>
 
-                  <% url = 'https://' + @site[:site_default_domain] %>
-                  <p><b class="blue-grey-text text-darken-4">Endereço:</b>
+                  <% url = 'http://' + @site[:site_default_domain] %>
+                  <p><b class="blue-grey-text text-darken-4"><%= t 'texts.address' %>:</b>
                     <a target="_blank" href="<%= url %>">
                       <span class="teal-text lighten-2">  <%= url %></span></a>
                   </p>
@@ -88,24 +89,30 @@
               <div class="card col s12 subscriber-list-card animate fadeRight">
                 <div class="card-content pb-3">
                   <h4 class="card-title mb-0"><i class="material-icons purple-text vertical-text-bottom"> edit </i>
-                    Para customização, use o Editor Duda</h4>
+                    <%= t 'texts.settings.use_the_editor' %>:
+                    <a href="https://mysite.woffice.app/login" target="_blank" class="btn woffice-color" style="">
+                      <img src="https://assets.pcmag.com/media/images/506220-duda.png" width="50" style="vertical-align: middle;">
+                    </a>
+                  </h4>
                   <br>
 
-                  <p><b class="blue-grey-text text-darken-4">Status:</b>
-                    <% if @site[:publish_status] == 'PUBLISHED' %>
-                      <span class="padding-0 chip green lighten-5 green-text"><%= t('texts.settings.published').upcase %></span>
-                      <br>
-                    <% else %>
-                      <span class="padding-0 chip grey lighten-5 grey-text"><%= t('texts.settings.unpublished').upcase %></span>
-                      <br>
-                    <% end %>
-                  </p>
+                  <table style="">
+                    <tr>
+                      <th class="black-text"><%= t 'texts.settings.user_or_email' %>:</th>
+                      <th><%= @account_site_duda['account_name'] %></th>
+                    </tr>
+                    <tr>
+                      <td class="black-text"><%= t 'activerecord.attributes.user.password' %>:</td>
+                      <td>
+                        <%= t 'texts.settings.password_you_have_set' %> <br>
+                        <small><span class="red-text"><%= t 'texts.settings.note' %>: </span><%= t 'texts.settings.if_this_is_your_first_access_or_you_have_forgotten_your_password' %>: </small> <br>
+                        <small class="ml-4">1. <%= t 'texts.settings.go_to_the' %> <a target="_blank" href="https://mysite.woffice.app/login" class="teal-text lighten-2"><%= t 'texts.settings.login_screen' %></a>.</small><br>
+                        <small class="ml-4">2. <%= t 'texts.settings.click_on_forgot_password' %> </small><br>
+                        <small class="ml-4">3. <%= t 'texts.settings.check_your_email' %>: <span class="black-text"><%= @account_site_duda['email'] %></span>.</small>
+                      </td>
+                    </tr>
+                  </table>
 
-                  <% url = 'https://' + @site[:site_default_domain] %>
-                  <p><b class="blue-grey-text text-darken-4">Endereço:</b>
-                    <a target="_blank" href="<%= url %>">
-                      <span class="teal-text lighten-2">  <%= url %></span></a>
-                  </p>
                 </div>
 
               </div>

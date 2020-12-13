@@ -83,3 +83,15 @@ en:
       start_with_this_template: Start with this template
       published: Published
       unpublished: Unpublished
+
+      website_data: Website data
+      use_the_editor: For customization, use the editor
+      user_or_email: User/email
+      password_you_have_set: Password you have set.
+      note: Note
+      if_this_is_your_first_access_or_you_have_forgotten_your_password: If this is your first access or you have forgotten your password
+      go_to_the: Go to the
+      login_screen: login screen
+      click_on_forgot_password: Click on "Forgot password?"
+      check_your_email: Check your email
+

@@ -56,7 +56,6 @@ class SettingsController < ApplicationController
 
   def edit_site
     @link_editor = params[:link_editor]
-    # @site_data = DudaService.get_content_library(@site[:site_name])
   end
 
   def update_site
@@ -133,7 +132,6 @@ class SettingsController < ApplicationController
   def show_site
     @account_site_duda = Setting.get_value('account_site_duda')
 
-    # Link to login
     link_editor = DudaService.reset_password_link(@account_site_duda['account_name'])
     @link_editor = link_editor[:reset_url] if link_editor
   end

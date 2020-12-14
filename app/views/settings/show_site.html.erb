@@ -105,10 +105,10 @@
                       <td class="black-text"><%= t 'activerecord.attributes.user.password' %>:</td>
                       <td>
                         <%= t 'texts.settings.password_you_have_set' %> <br>
-                        <small><span class="red-text"><%= t 'texts.settings.note' %>: </span><%= t 'texts.settings.if_this_is_your_first_access_or_you_have_forgotten_your_password' %>: </small> <br>
-                        <small class="ml-4">1. <%= t 'texts.settings.go_to_the' %> <a target="_blank" href="https://mysite.woffice.app/login" class="teal-text lighten-2"><%= t 'texts.settings.login_screen' %></a>.</small><br>
-                        <small class="ml-4">2. <%= t 'texts.settings.click_on_forgot_password' %> </small><br>
-                        <small class="ml-4">3. <%= t 'texts.settings.check_your_email' %>: <span class="black-text"><%= @account_site_duda['email'] %></span>.</small>
+                        <small><span class="red-text"><%= t 'texts.settings.note' %>: </span><%= t 'texts.settings.if_this_is_your_first_access_or_you_have_forgotten_your_password' %>: <a href="<%= @link_editor %>" target="_blank" class="teal-text lighten-2"><%= t 'texts.settings.set_reset_password' %></a></small><br>
+<!--                        <small class="ml-4">1. <%#= t 'texts.settings.go_to_the' %> <a target="_blank" href="https://mysite.woffice.app/login" class="teal-text lighten-2"><%#= t 'texts.settings.login_screen' %></a>.</small><br>-->
+<!--                        <small class="ml-4">2. <%#= t 'texts.settings.click_on_forgot_password' %> </small><br>-->
+<!--                        <small class="ml-4">3. <%#= t 'texts.settings.check_your_email' %>: <span class="black-text"><%#= @account_site_duda['email'] %></span>.</small>-->
                       </td>
                     </tr>
                   </table>

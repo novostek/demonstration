@@ -34,7 +34,8 @@
               <div class="card">
                 <div class="card-image">
                   <img class="materialboxed" src="<%= template[:thumbnail_url] %>">
-                  <a href="<%= create_site_settings_path(template_id: template[:template_id]) %>" class="btn-floating tooltipped halfway-fab waves-effect waves-light red start-building" data-tooltip="Start editing this template">
+<!--                  <a href="#" onclick="create_site();" class="btn-create-site btn-floating tooltipped halfway-fab waves-effect waves-light red start-building" data-tooltip="<%#= t 'texts.settings.start_with_this_template' %>">-->
+                  <a href="<%= create_site_settings_path(template_id: template[:template_id]) %>" onclick="create_site();" class="btn-create-site btn-floating tooltipped halfway-fab waves-effect waves-light red start-building" data-tooltip="<%= t 'texts.settings.start_with_this_template' %>">
                     <i class="material-icons">mode_edit</i>
                   </a>
                 </div>
@@ -42,15 +43,19 @@
                   <span class="card-title grey-text text-darken-4 truncate"><%= template[:template_name] %></span>
                   <a href="<%= template[:preview_url] %>" target="_blank" data-template-id="<%= template[:template_id] %>"><%= t 'texts.settings.preview_template' %></a>
                 </div>
-                <div class="card-action">
-                  <a href="<%= create_site_settings_path(template_id: template[:template_id]) %>" class="start-building"><%= t 'texts.settings.start_with_this_template' %></a>
-                </div>
               </div>
             </div>
-
         <% end %>
       </div>
     </div>
     <div class="content-overlay"></div>
   </div>
 </section>
+
+<%= content_for :scripts do %>
+  <script>
+      function create_site() {
+          $(".btn-create-site").addClass('disabled');
+      }
+  </script>
+<% end %>

@@ -52,6 +52,8 @@ class SettingsController < ApplicationController
       end
 
       redirect_to edit_site_settings_path(site_name: site_result[:site_name])
+    else
+      redirect_to new_site_settings_path, notice: t('notice.setting.an_error_occurred_try_again_more_pie')
     end
   end
 
@@ -61,6 +63,8 @@ class SettingsController < ApplicationController
 
   def update_site
     if @site
+      logo = upload_logo_to_duda(@site[:site_name])
+
       site_data = {
         "location_data": {
           "phones": [
@@ -81,7 +85,7 @@ class SettingsController < ApplicationController
             "countryCode": "EN"
           },
           "address_geolocation": Setting.get_value('company_address') || '',
-          "logo_url": Setting.get_value('logo') || "/woffice.svg",
+          "logo_url": logo,
           "business_hours": []
         },
         "additional_locations": [],
@@ -114,7 +118,7 @@ class SettingsController < ApplicationController
         },
         "business_data": {
           "name": Setting.get_value('company_name') || nil,
-          "logo_url": Setting.get_value('logo') || nil,
+          "logo_url": logo,
           "data_controller": nil
         },
         "site_images": []
@@ -304,5 +308,19 @@ class SettingsController < ApplicationController
     s = Setting.find_or_initialize_by(namespace: "account_site_duda")
     s.value = { "value": account_data }
     s.save
+  end
+
+  def upload_logo_to_duda(site_name)
+    logo_url = Setting.logo
+    logo_new_url = nil
+
+    if logo_url
+      result, json = DudaService.upload_resource(site_name, [logo_url])
+      if result and json[:uploaded_resources][0][:status] == 'UPLOADED'
+        logo_new_url = json[:uploaded_resources][0][:new_url]
+      end
+    end
+
+    logo_new_url
   end
 end

@@ -52,7 +52,7 @@
               <div class="row">
                 <div class="col s12 m12 center">
                   <%= image_tag @site[:thumbnail_url] || 'https://www.pngfind.com/pngs/m/99-994735_website-icon-png-web-site-icon-transparent-png.png', width: 250 %>
-                  <p class="mb-0"><%= @site[:site_business_info][:business_name] %></p>
+                  <p class="mb-0"><%= t 'texts.settings.preview_on_different_devices' %> <br> <a href="<%= @site[:preview_site_url] %>" target="_blank" class="teal-text lighten-2"><%= @site[:preview_site_url] %></a></p>
                 </div>
               </div>
             </div>

@@ -8,6 +8,7 @@ en:
       created: "Setting was successfully created."
       updated: "Setting was sucessfully updated."
       deleted: "Setting was sucessfully deleted."
+      an_error_occurred_try_again_more_pie: An error occurred, try again more pie
   texts:
     settings:
       template_email: Template email
@@ -103,5 +104,6 @@ en:
       ex_title_experience: "Ex .: Producing quality tires for over 15 years"
       ex_text_experiency: "Ex .: We are a highly-conceited company in our area. With hundreds of projects done, including residential and commercial customers, Madeira Millwork is the best option for you, our goal is the perfect result of your project [...]"
       ex_title_requeste_cote: "Ex.: Request a Quote right now!"
+      preview_on_different_devices: Preview on different devices
 
 

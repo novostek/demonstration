@@ -95,4 +95,13 @@ en:
 #      click_on_forgot_password: Click on "Forgot password?"
 #      check_your_email: Check your email
       set_reset_password: set/reset password
+      company_overview: Company Overview
+      services_offered: Services Offered
+      about_us: About Us
+      main_text: Main text
+      ex_since: "Ex .: Since 2006"
+      ex_title_experience: "Ex .: Producing quality tires for over 15 years"
+      ex_text_experiency: "Ex .: We are a highly-conceited company in our area. With hundreds of projects done, including residential and commercial customers, Madeira Millwork is the best option for you, our goal is the perfect result of your project [...]"
+      ex_title_requeste_cote: "Ex.: Request a Quote right now!"
+
 

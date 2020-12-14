@@ -51,7 +51,7 @@
             <div class="card padding-4 animate fadeLeft">
               <div class="row">
                 <div class="col s12 m12 center">
-                  <%= image_tag @site[:thumbnail_url] || 'https://www.pngfind.com/pngs/m/99-994735_website-icon-png-web-site-icon-transparent-png.png', width: 300 %>
+                  <%= image_tag @site[:thumbnail_url] || 'https://www.pngfind.com/pngs/m/99-994735_website-icon-png-web-site-icon-transparent-png.png', width: 250 %>
                   <p class="mb-0"><%= @site[:site_business_info][:business_name] %></p>
                 </div>
               </div>
@@ -90,8 +90,9 @@
                 <div class="card-content pb-3">
                   <h4 class="card-title mb-0"><i class="material-icons purple-text vertical-text-bottom"> edit </i>
                     <%= t 'texts.settings.use_the_editor' %>:
-                    <a href="https://mysite.woffice.app/login" target="_blank" class="btn woffice-color" style="">
-                      <img src="https://assets.pcmag.com/media/images/506220-duda.png" width="50" style="vertical-align: middle;">
+                    <a href="https://mysite.woffice.app/login" target="_blank" class="btn woffice-color black-text" style="">
+<!--                      <img src="https://assets.pcmag.com/media/images/506220-duda.png" width="50" style="vertical-align: middle;">-->
+                      Site Editor
                     </a>
                   </h4>
                   <br>

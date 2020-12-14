@@ -27,35 +27,36 @@ class SettingsController < ApplicationController
       s.value = { "value": site_result[:site_name] }
       s.save
 
-      # Publish
-      DudaService.publish(site_result[:site_name])
+      # # Publish
+      # DudaService.publish(site_result[:site_name])
 
       # Create account
       account_data = {
-        account_name: "#{Setting.get_value('company_name')}_#{site_result[:site_name]}",
+        account_name: Apartment::Tenant.current,
         account_type: 'CUSTOMER',
         email: Setting.get_value('company_email'),
-        first_name: Setting.get_value('company_name')
+        first_name: Setting.get_value('company_name'),
+        last_name: site_result[:site_name]
       }
       account_result = DudaService.create_account(account_data)
 
       if account_result
         # Allow change site
-        site_permissions = { permissions: %w[STATS_TAB EDIT E_COMMERCE PUBLISH REPUBLISH DEV_MODE INSITE SEO BACKUPS CUSTOM_DOMAIN RESET BLOG PUSH_NOTIFICATIONS LIMITED_EDITING CONTENT_LIBRARY] }
-        DudaService.grant_site_access(account_data[:account_name], site_result[:site_name], site_permissions)
+        allow_change_site(account_data[:account_name], site_result[:site_name], account_data)
+      else
+        account_data[:account_name] = "#{Setting.get_value('company_name')}_#{site_result[:site_name]}"
+        DudaService.create_account(account_data)
 
-        # Save account_site_duda
-        s = Setting.find_or_initialize_by(namespace: "account_site_duda")
-        s.value = { "value": account_data }
-        s.save
+        # Allow change site
+        allow_change_site(account_data[:account_name], site_result[:site_name], account_data)
       end
 
-      redirect_to show_site_settings_path
+      redirect_to edit_site_settings_path(site_name: site_result[:site_name])
     end
   end
 
   def edit_site
-    @link_editor = params[:link_editor]
+    @site_data = DudaService.get_content_library(params[:site_name])
   end
 
   def update_site
@@ -122,8 +123,8 @@ class SettingsController < ApplicationController
       # Update content site
       DudaService.update_content_library(@site[:site_name], site_data)
 
-      # # Publish
-      # DudaService.publish(@site[:site_name])
+      # Publish
+      DudaService.publish(@site[:site_name])
 
       redirect_to action: :show_site, notice: t('texts.settings.publish')
     end
@@ -293,5 +294,15 @@ class SettingsController < ApplicationController
 
   def set_site
     @site = DudaService.get_site(Setting.get_value('site_name_duda'))
+  end
+
+  def allow_change_site(account_name, site_name, account_data)
+    site_permissions = { permissions: %w[STATS_TAB EDIT E_COMMERCE PUBLISH REPUBLISH DEV_MODE INSITE SEO BACKUPS CUSTOM_DOMAIN RESET BLOG PUSH_NOTIFICATIONS LIMITED_EDITING CONTENT_LIBRARY] }
+    DudaService.grant_site_access(account_name, site_name, site_permissions)
+
+    # Save account_site_duda
+    s = Setting.find_or_initialize_by(namespace: "account_site_duda")
+    s.value = { "value": account_data }
+    s.save
   end
 end

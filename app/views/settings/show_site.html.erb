@@ -1,0 +1,129 @@
+<%= content_for :head_content do %>
+  <link href='/css/settings.css' rel='stylesheet' type='text/css'/>
+<% end %>
+
+<section class="invoice-list-wrapper section">
+  <div class="content-wrapper-before woffice-color"></div>
+  <div class="pb-0 pt-4" id="breadcrumbs-wrapper">
+    <div class="container">
+      <div class="row">
+        <div class="col s10 m6 l6">
+          <h5 class="breadcrumbs-title mt-0 mb-0"><span><%= t 'activerecord.models.settings' %></span></h5>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="">
+    <div class="settings_container">
+      <div class="section">
+        <%= render partial: 'menu', locals: { page: 'site' } %>
+        <br>
+        <br>
+
+        <!--        <div class="center">-->
+        <%#
+<!--            if @site[:publish_status] == 'PUBLISHED'-->
+<!--              site_url = 'http://' + @site[:site_default_domain]-->
+<!--            else-->
+<!--              site_url = @site[:preview_site_url]-->
+<!--            end-->
+        %>
+        <%#= link_to t('texts.open'), site_url, target: '_blank', class: "btn waves-effect waves-light breadcrumbs-btn" %>
+        <%#= link_to t('button.edit'), edit_site_settings_path, class: "btn btn-secondary white-text" %>
+        <!--        </div>-->
+
+        <!--        <div class="row center">-->
+        <!--          <div class="col s12">-->
+        <%#= image_tag @site[:thumbnail_url] || 'https://www.pngfind.com/pngs/m/99-994735_website-icon-png-web-site-icon-transparent-png.png', width: 200 %>
+        <!--          </div>-->
+        <!--          <div class="col s2 offset-s5 center">-->
+        <%# if @site[:publish_status] == 'PUBLISHED' %>
+        <!--              <span class="width-100 badge green right lighten-5 green-text"><%#= t('texts.settings.published').upcase %></span> <br>-->
+        <%# else %>
+        <!--              <span class="width-100 badge grey lighten-5 grey-text"><%#= t('texts.settings.unpublished').upcase %></span>-->
+        <%# end %>
+        <!--          </div>-->
+        <!--        </div>-->
+
+        <div class="row">
+          <div class="col s12 m6 l4">
+            <div class="card padding-4 animate fadeLeft">
+              <div class="row">
+                <div class="col s12 m12 center">
+                  <%= image_tag @site[:thumbnail_url] || 'https://www.pngfind.com/pngs/m/99-994735_website-icon-png-web-site-icon-transparent-png.png', width: 250 %>
+                  <p class="mb-0"><%= t 'texts.settings.preview_on_different_devices' %> <br> <a href="<%= @site[:preview_site_url] %>" target="_blank" class="teal-text lighten-2"><%= @site[:preview_site_url] %></a></p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="col s12 m6 l8">
+            <div class="row">
+              <div class="card col s12 subscriber-list-card animate fadeRight">
+                <div class="card-content pb-3">
+                  <h4 class="card-title mb-0">
+                    <i class="material-icons purple-text vertical-text-bottom"> local_offer </i>
+                    <%= t 'texts.settings.website_data' %></h4>
+                  <br>
+
+                  <p><b class="blue-grey-text text-darken-4"><%= t 'status' %>:</b>
+                    <% if @site[:publish_status] == 'PUBLISHED' %>
+                      <span class="padding-0 chip green lighten-5 green-text"><%= t('texts.settings.published').upcase %></span>
+                      <br>
+                    <% else %>
+                      <span class="padding-0 chip grey lighten-5 grey-text"><%= t('texts.settings.unpublished').upcase %></span>
+                      <br>
+                    <% end %>
+                  </p>
+
+                  <% url = 'http://' + @site[:site_default_domain] %>
+                  <p><b class="blue-grey-text text-darken-4"><%= t 'texts.address' %>:</b>
+                    <a target="_blank" href="<%= url %>">
+                      <span class="teal-text lighten-2">  <%= url %></span></a>
+                  </p>
+                </div>
+
+              </div>
+              <br>
+              <div class="card col s12 subscriber-list-card animate fadeRight">
+                <div class="card-content pb-3">
+                  <h4 class="card-title mb-0"><i class="material-icons purple-text vertical-text-bottom"> edit </i>
+                    <%= t 'texts.settings.use_the_editor' %>:
+                    <a href="https://mysite.woffice.app/login" target="_blank" class="btn woffice-color black-text" style="">
+<!--                      <img src="https://assets.pcmag.com/media/images/506220-duda.png" width="50" style="vertical-align: middle;">-->
+                      Site Editor
+                    </a>
+                  </h4>
+                  <br>
+
+                  <table style="">
+                    <tr>
+                      <th class="black-text"><%= t 'texts.settings.user_or_email' %>:</th>
+                      <th><%= @account_site_duda['account_name'] %></th>
+                    </tr>
+                    <tr>
+                      <td class="black-text"><%= t 'activerecord.attributes.user.password' %>:</td>
+                      <td>
+                        <%= t 'texts.settings.password_you_have_set' %> <br>
+                        <small><span class="red-text"><%= t 'texts.settings.note' %>: </span><%= t 'texts.settings.if_this_is_your_first_access_or_you_have_forgotten_your_password' %>: <a href="<%= @link_editor %>" target="_blank" class="teal-text lighten-2"><%= t 'texts.settings.set_reset_password' %></a></small><br>
+<!--                        <small class="ml-4">1. <%#= t 'texts.settings.go_to_the' %> <a target="_blank" href="https://mysite.woffice.app/login" class="teal-text lighten-2"><%#= t 'texts.settings.login_screen' %></a>.</small><br>-->
+<!--                        <small class="ml-4">2. <%#= t 'texts.settings.click_on_forgot_password' %> </small><br>-->
+<!--                        <small class="ml-4">3. <%#= t 'texts.settings.check_your_email' %>: <span class="black-text"><%#= @account_site_duda['email'] %></span>.</small>-->
+                      </td>
+                    </tr>
+                  </table>
+
+                </div>
+
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+    </div>
+    <div class="content-overlay"></div>
+  </div>
+</section>

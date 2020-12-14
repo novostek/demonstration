@@ -1,0 +1,94 @@
+<%= content_for :head_content do %>
+  <link href='/css/settings.css' rel='stylesheet' type='text/css'/>
+<% end %>
+
+<section class="invoice-list-wrapper section">
+  <div class="content-wrapper-before woffice-color"></div>
+  <div class="pb-0 pt-4" id="breadcrumbs-wrapper">
+    <div class="container">
+      <div class="row">
+        <div class="col s10 m6 l6">
+          <h5 class="breadcrumbs-title mt-0 mb-0"><span><%= t 'activerecord.models.settings' %></span></h5>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="">
+    <div class="settings_container">
+      <div class="section">
+        <%= render partial: 'menu', locals: { page: 'site' } %>
+
+        <%= form_with url: update_site_settings_path, local: true, method: "post" do %>
+          <div class="card">
+            <div class="card-content">
+              <div class="row">
+                <div class="input-field col s12 m6">
+                  <%= label_tag :overview %>
+                  <%= text_area_tag :overview, html_to_s(@site_data[:site_texts][:overview]), { placeholder: t('texts.settings.company_overview'), style: 'height: 6rem;', class: "materialize-textarea", size: "4x2", maxlength: 500 } %>
+                </div>
+
+                <div class="input-field col s12 m6">
+                  <%= label_tag :services %>
+                  <%= text_area_tag :services, html_to_s(@site_data[:site_texts][:services]), { placeholder: t('texts.settings.services_offered'), style: 'height: 6rem;', class: "materialize-textarea", size: "4x2", maxlength: 500 } %>
+                </div>
+              </div>
+              <div class="row">
+                <div class="input-field col s12 m6">
+                  <%= label_tag :about_us %>
+                  <%= text_area_tag :about_us, html_to_s(@site_data[:site_texts][:about_us]), { placeholder: t('texts.settings.about_us'), style: 'height: 6rem;', class: "materialize-textarea", size: "4x2", maxlength: 500 } %>
+                </div>
+
+                <div class="input-field col s12 m6">
+                  <%= label_tag :main_text %>
+                  <% main_text = @site_data[:site_texts][:custom].select { |h| h[:label].eql? 'main_text' }.first
+                     main_text = main_text[:text] if main_text
+                  %>
+                  <%= text_area_tag :main_text, html_to_s(main_text), { placeholder: t('texts.settings.main_text'), style: 'height: 6rem;', class: "materialize-textarea", size: "4x2", maxlength: 500 } %>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="input-field col s12 m6">
+                  <%= label_tag :since %>
+                  <% since = @site_data[:site_texts][:custom].select { |h| h[:label].eql? 'since' }.first
+                     since = since[:text] if since
+                  %>
+                    <%= text_area_tag :since, html_to_s(since), { placeholder: t('texts.settings.ex_since'), class: "materialize-textarea", size: "4x2", maxlength: 500 } %>
+                </div>
+
+                <div class="input-field col s12 m6">
+                  <%= label_tag :title_experiency %>
+                  <% title_experiency = @site_data[:site_texts][:custom].select { |h| h[:label].eql? 'title_experiency' }.first
+                     title_experiency = title_experiency[:text] if title_experiency
+                  %>
+                      <%= text_area_tag :title_experiency, html_to_s(title_experiency), { placeholder: t('texts.settings.ex_title_experience'), class: "materialize-textarea", size: "4x2", maxlength: 500 } %>
+                </div>
+
+                <div class="input-field col s12 m6">
+                  <%= label_tag :text_experiency %>
+                  <% text_experiency = @site_data[:site_texts][:custom].select { |h| h[:label].eql? 'text_experiency' }.first
+                     text_experiency = text_experiency[:text] if text_experiency
+                  %>
+                    <%= text_area_tag :text_experiency, html_to_s(text_experiency), { placeholder: t('texts.settings.ex_text_experiency'), class: "materialize-textarea", style: 'height: 6rem;', maxlength: 500 } %>
+                </div>
+
+                <div class="input-field col s12 m6">
+                  <% title_requeste_cote = @site_data[:site_texts][:custom].select { |h| h[:label].eql? 'title_requeste_cote' }.first
+                     title_requeste_cote = title_requeste_cote[:text] if title_requeste_cote
+                  %>
+                  <%= text_area_tag :title_requeste_cote, html_to_s(title_requeste_cote), { placeholder: "Ex.: Request a Quote right now!", class: "materialize-textarea", size: "4x2", maxlength: 500 } %>
+                  <%= label_tag :title_requeste_cote %>
+                </div>
+              </div>
+
+            </div>
+          </div>
+          <%= submit_tag t('button.save'), class: "btn right" %>
+        <% end %>
+
+      </div>
+    </div>
+    <div class="content-overlay"></div>
+  </div>
+</section>

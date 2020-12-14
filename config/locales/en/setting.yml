@@ -8,6 +8,7 @@ en:
       created: "Setting was successfully created."
       updated: "Setting was sucessfully updated."
       deleted: "Setting was sucessfully deleted."
+      an_error_occurred_try_again_more_pie: An error occurred, try again more pie
   texts:
     settings:
       template_email: Template email
@@ -73,3 +74,36 @@ en:
       select_default_value_pay_labor_costs: Select a default value for when you pay your labor costs
       select_default_value_pay_taxes: Select a default value for when pay your taxes
       select_default_value_buy_product: Select a default value for when buy a product
+
+      site: Site
+      publish: Successfully publish!
+      unpublish: Successfully unpublished!
+      site_deleted: Site deleted!
+      select_one_template: Select one of the templates below to create your website dynamically.
+      preview_template: Preview Template
+      start_with_this_template: Start with this template
+      published: Published
+      unpublished: Unpublished
+
+      website_data: Website data
+      use_the_editor: For customization, use the editor
+      user_or_email: User/email
+      password_you_have_set: Password you have set.
+      note: Note
+      if_this_is_your_first_access_or_you_have_forgotten_your_password: If this is your first access or you have forgotten your password
+#      go_to_the: Go to the
+#      login_screen: login screen
+#      click_on_forgot_password: Click on "Forgot password?"
+#      check_your_email: Check your email
+      set_reset_password: set/reset password
+      company_overview: Company Overview
+      services_offered: Services Offered
+      about_us: About Us
+      main_text: Main text
+      ex_since: "Ex .: Since 2006"
+      ex_title_experience: "Ex .: Producing quality tires for over 15 years"
+      ex_text_experiency: "Ex .: We are a highly-conceited company in our area. With hundreds of projects done, including residential and commercial customers, Madeira Millwork is the best option for you, our goal is the perfect result of your project [...]"
+      ex_title_requeste_cote: "Ex.: Request a Quote right now!"
+      preview_on_different_devices: Preview on different devices
+
+

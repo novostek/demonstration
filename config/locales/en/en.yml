@@ -164,6 +164,9 @@ en:
     add_product: Add product
 
     export: Export
+    create_website: Create website
+    publish: Publish
+    unpublish: Unpublish
 
   #
   false: "No"

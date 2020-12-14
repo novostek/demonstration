@@ -62,4 +62,8 @@ module ApplicationHelper
     link_to(name, '#', class: "add-fields btn btn-add-area", data: {id: id, fields: fields.gsub("\n", "")})
     
   end
+
+  def html_to_s(str)
+    ActionView::Base.full_sanitizer.sanitize(str)
+  end
 end

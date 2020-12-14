@@ -1,0 +1,61 @@
+<%= content_for :head_content do %>
+  <link href='/css/settings.css' rel='stylesheet' type='text/css'/>
+<% end %>
+
+<section class="invoice-list-wrapper section">
+  <div class="content-wrapper-before woffice-color"></div>
+  <div class="pb-0 pt-4" id="breadcrumbs-wrapper">
+    <div class="container">
+      <div class="row">
+        <div class="col s10 m6 l6">
+          <h5 class="breadcrumbs-title mt-0 mb-0"><span><%= t 'activerecord.models.settings' %></span></h5>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="">
+    <div class="settings_container">
+      <div class="section">
+        <%= render partial: 'menu', locals: {page: 'site'} %>
+
+        <div class="card-alert card cyan lighten-5">
+          <div class="card-content cyan-text darken-1">
+            <span class="card-title cyan-text darken-1"><%= t 'texts.devise.welcome' %></span>
+            <p><%= t('texts.settings.select_one_template') %></p>
+          </div>
+          <button type="button" class="close cyan-text" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">×</span>
+          </button>
+        </div>
+
+          <% @templates.each do |template| %>
+            <div class="col s12 m4 l2">
+              <div class="card">
+                <div class="card-image">
+                  <img class="materialboxed" src="<%= template[:thumbnail_url] %>">
+<!--                  <a href="#" onclick="create_site();" class="btn-create-site btn-floating tooltipped halfway-fab waves-effect waves-light red start-building" data-tooltip="<%#= t 'texts.settings.start_with_this_template' %>">-->
+                  <a href="<%= create_site_settings_path(template_id: template[:template_id]) %>" onclick="create_site();" class="btn-create-site btn-floating tooltipped halfway-fab waves-effect waves-light red start-building" data-tooltip="<%= t 'texts.settings.start_with_this_template' %>">
+                    <i class="material-icons">mode_edit</i>
+                  </a>
+                </div>
+                <div class="card-content">
+                  <span class="card-title grey-text text-darken-4 truncate"><%= template[:template_name] %></span>
+                  <a href="<%= template[:preview_url] %>" target="_blank" data-template-id="<%= template[:template_id] %>"><%= t 'texts.settings.preview_template' %></a>
+                </div>
+              </div>
+            </div>
+        <% end %>
+      </div>
+    </div>
+    <div class="content-overlay"></div>
+  </div>
+</section>
+
+<%= content_for :scripts do %>
+  <script>
+      function create_site() {
+          $(".btn-create-site").addClass('disabled');
+      }
+  </script>
+<% end %>

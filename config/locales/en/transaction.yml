@@ -44,6 +44,8 @@ en:
       mail_sent: "Mail sent"
       error: "Error"
       swal_error: "Something went wrong, try again later."
+      refunded: Refunded
+      unable_to_refund: Unable to refund
 
       # Orders > Invoice
       question_want_change_this_payment_to_pendent: Do you want to change this payment to pending?

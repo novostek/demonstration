@@ -197,7 +197,7 @@ class SquareApi
             "reference_id": "#{order.id}",
             "line_items": [
                 {
-                    name: "#{t'texts.square_api.payemnt_of_order_n'} #{order.code}",
+                    name: "#{I18n.t'texts.square_api.payemnt_of_order_n'} #{order.code}",
                     quantity: '1',
                     base_price_money: {
                         amount: (transaction.value*100).to_i,
@@ -256,7 +256,7 @@ class SquareApi
       end
     else
       # Handle the case that the result is an error.
-      warn t('texts.square_api.error_calling_locationsApi_listlocations')
+      warn I18n.t('texts.square_api.error_calling_locationsApi_listlocations')
 
       # The #errors method returns an Array of error Hashes
       result.errors.each do |key, value|
@@ -278,6 +278,46 @@ class SquareApi
       return result.data
     elsif result.error?
       warn result.errors
+    end
+  end
+
+  def self.refund(transaction)
+    client = Square::Client.new(
+      # access_token: 'EAAAEAi_276LgJ71aAA8XlGNBYeR16p0oBeY6SIToYtWrZedj3OXqZ1spxj6ZSYb', #Setting.get_value("square_oauth_access_token"),
+      access_token: Setting.get_value("square_oauth_access_token"),
+      environment: Rails.configuration.woffice['square_env']
+    )
+
+    # refunds_api = client.refunds
+    #
+    # body = {}
+    # body[:idempotency_key] = SecureRandom.uuid
+    # body[:amount_money] = {}
+    # body[:amount_money][:amount] = (transaction.value*100).to_i
+    # body[:amount_money][:currency] = 'USD'
+    # body[:payment_id] = transaction.square_data['id']
+    #
+    # result = refunds_api.refund_payment(body: body)
+
+    transactions_api = client.transactions
+
+    # location_id = client.locations.list_locations().data[:locations].first[:id]
+    location_id = SquareApi.locations.first[:id]
+    transaction_id = transaction.square_data['id']
+    body = {}
+    body[:idempotency_key] = SecureRandom.uuid
+    body[:tender_id] = transaction.square_data['tenders'].first['id']
+    # body[:reason] = 'a reason'
+    body[:amount_money] = {}
+    body[:amount_money][:amount] = (transaction.value*100).to_i
+    body[:amount_money][:currency] = 'USD'
+
+    result = transactions_api.create_refund(location_id: location_id, transaction_id: transaction_id, body: body)
+
+    if result.success?
+      return true, result.data
+    elsif result.error?
+      return false, result.errors
     end
   end
 

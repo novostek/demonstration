@@ -1,6 +1,6 @@
 class TransactionsController < ApplicationController
   load_and_authorize_resource except: [:send_square, :show, :edit, :update]
-  before_action :set_transaction, only: [:show, :edit, :update, :destroy,:send_square,:send_square_again, :paid]
+  before_action :set_transaction, only: [:show, :edit, :update, :destroy,:send_square,:send_square_again, :paid, :refund]
   before_action :set_combos, only: [:new,:edit,:create,:update, :index]
 
   # GET /transactions
@@ -114,6 +114,17 @@ class TransactionsController < ApplicationController
       render js: "swal('Error', #{t('notice.transaction.swal_error')}, 'error')"
     end
 
+  end
+
+  # Faz reembolso de uma transacao (SquareCredit ou WofficePay)
+  def refund
+    result = @transaction.refund
+
+    if result
+      redirect_to transactions_path, notice: t('notice.transaction.refunded')
+    else
+      redirect_to transactions_path, notice: t('notice.transaction.unable_to_refund')
+    end
   end
 
   private

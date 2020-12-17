@@ -113,7 +113,7 @@
                         <i class="material-icons">edit</i>
                       <% end %>
                       <% if transaction.payment_method.present? and (transaction.payment_method.square_credit? or transaction.payment_method.woffice_pay?) and transaction.status.paid? %>
-                      <a href="#" class="tooltipped invoice-action-edit mr-4" data-position="top" data-tooltip="<%= t 'texts.refund' %>">
+                      <a href="<%= refund_transaction_path(transaction) %>" class="tooltipped invoice-action-edit mr-4" data-position="top" data-tooltip="<%= t 'texts.refund' %>">
                         <i class="material-icons">refresh</i>
                       </a>
                         <% end %>

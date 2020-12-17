@@ -269,6 +269,20 @@ class Transaction < ApplicationRecord
     where('created_at > now() - interval \'30 day\' AND value < 0 AND origin = \'LaborCost\'').sum(:value).to_f
   end
 
+  # Faz reembolso de uma transacao (SquareCredit ou WofficePay)
+  def refund
+    result, result_data = SquareApi.refund(self)
 
+    if result
+      if self.title.present?
+        title = self.title + 'REFUND'
+      else
+        title = 'REFUND'
+      end
+      self.update(status: :cancelled, title: title)
+    end
+
+    result
+  end
 
 end

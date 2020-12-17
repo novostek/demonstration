@@ -46,6 +46,7 @@ Rails.application.routes.draw do
       get "send_square"
       get "send_square_again"
       get "paid"
+      get 'refund'
     end
   end
   resources :transaction_accounts

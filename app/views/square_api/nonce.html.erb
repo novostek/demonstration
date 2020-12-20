@@ -84,7 +84,7 @@
           // Initialize the payment form elements
 
           //TODO: Replace with your sandbox application ID
-          applicationId: "<%= SquareApi.get_app_id %>",
+          applicationId: '<%= SquareApi.get_app_id %>',
           inputClass: 'sq-input',
           autoBuild: false,
           // Customize the CSS for SqPaymentForm iframe elements
@@ -98,7 +98,7 @@
           // Initialize the credit card placeholders
           cardNumber: {
               elementId: 'sq-card-number',
-              placeholder: <%= t 'texts.pages.card_number' %>
+              placeholder: '<%= t 'texts.pages.card_number' %>'
           },
           cvv: {
               elementId: 'sq-cvv',
@@ -110,7 +110,7 @@
           },
           postalCode: {
               elementId: 'sq-postal-code',
-              placeholder: <%= t 'texts.square_api.zip_code' %>
+              placeholder: '<%= t 'texts.square_api.zip_code' %>'
           },
           // SqPaymentForm callback functions
           callbacks: {

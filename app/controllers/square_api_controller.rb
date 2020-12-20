@@ -64,6 +64,9 @@ class SquareApiController < ApplicationController
     result = SquareApi.add_card(params[:customer],params[:nonce])
 
     if result.success?
+      # enviar email aqui
+
+
       if params[:estimate].present?
         redirect_to nonce_success_square_apis_path(estimate: params[:estimate], success:  true), notice: t('notice.customer.card_add_successful')
       else
@@ -89,6 +92,16 @@ class SquareApiController < ApplicationController
 
   def nonce_success
     render layout: "document"
+  end
+
+  def index_cards
+    @cards = @customer.get_cards
+  end
+
+  private
+
+  def set_customer
+    @customer = Customer.find(params[:customer])
   end
 
 end

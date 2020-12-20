@@ -1,0 +1,8 @@
+<h6 class="greetings"><%= t 'texts.document_mailer.hi' %>, <%= @customer %>!</h6>
+<br>
+
+<p>
+  <%= raw (Setting.get_value("card_mail_text")|| "").remove 'Powered by <a href="https://www.froala.com/wysiwyg-editor?pb=1" title="Froala Editor">Froala Editor</a>' %>
+</p>
+
+<a class="btn btn-primary" href="<%= @link %>"><%= t 'texts.document_mailer.see_my_cards' %></a>

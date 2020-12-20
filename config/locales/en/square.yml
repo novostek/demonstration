@@ -16,6 +16,10 @@ en:
       thanks_for_the_deal: Thank you for doing business with us!
       best_regards: Best regards,
 
+      # index cards
+      card_brand: Card brand
+      last_4: Last 4 digits
+
       # model
       error_calling_locationsApi_listlocations: Error calling LocationsApi.listlocations ...
       payemnt_of_order_n: Payemnt of Order N*

@@ -88,6 +88,7 @@ Rails.application.routes.draw do
       post "add_card"
       post "process_payment"
       get "checkout"
+      get 'index_cards'
     end
   end
 

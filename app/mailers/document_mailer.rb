@@ -18,6 +18,14 @@ class DocumentMailer < ApplicationMailer
     mail(to: params[:emails], subject: params[:subject])#,delivery_method_options: smtp_settings
   end
 
+  # Avisa o client que seu cartão foi registrado
+  def send_card_added_successfully
+    @customer = Customer.find(params[:customer])
+    @link = index_cards_square_api_index_path(customer: @customer.id)
+
+    mail(to: params[:email_to], subject: t('texts.document_mailer.card_successfully_added'))
+  end
+
   #Método de envio do email com os documentos
   def send_document
 

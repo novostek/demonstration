@@ -98,6 +98,7 @@ en:
 
     count: Count
     card: Card
+    cards: Cards
 
     choose_a_type: Choose a type
     saving: Saving

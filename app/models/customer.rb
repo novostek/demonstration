@@ -151,4 +151,15 @@ class Customer < ApplicationRecord
   def self.get_recent_customers limit
     all.order(id: :desc).limit(limit)
   end
+
+  def get_cards
+    begin
+      dados = SquareApi.get_customer(self.square_id)
+      cards = dados.body.customer[:cards] || []
+    rescue
+      cards = []
+    end
+
+    cards
+  end
 end

@@ -2,17 +2,18 @@
 #
 # Table name: customers
 #
-#  id           :uuid             not null, primary key
-#  birthdate    :date
-#  bpm_instance :string
-#  category     :string
-#  code         :string
-#  name         :string
-#  since        :date
-#  created_at   :datetime         not null
-#  updated_at   :datetime         not null
-#  document_id  :string
-#  square_id    :string
+#  id              :uuid             not null, primary key
+#  birthdate       :date
+#  bpm_instance    :string
+#  category        :string
+#  code            :string
+#  name            :string
+#  since           :date
+#  temporary_email :string
+#  created_at      :datetime         not null
+#  updated_at      :datetime         not null
+#  document_id     :string
+#  square_id       :string
 #
 
 class Customer < ApplicationRecord
@@ -161,5 +162,11 @@ class Customer < ApplicationRecord
     end
 
     cards
+  end
+
+  def delete_customer_card(card_id)
+    result, result_json = SquareApi.delete_customer_card(self.square_id, card_id)
+
+    result
   end
 end

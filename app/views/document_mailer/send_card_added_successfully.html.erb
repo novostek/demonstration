@@ -2,7 +2,26 @@
 <br>
 
 <p>
-  <%= raw (Setting.get_value("card_mail_text")|| "").remove 'Powered by <a href="https://www.froala.com/wysiwyg-editor?pb=1" title="Froala Editor">Froala Editor</a>' %>
+  <%= raw (Setting.get_value("card_added_successfully")|| "").remove 'Powered by <a href="https://www.froala.com/wysiwyg-editor?pb=1" title="Froala Editor">Froala Editor</a>' %>
 </p>
+
+<table class="responsive-table">
+  <thead>
+  <tr>
+    <th><%= t 'texts.square_api.card_brand' %></th>
+    <th><%= t 'texts.number' %></th>
+  </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>
+        <%= @card[:card_brand] %>
+      </td>
+      <td>
+        <%= "#### #### #### #{@card[:last_4]}" %> <br>
+      </td>
+    </tr>
+  </tbody>
+</table>
 
 <a class="btn btn-primary" href="<%= @link %>"><%= t 'texts.document_mailer.see_my_cards' %></a>

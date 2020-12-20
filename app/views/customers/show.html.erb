@@ -101,6 +101,51 @@
       <!--      </div>-->
       <!-- End Contacts -->
 
+      <div class="card-panel">
+        <h6><%= t 'texts.cards' %></h6>
+        <% if @cards.any? %>
+          <div class="row">
+            <div class="col s12">
+
+              <div class="card-content">
+                <table class="responsive-table">
+                  <thead>
+                  <tr>
+                    <th><%= t 'texts.square_api.card_brand' %></th>
+                    <th><%= t 'texts.number' %></th>
+                    <th></th>
+                  </tr>
+                  </thead>
+                  <tbody>
+                  <% @cards.each do |card| %>
+                    <tr>
+                      <td>
+                        <%= card[:card_brand] %>
+                      </td>
+                      <td>
+                        <%= "#### #### #### #{card[:last_4]}" %> <br>
+                      </td>
+                      <td>
+                        <%= link_to destroy_card_square_api_index_path(customer: @customer.id, card_id: card[:id], from: 'customer'), method: :delete, data: { confirm: 'Are you sure?' }, class: "invoice-action-edit mr-4" do %>
+                          <i class="material-icons">delete</i>
+                        <% end %>
+                      </td>
+                    </tr>
+                  <% end %>
+                  </tbody>
+                </table>
+              </div>
+
+            </div>
+          </div>
+        <% else %>
+          <div class="center">
+            <p><%= t 'no_cards' %></p>
+          </div>
+        <% end %>
+
+      </div>
+
 
       <div class="card-panel">
 <!--        <div class="row">-->

@@ -31,7 +31,9 @@ class CustomersController < ApplicationController
 
   #Método que envia o email solicitando o cadastro do cartão
   def mail_card
-    DocumentMailer.with(subject: params[:subject] , emails: params[:emails], customer: @customer, link: "#{Setting.url}#{nonce_square_api_index_path(customer: @customer.id, from: "email")}").mail_card.deliver_later
+    @customer.update(temporary_email: params[:emails])
+
+    DocumentMailer.with(subject: params[:subject] , emails: @customer.temporary_email, customer: @customer, link: "#{Setting.url}#{nonce_square_api_index_path(customer: @customer.id, from: "email")}").mail_card.deliver_later
     redirect_back(fallback_location: nonce_square_api_index_path(customer: @customer.id),notice: t('notice.estimate.mail_sent'))
   end
 
@@ -90,6 +92,7 @@ class CustomersController < ApplicationController
 
   # GET /customers/1
   def show
+    @cards = @customer.get_cards
   end
 
   # GET /customers/new

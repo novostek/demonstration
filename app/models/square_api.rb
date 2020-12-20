@@ -321,4 +321,15 @@ class SquareApi
     end
   end
 
+  def self.delete_customer_card(customer_id, card_id)
+    customers_api = self.client.customers
+
+    result = customers_api.delete_customer_card(customer_id: customer_id, card_id: card_id)
+
+    if result.success?
+      return true, result.data
+    elsif result.error?
+      return false, result.errors
+    end
+  end
 end

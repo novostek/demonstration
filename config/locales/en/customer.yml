@@ -32,6 +32,7 @@ en:
   no_emails: No email
   no_address: No address
   no_estimates: No estimates
+  no_cards: No cards
 
   # labels
   main_address: Customer address

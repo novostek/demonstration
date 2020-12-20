@@ -213,6 +213,21 @@
               </div>
             </div>
 
+            <div class="row">
+              <div class="input-field col s12">
+                <p class="font-weight-600"><%= t 'texts.document_mailer.card_successfully_added' %></p>
+                <!--                  <input class="materialize-textarea" name="sign_order_mail_text" id="sign_order_mail_text" value="<%#= Setting.get_value("sign_order_mail_text")  %>">-->
+                <div id="froala-editor_card_added_successfully">
+                  <% if !Setting.find_by(namespace: "card_added_successfully").present? %>
+                    <h3><%= t 'texts.settings.click_here' %></h3>
+                    <p><%= t 'texts.settings.drag_the_image_or_text_block' %></p>
+                  <% else %>
+                    <%= Setting.get_value("card_added_successfully").html_safe %>
+                  <% end %>
+                </div>
+              </div>
+            </div>
+
           </div>
 
         </div>
@@ -275,7 +290,12 @@
               data = editor.html.get(true);
           });
 
-          $.post( "<%= atualiza_settings_settings_path %>", {payment_registered_to_customer: editor8.html.get(true), card_mail_text: editor7.html.get(true) ,send_estimate_mail_text: editor6.html.get(true), send_schedule_mail_text: editor5.html.get(true) ,send_square_mail_text: editor.html.get(true), send_invoice_mail_text: editor2.html.get(true), send_document_mail_text: editor3.html.get(true), sign_order_mail_text: editor4.html.get(true) },function(data){
+          var editor9 = new FroalaEditor('#froala-editor_card_added_successfully', {}, function () {
+              // Call the method inside the initialized event.
+              data = editor.html.get(true);
+          });
+
+          $.post( "<%= atualiza_settings_settings_path %>", {payment_registered_to_customer: editor8.html.get(true), card_mail_text: editor7.html.get(true) ,send_estimate_mail_text: editor6.html.get(true), send_schedule_mail_text: editor5.html.get(true) ,send_square_mail_text: editor.html.get(true), send_invoice_mail_text: editor2.html.get(true), send_document_mail_text: editor3.html.get(true), sign_order_mail_text: editor4.html.get(true), card_added_successfully: editor9.html.get(true) },function(data){
               M.toast({html: data["success"]});
           } );
 
@@ -345,5 +365,14 @@
               }
           }
       })
+
+      new FroalaEditor('div#froala-editor_card_added_successfully', {
+          events: {
+              initialized: function () {
+                  var editor = this;
+              }
+          }
+      })
+
   </script>
 <% end %>

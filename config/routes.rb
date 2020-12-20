@@ -89,6 +89,7 @@ Rails.application.routes.draw do
       post "process_payment"
       get "checkout"
       get 'index_cards'
+      delete 'destroy_card'
     end
   end
 

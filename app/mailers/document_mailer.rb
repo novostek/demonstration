@@ -21,9 +21,10 @@ class DocumentMailer < ApplicationMailer
   # Avisa o client que seu cartão foi registrado
   def send_card_added_successfully
     @customer = Customer.find(params[:customer])
-    @link = index_cards_square_api_index_path(customer: @customer.id)
+    @link = "#{Setting.url}/square_api/index_cards?customer=#{@customer.id}&from=email"
+    @card = params[:card]
 
-    mail(to: params[:email_to], subject: t('texts.document_mailer.card_successfully_added'))
+    mail(to: @customer.temporary_email, subject: t('texts.document_mailer.card_successfully_added'))
   end
 
   #Método de envio do email com os documentos

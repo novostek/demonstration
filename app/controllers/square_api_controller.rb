@@ -1,4 +1,5 @@
 class SquareApiController < ApplicationController
+  before_action :set_customer, only: [:index_cards, :destroy_card]
 
   def oauth
     ##{Rails.configuration.woffice['url']}
@@ -64,14 +65,14 @@ class SquareApiController < ApplicationController
     result = SquareApi.add_card(params[:customer],params[:nonce])
 
     if result.success?
-      # enviar email aqui
-
+      # Avisa o client que seu cartão foi registrado
+      DocumentMailer.with(customer: params[:customer_woffice], card: result.body.card).send_card_added_successfully.deliver_now
 
       if params[:estimate].present?
-        redirect_to nonce_success_square_apis_path(estimate: params[:estimate], success:  true), notice: t('notice.customer.card_add_successful')
+        redirect_to nonce_success_square_api_index_path(estimate: params[:estimate], success:  true), notice: t('notice.customer.card_add_successful')
       else
         if params[:from].present? and params[:from] == "email"
-          redirect_to nonce_success_square_apis_path(customer:params[:customer_woffice], from: "email", success:  true ), notice: t('notice.customer.card_add_successful')
+          redirect_to nonce_success_square_api_index_path(customer:params[:customer_woffice], from: "email", success:  true, emails: params[:email] ), notice: t('notice.customer.card_add_successful')
           return
         end
         redirect_to customer_path(params[:customer_woffice]), notice: t('notice.customer.card_add_successful')
@@ -96,6 +97,26 @@ class SquareApiController < ApplicationController
 
   def index_cards
     @cards = @customer.get_cards
+
+    render layout: "document"
+  end
+
+  def destroy_card
+    result = @customer.delete_customer_card(params[:card_id])
+
+    if result
+      if params[:from].present?
+        redirect_to customer_path(@customer), notice: t('notice.square_api.card_successfully_removed')
+      else
+        redirect_to index_cards_square_api_index_path(customer: @customer.id), notice: t('notice.square_api.card_successfully_removed')
+      end
+    else
+      if params[:from].present?
+        redirect_to customer_path(@customer), alert: t('notice.square_api.the_card_could_not_be_removed')
+      else
+        redirect_to index_cards_square_api_index_path(customer: @customer.id), alert: t('notice.square_api.the_card_could_not_be_removed')
+      end
+    end
   end
 
   private

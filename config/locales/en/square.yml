@@ -15,6 +15,8 @@ en:
       questions_contact_us: If you have any questions please contact us
       thanks_for_the_deal: Thank you for doing business with us!
       best_regards: Best regards,
+      info_registration_card_cliente: This registration allows company name to charge this card in the future
+      link_learn_more: Learn more about how it works
 
       # index cards
       card_brand: Card brand
@@ -27,3 +29,5 @@ en:
   notice:
     square_api:
       square_linked: Square Linked
+      card_successfully_removed: Card successfully removed
+      the_card_could_not_be_removed: The card could not be removed

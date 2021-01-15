@@ -164,9 +164,10 @@ export default function EstimateProvider({children}) {
               const copy = [...productEstimate]
               if (mp.id !== indexHelper) {
                 copy.push({ areas: [], products: [] })
-                mp.measurement_area.map(area => {
+                copy[mpIndex].areas = [];
+                estimate.area_proposals.filter(ap => ap.measurement_proposal_id === mp.id).map(area => {
                   // selectArea(mpIndex, area.id, insert)
-                  copy[mpIndex].areas.push(area.id)
+                  copy[mpIndex].areas.push(area.measurement_area_id)
                 })
                 if (mp.id !== indexHelper) {
                   copy[mpIndex].proposal_id = mp.id

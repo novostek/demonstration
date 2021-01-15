@@ -344,7 +344,7 @@ class EstimatesController < ApplicationController
   end
 
   def products
-    estimate = Estimate.includes(:lead).find(params[:id])
+    estimate = Estimate.includes(:lead, :area_proposals).find(params[:id])
 
     @estimate = estimate
     @products = Product.all

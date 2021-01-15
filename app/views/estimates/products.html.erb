@@ -104,7 +104,7 @@
 
 <%= content_tag :div,
   id: "data",
-  estimate_data: @estimate.to_json,
+  estimate_data: @estimate.to_json(include: [:area_proposals]),
   products: @products.to_json do %>
 <% end %>
 

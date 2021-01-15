@@ -370,12 +370,22 @@ class EstimatesController < ApplicationController
         mp = MeasurementProposal.find_or_initialize_by(id: pe['proposal_id'])
         mp.title = pe['title']
         mp.save()
-        pe["areas"].map do |area|
+
+        mas_before = mp.measurement_area.map(&:id)
+        mas_now = pe["areas"].uniq
+
+        # add new selected areas
+        mas_now.map do |area|
           ap = AreaProposal.find_or_initialize_by(measurement_area_id: area, measurement_proposal_id: mp.id)
           ap.measurement_area_id = area
           ap.measurement_proposal_id = mp.id
           ap.save()
         end
+
+        # remove deselected area
+        mas_to_remove = mas_before - mas_now
+        mp.area_proposals.where(measurement_area_id: mas_to_remove).destroy_all
+
         pe["products"].map do |product|
           if product['name'].present? and !product['name'].empty?
             begin

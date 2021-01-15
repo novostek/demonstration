@@ -550,15 +550,24 @@ export default function EstimateProvider({children}) {
       })
       return maCopy
     })
-    
-    await Promise.all(results).then(async res => {
 
-      await setProductEstimate(res)
+    const some_with_empty_area = copy.filter(pe => pe.areas.length === 0).length > 0
 
-    }).then(() => {})
-    // console.log('Data', productEstimate)
-    create_product_estimate()
-      .then(() => window.location = `/estimates/${estimate.id}/view`)
+    if (some_with_empty_area) {
+      alert('Sorry, you must select at least 1 area');
+    }else {
+      await Promise.all(results).then(async res => {
+
+        await setProductEstimate(res)
+
+      }).then(() => {})
+      // console.log('Data', productEstimate)
+      create_product_estimate()
+        .then(() => window.location = `/estimates/${estimate.id}/view`)
+
+    }
+
+
   }
 
   const handleChange = (index, peIndex, name, value) => {
